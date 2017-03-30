@@ -17,6 +17,6 @@
 #define _SPIRV_REFLECTION_INCLUDES_H_
 
 #include <spirv-tools/libspirv.h>
-#include <spirv/1.0/spirv.h>
+#include <vulkan/spirv.h>
 
 #endif  // _SPIRV_REFLECTION_INCLUDES_H_

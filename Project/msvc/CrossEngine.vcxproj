@@ -100,6 +100,7 @@
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,6 +120,7 @@
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,6 +141,7 @@
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/src;../../CrossEngine/src/nvwa</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,6 +164,7 @@
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/src;../../CrossEngine/src/nvwa</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -293,6 +297,7 @@
     <ClCompile Include="..\..\CrossEngine\src\nvwa\debug_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\nvwa\operator_new.cpp" />
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp" />
+    <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp" />
     <ClCompile Include="..\..\Dependencies\zlib\adler32.c" />
     <ClCompile Include="..\..\Dependencies\zlib\compress.c" />
     <ClCompile Include="..\..\Dependencies\zlib\crc32.c" />

@@ -142,6 +142,9 @@
     <Filter Include="Engine\Source Files\RenderSystem\Core\Descriptor">
       <UniqueIdentifier>{62bc6592-756d-4c72-aaae-fc95ef3dc809}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\spirv-reflection">
+      <UniqueIdentifier>{3a64550c-e4cc-42da-bf93-e3fce538344d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossDelegate.h">
@@ -571,6 +574,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererPipelineManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\Resource\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp">
+      <Filter>Dependencies\spirv-reflection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

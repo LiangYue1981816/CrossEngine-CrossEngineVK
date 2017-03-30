@@ -73,6 +73,8 @@ THE SOFTWARE.
 #include <gli/gli.hpp>
 #include <zzip/zzip.h>
 #include <vulkan/vulkan.h>
+#include <shaderc/shaderc.hpp>
+#include <reflection/analyzer.h>
 
 
 #include "CrossType.h"

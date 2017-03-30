@@ -37,7 +37,8 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(const uint32_t *pCode, size_t codeSize);
+		virtual BOOL Create(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options);
+		virtual BOOL Create(const uint32_t *words, size_t numWords);
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
 

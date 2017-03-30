@@ -25,6 +25,30 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	static std::vector<uint32_t> CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options)
+	{
+		shaderc::Compiler compiler;
+		shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, length, kind, "", options);
+
+		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
+			LOGW(module.GetErrorMessage().c_str());
+		}
+
+		std::vector<uint32_t> result(module.cbegin(), module.cend());
+		return result;
+	}
+
+	static BOOL FindShaderVariable(const spirv::module_type &module, spirv::identifier_type location, spirv::variable_type &result)
+	{
+		for (const auto &variable : module.variables) {
+			if (variable.second.location == location) {
+				result = variable.second;
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+
 	CRendererShader::CRendererShader(CRendererDevice *pDevice, CRendererResourceManager *pManager)
 		: CRendererResource(pDevice, pManager)
 		, m_vkShaderModule(VK_NULL_HANDLE)
@@ -37,15 +61,21 @@ namespace CrossEngine {
 		ASSERT(m_vkShaderModule == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererShader::Create(const uint32_t *pCode, size_t codeSize)
+	BOOL CRendererShader::Create(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options)
+	{
+		std::vector<uint32_t> words = CompileShader(source, length, kind, options);
+		return Create(words.data(), words.size());
+	}
+
+	BOOL CRendererShader::Create(const uint32_t *words, size_t numWords)
 	{
 		try {
 			VkShaderModuleCreateInfo moduleCreateInfo;
 			moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 			moduleCreateInfo.pNext = NULL;
 			moduleCreateInfo.flags = 0;
-			moduleCreateInfo.codeSize = codeSize;
-			moduleCreateInfo.pCode = pCode;
+			moduleCreateInfo.codeSize = numWords;
+			moduleCreateInfo.pCode = words;
 			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &moduleCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
 			return TRUE;
