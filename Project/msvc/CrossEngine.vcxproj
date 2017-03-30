@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;WIN32;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/vulkan/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../Crossengine/src;../../Crossengine/src/nvwa</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/src;../../CrossEngine/src/nvwa</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -115,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;__LP64__;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../CrossEngine/include;../../Crossengine/src;../../Crossengine/src/nvwa;$(VULKAN_SDK)/vulkan/include;$(VULKAN_SDK)/spirv-tools/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/src;../../CrossEngine/src/nvwa</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -136,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;WIN32;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/vulkan/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../Crossengine/src;../../Crossengine/src/nvwa</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/src;../../CrossEngine/src/nvwa</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -158,7 +158,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;__LP64__;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../CrossEngine/include;../../Crossengine/src;../../Crossengine/src/nvwa;$(VULKAN_SDK)/vulkan/include;$(VULKAN_SDK)/spirv-tools/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/src;../../CrossEngine/src/nvwa</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
