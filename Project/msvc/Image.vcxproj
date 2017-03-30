@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Image\include\IMAGE.H" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Image\src\adler32.c" />
+    <ClCompile Include="..\..\Image\src\bitmap.c" />
+    <ClCompile Include="..\..\Image\src\blackwhite.c" />
+    <ClCompile Include="..\..\Image\src\blur.c" />
+    <ClCompile Include="..\..\Image\src\calchisto.c" />
+    <ClCompile Include="..\..\Image\src\changebright.c" />
+    <ClCompile Include="..\..\Image\src\changebrightex.c" />
+    <ClCompile Include="..\..\Image\src\close.c" />
+    <ClCompile Include="..\..\Image\src\colortogray.c" />
+    <ClCompile Include="..\..\Image\src\compress.c" />
+    <ClCompile Include="..\..\Image\src\convertbitcount.c" />
+    <ClCompile Include="..\..\Image\src\crc32.c" />
+    <ClCompile Include="..\..\Image\src\deflate.c" />
+    <ClCompile Include="..\..\Image\src\dilate.c" />
+    <ClCompile Include="..\..\Image\src\dilation.c" />
+    <ClCompile Include="..\..\Image\src\divide.c" />
+    <ClCompile Include="..\..\Image\src\erode.c" />
+    <ClCompile Include="..\..\Image\src\erosion.c" />
+    <ClCompile Include="..\..\Image\src\expandcontrast.c" />
+    <ClCompile Include="..\..\Image\src\flipimage.c" />
+    <ClCompile Include="..\..\Image\src\gammabrighten.c" />
+    <ClCompile Include="..\..\Image\src\gzclose.c" />
+    <ClCompile Include="..\..\Image\src\gzlib.c" />
+    <ClCompile Include="..\..\Image\src\gzread.c" />
+    <ClCompile Include="..\..\Image\src\gzwrite.c" />
+    <ClCompile Include="..\..\Image\src\histoequalize.c" />
+    <ClCompile Include="..\..\Image\src\imagearea.c" />
+    <ClCompile Include="..\..\Image\src\imagedct.c" />
+    <ClCompile Include="..\..\Image\src\imagefft.c" />
+    <ClCompile Include="..\..\Image\src\imagewavelet.c" />
+    <ClCompile Include="..\..\Image\src\infback.c" />
+    <ClCompile Include="..\..\Image\src\inffast.c" />
+    <ClCompile Include="..\..\Image\src\inflate.c" />
+    <ClCompile Include="..\..\Image\src\inftrees.c" />
+    <ClCompile Include="..\..\Image\src\jcapimin.c" />
+    <ClCompile Include="..\..\Image\src\jcapistd.c" />
+    <ClCompile Include="..\..\Image\src\jccoefct.c" />
+    <ClCompile Include="..\..\Image\src\jccolor.c" />
+    <ClCompile Include="..\..\Image\src\jcdctmgr.c" />
+    <ClCompile Include="..\..\Image\src\jchuff.c" />
+    <ClCompile Include="..\..\Image\src\jcinit.c" />
+    <ClCompile Include="..\..\Image\src\jcmainct.c" />
+    <ClCompile Include="..\..\Image\src\jcmarker.c" />
+    <ClCompile Include="..\..\Image\src\jcmaster.c" />
+    <ClCompile Include="..\..\Image\src\jcomapi.c" />
+    <ClCompile Include="..\..\Image\src\jcparam.c" />
+    <ClCompile Include="..\..\Image\src\jcphuff.c" />
+    <ClCompile Include="..\..\Image\src\jcprepct.c" />
+    <ClCompile Include="..\..\Image\src\jcsample.c" />
+    <ClCompile Include="..\..\Image\src\jctrans.c" />
+    <ClCompile Include="..\..\Image\src\jdapimin.c" />
+    <ClCompile Include="..\..\Image\src\jdapistd.c" />
+    <ClCompile Include="..\..\Image\src\jdatadst.c" />
+    <ClCompile Include="..\..\Image\src\jdatasrc.c" />
+    <ClCompile Include="..\..\Image\src\jdcoefct.c" />
+    <ClCompile Include="..\..\Image\src\jdcolor.c" />
+    <ClCompile Include="..\..\Image\src\jddctmgr.c" />
+    <ClCompile Include="..\..\Image\src\jdhuff.c" />
+    <ClCompile Include="..\..\Image\src\jdinput.c" />
+    <ClCompile Include="..\..\Image\src\jdmainct.c" />
+    <ClCompile Include="..\..\Image\src\jdmarker.c" />
+    <ClCompile Include="..\..\Image\src\jdmaster.c" />
+    <ClCompile Include="..\..\Image\src\jdmerge.c" />
+    <ClCompile Include="..\..\Image\src\jdphuff.c" />
+    <ClCompile Include="..\..\Image\src\jdpostct.c" />
+    <ClCompile Include="..\..\Image\src\jdsample.c" />
+    <ClCompile Include="..\..\Image\src\jdtrans.c" />
+    <ClCompile Include="..\..\Image\src\jerror.c" />
+    <ClCompile Include="..\..\Image\src\jfdctflt.c" />
+    <ClCompile Include="..\..\Image\src\jfdctfst.c" />
+    <ClCompile Include="..\..\Image\src\jfdctint.c" />
+    <ClCompile Include="..\..\Image\src\jidctflt.c" />
+    <ClCompile Include="..\..\Image\src\jidctfst.c" />
+    <ClCompile Include="..\..\Image\src\jidctint.c" />
+    <ClCompile Include="..\..\Image\src\jidctred.c" />
+    <ClCompile Include="..\..\Image\src\jmemmgr.c" />
+    <ClCompile Include="..\..\Image\src\jmemnobs.c" />
+    <ClCompile Include="..\..\Image\src\jpeg.c" />
+    <ClCompile Include="..\..\Image\src\jquant1.c" />
+    <ClCompile Include="..\..\Image\src\jquant2.c" />
+    <ClCompile Include="..\..\Image\src\jutils.c" />
+    <ClCompile Include="..\..\Image\src\libraryinfo.c" />
+    <ClCompile Include="..\..\Image\src\loadimage.c" />
+    <ClCompile Include="..\..\Image\src\matrixconv.c" />
+    <ClCompile Include="..\..\Image\src\matrixconvex.c" />
+    <ClCompile Include="..\..\Image\src\medianfilter.c" />
+    <ClCompile Include="..\..\Image\src\memory.c" />
+    <ClCompile Include="..\..\Image\src\mirrorimage.c" />
+    <ClCompile Include="..\..\Image\src\multiply.c" />
+    <ClCompile Include="..\..\Image\src\negative.c" />
+    <ClCompile Include="..\..\Image\src\open.c" />
+    <ClCompile Include="..\..\Image\src\outline.c" />
+    <ClCompile Include="..\..\Image\src\pixel.c" />
+    <ClCompile Include="..\..\Image\src\png.c" />
+    <ClCompile Include="..\..\Image\src\pngapi.c" />
+    <ClCompile Include="..\..\Image\src\pngerror.c" />
+    <ClCompile Include="..\..\Image\src\pnggccrd.c" />
+    <ClCompile Include="..\..\Image\src\pngget.c" />
+    <ClCompile Include="..\..\Image\src\pngmem.c" />
+    <ClCompile Include="..\..\Image\src\pngpread.c" />
+    <ClCompile Include="..\..\Image\src\pngread.c" />
+    <ClCompile Include="..\..\Image\src\pngrio.c" />
+    <ClCompile Include="..\..\Image\src\pngrtran.c" />
+    <ClCompile Include="..\..\Image\src\pngrutil.c" />
+    <ClCompile Include="..\..\Image\src\pngset.c" />
+    <ClCompile Include="..\..\Image\src\pngtrans.c" />
+    <ClCompile Include="..\..\Image\src\pngvcrd.c" />
+    <ClCompile Include="..\..\Image\src\pngwio.c" />
+    <ClCompile Include="..\..\Image\src\pngwrite.c" />
+    <ClCompile Include="..\..\Image\src\pngwtran.c" />
+    <ClCompile Include="..\..\Image\src\pngwutil.c" />
+    <ClCompile Include="..\..\Image\src\removenoise.c" />
+    <ClCompile Include="..\..\Image\src\resize.c" />
+    <ClCompile Include="..\..\Image\src\rotate.c" />
+    <ClCompile Include="..\..\Image\src\sharpen.c" />
+    <ClCompile Include="..\..\Image\src\thinning.c" />
+    <ClCompile Include="..\..\Image\src\trees.c" />
+    <ClCompile Include="..\..\Image\src\uncompr.c" />
+    <ClCompile Include="..\..\Image\src\YCbCr.c" />
+    <ClCompile Include="..\..\Image\src\YIQ.c" />
+    <ClCompile Include="..\..\Image\src\YUV.c" />
+    <ClCompile Include="..\..\Image\src\zutil.c" />
+    <ClCompile Include="..\..\Image\src\_complex.c" />
+    <ClCompile Include="..\..\Image\src\_dct.c" />
+    <ClCompile Include="..\..\Image\src\_fft.c" />
+    <ClCompile Include="..\..\Image\src\_makeworkimage.c" />
+    <ClCompile Include="..\..\Image\src\_math.c" />
+    <ClCompile Include="..\..\Image\src\_wav_alloc.c" />
+    <ClCompile Include="..\..\Image\src\_wav_basic.c" />
+    <ClCompile Include="..\..\Image\src\_wav_trf.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9E400C16-418C-4B8F-BB00-8C5DE8CC3D2F}</ProjectGuid>
+    <RootNamespace>Image</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Bin\$(Configuration)$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Bin\Temp\Image.$(Configuration)$(Platform)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Bin\$(Configuration)$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Bin\Temp\Image.$(Configuration)$(Platform)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\..\Bin\$(Configuration)$(Platform)\</OutDir>
+    <IntDir>..\..\Bin\Temp\Image.$(Configuration)$(Platform)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\Bin\$(Configuration)$(Platform)\</OutDir>
+    <IntDir>..\..\Bin\Temp\Image.$(Configuration)$(Platform)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4273;4251;4996;4355;4244</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4273;4251;4996;4355;4244</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <C99Support>true</C99Support>
+      <DisableSpecificWarnings>4273;4251;4996;4355;4244</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <C99Support>true</C99Support>
+      <DisableSpecificWarnings>4273;4251;4996;4355;4244</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
