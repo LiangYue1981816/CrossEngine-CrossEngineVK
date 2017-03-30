@@ -38,6 +38,19 @@ namespace CrossEngine {
 
 	public:
 		CRendererShader* AllocShader(void);
+
+	public:
+		void SetSourceLanguage(shaderc_source_language lang);
+		void SetOptimizationLevel(shaderc_optimization_level level);
+		void SetTargetEnvironment(uint32_t version, shaderc_target_env target);
+		void SetForcedVersionProfile(uint32_t version, shaderc_profile profile);
+		void SetMacroDefinition(const char *name, const char *value);
+
+		const shaderc::CompileOptions& GetCompileOptions(void) const;
+
+
+	protected:
+		shaderc::CompileOptions m_options;
 	};
 
 }

@@ -61,8 +61,34 @@ namespace CrossEngine {
 		ASSERT(m_vkShaderModule == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererShader::Create(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options)
+	void CRendererShader::AddMacroDefinition(const char *name, const char *value)
 	{
+		m_strMacroDefinitions[name] = value;
+	}
+
+	void CRendererShader::DelMacroDefinition(const char *name)
+	{
+		std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.find(name);
+		if (itMacroDefinition != m_strMacroDefinitions.end()) m_strMacroDefinitions.erase(itMacroDefinition);
+	}
+
+	void CRendererShader::ClearMacroDefinitions(void)
+	{
+		m_strMacroDefinitions.clear();
+	}
+
+	BOOL CRendererShader::Create(const char *source, size_t length, shaderc_shader_kind kind)
+	{
+		shaderc::CompileOptions options(((CRendererShaderManager *)m_pManager)->GetCompileOptions());
+		for (std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.begin(); itMacroDefinition != m_strMacroDefinitions.end(); ++itMacroDefinition) {
+			if (itMacroDefinition->second.empty()) {
+				options.AddMacroDefinition(itMacroDefinition->first.c_str());
+			}
+			else {
+				options.AddMacroDefinition(itMacroDefinition->first.c_str(), itMacroDefinition->second.c_str());
+			}
+		}
+
 		std::vector<uint32_t> words = CompileShader(source, length, kind, options);
 		return Create(words.data(), words.size());
 	}

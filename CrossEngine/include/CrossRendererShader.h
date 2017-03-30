@@ -37,7 +37,12 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options);
+		void AddMacroDefinition(const char *name, const char *value);
+		void DelMacroDefinition(const char *name);
+		void ClearMacroDefinitions(void);
+
+	public:
+		virtual BOOL Create(const char *source, size_t length, shaderc_shader_kind kind);
 		virtual BOOL Create(const uint32_t *words, size_t numWords);
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
@@ -48,6 +53,7 @@ namespace CrossEngine {
 
 
 	protected:
+		std::map<std::string, std::string> m_strMacroDefinitions;
 		VkShaderModule m_vkShaderModule;
 	};
 

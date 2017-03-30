@@ -28,7 +28,8 @@ namespace CrossEngine {
 	CRendererShaderManager::CRendererShaderManager(CRendererDevice *pDevice)
 		: CRendererResourceManager(pDevice)
 	{
-
+		SetSourceLanguage(shaderc_source_language_glsl);
+		SetOptimizationLevel(shaderc_optimization_level_size);
 	}
 
 	CRendererShaderManager::~CRendererShaderManager(void)
@@ -41,6 +42,36 @@ namespace CrossEngine {
 		CRendererShader *pShader = SAFE_NEW CRendererShader(m_pDevice, this);
 		m_pResources[pShader] = pShader;
 		return pShader;
+	}
+
+	void CRendererShaderManager::SetSourceLanguage(shaderc_source_language lang)
+	{
+		m_options.SetSourceLanguage(lang);
+	}
+
+	void CRendererShaderManager::SetOptimizationLevel(shaderc_optimization_level level)
+	{
+		m_options.SetOptimizationLevel(level);
+	}
+
+	void CRendererShaderManager::SetTargetEnvironment(uint32_t version, shaderc_target_env target)
+	{
+		m_options.SetTargetEnvironment(target, version);
+	}
+
+	void CRendererShaderManager::SetForcedVersionProfile(uint32_t version, shaderc_profile profile)
+	{
+		m_options.SetForcedVersionProfile(version, profile);
+	}
+
+	void CRendererShaderManager::SetMacroDefinition(const char *name, const char *value)
+	{
+		m_options.AddMacroDefinition(name, value);
+	}
+
+	const shaderc::CompileOptions& CRendererShaderManager::GetCompileOptions(void) const
+	{
+		return m_options;
 	}
 
 }

@@ -297,5 +297,16 @@ void DestroyFrameBufferDefferShading(CrossEngine::CRendererDevice *pDevice)
 
 void Test(CrossEngine::CRendererDevice *pDevice)
 {
+	CrossEngine::CRendererShader *pShader = pDevice->GetShaderManager()->AllocShader();
+	{
+		const std::string source = "\
+		#version 310 es\n\
+		layout(location = 1) in vec3 vertex;    \n\
+		layout(location = 2) in mat3 model_view;\n\
+		layout(location = 5) in mat3 projection;\n\
+		void main() {}";
 
+		pShader->Create(source.c_str(), source.size(), shaderc_glsl_vertex_shader);
+	}
+	pDevice->GetShaderManager()->Free(pShader);
 }
