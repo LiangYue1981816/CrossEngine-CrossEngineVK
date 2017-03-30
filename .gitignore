@@ -11,17 +11,17 @@
 *.userprefs
 
 # Build results
-[Tt]emp/
-[Dd]ebug/
-[Dd]ebugx64/
-[Dd]ebugWin32/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleasex64/
-[Rr]eleaseWin32/
-[Rr]eleasePublic/
-x64/
-x86/
+[Bb]in/[Tt]emp/
+[Bb]in/[Dd]ebug/
+[Bb]in/[Dd]ebugx64/
+[Bb]in/[Dd]ebugWin32/
+[Bb]in/[Dd]ebugPublic/
+[Bb]in/[Rr]elease/
+[Bb]in/[Rr]eleasex64/
+[Bb]in/[Rr]eleaseWin32/
+[Bb]in/[Rr]eleasePublic/
+[Bb]in/x64/
+[Bb]in/x86/
 bld/
 [Oo]bj/
 [Ll]og/
