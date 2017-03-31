@@ -28,7 +28,7 @@ namespace CrossEngine {
 	static std::vector<uint32_t> CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options)
 	{
 		shaderc::Compiler compiler;
-		shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, length, kind, "", options);
+		shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, length, kind, "SPIR-V Compiler", options);
 
 		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
 			LOGW(module.GetErrorMessage().c_str());
