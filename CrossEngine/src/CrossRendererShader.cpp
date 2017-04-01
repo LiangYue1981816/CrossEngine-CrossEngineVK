@@ -35,8 +35,7 @@ namespace CrossEngine {
 			return std::vector<uint32_t>();
 		}
 
-		std::vector<uint32_t> result(module.cbegin(), module.cend());
-		return result;
+		return { module.cbegin(), module.cend() };
 	}
 
 	static BOOL FindShaderVariable(const spirv::module_type &module, spirv::identifier_type location, spirv::variable_type &result)
