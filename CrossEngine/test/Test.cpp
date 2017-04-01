@@ -306,7 +306,7 @@ void Test(CrossEngine::CRendererDevice *pDevice)
 		layout(location = 5) in mat3 projection;\n\
 		void main() {}";
 
-		pShader->Create(source.c_str(), source.size() - 1, shaderc_glsl_vertex_shader);
+		pShader->Create(source.c_str(), source.size(), shaderc_glsl_vertex_shader);
 	}
 	pDevice->GetShaderManager()->Free(pShader);
 }
