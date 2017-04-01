@@ -32,6 +32,7 @@ namespace CrossEngine {
 
 		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
 			LOGW(module.GetErrorMessage().c_str());
+			return std::vector<uint32_t>();
 		}
 
 		std::vector<uint32_t> result(module.cbegin(), module.cend());
