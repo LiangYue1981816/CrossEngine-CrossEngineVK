@@ -87,6 +87,7 @@ THE SOFTWARE.
 
 #include "CrossRenderer.h"
 #include "CrossRendererHelper.h"
+#include "CrossRendererVertex.h"
 #include "CrossRendererAllocator.h"
 #include "CrossRendererSwapchain.h"
 #include "CrossRendererQueue.h"
