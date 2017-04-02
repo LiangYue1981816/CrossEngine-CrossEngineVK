@@ -54,6 +54,9 @@ namespace CrossEngine {
 
 	protected:
 		std::map<std::string, std::string> m_strMacroDefinitions;
+
+	protected:
+		spirv::module_type m_moduleType;
 		VkShaderModule m_vkShaderModule;
 	};
 

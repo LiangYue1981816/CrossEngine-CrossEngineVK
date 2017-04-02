@@ -104,6 +104,8 @@ namespace CrossEngine {
 			moduleCreateInfo.pCode = words;
 			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &moduleCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
+			m_moduleType = spirv::parse(words, numWords);
+
 			return TRUE;
 		}
 		catch (VkResult err) {
