@@ -50,6 +50,7 @@ namespace CrossEngine {
 
 	public:
 		VkShaderModule GetShaderModule(void) const;
+		spirv::module_type GetModuleType(void) const;
 
 
 	protected:

@@ -137,4 +137,9 @@ namespace CrossEngine {
 		return m_vkShaderModule;
 	}
 
+	spirv::module_type CRendererShader::GetModuleType(void) const
+	{
+		return m_moduleType;
+	}
+
 }
