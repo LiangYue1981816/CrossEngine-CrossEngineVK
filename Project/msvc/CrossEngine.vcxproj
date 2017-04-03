@@ -226,7 +226,6 @@
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererTexture.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererTextureManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererUniformBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererVertex.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererVertexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossStream.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossType.h" />
@@ -262,6 +261,7 @@
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererDevice.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceCompute.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceGraphics.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceVertex.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererFence.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererFenceManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererFrameBuffer.cpp" />
@@ -292,7 +292,6 @@
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererTexture.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererTextureManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererUniformBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererVertex.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererVertexBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossStream.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossUtility.cpp" />

@@ -49,6 +49,41 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CRendererDevice
 	{
+	public:
+		enum {
+			ATTRIBUTE_POSITION = 0,
+			ATTRIBUTE_NORMAL,
+			ATTRIBUTE_BINORMAL,
+			ATTRIBUTE_COLOR,
+			ATTRIBUTE_SKIN_INDEX,
+			ATTRIBUTE_SKIN_WEIGHT,
+			ATTRIBUTE_TEXCOORD0,
+			ATTRIBUTE_TEXCOORD1,
+			ATTRIBUTE_TEXCOORD2,
+			ATTRIBUTE_TEXCOORD3,
+			ATTRIBUTE_TEXCOORD4,
+			ATTRIBUTE_TEXCOORD5,
+			ATTRIBUTE_TEXCOORD6,
+			ATTRIBUTE_TEXCOORD7,
+			ATTRIBUTE_COUNT
+		};
+
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_POSITION    = 0x00000001;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_NORMAL      = 0x00000002;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_BINORMAL    = 0x00000004;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_COLOR       = 0x00000008;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_SKIN_INDEX  = 0x00000010;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_SKIN_WEIGHT = 0x00000020;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD0   = 0x00000040;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD1   = 0x00000080;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD2   = 0x00000100;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD3   = 0x00000200;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD4   = 0x00000400;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD5   = 0x00000800;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD6   = 0x00001000;
+		static const uint32_t VERTEX_ATTRIBUTE_FLAG_TEXCOORD7   = 0x00002000;
+
+
 	protected:
 		CRendererDevice(CRenderer *pRenderer);
 		virtual ~CRendererDevice(void);
@@ -129,6 +164,12 @@ namespace CrossEngine {
 
 	public:
 		void DumpLog(void) const;
+
+
+	public:
+		uint32_t GetVertexSize(uint32_t format) const;
+		uint32_t GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const;
+		uint32_t GetVertexAttributeFlag(const char *name) const;
 
 
 	protected:

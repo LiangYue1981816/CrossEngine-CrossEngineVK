@@ -145,12 +145,6 @@
     <Filter Include="Dependencies\spirv-reflection">
       <UniqueIdentifier>{3a64550c-e4cc-42da-bf93-e3fce538344d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Core\Vertex">
-      <UniqueIdentifier>{1eb5a6d3-a791-43f3-a9f4-b07636024d14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Core\Vertex">
-      <UniqueIdentifier>{8a25aa53-1a9f-4411-9df2-808b79a12872}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossDelegate.h">
@@ -335,9 +329,6 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererPipelineManager.h">
       <Filter>Engine\Header Files\RenderSystem\Resource\Pipeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererVertex.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Vertex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -587,8 +578,8 @@
     <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp">
       <Filter>Dependencies\spirv-reflection</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererVertex.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Vertex</Filter>
+    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceVertex.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Core\Device</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
