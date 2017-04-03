@@ -37,13 +37,11 @@ namespace CrossEngine {
 
 
 	public:
-		BOOL SetVertexShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
-		BOOL SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
-		BOOL SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
-		BOOL SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
-		BOOL SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
-		BOOL SetVertexInputBinding(uint32_t binding, uint32_t stride, VkVertexInputRate inputRate = VK_VERTEX_INPUT_RATE_VERTEX);
-		BOOL SetVertexInputAttribute(uint32_t binding, uint32_t location, uint32_t offset, VkFormat format);
+		BOOL SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
+		BOOL SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
+		BOOL SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
+		BOOL SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
+		BOOL SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
 		BOOL SetPrimitiveTopology(VkPrimitiveTopology topology, VkBool32 primitiveRestartEnable = VK_FALSE);
 		BOOL SetTessellationPatchControlPoints(uint32_t patchControlPoints);
 		BOOL SetPolygonMode(VkPolygonMode polygonMode);
@@ -67,13 +65,18 @@ namespace CrossEngine {
 	public:
 		virtual BOOL Create(VkPipelineLayout vkLayout, VkRenderPass vkRenderPass);
 
+	protected:
+		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
+		BOOL CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions);
+		BOOL CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments);
+
 
 	protected:
-		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
-		std::map<uint32_t, VkVertexInputBindingDescription> m_vertexInputBindingDescriptions;
-		std::map<uint32_t, std::map<uint32_t, VkVertexInputAttributeDescription>> m_vertexInputAttributeDescriptions;
-
+		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
 		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
+		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+
+	protected:
 		VkPipelineVertexInputStateCreateInfo m_vertexInputState;
 		VkPipelineInputAssemblyStateCreateInfo m_inputAssemblyState;
 		VkPipelineTessellationStateCreateInfo m_tessellationState;
@@ -83,6 +86,9 @@ namespace CrossEngine {
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
 		VkPipelineDynamicStateCreateInfo m_dynamicState;
+
+	protected:
+		uint32_t m_vertexFormat;
 	};
 
 }

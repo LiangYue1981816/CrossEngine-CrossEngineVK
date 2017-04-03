@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CRendererPipelineGraphics::CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager)
 		: CRendererPipeline(pDevice, pManager)
+		, m_vertexFormat(0)
 	{
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pNext = NULL;
@@ -138,17 +139,22 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CRendererPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
+	BOOL CRendererPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
+		m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT] = module;
+
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = vkShader;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pName = szName;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pSpecializationInfo = NULL;
+
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
+	BOOL CRendererPipelineGraphics::SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
+			m_shaderModules[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = module;
+
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = vkShader;
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pName = szName;
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pSpecializationInfo = NULL;
@@ -157,9 +163,11 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
+	BOOL CRendererPipelineGraphics::SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
+			m_shaderModules[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = module;
+
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = vkShader;
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pName = szName;
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pSpecializationInfo = NULL;
@@ -168,9 +176,11 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
+	BOOL CRendererPipelineGraphics::SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().geometryShader) {
+			m_shaderModules[VK_SHADER_STAGE_GEOMETRY_BIT] = module;
+
 			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = vkShader;
 			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pName = szName;
 			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pSpecializationInfo = NULL;
@@ -179,38 +189,14 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
+	BOOL CRendererPipelineGraphics::SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
+		m_shaderModules[VK_SHADER_STAGE_FRAGMENT_BIT] = module;
+
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = vkShader;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pName = szName;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pSpecializationInfo = NULL;
-		return TRUE;
-	}
 
-	BOOL CRendererPipelineGraphics::SetVertexInputBinding(uint32_t binding, uint32_t stride, VkVertexInputRate inputRate)
-	{
-		if (binding >= m_pDevice->GetDeviceProperties().limits.maxVertexInputBindings ||
-			stride >= m_pDevice->GetDeviceProperties().limits.maxVertexInputBindingStride) {
-			return FALSE;
-		}
-
-		m_vertexInputBindingDescriptions[binding].binding = binding;
-		m_vertexInputBindingDescriptions[binding].stride = stride;
-		m_vertexInputBindingDescriptions[binding].inputRate = inputRate;
-		return TRUE;
-	}
-
-	BOOL CRendererPipelineGraphics::SetVertexInputAttribute(uint32_t binding, uint32_t location, uint32_t offset, VkFormat format)
-	{
-		if (binding >= m_pDevice->GetDeviceProperties().limits.maxVertexInputBindings ||
-			offset >= m_pDevice->GetDeviceProperties().limits.maxVertexInputAttributeOffset) {
-			return FALSE;
-		}
-
-		m_vertexInputAttributeDescriptions[binding][location].binding = binding;
-		m_vertexInputAttributeDescriptions[binding][location].location = location;
-		m_vertexInputAttributeDescriptions[binding][location].format = format;
-		m_vertexInputAttributeDescriptions[binding][location].offset = offset;
 		return TRUE;
 	}
 
@@ -366,36 +352,13 @@ namespace CrossEngine {
 	{
 		try {
 			std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
-			for (std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo>::const_iterator itShaderStage = m_shaderStages.begin(); itShaderStage != m_shaderStages.end(); ++itShaderStage) {
-				if (itShaderStage->second.module != VK_NULL_HANDLE) {
-					shaderStages.push_back(itShaderStage->second);
-				}
-			}
-
 			std::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
-			for (std::map<uint32_t, VkVertexInputBindingDescription>::const_iterator itInputBindingDescription = m_vertexInputBindingDescriptions.begin(); itInputBindingDescription != m_vertexInputBindingDescriptions.end(); ++itInputBindingDescription) {
-				inputBindingDescriptions.push_back(itInputBindingDescription->second);
-			}
-
 			std::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
-			for (std::map<uint32_t, std::map<uint32_t, VkVertexInputAttributeDescription>>::const_iterator itInputBindingAttributeDescription = m_vertexInputAttributeDescriptions.begin(); itInputBindingAttributeDescription != m_vertexInputAttributeDescriptions.end(); ++itInputBindingAttributeDescription) {
-				for (std::map<uint32_t, VkVertexInputAttributeDescription>::const_iterator itInputAttributeDescription = itInputBindingAttributeDescription->second.begin(); itInputAttributeDescription != itInputBindingAttributeDescription->second.end(); ++itInputAttributeDescription) {
-					inputAttributeDescriptions.push_back(itInputAttributeDescription->second);
-				}
-			}
-
 			std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
-			for (std::map<uint32_t, VkPipelineColorBlendAttachmentState>::const_iterator itColorBlendAttachment = m_colorBlendAttachmentStates.begin(); itColorBlendAttachment != m_colorBlendAttachmentStates.end(); ++itColorBlendAttachment) {
-				colorBlendAttachments.push_back(itColorBlendAttachment->second);
-			}
 
-			m_vertexInputState.vertexBindingDescriptionCount = inputBindingDescriptions.size();
-			m_vertexInputState.pVertexBindingDescriptions = inputBindingDescriptions.data();
-			m_vertexInputState.vertexAttributeDescriptionCount = inputAttributeDescriptions.size();
-			m_vertexInputState.pVertexAttributeDescriptions = inputAttributeDescriptions.data();
-
-			m_colorBlendState.attachmentCount = colorBlendAttachments.size();
-			m_colorBlendState.pAttachments = colorBlendAttachments.data();
+			CreateShaderStages(shaderStages);
+			CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions);
+			CreateColorBlendState(colorBlendAttachments);
 
 			VkGraphicsPipelineCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -427,6 +390,69 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	BOOL CRendererPipelineGraphics::CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages)
+	{
+		shaderStages.clear();
+
+		for (std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo>::const_iterator itShaderStage = m_shaderStages.begin(); itShaderStage != m_shaderStages.end(); ++itShaderStage) {
+			if (itShaderStage->second.module != VK_NULL_HANDLE) {
+				shaderStages.push_back(itShaderStage->second);
+			}
+		}
+
+		return TRUE;
+	}
+
+	BOOL CRendererPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
+	{
+		m_vertexFormat = 0;
+
+		inputBindingDescriptions.clear();
+		inputAttributeDescriptions.clear();
+
+		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
+			uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str());
+			m_vertexFormat |= attribute;
+		}
+
+		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
+			uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str());
+			VkVertexInputAttributeDescription inputAttributeDescription;
+			inputAttributeDescription.binding = 0;
+			inputAttributeDescription.location = variable.second.location;
+			inputAttributeDescription.format = (VkFormat)variable.second.type_id;
+			inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
+			inputAttributeDescriptions.push_back(inputAttributeDescription);
+		}
+
+		VkVertexInputBindingDescription inputBindingDescription;
+		inputBindingDescription.binding = 0;
+		inputBindingDescription.stride = m_pDevice->GetVertexSize(m_vertexFormat);
+		inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+		inputBindingDescriptions.push_back(inputBindingDescription);
+
+		m_vertexInputState.vertexBindingDescriptionCount = inputBindingDescriptions.size();
+		m_vertexInputState.pVertexBindingDescriptions = inputBindingDescriptions.data();
+		m_vertexInputState.vertexAttributeDescriptionCount = inputAttributeDescriptions.size();
+		m_vertexInputState.pVertexAttributeDescriptions = inputAttributeDescriptions.data();
+
+		return TRUE;
+	}
+
+	BOOL CRendererPipelineGraphics::CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments)
+	{
+		colorBlendAttachments.clear();
+
+		for (std::map<uint32_t, VkPipelineColorBlendAttachmentState>::const_iterator itColorBlendAttachment = m_colorBlendAttachmentStates.begin(); itColorBlendAttachment != m_colorBlendAttachmentStates.end(); ++itColorBlendAttachment) {
+			colorBlendAttachments.push_back(itColorBlendAttachment->second);
+		}
+
+		m_colorBlendState.attachmentCount = colorBlendAttachments.size();
+		m_colorBlendState.pAttachments = colorBlendAttachments.data();
+
+		return TRUE;
 	}
 
 }
