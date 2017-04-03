@@ -301,9 +301,10 @@ void Test(CrossEngine::CRendererDevice *pDevice)
 	{
 		const std::string source = "\
 		#version 310 es\n\
-		layout(location = 1) in vec3 vertex;    \n\
-		layout(location = 2) in mat3 model_view;\n\
-		layout(location = 5) in mat3 projection;\n\
+		layout(location = 0) in vec3 inPosition;\n\
+		layout(location = 1) in vec3 inNormal;\n\
+		layout(location = 2) in vec3 inColor;\n\
+		layout(location = 3) in vec2 inTexcoord0;\n\
 		void main() {}";
 
 		pShader->Create(source.c_str(), source.size(), shaderc_glsl_vertex_shader);
