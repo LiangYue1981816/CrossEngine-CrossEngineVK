@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CRendererShaderManager::CRendererShaderManager(CRendererDevice *pDevice)
 		: CRendererResourceManager(pDevice)
 	{
+		SetWarningsAsErrors();
 		SetSourceLanguage(shaderc_source_language_glsl);
 		SetOptimizationLevel(shaderc_optimization_level_size);
 	}
@@ -42,6 +43,11 @@ namespace CrossEngine {
 		CRendererShader *pShader = SAFE_NEW CRendererShader(m_pDevice, this);
 		m_pResources[pShader] = pShader;
 		return pShader;
+	}
+
+	void CRendererShaderManager::SetWarningsAsErrors(void)
+	{
+		m_options.SetWarningsAsErrors();
 	}
 
 	void CRendererShaderManager::SetSourceLanguage(shaderc_source_language lang)

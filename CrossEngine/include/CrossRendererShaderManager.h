@@ -40,6 +40,7 @@ namespace CrossEngine {
 		CRendererShader* AllocShader(void);
 
 	public:
+		void SetWarningsAsErrors(void);
 		void SetSourceLanguage(shaderc_source_language lang);
 		void SetOptimizationLevel(shaderc_optimization_level level);
 		void SetTargetEnvironment(uint32_t version, shaderc_target_env target);
