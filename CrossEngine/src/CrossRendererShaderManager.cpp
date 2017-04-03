@@ -70,9 +70,9 @@ namespace CrossEngine {
 		m_options.SetForcedVersionProfile(version, profile);
 	}
 
-	void CRendererShaderManager::SetMacroDefinition(const char *name, const char *value)
+	void CRendererShaderManager::SetMacroDefinition(const char *szName, const char *szValue)
 	{
-		m_options.AddMacroDefinition(name, value);
+		m_options.AddMacroDefinition(szName, szValue);
 	}
 
 	const shaderc::CompileOptions& CRendererShaderManager::GetCompileOptions(void) const

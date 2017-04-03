@@ -37,11 +37,11 @@ namespace CrossEngine {
 
 
 	public:
-		BOOL SetVertexShader(VkShaderModule vkShader, const char *szName = "main");
-		BOOL SetTessellationControlShader(VkShaderModule vkShader, const char *szName = "main");
-		BOOL SetTessellationEvaluationShader(VkShaderModule vkShader, const char *szName = "main");
-		BOOL SetGeometryShader(VkShaderModule vkShader, const char *szName = "main");
-		BOOL SetFragmentShader(VkShaderModule vkShader, const char *szName = "main");
+		BOOL SetVertexShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
+		BOOL SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
+		BOOL SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
+		BOOL SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
+		BOOL SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName = "main");
 		BOOL SetVertexInputBinding(uint32_t binding, uint32_t stride, VkVertexInputRate inputRate = VK_VERTEX_INPUT_RATE_VERTEX);
 		BOOL SetVertexInputAttribute(uint32_t binding, uint32_t location, uint32_t offset, VkFormat format);
 		BOOL SetPrimitiveTopology(VkPrimitiveTopology topology, VkBool32 primitiveRestartEnable = VK_FALSE);

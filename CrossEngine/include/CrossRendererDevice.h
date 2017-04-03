@@ -169,7 +169,7 @@ namespace CrossEngine {
 	public:
 		uint32_t GetVertexSize(uint32_t format) const;
 		uint32_t GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const;
-		uint32_t GetVertexAttributeFlag(const char *name) const;
+		uint32_t GetVertexAttributeFlag(const char *szName) const;
 
 
 	protected:

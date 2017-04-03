@@ -37,12 +37,12 @@ namespace CrossEngine {
 
 
 	public:
-		void AddMacroDefinition(const char *name, const char *value);
-		void DelMacroDefinition(const char *name);
+		void AddMacroDefinition(const char *szName, const char *szValue);
+		void DelMacroDefinition(const char *szName);
 		void ClearMacroDefinitions(void);
 
 	public:
-		virtual BOOL Create(const char *source, size_t length, shaderc_shader_kind kind);
+		virtual BOOL Create(const char *szSource, size_t length, shaderc_shader_kind kind);
 		virtual BOOL Create(const uint32_t *words, size_t numWords);
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
@@ -50,14 +50,14 @@ namespace CrossEngine {
 
 	public:
 		VkShaderModule GetShaderModule(void) const;
-		spirv::module_type GetModuleType(void) const;
+		const spirv::module_type& GetTypes(void) const;
 
 
 	protected:
 		std::map<std::string, std::string> m_strMacroDefinitions;
 
 	protected:
-		spirv::module_type m_moduleType;
+		spirv::module_type m_types;
 		VkShaderModule m_vkShaderModule;
 	};
 

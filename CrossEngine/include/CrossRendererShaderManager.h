@@ -45,7 +45,7 @@ namespace CrossEngine {
 		void SetOptimizationLevel(shaderc_optimization_level level);
 		void SetTargetEnvironment(uint32_t version, shaderc_target_env target);
 		void SetForcedVersionProfile(uint32_t version, shaderc_profile profile);
-		void SetMacroDefinition(const char *name, const char *value);
+		void SetMacroDefinition(const char *szName, const char *szValue);
 
 		const shaderc::CompileOptions& GetCompileOptions(void) const;
 

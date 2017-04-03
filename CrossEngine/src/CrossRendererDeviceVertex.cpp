@@ -101,10 +101,10 @@ namespace CrossEngine {
 		return -1;
 	}
 
-	uint32_t CRendererDevice::GetVertexAttributeFlag(const char *name) const
+	uint32_t CRendererDevice::GetVertexAttributeFlag(const char *szName) const
 	{
 		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
-			if (strcmp(vertexAttributeNames[indexAttribute], name) == 0) {
+			if (strcmp(vertexAttributeNames[indexAttribute], szName) == 0) {
 				return vertexAttributeFlags[indexAttribute];
 			}
 		}

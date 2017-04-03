@@ -138,7 +138,7 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CRendererPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const char *szName)
+	BOOL CRendererPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
 	{
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = vkShader;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pName = szName;
@@ -146,7 +146,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetTessellationControlShader(VkShaderModule vkShader, const char *szName)
+	BOOL CRendererPipelineGraphics::SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = vkShader;
@@ -157,7 +157,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetTessellationEvaluationShader(VkShaderModule vkShader, const char *szName)
+	BOOL CRendererPipelineGraphics::SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = vkShader;
@@ -168,7 +168,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetGeometryShader(VkShaderModule vkShader, const char *szName)
+	BOOL CRendererPipelineGraphics::SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().geometryShader) {
 			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = vkShader;
@@ -179,7 +179,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetFragmentShader(VkShaderModule vkShader, const char *szName)
+	BOOL CRendererPipelineGraphics::SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &types, const char *szName)
 	{
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = vkShader;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pName = szName;

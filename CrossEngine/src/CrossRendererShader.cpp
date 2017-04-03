@@ -61,14 +61,14 @@ namespace CrossEngine {
 		ASSERT(m_vkShaderModule == VK_NULL_HANDLE);
 	}
 
-	void CRendererShader::AddMacroDefinition(const char *name, const char *value)
+	void CRendererShader::AddMacroDefinition(const char *szName, const char *szValue)
 	{
-		m_strMacroDefinitions[name] = value;
+		m_strMacroDefinitions[szName] = szValue;
 	}
 
-	void CRendererShader::DelMacroDefinition(const char *name)
+	void CRendererShader::DelMacroDefinition(const char *szName)
 	{
-		std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.find(name);
+		std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.find(szName);
 		if (itMacroDefinition != m_strMacroDefinitions.end()) m_strMacroDefinitions.erase(itMacroDefinition);
 	}
 
@@ -77,7 +77,7 @@ namespace CrossEngine {
 		m_strMacroDefinitions.clear();
 	}
 
-	BOOL CRendererShader::Create(const char *source, size_t length, shaderc_shader_kind kind)
+	BOOL CRendererShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)
 	{
 		shaderc::CompileOptions options(((CRendererShaderManager *)m_pManager)->GetCompileOptions());
 		for (std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.begin(); itMacroDefinition != m_strMacroDefinitions.end(); ++itMacroDefinition) {
@@ -89,7 +89,7 @@ namespace CrossEngine {
 			}
 		}
 
-		std::vector<uint32_t> words = CompileShader(source, length, kind, options);
+		std::vector<uint32_t> words = CompileShader(szSource, length, kind, options);
 		return Create(words.data(), words.size());
 	}
 
@@ -104,7 +104,7 @@ namespace CrossEngine {
 			moduleCreateInfo.pCode = words;
 			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &moduleCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
-			m_moduleType = spirv::parse(words, numWords);
+			m_types = spirv::parse(words, numWords);
 
 			return TRUE;
 		}
@@ -137,9 +137,9 @@ namespace CrossEngine {
 		return m_vkShaderModule;
 	}
 
-	spirv::module_type CRendererShader::GetModuleType(void) const
+	const spirv::module_type& CRendererShader::GetTypes(void) const
 	{
-		return m_moduleType;
+		return m_types;
 	}
 
 }
