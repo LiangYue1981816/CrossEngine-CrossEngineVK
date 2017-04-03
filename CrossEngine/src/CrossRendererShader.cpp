@@ -104,7 +104,7 @@ namespace CrossEngine {
 			moduleCreateInfo.pCode = words;
 			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &moduleCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
-			m_types = spirv::parse(words, numWords);
+			m_module = spirv::parse(words, numWords);
 
 			return TRUE;
 		}
@@ -137,9 +137,9 @@ namespace CrossEngine {
 		return m_vkShaderModule;
 	}
 
-	const spirv::module_type& CRendererShader::GetTypes(void) const
+	const spirv::module_type& CRendererShader::GetModule(void) const
 	{
-		return m_types;
+		return m_module;
 	}
 
 }
