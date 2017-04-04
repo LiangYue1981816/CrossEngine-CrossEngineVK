@@ -38,17 +38,6 @@ namespace CrossEngine {
 		return { module.cbegin(), module.cend() };
 	}
 
-	static BOOL FindShaderVariable(const spirv::module_type &module, spirv::identifier_type location, spirv::variable_type &result)
-	{
-		for (const auto &variable : module.variables) {
-			if (variable.second.location == location) {
-				result = variable.second;
-				return TRUE;
-			}
-		}
-		return FALSE;
-	}
-
 	CRendererShader::CRendererShader(CRendererDevice *pDevice, CRendererResourceManager *pManager)
 		: CRendererResource(pDevice, pManager)
 		, m_vkShaderModule(VK_NULL_HANDLE)

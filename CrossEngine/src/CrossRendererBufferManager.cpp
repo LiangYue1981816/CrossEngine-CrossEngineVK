@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererBuffer *pBuffer = SAFE_NEW CRendererBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
+
 		return pBuffer;
 	}
 
@@ -47,6 +48,7 @@ namespace CrossEngine {
 	{
 		CRendererIndexBuffer *pBuffer = SAFE_NEW CRendererIndexBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
+
 		return pBuffer;
 	}
 
@@ -54,6 +56,7 @@ namespace CrossEngine {
 	{
 		CRendererVertexBuffer *pBuffer = SAFE_NEW CRendererVertexBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
+
 		return pBuffer;
 	}
 
@@ -61,20 +64,24 @@ namespace CrossEngine {
 	{
 		CRendererUniformBuffer *pBuffer = SAFE_NEW CRendererUniformBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
+
 		return pBuffer;
 	}
 
 	void CRendererBufferManager::DumpLog(const char *szTitle) const
 	{
-		LOGI("\n");
-		LOGI("%s\n", szTitle);
 		uint32_t count = 0;
 		VkDeviceSize size = 0;
-		for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-			if (const CRendererBuffer *pResource = (CRendererBuffer *)itResource->second) {
-				pResource->DumpLog();
-				size += pResource->GetSize();
-				count++;
+
+		LOGI("\n");
+		LOGI("%s\n", szTitle);
+		{
+			for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
+				if (const CRendererBuffer *pResource = (CRendererBuffer *)itResource->second) {
+					pResource->DumpLog();
+					size += pResource->GetSize();
+					count++;
+				}
 			}
 		}
 		LOGI("*** %d objects found, total size %d\n", count, size);

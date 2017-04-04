@@ -51,11 +51,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-
 	VkResult CRenderer::vkErrorCode = VK_SUCCESS;
 	PFN_vkCreateDebugReportCallbackEXT vkCreateDebugReportCallback = NULL;
 	PFN_vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallback = NULL;
-
 
 	CRenderer::CRenderer(void)
 		: m_vkInstance(VK_NULL_HANDLE)
@@ -172,14 +170,12 @@ namespace CrossEngine {
 	{
 		enabledInstanceLayers.clear();
 
-
 		uint32_t numLayers;
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceLayerProperties(&numLayers, NULL));
 
 		ASSERT(numLayers > 0);
 		std::vector<VkLayerProperties> layers(numLayers);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceLayerProperties(&numLayers, layers.data()));
-
 
 		for (uint32_t index = 0; index < numLayers; index++) {
 #ifdef _DEBUG
@@ -197,7 +193,6 @@ namespace CrossEngine {
 	VkResult CRenderer::EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const
 	{
 		enabledInstanceExtensions.clear();
-
 		
 		uint32_t numExtensions;
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceExtensionProperties(NULL, &numExtensions, NULL));
@@ -205,7 +200,6 @@ namespace CrossEngine {
 		ASSERT(numExtensions > 0);
 		std::vector<VkExtensionProperties> extensions(numExtensions);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceExtensionProperties(NULL, &numExtensions, extensions.data()));
-
 		
 		BOOL bSurfaceExtension = FALSE;
 		BOOL bPlatformSurfaceExtension = FALSE;
@@ -277,7 +271,6 @@ namespace CrossEngine {
 		vkDestroyDebugReportCallback = (PFN_vkDestroyDebugReportCallbackEXT)vkGetInstanceProcAddr(m_vkInstance, "vkDestroyDebugReportCallbackEXT");
 		if (vkCreateDebugReportCallback == NULL) return VK_ERROR_INITIALIZATION_FAILED;
 		if (vkDestroyDebugReportCallback == NULL) return VK_ERROR_INITIALIZATION_FAILED;
-
 
 		VkDebugReportCallbackCreateInfoEXT debugInfo;
 		debugInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;

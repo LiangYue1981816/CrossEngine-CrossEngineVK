@@ -78,6 +78,7 @@ namespace CrossEngine {
 			pAllocator->m_dwMaxAllocatedSize = pAllocator->m_dwMaxAllocatedSize >= pAllocator->m_dwAllocatedSize ? pAllocator->m_dwMaxAllocatedSize : pAllocator->m_dwAllocatedSize;
 			return pPointer;
 		}
+
 		return NULL;
 	}
 
@@ -92,6 +93,7 @@ namespace CrossEngine {
 			pAllocator->Free(pOriginal);
 			return pPointer;
 		}
+
 		return NULL;
 	}
 

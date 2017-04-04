@@ -66,13 +66,16 @@ namespace CrossEngine {
 
 	void CRendererResourceManager::DumpLog(const char *szTitle) const
 	{
+		uint32_t count = 0;
+
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
-		uint32_t count = 0;
-		for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-			if (const CRendererResource *pResource = itResource->second) {
-				pResource->DumpLog();
-				count++;
+		{
+			for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
+				if (const CRendererResource *pResource = itResource->second) {
+					pResource->DumpLog();
+					count++;
+				}
 			}
 		}
 		LOGI("*** %d objects found\n", count);

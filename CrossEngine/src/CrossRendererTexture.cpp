@@ -67,8 +67,9 @@ namespace CrossEngine {
 			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data());
 		}
 		m_pDevice->GetStagingBufferManager()->PendFreeBuffer(pStagingBuffer);
+		m_pDevice->GetStagingBufferManager()->Process();
 
-		return m_pDevice->GetStagingBufferManager()->Process();
+		return TRUE;
 	}
 
 	BOOL CRendererTexture::CreateTexture2DArray(const gli::texture2d_array &texture)
@@ -104,8 +105,9 @@ namespace CrossEngine {
 			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data());
 		}
 		m_pDevice->GetStagingBufferManager()->PendFreeBuffer(pStagingBuffer);
+		m_pDevice->GetStagingBufferManager()->Process();
 
-		return m_pDevice->GetStagingBufferManager()->Process();
+		return TRUE;
 	}
 
 	BOOL CRendererTexture::CreateTextureCube(const gli::texture_cube &texture)
@@ -141,8 +143,9 @@ namespace CrossEngine {
 			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data());
 		}
 		m_pDevice->GetStagingBufferManager()->PendFreeBuffer(pStagingBuffer);
+		m_pDevice->GetStagingBufferManager()->Process();
 
-		return m_pDevice->GetStagingBufferManager()->Process();
+		return TRUE;
 	}
 
 	void CRendererTexture::Destroy(void)

@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererTexture *pTexture = SAFE_NEW CRendererTexture(m_pDevice, this);
 		m_pResources[pTexture] = pTexture;
+
 		return pTexture;
 	}
 
@@ -47,20 +48,24 @@ namespace CrossEngine {
 	{
 		CRendererRenderTexture *pTexture = SAFE_NEW CRendererRenderTexture(m_pDevice, this);
 		m_pResources[pTexture] = pTexture;
+
 		return pTexture;
 	}
 
 	void CRendererTextureManager::DumpLog(const char *szTitle) const
 	{
-		LOGI("\n");
-		LOGI("%s\n", szTitle);
 		uint32_t count = 0;
 		VkDeviceSize size = 0;
-		for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-			if (const CRendererImage *pResource = (CRendererImage *)itResource->second) {
-				pResource->DumpLog();
-				size += pResource->GetSize();
-				count++;
+
+		LOGI("\n");
+		LOGI("%s\n", szTitle);
+		{
+			for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
+				if (const CRendererImage *pResource = (CRendererImage *)itResource->second) {
+					pResource->DumpLog();
+					size += pResource->GetSize();
+					count++;
+				}
 			}
 		}
 		LOGI("*** %d objects found, total size %d\n", count, size);

@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererSampler *pSampler = SAFE_NEW CRendererSampler(m_pDevice, this);
 		m_pResources[pSampler] = pSampler;
+
 		return pSampler;
 	}
 

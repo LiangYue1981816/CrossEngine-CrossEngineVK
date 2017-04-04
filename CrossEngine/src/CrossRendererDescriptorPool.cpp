@@ -80,25 +80,24 @@ namespace CrossEngine {
 			}
 		}
 
-		VkDescriptorSet vkDescriptorSet = VK_NULL_HANDLE;
 		VkDescriptorSetAllocateInfo allocInfo;
 		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 		allocInfo.pNext = NULL;
 		allocInfo.descriptorPool = m_vkDescriptorPool;
 		allocInfo.descriptorSetCount = 1;
 		allocInfo.pSetLayouts = &vkSetLayout;
-		if (vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet) != VK_SUCCESS) {
-			return NULL;
-		}
 
-		m_numDescriptorSets++;
-
-		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
-			m_numAllocatedTypes[index] += typesUsedCount[index];
-		}
+		VkDescriptorSet vkDescriptorSet = VK_NULL_HANDLE;
+		vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
 
 		CRendererDescriptorSet *pDescriptorSet = SAFE_NEW CRendererDescriptorSet(m_pDevice, vkDescriptorSet, typesUsedCount);
 		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
+
+		m_numDescriptorSets++;
+		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
+			m_numAllocatedTypes[index] += pDescriptorSet->GetTypesUsedCount()[index];
+		}
+
 		return pDescriptorSet;
 	}
 
@@ -109,13 +108,11 @@ namespace CrossEngine {
 			if (itDescriptorSet != m_pDescriptorSets.end()) m_pDescriptorSets.erase(itDescriptorSet);
 
 			VkDescriptorSet vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
-			const uint32_t *typesUsedCount = pDescriptorSet->GetTypesUsedCount();
 			vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
 
 			m_numDescriptorSets--;
-
 			for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
-				m_numAllocatedTypes[index] -= typesUsedCount[index];
+				m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
 			}
 
 			SAFE_DELETE(pDescriptorSet);

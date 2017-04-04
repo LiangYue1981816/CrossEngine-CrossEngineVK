@@ -74,6 +74,7 @@ namespace CrossEngine {
 
 		CRendererCommandPool *pCommandPool = SAFE_NEW CRendererCommandPool(m_pDevice);
 		m_pCommandPools[pool] = pCommandPool;
+
 		return pCommandPool;
 	}
 

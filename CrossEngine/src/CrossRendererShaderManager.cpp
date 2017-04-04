@@ -42,6 +42,7 @@ namespace CrossEngine {
 	{
 		CRendererShader *pShader = SAFE_NEW CRendererShader(m_pDevice, this);
 		m_pResources[pShader] = pShader;
+
 		return pShader;
 	}
 

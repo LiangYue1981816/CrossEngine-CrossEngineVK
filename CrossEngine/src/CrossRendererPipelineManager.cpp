@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererPipelineCompute *pPipeline = SAFE_NEW CRendererPipelineCompute(m_pDevice, this);
 		m_pResources[pPipeline] = pPipeline;
+
 		return pPipeline;
 	}
 
@@ -47,18 +48,22 @@ namespace CrossEngine {
 	{
 		CRendererPipelineGraphics *pPipeline = SAFE_NEW CRendererPipelineGraphics(m_pDevice, this);
 		m_pResources[pPipeline] = pPipeline;
+
 		return pPipeline;
 	}
 
 	void CRendererPipelineManager::DumpLog(const char *szTitle) const
 	{
+		uint32_t count = 0;
+
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
-		uint32_t count = 0;
-		for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-			if (const CRendererPipeline *pResource = (CRendererPipeline *)itResource->second) {
-				pResource->DumpLog();
-				count++;
+		{
+			for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
+				if (const CRendererPipeline *pResource = (CRendererPipeline *)itResource->second) {
+					pResource->DumpLog();
+					count++;
+				}
 			}
 		}
 		LOGI("*** %d objects found\n", count);

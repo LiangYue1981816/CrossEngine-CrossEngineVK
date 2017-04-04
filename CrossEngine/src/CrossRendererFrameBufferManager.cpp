@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererFrameBuffer *pFrameBuffer = SAFE_NEW CRendererFrameBuffer(m_pDevice, this);
 		m_pResources[pFrameBuffer] = pFrameBuffer;
+
 		return pFrameBuffer;
 	}
 	

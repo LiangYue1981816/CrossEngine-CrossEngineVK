@@ -42,6 +42,7 @@ namespace CrossEngine {
 	{
 		m_queueFamilyIndex = queueFamilyIndex;
 		vkGetDeviceQueue(m_pDevice->GetDevice(), m_queueFamilyIndex, 0, &m_vkQueue);
+
 		return TRUE;
 	}
 

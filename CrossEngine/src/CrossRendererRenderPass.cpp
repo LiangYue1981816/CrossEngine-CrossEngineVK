@@ -102,6 +102,7 @@ namespace CrossEngine {
 		}
 
 		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
 		return TRUE;
 	}
 
@@ -112,6 +113,7 @@ namespace CrossEngine {
 		}
 
 		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+
 		return TRUE;
 	}
 
@@ -122,6 +124,7 @@ namespace CrossEngine {
 		}
 
 		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
 		return TRUE;
 	}
 
@@ -133,6 +136,7 @@ namespace CrossEngine {
 
 		m_subpasses[indexSubpass].depthStencilAttachment.attachment = indexAttachment;
 		m_subpasses[indexSubpass].depthStencilAttachment.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
 		return TRUE;
 	}
 
@@ -143,6 +147,7 @@ namespace CrossEngine {
 		}
 
 		m_subpasses[indexSubpass].preserveAttachments[indexAttachment] = indexAttachment;
+
 		return TRUE;
 	}
 

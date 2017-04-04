@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererRenderPass *pRenderPass = SAFE_NEW CRendererRenderPass(m_pDevice, this);
 		m_pResources[pRenderPass] = pRenderPass;
+
 		return pRenderPass;
 	}
 

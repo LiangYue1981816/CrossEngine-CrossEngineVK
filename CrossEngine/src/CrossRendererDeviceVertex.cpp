@@ -25,72 +25,28 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static const uint32_t vertexAttributeFlags[CRendererDevice::ATTRIBUTE_COUNT] = {
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_POSITION,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_NORMAL,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_BINORMAL,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_COLOR,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_INDEX,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_WEIGHT,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD0,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD1,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD2,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD3,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD4,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD5,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD6,
-		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD7
+	struct VERTEX_ATTRIBUTE {
+		uint32_t flag;
+		uint32_t size;
+		VkFormat format;
+		const char *name;
 	};
 
-	static const VkFormat vertexAttributeFormats[CRendererDevice::ATTRIBUTE_COUNT] = {
-		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_POSITION
-		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_NORMAL
-		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_BINORMAL
-		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_COLOR
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_SKIN_INDEX
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_SKIN_WEIGHT
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD0
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD1
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD2
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD3
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD4
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD5
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD6
-		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD7
-	};
-
-	static const uint32_t vertexAttributeSizes[CRendererDevice::ATTRIBUTE_COUNT] = {
-		12, // ATTRIBUTE_POSITION
-		12, // ATTRIBUTE_NORMAL
-		12, // ATTRIBUTE_BINORMAL
-		12, // ATTRIBUTE_COLOR
-		8,  // ATTRIBUTE_SKIN_INDEX
-		8,  // ATTRIBUTE_SKIN_WEIGHT
-		8,  // ATTRIBUTE_TEXCOORD0
-		8,  // ATTRIBUTE_TEXCOORD1
-		8,  // ATTRIBUTE_TEXCOORD2
-		8,  // ATTRIBUTE_TEXCOORD3
-		8,  // ATTRIBUTE_TEXCOORD4
-		8,  // ATTRIBUTE_TEXCOORD5
-		8,  // ATTRIBUTE_TEXCOORD6
-		8   // ATTRIBUTE_TEXCOORD7
-	};
-
-	static const char* vertexAttributeNames[CRendererDevice::ATTRIBUTE_COUNT] = {
-		"inPosition",   // ATTRIBUTE_POSITION
-		"inNormal",     // ATTRIBUTE_NORMAL
-		"inBinormal",   // ATTRIBUTE_BINORMAL
-		"inColor",      // ATTRIBUTE_COLOR
-		"inSkinIndex",  // ATTRIBUTE_SKIN_INDEX
-		"inSkinWeight", // ATTRIBUTE_SKIN_WEIGHT
-		"inTexcoord0",  // ATTRIBUTE_TEXCOORD0
-		"inTexcoord1",  // ATTRIBUTE_TEXCOORD1
-		"inTexcoord2",  // ATTRIBUTE_TEXCOORD2
-		"inTexcoord3",  // ATTRIBUTE_TEXCOORD3
-		"inTexcoord4",  // ATTRIBUTE_TEXCOORD4
-		"inTexcoord5",  // ATTRIBUTE_TEXCOORD5
-		"inTexcoord6",  // ATTRIBUTE_TEXCOORD6
-		"inTexcoord7"   // ATTRIBUTE_TEXCOORD7
+	static const VERTEX_ATTRIBUTE vertexAttributes[CRendererDevice::ATTRIBUTE_COUNT] = {
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_POSITION,    12, VK_FORMAT_R32G32B32_SFLOAT, "inPosition"   },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_NORMAL,      12, VK_FORMAT_R32G32B32_SFLOAT, "inNormal"     },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_BINORMAL,    12, VK_FORMAT_R32G32B32_SFLOAT, "inBinormal"   },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_COLOR,       12, VK_FORMAT_R32G32B32_SFLOAT, "inColor"      },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_INDEX,  8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinIndex"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_WEIGHT, 8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinWeight" },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD0,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord0"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD1,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord1"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD2,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord2"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD3,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord3"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD4,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord4"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD5,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord5"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD6,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord6"  },
+		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD7,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord7"  },
 	};
 
 	uint32_t CRendererDevice::GetVertexSize(uint32_t format) const
@@ -98,8 +54,8 @@ namespace CrossEngine {
 		uint32_t size = 0;
 
 		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
-			if (format & vertexAttributeFlags[indexAttribute]) {
-				size += vertexAttributeSizes[indexAttribute];
+			if (format & vertexAttributes[indexAttribute].flag) {
+				size += vertexAttributes[indexAttribute].size;
 			}
 		}
 
@@ -111,8 +67,8 @@ namespace CrossEngine {
 		uint32_t offset = 0;
 
 		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
-			if (attribute == vertexAttributeFlags[indexAttribute]) return offset;
-			if (format & vertexAttributeFlags[indexAttribute]) offset += vertexAttributeSizes[indexAttribute];
+			if (attribute == vertexAttributes[indexAttribute].flag) return offset;
+			if (format & vertexAttributes[indexAttribute].flag) offset += vertexAttributes[indexAttribute].size;
 		}
 
 		return -1;
@@ -121,8 +77,8 @@ namespace CrossEngine {
 	uint32_t CRendererDevice::GetVertexAttributeFlag(const char *szName) const
 	{
 		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
-			if (strcmp(vertexAttributeNames[indexAttribute], szName) == 0) {
-				return vertexAttributeFlags[indexAttribute];
+			if (strcmp(vertexAttributes[indexAttribute].name, szName) == 0) {
+				return vertexAttributes[indexAttribute].flag;
 			}
 		}
 
@@ -132,8 +88,8 @@ namespace CrossEngine {
 	VkFormat CRendererDevice::GetVertexAttributeFormat(uint32_t attribute) const
 	{
 		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
-			if (attribute == vertexAttributeFlags[indexAttribute]) {
-				return vertexAttributeFormats[indexAttribute];
+			if (attribute == vertexAttributes[indexAttribute].flag) {
+				return vertexAttributes[indexAttribute].format;
 			}
 		}
 

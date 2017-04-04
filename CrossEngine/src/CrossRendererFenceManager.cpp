@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererFence *pFence = SAFE_NEW CRendererFence(m_pDevice, this);
 		m_pResources[pFence] = pFence;
+
 		return pFence;
 	}
 

@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CRendererDescriptorSetLayout *pDescriptorSetLayout = SAFE_NEW CRendererDescriptorSetLayout(m_pDevice, this);
 		m_pResources[pDescriptorSetLayout] = pDescriptorSetLayout;
+
 		return pDescriptorSetLayout;
 	}
 

@@ -209,30 +209,35 @@ namespace CrossEngine {
 	{
 		m_inputAssemblyState.topology = topology;
 		m_inputAssemblyState.primitiveRestartEnable = primitiveRestartEnable;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetTessellationPatchControlPoints(uint32_t patchControlPoints)
 	{
 		m_tessellationState.patchControlPoints = patchControlPoints;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetPolygonMode(VkPolygonMode polygonMode)
 	{
 		m_rasterizationState.polygonMode = polygonMode;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetCullMode(VkCullModeFlags cullMode)
 	{
 		m_rasterizationState.cullMode = cullMode;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetFrontFace(VkFrontFace frontFace)
 	{
 		m_rasterizationState.frontFace = frontFace;
+
 		return TRUE;
 	}
 
@@ -243,6 +248,7 @@ namespace CrossEngine {
 		}
 
 		m_rasterizationState.depthClampEnable = depthClampEnable;
+
 		return TRUE;
 	}
 
@@ -252,18 +258,21 @@ namespace CrossEngine {
 		m_rasterizationState.depthBiasConstantFactor = depthBiasConstantFactor;
 		m_rasterizationState.depthBiasClamp = depthBiasClamp;
 		m_rasterizationState.depthBiasSlopeFactor = depthBiasSlopeFactor;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetRasterizerDiscard(VkBool32 rasterizerDiscardEnable)
 	{
 		m_rasterizationState.rasterizerDiscardEnable = rasterizerDiscardEnable;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetSampleCounts(VkSampleCountFlagBits rasterizationSamples)
 	{
 		m_multiSampleState.rasterizationSamples = rasterizationSamples;
+
 		return TRUE;
 	}
 
@@ -275,24 +284,28 @@ namespace CrossEngine {
 
 		m_multiSampleState.sampleShadingEnable = sampleShadingEnable;
 		m_multiSampleState.minSampleShading = minSampleShading;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetSampleMask(const VkSampleMask* pSampleMask)
 	{
 		m_multiSampleState.pSampleMask = pSampleMask;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetSampleAlphaToCoverage(VkBool32 alphaToCoverageEnable)
 	{
 		m_multiSampleState.alphaToCoverageEnable = alphaToCoverageEnable;
+
 		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetSampleAlphaToOne(VkBool32 alphaToOneEnable)
 	{
 		m_multiSampleState.alphaToOneEnable = alphaToOneEnable;
+
 		return TRUE;
 	}
 
@@ -301,6 +314,7 @@ namespace CrossEngine {
 		m_depthStencilState.depthTestEnable = depthTestEnable;
 		m_depthStencilState.depthWriteEnable = depthWriteEnable;
 		m_depthStencilState.depthCompareOp = depthCompareOp;
+
 		return TRUE;
 	}
 
@@ -313,6 +327,7 @@ namespace CrossEngine {
 		m_depthStencilState.depthBoundsTestEnable = depthBoundsTestEnable;
 		m_depthStencilState.minDepthBounds = minDepthBounds;
 		m_depthStencilState.maxDepthBounds = maxDepthBounds;
+
 		return TRUE;
 	}
 
@@ -321,6 +336,7 @@ namespace CrossEngine {
 		m_depthStencilState.stencilTestEnable = stencilTestEnable;
 		m_depthStencilState.front = front;
 		m_depthStencilState.back = back;
+
 		return TRUE;
 	}
 
@@ -328,6 +344,7 @@ namespace CrossEngine {
 	{
 		m_colorBlendState.logicOpEnable = logicOpEnable;
 		m_colorBlendState.logicOp = logicOp;
+
 		return TRUE;
 	}
 
@@ -337,6 +354,7 @@ namespace CrossEngine {
 		m_colorBlendState.blendConstants[1] = g;
 		m_colorBlendState.blendConstants[2] = b;
 		m_colorBlendState.blendConstants[3] = a;
+
 		return TRUE;
 	}
 
@@ -350,6 +368,7 @@ namespace CrossEngine {
 		m_colorBlendAttachmentStates[attachment].dstAlphaBlendFactor = dstAlphaBlendFactor;
 		m_colorBlendAttachmentStates[attachment].alphaBlendOp = alphaBlendOp;
 		m_colorBlendAttachmentStates[attachment].colorWriteMask = colorWriteMask;
+
 		return TRUE;
 	}
 

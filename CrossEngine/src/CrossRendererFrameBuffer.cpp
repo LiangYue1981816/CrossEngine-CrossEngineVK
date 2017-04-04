@@ -51,6 +51,7 @@ namespace CrossEngine {
 		if (m_width != width || m_height != height) return FALSE;
 
 		m_views[indexAttachment] = vkView;
+
 		return TRUE;
 	}
 

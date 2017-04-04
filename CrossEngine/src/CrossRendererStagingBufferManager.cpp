@@ -76,6 +76,7 @@ namespace CrossEngine {
 	{
 		CRendererStagingBuffer *pBuffer = SAFE_NEW CRendererStagingBuffer(m_pDevice, size);
 		m_pBuffers[pBuffer] = pBuffer;
+
 		return pBuffer;
 	}
 
