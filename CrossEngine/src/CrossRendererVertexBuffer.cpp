@@ -40,6 +40,7 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CRendererBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
 		CALL_BOOL_FUNCTION_RETURN(UpdateData(size, offset, pBuffer));
+
 		return TRUE;
 	}
 

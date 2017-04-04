@@ -39,9 +39,13 @@ namespace CrossEngine {
 	public:
 		BOOL SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags = VK_SHADER_STAGE_ALL);
 
+	public:
 		virtual BOOL Create(void);
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
+
+	protected:
+		BOOL CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings);
 
 
 	public:

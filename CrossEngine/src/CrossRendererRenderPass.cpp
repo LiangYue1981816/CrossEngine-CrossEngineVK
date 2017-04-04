@@ -195,46 +195,9 @@ namespace CrossEngine {
 			std::map<uint32_t, std::vector<uint32_t>> preserveAttachments;
 			std::map<uint32_t, VkAttachmentReference> depthStencilAttachment;
 
-			for (std::map<uint32_t, VkAttachmentDescription>::const_iterator itAttachment = m_attachments.begin(); itAttachment != m_attachments.end(); ++itAttachment) {
-				attachments.push_back(itAttachment->second);
-			}
-
-			for (std::map<uint32_t, VkSubpassInformation>::const_iterator itSubpass = m_subpasses.begin(); itSubpass != m_subpasses.end(); ++itSubpass) {
-				depthStencilAttachment[itSubpass->first] = itSubpass->second.depthStencilAttachment;
-
-				for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.inputAttachments.begin(); itAttachment != itSubpass->second.inputAttachments.end(); ++itAttachment) {
-					inputAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
-				}
-
-				for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.colorAttachments.begin(); itAttachment != itSubpass->second.colorAttachments.end(); ++itAttachment) {
-					colorAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
-				}
-
-				for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.resolveAttachments.begin(); itAttachment != itSubpass->second.resolveAttachments.end(); ++itAttachment) {
-					resolveAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
-				}
-
-				for (std::map<uint32_t, uint32_t>::const_iterator itAttachment = itSubpass->second.preserveAttachments.begin(); itAttachment != itSubpass->second.preserveAttachments.end(); ++itAttachment) {
-					preserveAttachments[itSubpass->first].push_back(itAttachment->second);
-				}
-
-				VkSubpassDescription subpass;
-				subpass.flags = 0;
-				subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-				subpass.inputAttachmentCount = inputAttachments[itSubpass->first].size();
-				subpass.colorAttachmentCount = colorAttachments[itSubpass->first].size();
-				subpass.preserveAttachmentCount = preserveAttachments[itSubpass->first].size();
-				subpass.pInputAttachments = inputAttachments[itSubpass->first].data();
-				subpass.pColorAttachments = colorAttachments[itSubpass->first].data();
-				subpass.pResolveAttachments = resolveAttachments[itSubpass->first].data();
-				subpass.pPreserveAttachments = preserveAttachments[itSubpass->first].data();
-				subpass.pDepthStencilAttachment = depthStencilAttachment[itSubpass->first].layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &depthStencilAttachment[itSubpass->first];
-				subpasses.push_back(subpass);
-			}
-
-			for (std::map<uint32_t, VkSubpassDependency>::const_iterator itDependency = m_dependencies.begin(); itDependency != m_dependencies.end(); ++itDependency) {
-				dependencies.push_back(itDependency->second);
-			}
+			CreateAttachments(attachments);
+			CreateSubpasses(subpasses, inputAttachments, colorAttachments, resolveAttachments, preserveAttachments, depthStencilAttachment);
+			CreateDependencies(dependencies);
 
 			VkRenderPassCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -256,6 +219,73 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	BOOL CRendererRenderPass::CreateAttachments(std::vector<VkAttachmentDescription> &attachments)
+	{
+		attachments.clear();
+
+		for (std::map<uint32_t, VkAttachmentDescription>::const_iterator itAttachment = m_attachments.begin(); itAttachment != m_attachments.end(); ++itAttachment) {
+			attachments.push_back(itAttachment->second);
+		}
+
+		return TRUE;
+	}
+
+	BOOL CRendererRenderPass::CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment)
+	{
+		subpasses.clear();
+		inputAttachments.clear();
+		colorAttachments.clear();
+		resolveAttachments.clear();
+		preserveAttachments.clear();
+		depthStencilAttachment.clear();
+
+		for (std::map<uint32_t, VkSubpassInformation>::const_iterator itSubpass = m_subpasses.begin(); itSubpass != m_subpasses.end(); ++itSubpass) {
+			depthStencilAttachment[itSubpass->first] = itSubpass->second.depthStencilAttachment;
+
+			for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.inputAttachments.begin(); itAttachment != itSubpass->second.inputAttachments.end(); ++itAttachment) {
+				inputAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
+			}
+
+			for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.colorAttachments.begin(); itAttachment != itSubpass->second.colorAttachments.end(); ++itAttachment) {
+				colorAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
+			}
+
+			for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.resolveAttachments.begin(); itAttachment != itSubpass->second.resolveAttachments.end(); ++itAttachment) {
+				resolveAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
+			}
+
+			for (std::map<uint32_t, uint32_t>::const_iterator itAttachment = itSubpass->second.preserveAttachments.begin(); itAttachment != itSubpass->second.preserveAttachments.end(); ++itAttachment) {
+				preserveAttachments[itSubpass->first].push_back(itAttachment->second);
+			}
+
+			VkSubpassDescription subpass;
+			subpass.flags = 0;
+			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+			subpass.inputAttachmentCount = inputAttachments[itSubpass->first].size();
+			subpass.colorAttachmentCount = colorAttachments[itSubpass->first].size();
+			subpass.preserveAttachmentCount = preserveAttachments[itSubpass->first].size();
+			subpass.pInputAttachments = inputAttachments[itSubpass->first].data();
+			subpass.pColorAttachments = colorAttachments[itSubpass->first].data();
+			subpass.pResolveAttachments = resolveAttachments[itSubpass->first].data();
+			subpass.pPreserveAttachments = preserveAttachments[itSubpass->first].data();
+			subpass.pDepthStencilAttachment = depthStencilAttachment[itSubpass->first].layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &depthStencilAttachment[itSubpass->first];
+			subpasses.push_back(subpass);
+		}
+
+		return TRUE;
+	}
+
+	BOOL CRendererRenderPass::CreateDependencies(std::vector<VkSubpassDependency> &dependencies)
+	{
+		dependencies.clear();
+
+		for (std::map<uint32_t, VkSubpassDependency>::const_iterator itDependency = m_dependencies.begin(); itDependency != m_dependencies.end(); ++itDependency) {
+			dependencies.push_back(itDependency->second);
+		}
+
+		return TRUE;
 	}
 
 	void CRendererRenderPass::Destroy(void)

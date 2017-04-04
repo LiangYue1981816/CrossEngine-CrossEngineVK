@@ -47,6 +47,9 @@ namespace CrossEngine {
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
 
+	protected:
+		shaderc::CompileOptions CreateCompileOptions(void);
+
 
 	public:
 		VkShaderModule GetShaderModule(void) const;

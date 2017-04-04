@@ -58,16 +58,8 @@ namespace CrossEngine {
 	BOOL CRendererFrameBuffer::Create(VkRenderPass vkRenderPass)
 	{
 		try {
-			if (m_views.empty()) {
-				return FALSE;
-			}
-
-			uint32_t numAttachment = 0;
-			std::vector<VkImageView> attachments(m_pDevice->GetDeviceProperties().limits.maxColorAttachments);
-			for (std::map<uint32_t, VkImageView>::const_iterator itAttachment = m_views.begin(); itAttachment != m_views.end(); ++itAttachment) {
-				numAttachment = max(numAttachment, itAttachment->first + 1);
-				attachments[itAttachment->first] = itAttachment->second;
-			}
+			std::vector<VkImageView> attachments;
+			uint32_t numAttachment = CreateAttachments(attachments);
 
 			VkFramebufferCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -89,6 +81,21 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	uint32_t CRendererFrameBuffer::CreateAttachments(std::vector<VkImageView> &attachments)
+	{
+		uint32_t numAttachment = 0;
+
+		attachments.clear();
+		attachments.resize(m_pDevice->GetDeviceProperties().limits.maxColorAttachments);
+
+		for (std::map<uint32_t, VkImageView>::const_iterator itAttachment = m_views.begin(); itAttachment != m_views.end(); ++itAttachment) {
+			numAttachment = max(numAttachment, itAttachment->first + 1);
+			attachments[itAttachment->first] = itAttachment->second;
+		}
+
+		return numAttachment;
 	}
 
 	void CRendererFrameBuffer::Destroy(void)

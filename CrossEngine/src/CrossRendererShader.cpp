@@ -68,7 +68,15 @@ namespace CrossEngine {
 
 	BOOL CRendererShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)
 	{
+		shaderc::CompileOptions options = CreateCompileOptions();
+		std::vector<uint32_t> words = CompileShader(szSource, length, kind, options);
+		return Create(words.data(), words.size());
+	}
+
+	shaderc::CompileOptions CRendererShader::CreateCompileOptions(void)
+	{
 		shaderc::CompileOptions options(((CRendererShaderManager *)m_pManager)->GetCompileOptions());
+
 		for (std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.begin(); itMacroDefinition != m_strMacroDefinitions.end(); ++itMacroDefinition) {
 			if (itMacroDefinition->second.empty()) {
 				options.AddMacroDefinition(itMacroDefinition->first.c_str());
@@ -78,8 +86,7 @@ namespace CrossEngine {
 			}
 		}
 
-		std::vector<uint32_t> words = CompileShader(szSource, length, kind, options);
-		return Create(words.data(), words.size());
+		return options;
 	}
 
 	BOOL CRendererShader::Create(const uint32_t *words, size_t numWords)

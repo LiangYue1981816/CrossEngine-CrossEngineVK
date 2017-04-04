@@ -61,9 +61,15 @@ namespace CrossEngine {
 		void SetClearColorValue(float red, float green, float blue, float alpha);
 		void SetClearDepthStencilValue(float depth, uint32_t stencil);
 
+	public:
 		virtual BOOL Create(void);
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
+
+	protected:
+		BOOL CreateAttachments(std::vector<VkAttachmentDescription> &attachments);
+		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment);
+		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
 
 
 	public:

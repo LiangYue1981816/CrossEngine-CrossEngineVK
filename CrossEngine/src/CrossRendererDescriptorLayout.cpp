@@ -55,9 +55,7 @@ namespace CrossEngine {
 	{
 		try {
 			std::vector<VkDescriptorSetLayoutBinding> bindings;
-			for (std::map<uint32_t, VkDescriptorSetLayoutBinding>::const_iterator itBinding = m_bindings.begin(); itBinding != m_bindings.end(); ++itBinding) {
-				bindings.push_back(itBinding->second);
-			}
+			CreateBindings(bindings);
 
 			VkDescriptorSetLayoutCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -75,6 +73,17 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	BOOL CRendererDescriptorSetLayout::CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings)
+	{
+		bindings.clear();
+
+		for (std::map<uint32_t, VkDescriptorSetLayoutBinding>::const_iterator itBinding = m_bindings.begin(); itBinding != m_bindings.end(); ++itBinding) {
+			bindings.push_back(itBinding->second);
+		}
+
+		return TRUE;
 	}
 
 	void CRendererDescriptorSetLayout::Destroy(void)
