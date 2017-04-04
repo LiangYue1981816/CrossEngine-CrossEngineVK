@@ -305,6 +305,11 @@ void Test(CrossEngine::CRendererDevice *pDevice)
 		layout(location = 1) in vec3 inNormal;\n\
 		layout(location = 2) in vec3 inColor;\n\
 		layout(location = 3) in vec2 inTexcoord0;\n\
+		layout(set = 0, binding = 0) uniform sampler2D uniformDiffuse0;\n\
+		layout(set = 0, binding = 1) uniform sampler2D uniformDiffuse1;\n\
+		layout(set = 1, binding = 0) uniform sampler2D uniformDiffuse2;\n\
+		layout(set = 1, binding = 1) uniform sampler2D uniformDiffuse3;\n\
+		layout(set = 2, binding = 0) uniform uniformMVP { mat4 transform; };\n\
 		void main() {}";
 
 		pShader->Create(source.c_str(), source.size(), shaderc_glsl_vertex_shader);

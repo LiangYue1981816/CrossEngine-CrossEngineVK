@@ -418,18 +418,20 @@ namespace CrossEngine {
 		inputAttributeDescriptions.clear();
 
 		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
-			uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str());
-			m_vertexFormat |= attribute;
+			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
+				m_vertexFormat |= attribute;
+			}
 		}
 
 		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
-			uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str());
-			VkVertexInputAttributeDescription inputAttributeDescription;
-			inputAttributeDescription.binding = 0;
-			inputAttributeDescription.location = variable.second.location;
-			inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
-			inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
-			inputAttributeDescriptions.push_back(inputAttributeDescription);
+			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
+				VkVertexInputAttributeDescription inputAttributeDescription;
+				inputAttributeDescription.binding = 0;
+				inputAttributeDescription.location = variable.second.location;
+				inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
+				inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
+				inputAttributeDescriptions.push_back(inputAttributeDescription);
+			}
 		}
 
 		VkVertexInputBindingDescription inputBindingDescription;
