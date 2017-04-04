@@ -42,6 +42,23 @@ namespace CrossEngine {
 		CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD7
 	};
 
+	static const VkFormat vertexAttributeFormats[CRendererDevice::ATTRIBUTE_COUNT] = {
+		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_POSITION
+		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_NORMAL
+		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_BINORMAL
+		VK_FORMAT_R32G32B32_SFLOAT, // ATTRIBUTE_COLOR
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_SKIN_INDEX
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_SKIN_WEIGHT
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD0
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD1
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD2
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD3
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD4
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD5
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD6
+		VK_FORMAT_R32G32_SFLOAT,    // ATTRIBUTE_TEXCOORD7
+	};
+
 	static const uint32_t vertexAttributeSizes[CRendererDevice::ATTRIBUTE_COUNT] = {
 		12, // ATTRIBUTE_POSITION
 		12, // ATTRIBUTE_NORMAL
@@ -110,6 +127,17 @@ namespace CrossEngine {
 		}
 
 		return 0;
+	}
+
+	VkFormat CRendererDevice::GetVertexAttributeFormat(uint32_t attribute) const
+	{
+		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
+			if (attribute == vertexAttributeFlags[indexAttribute]) {
+				return vertexAttributeFormats[indexAttribute];
+			}
+		}
+
+		return VK_FORMAT_UNDEFINED;
 	}
 
 }

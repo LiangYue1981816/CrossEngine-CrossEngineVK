@@ -139,6 +139,11 @@ namespace CrossEngine {
 
 	}
 
+	uint32_t CRendererPipelineGraphics::GetVertexFormat(void) const
+	{
+		return m_vertexFormat;
+	}
+
 	BOOL CRendererPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT] = module;
@@ -422,7 +427,7 @@ namespace CrossEngine {
 			VkVertexInputAttributeDescription inputAttributeDescription;
 			inputAttributeDescription.binding = 0;
 			inputAttributeDescription.location = variable.second.location;
-			inputAttributeDescription.format = (VkFormat)variable.second.type_id;
+			inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
 			inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
 			inputAttributeDescriptions.push_back(inputAttributeDescription);
 		}

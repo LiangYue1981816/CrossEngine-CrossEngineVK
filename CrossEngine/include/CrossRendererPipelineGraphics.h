@@ -37,6 +37,8 @@ namespace CrossEngine {
 
 
 	public:
+		uint32_t GetVertexFormat(void) const;
+
 		BOOL SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
 		BOOL SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
 		BOOL SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
