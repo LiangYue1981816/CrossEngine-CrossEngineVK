@@ -195,9 +195,9 @@ namespace CrossEngine {
 			std::map<uint32_t, std::vector<uint32_t>> preserveAttachments;
 			std::map<uint32_t, VkAttachmentReference> depthStencilAttachment;
 
-			CreateAttachments(attachments);
-			CreateSubpasses(subpasses, inputAttachments, colorAttachments, resolveAttachments, preserveAttachments, depthStencilAttachment);
-			CreateDependencies(dependencies);
+			CALL_BOOL_FUNCTION_THROW(CreateAttachments(attachments));
+			CALL_BOOL_FUNCTION_THROW(CreateSubpasses(subpasses, inputAttachments, colorAttachments, resolveAttachments, preserveAttachments, depthStencilAttachment));
+			CALL_BOOL_FUNCTION_THROW(CreateDependencies(dependencies));
 
 			VkRenderPassCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
