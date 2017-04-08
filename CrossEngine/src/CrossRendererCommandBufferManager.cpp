@@ -43,8 +43,8 @@ namespace CrossEngine {
 
 	void CRendererCommandBufferManager::Destroy(void)
 	{
-		for (std::map<uint32_t, CRendererCommandPool*>::const_iterator itCommandPool = m_pCommandPools.begin(); itCommandPool != m_pCommandPools.end(); ++itCommandPool) {
-			if (CRendererCommandPool *pCommandPool = itCommandPool->second) {
+		for (const auto &itCommandPool : m_pCommandPools) {
+			if (CRendererCommandPool *pCommandPool = itCommandPool.second) {
 				SAFE_DELETE(pCommandPool);
 			}
 		}
@@ -69,7 +69,7 @@ namespace CrossEngine {
 
 	CRendererCommandPool* CRendererCommandBufferManager::GetCommandPool(uint32_t pool)
 	{
-		std::map<uint32_t, CRendererCommandPool*>::const_iterator itCommandPool = m_pCommandPools.find(pool);
+		const auto &itCommandPool = m_pCommandPools.find(pool);
 		if (itCommandPool != m_pCommandPools.end()) return itCommandPool->second;
 
 		CRendererCommandPool *pCommandPool = SAFE_NEW CRendererCommandPool(m_pDevice);

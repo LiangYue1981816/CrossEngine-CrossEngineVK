@@ -90,9 +90,9 @@ namespace CrossEngine {
 		attachments.clear();
 		attachments.resize(m_pDevice->GetDeviceProperties().limits.maxColorAttachments);
 
-		for (std::map<uint32_t, VkImageView>::const_iterator itAttachment = m_views.begin(); itAttachment != m_views.end(); ++itAttachment) {
-			numAttachment = max(numAttachment, itAttachment->first + 1);
-			attachments[itAttachment->first] = itAttachment->second;
+		for (const auto &itAttachment : m_views) {
+			numAttachment = max(numAttachment, itAttachment.first + 1);
+			attachments[itAttachment.first] = itAttachment.second;
 		}
 
 		return numAttachment;
@@ -115,9 +115,9 @@ namespace CrossEngine {
 	{
 		if (m_vkFrameBuffer) {
 			LOGI("\t\tFrameBuffer 0x%x: width = %d height = %d\n", m_vkFrameBuffer, m_width, m_height);
-			for (std::map<uint32_t, VkImageView>::const_iterator itAttachment = m_views.begin(); itAttachment != m_views.end(); ++itAttachment) {
-				if (const VkImageView view = itAttachment->second) {
-					LOGI("\t\t\tAttachment %d: view = 0x%x\n", itAttachment->first, view);
+			for (const auto &itAttachment : m_views) {
+				if (const VkImageView view = itAttachment.second) {
+					LOGI("\t\t\tAttachment %d: view = 0x%x\n", itAttachment.first, view);
 				}
 			}
 		}

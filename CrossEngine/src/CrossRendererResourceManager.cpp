@@ -43,8 +43,8 @@ namespace CrossEngine {
 
 	void CRendererResourceManager::Destroy(void)
 	{
-		for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-			if (CRendererResource *pResource = itResource->second) {
+		for (const auto &itResource : m_pResources) {
+			if (CRendererResource *pResource = itResource.second) {
 				pResource->Destroy();
 				SAFE_DELETE(pResource);
 			}
@@ -56,7 +56,7 @@ namespace CrossEngine {
 	void CRendererResourceManager::Free(CRendererResource *pResource)
 	{
 		if (pResource) {
-			std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.find(pResource);
+			const auto &itResource = m_pResources.find(pResource);
 			if (itResource != m_pResources.end()) m_pResources.erase(itResource);
 
 			pResource->Destroy();
@@ -71,8 +71,8 @@ namespace CrossEngine {
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
-			for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-				if (const CRendererResource *pResource = itResource->second) {
+			for (const auto &itResource : m_pResources) {
+				if (const CRendererResource *pResource = itResource.second) {
 					pResource->DumpLog();
 					count++;
 				}

@@ -79,8 +79,8 @@ namespace CrossEngine {
 	{
 		bindings.clear();
 
-		for (std::map<uint32_t, VkDescriptorSetLayoutBinding>::const_iterator itBinding = m_bindings.begin(); itBinding != m_bindings.end(); ++itBinding) {
-			bindings.push_back(itBinding->second);
+		for (const auto &itBinding : m_bindings) {
+			bindings.push_back(itBinding.second);
 		}
 
 		return TRUE;

@@ -431,14 +431,14 @@ namespace CrossEngine {
 
 	void CRendererPipelineGraphics::Destroy(void)
 	{
-		for (std::vector<CRendererDescriptorSet*>::const_iterator itDescriptorSet = m_pDescriptorSets.begin(); itDescriptorSet != m_pDescriptorSets.end(); ++itDescriptorSet) {
-			if (CRendererDescriptorSet *pDescriptorSet = *itDescriptorSet) {
+		for (const auto &itDescriptorSet : m_pDescriptorSets) {
+			if (CRendererDescriptorSet *pDescriptorSet = itDescriptorSet) {
 				m_pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSet);
 			}
 		}
 
-		for (std::vector<CRendererDescriptorSetLayout*>::const_iterator itDescriptorSetLayout = m_pDescriptorSetLayouts.begin(); itDescriptorSetLayout != m_pDescriptorSetLayouts.end(); ++itDescriptorSetLayout) {
-			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = *itDescriptorSetLayout) {
+		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout) {
 				m_pDevice->GetDescriptorSetLayoutManager()->Free(pDescriptorSetLayout);
 			}
 		}
@@ -470,8 +470,8 @@ namespace CrossEngine {
 		std::map<uint32_t, uint32_t[VK_DESCRIPTOR_TYPE_RANGE_SIZE]> counts;
 		std::map<uint32_t, CRendererDescriptorSetLayout*> pDescriptorSetLayouts;
 
-		for (std::map<VkShaderStageFlagBits, spirv::module_type>::const_iterator itMoudle = m_shaderModules.begin(); itMoudle != m_shaderModules.end(); ++itMoudle) {
-			for (const auto &variable : itMoudle->second.variables) {
+		for (const auto &itMoudle : m_shaderModules) {
+			for (const auto &variable : itMoudle.second.variables) {
 				if (variable.second.storage_class != SpvStorageClassUniform &&
 					variable.second.storage_class != SpvStorageClassUniformConstant) {
 					continue;
@@ -479,6 +479,7 @@ namespace CrossEngine {
 
 				uint32_t set = variable.second.descriptor_set;
 				uint32_t binding = variable.second.binding;
+				VkShaderStageFlags shaderStageFlags = itMoudle.first;
 
 				if (pDescriptorSetLayouts[set] == NULL) {
 					pDescriptorSetLayouts[set] = m_pDevice->GetDescriptorSetLayoutManager()->AllocDescriptorSetLayout();
@@ -488,41 +489,43 @@ namespace CrossEngine {
 				if (variable.second.storage_class == SpvStorageClassUniform) {
 					counts[set][VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER]++;
 					types[set][binding] = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-					names[set][binding] = itMoudle->second.struct_types.at(variable.second.type_id).name;
-					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, itMoudle->first);
+					names[set][binding] = itMoudle.second.struct_types.at(variable.second.type_id).name;
+					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniformConstant) {
 					counts[set][VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER]++;
 					types[set][binding] = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 					names[set][binding] = variable.second.name;
-					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, itMoudle->first);
+					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
 				}
 			}
 		}
 
-		for (std::map<uint32_t, CRendererDescriptorSetLayout*>::const_iterator itDescriptorSetLayout = pDescriptorSetLayouts.begin(); itDescriptorSetLayout != pDescriptorSetLayouts.end(); ++itDescriptorSetLayout) {
-			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout->second) {
+		for (const auto &itDescriptorSetLayout : pDescriptorSetLayouts) {
+			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
+				uint32_t set = itDescriptorSetLayout.first;
+
 				BOOL rcode = pDescriptorSetLayout->Create();
 				if (rcode == FALSE) return FALSE;
 
 				m_pDescriptorSetLayouts.push_back(pDescriptorSetLayout);
 
-				CRendererDescriptorSet *pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetSetLayout(), counts[itDescriptorSetLayout->first]);
+				CRendererDescriptorSet *pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetSetLayout(), counts[set]);
 				if (pDescriptorSet == NULL) return FALSE;
 
 				m_pDescriptorSets.push_back(pDescriptorSet);
 
-				for (std::map<uint32_t, std::string>::const_iterator itName = names[itDescriptorSetLayout->first].begin(); itName != names[itDescriptorSetLayout->first].end(); ++itName) {
-					uint32_t set = itDescriptorSetLayout->first;
-					uint32_t binding = itName->first;
+				for (const auto &itName : names[set]) {
+					uint32_t binding = itName.first;
+					const std::string &name = itName.second;
 
 					if (types[set][binding] == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) {
-						m_buffers[itName->second].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
+						m_buffers[name].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
 					}
 
 					if (types[set][binding] == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) {
-						m_images[itName->second].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
+						m_images[name].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
 					}
 				}
 
@@ -537,9 +540,9 @@ namespace CrossEngine {
 	{
 		shaderStages.clear();
 
-		for (std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo>::const_iterator itShaderStage = m_shaderStages.begin(); itShaderStage != m_shaderStages.end(); ++itShaderStage) {
-			if (itShaderStage->second.module != VK_NULL_HANDLE) {
-				shaderStages.push_back(itShaderStage->second);
+		for (const auto &itShaderStage : m_shaderStages) {
+			if (itShaderStage.second.module != VK_NULL_HANDLE) {
+				shaderStages.push_back(itShaderStage.second);
 			}
 		}
 
@@ -592,8 +595,8 @@ namespace CrossEngine {
 	{
 		colorBlendAttachments.clear();
 
-		for (std::map<uint32_t, VkPipelineColorBlendAttachmentState>::const_iterator itColorBlendAttachment = m_colorBlendAttachmentStates.begin(); itColorBlendAttachment != m_colorBlendAttachmentStates.end(); ++itColorBlendAttachment) {
-			colorBlendAttachments.push_back(itColorBlendAttachment->second);
+		for (const auto &itColorBlendAttachment : m_colorBlendAttachmentStates) {
+			colorBlendAttachments.push_back(itColorBlendAttachment.second);
 		}
 
 		m_colorBlendState.attachmentCount = colorBlendAttachments.size();

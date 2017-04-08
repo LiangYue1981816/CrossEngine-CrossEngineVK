@@ -59,8 +59,8 @@ namespace CrossEngine {
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
-			for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-				if (const CRendererPipeline *pResource = (CRendererPipeline *)itResource->second) {
+			for (const auto &itResource : m_pResources) {
+				if (const CRendererPipeline *pResource = (CRendererPipeline *)itResource.second) {
 					pResource->DumpLog();
 					count++;
 				}

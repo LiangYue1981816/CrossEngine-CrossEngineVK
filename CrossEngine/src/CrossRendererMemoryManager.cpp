@@ -43,8 +43,8 @@ namespace CrossEngine {
 
 	void CRendererMemoryManager::Destroy(void)
 	{
-		for (std::map<uint32_t, CRendererMemoryAllocator*>::const_iterator itAllocator = m_pAllocatorListHeads.begin(); itAllocator != m_pAllocatorListHeads.end(); ++itAllocator) {
-			if (CRendererMemoryAllocator *pAllocator = itAllocator->second) {
+		for (const auto &itAllocator : m_pAllocatorListHeads) {
+			if (CRendererMemoryAllocator *pAllocator = itAllocator.second) {
 				CRendererMemoryAllocator *pAllocatorNext = NULL;
 				do {
 					pAllocatorNext = pAllocator->pNext;
@@ -130,10 +130,10 @@ namespace CrossEngine {
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
-			for (std::map<uint32_t, CRendererMemoryAllocator*>::const_iterator itAllocator = m_pAllocatorListHeads.begin(); itAllocator != m_pAllocatorListHeads.end(); ++itAllocator) {
-				LOGI("\tMemory type index: %d\n", itAllocator->first);
+			for (const auto &itAllocator : m_pAllocatorListHeads) {
+				LOGI("\tMemory type index: %d\n", itAllocator.first);
 
-				if (const CRendererMemoryAllocator *pAllocator = itAllocator->second) {
+				if (const CRendererMemoryAllocator *pAllocator = itAllocator.second) {
 					do {
 						pAllocator->DumpLog();
 						size += pAllocator->GetFullSize();

@@ -55,14 +55,14 @@ namespace CrossEngine {
 			m_pDevice->GetFenceManager()->Free(m_pFence);
 		}
 
-		for (std::vector<CRendererStagingBuffer*>::const_iterator itPending = m_pPendings.begin(); itPending != m_pPendings.end(); ++itPending) {
-			if (CRendererStagingBuffer *pBuffer = *itPending) {
+		for (const auto &itPending : m_pPendings) {
+			if (CRendererStagingBuffer *pBuffer = itPending) {
 				SAFE_DELETE(pBuffer);
 			}
 		}
 
-		for (std::map<CRendererStagingBuffer*, CRendererStagingBuffer*>::const_iterator itBuffer = m_pBuffers.begin(); itBuffer != m_pBuffers.end(); ++itBuffer) {
-			if (CRendererStagingBuffer *pBuffer = itBuffer->second) {
+		for (const auto &itBuffer : m_pBuffers) {
+			if (CRendererStagingBuffer *pBuffer = itBuffer.second) {
 				SAFE_DELETE(pBuffer);
 			}
 		}
@@ -82,7 +82,7 @@ namespace CrossEngine {
 
 	void CRendererStagingBufferManager::FreeBuffer(CRendererStagingBuffer *pBuffer)
 	{
-		std::map<CRendererStagingBuffer*, CRendererStagingBuffer*>::const_iterator itBuffer = m_pBuffers.find(pBuffer);
+		const auto &itBuffer = m_pBuffers.find(pBuffer);
 		if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
 
 		SAFE_DELETE(pBuffer);
@@ -90,7 +90,7 @@ namespace CrossEngine {
 
 	void CRendererStagingBufferManager::PendFreeBuffer(CRendererStagingBuffer *pBuffer)
 	{
-		std::map<CRendererStagingBuffer*, CRendererStagingBuffer*>::const_iterator itBuffer = m_pBuffers.find(pBuffer);
+		const auto &itBuffer = m_pBuffers.find(pBuffer);
 		if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
 
 		m_pPendings.push_back(pBuffer);
@@ -101,8 +101,8 @@ namespace CrossEngine {
 		try {
 			if (m_pPendings.size()) {
 				std::vector<VkCommandBuffer> commandBuffers;
-				for (std::vector<CRendererStagingBuffer*>::const_iterator itPending = m_pPendings.begin(); itPending != m_pPendings.end(); ++itPending) {
-					if (CRendererStagingBuffer *pBuffer = *itPending) {
+				for (const auto &itPending : m_pPendings) {
+					if (CRendererStagingBuffer *pBuffer = itPending) {
 						commandBuffers.push_back(pBuffer->GetCommandBuffer()->GetCommandBuffer());
 					}
 				}
@@ -111,8 +111,8 @@ namespace CrossEngine {
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(commandBuffers.size(), commandBuffers.data(), NULL, NULL, NULL, m_pFence->GetFence()));
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
 
-				for (std::vector<CRendererStagingBuffer*>::const_iterator itPending = m_pPendings.begin(); itPending != m_pPendings.end(); ++itPending) {
-					if (CRendererStagingBuffer *pBuffer = *itPending) {
+				for (const auto &itPending : m_pPendings) {
+					if (CRendererStagingBuffer *pBuffer = itPending) {
 						SAFE_DELETE(pBuffer);
 					}
 				}

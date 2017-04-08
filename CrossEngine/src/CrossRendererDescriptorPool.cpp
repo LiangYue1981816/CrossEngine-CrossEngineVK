@@ -104,7 +104,7 @@ namespace CrossEngine {
 	void CRendererDescriptorPool::FreeDescriptorSet(CRendererDescriptorSet *pDescriptorSet)
 	{
 		if (pDescriptorSet) {
-			std::map<CRendererDescriptorSet*, CRendererDescriptorSet*>::const_iterator itDescriptorSet = m_pDescriptorSets.find(pDescriptorSet);
+			const auto &itDescriptorSet = m_pDescriptorSets.find(pDescriptorSet);
 			if (itDescriptorSet != m_pDescriptorSets.end()) m_pDescriptorSets.erase(itDescriptorSet);
 
 			VkDescriptorSet vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
@@ -121,8 +121,8 @@ namespace CrossEngine {
 
 	void CRendererDescriptorPool::ResetDescriptorPool(void)
 	{
-		for (std::map<CRendererDescriptorSet*, CRendererDescriptorSet*>::const_iterator itDescriptorSet = m_pDescriptorSets.begin(); itDescriptorSet != m_pDescriptorSets.end(); ++itDescriptorSet) {
-			if (CRendererDescriptorSet *pDescriptorSet = itDescriptorSet->second) {
+		for (const auto &itDescriptorSet : m_pDescriptorSets) {
+			if (CRendererDescriptorSet *pDescriptorSet = itDescriptorSet.second) {
 				SAFE_DELETE(pDescriptorSet);
 			}
 		}

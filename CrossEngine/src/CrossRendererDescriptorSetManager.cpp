@@ -43,8 +43,8 @@ namespace CrossEngine {
 
 	void CRendererDescriptorSetManager::Destroy(void)
 	{
-		for (std::map<uint32_t, CRendererDescriptorPool*>::const_iterator itDescriptorPool = m_pDescriptorPools.begin(); itDescriptorPool != m_pDescriptorPools.end(); ++itDescriptorPool) {
-			if (CRendererDescriptorPool *pDescriptorPool = itDescriptorPool->second) {
+		for (const auto &itDescriptorPool : m_pDescriptorPools) {
+			if (CRendererDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
 				SAFE_DELETE(pDescriptorPool);
 			}
 		}
@@ -69,7 +69,7 @@ namespace CrossEngine {
 
 	CRendererDescriptorPool* CRendererDescriptorSetManager::GetDescriptorPool(uint32_t pool)
 	{
-		std::map<uint32_t, CRendererDescriptorPool*>::const_iterator itDescriptorPool = m_pDescriptorPools.find(pool);
+		const auto &itDescriptorPool = m_pDescriptorPools.find(pool);
 		if (itDescriptorPool != m_pDescriptorPools.end()) return itDescriptorPool->second;
 
 		CRendererDescriptorPool *pDescriptorPool = SAFE_NEW CRendererDescriptorPool(m_pDevice);
@@ -85,9 +85,9 @@ namespace CrossEngine {
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
-			for (std::map<uint32_t, CRendererDescriptorPool*>::const_iterator itDescriptorPool = m_pDescriptorPools.begin(); itDescriptorPool != m_pDescriptorPools.end(); ++itDescriptorPool) {
-				if (CRendererDescriptorPool *pDescriptorPool = itDescriptorPool->second) {
-					LOGI("\tPool = %d\n", itDescriptorPool->first);
+			for (const auto &itDescriptorPool : m_pDescriptorPools) {
+				if (CRendererDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+					LOGI("\tPool = %d\n", itDescriptorPool.first);
 					pDescriptorPool->DumpLog();
 					count += pDescriptorPool->GetDescriptorSetCount();
 				}

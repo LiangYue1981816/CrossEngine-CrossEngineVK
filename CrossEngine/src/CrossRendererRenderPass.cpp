@@ -225,8 +225,8 @@ namespace CrossEngine {
 	{
 		attachments.clear();
 
-		for (std::map<uint32_t, VkAttachmentDescription>::const_iterator itAttachment = m_attachments.begin(); itAttachment != m_attachments.end(); ++itAttachment) {
-			attachments.push_back(itAttachment->second);
+		for (const auto &itAttachment : m_attachments) {
+			attachments.push_back(itAttachment.second);
 		}
 
 		return TRUE;
@@ -241,36 +241,36 @@ namespace CrossEngine {
 		preserveAttachments.clear();
 		depthStencilAttachment.clear();
 
-		for (std::map<uint32_t, VkSubpassInformation>::const_iterator itSubpass = m_subpasses.begin(); itSubpass != m_subpasses.end(); ++itSubpass) {
-			depthStencilAttachment[itSubpass->first] = itSubpass->second.depthStencilAttachment;
+		for (const auto &itSubpass : m_subpasses) {
+			depthStencilAttachment[itSubpass.first] = itSubpass.second.depthStencilAttachment;
 
-			for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.inputAttachments.begin(); itAttachment != itSubpass->second.inputAttachments.end(); ++itAttachment) {
-				inputAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
+			for (const auto &itAttachment : itSubpass.second.inputAttachments) {
+				inputAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
-			for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.colorAttachments.begin(); itAttachment != itSubpass->second.colorAttachments.end(); ++itAttachment) {
-				colorAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
+			for (const auto &itAttachment : itSubpass.second.colorAttachments) {
+				colorAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
-			for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.resolveAttachments.begin(); itAttachment != itSubpass->second.resolveAttachments.end(); ++itAttachment) {
-				resolveAttachments[itSubpass->first].push_back(VkAttachmentReference{ itAttachment->first, itAttachment->second });
+			for (const auto &itAttachment : itSubpass.second.resolveAttachments) {
+				resolveAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
-			for (std::map<uint32_t, uint32_t>::const_iterator itAttachment = itSubpass->second.preserveAttachments.begin(); itAttachment != itSubpass->second.preserveAttachments.end(); ++itAttachment) {
-				preserveAttachments[itSubpass->first].push_back(itAttachment->second);
+			for (const auto &itAttachment : itSubpass.second.preserveAttachments) {
+				preserveAttachments[itSubpass.first].push_back(itAttachment.second);
 			}
 
 			VkSubpassDescription subpass;
 			subpass.flags = 0;
 			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-			subpass.inputAttachmentCount = inputAttachments[itSubpass->first].size();
-			subpass.colorAttachmentCount = colorAttachments[itSubpass->first].size();
-			subpass.preserveAttachmentCount = preserveAttachments[itSubpass->first].size();
-			subpass.pInputAttachments = inputAttachments[itSubpass->first].data();
-			subpass.pColorAttachments = colorAttachments[itSubpass->first].data();
-			subpass.pResolveAttachments = resolveAttachments[itSubpass->first].data();
-			subpass.pPreserveAttachments = preserveAttachments[itSubpass->first].data();
-			subpass.pDepthStencilAttachment = depthStencilAttachment[itSubpass->first].layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &depthStencilAttachment[itSubpass->first];
+			subpass.inputAttachmentCount = inputAttachments[itSubpass.first].size();
+			subpass.colorAttachmentCount = colorAttachments[itSubpass.first].size();
+			subpass.preserveAttachmentCount = preserveAttachments[itSubpass.first].size();
+			subpass.pInputAttachments = inputAttachments[itSubpass.first].data();
+			subpass.pColorAttachments = colorAttachments[itSubpass.first].data();
+			subpass.pResolveAttachments = resolveAttachments[itSubpass.first].data();
+			subpass.pPreserveAttachments = preserveAttachments[itSubpass.first].data();
+			subpass.pDepthStencilAttachment = depthStencilAttachment[itSubpass.first].layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &depthStencilAttachment[itSubpass.first];
 			subpasses.push_back(subpass);
 		}
 
@@ -281,8 +281,8 @@ namespace CrossEngine {
 	{
 		dependencies.clear();
 
-		for (std::map<uint32_t, VkSubpassDependency>::const_iterator itDependency = m_dependencies.begin(); itDependency != m_dependencies.end(); ++itDependency) {
-			dependencies.push_back(itDependency->second);
+		for (const auto &itDependency : m_dependencies) {
+			dependencies.push_back(itDependency.second);
 		}
 
 		return TRUE;
@@ -307,61 +307,61 @@ namespace CrossEngine {
 			LOGI("\t\tRenderPass 0x%x:\n", m_vkRenderPass);
 
 			LOGI("\t\t\tAttachments:\n");
-			for (std::map<uint32_t, VkAttachmentDescription>::const_iterator itAttachment = m_attachments.begin(); itAttachment != m_attachments.end(); ++itAttachment) {
+			for (const auto &itAttachment : m_attachments) {
 				LOGI("\t\t\t\tAttachment %d: format = %s samples = %s loadOp = %s storeOp = %s stencilLoadOp = %s stencilStoreOp = %s initialLayout = %s finalLayout = %s\n",
-					itAttachment->first,
-					CRendererHelper::vkFormatToString(itAttachment->second.format),
-					CRendererHelper::vkSampleCountFlagBitsToString(itAttachment->second.samples),
-					CRendererHelper::vkAttachmentLoadOpToString(itAttachment->second.loadOp),
-					CRendererHelper::vkAttachmentStoreOpToString(itAttachment->second.storeOp),
-					CRendererHelper::vkAttachmentLoadOpToString(itAttachment->second.stencilLoadOp),
-					CRendererHelper::vkAttachmentStoreOpToString(itAttachment->second.stencilStoreOp),
-					CRendererHelper::vkImageLayoutToString(itAttachment->second.initialLayout),
-					CRendererHelper::vkImageLayoutToString(itAttachment->second.finalLayout));
+					itAttachment.first,
+					CRendererHelper::vkFormatToString(itAttachment.second.format),
+					CRendererHelper::vkSampleCountFlagBitsToString(itAttachment.second.samples),
+					CRendererHelper::vkAttachmentLoadOpToString(itAttachment.second.loadOp),
+					CRendererHelper::vkAttachmentStoreOpToString(itAttachment.second.storeOp),
+					CRendererHelper::vkAttachmentLoadOpToString(itAttachment.second.stencilLoadOp),
+					CRendererHelper::vkAttachmentStoreOpToString(itAttachment.second.stencilStoreOp),
+					CRendererHelper::vkImageLayoutToString(itAttachment.second.initialLayout),
+					CRendererHelper::vkImageLayoutToString(itAttachment.second.finalLayout));
 			}
 
 			LOGI("\t\t\tSubpasses:\n");
-			for (std::map<uint32_t, VkSubpassInformation>::const_iterator itSubpass = m_subpasses.begin(); itSubpass != m_subpasses.end(); ++itSubpass) {
-				LOGI("\t\t\t\tSubpass %d:\n", itSubpass->first);
+			for (const auto &itSubpass : m_subpasses) {
+				LOGI("\t\t\t\tSubpass %d:\n", itSubpass.first);
 
 				LOGI("\t\t\t\t\tInputAttachments:\n");
-				for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.inputAttachments.begin(); itAttachment != itSubpass->second.inputAttachments.end(); ++itAttachment) {
-					LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d layout = %s\n", itAttachment->first, CRendererHelper::vkImageLayoutToString(itAttachment->second));
+				for (const auto &itAttachment : itSubpass.second.inputAttachments) {
+					LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d layout = %s\n", itAttachment.first, CRendererHelper::vkImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tColorAttachments:\n");
-				for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.colorAttachments.begin(); itAttachment != itSubpass->second.colorAttachments.end(); ++itAttachment) {
-					LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d layout = %s\n", itAttachment->first, CRendererHelper::vkImageLayoutToString(itAttachment->second));
+				for (const auto &itAttachment : itSubpass.second.colorAttachments) {
+					LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d layout = %s\n", itAttachment.first, CRendererHelper::vkImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tResolveAttachments:\n");
-				for (std::map<uint32_t, VkImageLayout>::const_iterator itAttachment = itSubpass->second.resolveAttachments.begin(); itAttachment != itSubpass->second.resolveAttachments.end(); ++itAttachment) {
-					LOGI("\t\t\t\t\t\tResolveAttachment: attachment = %d layout = %s\n", itAttachment->first, CRendererHelper::vkImageLayoutToString(itAttachment->second));
+				for (const auto &itAttachment : itSubpass.second.resolveAttachments) {
+					LOGI("\t\t\t\t\t\tResolveAttachment: attachment = %d layout = %s\n", itAttachment.first, CRendererHelper::vkImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tPreserveAttachments:\n");
-				for (std::map<uint32_t, uint32_t>::const_iterator itAttachment = itSubpass->second.preserveAttachments.begin(); itAttachment != itSubpass->second.preserveAttachments.end(); ++itAttachment) {
-					LOGI("\t\t\t\t\t\tPreserveAttachment: attachment = %d\n", itAttachment->first);
+				for (const auto &itAttachment : itSubpass.second.preserveAttachments) {
+					LOGI("\t\t\t\t\t\tPreserveAttachment: attachment = %d\n", itAttachment.first);
 				}
 
-				if (itSubpass->second.depthStencilAttachment.layout == VK_IMAGE_LAYOUT_UNDEFINED) {
+				if (itSubpass.second.depthStencilAttachment.layout == VK_IMAGE_LAYOUT_UNDEFINED) {
 					LOGI("\t\t\t\t\tDepthStencilAttachment: NULL\n");
 				}
 				else {
-					LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d layout = %s\n", itSubpass->second.depthStencilAttachment.attachment, CRendererHelper::vkImageLayoutToString(itSubpass->second.depthStencilAttachment.layout));
+					LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d layout = %s\n", itSubpass.second.depthStencilAttachment.attachment, CRendererHelper::vkImageLayoutToString(itSubpass.second.depthStencilAttachment.layout));
 				}
 			}
 
 			LOGI("\t\t\tDependencies:\n");
-			for (std::map<uint32_t, VkSubpassDependency>::const_iterator itDependency = m_dependencies.begin(); itDependency != m_dependencies.end(); ++itDependency) {
+			for (const auto &itDependency : m_dependencies) {
 				LOGI("\t\t\t\tDependency %d: srcSubpass = %d dstSubpass = %d srcStageMask = %s dstStageMask = %s srcAccessMask = %s dstAccessMask = %s\n",
-					itDependency->first,
-					itDependency->second.srcSubpass,
-					itDependency->second.dstSubpass,
-					CRendererHelper::vkPipelineStageFlagsToString(itDependency->second.srcStageMask),
-					CRendererHelper::vkPipelineStageFlagsToString(itDependency->second.dstStageMask),
-					CRendererHelper::vkAccessFlagsToString(itDependency->second.srcAccessMask),
-					CRendererHelper::vkAccessFlagsToString(itDependency->second.dstAccessMask));
+					itDependency.first,
+					itDependency.second.srcSubpass,
+					itDependency.second.dstSubpass,
+					CRendererHelper::vkPipelineStageFlagsToString(itDependency.second.srcStageMask),
+					CRendererHelper::vkPipelineStageFlagsToString(itDependency.second.dstStageMask),
+					CRendererHelper::vkAccessFlagsToString(itDependency.second.srcAccessMask),
+					CRendererHelper::vkAccessFlagsToString(itDependency.second.dstAccessMask));
 			}
 		}
 	}

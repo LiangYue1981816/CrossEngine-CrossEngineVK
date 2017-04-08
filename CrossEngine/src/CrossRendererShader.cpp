@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	void CRendererShader::DelMacroDefinition(const char *szName)
 	{
-		std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.find(szName);
+		const auto &itMacroDefinition = m_strMacroDefinitions.find(szName);
 		if (itMacroDefinition != m_strMacroDefinitions.end()) m_strMacroDefinitions.erase(itMacroDefinition);
 	}
 
@@ -77,12 +77,12 @@ namespace CrossEngine {
 	{
 		shaderc::CompileOptions options(((CRendererShaderManager *)m_pManager)->GetCompileOptions());
 
-		for (std::map<std::string, std::string>::const_iterator itMacroDefinition = m_strMacroDefinitions.begin(); itMacroDefinition != m_strMacroDefinitions.end(); ++itMacroDefinition) {
-			if (itMacroDefinition->second.empty()) {
-				options.AddMacroDefinition(itMacroDefinition->first.c_str());
+		for (const auto &itMacroDefinition : m_strMacroDefinitions) {
+			if (itMacroDefinition.second.empty()) {
+				options.AddMacroDefinition(itMacroDefinition.first.c_str());
 			}
 			else {
-				options.AddMacroDefinition(itMacroDefinition->first.c_str(), itMacroDefinition->second.c_str());
+				options.AddMacroDefinition(itMacroDefinition.first.c_str(), itMacroDefinition.second.c_str());
 			}
 		}
 

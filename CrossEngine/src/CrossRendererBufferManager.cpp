@@ -76,8 +76,8 @@ namespace CrossEngine {
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
-			for (std::map<CRendererResource*, CRendererResource*>::const_iterator itResource = m_pResources.begin(); itResource != m_pResources.end(); ++itResource) {
-				if (const CRendererBuffer *pResource = (CRendererBuffer *)itResource->second) {
+			for (const auto &itResource : m_pResources) {
+				if (const CRendererBuffer *pResource = (CRendererBuffer *)itResource.second) {
 					pResource->DumpLog();
 					size += pResource->GetSize();
 					count++;
