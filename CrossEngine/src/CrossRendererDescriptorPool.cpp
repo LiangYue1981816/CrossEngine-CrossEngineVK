@@ -70,12 +70,12 @@ namespace CrossEngine {
 
 	CRendererDescriptorSet* CRendererDescriptorPool::AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
 	{
-		if (m_numDescriptorSets + 1 >= m_maxDescriptorSets) {
+		if (m_numDescriptorSets + 1 > m_maxDescriptorSets) {
 			return NULL;
 		}
 
 		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
-			if (m_numAllocatedTypes[index] + typesUsedCount[index] >= m_maxAllocatedTypes[index]) {
+			if (m_numAllocatedTypes[index] + typesUsedCount[index] > m_maxAllocatedTypes[index]) {
 				return NULL;
 			}
 		}

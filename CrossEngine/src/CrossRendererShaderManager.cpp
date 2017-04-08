@@ -30,7 +30,8 @@ namespace CrossEngine {
 	{
 		SetWarningsAsErrors();
 		SetSourceLanguage(shaderc_source_language_glsl);
-//		SetOptimizationLevel(shaderc_optimization_level_size);
+		SetForcedVersionProfile(310, shaderc_profile_es);
+//		SetForcedVersionProfile(450, shaderc_profile_core);
 	}
 
 	CRendererShaderManager::~CRendererShaderManager(void)

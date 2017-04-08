@@ -70,10 +70,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		pRenderer->CreateSwapchain(rcView.right - rcView.left, rcView.bottom - rcView.top, VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR);
 		CreateRenderPassDefferShading(pRenderer->GetGraphicsDevice());
 		CreateFrameBufferDefferShading(pRenderer->GetGraphicsDevice());
+		Test(pRenderer->GetGraphicsDevice());
 		pRenderer->GetGraphicsDevice()->DumpLog();
 	}
-
-	Test(pRenderer->GetGraphicsDevice());
 
 	//TestHostMemAllocator();
 	//TestDeviceMemAllocator(pRenderer->GetGraphicsDevice());
@@ -313,6 +312,13 @@ void Test(CrossEngine::CRendererDevice *pDevice)
 		void main() {}";
 
 		pShader->Create(source.c_str(), source.size(), shaderc_glsl_vertex_shader);
+
+		CrossEngine::CRendererPipelineGraphics *pPipeline = pDevice->GetPipelineManager()->AllocPipelineGraphics();
+		{
+			pPipeline->SetVertexShader(pShader->GetShaderModule(), pShader->GetModule());
+			pPipeline->Create(pRenderPass->GetRenderPass());
+		}
+		pDevice->GetPipelineManager()->Free(pPipeline);
 	}
 	pDevice->GetShaderManager()->Free(pShader);
 }

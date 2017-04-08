@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CRendererPipelineGraphics::CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager)
 		: CRendererPipeline(pDevice, pManager)
 		, m_vertexFormat(0)
+		, m_vkPipelineLayout(VK_NULL_HANDLE)
 	{
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pNext = NULL;
@@ -98,7 +99,7 @@ namespace CrossEngine {
 		m_colorBlendState.flags = 0;
 
 		memset(&m_dynamicState, 0, sizeof(m_dynamicState));
-		VkDynamicState dynamicStates[] = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR, VK_DYNAMIC_STATE_DEPTH_BOUNDS, VK_DYNAMIC_STATE_STENCIL_REFERENCE };
+		static VkDynamicState dynamicStates[] = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR, VK_DYNAMIC_STATE_DEPTH_BOUNDS, VK_DYNAMIC_STATE_STENCIL_REFERENCE };
 		m_dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 		m_dynamicState.pNext = NULL;
 		m_dynamicState.flags = 0;
@@ -130,7 +131,7 @@ namespace CrossEngine {
 		SetStencilTest(VK_FALSE, front, back);
 		SetColorBlendLogic(VK_FALSE, VK_LOGIC_OP_CLEAR);
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
-		SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_COLOR_COMPONENT_FLAG_BITS_MAX_ENUM);
+		SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT);
 
 	}
 
@@ -372,39 +373,51 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::Create(VkPipelineLayout vkLayout, VkRenderPass vkRenderPass)
+	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)
 	{
 		try {
+			std::vector<VkDescriptorSetLayout> layouts;
 			std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
 			std::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
 			std::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
 			std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
 
-			CreateShaderStages(shaderStages);
-			CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions);
-			CreateColorBlendState(colorBlendAttachments);
+			CALL_BOOL_FUNCTION_THROW(CreateDescriptor(layouts));
+			CALL_BOOL_FUNCTION_THROW(CreateShaderStages(shaderStages));
+			CALL_BOOL_FUNCTION_THROW(CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions));
+			CALL_BOOL_FUNCTION_THROW(CreateColorBlendState(colorBlendAttachments));
 
-			VkGraphicsPipelineCreateInfo createInfo;
-			createInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-			createInfo.pNext = NULL;
-			createInfo.flags = 0;
-			createInfo.stageCount = shaderStages.size();
-			createInfo.pStages = shaderStages.data();
-			createInfo.pVertexInputState = &m_vertexInputState;
-			createInfo.pInputAssemblyState = &m_inputAssemblyState;
-			createInfo.pTessellationState = m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module != VK_NULL_HANDLE && m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module != VK_NULL_HANDLE ? &m_tessellationState : NULL;
-			createInfo.pViewportState = &m_viewportState;
-			createInfo.pRasterizationState = &m_rasterizationState;
-			createInfo.pMultisampleState = &m_multiSampleState;
-			createInfo.pDepthStencilState = &m_depthStencilState;
-			createInfo.pColorBlendState = &m_colorBlendState;
-			createInfo.pDynamicState = &m_dynamicState;
-			createInfo.layout = vkLayout;
-			createInfo.renderPass = vkRenderPass;
-			createInfo.subpass = VK_NULL_HANDLE;
-			createInfo.basePipelineHandle = VK_NULL_HANDLE;
-			createInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), VK_NULL_HANDLE, 1, &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
+			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutCreateInfo.pNext = NULL;
+			pipelineLayoutCreateInfo.flags = 0;
+			pipelineLayoutCreateInfo.setLayoutCount = layouts.size();
+			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
+			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
+
+			VkGraphicsPipelineCreateInfo pipelineCreateInfo;
+			pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+			pipelineCreateInfo.pNext = NULL;
+			pipelineCreateInfo.flags = 0;
+			pipelineCreateInfo.stageCount = shaderStages.size();
+			pipelineCreateInfo.pStages = shaderStages.data();
+			pipelineCreateInfo.pVertexInputState = &m_vertexInputState;
+			pipelineCreateInfo.pInputAssemblyState = &m_inputAssemblyState;
+			pipelineCreateInfo.pTessellationState = m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module != VK_NULL_HANDLE && m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module != VK_NULL_HANDLE ? &m_tessellationState : NULL;
+			pipelineCreateInfo.pViewportState = &m_viewportState;
+			pipelineCreateInfo.pRasterizationState = &m_rasterizationState;
+			pipelineCreateInfo.pMultisampleState = &m_multiSampleState;
+			pipelineCreateInfo.pDepthStencilState = &m_depthStencilState;
+			pipelineCreateInfo.pColorBlendState = &m_colorBlendState;
+			pipelineCreateInfo.pDynamicState = &m_dynamicState;
+			pipelineCreateInfo.layout = m_vkPipelineLayout;
+			pipelineCreateInfo.renderPass = vkRenderPass;
+			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
+			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
+			pipelineCreateInfo.basePipelineIndex = 0;
+			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), VK_NULL_HANDLE, 1, &pipelineCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}
@@ -414,6 +427,110 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	void CRendererPipelineGraphics::Destroy(void)
+	{
+		for (std::vector<CRendererDescriptorSet*>::const_iterator itDescriptorSet = m_pDescriptorSets.begin(); itDescriptorSet != m_pDescriptorSets.end(); ++itDescriptorSet) {
+			if (CRendererDescriptorSet *pDescriptorSet = *itDescriptorSet) {
+				m_pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSet);
+			}
+		}
+
+		for (std::vector<CRendererDescriptorSetLayout*>::const_iterator itDescriptorSetLayout = m_pDescriptorSetLayouts.begin(); itDescriptorSetLayout != m_pDescriptorSetLayouts.end(); ++itDescriptorSetLayout) {
+			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = *itDescriptorSetLayout) {
+				m_pDevice->GetDescriptorSetLayoutManager()->Free(pDescriptorSetLayout);
+			}
+		}
+
+		if (m_vkPipelineLayout) {
+			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkPipelineLayout = VK_NULL_HANDLE;
+
+		m_images.clear();
+		m_buffers.clear();
+		m_pDescriptorSets.clear();
+		m_pDescriptorSetLayouts.clear();
+
+		CRendererPipeline::Destroy();
+	}
+
+	BOOL CRendererPipelineGraphics::CreateDescriptor(std::vector<VkDescriptorSetLayout> &layouts)
+	{
+		layouts.clear();
+		m_images.clear();
+		m_buffers.clear();
+		m_pDescriptorSets.clear();
+		m_pDescriptorSetLayouts.clear();
+
+		std::map<uint32_t, std::map<uint32_t, std::string>> names;
+		std::map<uint32_t, std::map<uint32_t, VkDescriptorType>> types;
+		std::map<uint32_t, uint32_t[VK_DESCRIPTOR_TYPE_RANGE_SIZE]> counts;
+		std::map<uint32_t, CRendererDescriptorSetLayout*> pDescriptorSetLayouts;
+
+		for (std::map<VkShaderStageFlagBits, spirv::module_type>::const_iterator itMoudle = m_shaderModules.begin(); itMoudle != m_shaderModules.end(); ++itMoudle) {
+			for (const auto &variable : itMoudle->second.variables) {
+				if (variable.second.storage_class != SpvStorageClassUniform &&
+					variable.second.storage_class != SpvStorageClassUniformConstant) {
+					continue;
+				}
+
+				uint32_t set = variable.second.descriptor_set;
+				uint32_t binding = variable.second.binding;
+
+				if (pDescriptorSetLayouts[set] == NULL) {
+					pDescriptorSetLayouts[set] = m_pDevice->GetDescriptorSetLayoutManager()->AllocDescriptorSetLayout();
+					if (pDescriptorSetLayouts[set] == NULL) return FALSE;
+				}
+
+				if (variable.second.storage_class == SpvStorageClassUniform) {
+					counts[set][VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER]++;
+					types[set][binding] = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+					names[set][binding] = itMoudle->second.struct_types.at(variable.second.type_id).name;
+					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, itMoudle->first);
+				}
+
+				if (variable.second.storage_class == SpvStorageClassUniformConstant) {
+					counts[set][VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER]++;
+					types[set][binding] = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+					names[set][binding] = variable.second.name;
+					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, itMoudle->first);
+				}
+			}
+		}
+
+		for (std::map<uint32_t, CRendererDescriptorSetLayout*>::const_iterator itDescriptorSetLayout = pDescriptorSetLayouts.begin(); itDescriptorSetLayout != pDescriptorSetLayouts.end(); ++itDescriptorSetLayout) {
+			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout->second) {
+				BOOL rcode = pDescriptorSetLayout->Create();
+				if (rcode == FALSE) return FALSE;
+
+				m_pDescriptorSetLayouts.push_back(pDescriptorSetLayout);
+
+				CRendererDescriptorSet *pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetSetLayout(), counts[itDescriptorSetLayout->first]);
+				if (pDescriptorSet == NULL) return FALSE;
+
+				m_pDescriptorSets.push_back(pDescriptorSet);
+
+				for (std::map<uint32_t, std::string>::const_iterator itName = names[itDescriptorSetLayout->first].begin(); itName != names[itDescriptorSetLayout->first].end(); ++itName) {
+					uint32_t set = itDescriptorSetLayout->first;
+					uint32_t binding = itName->first;
+
+					if (types[set][binding] == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) {
+						m_buffers[itName->second].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
+					}
+
+					if (types[set][binding] == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) {
+						m_images[itName->second].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
+					}
+				}
+
+				layouts.push_back(pDescriptorSetLayout->GetSetLayout());
+			}
+		}
+
+		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages)
