@@ -421,6 +421,26 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	void CRendererPipelineGraphics::BindPipeline(VkCommandBuffer vkCommandBuffer) const
+	{
+		vkCmdBindPipeline(vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_vkPipeline);
+	}
+
+	void CRendererPipelineGraphics::BindDescriptorSets(VkCommandBuffer vkCommandBuffer) const
+	{
+		std::vector<VkDescriptorSet> descriptors;
+
+		for (const auto &itImage : m_images) {
+			descriptors.push_back(itImage.second.vkDescriptorSet);
+		}
+
+		for (const auto &itBuffer : m_buffers) {
+			descriptors.push_back(itBuffer.second.vkDescriptorSet);
+		}
+
+		vkCmdBindDescriptorSets(vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_vkPipelineLayout, 0, descriptors.size(), descriptors.data(), 0, NULL);
+	}
+
 	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)
 	{
 		try {

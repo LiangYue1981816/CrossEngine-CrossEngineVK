@@ -78,8 +78,12 @@ namespace CrossEngine {
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
 		BOOL SetColorBlendAttachment(uint32_t attachment, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
 
+	public:
 		BOOL SetUniformImage(const char *szName, VkSampler vkSampler, VkImageView vkImageView, VkImageLayout vkImageLayout);
 		BOOL SetUniformBuffer(const char *szName, VkBuffer vkBuffer, VkDeviceSize offset, VkDeviceSize range);
+
+		void BindPipeline(VkCommandBuffer vkCommandBuffer) const;
+		void BindDescriptorSets(VkCommandBuffer vkCommandBuffer) const;
 
 	public:
 		virtual BOOL Create(VkRenderPass vkRenderPass);
