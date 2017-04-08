@@ -371,6 +371,56 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CRendererPipelineGraphics::SetUniformImage(const char *szName, VkSampler vkSampler, VkImageView vkImageView, VkImageLayout vkImageLayout)
+	{
+		const auto &itImage = m_images.find(szName);
+		if (itImage == m_images.end()) return FALSE;
+
+		itImage->second.vkDescriptorImageInfo.sampler = vkSampler;
+		itImage->second.vkDescriptorImageInfo.imageView = vkImageView;
+		itImage->second.vkDescriptorImageInfo.imageLayout = vkImageLayout;
+
+		VkWriteDescriptorSet write;
+		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		write.pNext = NULL;
+		write.dstSet = itImage->second.vkDescriptorSet;
+		write.dstBinding = itImage->second.binding;
+		write.dstArrayElement = 0;
+		write.descriptorCount = 1;
+		write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		write.pImageInfo = &itImage->second.vkDescriptorImageInfo;
+		write.pBufferInfo = NULL;
+		write.pTexelBufferView = NULL;
+		vkUpdateDescriptorSets(m_pDevice->GetDevice(), 1, &write, 0, NULL);
+
+		return TRUE;
+	}
+
+	BOOL CRendererPipelineGraphics::SetUniformBuffer(const char *szName, VkBuffer vkBuffer, VkDeviceSize offset, VkDeviceSize range)
+	{
+		const auto &itBuffer = m_buffers.find(szName);
+		if (itBuffer == m_buffers.end()) return FALSE;
+
+		itBuffer->second.vkDescriptorBufferInfo.buffer = vkBuffer;
+		itBuffer->second.vkDescriptorBufferInfo.offset = offset;
+		itBuffer->second.vkDescriptorBufferInfo.range = range;
+
+		VkWriteDescriptorSet write;
+		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		write.pNext = NULL;
+		write.dstSet = itBuffer->second.vkDescriptorSet;
+		write.dstBinding = itBuffer->second.binding;
+		write.dstArrayElement = 0;
+		write.descriptorCount = 1;
+		write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		write.pImageInfo = NULL;
+		write.pBufferInfo = &itBuffer->second.vkDescriptorBufferInfo;
+		write.pTexelBufferView = NULL;
+		vkUpdateDescriptorSets(m_pDevice->GetDevice(), 1, &write, 0, NULL);
+
+		return TRUE;
+	}
+
 	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)
 	{
 		try {
@@ -502,30 +552,29 @@ namespace CrossEngine {
 
 		for (const auto &itDescriptorSetLayout : pDescriptorSetLayouts) {
 			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				uint32_t set = itDescriptorSetLayout.first;
+				CRendererDescriptorSet *pDescriptorSet = NULL;
 
-				BOOL rcode = pDescriptorSetLayout->Create();
-				if (rcode == FALSE) return FALSE;
+				pDescriptorSetLayout->Create();
+				pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetSetLayout(), counts[itDescriptorSetLayout.first]);
 
-				m_pDescriptorSetLayouts.push_back(pDescriptorSetLayout);
-
-				CRendererDescriptorSet *pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetSetLayout(), counts[set]);
-				if (pDescriptorSet == NULL) return FALSE;
-
-				m_pDescriptorSets.push_back(pDescriptorSet);
-
-				for (const auto &itName : names[set]) {
+				for (const auto &itName : names[itDescriptorSetLayout.first]) {
+					uint32_t set = itDescriptorSetLayout.first;
 					uint32_t binding = itName.first;
 					const std::string &name = itName.second;
 
 					if (types[set][binding] == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) {
+						m_buffers[name].binding = binding;
 						m_buffers[name].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
 					}
 
 					if (types[set][binding] == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) {
+						m_images[name].binding = binding;
 						m_images[name].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
 					}
 				}
+
+				m_pDescriptorSets.push_back(pDescriptorSet);
+				m_pDescriptorSetLayouts.push_back(pDescriptorSetLayout);
 
 				layouts.push_back(pDescriptorSetLayout->GetSetLayout());
 			}

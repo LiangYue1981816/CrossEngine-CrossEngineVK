@@ -33,11 +33,13 @@ namespace CrossEngine {
 
 	protected:
 		typedef struct {
+			uint32_t binding;
 			VkDescriptorSet vkDescriptorSet;
 			VkDescriptorImageInfo vkDescriptorImageInfo;
 		} VkDescriptorImage;
 
 		typedef struct {
+			uint32_t binding;
 			VkDescriptorSet vkDescriptorSet;
 			VkDescriptorBufferInfo vkDescriptorBufferInfo;
 		} VkDescriptorBuffer;
@@ -75,6 +77,9 @@ namespace CrossEngine {
 		BOOL SetColorBlendLogic(VkBool32 logicOpEnable, VkLogicOp logicOp);
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
 		BOOL SetColorBlendAttachment(uint32_t attachment, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
+
+		BOOL SetUniformImage(const char *szName, VkSampler vkSampler, VkImageView vkImageView, VkImageLayout vkImageLayout);
+		BOOL SetUniformBuffer(const char *szName, VkBuffer vkBuffer, VkDeviceSize offset, VkDeviceSize range);
 
 	public:
 		virtual BOOL Create(VkRenderPass vkRenderPass);
