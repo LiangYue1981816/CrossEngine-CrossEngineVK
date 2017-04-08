@@ -131,8 +131,6 @@ namespace CrossEngine {
 		SetStencilTest(VK_FALSE, front, back);
 		SetColorBlendLogic(VK_FALSE, VK_LOGIC_OP_CLEAR);
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
-		SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT);
-
 	}
 
 	CRendererPipelineGraphics::~CRendererPipelineGraphics(void)

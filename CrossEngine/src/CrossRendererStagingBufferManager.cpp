@@ -102,7 +102,7 @@ namespace CrossEngine {
 			if (m_pPendings.size()) {
 				std::vector<VkCommandBuffer> commandBuffers;
 				for (const auto &itPending : m_pPendings) {
-					if (CRendererStagingBuffer *pBuffer = itPending) {
+					if (const CRendererStagingBuffer *pBuffer = itPending) {
 						commandBuffers.push_back(pBuffer->GetCommandBuffer()->GetCommandBuffer());
 					}
 				}

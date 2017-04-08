@@ -86,7 +86,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itDescriptorPool : m_pDescriptorPools) {
-				if (CRendererDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+				if (const CRendererDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
 					LOGI("\tPool = %d\n", itDescriptorPool.first);
 					pDescriptorPool->DumpLog();
 					count += pDescriptorPool->GetDescriptorSetCount();
