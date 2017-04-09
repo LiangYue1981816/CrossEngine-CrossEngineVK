@@ -52,7 +52,7 @@ namespace CrossEngine {
 		void DestroyImagesAndImageViews(void);
 
 
-	protected:
+	public:
 		VkResult Present(VkSemaphore *pSemaphoreBackBufferRenderingDone) const;
 		VkResult AcquireNextImage(void);
 		uint32_t GetImageIndex(void) const;
