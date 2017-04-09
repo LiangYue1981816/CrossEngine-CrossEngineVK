@@ -10,6 +10,6 @@
 #include <tchar.h>
 #include <CrossEngine.h>
 
-extern void Create(HWND hWnd);
+extern void Create(HINSTANCE hInstance, HWND hWnd);
 extern void Destroy(void);
 extern void Render(void);

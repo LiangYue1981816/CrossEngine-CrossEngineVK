@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager);
+		CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool);
 		virtual ~CRendererPipelineGraphics(void);
 
 

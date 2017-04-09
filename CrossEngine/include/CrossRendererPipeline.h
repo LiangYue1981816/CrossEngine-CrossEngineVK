@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CRendererPipeline : public CRendererResource
 	{
 	protected:
-		CRendererPipeline(CRendererDevice *pDevice, CRendererResourceManager *pManager);
+		CRendererPipeline(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool);
 		virtual ~CRendererPipeline(void);
 
 
@@ -40,6 +40,9 @@ namespace CrossEngine {
 	public:
 		VkPipeline GetPipeline(void) const;
 
+
+	protected:
+		uint32_t m_indexDescriptorPool;
 
 	protected:
 		VkPipeline m_vkPipeline;

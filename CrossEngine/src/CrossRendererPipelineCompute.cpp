@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererPipelineCompute::CRendererPipelineCompute(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererPipeline(pDevice, pManager)
+	CRendererPipelineCompute::CRendererPipelineCompute(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool)
+		: CRendererPipeline(pDevice, pManager, indexDescriptorPool)
 	{
 
 	}

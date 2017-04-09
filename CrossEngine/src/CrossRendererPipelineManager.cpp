@@ -36,17 +36,17 @@ namespace CrossEngine {
 
 	}
 
-	CRendererPipelineCompute* CRendererPipelineManager::AllocPipelineCompute(void)
+	CRendererPipelineCompute* CRendererPipelineManager::AllocPipelineCompute(uint32_t indexDescriptorPool)
 	{
-		CRendererPipelineCompute *pPipeline = SAFE_NEW CRendererPipelineCompute(m_pDevice, this);
+		CRendererPipelineCompute *pPipeline = SAFE_NEW CRendererPipelineCompute(m_pDevice, this, indexDescriptorPool);
 		m_pResources[pPipeline] = pPipeline;
 
 		return pPipeline;
 	}
 
-	CRendererPipelineGraphics* CRendererPipelineManager::AllocPipelineGraphics(void)
+	CRendererPipelineGraphics* CRendererPipelineManager::AllocPipelineGraphics(uint32_t indexDescriptorPool)
 	{
-		CRendererPipelineGraphics *pPipeline = SAFE_NEW CRendererPipelineGraphics(m_pDevice, this);
+		CRendererPipelineGraphics *pPipeline = SAFE_NEW CRendererPipelineGraphics(m_pDevice, this, indexDescriptorPool);
 		m_pResources[pPipeline] = pPipeline;
 
 		return pPipeline;

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CRendererPipelineCompute(CRendererDevice *pDevice, CRendererResourceManager *pManager);
+		CRendererPipelineCompute(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool);
 		virtual ~CRendererPipelineCompute(void);
 
 

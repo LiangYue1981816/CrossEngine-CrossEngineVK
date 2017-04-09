@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererPipelineGraphics::CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererPipeline(pDevice, pManager)
+	CRendererPipelineGraphics::CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool)
+		: CRendererPipeline(pDevice, pManager, indexDescriptorPool)
 		, m_vertexFormat(0)
 		, m_vkPipelineLayout(VK_NULL_HANDLE)
 	{
@@ -501,7 +501,7 @@ namespace CrossEngine {
 	{
 		for (const auto &itDescriptorSet : m_pDescriptorSets) {
 			if (CRendererDescriptorSet *pDescriptorSet = itDescriptorSet) {
-				m_pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSet);
+				m_pDevice->GetDescriptorSetManager()->FreeDescriptorSet(m_indexDescriptorPool, pDescriptorSet);
 			}
 		}
 
@@ -575,7 +575,7 @@ namespace CrossEngine {
 				CRendererDescriptorSet *pDescriptorSet = NULL;
 
 				pDescriptorSetLayout->Create();
-				pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetSetLayout(), counts[itDescriptorSetLayout.first]);
+				pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(m_indexDescriptorPool, pDescriptorSetLayout->GetSetLayout(), counts[itDescriptorSetLayout.first]);
 
 				for (const auto &itName : names[itDescriptorSetLayout.first]) {
 					uint32_t set = itDescriptorSetLayout.first;

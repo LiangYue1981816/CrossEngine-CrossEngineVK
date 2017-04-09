@@ -37,8 +37,8 @@ namespace CrossEngine {
 
 
 	public:
-		CRendererPipelineCompute* AllocPipelineCompute(void);
-		CRendererPipelineGraphics* AllocPipelineGraphics(void);
+		CRendererPipelineCompute* AllocPipelineCompute(uint32_t indexDescriptorPool);
+		CRendererPipelineGraphics* AllocPipelineGraphics(uint32_t indexDescriptorPool);
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;
