@@ -89,15 +89,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_COMMAND:
 		wmId = LOWORD(wParam);
-		switch (wmId)
-		{
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
-
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
 		break;
 
 	case WM_PAINT:
