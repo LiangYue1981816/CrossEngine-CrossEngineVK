@@ -26,6 +26,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		return FALSE;
 	}
 
+	Create(hWnd);
+
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TEST));
 
@@ -36,7 +38,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+		else
+		{
+			Render();
+		}
 	}
+
+	Destroy();
 
 	return (int)msg.wParam;
 }
