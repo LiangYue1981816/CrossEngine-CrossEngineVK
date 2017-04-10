@@ -48,6 +48,9 @@
       <Filter>Base\Source Files\nvwa</Filter>
     </ClCompile>
     <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="..\Base\Helper.cpp">
+      <Filter>Base\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Base\Base.ico">

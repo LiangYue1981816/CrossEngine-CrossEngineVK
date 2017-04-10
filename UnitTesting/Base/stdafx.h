@@ -13,3 +13,5 @@
 extern void Create(HINSTANCE hInstance, HWND hWnd);
 extern void Destroy(void);
 extern void Render(void);
+
+extern BOOL LoadShader(const char *szFileName, char *szShader, size_t length);

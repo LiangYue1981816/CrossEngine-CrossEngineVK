@@ -21,6 +21,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	LoadStringW(hInstance, IDC_TEST, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
+	CrossEngine::EnableLog(TRUE, "CrossEngineVK.log");
+
 	if (!InitInstance(hInstance, nCmdShow))
 	{
 		return FALSE;
@@ -37,10 +39,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-		}
-		else
-		{
-			Render();
 		}
 	}
 
@@ -90,9 +88,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId;
 
-	HDC hdc;
-	PAINTSTRUCT ps;
-
 	switch (message)
 	{
 	case WM_COMMAND:
@@ -100,8 +95,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		EndPaint(hWnd, &ps);
+		Render();
 		break;
 
 	case WM_DESTROY:

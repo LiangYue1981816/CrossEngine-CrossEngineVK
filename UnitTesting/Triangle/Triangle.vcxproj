@@ -173,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Base\Base.cpp" />
+    <ClCompile Include="..\Base\Helper.cpp" />
     <ClCompile Include="..\Base\nvwa\debug_new.cpp" />
     <ClCompile Include="..\Base\nvwa\operator_new.cpp" />
     <ClCompile Include="..\Base\stdafx.cpp" />
