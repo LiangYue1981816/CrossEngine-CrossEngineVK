@@ -40,11 +40,11 @@ namespace CrossEngine {
 	BOOL CRendererFence::Create(void)
 	{
 		try {
-			VkFenceCreateInfo fenceInfo;
-			fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-			fenceInfo.pNext = NULL;
-			fenceInfo.flags = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateFence(m_pDevice->GetDevice(), &fenceInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence));
+			VkFenceCreateInfo createInfo;
+			createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			CALL_VK_FUNCTION_THROW(vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence));
 
 			return TRUE;
 		}

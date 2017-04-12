@@ -218,6 +218,8 @@
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererResourceManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererSampler.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererSamplerManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSemaphore.h" />
+    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSemaphoreManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererShader.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererShaderManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererStagingBuffer.h" />
@@ -284,6 +286,8 @@
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererResourceManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererSampler.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererSamplerManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSemaphore.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSemaphoreManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererShader.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererShaderManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererStagingBuffer.cpp" />

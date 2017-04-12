@@ -109,6 +109,8 @@ THE SOFTWARE.
 #include "CrossRendererResourceManager.h"
 #include "CrossRendererFence.h"
 #include "CrossRendererFenceManager.h"
+#include "CrossRendererSemaphore.h"
+#include "CrossRendererSemaphoreManager.h"
 #include "CrossRendererBuffer.h"
 #include "CrossRendererIndexBuffer.h"
 #include "CrossRendererVertexBuffer.h"

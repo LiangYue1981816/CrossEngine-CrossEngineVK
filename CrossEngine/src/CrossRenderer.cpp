@@ -252,16 +252,16 @@ namespace CrossEngine {
 		appInfo.engineVersion = 1;
 		appInfo.apiVersion = VK_API_VERSION_1_0;
 
-		VkInstanceCreateInfo instInfo;
-		instInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		instInfo.pNext = NULL;
-		instInfo.flags = 0;
-		instInfo.pApplicationInfo = &appInfo;
-		instInfo.enabledLayerCount = enabledInstanceLayers.size();
-		instInfo.ppEnabledLayerNames = enabledInstanceLayers.data();
-		instInfo.enabledExtensionCount = enabledInstanceExtensions.size();
-		instInfo.ppEnabledExtensionNames = enabledInstanceExtensions.data();
-		return vkCreateInstance(&instInfo, m_pAllocator->GetAllocationCallbacks(), &m_vkInstance);
+		VkInstanceCreateInfo createInfo;
+		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = 0;
+		createInfo.pApplicationInfo = &appInfo;
+		createInfo.enabledLayerCount = enabledInstanceLayers.size();
+		createInfo.ppEnabledLayerNames = enabledInstanceLayers.data();
+		createInfo.enabledExtensionCount = enabledInstanceExtensions.size();
+		createInfo.ppEnabledExtensionNames = enabledInstanceExtensions.data();
+		return vkCreateInstance(&createInfo, m_pAllocator->GetAllocationCallbacks(), &m_vkInstance);
 	}
 
 	VkResult CRenderer::CreateDebugReportCallback(void)

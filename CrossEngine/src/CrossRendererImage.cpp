@@ -101,19 +101,19 @@ namespace CrossEngine {
 			return VK_ERROR_FORMAT_NOT_SUPPORTED;
 		}
 
-		VkImageCreateInfo imageInfo;
-		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-		imageInfo.pNext = NULL;
-		imageInfo.flags = 0;
-		imageInfo.format = format;
-		imageInfo.mipLevels = mipLevels;
-		imageInfo.samples = samples;
-		imageInfo.tiling = tiling;
-		imageInfo.usage = usage | VK_IMAGE_USAGE_SAMPLED_BIT;
-		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-		imageInfo.queueFamilyIndexCount = 0;
-		imageInfo.pQueueFamilyIndices = NULL;
-		imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		VkImageCreateInfo createInfo;
+		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = 0;
+		createInfo.format = format;
+		createInfo.mipLevels = mipLevels;
+		createInfo.samples = samples;
+		createInfo.tiling = tiling;
+		createInfo.usage = usage | VK_IMAGE_USAGE_SAMPLED_BIT;
+		createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		createInfo.queueFamilyIndexCount = 0;
+		createInfo.pQueueFamilyIndices = NULL;
+		createInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 
 		switch (viewType) {
 		case VK_IMAGE_VIEW_TYPE_1D:
@@ -121,11 +121,11 @@ namespace CrossEngine {
 			if (width > m_pDevice->GetDeviceProperties().limits.maxImageDimension1D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
-			imageInfo.imageType = VK_IMAGE_TYPE_1D;
-			imageInfo.arrayLayers = arrayLayers;
-			imageInfo.extent.width = width;
-			imageInfo.extent.height = 1;
-			imageInfo.extent.depth = 1;
+			createInfo.imageType = VK_IMAGE_TYPE_1D;
+			createInfo.arrayLayers = arrayLayers;
+			createInfo.extent.width = width;
+			createInfo.extent.height = 1;
+			createInfo.extent.depth = 1;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_2D:
@@ -133,11 +133,11 @@ namespace CrossEngine {
 			if (width > m_pDevice->GetDeviceProperties().limits.maxImageDimension2D || height > m_pDevice->GetDeviceProperties().limits.maxImageDimension2D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
-			imageInfo.imageType = VK_IMAGE_TYPE_2D;
-			imageInfo.arrayLayers = arrayLayers;
-			imageInfo.extent.width = width;
-			imageInfo.extent.height = height;
-			imageInfo.extent.depth = 1;
+			createInfo.imageType = VK_IMAGE_TYPE_2D;
+			createInfo.arrayLayers = arrayLayers;
+			createInfo.extent.width = width;
+			createInfo.extent.height = height;
+			createInfo.extent.depth = 1;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_CUBE:
@@ -148,70 +148,70 @@ namespace CrossEngine {
 			if (width != height) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
-			imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
-			imageInfo.imageType = VK_IMAGE_TYPE_2D;
-			imageInfo.arrayLayers = 6;
-			imageInfo.extent.width = width;
-			imageInfo.extent.height = height;
-			imageInfo.extent.depth = 1;
+			createInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
+			createInfo.imageType = VK_IMAGE_TYPE_2D;
+			createInfo.arrayLayers = 6;
+			createInfo.extent.width = width;
+			createInfo.extent.height = height;
+			createInfo.extent.depth = 1;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_3D:
 			if (width > m_pDevice->GetDeviceProperties().limits.maxImageDimension3D || height > m_pDevice->GetDeviceProperties().limits.maxImageDimension3D || depth > m_pDevice->GetDeviceProperties().limits.maxImageDimension3D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
-			imageInfo.imageType = VK_IMAGE_TYPE_3D;
-			imageInfo.arrayLayers = 1;
-			imageInfo.extent.width = width;
-			imageInfo.extent.height = height;
-			imageInfo.extent.depth = depth;
+			createInfo.imageType = VK_IMAGE_TYPE_3D;
+			createInfo.arrayLayers = 1;
+			createInfo.extent.width = width;
+			createInfo.extent.height = height;
+			createInfo.extent.depth = depth;
 			break;
 		}
 
-		if (imageInfo.usage & VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT) {
+		if (createInfo.usage & VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT) {
 			if (width > m_pDevice->GetDeviceProperties().limits.maxFramebufferWidth || height > m_pDevice->GetDeviceProperties().limits.maxFramebufferHeight) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 
 			if (CRendererHelper::vkIsFormatDepthOnly(format) || CRendererHelper::vkIsFormatStencilOnly(format) || CRendererHelper::vkIsFormatDepthStencil(format)) {
-				imageInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-				imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+				createInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+				createInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 			}
 			else {
-				imageInfo.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-				imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+				createInfo.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+				createInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 			}
 		}
 
-		if (imageInfo.tiling == VK_IMAGE_TILING_LINEAR) {
-			imageInfo.mipLevels = 1;
-			imageInfo.arrayLayers = 1;
+		if (createInfo.tiling == VK_IMAGE_TILING_LINEAR) {
+			createInfo.mipLevels = 1;
+			createInfo.arrayLayers = 1;
 		}
 
-		if (imageInfo.imageType != VK_IMAGE_TYPE_2D || (imageInfo.flags & VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT) != 0 || imageInfo.tiling == VK_IMAGE_TILING_LINEAR || imageInfo.mipLevels != 1) {
-			imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+		if (createInfo.imageType != VK_IMAGE_TYPE_2D || (createInfo.flags & VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT) != 0 || createInfo.tiling == VK_IMAGE_TILING_LINEAR || createInfo.mipLevels != 1) {
+			createInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 		}
 
-		CALL_VK_FUNCTION_RETURN(CheckParameters(imageInfo.imageType, imageInfo.format, imageInfo.extent.width, imageInfo.extent.height, imageInfo.extent.depth, imageInfo.mipLevels, imageInfo.arrayLayers, imageInfo.samples, imageInfo.tiling, imageInfo.usage));
-		CALL_VK_FUNCTION_RETURN(vkCreateImage(m_pDevice->GetDevice(), &imageInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkImage));
+		CALL_VK_FUNCTION_RETURN(CheckParameters(createInfo.imageType, createInfo.format, createInfo.extent.width, createInfo.extent.height, createInfo.extent.depth, createInfo.mipLevels, createInfo.arrayLayers, createInfo.samples, createInfo.tiling, createInfo.usage));
+		CALL_VK_FUNCTION_RETURN(vkCreateImage(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkImage));
 
 		VkMemoryPropertyFlags memoryPropertyFlags;
-		memoryPropertyFlags = imageInfo.tiling == VK_IMAGE_TILING_LINEAR ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+		memoryPropertyFlags = createInfo.tiling == VK_IMAGE_TILING_LINEAR ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
 
 		VkMemoryRequirements requirements;
 		vkGetImageMemoryRequirements(m_pDevice->GetDevice(), m_vkImage, &requirements);
 		m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, memoryPropertyFlags);
 		m_pMemory->BindImage(m_vkImage);
 
-		m_type = imageInfo.imageType;
-		m_format = imageInfo.format;
-		m_width = imageInfo.extent.width;
-		m_height = imageInfo.extent.height;
-		m_depth = imageInfo.extent.depth;
-		m_mipLevels = imageInfo.mipLevels;
-		m_arrayLayers = imageInfo.arrayLayers;
-		m_samples = imageInfo.samples;
-		m_tiling = imageInfo.tiling;
+		m_type = createInfo.imageType;
+		m_format = createInfo.format;
+		m_width = createInfo.extent.width;
+		m_height = createInfo.extent.height;
+		m_depth = createInfo.extent.depth;
+		m_mipLevels = createInfo.mipLevels;
+		m_arrayLayers = createInfo.arrayLayers;
+		m_samples = createInfo.samples;
+		m_tiling = createInfo.tiling;
 		m_size = m_pMemory->GetSize();
 
 		return VK_SUCCESS;
@@ -219,20 +219,20 @@ namespace CrossEngine {
 
 	VkResult CRendererImage::CreateImageView(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t mipLevels)
 	{
-		VkImageViewCreateInfo viewInfo;
-		viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		viewInfo.pNext = NULL;
-		viewInfo.flags = 0;
-		viewInfo.image = m_vkImage;
-		viewInfo.viewType = viewType;
-		viewInfo.format = format;
-		viewInfo.components = CRendererHelper::vkGetFormatComponentMapping(format);
-		viewInfo.subresourceRange.aspectMask = aspectMask;
-		viewInfo.subresourceRange.baseMipLevel = 0;
-		viewInfo.subresourceRange.levelCount = mipLevels;
-		viewInfo.subresourceRange.baseArrayLayer = 0;
-		viewInfo.subresourceRange.layerCount = viewType == VK_IMAGE_VIEW_TYPE_CUBE ? 6 : 1;
-		return vkCreateImageView(m_pDevice->GetDevice(), &viewInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
+		VkImageViewCreateInfo createInfo;
+		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = 0;
+		createInfo.image = m_vkImage;
+		createInfo.viewType = viewType;
+		createInfo.format = format;
+		createInfo.components = CRendererHelper::vkGetFormatComponentMapping(format);
+		createInfo.subresourceRange.aspectMask = aspectMask;
+		createInfo.subresourceRange.baseMipLevel = 0;
+		createInfo.subresourceRange.levelCount = mipLevels;
+		createInfo.subresourceRange.baseArrayLayer = 0;
+		createInfo.subresourceRange.layerCount = viewType == VK_IMAGE_VIEW_TYPE_CUBE ? 6 : 1;
+		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
 	}
 
 	VkResult CRendererImage::CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const

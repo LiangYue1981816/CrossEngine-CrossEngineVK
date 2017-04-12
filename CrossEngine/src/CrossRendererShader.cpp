@@ -92,13 +92,13 @@ namespace CrossEngine {
 	BOOL CRendererShader::Create(const uint32_t *words, size_t numWords)
 	{
 		try {
-			VkShaderModuleCreateInfo moduleCreateInfo;
-			moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-			moduleCreateInfo.pNext = NULL;
-			moduleCreateInfo.flags = 0;
-			moduleCreateInfo.codeSize = numWords * 4;
-			moduleCreateInfo.pCode = words;
-			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &moduleCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
+			VkShaderModuleCreateInfo createInfo;
+			createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.codeSize = numWords * 4;
+			createInfo.pCode = words;
+			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
 			m_module = spirv::parse(words, numWords);
 

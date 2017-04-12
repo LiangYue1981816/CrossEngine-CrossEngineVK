@@ -52,30 +52,30 @@ namespace CrossEngine {
 	VkResult CRendererDeviceCompute::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
 		float queuePpriorities[1] = { 0.0f };
-		VkDeviceQueueCreateInfo queueInfo[1];
-		queueInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		queueInfo[0].pNext = NULL;
-		queueInfo[0].flags = 0;
-		queueInfo[0].queueFamilyIndex = queueFamilyIndex;
-		queueInfo[0].queueCount = 1;
-		queueInfo[0].pQueuePriorities = queuePpriorities;
+		VkDeviceQueueCreateInfo queueCreateInfo[1];
+		queueCreateInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo[0].pNext = NULL;
+		queueCreateInfo[0].flags = 0;
+		queueCreateInfo[0].queueFamilyIndex = queueFamilyIndex;
+		queueCreateInfo[0].queueCount = 1;
+		queueCreateInfo[0].pQueuePriorities = queuePpriorities;
 
-		VkDeviceCreateInfo deviceInfo;
-		deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-		deviceInfo.pNext = NULL;
-		deviceInfo.flags = 0;
-		deviceInfo.queueCreateInfoCount = 1;
-		deviceInfo.pQueueCreateInfos = queueInfo;
-		deviceInfo.enabledLayerCount = 0;
-		deviceInfo.ppEnabledLayerNames = NULL;
-		deviceInfo.enabledExtensionCount = 0;
-		deviceInfo.ppEnabledExtensionNames = NULL;
-		deviceInfo.pEnabledFeatures = NULL;
+		VkDeviceCreateInfo deviceCreateInfo;
+		deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+		deviceCreateInfo.pNext = NULL;
+		deviceCreateInfo.flags = 0;
+		deviceCreateInfo.queueCreateInfoCount = 1;
+		deviceCreateInfo.pQueueCreateInfos = queueCreateInfo;
+		deviceCreateInfo.enabledLayerCount = 0;
+		deviceCreateInfo.ppEnabledLayerNames = NULL;
+		deviceCreateInfo.enabledExtensionCount = 0;
+		deviceCreateInfo.ppEnabledExtensionNames = NULL;
+		deviceCreateInfo.pEnabledFeatures = NULL;
 
 		m_vkPhysicalDevice = vkPhysicalDevice;
 		vkGetPhysicalDeviceMemoryProperties(m_vkPhysicalDevice, &m_vkMemoryProperties);
 
-		return vkCreateDevice(m_vkPhysicalDevice, &deviceInfo, m_pRenderer->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice);
+		return vkCreateDevice(m_vkPhysicalDevice, &deviceCreateInfo, m_pRenderer->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice);
 	}
 
 	VkResult CRendererDeviceCompute::CheckDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice)

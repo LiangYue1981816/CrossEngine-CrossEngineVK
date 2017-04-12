@@ -25,35 +25,26 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererPipelineCompute::CRendererPipelineCompute(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool)
-		: CRendererPipeline(pDevice, pManager, indexDescriptorPool)
+	CRendererSemaphore::CRendererSemaphore(CRendererDevice *pDevice, CRendererResourceManager *pManager)
+		: CRendererResource(pDevice, pManager)
+		, m_vkSemaphore(VK_NULL_HANDLE)
 	{
 
 	}
 
-	CRendererPipelineCompute::~CRendererPipelineCompute(void)
+	CRendererSemaphore::~CRendererSemaphore(void)
 	{
-
+		ASSERT(m_vkSemaphore == VK_NULL_HANDLE);
 	}
-	
-	BOOL CRendererPipelineCompute::Create(VkPipelineLayout vkLayout, VkShaderModule vkShader, const char *szName)
+
+	BOOL CRendererSemaphore::Create(void)
 	{
 		try {
-			VkComputePipelineCreateInfo createInfo;
-			createInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+			VkSemaphoreCreateInfo createInfo;
+			createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;
-			createInfo.stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-			createInfo.stage.pNext = NULL;
-			createInfo.stage.flags = 0;
-			createInfo.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-			createInfo.stage.module = vkShader;
-			createInfo.stage.pName = szName;
-			createInfo.stage.pSpecializationInfo = NULL;
-			createInfo.layout = vkLayout;
-			createInfo.basePipelineHandle = VK_NULL_HANDLE;
-			createInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), VK_NULL_HANDLE, 1, &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSemaphore));
 
 			return TRUE;
 		}
@@ -62,6 +53,22 @@ namespace CrossEngine {
 			Destroy();
 
 			return FALSE;
+		}
+	}
+
+	void CRendererSemaphore::Destroy(void)
+	{
+		if (m_vkSemaphore) {
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkSemaphore, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkSemaphore = VK_NULL_HANDLE;
+	}
+
+	void CRendererSemaphore::DumpLog(void) const
+	{
+		if (m_vkSemaphore) {
+			LOGI("\t\tSemaphore 0x%x\n", m_vkSemaphore);
 		}
 	}
 

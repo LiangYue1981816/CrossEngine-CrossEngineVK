@@ -32,12 +32,12 @@ namespace CrossEngine {
 		, m_pFreeListHead{ NULL }
 		, m_pActiveListHead{ NULL }
 	{
-		VkCommandPoolCreateInfo cmdPoolInfo;
-		cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		cmdPoolInfo.pNext = NULL;
-		cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-		cmdPoolInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
-		vkCreateCommandPool(m_pDevice->GetDevice(), &cmdPoolInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
+		VkCommandPoolCreateInfo createInfo;
+		createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+		createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
+		vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
 	}
 
 	CRendererCommandPool::~CRendererCommandPool(void)

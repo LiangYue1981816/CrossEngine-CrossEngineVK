@@ -33,6 +33,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CRendererQueue;
 	class CROSS_EXPORT CRendererFenceManager;
+	class CROSS_EXPORT CRendererSemaphoreManager;
 	class CROSS_EXPORT CRendererMemoryManager;
 	class CROSS_EXPORT CRendererStagingBufferManager;
 	class CROSS_EXPORT CRendererCommandBufferManager;
@@ -113,6 +114,7 @@ namespace CrossEngine {
 		virtual VkResult CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex) = 0;
 		virtual VkResult CreateQueue(uint32_t queueFamilyIndex);
 		virtual VkResult CreateFenceManager(void);
+		virtual VkResult CreateSemaphoreManager(void);
 		virtual VkResult CreateMemoryManager(void);
 		virtual VkResult CreateStagingBufferManager(void);
 		virtual VkResult CreateCommandBufferManager(void);
@@ -130,6 +132,7 @@ namespace CrossEngine {
 	protected:
 		virtual void DestroyQueue(void);
 		virtual void DestroyFenceManager(void);
+		virtual void DestroySemaphoreManager(void);
 		virtual void DestroyMemoryManager(void);
 		virtual void DestroyStagingBufferManager(void);
 		virtual void DestroyCommandBufferManager(void);
@@ -147,6 +150,7 @@ namespace CrossEngine {
 
 	public:
 		CRendererFenceManager* GetFenceManager(void) const;
+		CRendererSemaphoreManager* GetSemaphoreManager(void) const;
 		CRendererMemoryManager* GetMemoryManager(void) const;
 		CRendererStagingBufferManager* GetStagingBufferManager(void) const;
 		CRendererCommandBufferManager* GetCommandBufferManager(void) const;
@@ -185,6 +189,7 @@ namespace CrossEngine {
 	protected:
 		CRendererQueue *m_pQueue;
 		CRendererFenceManager *m_pFenceManager;
+		CRendererSemaphoreManager *m_pSemaphoreManager;
 		CRendererMemoryManager *m_pMemoryManager;
 		CRendererStagingBufferManager *m_pStagingBufferManager;
 		CRendererCommandBufferManager *m_pCommandBufferManager;

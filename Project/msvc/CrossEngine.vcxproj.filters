@@ -330,6 +330,12 @@
     <ClInclude Include="..\..\CrossEngine\include\CrossRendererPipelineManager.h">
       <Filter>Engine\Header Files\RenderSystem\Resource\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSemaphore.h">
+      <Filter>Engine\Header Files\RenderSystem\Resource\Sync</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSemaphoreManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Resource\Sync</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\CrossEngine\src\CrossLog.cpp">
@@ -580,6 +586,12 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceVertex.cpp">
       <Filter>Engine\Source Files\RenderSystem\Core\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSemaphore.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Resource\Sync</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSemaphoreManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Resource\Sync</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

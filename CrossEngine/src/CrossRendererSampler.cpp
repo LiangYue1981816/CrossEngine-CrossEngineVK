@@ -45,26 +45,26 @@ namespace CrossEngine {
 	BOOL CRendererSampler::Create(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		try {
-			VkSamplerCreateInfo samplerInfo;
-			samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-			samplerInfo.pNext = NULL;
-			samplerInfo.flags = 0;
-			samplerInfo.magFilter = magFilter;
-			samplerInfo.minFilter = minFilter;
-			samplerInfo.mipmapMode = mipmapMode;
-			samplerInfo.addressModeU = addressMode;
-			samplerInfo.addressModeV = addressMode;
-			samplerInfo.addressModeW = addressMode;
-			samplerInfo.mipLodBias = 0.0f;
-			samplerInfo.anisotropyEnable = VK_FALSE;
-			samplerInfo.maxAnisotropy = 1.0f;
-			samplerInfo.compareEnable = VK_FALSE;
-			samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
-			samplerInfo.minLod = 0.0f;
-			samplerInfo.maxLod = 0.0f;
-			samplerInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
-			samplerInfo.unnormalizedCoordinates = VK_FALSE;
-			CALL_VK_FUNCTION_THROW(vkCreateSampler(m_pDevice->GetDevice(), &samplerInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
+			VkSamplerCreateInfo createInfo;
+			createInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.magFilter = magFilter;
+			createInfo.minFilter = minFilter;
+			createInfo.mipmapMode = mipmapMode;
+			createInfo.addressModeU = addressMode;
+			createInfo.addressModeV = addressMode;
+			createInfo.addressModeW = addressMode;
+			createInfo.mipLodBias = 0.0f;
+			createInfo.anisotropyEnable = VK_FALSE;
+			createInfo.maxAnisotropy = 1.0f;
+			createInfo.compareEnable = VK_FALSE;
+			createInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+			createInfo.minLod = 0.0f;
+			createInfo.maxLod = 0.0f;
+			createInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
+			createInfo.unnormalizedCoordinates = VK_FALSE;
+			CALL_VK_FUNCTION_THROW(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
 
 			return TRUE;
 		}

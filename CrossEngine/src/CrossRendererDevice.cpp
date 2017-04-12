@@ -32,6 +32,7 @@ namespace CrossEngine {
 
 		, m_pQueue(NULL)
 		, m_pFenceManager(NULL)
+		, m_pSemaphoreManager(NULL)
 		, m_pMemoryManager(NULL)
 		, m_pStagingBufferManager(NULL)
 		, m_pCommandBufferManager(NULL)
@@ -52,6 +53,7 @@ namespace CrossEngine {
 
 		m_pQueue = SAFE_NEW CRendererQueue(this);
 		m_pFenceManager = SAFE_NEW CRendererFenceManager(this);
+		m_pSemaphoreManager = SAFE_NEW CRendererSemaphoreManager(this);
 		m_pMemoryManager = SAFE_NEW CRendererMemoryManager(this);
 		m_pStagingBufferManager = SAFE_NEW CRendererStagingBufferManager(this);
 		m_pCommandBufferManager = SAFE_NEW CRendererCommandBufferManager(this);
@@ -74,6 +76,7 @@ namespace CrossEngine {
 
 		SAFE_DELETE(m_pQueue);
 		SAFE_DELETE(m_pFenceManager);
+		SAFE_DELETE(m_pSemaphoreManager);
 		SAFE_DELETE(m_pMemoryManager);
 		SAFE_DELETE(m_pStagingBufferManager);
 		SAFE_DELETE(m_pCommandBufferManager);
@@ -134,6 +137,7 @@ namespace CrossEngine {
 			CALL_VK_FUNCTION_THROW(CreateDevice(SelectPhysicalDevices(devices, queueFamilyIndex), queueFamilyIndex));
 			CALL_VK_FUNCTION_THROW(CreateQueue(queueFamilyIndex));
 			CALL_VK_FUNCTION_THROW(CreateFenceManager());
+			CALL_VK_FUNCTION_THROW(CreateSemaphoreManager());
 			CALL_VK_FUNCTION_THROW(CreateMemoryManager());
 			CALL_VK_FUNCTION_THROW(CreateStagingBufferManager());
 			CALL_VK_FUNCTION_THROW(CreateCommandBufferManager());
@@ -181,6 +185,7 @@ namespace CrossEngine {
 			DestroyCommandBufferManager();
 			DestroyStagingBufferManager();
 			DestroyMemoryManager();
+			DestroySemaphoreManager();
 			DestroyFenceManager();
 			DestroyQueue();
 		}
@@ -212,6 +217,11 @@ namespace CrossEngine {
 	VkResult CRendererDevice::CreateFenceManager(void)
 	{
 		return m_pFenceManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
+	}
+
+	VkResult CRendererDevice::CreateSemaphoreManager(void)
+	{
+		return m_pSemaphoreManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	VkResult CRendererDevice::CreateMemoryManager(void)
@@ -284,6 +294,11 @@ namespace CrossEngine {
 		m_pFenceManager->Destroy();
 	}
 
+	void CRendererDevice::DestroySemaphoreManager(void)
+	{
+		m_pSemaphoreManager->Destroy();
+	}
+
 	void CRendererDevice::DestroyMemoryManager(void)
 	{
 		m_pMemoryManager->Destroy();
@@ -347,6 +362,11 @@ namespace CrossEngine {
 	CRendererFenceManager* CRendererDevice::GetFenceManager(void) const
 	{
 		return m_pFenceManager;
+	}
+
+	CRendererSemaphoreManager* CRendererDevice::GetSemaphoreManager(void) const
+	{
+		return m_pSemaphoreManager;
 	}
 
 	CRendererMemoryManager* CRendererDevice::GetMemoryManager(void) const

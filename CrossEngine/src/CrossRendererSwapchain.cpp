@@ -217,25 +217,25 @@ namespace CrossEngine {
 
 		m_views.resize(numImages);
 		for (uint32_t index = 0; index < numImages; index++) {
-			VkImageViewCreateInfo viewInfo;
-			viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-			viewInfo.pNext = NULL;
-			viewInfo.flags = 0;
-			viewInfo.image = m_images[index];
-			viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			viewInfo.format = m_format;
-			viewInfo.components = CRendererHelper::vkGetFormatComponentMapping(m_format);
-			viewInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-			CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &viewInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_views[index]));
+			VkImageViewCreateInfo createInfo;
+			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.image = m_images[index];
+			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			createInfo.format = m_format;
+			createInfo.components = CRendererHelper::vkGetFormatComponentMapping(m_format);
+			createInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+			CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_views[index]));
 		}
 
 		m_semaphores.resize(numImages);
 		for (uint32_t index = 0; index < numImages; index++) {
-			VkSemaphoreCreateInfo semaphoreInfo;
-			semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-			semaphoreInfo.pNext = NULL;
-			semaphoreInfo.flags = 0;
-			CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &semaphoreInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_semaphores[index]));
+			VkSemaphoreCreateInfo createInfo;
+			createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_semaphores[index]));
 		}
 
 		return VK_SUCCESS;
