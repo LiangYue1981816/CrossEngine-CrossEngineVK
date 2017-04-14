@@ -38,7 +38,6 @@ namespace CrossEngine {
 		static BOOL vkIsFormatDepthStencil(VkFormat format);
 
 		static VkAccessFlags vkGetAccessMask(VkImageLayout layout);
-		static void vkCmdSetImageLayout(VkCommandBuffer vkCommandBuffer, VkImage vkImage, VkImageLayout oldLayout, VkImageLayout newLayout, const VkImageSubresourceRange &range);
 
 		static const char* vkImageTypeToString(VkImageType type);
 		static const char* vkFormatToString(VkFormat format);

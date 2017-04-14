@@ -83,9 +83,9 @@ namespace CrossEngine {
 			range.baseArrayLayer = 0;
 			range.layerCount = arrayLayers;
 
-			CRendererHelper::vkCmdSetImageLayout(m_pCommandBuffer->GetCommandBuffer(), vkImage, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, range);
-			vkCmdCopyBufferToImage(m_pCommandBuffer->GetCommandBuffer(), m_vkBuffer, vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, regionCount, pRegions);
-			CRendererHelper::vkCmdSetImageLayout(m_pCommandBuffer->GetCommandBuffer(), vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, range);
+			m_pCommandBuffer->CmdSetImageLayout(vkImage, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, range);
+			m_pCommandBuffer->CmdCopyBufferToImage(m_vkBuffer, vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, regionCount, pRegions);
+			m_pCommandBuffer->CmdSetImageLayout(vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, range);
 		}
 		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->End());
 		
@@ -108,7 +108,7 @@ namespace CrossEngine {
 			region.srcOffset = 0;
 			region.dstOffset = offset;
 			region.size = size;
-			vkCmdCopyBuffer(m_pCommandBuffer->GetCommandBuffer(), m_vkBuffer, vkBuffer, 1, &region);
+			m_pCommandBuffer->CmdCopyBuffer(m_vkBuffer, vkBuffer, 1, &region);
 
 			VkBufferMemoryBarrier barrierBufferToShader;
 			barrierBufferToShader.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
@@ -120,7 +120,7 @@ namespace CrossEngine {
 			barrierBufferToShader.buffer = vkBuffer;
 			barrierBufferToShader.offset = offset;
 			barrierBufferToShader.size = size;
-			vkCmdPipelineBarrier(m_pCommandBuffer->GetCommandBuffer(), srcStageMask, dstStageMask, 0, 0, NULL, 1, &barrierBufferToShader, 0, NULL);
+			m_pCommandBuffer->CmdPipelineBarrier(srcStageMask, dstStageMask, 0, 0, NULL, 1, &barrierBufferToShader, 0, NULL);
 		}
 		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->End());
 

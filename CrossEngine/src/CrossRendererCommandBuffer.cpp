@@ -308,4 +308,35 @@ namespace CrossEngine {
 		vkCmdExecuteCommands(m_vkCommandBuffer, commandBufferCount, pCommandBuffers);
 	}
 
+	void CRendererCommandBuffer::CmdSetImageLayout(VkImage vkImage, VkImageLayout oldLayout, VkImageLayout newLayout, const VkImageSubresourceRange &range) const
+	{
+		VkImageMemoryBarrier barrier;
+		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+		barrier.pNext = NULL;
+		barrier.srcAccessMask = CRendererHelper::vkGetAccessMask(oldLayout);
+		barrier.dstAccessMask = CRendererHelper::vkGetAccessMask(newLayout);
+		barrier.oldLayout = oldLayout;
+		barrier.newLayout = newLayout;
+		barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		barrier.image = vkImage;
+		barrier.subresourceRange = range;
+
+		VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+		VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+
+		if (oldLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR)
+		{
+			srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+			dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+		}
+		else if (newLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR)
+		{
+			srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+			dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+		}
+
+		vkCmdPipelineBarrier(m_vkCommandBuffer, srcStageMask, dstStageMask, 0, 0, NULL, 0, NULL, 1, &barrier);
+	}
+
 }

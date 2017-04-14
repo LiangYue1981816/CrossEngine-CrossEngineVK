@@ -89,6 +89,7 @@ namespace CrossEngine {
 		void CmdNextSubpass(VkSubpassContents contents) const;
 		void CmdEndRenderPass(void) const;
 		void CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) const;
+		void CmdSetImageLayout(VkImage vkImage, VkImageLayout oldLayout, VkImageLayout newLayout, const VkImageSubresourceRange &range) const;
 
 
 	protected:
