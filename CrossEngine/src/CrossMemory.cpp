@@ -66,6 +66,11 @@ namespace CrossEngine {
 		LOGI("\tMax allocated size = %2.2fMB (%dB)\n", m_dwMaxAllocatedSize / (1024.0f*1024.0f), m_dwMaxAllocatedSize);
 		LOGI("\n");
 
+		if (dwAllocatorCount == 0) {
+			LOGI("Memory Leak Check ...\n");
+			dump_memory_objects();
+		}
+
 		if (m_pHeapAllocator && m_pPoolAllocator) {
 			POOL_Destroy(m_pHeapAllocator, m_pPoolAllocator);
 			HEAP_Destroy(m_pHeapAllocator);
@@ -77,11 +82,6 @@ namespace CrossEngine {
 
 		if (m_mutex) {
 			pthread_mutex_destroy(&m_mutex);
-		}
-
-		if (dwAllocatorCount == 0) {
-			LOGI("Memory Leak Check ...\n");
-			dump_memory_objects();
 		}
 	}
 
