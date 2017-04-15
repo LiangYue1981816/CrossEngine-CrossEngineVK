@@ -63,25 +63,25 @@ CROSS_EXPORT int check_mem_corruption();
 #endif
 void* operator new(size_t size, const char* file, int line);
 void* operator new(size_t size) throw(std::bad_alloc);
-void* operator new(size_t size, const std::nothrow_t&) _NOEXCEPT;
+void* operator new(size_t size, const std::nothrow_t&);
 void* operator new[](size_t size, const char* file, int line);
 void* operator new[](size_t size) throw(std::bad_alloc);
-void* operator new[](size_t size, const std::nothrow_t&) _NOEXCEPT;
-void operator delete(void* ptr, const char* file, int line) _NOEXCEPT;
-void operator delete(void* ptr) _NOEXCEPT;
-void operator delete(void* ptr, const std::nothrow_t&) _NOEXCEPT;
-void operator delete[](void* ptr, const char* file, int line) _NOEXCEPT;
-void operator delete[](void* ptr) _NOEXCEPT;
-void operator delete[](void* ptr, const std::nothrow_t&) _NOEXCEPT;
+void* operator new[](size_t size, const std::nothrow_t&);
+void operator delete(void* ptr, const char* file, int line);
+void operator delete(void* ptr);
+void operator delete(void* ptr, const std::nothrow_t&);
+void operator delete[](void* ptr, const char* file, int line);
+void operator delete[](void* ptr);
+void operator delete[](void* ptr, const std::nothrow_t&);
 #else
 void* operator new(size_t size) throw(std::bad_alloc);
-void* operator new(size_t size, const std::nothrow_t&) _NOEXCEPT;
+void* operator new(size_t size, const std::nothrow_t&);
 void* operator new[](size_t size) throw(std::bad_alloc);
-void* operator new[](size_t size, const std::nothrow_t&) _NOEXCEPT;
-void operator delete(void* ptr) _NOEXCEPT;
-void operator delete(void* ptr, const std::nothrow_t&) _NOEXCEPT;
-void operator delete[](void* ptr) _NOEXCEPT;
-void operator delete[](void* ptr, const std::nothrow_t&) _NOEXCEPT;
+void* operator new[](size_t size, const std::nothrow_t&);
+void operator delete(void* ptr);
+void operator delete(void* ptr, const std::nothrow_t&);
+void operator delete[](void* ptr);
+void operator delete[](void* ptr, const std::nothrow_t&);
 #endif
 
 /**

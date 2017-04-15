@@ -14,7 +14,7 @@ void* operator new(size_t size) throw(std::bad_alloc)
 	return alloc_mem(size, NULL, 0, false);
 }
 
-void* operator new(size_t size, const std::nothrow_t&) _NOEXCEPT
+void* operator new(size_t size, const std::nothrow_t&)
 {
 	return alloc_mem(size, NULL, 0, false);
 }
@@ -29,37 +29,37 @@ void* operator new[](size_t size) throw(std::bad_alloc)
 	return alloc_mem(size, NULL, 0, true);
 }
 
-void* operator new[](size_t size, const std::nothrow_t&) _NOEXCEPT
+void* operator new[](size_t size, const std::nothrow_t&)
 {
 	return alloc_mem(size, NULL, 0, true);
 }
 
-void operator delete(void* ptr, const char* file, int line) _NOEXCEPT
+void operator delete(void* ptr, const char* file, int line)
 {
 	free_pointer(ptr, NULL, false);
 }
 
-void operator delete(void* ptr) _NOEXCEPT
+void operator delete(void* ptr)
 {
 	free_pointer(ptr, NULL, false);
 }
 
-void operator delete(void* ptr, const std::nothrow_t&) _NOEXCEPT
+void operator delete(void* ptr, const std::nothrow_t&)
 {
 	free_pointer(ptr, NULL, false);
 }
 
-void operator delete[](void* ptr, const char* file, int line) _NOEXCEPT
+void operator delete[](void* ptr, const char* file, int line)
 {
 	free_pointer(ptr, NULL, true);
 }
 
-void operator delete[](void* ptr) _NOEXCEPT
+void operator delete[](void* ptr)
 {
 	free_pointer(ptr, NULL, true);
 }
 
-void operator delete[](void* ptr, const std::nothrow_t&) _NOEXCEPT
+void operator delete[](void* ptr, const std::nothrow_t&)
 {
 	free_pointer(ptr, NULL, true);
 }
@@ -69,7 +69,7 @@ void* operator new(size_t size) throw(std::bad_alloc)
 	return CrossEngine::Alloc(size, CrossEngine::MEMTYPE_HEAP);
 }
 
-void* operator new(size_t size, const std::nothrow_t&) _NOEXCEPT
+void* operator new(size_t size, const std::nothrow_t&)
 {
 	return CrossEngine::Alloc(size, CrossEngine::MEMTYPE_HEAP);
 }
@@ -79,27 +79,27 @@ void* operator new[](size_t size) throw(std::bad_alloc)
 	return CrossEngine::Alloc(size, CrossEngine::MEMTYPE_HEAP);
 }
 
-void* operator new[](size_t size, const std::nothrow_t&) _NOEXCEPT
+void* operator new[](size_t size, const std::nothrow_t&)
 {
 	return CrossEngine::Alloc(size, CrossEngine::MEMTYPE_HEAP);
 }
 
-void operator delete(void* ptr) _NOEXCEPT
+void operator delete(void* ptr)
 {
 	CrossEngine::Free(ptr);
 }
 
-void operator delete(void* ptr, const std::nothrow_t&) _NOEXCEPT
+void operator delete(void* ptr, const std::nothrow_t&)
 {
 	CrossEngine::Free(ptr);
 }
 
-void operator delete[](void* ptr) _NOEXCEPT
+void operator delete[](void* ptr)
 {
 	CrossEngine::Free(ptr);
 }
 
-void operator delete[](void* ptr, const std::nothrow_t&) _NOEXCEPT
+void operator delete[](void* ptr, const std::nothrow_t&)
 {
 	CrossEngine::Free(ptr);
 }

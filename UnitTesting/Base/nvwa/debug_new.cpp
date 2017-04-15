@@ -307,16 +307,15 @@ CROSS_EXPORT void free_pointer(void* usr_ptr, void* addr, bool is_array)
 }
 
 /**
- * Checks for memory leaks.
- *
- * @return  zero if no leakage is found; the number of leaks otherwise
+ * Dump memory objects.
  */
-CROSS_EXPORT int check_leaks()
+CROSS_EXPORT int dump_memory_objects()
 {
-    int leak_cnt = 0;
+	int object_cnt = 0;
+	size_t total_size = 0;
+	
     fast_mutex_autolock lock_ptr(new_ptr_lock);
-    new_ptr_list_t* ptr = new_ptr_list.next;
-    while (ptr != &new_ptr_list)
+	for (new_ptr_list_t* ptr = new_ptr_list.next; ptr != &new_ptr_list; ptr = ptr->next)
     {
         const char* const usr_ptr = (char*)ptr + ALIGNED_LIST_ITEM_SIZE;
         if (ptr->magic != DEBUG_NEW_MAGIC)
@@ -329,18 +328,19 @@ CROSS_EXPORT int check_leaks()
             LOGI("warning: overwritten past end of object at %p\n", usr_ptr);
         }
 #endif
-        LOGI("Leaked object at %p (size %lu, ", usr_ptr, (unsigned long)ptr->size);
+        LOGI("object at %p (size %lu, ", usr_ptr, (unsigned long)ptr->size);
         if (ptr->line != 0)
             print_position(ptr->file, ptr->line);
         else
             print_position(ptr->addr, ptr->line);
         LOGI(")\n");
-        ptr = ptr->next;
-        ++leak_cnt;
+        
+		object_cnt++;
+		total_size += ptr->size;
     }
-    if (leak_cnt)
-        LOGI("*** %d leaks found\n", leak_cnt);
-    return leak_cnt;
+
+    LOGI("*** %d objects found, total size %d\n", object_cnt, total_size);
+    return object_cnt;
 }
 
 /**

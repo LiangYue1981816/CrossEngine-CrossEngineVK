@@ -93,7 +93,7 @@ void Render(void)
 	if (pSwapchain) {
 		//pFences[pSwapchain->GetImageIndex()]->Wait(UINT64_MAX);
 		//pFences[pSwapchain->GetImageIndex()]->Reset();
-		pSwapchain->AcquireNextImage();
+		//pSwapchain->AcquireNextImage();
 		//pSwapchain->Present();
 	}
 }

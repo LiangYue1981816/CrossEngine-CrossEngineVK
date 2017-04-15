@@ -265,13 +265,13 @@ namespace CrossEngine {
 		m_semaphores.clear();
 	}
 
-	VkResult CRendererSwapchain::Present(VkSemaphore *pSemaphoreBackBufferRenderingDone) const
+	VkResult CRendererSwapchain::Present(VkSemaphore vkSemaphoreRenderingDone) const
 	{
 		VkPresentInfoKHR presentInfo;
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 		presentInfo.pNext = NULL;
 		presentInfo.waitSemaphoreCount = 1;
-		presentInfo.pWaitSemaphores = pSemaphoreBackBufferRenderingDone;
+		presentInfo.pWaitSemaphores = &vkSemaphoreRenderingDone;
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = &m_vkSwapchain;
 		presentInfo.pImageIndices = &m_indexImage;
@@ -279,11 +279,11 @@ namespace CrossEngine {
 		return vkQueuePresentKHR(m_pDevice->GetQueue()->GetQueue(), &presentInfo);
 	}
 
-	VkResult CRendererSwapchain::AcquireNextImage(void)
+	VkResult CRendererSwapchain::AcquireNextImage(VkFence vkFence)
 	{
 		m_indexImage = 0;
 		m_indexSemaphore = (m_indexSemaphore + 1) % m_semaphores.size();
-		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, UINT64_MAX, m_semaphores[m_indexSemaphore], VK_NULL_HANDLE, &m_indexImage);
+		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, UINT64_MAX, m_semaphores[m_indexSemaphore], vkFence, &m_indexImage);
 	}
 
 	uint32_t CRendererSwapchain::GetImageIndex(void) const

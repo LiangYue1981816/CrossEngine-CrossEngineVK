@@ -53,8 +53,8 @@ namespace CrossEngine {
 
 
 	public:
-		VkResult Present(VkSemaphore *pSemaphoreBackBufferRenderingDone) const;
-		VkResult AcquireNextImage(void);
+		VkResult Present(VkSemaphore vkSemaphoreRenderingDone) const;
+		VkResult AcquireNextImage(VkFence vkFence);
 		uint32_t GetImageIndex(void) const;
 
 
