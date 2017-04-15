@@ -366,37 +366,24 @@ namespace CrossEngine {
 		}
 	}
 
+	uint32_t CRendererRenderPass::GetSubpassCount(void) const
+	{
+		return m_subpasses.size();
+	}
+
 	VkRenderPass CRendererRenderPass::GetRenderPass(void) const
 	{
 		return m_vkRenderPass;
 	}
 
-	void CRendererRenderPass::BeginRenderPass(VkCommandBuffer vkCommandBuffer, VkFramebuffer vkFramebuffer, VkRect2D renderArea, VkSubpassContents contents) const
+	uint32_t CRendererRenderPass::GetClearValueCount(void) const
 	{
-		VkRenderPassBeginInfo beginInfo;
-		beginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		beginInfo.pNext = NULL;
-		beginInfo.renderPass = m_vkRenderPass;
-		beginInfo.framebuffer = vkFramebuffer;
-		beginInfo.renderArea = renderArea;
-		beginInfo.clearValueCount = 2;
-		beginInfo.pClearValues = m_clearValues;
-		vkCmdBeginRenderPass(vkCommandBuffer, &beginInfo, contents);
+		return sizeof(m_clearValues) / sizeof(VkClearValue);
 	}
 
-	void CRendererRenderPass::EndRenderPass(VkCommandBuffer vkCommandBuffer) const
+	const VkClearValue* CRendererRenderPass::GetClearValues(void) const
 	{
-		vkCmdEndRenderPass(vkCommandBuffer);
-	}
-
-	void CRendererRenderPass::NextSubpass(VkCommandBuffer vkCommandBuffer, VkSubpassContents contents) const
-	{
-		vkCmdNextSubpass(vkCommandBuffer, contents);
-	}
-
-	uint32_t CRendererRenderPass::GetSubpassCount(void) const
-	{
-		return m_subpasses.size();
+		return m_clearValues;
 	}
 
 }

@@ -73,13 +73,11 @@ namespace CrossEngine {
 
 
 	public:
+		uint32_t GetSubpassCount(void) const;
 		VkRenderPass GetRenderPass(void) const;
 
-	public:
-		void BeginRenderPass(VkCommandBuffer vkCommandBuffer, VkFramebuffer vkFramebuffer, VkRect2D renderArea, VkSubpassContents contents) const;
-		void EndRenderPass(VkCommandBuffer vkCommandBuffer) const;
-		void NextSubpass(VkCommandBuffer vkCommandBuffer, VkSubpassContents contents) const;
-		uint32_t GetSubpassCount(void) const;
+		uint32_t GetClearValueCount(void) const;
+		const VkClearValue* GetClearValues(void) const;
 
 
 	protected:

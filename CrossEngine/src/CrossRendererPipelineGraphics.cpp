@@ -421,12 +421,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CRendererPipelineGraphics::BindPipeline(VkCommandBuffer vkCommandBuffer) const
+	VkPipelineLayout CRendererPipelineGraphics::GetPipelineLayout(void) const
 	{
-		vkCmdBindPipeline(vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_vkPipeline);
+		return m_vkPipelineLayout;
 	}
 
-	void CRendererPipelineGraphics::BindDescriptorSets(VkCommandBuffer vkCommandBuffer) const
+	std::vector<VkDescriptorSet> CRendererPipelineGraphics::GetDescriptorSets(void) const
 	{
 		std::vector<VkDescriptorSet> descriptors;
 
@@ -438,7 +438,7 @@ namespace CrossEngine {
 			descriptors.push_back(itBuffer.second.vkDescriptorSet);
 		}
 
-		vkCmdBindDescriptorSets(vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_vkPipelineLayout, 0, descriptors.size(), descriptors.data(), 0, NULL);
+		return descriptors;
 	}
 
 	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)

@@ -82,8 +82,8 @@ namespace CrossEngine {
 		BOOL SetUniformImage(const char *szName, VkSampler vkSampler, VkImageView vkImageView, VkImageLayout vkImageLayout);
 		BOOL SetUniformBuffer(const char *szName, VkBuffer vkBuffer, VkDeviceSize offset, VkDeviceSize range);
 
-		void BindPipeline(VkCommandBuffer vkCommandBuffer) const;
-		void BindDescriptorSets(VkCommandBuffer vkCommandBuffer) const;
+		VkPipelineLayout GetPipelineLayout(void) const;
+		std::vector<VkDescriptorSet> GetDescriptorSets(void) const;
 
 	public:
 		virtual BOOL Create(VkRenderPass vkRenderPass);
