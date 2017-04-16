@@ -45,12 +45,14 @@ namespace CrossEngine {
 
 	public:
 		VkBuffer GetBuffer(void) const;
-		VkDeviceSize GetSize(void) const;
+		VkDeviceSize GetBufferSize(void) const;
+		VkDeviceSize GetMemorySize(void) const;
 		VkBufferUsageFlags GetUsage(void) const;
 
 
 	protected:
-		VkDeviceSize m_size;
+		VkDeviceSize m_bufferSize;
+		VkDeviceSize m_memorySize;
 		VkBufferUsageFlags m_usage;
 
 	protected:

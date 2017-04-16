@@ -29,8 +29,9 @@ namespace CrossEngine {
 		: CRendererResource(pDevice, pManager)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
-		, m_size(0)
 		, m_usage(0)
+		, m_bufferSize(0)
+		, m_memorySize(0)
 
 		, m_pMemory(NULL)
 	{
@@ -62,8 +63,9 @@ namespace CrossEngine {
 			m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, memoryPropertyFlags);
 			m_pMemory->BindBuffer(m_vkBuffer);
 
-			m_size = m_pMemory->GetSize();
 			m_usage = usage;
+			m_bufferSize = size;
+			m_memorySize = m_pMemory->GetSize();
 
 			return TRUE;
 		}
@@ -107,7 +109,7 @@ namespace CrossEngine {
 	void CRendererBuffer::DumpLog(void) const
 	{
 		if (m_vkBuffer) {
-			LOGI("\t\tBuffer 0x%x: size = %d usage = %s\n", m_vkBuffer, m_size, CRendererHelper::vkBufferUsageFlagsToString(m_usage));
+			LOGI("\t\tBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_memorySize, CRendererHelper::vkBufferUsageFlagsToString(m_usage));
 		}
 	}
 
@@ -116,9 +118,14 @@ namespace CrossEngine {
 		return m_vkBuffer;
 	}
 
-	VkDeviceSize CRendererBuffer::GetSize(void) const
+	VkDeviceSize CRendererBuffer::GetBufferSize(void) const
 	{
-		return m_size;
+		return m_bufferSize;
+	}
+
+	VkDeviceSize CRendererBuffer::GetMemorySize(void) const
+	{
+		return m_memorySize;
 	}
 
 	VkBufferUsageFlags CRendererBuffer::GetUsage(void) const

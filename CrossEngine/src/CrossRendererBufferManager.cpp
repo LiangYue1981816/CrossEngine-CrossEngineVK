@@ -71,7 +71,8 @@ namespace CrossEngine {
 	void CRendererBufferManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
-		VkDeviceSize size = 0;
+		VkDeviceSize bufferSize = 0;
+		VkDeviceSize memorySize = 0;
 
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
@@ -79,12 +80,13 @@ namespace CrossEngine {
 			for (const auto &itResource : m_pResources) {
 				if (const CRendererBuffer *pResource = (CRendererBuffer *)itResource.second) {
 					pResource->DumpLog();
-					size += pResource->GetSize();
+					bufferSize += pResource->GetBufferSize();
+					memorySize += pResource->GetMemorySize();
 					count++;
 				}
 			}
 		}
-		LOGI("*** %d objects found, total size %d\n", count, size);
+		LOGI("*** %d objects found, total buffer size %d total memory size %d\n", count, bufferSize, memorySize);
 		LOGI("\n");
 	}
 

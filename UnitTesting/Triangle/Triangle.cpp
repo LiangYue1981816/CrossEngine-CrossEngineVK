@@ -132,7 +132,7 @@ void CreateBuffer(void)
 	glm::mat4 mtxViewModelProjection = mtxProjection * mtxViewModel;
 	pUniformBuffer = pDevice->GetBufferManager()->AllocUniformBuffer();
 	pUniformBuffer->Create(sizeof(glm::mat4), 0, &mtxViewModelProjection);
-	pPipeline->SetUniformBuffer("UBO", pUniformBuffer->GetBuffer(), 0, 64);
+	pPipeline->SetUniformBuffer("UBO", pUniformBuffer->GetBuffer(), 0, pUniformBuffer->GetBufferSize());
 }
 
 void DestroyBuffer()
@@ -255,8 +255,8 @@ void Render(void)
 		VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 		VkCommandBuffer commandBuffer = pCommandBuffers[pSwapchain->GetImageIndex()]->GetCommandBuffer();
 		VkSemaphore acquireSemaphore = pSwapchain->GetAcquireSemaphore();
-		VkSemaphore renderDoneSemaphore = pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore();
-		pDevice->GetQueue()->Submit(1, &commandBuffer, &acquireSemaphore, &waitStageMask, &renderDoneSemaphore, pFences[pSwapchain->GetImageIndex()]->GetFence());
+		VkSemaphore renderSemaphore = pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore();
+		pDevice->GetQueue()->Submit(1, &commandBuffer, &acquireSemaphore, &waitStageMask, &renderSemaphore, pFences[pSwapchain->GetImageIndex()]->GetFence());
 	}
 	pSwapchain->Present(pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());
 }
