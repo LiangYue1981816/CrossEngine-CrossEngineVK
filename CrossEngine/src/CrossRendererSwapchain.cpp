@@ -92,13 +92,13 @@ namespace CrossEngine {
 	CRendererSwapchain::CRendererSwapchain(CRendererDeviceGraphics *pDevice)
 		: m_pDevice(pDevice)
 		, m_vkSwapchain(VK_NULL_HANDLE)
-
-		, m_indexImage(0)
-		, m_indexSemaphore(0)
+		, m_vkAcquireSemaphore(VK_NULL_HANDLE)
 
 		, m_width(0)
 		, m_height(0)
 		, m_format(VK_FORMAT_UNDEFINED)
+
+		, m_indexImage(0)
 	{
 
 	}
@@ -106,9 +106,9 @@ namespace CrossEngine {
 	CRendererSwapchain::~CRendererSwapchain(void)
 	{
 		ASSERT(m_vkSwapchain == VK_NULL_HANDLE);
+		ASSERT(m_vkAcquireSemaphore == VK_NULL_HANDLE);
 		ASSERT(m_images.empty());
-		ASSERT(m_views.empty());
-		ASSERT(m_semaphores.empty());
+		ASSERT(m_imageViews.empty());
 	}
 
 	BOOL CRendererSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
@@ -182,10 +182,6 @@ namespace CrossEngine {
 		VkPresentModeKHR presentMode = GetSwapchainPresentMode(modes);
 		VkSurfaceFormatKHR imageFormat = GetSwapchainFormat(formats);
 
-		m_width = width;
-		m_height = height;
-		m_format = imageFormat.format;
-
 		VkSwapchainCreateInfoKHR swapchainInfo = {};
 		swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 		swapchainInfo.pNext = NULL;
@@ -205,7 +201,19 @@ namespace CrossEngine {
 		swapchainInfo.presentMode = presentMode;
 		swapchainInfo.clipped = TRUE;
 		swapchainInfo.oldSwapchain = VK_NULL_HANDLE;
-		return vkCreateSwapchainKHR(m_pDevice->GetDevice(), &swapchainInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSwapchain);
+		CALL_VK_FUNCTION_RETURN(vkCreateSwapchainKHR(m_pDevice->GetDevice(), &swapchainInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSwapchain));
+
+		VkSemaphoreCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = 0;
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkAcquireSemaphore));
+
+		m_width = width;
+		m_height = height;
+		m_format = imageFormat.format;
+
+		return VK_SUCCESS;
 	}
 
 	VkResult CRendererSwapchain::CreateImagesAndImageViews(void)
@@ -215,9 +223,9 @@ namespace CrossEngine {
 
 		ASSERT(numImages > 0);
 		m_images.resize(numImages);
+		m_imageViews.resize(numImages);
 		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, m_images.data()));
 
-		m_views.resize(numImages);
 		for (uint32_t index = 0; index < numImages; index++) {
 			VkImageViewCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -228,16 +236,7 @@ namespace CrossEngine {
 			createInfo.format = m_format;
 			createInfo.components = CRendererHelper::vkGetFormatComponentMapping(m_format);
 			createInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-			CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_views[index]));
-		}
-
-		m_semaphores.resize(numImages);
-		for (uint32_t index = 0; index < numImages; index++) {
-			VkSemaphoreCreateInfo createInfo = {};
-			createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-			createInfo.pNext = NULL;
-			createInfo.flags = 0;
-			CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_semaphores[index]));
+			CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_imageViews[index]));
 		}
 
 		return VK_SUCCESS;
@@ -249,31 +248,31 @@ namespace CrossEngine {
 			vkDestroySwapchainKHR(m_pDevice->GetDevice(), m_vkSwapchain, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
 		}
 
+		if (m_vkAcquireSemaphore) {
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		}
+
 		m_vkSwapchain = VK_NULL_HANDLE;
+		m_vkAcquireSemaphore = VK_NULL_HANDLE;
 	}
 
 	void CRendererSwapchain::DestroyImagesAndImageViews(void)
 	{
-		for (uint32_t index = 0; index < m_views.size(); index++) {
-			vkDestroyImageView(m_pDevice->GetDevice(), m_views[index], m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		for (uint32_t index = 0; index < m_semaphores.size(); index++) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_semaphores[index], m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		for (uint32_t index = 0; index < m_imageViews.size(); index++) {
+			vkDestroyImageView(m_pDevice->GetDevice(), m_imageViews[index], m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_images.clear();
-		m_views.clear();
-		m_semaphores.clear();
+		m_imageViews.clear();
 	}
 
-	VkResult CRendererSwapchain::Present(VkSemaphore vkSemaphoreRenderingDone) const
+	VkResult CRendererSwapchain::Present(VkSemaphore vkSemaphoreWaitRenderingDone) const
 	{
 		VkPresentInfoKHR presentInfo = {};
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 		presentInfo.pNext = NULL;
 		presentInfo.waitSemaphoreCount = 1;
-		presentInfo.pWaitSemaphores = &vkSemaphoreRenderingDone;
+		presentInfo.pWaitSemaphores = &vkSemaphoreWaitRenderingDone;
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = &m_vkSwapchain;
 		presentInfo.pImageIndices = &m_indexImage;
@@ -283,14 +282,13 @@ namespace CrossEngine {
 
 	VkResult CRendererSwapchain::AcquireNextImage(VkFence vkFence)
 	{
-		m_indexImage = 0;
-		m_indexSemaphore = (m_indexSemaphore + 1) % m_semaphores.size();
-		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, UINT64_MAX, m_semaphores[m_indexSemaphore], vkFence, &m_indexImage);
+		m_indexImage = -1;
+		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, UINT64_MAX, m_vkAcquireSemaphore, vkFence, &m_indexImage);
 	}
 
 	VkSemaphore CRendererSwapchain::GetAcquireSemaphore(void) const
 	{
-		return m_semaphores[m_indexSemaphore];
+		return m_vkAcquireSemaphore;
 	}
 
 	uint32_t CRendererSwapchain::GetImageIndex(void) const
@@ -310,7 +308,7 @@ namespace CrossEngine {
 
 	VkImageView CRendererSwapchain::GetImageView(uint32_t indexImage) const
 	{
-		return m_views[indexImage];
+		return m_imageViews[indexImage];
 	}
 
 	uint32_t CRendererSwapchain::GetWidth(void) const

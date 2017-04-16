@@ -53,7 +53,7 @@ namespace CrossEngine {
 
 
 	public:
-		VkResult Present(VkSemaphore vkSemaphoreRenderingDone) const;
+		VkResult Present(VkSemaphore vkSemaphoreWaitRenderingDone) const;
 		VkResult AcquireNextImage(VkFence vkFence);
 		VkSemaphore GetAcquireSemaphore(void) const;
 		uint32_t GetImageIndex(void) const;
@@ -70,18 +70,17 @@ namespace CrossEngine {
 
 
 	protected:
-		uint32_t m_indexImage;
-		uint32_t m_indexSemaphore;
-
 		uint32_t m_width;
 		uint32_t m_height;
 		VkFormat m_format;
 		
+		uint32_t m_indexImage;
 		std::vector<VkImage> m_images;
-		std::vector<VkImageView> m_views;
-		std::vector<VkSemaphore> m_semaphores;
+		std::vector<VkImageView> m_imageViews;
 
+	protected:
 		VkSwapchainKHR m_vkSwapchain;
+		VkSemaphore m_vkAcquireSemaphore;
 
 	protected:
 		CRendererDeviceGraphics *m_pDevice;
