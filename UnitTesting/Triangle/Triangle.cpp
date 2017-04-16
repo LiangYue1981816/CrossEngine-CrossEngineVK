@@ -18,6 +18,7 @@ CrossEngine::CRendererRenderPass *pRenderPass = NULL;
 CrossEngine::CRendererFrameBuffer *pFrameBuffers[3] = { NULL };
 
 CrossEngine::CRendererFence *pFences[3] = { NULL };
+CrossEngine::CRendererSemaphore *pRenderDoneSemaphores[3] = { NULL };
 CrossEngine::CRendererCommandBuffer *pCommandBuffers[3] = { NULL };
 
 
@@ -91,6 +92,9 @@ void CreateSynchronization(void)
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		pFences[indexView] = pDevice->GetFenceManager()->AllocFence();
 		pFences[indexView]->Create();
+
+		pRenderDoneSemaphores[indexView] = pDevice->GetSemaphoreManager()->AllocSemaphore();
+		pRenderDoneSemaphores[indexView]->Create();
 	}
 }
 
@@ -98,6 +102,7 @@ void DestroySynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		pDevice->GetFenceManager()->Free(pFences[indexView]);
+		pDevice->GetSemaphoreManager()->Free(pRenderDoneSemaphores[indexView]);
 	}
 }
 
@@ -239,10 +244,20 @@ void Destroy(void)
 
 void Render(void)
 {
-	if (pSwapchain) {
-		//pFences[pSwapchain->GetImageIndex()]->Wait(UINT64_MAX);
-		//pFences[pSwapchain->GetImageIndex()]->Reset();
-		//pSwapchain->AcquireNextImage();
-		//pSwapchain->Present();
+	if (pSwapchain == NULL) {
+		return;
 	}
+
+	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
+	{
+		pFences[pSwapchain->GetImageIndex()]->Wait(UINT64_MAX);
+		pFences[pSwapchain->GetImageIndex()]->Reset();
+
+		VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+		VkCommandBuffer commandBuffer = pCommandBuffers[pSwapchain->GetImageIndex()]->GetCommandBuffer();
+		VkSemaphore acquireSemaphore = pSwapchain->GetAcquireSemaphore();
+		VkSemaphore renderDoneSemaphore = pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore();
+		pDevice->GetQueue()->Submit(1, &commandBuffer, &acquireSemaphore, &waitStageMask, &renderDoneSemaphore, pFences[pSwapchain->GetImageIndex()]->GetFence());
+	}
+	pSwapchain->Present(pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());
 }

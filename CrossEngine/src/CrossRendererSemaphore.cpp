@@ -72,4 +72,9 @@ namespace CrossEngine {
 		}
 	}
 
+	VkSemaphore CRendererSemaphore::GetSemaphore(void) const
+	{
+		return m_vkSemaphore;
+	}
+
 }

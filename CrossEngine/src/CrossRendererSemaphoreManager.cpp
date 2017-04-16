@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 	}
 
-	CRendererSemaphore* CRendererSemaphoreManager::AllocFence(void)
+	CRendererSemaphore* CRendererSemaphoreManager::AllocSemaphore(void)
 	{
 		CRendererSemaphore *pSemaphore = SAFE_NEW CRendererSemaphore(m_pDevice, this);
 		m_pResources[pSemaphore] = pSemaphore;

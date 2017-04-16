@@ -288,6 +288,11 @@ namespace CrossEngine {
 		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, UINT64_MAX, m_semaphores[m_indexSemaphore], vkFence, &m_indexImage);
 	}
 
+	VkSemaphore CRendererSwapchain::GetAcquireSemaphore(void) const
+	{
+		return m_semaphores[m_indexSemaphore];
+	}
+
 	uint32_t CRendererSwapchain::GetImageIndex(void) const
 	{
 		return m_indexImage;

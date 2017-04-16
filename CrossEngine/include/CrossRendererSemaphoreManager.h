@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CRendererSemaphore* AllocFence(void);
+		CRendererSemaphore* AllocSemaphore(void);
 	};
 
 }
