@@ -61,7 +61,7 @@ namespace CrossEngine {
 			std::vector<VkImageView> attachments;
 			uint32_t numAttachment = CreateAttachments(attachments);
 
-			VkFramebufferCreateInfo createInfo;
+			VkFramebufferCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

@@ -199,7 +199,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateSubpasses(subpasses, inputAttachments, colorAttachments, resolveAttachments, preserveAttachments, depthStencilAttachment));
 			CALL_BOOL_FUNCTION_THROW(CreateDependencies(dependencies));
 
-			VkRenderPassCreateInfo createInfo;
+			VkRenderPassCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

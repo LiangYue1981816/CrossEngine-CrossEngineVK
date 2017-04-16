@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 	VkResult CRendererCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags) const
 	{
-		VkCommandBufferBeginInfo beginInfo;
+		VkCommandBufferBeginInfo beginInfo = {};
 		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 		beginInfo.pNext = NULL;
 		beginInfo.flags = flags;
@@ -65,7 +65,7 @@ namespace CrossEngine {
 
 	VkResult CRendererCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, VkFramebuffer vkFramebuffer, VkRenderPass vkRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics) const
 	{
-		VkCommandBufferInheritanceInfo inheritanceInfo;
+		VkCommandBufferInheritanceInfo inheritanceInfo = {};
 		inheritanceInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
 		inheritanceInfo.pNext = NULL;
 		inheritanceInfo.renderPass = vkRenderPass;
@@ -75,7 +75,7 @@ namespace CrossEngine {
 		inheritanceInfo.queryFlags = queryFlags;
 		inheritanceInfo.pipelineStatistics = pipelineStatistics;
 
-		VkCommandBufferBeginInfo beginInfo;
+		VkCommandBufferBeginInfo beginInfo = {};
 		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 		beginInfo.pNext = NULL;
 		beginInfo.flags = flags;
@@ -310,7 +310,7 @@ namespace CrossEngine {
 
 	void CRendererCommandBuffer::CmdSetImageLayout(VkImage vkImage, VkImageLayout oldLayout, VkImageLayout newLayout, const VkImageSubresourceRange &range) const
 	{
-		VkImageMemoryBarrier barrier;
+		VkImageMemoryBarrier barrier = {};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
 		barrier.pNext = NULL;
 		barrier.srcAccessMask = CRendererHelper::vkGetAccessMask(oldLayout);

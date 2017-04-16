@@ -243,7 +243,7 @@ namespace CrossEngine {
 
 	VkResult CRenderer::CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions)
 	{
-		VkApplicationInfo appInfo;
+		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pNext = NULL;
 		appInfo.pApplicationName = TAG_NAME;
@@ -252,7 +252,7 @@ namespace CrossEngine {
 		appInfo.engineVersion = 1;
 		appInfo.apiVersion = VK_API_VERSION_1_0;
 
-		VkInstanceCreateInfo createInfo;
+		VkInstanceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;
@@ -272,7 +272,7 @@ namespace CrossEngine {
 		if (vkCreateDebugReportCallback == NULL) return VK_ERROR_INITIALIZATION_FAILED;
 		if (vkDestroyDebugReportCallback == NULL) return VK_ERROR_INITIALIZATION_FAILED;
 
-		VkDebugReportCallbackCreateInfoEXT debugInfo;
+		VkDebugReportCallbackCreateInfoEXT debugInfo = {};
 		debugInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
 		debugInfo.pNext = NULL;
 		debugInfo.pUserData = NULL;
@@ -292,7 +292,7 @@ namespace CrossEngine {
 	VkResult CRenderer::CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd)
 	{
 #ifdef _PLATFORM_WINDOWS_
-		VkWin32SurfaceCreateInfoKHR surfaceInfo;
+		VkWin32SurfaceCreateInfoKHR surfaceInfo = {};
 		surfaceInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 		surfaceInfo.pNext = NULL;
 		surfaceInfo.flags = 0;
@@ -302,7 +302,7 @@ namespace CrossEngine {
 #endif
 
 #ifdef _PLATFORM_ANDROID_
-		VkAndroidSurfaceCreateInfoKHR surfaceInfo;
+		VkAndroidSurfaceCreateInfoKHR surfaceInfo = {};
 		surfaceInfo.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
 		surfaceInfo.pNext = NULL;
 		surfaceInfo.flags = 0;

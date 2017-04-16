@@ -110,7 +110,7 @@ namespace CrossEngine {
 			return VK_SUCCESS;
 		}
 
-		VkMappedMemoryRange range;
+		VkMappedMemoryRange range = {};
 		range.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
 		range.pNext = NULL;
 		range.memory = m_vkMemory;

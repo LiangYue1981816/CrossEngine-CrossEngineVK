@@ -40,7 +40,7 @@ namespace CrossEngine {
 	BOOL CRendererFence::Create(void)
 	{
 		try {
-			VkFenceCreateInfo createInfo;
+			VkFenceCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

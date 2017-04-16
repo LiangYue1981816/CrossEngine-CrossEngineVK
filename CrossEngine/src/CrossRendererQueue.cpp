@@ -63,7 +63,7 @@ namespace CrossEngine {
 
 	VkResult CRendererQueue::Submit(uint32_t commandBufferCount, const VkCommandBuffer *pCommandBuffers, const VkSemaphore *pWaitSemaphore, const VkPipelineStageFlags *pWaitDstStageMask, const VkSemaphore *pSignalSemaphore, VkFence vkFence) const
 	{
-		VkSubmitInfo submitInfo;
+		VkSubmitInfo submitInfo = {};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		submitInfo.pNext = NULL;
 		submitInfo.waitSemaphoreCount = pWaitSemaphore == NULL ? 0 : 1;

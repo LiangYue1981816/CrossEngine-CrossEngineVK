@@ -92,7 +92,7 @@ namespace CrossEngine {
 	BOOL CRendererShader::Create(const uint32_t *words, size_t numWords)
 	{
 		try {
-			VkShaderModuleCreateInfo createInfo;
+			VkShaderModuleCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

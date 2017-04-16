@@ -40,7 +40,7 @@ namespace CrossEngine {
 	BOOL CRendererSemaphore::Create(void)
 	{
 		try {
-			VkSemaphoreCreateInfo createInfo;
+			VkSemaphoreCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

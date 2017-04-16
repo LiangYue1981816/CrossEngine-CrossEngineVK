@@ -42,7 +42,7 @@ namespace CrossEngine {
 		, pNext(NULL)
 		, pPrev(NULL)
 	{
-		VkMemoryAllocateInfo allocInfo;
+		VkMemoryAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.pNext = NULL;
 		allocInfo.allocationSize = m_size;

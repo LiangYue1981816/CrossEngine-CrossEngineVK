@@ -53,7 +53,7 @@ namespace CrossEngine {
 			{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_STORAGE_IMAGE] },
 		};
 
-		VkDescriptorPoolCreateInfo createInfo;
+		VkDescriptorPoolCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
@@ -80,7 +80,7 @@ namespace CrossEngine {
 			}
 		}
 
-		VkDescriptorSetAllocateInfo allocInfo;
+		VkDescriptorSetAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 		allocInfo.pNext = NULL;
 		allocInfo.descriptorPool = m_vkDescriptorPool;

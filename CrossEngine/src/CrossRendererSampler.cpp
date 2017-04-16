@@ -45,7 +45,7 @@ namespace CrossEngine {
 	BOOL CRendererSampler::Create(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		try {
-			VkSamplerCreateInfo createInfo;
+			VkSamplerCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

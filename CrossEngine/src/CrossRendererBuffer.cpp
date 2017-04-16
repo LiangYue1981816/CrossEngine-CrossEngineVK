@@ -46,7 +46,7 @@ namespace CrossEngine {
 	BOOL CRendererBuffer::Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags)
 	{
 		try {
-			VkBufferCreateInfo createInfo;
+			VkBufferCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

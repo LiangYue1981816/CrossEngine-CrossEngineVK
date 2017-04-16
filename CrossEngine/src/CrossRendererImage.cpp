@@ -101,7 +101,7 @@ namespace CrossEngine {
 			return VK_ERROR_FORMAT_NOT_SUPPORTED;
 		}
 
-		VkImageCreateInfo createInfo;
+		VkImageCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;
@@ -219,7 +219,7 @@ namespace CrossEngine {
 
 	VkResult CRendererImage::CreateImageView(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t mipLevels)
 	{
-		VkImageViewCreateInfo createInfo;
+		VkImageViewCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;

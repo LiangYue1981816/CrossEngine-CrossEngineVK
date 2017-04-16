@@ -184,7 +184,7 @@ namespace CrossEngine {
 
 		m_format = imageFormat.format;
 
-		VkSwapchainCreateInfoKHR swapchainInfo;
+		VkSwapchainCreateInfoKHR swapchainInfo = {};
 		swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 		swapchainInfo.pNext = NULL;
 		swapchainInfo.flags = 0;
@@ -217,7 +217,7 @@ namespace CrossEngine {
 
 		m_views.resize(numImages);
 		for (uint32_t index = 0; index < numImages; index++) {
-			VkImageViewCreateInfo createInfo;
+			VkImageViewCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;
@@ -231,7 +231,7 @@ namespace CrossEngine {
 
 		m_semaphores.resize(numImages);
 		for (uint32_t index = 0; index < numImages; index++) {
-			VkSemaphoreCreateInfo createInfo;
+			VkSemaphoreCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;
@@ -267,7 +267,7 @@ namespace CrossEngine {
 
 	VkResult CRendererSwapchain::Present(VkSemaphore vkSemaphoreRenderingDone) const
 	{
-		VkPresentInfoKHR presentInfo;
+		VkPresentInfoKHR presentInfo = {};
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 		presentInfo.pNext = NULL;
 		presentInfo.waitSemaphoreCount = 1;

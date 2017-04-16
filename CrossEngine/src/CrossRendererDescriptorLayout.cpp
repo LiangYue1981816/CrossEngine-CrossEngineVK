@@ -57,7 +57,7 @@ namespace CrossEngine {
 			std::vector<VkDescriptorSetLayoutBinding> bindings;
 			CALL_BOOL_FUNCTION_THROW(CreateBindings(bindings));
 
-			VkDescriptorSetLayoutCreateInfo createInfo;
+			VkDescriptorSetLayoutCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

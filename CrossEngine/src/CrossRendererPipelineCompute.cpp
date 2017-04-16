@@ -39,7 +39,7 @@ namespace CrossEngine {
 	BOOL CRendererPipelineCompute::Create(VkPipelineLayout vkLayout, VkShaderModule vkShader, const char *szName)
 	{
 		try {
-			VkComputePipelineCreateInfo createInfo;
+			VkComputePipelineCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;

@@ -30,85 +30,89 @@ namespace CrossEngine {
 		, m_vertexFormat(0)
 		, m_vkPipelineLayout(VK_NULL_HANDLE)
 	{
+		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].stage = VK_SHADER_STAGE_VERTEX_BIT;
 
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].stage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
 
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].stage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
 
+		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].stage = VK_SHADER_STAGE_GEOMETRY_BIT;
 
+		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 
-		memset(&m_vertexInputState, 0, sizeof(m_vertexInputState));
+		m_vertexInputState = {};
 		m_vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 		m_vertexInputState.pNext = NULL;
 		m_vertexInputState.flags = 0;
 
-		memset(&m_inputAssemblyState, 0, sizeof(m_inputAssemblyState));
+		m_inputAssemblyState = {};
 		m_inputAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		m_inputAssemblyState.pNext = NULL;
 		m_inputAssemblyState.flags = 0;
 
-		memset(&m_tessellationState, 0, sizeof(m_tessellationState));
+		m_tessellationState = {};
 		m_tessellationState.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
 		m_tessellationState.pNext = NULL;
 		m_tessellationState.flags = 0;
 
-		memset(&m_viewportState, 0, sizeof(m_viewportState));
+		m_viewportState = {};
 		m_viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 		m_viewportState.pNext = NULL;
 		m_viewportState.flags = 0;
 		m_viewportState.viewportCount = 1;
 		m_viewportState.scissorCount = 1;
 
-		memset(&m_rasterizationState, 0, sizeof(m_rasterizationState));
+		m_rasterizationState = {};
 		m_rasterizationState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 		m_rasterizationState.pNext = NULL;
 		m_rasterizationState.flags = 0;
 		m_rasterizationState.lineWidth = 1.0f;
 
-		memset(&m_multiSampleState, 0, sizeof(m_multiSampleState));
+		m_multiSampleState = {};
 		m_multiSampleState.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 		m_multiSampleState.pNext = NULL;
 		m_multiSampleState.flags = 0;
 
-		memset(&m_depthStencilState, 0, sizeof(m_depthStencilState));
+		m_depthStencilState = {};
 		m_depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 		m_depthStencilState.pNext = NULL;
 		m_depthStencilState.flags = 0;
 
-		memset(&m_colorBlendState, 0, sizeof(m_colorBlendState));
+		m_colorBlendState = {};
 		m_colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		m_colorBlendState.pNext = NULL;
 		m_colorBlendState.flags = 0;
 
-		memset(&m_dynamicState, 0, sizeof(m_dynamicState));
 		static VkDynamicState dynamicStates[] = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR, VK_DYNAMIC_STATE_DEPTH_BOUNDS, VK_DYNAMIC_STATE_STENCIL_REFERENCE };
+		m_dynamicState = {};
 		m_dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 		m_dynamicState.pNext = NULL;
 		m_dynamicState.flags = 0;
 		m_dynamicState.dynamicStateCount = 4;
 		m_dynamicState.pDynamicStates = dynamicStates;
 
-		VkStencilOpState front, back;
-		memset(&back, 0, sizeof(back));
-		memset(&front, 0, sizeof(front));
+		VkStencilOpState front = {};
+		VkStencilOpState back = {};
 		back.failOp = front.failOp = VK_STENCIL_OP_KEEP;
 		back.passOp = front.passOp = VK_STENCIL_OP_KEEP;
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
@@ -380,7 +384,7 @@ namespace CrossEngine {
 		itImage->second.vkDescriptorImageInfo.imageView = vkImageView;
 		itImage->second.vkDescriptorImageInfo.imageLayout = vkImageLayout;
 
-		VkWriteDescriptorSet write;
+		VkWriteDescriptorSet write = {};
 		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		write.pNext = NULL;
 		write.dstSet = itImage->second.vkDescriptorSet;
@@ -405,7 +409,7 @@ namespace CrossEngine {
 		itBuffer->second.vkDescriptorBufferInfo.offset = offset;
 		itBuffer->second.vkDescriptorBufferInfo.range = range;
 
-		VkWriteDescriptorSet write;
+		VkWriteDescriptorSet write = {};
 		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		write.pNext = NULL;
 		write.dstSet = itBuffer->second.vkDescriptorSet;
@@ -455,7 +459,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions));
 			CALL_BOOL_FUNCTION_THROW(CreateColorBlendState(colorBlendAttachments));
 
-			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
+			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
 			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutCreateInfo.pNext = NULL;
 			pipelineLayoutCreateInfo.flags = 0;
@@ -465,7 +469,7 @@ namespace CrossEngine {
 			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
 			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
 
-			VkGraphicsPipelineCreateInfo pipelineCreateInfo;
+			VkGraphicsPipelineCreateInfo pipelineCreateInfo = {};
 			pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 			pipelineCreateInfo.pNext = NULL;
 			pipelineCreateInfo.flags = 0;

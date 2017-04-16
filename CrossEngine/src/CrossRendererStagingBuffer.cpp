@@ -32,7 +32,7 @@ namespace CrossEngine {
 		, m_pMemory(NULL)
 		, m_pCommandBuffer(NULL)
 	{
-		VkBufferCreateInfo createInfo;
+		VkBufferCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;
@@ -110,7 +110,7 @@ namespace CrossEngine {
 			region.size = size;
 			m_pCommandBuffer->CmdCopyBuffer(m_vkBuffer, vkBuffer, 1, &region);
 
-			VkBufferMemoryBarrier barrierBufferToShader;
+			VkBufferMemoryBarrier barrierBufferToShader = {};
 			barrierBufferToShader.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
 			barrierBufferToShader.pNext = NULL;
 			barrierBufferToShader.srcAccessMask = srcAccessMask;

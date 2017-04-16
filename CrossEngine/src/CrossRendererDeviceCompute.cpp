@@ -52,7 +52,7 @@ namespace CrossEngine {
 	VkResult CRendererDeviceCompute::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
 		float queuePpriorities[1] = { 0.0f };
-		VkDeviceQueueCreateInfo queueCreateInfo[1];
+		VkDeviceQueueCreateInfo queueCreateInfo[1] = {};
 		queueCreateInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 		queueCreateInfo[0].pNext = NULL;
 		queueCreateInfo[0].flags = 0;
@@ -60,7 +60,7 @@ namespace CrossEngine {
 		queueCreateInfo[0].queueCount = 1;
 		queueCreateInfo[0].pQueuePriorities = queuePpriorities;
 
-		VkDeviceCreateInfo deviceCreateInfo;
+		VkDeviceCreateInfo deviceCreateInfo = {};
 		deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 		deviceCreateInfo.pNext = NULL;
 		deviceCreateInfo.flags = 0;

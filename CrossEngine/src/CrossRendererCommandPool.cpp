@@ -32,7 +32,7 @@ namespace CrossEngine {
 		, m_pFreeListHead{ NULL }
 		, m_pActiveListHead{ NULL }
 	{
-		VkCommandPoolCreateInfo createInfo;
+		VkCommandPoolCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
@@ -70,7 +70,7 @@ namespace CrossEngine {
 		try {
 			if (m_pFreeListHead[level] == NULL) {
 				VkCommandBuffer vkCommandBuffer;
-				VkCommandBufferAllocateInfo commandBufferInfo;
+				VkCommandBufferAllocateInfo commandBufferInfo = {};
 				commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 				commandBufferInfo.pNext = NULL;
 				commandBufferInfo.commandPool = m_vkCommandPool;
