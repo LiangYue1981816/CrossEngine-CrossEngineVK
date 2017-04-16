@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CRendererRenderPass::CRendererRenderPass(CRendererDevice *pDevice, CRendererResourceManager *pManager)
 		: CRendererResource(pDevice, pManager)
 		, m_vkRenderPass(VK_NULL_HANDLE)
-		, m_clearValues{ {0.0f, 0.0f, 0.0f, 0.0f}, {1.0f, 0} }
+		, m_clearValues{ {0.0f, 0.0f, 0.0f, 1.0f}, {1.0f, 0} }
 	{
 
 	}
@@ -44,6 +44,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		m_attachments[indexAttachment] = {};
 		m_attachments[indexAttachment].flags = 0;
 		m_attachments[indexAttachment].format = format;
 		m_attachments[indexAttachment].samples = VK_SAMPLE_COUNT_1_BIT;
@@ -52,7 +53,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
 		return TRUE;
 	}
@@ -63,6 +64,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		m_attachments[indexAttachment] = {};
 		m_attachments[indexAttachment].flags = 0;
 		m_attachments[indexAttachment].format = format;
 		m_attachments[indexAttachment].samples = VK_SAMPLE_COUNT_1_BIT;
@@ -76,21 +78,22 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp)
+	BOOL CRendererRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
 		}
 
+		m_attachments[indexAttachment] = {};
 		m_attachments[indexAttachment].flags = 0;
 		m_attachments[indexAttachment].format = format;
 		m_attachments[indexAttachment].samples = VK_SAMPLE_COUNT_1_BIT;
-		m_attachments[indexAttachment].loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-		m_attachments[indexAttachment].storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		m_attachments[indexAttachment].stencilLoadOp = loadOp;
-		m_attachments[indexAttachment].stencilStoreOp = storeOp;
+		m_attachments[indexAttachment].loadOp = loadOp;
+		m_attachments[indexAttachment].storeOp = storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = stencilLoadOp;
+		m_attachments[indexAttachment].stencilStoreOp = stencilStoreOp;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
 		return TRUE;
 	}
@@ -157,6 +160,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		m_dependencies[indexDependency] = {};
 		m_dependencies[indexDependency].srcSubpass = indexSrcSubpass;
 		m_dependencies[indexDependency].dstSubpass = indexDstSubpass;
 		m_dependencies[indexDependency].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
@@ -260,7 +264,7 @@ namespace CrossEngine {
 				preserveAttachments[itSubpass.first].push_back(itAttachment.second);
 			}
 
-			VkSubpassDescription subpass;
+			VkSubpassDescription subpass = {};
 			subpass.flags = 0;
 			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 			subpass.inputAttachmentCount = inputAttachments[itSubpass.first].size();
