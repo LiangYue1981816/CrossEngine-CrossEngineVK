@@ -182,6 +182,8 @@ namespace CrossEngine {
 		VkPresentModeKHR presentMode = GetSwapchainPresentMode(modes);
 		VkSurfaceFormatKHR imageFormat = GetSwapchainFormat(formats);
 
+		m_width = width;
+		m_height = height;
 		m_format = imageFormat.format;
 
 		VkSwapchainCreateInfoKHR swapchainInfo = {};

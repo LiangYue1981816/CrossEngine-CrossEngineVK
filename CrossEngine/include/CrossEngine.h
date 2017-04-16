@@ -70,6 +70,7 @@ THE SOFTWARE.
 #include <pthread.h>
 #include <semaphore.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <gli/gli.hpp>
 #include <zzip/zzip.h>
 #include <vulkan/vulkan.h>
