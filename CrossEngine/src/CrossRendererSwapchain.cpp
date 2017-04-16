@@ -58,7 +58,7 @@ namespace CrossEngine {
 		}
 	}
 
-	static VkPresentModeKHR GetSwapchainMode(const std::vector<VkPresentModeKHR> &modes)
+	static VkPresentModeKHR GetSwapchainPresentMode(const std::vector<VkPresentModeKHR> &modes)
 	{
 		for (uint32_t index = 0; index < modes.size(); index++) {
 			if (modes[index] == VK_PRESENT_MODE_MAILBOX_KHR) {
@@ -70,17 +70,17 @@ namespace CrossEngine {
 			}
 		}
 
-		return (VkPresentModeKHR)(-1);
+		return VK_PRESENT_MODE_IMMEDIATE_KHR;
 	}
 
 	static VkSurfaceFormatKHR GetSwapchainFormat(const std::vector<VkSurfaceFormatKHR> &formats)
 	{
 		if ((formats.size() == 1) && (formats[0].format == VK_FORMAT_UNDEFINED)) {
-			return { VK_FORMAT_R8G8B8A8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR };
+			return { VK_FORMAT_B8G8R8A8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR };
 		}
 
 		for (uint32_t index = 0; index < formats.size(); index++) {
-			if (formats[index].format == VK_FORMAT_R8G8B8A8_UNORM) {
+			if (formats[index].format == VK_FORMAT_B8G8R8A8_UNORM) {
 				return formats[index];
 			}
 		}
@@ -179,7 +179,7 @@ namespace CrossEngine {
 		VkExtent2D imageExtent = GetSwapchainExtent(capabilities, width, height);
 		VkImageUsageFlags imageUsage = GetSwapchainUsageFlags(capabilities);
 		VkSurfaceTransformFlagBitsKHR preTransform = GetSwapchainTransform(capabilities, transform);
-		VkPresentModeKHR presentMode = GetSwapchainMode(modes);
+		VkPresentModeKHR presentMode = GetSwapchainPresentMode(modes);
 		VkSurfaceFormatKHR imageFormat = GetSwapchainFormat(formats);
 
 		m_format = imageFormat.format;
