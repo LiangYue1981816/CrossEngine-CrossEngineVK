@@ -226,6 +226,8 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 void Destroy(void)
 {
 	if (pRenderer) {
+		pDevice->GetQueue()->WaitIdle();
+
 		DestroyBuffer();
 		DestroyPipeline();
 		DestroyFrameBuffer();
