@@ -43,7 +43,7 @@ namespace CrossEngine {
 			VkFenceCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 			createInfo.pNext = NULL;
-			createInfo.flags = 0;
+			createInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 			CALL_VK_FUNCTION_THROW(vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence));
 
 			return TRUE;

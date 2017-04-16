@@ -132,6 +132,7 @@ void CreateBuffer(void)
 	glm::mat4 mtxViewModelProjection = mtxProjection * mtxViewModel;
 	pUniformBuffer = pDevice->GetBufferManager()->AllocUniformBuffer();
 	pUniformBuffer->Create(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+	pPipeline->SetUniformBuffer("UBO", pUniformBuffer->GetBuffer(), 0, 64);
 }
 
 void DestroyBuffer()
@@ -177,10 +178,8 @@ void CreateCommandBuffer(void)
 				pCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
 
 				pCommandBuffers[indexView]->CmdBindPipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipeline());
+				pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, pPipeline->GetDescriptorSets().data(), 0, NULL);
 				{
-					pPipeline->SetUniformBuffer("UBO", pUniformBuffer->GetBuffer(), 0, 64);
-					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, pPipeline->GetDescriptorSets().data(), 0, NULL);
-
 					VkDeviceSize offsets = 0;
 					VkBuffer vkIndexBuffer = pIndexBuffer->GetBuffer();
 					VkBuffer vkVertexBuffer = pVertexBuffer->GetBuffer();
