@@ -37,4 +37,9 @@ namespace CrossEngine {
 
 	}
 
+	void CRendererResource::Release(void)
+	{
+		m_pManager->Free(this);
+	}
+
 }

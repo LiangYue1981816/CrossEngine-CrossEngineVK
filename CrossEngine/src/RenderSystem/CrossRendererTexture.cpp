@@ -148,14 +148,4 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CRendererTexture::Destroy(void)
-	{
-		CRendererImage::Destroy();
-	}
-
-	void CRendererTexture::DumpLog(void) const
-	{
-		CRendererImage::DumpLog();
-	}
-
 }

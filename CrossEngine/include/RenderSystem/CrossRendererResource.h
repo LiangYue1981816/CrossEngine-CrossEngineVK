@@ -36,7 +36,8 @@ namespace CrossEngine {
 		virtual ~CRendererResource(void);
 
 
-	protected:
+	public:
+		virtual void Release(void);
 		virtual void Destroy(void) {}
 		virtual void DumpLog(void) const {}
 

@@ -28,10 +28,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		return FALSE;
 	}
 
-	Create(hInstance, hWnd);
-
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TEST));
+
+	Create(hInstance, hWnd);
+	SetTimer(hWnd, 0, 1000 / 30, NULL);
 
 	while (GetMessage(&msg, nullptr, 0, 0))
 	{
@@ -42,6 +43,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		}
 	}
 
+	KillTimer(hWnd, 0);
 	Destroy();
 
 	return (int)msg.wParam;
@@ -71,7 +73,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 	hInst = hInstance;
-	hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX, 0, 0, 1280, 720, nullptr, nullptr, hInstance, nullptr);
+	hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME, 0, 0, 1280, 720, nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWnd)
 	{
@@ -86,16 +88,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int wmId;
-
 	switch (message)
 	{
-	case WM_COMMAND:
-		wmId = LOWORD(wParam);
+	case WM_TIMER:
+		Render();
 		break;
 
 	case WM_PAINT:
-		Render();
+		ValidateRect(hWnd, NULL);
 		break;
 
 	case WM_DESTROY:

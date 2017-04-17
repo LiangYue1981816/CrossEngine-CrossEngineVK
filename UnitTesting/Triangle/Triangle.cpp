@@ -36,7 +36,7 @@ void CreateRenderPass(void)
 
 void DestroyRenderPass(void)
 {
-	pDevice->GetRenderPassManager()->Free(pRenderPass);
+	pRenderPass->Release();
 }
 
 void CreateFrameBuffer(void)
@@ -54,10 +54,10 @@ void CreateFrameBuffer(void)
 
 void DestroyFrameBuffer(void)
 {
-	pDevice->GetTextureManager()->Free(pDepthTexture);
+	pDepthTexture->Release();
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pDevice->GetFrameBufferManager()->Free(pFrameBuffers[indexView]);
+		pFrameBuffers[indexView]->Release();
 	}
 }
 
@@ -83,9 +83,9 @@ void CreatePipeline(void)
 
 void DestroyPipeline(void)
 {
-	pDevice->GetPipelineManager()->Free(pPipeline);
-	pDevice->GetShaderManager()->Free(pShaderVertex);
-	pDevice->GetShaderManager()->Free(pShaderFragment);
+	pPipeline->Release();
+	pShaderVertex->Release();
+	pShaderFragment->Release();
 }
 
 void CreateSynchronization(void)
@@ -102,8 +102,8 @@ void CreateSynchronization(void)
 void DestroySynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pDevice->GetFenceManager()->Free(pFences[indexView]);
-		pDevice->GetSemaphoreManager()->Free(pRenderDoneSemaphores[indexView]);
+		pFences[indexView]->Release();
+		pRenderDoneSemaphores[indexView]->Release();
 	}
 }
 
@@ -135,9 +135,9 @@ void CreateBuffer(void)
 
 void DestroyBuffer()
 {
-	pDevice->GetBufferManager()->Free(pIndexBuffer);
-	pDevice->GetBufferManager()->Free(pVertexBuffer);
-	pDevice->GetBufferManager()->Free(pUniformBuffer);
+	pIndexBuffer->Release();
+	pVertexBuffer->Release();
+	pUniformBuffer->Release();
 }
 
 void CreateCommandBuffer(void)
@@ -247,7 +247,7 @@ void Render(void)
 		return;
 	}
 
-	static float angle = 0.0f; angle += 1.0f;
+	static float angle = 0.0f; angle += 0.05f;
 	glm::mat4 mtxProjection = glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
 	glm::mat4 mtxViewModel = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
 	glm::mat4 mtxViewModelProjection = mtxProjection * mtxViewModel;

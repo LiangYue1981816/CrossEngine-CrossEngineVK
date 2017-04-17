@@ -40,8 +40,6 @@ namespace CrossEngine {
 		virtual BOOL CreateTexture2D(const gli::texture2d &texture);
 		virtual BOOL CreateTexture2DArray(const gli::texture2d_array &texture);
 		virtual BOOL CreateTextureCube(const gli::texture_cube &texture);
-		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
 	};
 
 }

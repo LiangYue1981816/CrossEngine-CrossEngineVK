@@ -39,8 +39,6 @@ namespace CrossEngine {
 	public:
 		virtual BOOL CreateColorTarget(VkFormat format, uint32_t width, uint32_t height);
 		virtual BOOL CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height);
-		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
 	};
 
 }
