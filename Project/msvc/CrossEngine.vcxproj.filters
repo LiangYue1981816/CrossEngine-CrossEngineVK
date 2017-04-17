@@ -16,20 +16,11 @@
     <Filter Include="Engine\Source Files">
       <UniqueIdentifier>{b11178f3-2f99-433f-bc2a-03b80b468a8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Header Files\Base">
-      <UniqueIdentifier>{6ebe1e9d-d2a2-4e04-8b05-18eb7bdc9b74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Header Files\RenderSystem">
       <UniqueIdentifier>{510f3f13-6eaa-4e42-a930-190fe3163091}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Source Files\Base">
-      <UniqueIdentifier>{e2a74ac6-b75f-47f8-8ec0-214ba6036352}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Source Files\RenderSystem">
       <UniqueIdentifier>{63f43c32-8b53-476b-ab70-3af8e4e8ecae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\Base\nvwa">
-      <UniqueIdentifier>{cf99941d-bbdd-48ce-8884-247de2139269}</UniqueIdentifier>
     </Filter>
     <Filter Include="Dependencies\zlib">
       <UniqueIdentifier>{200008a1-94ab-4fc7-b196-d39c2202d1b2}</UniqueIdentifier>
@@ -40,154 +31,31 @@
     <Filter Include="Dependencies\rbtree">
       <UniqueIdentifier>{3978cd0f-be01-46a5-ae00-5fa3bdaf39c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Helper">
-      <UniqueIdentifier>{82375ac0-0c6a-4a1f-a78c-ffa8ae457af2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Helper">
-      <UniqueIdentifier>{6a4efda7-fabf-4f68-9c19-09d02570a891}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource">
-      <UniqueIdentifier>{60241683-bb14-4cb5-8b84-f1c4a7a7fd12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\Buffer">
-      <UniqueIdentifier>{c3788d28-0cd0-49fd-bdf9-91ac9186e6ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\Texture">
-      <UniqueIdentifier>{06405b37-1047-44aa-bb36-10b045d64f39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\Sampler">
-      <UniqueIdentifier>{636f6c7e-f9ac-4942-9e54-a5d87599662d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\Shader">
-      <UniqueIdentifier>{4b9d2147-580d-4607-af94-567579f599ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource">
-      <UniqueIdentifier>{70aa24ee-fea1-4113-895c-07ba2f6fcc33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\Buffer">
-      <UniqueIdentifier>{8971e91a-3fab-47ec-953e-dd5c9507c993}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\Texture">
-      <UniqueIdentifier>{b8fac5f0-f76e-4f83-ad90-7841cc1035f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\Shader">
-      <UniqueIdentifier>{6d3c59fc-2383-4a8f-8960-1d42fe4c4fce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\Sampler">
-      <UniqueIdentifier>{77afdc6b-c9a7-4942-96c4-bef6fd08b73b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\RenderPass">
-      <UniqueIdentifier>{bc42d2ff-6cdd-473a-af22-6408e8d7531b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\RenderPass">
-      <UniqueIdentifier>{10f96f49-ded6-4cab-bfa3-4c9bcd56d15a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\FrameBuffer">
-      <UniqueIdentifier>{c5e38794-572c-4c28-948e-08dfc4775adf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\FrameBuffer">
-      <UniqueIdentifier>{95990d5d-13d7-4fa4-991f-49630e6b223f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\Pipeline">
-      <UniqueIdentifier>{192866c7-44e4-401a-a70d-c7831d235ae4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\Pipeline">
-      <UniqueIdentifier>{aa9c54ec-3df2-453d-87d8-05f7171644fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\DescriptorSet">
-      <UniqueIdentifier>{b95d67fe-6055-410d-849c-47de7891f369}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\DescriptorSet">
-      <UniqueIdentifier>{5f17ac94-e8f4-4921-8912-ece29759230c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Core">
-      <UniqueIdentifier>{094e8044-45ee-4bc7-bc74-f129af811f1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Core\Device">
-      <UniqueIdentifier>{f6c1efec-846b-43fd-a1b4-353d7759cfcf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Core\Memory">
-      <UniqueIdentifier>{bbac69a0-c77c-43fc-934d-e48d8b290b0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Core\Queue">
-      <UniqueIdentifier>{83abc883-ff7a-4c90-bfdf-c54de86bb88a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Core\Swapchain">
-      <UniqueIdentifier>{5581daff-171f-4d59-8687-d450bded5021}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Core">
-      <UniqueIdentifier>{d1af498a-c99f-4b83-bef1-de2ac0ed410d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Core\Device">
-      <UniqueIdentifier>{e33ed9e5-6169-48ca-bceb-ad59a1f17958}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Core\Memory">
-      <UniqueIdentifier>{b3cb697e-b9fe-4436-8ca1-8a69d7870b23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Core\Queue">
-      <UniqueIdentifier>{3965b481-8ef6-488e-8fd8-28c8e6d5cf47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Core\Swapchain">
-      <UniqueIdentifier>{56fc64c0-0eb8-4a80-9bf9-27f6c1281da4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Resource\Sync">
-      <UniqueIdentifier>{1114353a-af77-4bec-97ac-516dd4a0ab77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Resource\Sync">
-      <UniqueIdentifier>{055cc7f9-d167-4f44-9301-1bdcf22c8749}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Core\Descriptor">
-      <UniqueIdentifier>{10340662-d4e1-456d-a01c-ac075fdb7c12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Core\Descriptor">
-      <UniqueIdentifier>{62bc6592-756d-4c72-aaae-fc95ef3dc809}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dependencies\spirv-reflection">
       <UniqueIdentifier>{3a64550c-e4cc-42da-bf93-e3fce538344d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\Core">
+      <UniqueIdentifier>{6ebe1e9d-d2a2-4e04-8b05-18eb7bdc9b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\Core">
+      <UniqueIdentifier>{e2a74ac6-b75f-47f8-8ec0-214ba6036352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\Core\nvwa">
+      <UniqueIdentifier>{cf99941d-bbdd-48ce-8884-247de2139269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\RenderSystem\Renderer">
+      <UniqueIdentifier>{13bb4008-8378-45ad-8ead-a7f3c7bc0cf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\RenderSystem\Renderer">
+      <UniqueIdentifier>{e6dc9a8f-9e33-46d4-b043-6db3a10b27ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\CrossEngine\include\CrossDelegate.h">
-      <Filter>Engine\Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossLog.h">
-      <Filter>Engine\Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossMemory.h">
-      <Filter>Engine\Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossType.h">
-      <Filter>Engine\Header Files\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\_CrossEngine.h">
       <Filter>Engine\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\nvwa\c++11.h">
-      <Filter>Engine\Source Files\Base\nvwa</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\nvwa\debug_new.h">
-      <Filter>Engine\Source Files\Base\nvwa</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\nvwa\fast_mutex.h">
-      <Filter>Engine\Source Files\Base\nvwa</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\nvwa\static_assert.h">
-      <Filter>Engine\Source Files\Base\nvwa</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossC.h">
-      <Filter>Engine\Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossUtility.h">
-      <Filter>Engine\Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossStream.h">
-      <Filter>Engine\Header Files\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRenderer.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\rbtree\rbtree.h">
       <Filter>Dependencies\rbtree</Filter>
@@ -195,170 +63,185 @@
     <ClInclude Include="..\..\CrossEngine\src\_CrossMemory.h">
       <Filter>Engine\Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Buffer</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossC.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Buffer</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossDelegate.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererUniformBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Buffer</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossLog.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererVertexBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Buffer</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossMemory.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererIndexBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Buffer</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossStream.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererImage.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Texture</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossType.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererTexture.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Texture</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtility.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererTextureManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Texture</Filter>
+    <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\c++11.h">
+      <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererRenderTexture.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Texture</Filter>
+    <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\debug_new.h">
+      <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererAllocator.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Memory</Filter>
+    <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\fast_mutex.h">
+      <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererMemoryManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Memory</Filter>
+    <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\static_assert.h">
+      <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererStagingBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Memory</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDevice.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Device</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererAllocator.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDeviceCompute.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Device</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDeviceGraphics.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Device</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererShaderManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Shader</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererCommandBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererShader.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Shader</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererCommandBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererCommandBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Queue</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererCommandPool.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererQueue.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Queue</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorLayout.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererFenceManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Sync</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorLayoutManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSwapchain.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Swapchain</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorPool.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererHelper.h">
-      <Filter>Engine\Header Files\RenderSystem\Helper</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorSet.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSampler.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Sampler</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorSetManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSamplerManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Sampler</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDevice.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererMemory.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Memory</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDeviceCompute.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererMemoryAllocator.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Memory</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDeviceGraphics.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererFence.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Sync</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFence.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererCommandBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Queue</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFenceManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererCommandPool.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Queue</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFrameBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererStagingBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Memory</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFrameBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererResource.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererHelper.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererResourceManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererImage.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererRenderPass.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\RenderPass</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererIndexBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererRenderPassManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\RenderPass</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererMemory.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererFrameBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\FrameBuffer</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererMemoryAllocator.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererFrameBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\FrameBuffer</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererMemoryManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDescriptorLayout.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\DescriptorSet</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipeline.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDescriptorLayoutManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\DescriptorSet</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipelineCompute.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererPipelineGraphics.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Pipeline</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipelineGraphics.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDescriptorSet.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Descriptor</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipelineManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDescriptorSetManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Descriptor</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererQueue.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererDescriptorPool.h">
-      <Filter>Engine\Header Files\RenderSystem\Core\Descriptor</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererRenderPass.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererPipeline.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Pipeline</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererRenderPassManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererPipelineCompute.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Pipeline</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererRenderTexture.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererPipelineManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Pipeline</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererResource.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSemaphore.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Sync</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererResourceManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\CrossRendererSemaphoreManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Resource\Sync</Filter>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSampler.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSamplerManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSemaphore.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSemaphoreManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererShader.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererShaderManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererStagingBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererStagingBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSwapchain.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererTexture.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererTextureManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererUniformBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererVertexBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\CrossEngine\src\CrossLog.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossMemory.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\nvwa\debug_new.cpp">
-      <Filter>Engine\Source Files\Base\nvwa</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\nvwa\operator_new.cpp">
-      <Filter>Engine\Source Files\Base\nvwa</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossC.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossUtility.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossStream.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
       <Filter>Dependencies\zzip</Filter>
     </ClCompile>
@@ -428,170 +311,191 @@
     <ClCompile Include="..\..\Dependencies\zlib\zutil.c">
       <Filter>Dependencies\zlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRenderer.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp">
       <Filter>Dependencies\rbtree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossMemoryHeap.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossMemoryPool.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossMemoryStack.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossMemorySystem.cpp">
-      <Filter>Engine\Source Files\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererBufferManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererIndexBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererUniformBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererVertexBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererCommandBufferManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Queue</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererQueue.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Queue</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDevice.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceCompute.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceGraphics.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererMemoryManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererAllocator.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererStagingBufferManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererHelper.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Helper</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererShader.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererShaderManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSwapchain.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Swapchain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererFenceManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Sync</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererImage.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererRenderTexture.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererTexture.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererTextureManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSampler.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Sampler</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSamplerManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Sampler</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererMemory.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererMemoryAllocator.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererFence.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Sync</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererCommandBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Queue</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererCommandPool.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Queue</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererStagingBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererResource.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererResourceManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererRenderPass.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\RenderPass</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererRenderPassManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\RenderPass</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererFrameBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\FrameBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererFrameBufferManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\FrameBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDescriptorLayout.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\DescriptorSet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDescriptorLayoutManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\DescriptorSet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererPipelineGraphics.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Pipeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDescriptorSet.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Descriptor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDescriptorSetManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Descriptor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDescriptorPool.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Descriptor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererPipeline.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Pipeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererPipelineCompute.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Pipeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererPipelineManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp">
       <Filter>Dependencies\spirv-reflection</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererDeviceVertex.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Core\Device</Filter>
+    <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\debug_new.cpp">
+      <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSemaphore.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Sync</Filter>
+    <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\operator_new.cpp">
+      <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\CrossRendererSemaphoreManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Resource\Sync</Filter>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossC.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossLog.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemory.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemoryHeap.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemoryPool.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemoryStack.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemorySystem.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossStream.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossUtility.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererAllocator.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererCommandBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererCommandBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererCommandPool.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorLayout.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorLayoutManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorPool.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorSet.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorSetManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDevice.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDeviceCompute.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDeviceGraphics.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDeviceVertex.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFence.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFenceManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFrameBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFrameBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererHelper.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererImage.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererIndexBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererMemory.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererMemoryAllocator.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererMemoryManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipeline.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipelineCompute.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipelineGraphics.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipelineManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererQueue.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererRenderPass.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererRenderPassManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererRenderTexture.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererResource.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererResourceManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSampler.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSamplerManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSemaphore.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSemaphoreManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererShader.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererShaderManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererStagingBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererStagingBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSwapchain.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererTexture.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererTextureManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererUniformBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererVertexBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

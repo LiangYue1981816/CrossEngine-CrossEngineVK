@@ -115,9 +115,9 @@ void CreateBuffer(void)
 	};
 
 	std::vector<Vertex> vertexBuffer = {
-		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 0.0f, 0.0f } },
-		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f } },
-		{ {  0.0f, -1.0f, 0.0f },{ 0.0f, 0.0f, 1.0f } }
+		{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f } },
+		{ { 1.0f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f } },
+		{ { 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f, 1.0f } }
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	pVertexBuffer = pDevice->GetBufferManager()->AllocVertexBuffer();

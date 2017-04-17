@@ -26,16 +26,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	//////////////////////////////////////////////////////////////////////////
-	// 系统内存分配
-	//========================================================================
 	extern void* _malloc(size_t size);
 	extern void _free(void *ptr);
 
 
-	//////////////////////////////////////////////////////////////////////////
-	// 栈内存分配器
-	//========================================================================
 	struct STACK_ALLOCATOR;
 	extern STACK_ALLOCATOR* STACK_Create(void);
 	extern void STACK_Destroy(STACK_ALLOCATOR *pStackAllocator);
@@ -44,9 +38,6 @@ namespace CrossEngine {
 	extern BOOL IsStackMemory(STACK_ALLOCATOR *pStackAllocator, void *pPointer);
 
 
-	//////////////////////////////////////////////////////////////////////////
-	// 堆内存分配器
-	//========================================================================
 	struct HEAP_ALLOCATOR;
 	extern HEAP_ALLOCATOR* HEAP_Create(void);
 	extern void HEAP_Destroy(HEAP_ALLOCATOR *pHeapAllocator);
@@ -54,9 +45,6 @@ namespace CrossEngine {
 	extern BOOL HEAP_Free(HEAP_ALLOCATOR *pHeapAllocator, void *pPointer);
 
 
-	//////////////////////////////////////////////////////////////////////////
-	// 池内存分配器
-	//========================================================================
 	struct POOL_ALLOCATOR;
 	extern POOL_ALLOCATOR* POOL_Create(HEAP_ALLOCATOR *pHeapAllocator);
 	extern void POOL_Destroy(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator);
