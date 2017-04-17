@@ -110,17 +110,17 @@ namespace CrossEngine {
 			region.size = size;
 			m_pCommandBuffer->CmdCopyBuffer(m_vkBuffer, vkBuffer, 1, &region);
 
-			VkBufferMemoryBarrier barrierBufferToShader = {};
-			barrierBufferToShader.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
-			barrierBufferToShader.pNext = NULL;
-			barrierBufferToShader.srcAccessMask = srcAccessMask;
-			barrierBufferToShader.dstAccessMask = dstAccessMask;
-			barrierBufferToShader.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-			barrierBufferToShader.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-			barrierBufferToShader.buffer = vkBuffer;
-			barrierBufferToShader.offset = offset;
-			barrierBufferToShader.size = size;
-			m_pCommandBuffer->CmdPipelineBarrier(srcStageMask, dstStageMask, 0, 0, NULL, 1, &barrierBufferToShader, 0, NULL);
+			VkBufferMemoryBarrier barrier = {};
+			barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
+			barrier.pNext = NULL;
+			barrier.srcAccessMask = srcAccessMask;
+			barrier.dstAccessMask = dstAccessMask;
+			barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			barrier.buffer = vkBuffer;
+			barrier.offset = offset;
+			barrier.size = size;
+			m_pCommandBuffer->CmdPipelineBarrier(srcStageMask, dstStageMask, 0, 0, NULL, 1, &barrier, 0, NULL);
 		}
 		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->End());
 

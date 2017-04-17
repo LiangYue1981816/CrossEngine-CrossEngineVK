@@ -128,11 +128,8 @@ void CreateBuffer(void)
 	pIndexBuffer = pDevice->GetBufferManager()->AllocIndexBuffer();
 	pIndexBuffer->Create(indexBufferSize, 0, indexBuffer.data());
 
-	glm::mat4 mtxProjection = glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
-	glm::mat4 mtxViewModel = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 mtxViewModelProjection = mtxProjection * mtxViewModel;
 	pUniformBuffer = pDevice->GetBufferManager()->AllocUniformBuffer();
-	pUniformBuffer->Create(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+	pUniformBuffer->Create(sizeof(glm::mat4), 0, NULL);
 	pPipeline->SetUniformBuffer("UBO", pUniformBuffer->GetBuffer(), 0, pUniformBuffer->GetBufferSize());
 }
 
@@ -249,6 +246,12 @@ void Render(void)
 	if (pSwapchain == NULL) {
 		return;
 	}
+
+	static float angle = 0.0f; angle += 1.0f;
+	glm::mat4 mtxProjection = glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
+	glm::mat4 mtxViewModel = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+	glm::mat4 mtxViewModelProjection = mtxProjection * mtxViewModel;
+	pUniformBuffer->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
