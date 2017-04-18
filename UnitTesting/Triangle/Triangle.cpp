@@ -249,12 +249,10 @@ void Render(void)
 	}
 
 	static float angle = 0.0f; angle += 0.05f;
-	static glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-	glm::mat4 mtxProjection = scale * glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
-//	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, angle), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
+	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 mtxModel = glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
-//	glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, angle));
 	glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
 	pUniformBuffer->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
 
