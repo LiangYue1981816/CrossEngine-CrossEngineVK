@@ -77,7 +77,8 @@ void CreatePipeline(void)
 	pPipeline->SetVertexShader(pShaderVertex->GetShaderModule(), pShaderVertex->GetModule());
 	pPipeline->SetFragmentShader(pShaderFragment->GetShaderModule(), pShaderFragment->GetModule());
 	pPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
-	pPipeline->SetCullMode(VK_CULL_MODE_NONE);
+	pPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
+	pPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 	pPipeline->Create(pRenderPass->GetRenderPass());
 }
 
@@ -248,9 +249,13 @@ void Render(void)
 	}
 
 	static float angle = 0.0f; angle += 0.05f;
-	glm::mat4 mtxProjection = glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
-	glm::mat4 mtxViewModel = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
-	glm::mat4 mtxViewModelProjection = mtxProjection * mtxViewModel;
+	static glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+	glm::mat4 mtxProjection = scale * glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
+//	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, angle), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 mtxModel = glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+//	glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, angle));
+	glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
 	pUniformBuffer->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
