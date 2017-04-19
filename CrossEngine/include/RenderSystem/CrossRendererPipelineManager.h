@@ -36,12 +36,22 @@ namespace CrossEngine {
 		virtual ~CRendererPipelineManager(void);
 
 
+	protected:
+		virtual BOOL Create(void);
+		virtual void Destroy(void);
+
 	public:
+		VkPipelineCache GetPipelineCache(void) const;
+
 		CRendererPipelineCompute* AllocPipelineCompute(uint32_t indexDescriptorPool);
 		CRendererPipelineGraphics* AllocPipelineGraphics(uint32_t indexDescriptorPool);
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;
+
+
+	protected:
+		VkPipelineCache m_vkPipelineCache;
 	};
 
 }

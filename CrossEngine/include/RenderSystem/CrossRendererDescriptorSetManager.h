@@ -37,8 +37,8 @@ namespace CrossEngine {
 
 
 	protected:
-		virtual BOOL Create(void);
-		virtual void Destroy(void);
+		BOOL Create(void);
+		void Destroy(void);
 
 	public:
 		CRendererDescriptorSet* AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount);

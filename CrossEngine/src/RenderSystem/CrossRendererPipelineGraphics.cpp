@@ -489,7 +489,7 @@ namespace CrossEngine {
 			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), VK_NULL_HANDLE, 1, &pipelineCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CRendererPipelineManager *)m_pManager)->GetPipelineCache(), 1, &pipelineCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}

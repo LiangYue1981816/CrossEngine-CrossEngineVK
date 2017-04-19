@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CRendererPipelineManager::CRendererPipelineManager(CRendererDevice *pDevice)
 		: CRendererResourceManager(pDevice)
+		, m_vkPipelineCache(VK_NULL_HANDLE)
 	{
 
 	}
@@ -34,6 +35,43 @@ namespace CrossEngine {
 	CRendererPipelineManager::~CRendererPipelineManager(void)
 	{
 
+	}
+
+	BOOL CRendererPipelineManager::Create(void)
+	{
+		try {
+			VkPipelineCacheCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.initialDataSize = 0;
+			createInfo.pInitialData = NULL;
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
+
+			return CRendererResourceManager::Create();
+		}
+		catch (VkResult err) {
+			CRenderer::SetLastError(err);
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	void CRendererPipelineManager::Destroy(void)
+	{
+		if (m_vkPipelineCache) {
+			vkDestroyPipelineCache(m_pDevice->GetDevice(), m_vkPipelineCache, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkPipelineCache = VK_NULL_HANDLE;
+
+		CRendererResourceManager::Destroy();
+	}
+
+	VkPipelineCache CRendererPipelineManager::GetPipelineCache(void) const
+	{
+		return m_vkPipelineCache;
 	}
 
 	CRendererPipelineCompute* CRendererPipelineManager::AllocPipelineCompute(uint32_t indexDescriptorPool)
