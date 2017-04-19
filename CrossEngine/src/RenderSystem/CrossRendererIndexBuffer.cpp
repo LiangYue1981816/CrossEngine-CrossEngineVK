@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CRendererIndexBuffer::Create(VkDeviceSize size, VkDeviceSize offset, void *pBuffer)
+	BOOL CRendererIndexBuffer::Create(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CRendererBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
 		CALL_BOOL_FUNCTION_RETURN(UpdateData(size, offset, pBuffer));

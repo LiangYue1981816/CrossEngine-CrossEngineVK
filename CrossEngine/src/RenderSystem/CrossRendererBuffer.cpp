@@ -91,7 +91,7 @@ namespace CrossEngine {
 		m_vkBuffer = VK_NULL_HANDLE;
 	}
 
-	BOOL CRendererBuffer::UpdateData(VkDeviceSize size, VkDeviceSize offset, void *pBuffer) const
+	BOOL CRendererBuffer::UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
 		if (pBuffer == NULL) {
 			return TRUE;
