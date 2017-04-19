@@ -65,37 +65,30 @@ namespace CrossEngine {
 
 	CRendererCommandBuffer* CRendererCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
 	{
-		CRendererCommandBuffer *pCommandBuffer = NULL;
+		if (m_pFreeListHead[level] == NULL) {
+			VkCommandBuffer vkCommandBuffer;
+			VkCommandBufferAllocateInfo commandBufferInfo = {};
+			commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+			commandBufferInfo.pNext = NULL;
+			commandBufferInfo.commandPool = m_vkCommandPool;
+			commandBufferInfo.level = level;
+			commandBufferInfo.commandBufferCount = 1;
+			vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
 
-		try {
-			if (m_pFreeListHead[level] == NULL) {
-				VkCommandBuffer vkCommandBuffer;
-				VkCommandBufferAllocateInfo commandBufferInfo = {};
-				commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-				commandBufferInfo.pNext = NULL;
-				commandBufferInfo.commandPool = m_vkCommandPool;
-				commandBufferInfo.level = level;
-				commandBufferInfo.commandBufferCount = 1;
-				CALL_VK_FUNCTION_THROW(vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer));
-
-				m_pFreeListHead[level] = SAFE_NEW CRendererCommandBuffer(m_pDevice, vkCommandBuffer, level);
-			}
-
-			pCommandBuffer = m_pFreeListHead[level];
-			m_pFreeListHead[level] = pCommandBuffer->pFreeNext;
-
-			pCommandBuffer->pActiveNext = m_pActiveListHead[level];
-			pCommandBuffer->pActivePrev = NULL;
-
-			if (m_pActiveListHead[level]) {
-				m_pActiveListHead[level]->pActivePrev = pCommandBuffer;
-			}
-
-			m_pActiveListHead[level] = pCommandBuffer;
+			m_pFreeListHead[level] = SAFE_NEW CRendererCommandBuffer(m_pDevice, vkCommandBuffer, level);
 		}
-		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+
+		CRendererCommandBuffer  *pCommandBuffer = m_pFreeListHead[level];
+		m_pFreeListHead[level] = pCommandBuffer->pFreeNext;
+
+		pCommandBuffer->pActiveNext = m_pActiveListHead[level];
+		pCommandBuffer->pActivePrev = NULL;
+
+		if (m_pActiveListHead[level]) {
+			m_pActiveListHead[level]->pActivePrev = pCommandBuffer;
 		}
+
+		m_pActiveListHead[level] = pCommandBuffer;
 
 		return pCommandBuffer;
 	}

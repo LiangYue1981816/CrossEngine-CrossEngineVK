@@ -261,11 +261,11 @@ void Render(void)
 		pFences[pSwapchain->GetImageIndex()]->Wait(UINT64_MAX);
 		pFences[pSwapchain->GetImageIndex()]->Reset();
 
-		VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		VkCommandBuffer commandBuffer = pCommandBuffers[pSwapchain->GetImageIndex()]->GetCommandBuffer();
-		VkSemaphore acquireSemaphore = pSwapchain->GetAcquireSemaphore();
-		VkSemaphore renderSemaphore = pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore();
-		pDevice->GetQueue()->Submit(1, &commandBuffer, &acquireSemaphore, &waitStageMask, &renderSemaphore, pFences[pSwapchain->GetImageIndex()]->GetFence());
+		pDevice->GetQueue()->Submit(
+			pCommandBuffers[pSwapchain->GetImageIndex()]->GetCommandBuffer(), 
+			pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+			pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore(),
+			pFences[pSwapchain->GetImageIndex()]->GetFence());
 	}
 	pSwapchain->Present(pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());
 }

@@ -93,34 +93,31 @@ namespace CrossEngine {
 
 	BOOL CRendererBuffer::UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
-		if (pBuffer == NULL) {
-			return TRUE;
-		}
+		if (pBuffer) {
+			if (m_pMemory->IsHostVisible()) {
+				void *pAddress = NULL;
 
-		if (m_pMemory->IsHostVisible()) {
-			void *pAddress = NULL;
-
-			m_pMemory->BeginMapMemory(size, offset, &pAddress);
-			{
-				memcpy(pAddress, pBuffer, size);
+				m_pMemory->BeginMapMemory(size, offset, &pAddress);
+				{
+					memcpy(pAddress, pBuffer, size);
+				}
+				m_pMemory->EndMapMemory();
 			}
-			m_pMemory->EndMapMemory();
-		}
-		else {
-			VkAccessFlags dstAccessMask = 0;
-			VkPipelineStageFlags dstStageMask = 0;
-			if (m_usage & VK_BUFFER_USAGE_INDEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_INDEX_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-			if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-			if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
+			else {
+				VkAccessFlags dstAccessMask = 0;
+				VkPipelineStageFlags dstStageMask = 0;
+				if (m_usage & VK_BUFFER_USAGE_INDEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_INDEX_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
+				if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
+				if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
 
-			CRendererStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
-			{
-				VkCommandBuffer commandBuffer = pStagingBuffer->GetCommandBuffer()->GetCommandBuffer();
-				pStagingBuffer->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer);
-				m_pDevice->GetQueue()->Submit(1, &commandBuffer, NULL, NULL, NULL, VK_NULL_HANDLE);
-				m_pDevice->GetQueue()->WaitIdle();
+				CRendererStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
+				{
+					pStagingBuffer->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer);
+					m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE);
+					m_pDevice->GetQueue()->WaitIdle();
+				}
+				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 		}
 
 		return TRUE;
