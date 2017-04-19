@@ -27,49 +27,29 @@ namespace CrossEngine {
 
 	CRendererStagingBufferManager::CRendererStagingBufferManager(CRendererDevice *pDevice)
 		: m_pDevice(pDevice)
-		, m_pFence(NULL)
 	{
 
 	}
 
 	CRendererStagingBufferManager::~CRendererStagingBufferManager(void)
 	{
-		ASSERT(m_pFence == NULL);
 		ASSERT(m_pBuffers.empty());
-		ASSERT(m_pPendings.empty());
 	}
 
 	BOOL CRendererStagingBufferManager::Create(void)
 	{
-		if (m_pFence == NULL) {
-			m_pFence = m_pDevice->GetFenceManager()->AllocFence();
-			m_pFence->Create();
-		}
-
 		return m_pBuffers.empty() ? TRUE : FALSE;
 	}
 
 	void CRendererStagingBufferManager::Destroy(void)
 	{
-		if (m_pFence) {
-			m_pDevice->GetFenceManager()->Free(m_pFence);
-		}
-
-		for (const auto &itPending : m_pPendings) {
-			if (CRendererStagingBuffer *pBuffer = itPending) {
-				SAFE_DELETE(pBuffer);
-			}
-		}
-
 		for (const auto &itBuffer : m_pBuffers) {
 			if (CRendererStagingBuffer *pBuffer = itBuffer.second) {
 				SAFE_DELETE(pBuffer);
 			}
 		}
 
-		m_pFence = NULL;
 		m_pBuffers.clear();
-		m_pPendings.clear();
 	}
 
 	CRendererStagingBuffer* CRendererStagingBufferManager::AllocBuffer(VkDeviceSize size)
@@ -86,48 +66,6 @@ namespace CrossEngine {
 		if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
 
 		SAFE_DELETE(pBuffer);
-	}
-
-	void CRendererStagingBufferManager::PendFreeBuffer(CRendererStagingBuffer *pBuffer)
-	{
-		const auto &itBuffer = m_pBuffers.find(pBuffer);
-		if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
-
-		m_pPendings.push_back(pBuffer);
-	}
-
-	BOOL CRendererStagingBufferManager::Process(void)
-	{
-		try {
-			if (m_pPendings.size()) {
-				std::vector<VkCommandBuffer> commandBuffers;
-				for (const auto &itPending : m_pPendings) {
-					if (const CRendererStagingBuffer *pBuffer = itPending) {
-						commandBuffers.push_back(pBuffer->GetCommandBuffer()->GetCommandBuffer());
-					}
-				}
-
-				CALL_VK_FUNCTION_THROW(m_pFence->Reset());
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(commandBuffers.size(), commandBuffers.data(), NULL, NULL, NULL, m_pFence->GetFence()));
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
-
-				for (const auto &itPending : m_pPendings) {
-					if (CRendererStagingBuffer *pBuffer = itPending) {
-						SAFE_DELETE(pBuffer);
-					}
-				}
-
-				m_pPendings.clear();
-			}
-
-			return TRUE;
-		}
-		catch (VkResult err) {
-			CRenderer::SetLastError(err);
-			Destroy();
-
-			return FALSE;
-		}
 	}
 
 }

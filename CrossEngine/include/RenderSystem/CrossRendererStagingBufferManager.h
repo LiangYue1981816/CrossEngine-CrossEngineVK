@@ -44,13 +44,9 @@ namespace CrossEngine {
 	public:
 		CRendererStagingBuffer* AllocBuffer(VkDeviceSize size);
 		void FreeBuffer(CRendererStagingBuffer *pBuffer);
-		void PendFreeBuffer(CRendererStagingBuffer *pBuffer);
-		BOOL Process(void);
 
 
 	protected:
-		CRendererFence *m_pFence;
-		std::vector<CRendererStagingBuffer*> m_pPendings;
 		std::map<CRendererStagingBuffer*, CRendererStagingBuffer*> m_pBuffers;
 
 	protected:

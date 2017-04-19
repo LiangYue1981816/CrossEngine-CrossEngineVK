@@ -64,10 +64,12 @@ namespace CrossEngine {
 				offset += texture.size(level);
 			}
 
+			VkCommandBuffer commandBuffer = pStagingBuffer->GetCommandBuffer()->GetCommandBuffer();
 			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data());
+			m_pDevice->GetQueue()->Submit(1, &commandBuffer, NULL, NULL, NULL, VK_NULL_HANDLE);
+			m_pDevice->GetQueue()->WaitIdle();
 		}
-		m_pDevice->GetStagingBufferManager()->PendFreeBuffer(pStagingBuffer);
-		m_pDevice->GetStagingBufferManager()->Process();
+		m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
 		return TRUE;
 	}
@@ -102,10 +104,12 @@ namespace CrossEngine {
 				}
 			}
 
+			VkCommandBuffer commandBuffer = pStagingBuffer->GetCommandBuffer()->GetCommandBuffer();
 			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data());
+			m_pDevice->GetQueue()->Submit(1, &commandBuffer, NULL, NULL, NULL, VK_NULL_HANDLE);
+			m_pDevice->GetQueue()->WaitIdle();
 		}
-		m_pDevice->GetStagingBufferManager()->PendFreeBuffer(pStagingBuffer);
-		m_pDevice->GetStagingBufferManager()->Process();
+		m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
 		return TRUE;
 	}
@@ -140,10 +144,12 @@ namespace CrossEngine {
 				}
 			}
 
+			VkCommandBuffer commandBuffer = pStagingBuffer->GetCommandBuffer()->GetCommandBuffer();
 			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data());
+			m_pDevice->GetQueue()->Submit(1, &commandBuffer, NULL, NULL, NULL, VK_NULL_HANDLE);
+			m_pDevice->GetQueue()->WaitIdle();
 		}
-		m_pDevice->GetStagingBufferManager()->PendFreeBuffer(pStagingBuffer);
-		m_pDevice->GetStagingBufferManager()->Process();
+		m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
 		return TRUE;
 	}
