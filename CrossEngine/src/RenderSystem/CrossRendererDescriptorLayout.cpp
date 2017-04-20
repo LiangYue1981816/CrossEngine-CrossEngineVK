@@ -106,9 +106,14 @@ namespace CrossEngine {
 		return m_vkDescriptorSetLayout;
 	}
 
-	uint32_t CRendererDescriptorSetLayout::GetTypesUsedCount(VkDescriptorType type) const
+	uint32_t CRendererDescriptorSetLayout::GetTypeUsedCount(VkDescriptorType type) const
 	{
 		return m_numTypesUsedCount[type];
+	}
+
+	const uint32_t* CRendererDescriptorSetLayout::GetTypesUsedCount(void) const
+	{
+		return m_numTypesUsedCount;
 	}
 
 }

@@ -50,7 +50,8 @@ namespace CrossEngine {
 
 	public:
 		VkDescriptorSetLayout GetSetLayout(void) const;
-		uint32_t GetTypesUsedCount(VkDescriptorType type) const;
+		uint32_t GetTypeUsedCount(VkDescriptorType type) const;
+		const uint32_t* GetTypesUsedCount(void) const;
 
 
 	protected:
