@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(VkPipelineLayout vkLayout, VkShaderModule vkShader, const char *szName = "main");
+		virtual BOOL Create(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
 	};
 
 }

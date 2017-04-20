@@ -36,9 +36,24 @@ namespace CrossEngine {
 
 	}
 	
-	BOOL CRendererPipelineCompute::Create(VkPipelineLayout vkLayout, VkShaderModule vkShader, const char *szName)
+	BOOL CRendererPipelineCompute::Create(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
+		m_shaderModules[VK_SHADER_STAGE_COMPUTE_BIT] = module;
+
 		try {
+			std::vector<VkDescriptorSetLayout> layouts;
+			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
+
+			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
+			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutCreateInfo.pNext = NULL;
+			pipelineLayoutCreateInfo.flags = 0;
+			pipelineLayoutCreateInfo.setLayoutCount = layouts.size();
+			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
+			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
+
 			VkComputePipelineCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
 			createInfo.pNext = NULL;
@@ -50,10 +65,10 @@ namespace CrossEngine {
 			createInfo.stage.module = vkShader;
 			createInfo.stage.pName = szName;
 			createInfo.stage.pSpecializationInfo = NULL;
-			createInfo.layout = vkLayout;
+			createInfo.layout = m_vkPipelineLayout;
 			createInfo.basePipelineHandle = VK_NULL_HANDLE;
 			createInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), VK_NULL_HANDLE, 1, &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), ((CRendererPipelineManager *)m_pManager)->GetPipelineCache(), 1, &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}

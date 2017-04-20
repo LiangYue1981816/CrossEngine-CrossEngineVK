@@ -25,41 +25,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererPipelineGraphics::CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool)
-		: CRendererPipeline(pDevice, pManager, indexDescriptorPool)
+	CRendererPipelineGraphics::CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager)
+		: CRendererPipeline(pDevice, pManager)
 		, m_vertexFormat(0)
-		, m_vkPipelineLayout(VK_NULL_HANDLE)
 	{
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT] = {};
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pNext = NULL;
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].flags = 0;
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].stage = VK_SHADER_STAGE_VERTEX_BIT;
-
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = {};
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pNext = NULL;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].flags = 0;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].stage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = {};
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pNext = NULL;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].flags = 0;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].stage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-
-		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT] = {};
-		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pNext = NULL;
-		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].flags = 0;
-		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].stage = VK_SHADER_STAGE_GEOMETRY_BIT;
-
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT] = {};
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pNext = NULL;
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].flags = 0;
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-
 		m_vertexInputState = {};
 		m_vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 		m_vertexInputState.pNext = NULL;
@@ -375,76 +344,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetUniformImage(const char *szName, VkSampler vkSampler, VkImageView vkImageView, VkImageLayout vkImageLayout)
-	{
-		const auto &itImage = m_images.find(szName);
-		if (itImage == m_images.end()) return FALSE;
-
-		itImage->second.vkDescriptorImageInfo.sampler = vkSampler;
-		itImage->second.vkDescriptorImageInfo.imageView = vkImageView;
-		itImage->second.vkDescriptorImageInfo.imageLayout = vkImageLayout;
-
-		VkWriteDescriptorSet write = {};
-		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		write.pNext = NULL;
-		write.dstSet = itImage->second.vkDescriptorSet;
-		write.dstBinding = itImage->second.binding;
-		write.dstArrayElement = 0;
-		write.descriptorCount = 1;
-		write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		write.pImageInfo = &itImage->second.vkDescriptorImageInfo;
-		write.pBufferInfo = NULL;
-		write.pTexelBufferView = NULL;
-		vkUpdateDescriptorSets(m_pDevice->GetDevice(), 1, &write, 0, NULL);
-
-		return TRUE;
-	}
-
-	BOOL CRendererPipelineGraphics::SetUniformBuffer(const char *szName, VkBuffer vkBuffer, VkDeviceSize offset, VkDeviceSize range)
-	{
-		const auto &itBuffer = m_buffers.find(szName);
-		if (itBuffer == m_buffers.end()) return FALSE;
-
-		itBuffer->second.vkDescriptorBufferInfo.buffer = vkBuffer;
-		itBuffer->second.vkDescriptorBufferInfo.offset = offset;
-		itBuffer->second.vkDescriptorBufferInfo.range = range;
-
-		VkWriteDescriptorSet write = {};
-		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		write.pNext = NULL;
-		write.dstSet = itBuffer->second.vkDescriptorSet;
-		write.dstBinding = itBuffer->second.binding;
-		write.dstArrayElement = 0;
-		write.descriptorCount = 1;
-		write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		write.pImageInfo = NULL;
-		write.pBufferInfo = &itBuffer->second.vkDescriptorBufferInfo;
-		write.pTexelBufferView = NULL;
-		vkUpdateDescriptorSets(m_pDevice->GetDevice(), 1, &write, 0, NULL);
-
-		return TRUE;
-	}
-
-	VkPipelineLayout CRendererPipelineGraphics::GetPipelineLayout(void) const
-	{
-		return m_vkPipelineLayout;
-	}
-
-	std::vector<VkDescriptorSet> CRendererPipelineGraphics::GetDescriptorSets(void) const
-	{
-		std::vector<VkDescriptorSet> descriptors;
-
-		for (const auto &itImage : m_images) {
-			descriptors.push_back(itImage.second.vkDescriptorSet);
-		}
-
-		for (const auto &itBuffer : m_buffers) {
-			descriptors.push_back(itBuffer.second.vkDescriptorSet);
-		}
-
-		return descriptors;
-	}
-
 	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)
 	{
 		try {
@@ -454,7 +353,7 @@ namespace CrossEngine {
 			std::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
 			std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
 
-			CALL_BOOL_FUNCTION_THROW(CreateDescriptor(layouts));
+			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
 			CALL_BOOL_FUNCTION_THROW(CreateShaderStages(shaderStages));
 			CALL_BOOL_FUNCTION_THROW(CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions));
 			CALL_BOOL_FUNCTION_THROW(CreateColorBlendState(colorBlendAttachments));
@@ -503,121 +402,16 @@ namespace CrossEngine {
 
 	void CRendererPipelineGraphics::Destroy(void)
 	{
-		for (const auto &itDescriptorSet : m_pDescriptorSets) {
-			if (CRendererDescriptorSet *pDescriptorSet = itDescriptorSet) {
-				m_pDevice->GetDescriptorSetManager()->FreeDescriptorSet(m_indexDescriptorPool, pDescriptorSet);
-			}
-		}
-
 		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
 			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout) {
 				m_pDevice->GetDescriptorSetLayoutManager()->Free(pDescriptorSetLayout);
 			}
 		}
 
-		if (m_vkPipelineLayout) {
-			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		m_vkPipelineLayout = VK_NULL_HANDLE;
-
-		m_images.clear();
-		m_buffers.clear();
-		m_pDescriptorSets.clear();
+		m_bindings.clear();
 		m_pDescriptorSetLayouts.clear();
 
 		CRendererPipeline::Destroy();
-	}
-
-	BOOL CRendererPipelineGraphics::CreateDescriptor(std::vector<VkDescriptorSetLayout> &layouts)
-	{
-		layouts.clear();
-		m_images.clear();
-		m_buffers.clear();
-		m_pDescriptorSets.clear();
-		m_pDescriptorSetLayouts.clear();
-
-		std::map<uint32_t, std::map<uint32_t, std::string>> names;
-		std::map<uint32_t, std::map<uint32_t, VkDescriptorType>> types;
-		std::map<uint32_t, uint32_t[VK_DESCRIPTOR_TYPE_RANGE_SIZE]> counts;
-		std::map<uint32_t, CRendererDescriptorSetLayout*> pDescriptorSetLayouts;
-
-		for (const auto &itMoudle : m_shaderModules) {
-			for (const auto &variable : itMoudle.second.variables) {
-				if (variable.second.storage_class != SpvStorageClassUniform &&
-					variable.second.storage_class != SpvStorageClassUniformConstant) {
-					continue;
-				}
-
-				uint32_t set = variable.second.descriptor_set;
-				uint32_t binding = variable.second.binding;
-				VkShaderStageFlags shaderStageFlags = itMoudle.first;
-
-				if (pDescriptorSetLayouts[set] == NULL) {
-					pDescriptorSetLayouts[set] = m_pDevice->GetDescriptorSetLayoutManager()->AllocDescriptorSetLayout();
-					if (pDescriptorSetLayouts[set] == NULL) return FALSE;
-				}
-
-				if (variable.second.storage_class == SpvStorageClassUniform) {
-					counts[set][VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER]++;
-					types[set][binding] = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-					names[set][binding] = itMoudle.second.struct_types.at(variable.second.type_id).name;
-					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
-				}
-
-				if (variable.second.storage_class == SpvStorageClassUniformConstant) {
-					counts[set][VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER]++;
-					types[set][binding] = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-					names[set][binding] = variable.second.name;
-					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
-				}
-			}
-		}
-
-		for (const auto &itDescriptorSetLayout : pDescriptorSetLayouts) {
-			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				CRendererDescriptorSet *pDescriptorSet = NULL;
-
-				pDescriptorSetLayout->Create();
-				pDescriptorSet = m_pDevice->GetDescriptorSetManager()->AllocDescriptorSet(m_indexDescriptorPool, pDescriptorSetLayout->GetSetLayout(), counts[itDescriptorSetLayout.first]);
-
-				for (const auto &itName : names[itDescriptorSetLayout.first]) {
-					uint32_t set = itDescriptorSetLayout.first;
-					uint32_t binding = itName.first;
-					const std::string &name = itName.second;
-
-					if (types[set][binding] == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) {
-						m_buffers[name].binding = binding;
-						m_buffers[name].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
-					}
-
-					if (types[set][binding] == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) {
-						m_images[name].binding = binding;
-						m_images[name].vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
-					}
-				}
-
-				m_pDescriptorSets.push_back(pDescriptorSet);
-				m_pDescriptorSetLayouts.push_back(pDescriptorSetLayout);
-
-				layouts.push_back(pDescriptorSetLayout->GetSetLayout());
-			}
-		}
-
-		return TRUE;
-	}
-
-	BOOL CRendererPipelineGraphics::CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages)
-	{
-		shaderStages.clear();
-
-		for (const auto &itShaderStage : m_shaderStages) {
-			if (itShaderStage.second.module != VK_NULL_HANDLE) {
-				shaderStages.push_back(itShaderStage.second);
-			}
-		}
-
-		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)

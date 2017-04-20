@@ -32,21 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct {
-			uint32_t binding;
-			VkDescriptorSet vkDescriptorSet;
-			VkDescriptorImageInfo vkDescriptorImageInfo;
-		} VkDescriptorImage;
-
-		typedef struct {
-			uint32_t binding;
-			VkDescriptorSet vkDescriptorSet;
-			VkDescriptorBufferInfo vkDescriptorBufferInfo;
-		} VkDescriptorBuffer;
-
-
-	protected:
-		CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager, uint32_t indexDescriptorPool);
+		CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager);
 		virtual ~CRendererPipelineGraphics(void);
 
 
@@ -79,36 +65,16 @@ namespace CrossEngine {
 		BOOL SetColorBlendAttachment(uint32_t attachment, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
 
 	public:
-		BOOL SetUniformImage(const char *szName, VkSampler vkSampler, VkImageView vkImageView, VkImageLayout vkImageLayout);
-		BOOL SetUniformBuffer(const char *szName, VkBuffer vkBuffer, VkDeviceSize offset, VkDeviceSize range);
-
-		VkPipelineLayout GetPipelineLayout(void) const;
-		std::vector<VkDescriptorSet> GetDescriptorSets(void) const;
-
-	public:
 		virtual BOOL Create(VkRenderPass vkRenderPass);
 		virtual void Destroy(void);
 
 	protected:
-		BOOL CreateDescriptor(std::vector<VkDescriptorSetLayout> &layouts);
-		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
 		BOOL CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions);
 		BOOL CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments);
 
 
 	protected:
-		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
-		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
 		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
-
-	protected:
-		VkPipelineLayout m_vkPipelineLayout;
-
-		std::vector<CRendererDescriptorSet*> m_pDescriptorSets;
-		std::vector<CRendererDescriptorSetLayout*> m_pDescriptorSetLayouts;
-
-		std::map<std::string, VkDescriptorImage> m_images;
-		std::map<std::string, VkDescriptorBuffer> m_buffers;
 
 	protected:
 		VkPipelineVertexInputStateCreateInfo m_vertexInputState;
