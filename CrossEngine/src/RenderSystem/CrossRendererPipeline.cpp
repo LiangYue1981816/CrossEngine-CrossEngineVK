@@ -83,8 +83,15 @@ namespace CrossEngine {
 			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
 		}
 
+		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
+				m_pDevice->GetDescriptorSetLayoutManager()->Free(pDescriptorSetLayout);
+			}
+		}
+
 		m_vkPipeline = VK_NULL_HANDLE;
 		m_vkPipelineLayout = VK_NULL_HANDLE;
+		m_pDescriptorSetLayouts.clear();
 	}
 
 	void CRendererPipeline::DumpLog(void) const
@@ -104,23 +111,17 @@ namespace CrossEngine {
 		return m_vkPipelineLayout;
 	}
 
-	const VkBinding* CRendererPipeline::GetDescriptorSetLayout(VkDescriptorType type, const char *szName) const
+	VkDescriptorSetLayout CRendererPipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
-		const auto &itTypeBindings = m_bindings.find(type);
-		if (itTypeBindings == m_bindings.end()) return NULL;
-
-		const auto &itNameBinding = itTypeBindings->second.find(szName);
-		return itNameBinding != itTypeBindings->second.end() ? &itNameBinding->second : NULL;
+		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
+		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second->GetSetLayout() : NULL;
 	}
 
 	BOOL CRendererPipeline::CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts)
 	{
 		layouts.clear();
-		m_bindings.clear();
 		m_pDescriptorSetLayouts.clear();
 
-		std::map<uint32_t, std::map<uint32_t, std::string>> names;
-		std::map<uint32_t, std::map<uint32_t, VkDescriptorType>> types;
 		std::map<uint32_t, CRendererDescriptorSetLayout*> pDescriptorSetLayouts;
 
 		for (const auto &itMoudle : m_shaderModules) {
@@ -139,14 +140,10 @@ namespace CrossEngine {
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniform) {
-					types[set][binding] = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-					names[set][binding] = itMoudle.second.struct_types.at(variable.second.type_id).name;
 					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniformConstant) {
-					types[set][binding] = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-					names[set][binding] = variable.second.name;
 					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
 				}
 			}
@@ -156,23 +153,7 @@ namespace CrossEngine {
 			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
 				pDescriptorSetLayout->Create();
 
-				for (const auto &itName : names[itDescriptorSetLayout.first]) {
-					uint32_t set = itDescriptorSetLayout.first;
-					uint32_t binding = itName.first;
-					const std::string &name = itName.second;
-
-					if (types[set][binding] == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) {
-						m_bindings[VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER][name].binding = binding;
-						m_bindings[VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER][name].vkDescriptorSetLayout = pDescriptorSetLayout->GetSetLayout();
-					}
-
-					if (types[set][binding] == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) {
-						m_bindings[VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER][name].binding = binding;
-						m_bindings[VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER][name].vkDescriptorSetLayout = pDescriptorSetLayout->GetSetLayout();
-					}
-				}
-
-				m_pDescriptorSetLayouts.push_back(pDescriptorSetLayout);
+				m_pDescriptorSetLayouts[itDescriptorSetLayout.first] = pDescriptorSetLayout;
 				layouts.push_back(pDescriptorSetLayout->GetSetLayout());
 			}
 		}

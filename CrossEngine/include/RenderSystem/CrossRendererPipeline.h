@@ -26,11 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef struct {
-		uint32_t binding;
-		VkDescriptorSetLayout vkDescriptorSetLayout;
-	} VkBinding;
-
 	class CROSS_EXPORT CRendererPipeline : public CRendererResource
 	{
 	protected:
@@ -45,7 +40,7 @@ namespace CrossEngine {
 	public:
 		VkPipeline GetPipeline(void) const;
 		VkPipelineLayout GetPipelineLayout(void) const;
-		const VkBinding* GetDescriptorSetLayout(VkDescriptorType type, const char *szName) const;
+		VkDescriptorSetLayout GetDescriptorSetLayout(uint32_t set) const;
 
 	protected:
 		BOOL CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts);
@@ -53,8 +48,7 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, std::map<std::string, VkBinding>> m_bindings;
-		std::vector<CRendererDescriptorSetLayout*> m_pDescriptorSetLayouts;
+		std::map<uint32_t, CRendererDescriptorSetLayout*> m_pDescriptorSetLayouts;
 
 		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
 		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;

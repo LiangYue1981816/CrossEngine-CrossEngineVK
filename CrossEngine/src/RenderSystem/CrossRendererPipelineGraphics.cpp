@@ -400,20 +400,6 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRendererPipelineGraphics::Destroy(void)
-	{
-		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
-			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout) {
-				m_pDevice->GetDescriptorSetLayoutManager()->Free(pDescriptorSetLayout);
-			}
-		}
-
-		m_bindings.clear();
-		m_pDescriptorSetLayouts.clear();
-
-		CRendererPipeline::Destroy();
-	}
-
 	BOOL CRendererPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
 	{
 		m_vertexFormat = 0;
