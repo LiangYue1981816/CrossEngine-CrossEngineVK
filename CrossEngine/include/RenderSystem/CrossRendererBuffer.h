@@ -42,7 +42,6 @@ namespace CrossEngine {
 		virtual BOOL UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 		virtual void DumpLog(void) const;
 
-
 	public:
 		VkBuffer GetBuffer(void) const;
 		VkDeviceSize GetBufferSize(void) const;

@@ -103,7 +103,6 @@ namespace CrossEngine {
 		const VkPhysicalDeviceProperties& GetDeviceProperties(void) const;
 		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties(void) const;
 
-
 	protected:
 		virtual BOOL Create(void);
 		virtual void Destroy(void);
@@ -147,7 +146,6 @@ namespace CrossEngine {
 		virtual void DestroyRenderPassManager(void);
 		virtual void DestroyFrameBufferManager(void);
 
-
 	public:
 		CRendererFenceManager* GetFenceManager(void) const;
 		CRendererSemaphoreManager* GetSemaphoreManager(void) const;
@@ -168,7 +166,6 @@ namespace CrossEngine {
 
 	public:
 		void DumpLog(void) const;
-
 
 	public:
 		uint32_t GetVertexSize(uint32_t format) const;

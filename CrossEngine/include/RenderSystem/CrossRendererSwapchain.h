@@ -51,29 +51,28 @@ namespace CrossEngine {
 		void DestroySwapchain(void);
 		void DestroyImagesAndImageViews(void);
 
-
 	public:
 		VkResult Present(VkSemaphore vkSemaphoreWaitRenderingDone) const;
 		VkResult AcquireNextImage(VkFence vkFence);
 		VkSemaphore GetAcquireSemaphore(void) const;
 		uint32_t GetImageIndex(void) const;
 
-
 	public:
-		uint32_t GetImageCount(void) const;
-		VkImage  GetImage(uint32_t indexImage) const;
-		VkImageView GetImageView(uint32_t indexImage) const;
-
 		uint32_t GetWidth(void) const;
 		uint32_t GetHeight(void) const;
 		VkFormat GetFormat(void) const;
+
+	public:
+		uint32_t GetImageCount(void) const;
+		VkImageView GetImageView(uint32_t indexImage) const;
 
 
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
 		VkFormat m_format;
-		
+
+	protected:
 		uint32_t m_indexImage;
 		std::vector<VkImage> m_images;
 		std::vector<VkImageView> m_imageViews;

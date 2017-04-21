@@ -50,7 +50,6 @@ namespace CrossEngine {
 		BOOL Create(void);
 		void Destroy(void);
 
-
 	public:
 		CRendererCommandBuffer* AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 		void FreeCommandBuffer(uint32_t pool, CRendererCommandBuffer *pCommandBuffer);

@@ -40,14 +40,12 @@ namespace CrossEngine {
 		void* Alloc(size_t size, MEMTYPE type);
 		void  Free(void *ptr);
 
-
 	public:
 		DWORD GetAllocatedSize(void) const;
 		DWORD GetMaxAllocatedSize(void) const;
 
 	public:
 		const VkAllocationCallbacks* GetAllocationCallbacks(void) const;
-
 
 	protected:
 		static void* VKAPI_PTR vkAllocationFunction(void *pUserData, size_t size, size_t alignment, VkSystemAllocationScope allocationScope);

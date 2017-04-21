@@ -42,7 +42,6 @@ namespace CrossEngine {
 		BOOL Create(uint32_t queueFamilyIndex);
 		void Destroy(void);
 
-
 	public:
 		VkQueue GetQueue(void) const;
 		uint32_t GetQueueFamilyIndex(void) const;

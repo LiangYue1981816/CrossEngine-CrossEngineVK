@@ -47,9 +47,9 @@ namespace CrossEngine {
 	protected:
 		BOOL CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings);
 
-
 	public:
 		VkDescriptorSetLayout GetSetLayout(void) const;
+
 		uint32_t GetTypeUsedCount(VkDescriptorType type) const;
 		const uint32_t* GetTypesUsedCount(void) const;
 

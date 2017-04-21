@@ -41,7 +41,6 @@ namespace CrossEngine {
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
 
-
 	public:
 		VkFence GetFence(void) const;
 

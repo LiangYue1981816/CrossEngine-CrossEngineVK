@@ -55,7 +55,6 @@ namespace CrossEngine {
 		void RemoveMemory(CRendererMemory *pMemory);
 		CRendererMemory* SearchMemory(VkDeviceSize size) const;
 
-
 	protected:
 		BOOL IsEmpty(void) const;
 		uint32_t GetMemoryTypeIndex(void) const;

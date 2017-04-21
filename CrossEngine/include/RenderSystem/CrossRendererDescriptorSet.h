@@ -50,8 +50,8 @@ namespace CrossEngine {
 
 	protected:
 		VkDescriptorSet m_vkDescriptorSet;
-		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
+		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 		std::map<uint32_t, VkWriteDescriptorSet> m_vkWriteDescriptorSets;
 
 	protected:

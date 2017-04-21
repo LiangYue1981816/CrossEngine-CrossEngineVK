@@ -296,21 +296,6 @@ namespace CrossEngine {
 		return m_indexImage;
 	}
 
-	uint32_t CRendererSwapchain::GetImageCount(void) const
-	{
-		return m_images.size();
-	}
-
-	VkImage CRendererSwapchain::GetImage(uint32_t indexImage) const
-	{
-		return m_images[indexImage];
-	}
-
-	VkImageView CRendererSwapchain::GetImageView(uint32_t indexImage) const
-	{
-		return m_imageViews[indexImage];
-	}
-
 	uint32_t CRendererSwapchain::GetWidth(void) const
 	{
 		return m_width;
@@ -324,6 +309,16 @@ namespace CrossEngine {
 	VkFormat CRendererSwapchain::GetFormat(void) const
 	{
 		return m_format;
+	}
+
+	uint32_t CRendererSwapchain::GetImageCount(void) const
+	{
+		return m_images.size();
+	}
+
+	VkImageView CRendererSwapchain::GetImageView(uint32_t indexImage) const
+	{
+		return m_imageViews[indexImage];
 	}
 
 }

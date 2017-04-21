@@ -71,7 +71,6 @@ namespace CrossEngine {
 		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment);
 		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
 
-
 	public:
 		uint32_t GetSubpassCount(void) const;
 		VkRenderPass GetRenderPass(void) const;

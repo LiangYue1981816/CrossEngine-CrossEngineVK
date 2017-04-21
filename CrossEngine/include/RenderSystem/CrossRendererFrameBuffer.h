@@ -47,7 +47,6 @@ namespace CrossEngine {
 	protected:
 		uint32_t CreateAttachments(std::vector<VkImageView> &attachments);
 
-
 	public:
 		VkFramebuffer GetFrameBuffer(void) const;
 

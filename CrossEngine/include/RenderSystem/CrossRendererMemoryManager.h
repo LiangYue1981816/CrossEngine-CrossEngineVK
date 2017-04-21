@@ -40,11 +40,9 @@ namespace CrossEngine {
 		BOOL Create(void);
 		void Destroy(void);
 
-
 	public:
 		CRendererMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
 		void FreeMemory(CRendererMemory *pMemory);
-
 
 	protected:
 		uint32_t GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const;

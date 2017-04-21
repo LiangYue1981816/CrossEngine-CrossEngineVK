@@ -40,7 +40,6 @@ namespace CrossEngine {
 		BOOL Create(void);
 		void Destroy(void);
 
-
 	public:
 		CRendererStagingBuffer* AllocBuffer(VkDeviceSize size);
 		void FreeBuffer(CRendererStagingBuffer *pBuffer);
