@@ -37,6 +37,12 @@ namespace CrossEngine {
 
 
 	public:
+		void ClearWriteDescriptorSets(void);
+		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo* pDescriptorBufferInfo);
+		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo* pDescriptorImageInfo);
+		void UpdateDescriptorSets(void) const;
+
+	public:
 		VkDescriptorSet GetDescriptorSet(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
 
@@ -44,6 +50,8 @@ namespace CrossEngine {
 	protected:
 		VkDescriptorSet m_vkDescriptorSet;
 		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+
+		std::map<uint32_t, VkWriteDescriptorSet> m_vkWriteDescriptorSets;
 
 	protected:
 		CRendererDevice *m_pDevice;
