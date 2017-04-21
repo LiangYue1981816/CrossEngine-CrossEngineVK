@@ -38,19 +38,6 @@ namespace CrossEngine {
 		ASSERT(m_vkDescriptorSetLayout == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererDescriptorSetLayout::SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags /*= VK_SHADER_STAGE_ALL*/)
-	{
-		m_numTypesUsedCount[type]++;
-
-		m_bindings[binding].binding = binding;
-		m_bindings[binding].descriptorType = type;
-		m_bindings[binding].descriptorCount = 1;
-		m_bindings[binding].stageFlags = flags;
-		m_bindings[binding].pImmutableSamplers = NULL;
-
-		return TRUE;
-	}
-
 	BOOL CRendererDescriptorSetLayout::Create(void)
 	{
 		try {
@@ -96,14 +83,27 @@ namespace CrossEngine {
 		m_bindings.clear();
 	}
 
-	void CRendererDescriptorSetLayout::DumpLog(void) const
+	BOOL CRendererDescriptorSetLayout::SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags /*= VK_SHADER_STAGE_ALL*/)
 	{
+		m_numTypesUsedCount[type]++;
 
+		m_bindings[binding].binding = binding;
+		m_bindings[binding].descriptorType = type;
+		m_bindings[binding].descriptorCount = 1;
+		m_bindings[binding].stageFlags = flags;
+		m_bindings[binding].pImmutableSamplers = NULL;
+
+		return TRUE;
 	}
 
-	VkDescriptorSetLayout CRendererDescriptorSetLayout::GetSetLayout(void) const
+	VkDescriptorSetLayout CRendererDescriptorSetLayout::GetLayout(void) const
 	{
 		return m_vkDescriptorSetLayout;
+	}
+
+	const uint32_t* CRendererDescriptorSetLayout::GetTypesUsedCount(void) const
+	{
+		return m_numTypesUsedCount;
 	}
 
 	uint32_t CRendererDescriptorSetLayout::GetTypeUsedCount(VkDescriptorType type) const
@@ -111,9 +111,9 @@ namespace CrossEngine {
 		return m_numTypesUsedCount[type];
 	}
 
-	const uint32_t* CRendererDescriptorSetLayout::GetTypesUsedCount(void) const
+	void CRendererDescriptorSetLayout::DumpLog(void) const
 	{
-		return m_numTypesUsedCount;
+
 	}
 
 }

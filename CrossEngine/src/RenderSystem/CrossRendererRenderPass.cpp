@@ -28,7 +28,6 @@ namespace CrossEngine {
 	CRendererRenderPass::CRendererRenderPass(CRendererDevice *pDevice, CRendererResourceManager *pManager)
 		: CRendererResource(pDevice, pManager)
 		, m_vkRenderPass(VK_NULL_HANDLE)
-		, m_clearValues{ {0.0f, 0.0f, 0.0f, 1.0f}, {1.0f, 0} }
 	{
 
 	}
@@ -36,6 +35,125 @@ namespace CrossEngine {
 	CRendererRenderPass::~CRendererRenderPass(void)
 	{
 		ASSERT(m_vkRenderPass == VK_NULL_HANDLE);
+	}
+
+	BOOL CRendererRenderPass::Create(void)
+	{
+		try {
+			std::vector<VkAttachmentDescription> attachments;
+			std::vector<VkSubpassDescription> subpasses;
+			std::vector<VkSubpassDependency> dependencies;
+
+			std::map<uint32_t, std::vector<VkAttachmentReference>> inputAttachments;
+			std::map<uint32_t, std::vector<VkAttachmentReference>> colorAttachments;
+			std::map<uint32_t, std::vector<VkAttachmentReference>> resolveAttachments;
+			std::map<uint32_t, std::vector<uint32_t>> preserveAttachments;
+			std::map<uint32_t, VkAttachmentReference> depthStencilAttachment;
+
+			CALL_BOOL_FUNCTION_THROW(CreateAttachments(attachments));
+			CALL_BOOL_FUNCTION_THROW(CreateSubpasses(subpasses, inputAttachments, colorAttachments, resolveAttachments, preserveAttachments, depthStencilAttachment));
+			CALL_BOOL_FUNCTION_THROW(CreateDependencies(dependencies));
+
+			VkRenderPassCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.attachmentCount = attachments.size();
+			createInfo.subpassCount = subpasses.size();
+			createInfo.dependencyCount = dependencies.size();
+			createInfo.pAttachments = attachments.data();
+			createInfo.pSubpasses = subpasses.data();
+			createInfo.pDependencies = dependencies.data();
+			CALL_VK_FUNCTION_THROW(vkCreateRenderPass(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderPass));
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CRenderer::SetLastError(err);
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	BOOL CRendererRenderPass::CreateAttachments(std::vector<VkAttachmentDescription> &attachments)
+	{
+		attachments.clear();
+
+		for (const auto &itAttachment : m_attachments) {
+			attachments.push_back(itAttachment.second);
+		}
+
+		return TRUE;
+	}
+
+	BOOL CRendererRenderPass::CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment)
+	{
+		subpasses.clear();
+		inputAttachments.clear();
+		colorAttachments.clear();
+		resolveAttachments.clear();
+		preserveAttachments.clear();
+		depthStencilAttachment.clear();
+
+		for (const auto &itSubpass : m_subpasses) {
+			depthStencilAttachment[itSubpass.first] = itSubpass.second.depthStencilAttachment;
+
+			for (const auto &itAttachment : itSubpass.second.inputAttachments) {
+				inputAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+			}
+
+			for (const auto &itAttachment : itSubpass.second.colorAttachments) {
+				colorAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+			}
+
+			for (const auto &itAttachment : itSubpass.second.resolveAttachments) {
+				resolveAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+			}
+
+			for (const auto &itAttachment : itSubpass.second.preserveAttachments) {
+				preserveAttachments[itSubpass.first].push_back(itAttachment.second);
+			}
+
+			VkSubpassDescription subpass = {};
+			subpass.flags = 0;
+			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+			subpass.inputAttachmentCount = inputAttachments[itSubpass.first].size();
+			subpass.colorAttachmentCount = colorAttachments[itSubpass.first].size();
+			subpass.preserveAttachmentCount = preserveAttachments[itSubpass.first].size();
+			subpass.pInputAttachments = inputAttachments[itSubpass.first].data();
+			subpass.pColorAttachments = colorAttachments[itSubpass.first].data();
+			subpass.pResolveAttachments = resolveAttachments[itSubpass.first].data();
+			subpass.pPreserveAttachments = preserveAttachments[itSubpass.first].data();
+			subpass.pDepthStencilAttachment = depthStencilAttachment[itSubpass.first].layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &depthStencilAttachment[itSubpass.first];
+			subpasses.push_back(subpass);
+		}
+
+		return TRUE;
+	}
+
+	BOOL CRendererRenderPass::CreateDependencies(std::vector<VkSubpassDependency> &dependencies)
+	{
+		dependencies.clear();
+
+		for (const auto &itDependency : m_dependencies) {
+			dependencies.push_back(itDependency.second);
+		}
+
+		return TRUE;
+	}
+
+	void CRendererRenderPass::Destroy(void)
+	{
+		if (m_vkRenderPass) {
+			vkDestroyRenderPass(m_pDevice->GetDevice(), m_vkRenderPass, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkRenderPass = VK_NULL_HANDLE;
+
+		m_attachments.clear();
+		m_subpasses.clear();
+		m_dependencies.clear();
 	}
 
 	BOOL CRendererRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp)
@@ -172,137 +290,14 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CRendererRenderPass::SetClearColorValue(float red, float green, float blue, float alpha)
+	uint32_t CRendererRenderPass::GetSubpassCount(void) const
 	{
-		m_clearValues[0].color.float32[0] = red;
-		m_clearValues[0].color.float32[1] = green;
-		m_clearValues[0].color.float32[2] = blue;
-		m_clearValues[0].color.float32[3] = alpha;
+		return m_subpasses.size();
 	}
 
-	void CRendererRenderPass::SetClearDepthStencilValue(float depth, uint32_t stencil)
+	VkRenderPass CRendererRenderPass::GetRenderPass(void) const
 	{
-		m_clearValues[1].depthStencil.depth = depth;
-		m_clearValues[1].depthStencil.stencil = stencil;
-	}
-
-	BOOL CRendererRenderPass::Create(void)
-	{
-		try {
-			std::vector<VkAttachmentDescription> attachments;
-			std::vector<VkSubpassDescription> subpasses;
-			std::vector<VkSubpassDependency> dependencies;
-
-			std::map<uint32_t, std::vector<VkAttachmentReference>> inputAttachments;
-			std::map<uint32_t, std::vector<VkAttachmentReference>> colorAttachments;
-			std::map<uint32_t, std::vector<VkAttachmentReference>> resolveAttachments;
-			std::map<uint32_t, std::vector<uint32_t>> preserveAttachments;
-			std::map<uint32_t, VkAttachmentReference> depthStencilAttachment;
-
-			CALL_BOOL_FUNCTION_THROW(CreateAttachments(attachments));
-			CALL_BOOL_FUNCTION_THROW(CreateSubpasses(subpasses, inputAttachments, colorAttachments, resolveAttachments, preserveAttachments, depthStencilAttachment));
-			CALL_BOOL_FUNCTION_THROW(CreateDependencies(dependencies));
-
-			VkRenderPassCreateInfo createInfo = {};
-			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-			createInfo.pNext = NULL;
-			createInfo.flags = 0;
-			createInfo.attachmentCount = attachments.size();
-			createInfo.subpassCount = subpasses.size();
-			createInfo.dependencyCount = dependencies.size();
-			createInfo.pAttachments = attachments.data();
-			createInfo.pSubpasses = subpasses.data();
-			createInfo.pDependencies = dependencies.data();
-			CALL_VK_FUNCTION_THROW(vkCreateRenderPass(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderPass));
-
-			return TRUE;
-		}
-		catch (VkResult err) {
-			CRenderer::SetLastError(err);
-			Destroy();
-
-			return FALSE;
-		}
-	}
-
-	BOOL CRendererRenderPass::CreateAttachments(std::vector<VkAttachmentDescription> &attachments)
-	{
-		attachments.clear();
-
-		for (const auto &itAttachment : m_attachments) {
-			attachments.push_back(itAttachment.second);
-		}
-
-		return TRUE;
-	}
-
-	BOOL CRendererRenderPass::CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment)
-	{
-		subpasses.clear();
-		inputAttachments.clear();
-		colorAttachments.clear();
-		resolveAttachments.clear();
-		preserveAttachments.clear();
-		depthStencilAttachment.clear();
-
-		for (const auto &itSubpass : m_subpasses) {
-			depthStencilAttachment[itSubpass.first] = itSubpass.second.depthStencilAttachment;
-
-			for (const auto &itAttachment : itSubpass.second.inputAttachments) {
-				inputAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
-			}
-
-			for (const auto &itAttachment : itSubpass.second.colorAttachments) {
-				colorAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
-			}
-
-			for (const auto &itAttachment : itSubpass.second.resolveAttachments) {
-				resolveAttachments[itSubpass.first].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
-			}
-
-			for (const auto &itAttachment : itSubpass.second.preserveAttachments) {
-				preserveAttachments[itSubpass.first].push_back(itAttachment.second);
-			}
-
-			VkSubpassDescription subpass = {};
-			subpass.flags = 0;
-			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-			subpass.inputAttachmentCount = inputAttachments[itSubpass.first].size();
-			subpass.colorAttachmentCount = colorAttachments[itSubpass.first].size();
-			subpass.preserveAttachmentCount = preserveAttachments[itSubpass.first].size();
-			subpass.pInputAttachments = inputAttachments[itSubpass.first].data();
-			subpass.pColorAttachments = colorAttachments[itSubpass.first].data();
-			subpass.pResolveAttachments = resolveAttachments[itSubpass.first].data();
-			subpass.pPreserveAttachments = preserveAttachments[itSubpass.first].data();
-			subpass.pDepthStencilAttachment = depthStencilAttachment[itSubpass.first].layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &depthStencilAttachment[itSubpass.first];
-			subpasses.push_back(subpass);
-		}
-
-		return TRUE;
-	}
-
-	BOOL CRendererRenderPass::CreateDependencies(std::vector<VkSubpassDependency> &dependencies)
-	{
-		dependencies.clear();
-
-		for (const auto &itDependency : m_dependencies) {
-			dependencies.push_back(itDependency.second);
-		}
-
-		return TRUE;
-	}
-
-	void CRendererRenderPass::Destroy(void)
-	{
-		if (m_vkRenderPass) {
-			vkDestroyRenderPass(m_pDevice->GetDevice(), m_vkRenderPass, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		m_vkRenderPass = VK_NULL_HANDLE;
-
-		m_attachments.clear();
-		m_subpasses.clear();
-		m_dependencies.clear();
+		return m_vkRenderPass;
 	}
 
 	void CRendererRenderPass::DumpLog(void) const
@@ -368,26 +363,6 @@ namespace CrossEngine {
 					CRendererHelper::vkAccessFlagsToString(itDependency.second.dstAccessMask));
 			}
 		}
-	}
-
-	uint32_t CRendererRenderPass::GetSubpassCount(void) const
-	{
-		return m_subpasses.size();
-	}
-
-	VkRenderPass CRendererRenderPass::GetRenderPass(void) const
-	{
-		return m_vkRenderPass;
-	}
-
-	uint32_t CRendererRenderPass::GetClearValueCount(void) const
-	{
-		return sizeof(m_clearValues) / sizeof(VkClearValue);
-	}
-
-	const VkClearValue* CRendererRenderPass::GetClearValues(void) const
-	{
-		return m_clearValues;
 	}
 
 }

@@ -101,22 +101,6 @@ namespace CrossEngine {
 		}
 	}
 
-	VkPipeline CRendererPipeline::GetPipeline(void) const
-	{
-		return m_vkPipeline;
-	}
-
-	VkPipelineLayout CRendererPipeline::GetPipelineLayout(void) const
-	{
-		return m_vkPipelineLayout;
-	}
-
-	VkDescriptorSetLayout CRendererPipeline::GetDescriptorSetLayout(uint32_t set) const
-	{
-		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
-		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second->GetSetLayout() : NULL;
-	}
-
 	BOOL CRendererPipeline::CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts)
 	{
 		layouts.clear();
@@ -154,7 +138,7 @@ namespace CrossEngine {
 				pDescriptorSetLayout->Create();
 
 				m_pDescriptorSetLayouts[itDescriptorSetLayout.first] = pDescriptorSetLayout;
-				layouts.push_back(pDescriptorSetLayout->GetSetLayout());
+				layouts.push_back(pDescriptorSetLayout->GetLayout());
 			}
 		}
 
@@ -172,6 +156,22 @@ namespace CrossEngine {
 		}
 
 		return TRUE;
+	}
+
+	VkPipeline CRendererPipeline::GetPipeline(void) const
+	{
+		return m_vkPipeline;
+	}
+
+	VkPipelineLayout CRendererPipeline::GetPipelineLayout(void) const
+	{
+		return m_vkPipelineLayout;
+	}
+
+	VkDescriptorSetLayout CRendererPipeline::GetDescriptorSetLayout(uint32_t set) const
+	{
+		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
+		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second->GetLayout() : NULL;
 	}
 
 }

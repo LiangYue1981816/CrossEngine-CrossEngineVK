@@ -75,21 +75,6 @@ namespace CrossEngine {
 		DestroyImage();
 	}
 
-	void CRendererImage::DumpLog(void) const
-	{
-		if (m_vkImage) {
-			LOGI("\t\tTexture 0x%x: view = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %s tiling = %s\n",
-				m_vkImage,
-				m_vkImageView,
-				m_size,
-				CRendererHelper::vkImageTypeToString(m_type),
-				CRendererHelper::vkFormatToString(m_format),
-				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
-				CRendererHelper::vkSampleCountFlagBitsToString(m_samples),
-				CRendererHelper::vkImageTilingToString(m_tiling));
-		}
-	}
-
 	VkResult CRendererImage::CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
 	{
 		depth = max(depth, 1);
@@ -326,6 +311,21 @@ namespace CrossEngine {
 	VkDeviceSize CRendererImage::GetSize(void) const
 	{
 		return m_size;
+	}
+
+	void CRendererImage::DumpLog(void) const
+	{
+		if (m_vkImage) {
+			LOGI("\t\tTexture 0x%x: view = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %s tiling = %s\n",
+				m_vkImage,
+				m_vkImageView,
+				m_size,
+				CRendererHelper::vkImageTypeToString(m_type),
+				CRendererHelper::vkFormatToString(m_format),
+				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
+				CRendererHelper::vkSampleCountFlagBitsToString(m_samples),
+				CRendererHelper::vkImageTilingToString(m_tiling));
+		}
 	}
 
 }

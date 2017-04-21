@@ -90,19 +90,6 @@ namespace CrossEngine {
 		virtual ~CRendererDevice(void);
 
 
-	public:
-		CRenderer* GetRenderer(void) const;
-		CRendererQueue* GetQueue(void) const;
-
-	public:
-		VkDevice GetDevice(void) const;
-		VkPhysicalDevice GetPhysicalDevice(void) const;
-
-	public:
-		const VkPhysicalDeviceFeatures& GetDeviceFeatures(void) const;
-		const VkPhysicalDeviceProperties& GetDeviceProperties(void) const;
-		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties(void) const;
-
 	protected:
 		virtual BOOL Create(void);
 		virtual void Destroy(void);
@@ -145,6 +132,19 @@ namespace CrossEngine {
 		virtual void DestroyPipelineManager(void);
 		virtual void DestroyRenderPassManager(void);
 		virtual void DestroyFrameBufferManager(void);
+
+	public:
+		CRenderer* GetRenderer(void) const;
+		CRendererQueue* GetQueue(void) const;
+
+	public:
+		VkDevice GetDevice(void) const;
+		VkPhysicalDevice GetPhysicalDevice(void) const;
+
+	public:
+		const VkPhysicalDeviceFeatures& GetDeviceFeatures(void) const;
+		const VkPhysicalDeviceProperties& GetDeviceProperties(void) const;
+		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties(void) const;
 
 	public:
 		CRendererFenceManager* GetFenceManager(void) const;

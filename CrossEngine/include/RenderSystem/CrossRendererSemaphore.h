@@ -39,10 +39,12 @@ namespace CrossEngine {
 	public:
 		virtual BOOL Create(void);
 		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
 
 	public:
 		VkSemaphore GetSemaphore(void) const;
+
+	public:
+		virtual void DumpLog(void) const;
 
 
 	protected:

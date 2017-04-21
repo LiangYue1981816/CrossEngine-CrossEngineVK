@@ -37,8 +37,13 @@ namespace CrossEngine {
 
 
 	public:
-		uint32_t GetVertexFormat(void) const;
+		virtual BOOL Create(VkRenderPass vkRenderPass);
 
+	protected:
+		BOOL CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions);
+		BOOL CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments);
+
+	public:
 		BOOL SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
 		BOOL SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
 		BOOL SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
@@ -64,16 +69,11 @@ namespace CrossEngine {
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
 		BOOL SetColorBlendAttachment(uint32_t attachment, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
 
-	public:
-		virtual BOOL Create(VkRenderPass vkRenderPass);
-
-	protected:
-		BOOL CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions);
-		BOOL CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments);
+		uint32_t GetVertexFormat(void) const;
 
 
 	protected:
-		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+		uint32_t m_vertexFormat;
 
 	protected:
 		VkPipelineVertexInputStateCreateInfo m_vertexInputState;
@@ -87,7 +87,7 @@ namespace CrossEngine {
 		VkPipelineDynamicStateCreateInfo m_dynamicState;
 
 	protected:
-		uint32_t m_vertexFormat;
+		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
 	};
 
 }

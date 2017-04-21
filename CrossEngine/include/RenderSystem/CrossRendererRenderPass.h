@@ -47,6 +47,15 @@ namespace CrossEngine {
 
 
 	public:
+		virtual BOOL Create(void);
+		virtual void Destroy(void);
+
+	protected:
+		BOOL CreateAttachments(std::vector<VkAttachmentDescription> &attachments);
+		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment);
+		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
+
+	public:
 		BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp);
 		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp);
 		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp);
@@ -58,35 +67,21 @@ namespace CrossEngine {
 		BOOL SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment);
 		BOOL SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass);
 
-		void SetClearColorValue(float red, float green, float blue, float alpha);
-		void SetClearDepthStencilValue(float depth, uint32_t stencil);
-
-	public:
-		virtual BOOL Create(void);
-		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
-
-	protected:
-		BOOL CreateAttachments(std::vector<VkAttachmentDescription> &attachments);
-		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment);
-		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
-
 	public:
 		uint32_t GetSubpassCount(void) const;
 		VkRenderPass GetRenderPass(void) const;
 
-		uint32_t GetClearValueCount(void) const;
-		const VkClearValue* GetClearValues(void) const;
+	public:
+		virtual void DumpLog(void) const;
 
-
-	protected:
-		VkClearValue m_clearValues[2];
-		std::map<uint32_t, VkAttachmentDescription> m_attachments;
-		std::map<uint32_t, VkSubpassInformation> m_subpasses;
-		std::map<uint32_t, VkSubpassDependency> m_dependencies;
 
 	protected:
 		VkRenderPass m_vkRenderPass;
+
+	protected:
+		std::map<uint32_t, VkAttachmentDescription> m_attachments;
+		std::map<uint32_t, VkSubpassInformation> m_subpasses;
+		std::map<uint32_t, VkSubpassDependency> m_dependencies;
 	};
 
 }

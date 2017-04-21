@@ -45,6 +45,7 @@ namespace CrossEngine {
 		void FreeDescriptorSet(uint32_t pool, CRendererDescriptorSet *pDescriptorSet);
 		void ResetDescriptorPool(uint32_t pool);
 
+	public:
 		CRendererDescriptorPool* GetDescriptorPool(uint32_t pool);
 
 	public:

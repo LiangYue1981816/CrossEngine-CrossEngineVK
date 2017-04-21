@@ -39,7 +39,6 @@ namespace CrossEngine {
 	public:
 		virtual BOOL Create(void);
 		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
 
 	public:
 		VkFence GetFence(void) const;
@@ -48,6 +47,9 @@ namespace CrossEngine {
 		BOOL IsSignaled(void) const;
 		BOOL Wait(uint64_t timeout) const;
 		VkResult Reset(void) const;
+
+	public:
+		virtual void DumpLog(void) const;
 
 
 	protected:

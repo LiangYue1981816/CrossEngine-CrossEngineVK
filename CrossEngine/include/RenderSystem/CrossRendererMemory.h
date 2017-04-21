@@ -56,11 +56,12 @@ namespace CrossEngine {
 
 
 	protected:
+		VkDeviceMemory m_vkMemory;
+
+	protected:
 		VkFlags m_flags;
 		VkDeviceSize m_size;
 		VkDeviceSize m_offset;
-
-		VkDeviceMemory m_vkMemory;
 
 	protected:
 		CRendererMemoryAllocator *m_pAllocator;

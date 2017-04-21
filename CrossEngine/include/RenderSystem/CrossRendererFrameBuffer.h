@@ -37,27 +37,29 @@ namespace CrossEngine {
 
 
 	public:
-		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView);
-
-	public:
 		virtual BOOL Create(VkRenderPass vkRenderPass);
 		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
 
 	protected:
 		uint32_t CreateAttachments(std::vector<VkImageView> &attachments);
 
 	public:
+		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView);
+
+	public:
 		VkFramebuffer GetFrameBuffer(void) const;
 
+	public:
+		virtual void DumpLog(void) const;
+
+
+	protected:
+		VkFramebuffer m_vkFrameBuffer;
 
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
 		std::map<uint32_t, VkImageView> m_views;
-
-	protected:
-		VkFramebuffer m_vkFrameBuffer;
 	};
 
 }

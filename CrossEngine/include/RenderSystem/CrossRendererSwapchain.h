@@ -68,6 +68,10 @@ namespace CrossEngine {
 
 
 	protected:
+		VkSwapchainKHR m_vkSwapchain;
+		VkSemaphore m_vkAcquireSemaphore;
+
+	protected:
 		uint32_t m_width;
 		uint32_t m_height;
 		VkFormat m_format;
@@ -76,10 +80,6 @@ namespace CrossEngine {
 		uint32_t m_indexImage;
 		std::vector<VkImage> m_images;
 		std::vector<VkImageView> m_imageViews;
-
-	protected:
-		VkSwapchainKHR m_vkSwapchain;
-		VkSemaphore m_vkAcquireSemaphore;
 
 	protected:
 		CRendererDeviceGraphics *m_pDevice;

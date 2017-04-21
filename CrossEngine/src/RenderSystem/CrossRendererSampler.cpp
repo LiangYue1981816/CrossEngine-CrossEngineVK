@@ -85,6 +85,11 @@ namespace CrossEngine {
 		m_vkSampler = VK_NULL_HANDLE;
 	}
 
+	VkSampler CRendererSampler::GetSampler(void) const
+	{
+		return m_vkSampler;
+	}
+
 	void CRendererSampler::DumpLog(void) const
 	{
 		if (m_vkSampler) {
@@ -95,11 +100,6 @@ namespace CrossEngine {
 				CRendererHelper::vkSamplerMipmapModeToString(m_mipmapMode),
 				CRendererHelper::vkSamplerAddressModeToString(m_addressMode));
 		}
-	}
-
-	VkSampler CRendererSampler::GetSampler(void) const
-	{
-		return m_vkSampler;
 	}
 
 }

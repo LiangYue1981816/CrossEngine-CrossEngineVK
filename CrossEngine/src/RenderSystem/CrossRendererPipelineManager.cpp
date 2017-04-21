@@ -69,11 +69,6 @@ namespace CrossEngine {
 		CRendererResourceManager::Destroy();
 	}
 
-	VkPipelineCache CRendererPipelineManager::GetPipelineCache(void) const
-	{
-		return m_vkPipelineCache;
-	}
-
 	CRendererPipelineCompute* CRendererPipelineManager::AllocPipelineCompute(void)
 	{
 		CRendererPipelineCompute *pPipeline = SAFE_NEW CRendererPipelineCompute(m_pDevice, this);
@@ -88,6 +83,11 @@ namespace CrossEngine {
 		m_pResources[pPipeline] = pPipeline;
 
 		return pPipeline;
+	}
+
+	VkPipelineCache CRendererPipelineManager::GetPipelineCache(void) const
+	{
+		return m_vkPipelineCache;
 	}
 
 	void CRendererPipelineManager::DumpLog(const char *szTitle) const

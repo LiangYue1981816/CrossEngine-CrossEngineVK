@@ -41,6 +41,7 @@ namespace CrossEngine {
 		void FreeDescriptorSet(CRendererDescriptorSet *pDescriptorSet);
 		void ResetDescriptorPool(void);
 
+	public:
 		uint32_t GetDescriptorSetCount(void) const;
 
 	public:
@@ -48,14 +49,14 @@ namespace CrossEngine {
 
 
 	protected:
+		VkDescriptorPool m_vkDescriptorPool;
+		std::map<CRendererDescriptorSet*, CRendererDescriptorSet*> m_pDescriptorSets;
+
+	protected:
 		uint32_t m_numDescriptorSets;
 		uint32_t m_maxDescriptorSets;
 		uint32_t m_numAllocatedTypes[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 		uint32_t m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
-
-	protected:
-		VkDescriptorPool m_vkDescriptorPool;
-		std::map<CRendererDescriptorSet*, CRendererDescriptorSet*> m_pDescriptorSets;
 
 	protected:
 		CRendererDevice *m_pDevice;

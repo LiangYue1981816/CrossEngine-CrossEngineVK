@@ -37,25 +37,24 @@ namespace CrossEngine {
 		virtual void Destroy(void);
 		virtual void DumpLog(void) const;
 
+	protected:
+		BOOL CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts);
+		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
+
 	public:
 		VkPipeline GetPipeline(void) const;
 		VkPipelineLayout GetPipelineLayout(void) const;
 		VkDescriptorSetLayout GetDescriptorSetLayout(uint32_t set) const;
 
-	protected:
-		BOOL CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts);
-		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
-
-
-	protected:
-		std::map<uint32_t, CRendererDescriptorSetLayout*> m_pDescriptorSetLayouts;
-
-		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
-		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
 
 	protected:
 		VkPipeline m_vkPipeline;
 		VkPipelineLayout m_vkPipelineLayout;
+		std::map<uint32_t, CRendererDescriptorSetLayout*> m_pDescriptorSetLayouts;
+
+	protected:
+		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
+		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
 	};
 
 }

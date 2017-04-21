@@ -123,13 +123,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CRendererBuffer::DumpLog(void) const
-	{
-		if (m_vkBuffer) {
-			LOGI("\t\tBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_memorySize, CRendererHelper::vkBufferUsageFlagsToString(m_usage));
-		}
-	}
-
 	VkBuffer CRendererBuffer::GetBuffer(void) const
 	{
 		return m_vkBuffer;
@@ -148,6 +141,13 @@ namespace CrossEngine {
 	VkBufferUsageFlags CRendererBuffer::GetUsage(void) const
 	{
 		return m_usage;
+	}
+
+	void CRendererBuffer::DumpLog(void) const
+	{
+		if (m_vkBuffer) {
+			LOGI("\t\tBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_memorySize, CRendererHelper::vkBufferUsageFlagsToString(m_usage));
+		}
 	}
 
 }

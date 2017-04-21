@@ -39,6 +39,8 @@ namespace CrossEngine {
 
 	public:
 		virtual void Free(CRendererResource *pResource);
+
+	public:
 		virtual void DumpLog(const char *szTitle) const;
 
 

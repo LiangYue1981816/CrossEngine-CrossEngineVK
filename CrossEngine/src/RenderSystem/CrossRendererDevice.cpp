@@ -92,41 +92,6 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pFrameBufferManager);
 	}
 
-	CRenderer* CRendererDevice::GetRenderer(void) const
-	{
-		return m_pRenderer;
-	}
-
-	CRendererQueue* CRendererDevice::GetQueue(void) const
-	{
-		return m_pQueue;
-	}
-
-	VkDevice CRendererDevice::GetDevice(void) const
-	{
-		return m_vkDevice;
-	}
-
-	VkPhysicalDevice CRendererDevice::GetPhysicalDevice(void) const
-	{
-		return m_vkPhysicalDevice;
-	}
-
-	const VkPhysicalDeviceFeatures& CRendererDevice::GetDeviceFeatures(void) const
-	{
-		return m_vkDeviceFeatures;
-	}
-
-	const VkPhysicalDeviceProperties& CRendererDevice::GetDeviceProperties(void) const
-	{
-		return m_vkDeviceProperties;
-	}
-
-	const VkPhysicalDeviceMemoryProperties& CRendererDevice::GetMemoryProperties(void) const
-	{
-		return m_vkMemoryProperties;
-	}
-	
 	BOOL CRendererDevice::Create(void)
 	{
 		try {
@@ -357,6 +322,41 @@ namespace CrossEngine {
 	void CRendererDevice::DestroyFrameBufferManager(void)
 	{
 		m_pFrameBufferManager->Destroy();
+	}
+
+	CRenderer* CRendererDevice::GetRenderer(void) const
+	{
+		return m_pRenderer;
+	}
+
+	CRendererQueue* CRendererDevice::GetQueue(void) const
+	{
+		return m_pQueue;
+	}
+
+	VkDevice CRendererDevice::GetDevice(void) const
+	{
+		return m_vkDevice;
+	}
+
+	VkPhysicalDevice CRendererDevice::GetPhysicalDevice(void) const
+	{
+		return m_vkPhysicalDevice;
+	}
+
+	const VkPhysicalDeviceFeatures& CRendererDevice::GetDeviceFeatures(void) const
+	{
+		return m_vkDeviceFeatures;
+	}
+
+	const VkPhysicalDeviceProperties& CRendererDevice::GetDeviceProperties(void) const
+	{
+		return m_vkDeviceProperties;
+	}
+
+	const VkPhysicalDeviceMemoryProperties& CRendererDevice::GetMemoryProperties(void) const
+	{
+		return m_vkMemoryProperties;
 	}
 
 	CRendererFenceManager* CRendererDevice::GetFenceManager(void) const

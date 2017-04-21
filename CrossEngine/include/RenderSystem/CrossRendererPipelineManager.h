@@ -41,10 +41,11 @@ namespace CrossEngine {
 		virtual void Destroy(void);
 
 	public:
-		VkPipelineCache GetPipelineCache(void) const;
-
 		CRendererPipelineCompute* AllocPipelineCompute(void);
 		CRendererPipelineGraphics* AllocPipelineGraphics(void);
+
+	public:
+		VkPipelineCache GetPipelineCache(void) const;
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;

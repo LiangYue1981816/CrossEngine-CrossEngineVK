@@ -65,16 +65,16 @@ namespace CrossEngine {
 		m_vkSemaphore = VK_NULL_HANDLE;
 	}
 
+	VkSemaphore CRendererSemaphore::GetSemaphore(void) const
+	{
+		return m_vkSemaphore;
+	}
+
 	void CRendererSemaphore::DumpLog(void) const
 	{
 		if (m_vkSemaphore) {
 			LOGI("\t\tSemaphore 0x%x\n", m_vkSemaphore);
 		}
-	}
-
-	VkSemaphore CRendererSemaphore::GetSemaphore(void) const
-	{
-		return m_vkSemaphore;
 	}
 
 }

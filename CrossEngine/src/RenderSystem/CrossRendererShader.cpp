@@ -50,43 +50,11 @@ namespace CrossEngine {
 		ASSERT(m_vkShaderModule == VK_NULL_HANDLE);
 	}
 
-	void CRendererShader::AddMacroDefinition(const char *szName, const char *szValue)
-	{
-		m_strMacroDefinitions[szName] = szValue;
-	}
-
-	void CRendererShader::DelMacroDefinition(const char *szName)
-	{
-		const auto &itMacroDefinition = m_strMacroDefinitions.find(szName);
-		if (itMacroDefinition != m_strMacroDefinitions.end()) m_strMacroDefinitions.erase(itMacroDefinition);
-	}
-
-	void CRendererShader::ClearMacroDefinitions(void)
-	{
-		m_strMacroDefinitions.clear();
-	}
-
 	BOOL CRendererShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)
 	{
 		shaderc::CompileOptions options = CreateCompileOptions();
 		std::vector<uint32_t> words = CompileShader(szSource, length, kind, options);
 		return Create(words.data(), words.size());
-	}
-
-	shaderc::CompileOptions CRendererShader::CreateCompileOptions(void)
-	{
-		shaderc::CompileOptions options(((CRendererShaderManager *)m_pManager)->GetCompileOptions());
-
-		for (const auto &itMacroDefinition : m_strMacroDefinitions) {
-			if (itMacroDefinition.second.empty()) {
-				options.AddMacroDefinition(itMacroDefinition.first.c_str());
-			}
-			else {
-				options.AddMacroDefinition(itMacroDefinition.first.c_str(), itMacroDefinition.second.c_str());
-			}
-		}
-
-		return options;
 	}
 
 	BOOL CRendererShader::Create(const uint32_t *words, size_t numWords)
@@ -112,6 +80,22 @@ namespace CrossEngine {
 		}
 	}
 
+	shaderc::CompileOptions CRendererShader::CreateCompileOptions(void)
+	{
+		shaderc::CompileOptions options(((CRendererShaderManager *)m_pManager)->GetCompileOptions());
+
+		for (const auto &itMacroDefinition : m_strMacroDefinitions) {
+			if (itMacroDefinition.second.empty()) {
+				options.AddMacroDefinition(itMacroDefinition.first.c_str());
+			}
+			else {
+				options.AddMacroDefinition(itMacroDefinition.first.c_str(), itMacroDefinition.second.c_str());
+			}
+		}
+
+		return options;
+	}
+
 	void CRendererShader::Destroy(void)
 	{
 		if (m_vkShaderModule) {
@@ -121,11 +105,20 @@ namespace CrossEngine {
 		m_vkShaderModule = VK_NULL_HANDLE;
 	}
 
-	void CRendererShader::DumpLog(void) const
+	void CRendererShader::AddMacroDefinition(const char *szName, const char *szValue)
 	{
-		if (m_vkShaderModule) {
-			LOGI("\t\tShader 0x%x\n", m_vkShaderModule);
-		}
+		m_strMacroDefinitions[szName] = szValue;
+	}
+
+	void CRendererShader::DelMacroDefinition(const char *szName)
+	{
+		const auto &itMacroDefinition = m_strMacroDefinitions.find(szName);
+		if (itMacroDefinition != m_strMacroDefinitions.end()) m_strMacroDefinitions.erase(itMacroDefinition);
+	}
+
+	void CRendererShader::ClearMacroDefinitions(void)
+	{
+		m_strMacroDefinitions.clear();
 	}
 
 	VkShaderModule CRendererShader::GetShaderModule(void) const
@@ -136,6 +129,13 @@ namespace CrossEngine {
 	const spirv::module_type& CRendererShader::GetModule(void) const
 	{
 		return m_module;
+	}
+
+	void CRendererShader::DumpLog(void) const
+	{
+		if (m_vkShaderModule) {
+			LOGI("\t\tShader 0x%x\n", m_vkShaderModule);
+		}
 	}
 
 }

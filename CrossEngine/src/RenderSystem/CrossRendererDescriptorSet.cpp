@@ -94,11 +94,6 @@ namespace CrossEngine {
 		vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);
 	}
 
-	void CRendererDescriptorSet::ClearWriteDescriptorSets(void)
-	{
-		m_vkWriteDescriptorSets.clear();
-	}
-
 	VkDescriptorSet CRendererDescriptorSet::GetDescriptorSet(void) const
 	{
 		return m_vkDescriptorSet;

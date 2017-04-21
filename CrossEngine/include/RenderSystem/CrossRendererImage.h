@@ -44,7 +44,6 @@ namespace CrossEngine {
 
 	public:
 		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
 
 	protected:
 		void DestroyImage(void);
@@ -65,6 +64,14 @@ namespace CrossEngine {
 		VkImageTiling GetTiling(void) const;
 		VkDeviceSize GetSize(void) const;
 
+	public:
+		virtual void DumpLog(void) const;
+
+
+	protected:
+		VkImage m_vkImage;
+		VkImageView m_vkImageView;
+		CRendererMemory *m_pMemory;
 
 	protected:
 		VkImageType m_type;
@@ -77,11 +84,6 @@ namespace CrossEngine {
 		VkSampleCountFlagBits m_samples;
 		VkImageTiling m_tiling;
 		VkDeviceSize m_size;
-
-	protected:
-		VkImage m_vkImage;
-		VkImageView m_vkImageView;
-		CRendererMemory *m_pMemory;
 	};
 
 }

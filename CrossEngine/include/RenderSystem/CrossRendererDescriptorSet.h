@@ -41,7 +41,6 @@ namespace CrossEngine {
 		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo vkDescriptorBufferInfos);
 		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkBufferView);
 		void UpdateDescriptorSets(void) const;
-		void ClearWriteDescriptorSets(void);
 
 	public:
 		VkDescriptorSet GetDescriptorSet(void) const;
@@ -51,6 +50,7 @@ namespace CrossEngine {
 	protected:
 		VkDescriptorSet m_vkDescriptorSet;
 
+	protected:
 		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 		std::map<uint32_t, VkWriteDescriptorSet> m_vkWriteDescriptorSets;
 

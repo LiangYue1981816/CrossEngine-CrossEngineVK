@@ -65,13 +65,6 @@ namespace CrossEngine {
 		m_vkFence = VK_NULL_HANDLE;
 	}
 
-	void CRendererFence::DumpLog(void) const
-	{
-		if (m_vkFence) {
-			LOGI("\t\tFence 0x%x\n", m_vkFence);
-		}
-	}
-
 	VkFence CRendererFence::GetFence(void) const
 	{
 		return m_vkFence;
@@ -90,6 +83,13 @@ namespace CrossEngine {
 	VkResult CRendererFence::Reset(void) const
 	{
 		return vkResetFences(m_pDevice->GetDevice(), 1, &m_vkFence);
+	}
+
+	void CRendererFence::DumpLog(void) const
+	{
+		if (m_vkFence) {
+			LOGI("\t\tFence 0x%x\n", m_vkFence);
+		}
 	}
 
 }

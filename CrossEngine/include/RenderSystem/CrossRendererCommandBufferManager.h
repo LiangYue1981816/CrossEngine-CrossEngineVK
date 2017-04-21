@@ -55,6 +55,7 @@ namespace CrossEngine {
 		void FreeCommandBuffer(uint32_t pool, CRendererCommandBuffer *pCommandBuffer);
 		void ResetCommandPool(uint32_t pool, BOOL bReleaseResources = FALSE);
 
+	public:
 		CRendererCommandPool* GetCommandPool(uint32_t pool);
 
 

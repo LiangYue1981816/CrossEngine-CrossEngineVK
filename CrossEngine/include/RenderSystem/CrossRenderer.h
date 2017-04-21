@@ -69,16 +69,6 @@ namespace CrossEngine {
 		static VkResult GetLastError(void);
 
 	public:
-		VkInstance GetInstance(void) const;
-		VkSurfaceKHR GetSurface(void) const;
-
-	public:
-		CRendererAllocator* GetAllocator(void) const;
-		CRendererSwapchain* GetSwapchain(void) const;
-		CRendererDeviceCompute* GetComputeDevice(void) const;
-		CRendererDeviceGraphics* GetGraphicsDevice(void) const;
-
-	public:
 		BOOL Create(HINSTANCE hInstance, HWND hWnd);
 		void Destroy(void);
 
@@ -98,6 +88,16 @@ namespace CrossEngine {
 		void DestroyDebugReportCallback(void);
 		void DestroyPresentationSurface(void);
 		void DestroyDevice(void);
+
+	public:
+		VkInstance GetInstance(void) const;
+		VkSurfaceKHR GetSurface(void) const;
+
+	public:
+		CRendererAllocator* GetAllocator(void) const;
+		CRendererSwapchain* GetSwapchain(void) const;
+		CRendererDeviceCompute* GetComputeDevice(void) const;
+		CRendererDeviceGraphics* GetGraphicsDevice(void) const;
 
 
 	protected:

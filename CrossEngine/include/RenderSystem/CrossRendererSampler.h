@@ -39,20 +39,22 @@ namespace CrossEngine {
 	public:
 		virtual BOOL Create(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
 
 	public:
 		VkSampler GetSampler(void) const;
 
+	public:
+		virtual void DumpLog(void) const;
+
+
+	protected:
+		VkSampler m_vkSampler;
 
 	protected:
 		VkFilter m_minFilter;
 		VkFilter m_magFilter;
 		VkSamplerMipmapMode m_mipmapMode;
 		VkSamplerAddressMode m_addressMode;
-
-	protected:
-		VkSampler m_vkSampler;
 	};
 
 }

@@ -95,36 +95,6 @@ namespace CrossEngine {
 		return vkErrorCode;
 	}
 
-	VkInstance CRenderer::GetInstance(void) const
-	{
-		return m_vkInstance;
-	}
-
-	VkSurfaceKHR CRenderer::GetSurface(void) const
-	{
-		return m_vkSurface;
-	}
-
-	CRendererAllocator* CRenderer::GetAllocator(void) const
-	{
-		return m_pAllocator;
-	}
-
-	CRendererSwapchain* CRenderer::GetSwapchain(void) const
-	{
-		return m_pSwapchain;
-	}
-
-	CRendererDeviceCompute* CRenderer::GetComputeDevice(void) const
-	{
-		return m_pComputeDevice;
-	}
-
-	CRendererDeviceGraphics* CRenderer::GetGraphicsDevice(void) const
-	{
-		return m_pGraphicsDevice;
-	}
-
 	BOOL CRenderer::Create(HINSTANCE hInstance, HWND hWnd)
 	{
 		try {
@@ -357,6 +327,36 @@ namespace CrossEngine {
 	{
 		m_pComputeDevice->Destroy();
 		m_pGraphicsDevice->Destroy();
+	}
+
+	VkInstance CRenderer::GetInstance(void) const
+	{
+		return m_vkInstance;
+	}
+
+	VkSurfaceKHR CRenderer::GetSurface(void) const
+	{
+		return m_vkSurface;
+	}
+
+	CRendererAllocator* CRenderer::GetAllocator(void) const
+	{
+		return m_pAllocator;
+	}
+
+	CRendererSwapchain* CRenderer::GetSwapchain(void) const
+	{
+		return m_pSwapchain;
+	}
+
+	CRendererDeviceCompute* CRenderer::GetComputeDevice(void) const
+	{
+		return m_pComputeDevice;
+	}
+
+	CRendererDeviceGraphics* CRenderer::GetGraphicsDevice(void) const
+	{
+		return m_pGraphicsDevice;
 	}
 
 }

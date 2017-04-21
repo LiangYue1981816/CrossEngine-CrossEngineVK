@@ -111,9 +111,116 @@ namespace CrossEngine {
 
 	}
 
-	uint32_t CRendererPipelineGraphics::GetVertexFormat(void) const
+	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)
 	{
-		return m_vertexFormat;
+		try {
+			std::vector<VkDescriptorSetLayout> layouts;
+			std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
+			std::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
+			std::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
+			std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
+
+			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
+			CALL_BOOL_FUNCTION_THROW(CreateShaderStages(shaderStages));
+			CALL_BOOL_FUNCTION_THROW(CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions));
+			CALL_BOOL_FUNCTION_THROW(CreateColorBlendState(colorBlendAttachments));
+
+			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
+			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutCreateInfo.pNext = NULL;
+			pipelineLayoutCreateInfo.flags = 0;
+			pipelineLayoutCreateInfo.setLayoutCount = layouts.size();
+			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
+			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
+
+			VkGraphicsPipelineCreateInfo pipelineCreateInfo = {};
+			pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+			pipelineCreateInfo.pNext = NULL;
+			pipelineCreateInfo.flags = 0;
+			pipelineCreateInfo.stageCount = shaderStages.size();
+			pipelineCreateInfo.pStages = shaderStages.data();
+			pipelineCreateInfo.pVertexInputState = &m_vertexInputState;
+			pipelineCreateInfo.pInputAssemblyState = &m_inputAssemblyState;
+			pipelineCreateInfo.pTessellationState = m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module != VK_NULL_HANDLE && m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module != VK_NULL_HANDLE ? &m_tessellationState : NULL;
+			pipelineCreateInfo.pViewportState = &m_viewportState;
+			pipelineCreateInfo.pRasterizationState = &m_rasterizationState;
+			pipelineCreateInfo.pMultisampleState = &m_multiSampleState;
+			pipelineCreateInfo.pDepthStencilState = &m_depthStencilState;
+			pipelineCreateInfo.pColorBlendState = &m_colorBlendState;
+			pipelineCreateInfo.pDynamicState = &m_dynamicState;
+			pipelineCreateInfo.layout = m_vkPipelineLayout;
+			pipelineCreateInfo.renderPass = vkRenderPass;
+			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
+			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
+			pipelineCreateInfo.basePipelineIndex = 0;
+			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CRendererPipelineManager *)m_pManager)->GetPipelineCache(), 1, &pipelineCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CRenderer::SetLastError(err);
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	BOOL CRendererPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
+	{
+		m_vertexFormat = 0;
+
+		inputBindingDescriptions.clear();
+		inputAttributeDescriptions.clear();
+
+		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
+			if (variable.second.storage_class == SpvStorageClassInput) {
+				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
+					m_vertexFormat |= attribute;
+				}
+			}
+		}
+
+		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
+			if (variable.second.storage_class == SpvStorageClassInput) {
+				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
+					VkVertexInputAttributeDescription inputAttributeDescription;
+					inputAttributeDescription.binding = 0;
+					inputAttributeDescription.location = variable.second.location;
+					inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
+					inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
+					inputAttributeDescriptions.push_back(inputAttributeDescription);
+				}
+			}
+		}
+
+		VkVertexInputBindingDescription inputBindingDescription;
+		inputBindingDescription.binding = 0;
+		inputBindingDescription.stride = m_pDevice->GetVertexSize(m_vertexFormat);
+		inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+		inputBindingDescriptions.push_back(inputBindingDescription);
+
+		m_vertexInputState.vertexBindingDescriptionCount = inputBindingDescriptions.size();
+		m_vertexInputState.pVertexBindingDescriptions = inputBindingDescriptions.data();
+		m_vertexInputState.vertexAttributeDescriptionCount = inputAttributeDescriptions.size();
+		m_vertexInputState.pVertexAttributeDescriptions = inputAttributeDescriptions.data();
+
+		return TRUE;
+	}
+
+	BOOL CRendererPipelineGraphics::CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments)
+	{
+		colorBlendAttachments.clear();
+
+		for (const auto &itColorBlendAttachment : m_colorBlendAttachmentStates) {
+			colorBlendAttachments.push_back(itColorBlendAttachment.second);
+		}
+
+		m_colorBlendState.attachmentCount = colorBlendAttachments.size();
+		m_colorBlendState.pAttachments = colorBlendAttachments.data();
+
+		return TRUE;
 	}
 
 	BOOL CRendererPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
@@ -344,116 +451,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)
+	uint32_t CRendererPipelineGraphics::GetVertexFormat(void) const
 	{
-		try {
-			std::vector<VkDescriptorSetLayout> layouts;
-			std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
-			std::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
-			std::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
-			std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
-
-			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
-			CALL_BOOL_FUNCTION_THROW(CreateShaderStages(shaderStages));
-			CALL_BOOL_FUNCTION_THROW(CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions));
-			CALL_BOOL_FUNCTION_THROW(CreateColorBlendState(colorBlendAttachments));
-
-			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
-			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-			pipelineLayoutCreateInfo.pNext = NULL;
-			pipelineLayoutCreateInfo.flags = 0;
-			pipelineLayoutCreateInfo.setLayoutCount = layouts.size();
-			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
-			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
-			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
-
-			VkGraphicsPipelineCreateInfo pipelineCreateInfo = {};
-			pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-			pipelineCreateInfo.pNext = NULL;
-			pipelineCreateInfo.flags = 0;
-			pipelineCreateInfo.stageCount = shaderStages.size();
-			pipelineCreateInfo.pStages = shaderStages.data();
-			pipelineCreateInfo.pVertexInputState = &m_vertexInputState;
-			pipelineCreateInfo.pInputAssemblyState = &m_inputAssemblyState;
-			pipelineCreateInfo.pTessellationState = m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module != VK_NULL_HANDLE && m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module != VK_NULL_HANDLE ? &m_tessellationState : NULL;
-			pipelineCreateInfo.pViewportState = &m_viewportState;
-			pipelineCreateInfo.pRasterizationState = &m_rasterizationState;
-			pipelineCreateInfo.pMultisampleState = &m_multiSampleState;
-			pipelineCreateInfo.pDepthStencilState = &m_depthStencilState;
-			pipelineCreateInfo.pColorBlendState = &m_colorBlendState;
-			pipelineCreateInfo.pDynamicState = &m_dynamicState;
-			pipelineCreateInfo.layout = m_vkPipelineLayout;
-			pipelineCreateInfo.renderPass = vkRenderPass;
-			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
-			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
-			pipelineCreateInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CRendererPipelineManager *)m_pManager)->GetPipelineCache(), 1, &pipelineCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
-
-			return TRUE;
-		}
-		catch (VkResult err) {
-			CRenderer::SetLastError(err);
-			Destroy();
-
-			return FALSE;
-		}
-	}
-
-	BOOL CRendererPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
-	{
-		m_vertexFormat = 0;
-
-		inputBindingDescriptions.clear();
-		inputAttributeDescriptions.clear();
-
-		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
-			if (variable.second.storage_class == SpvStorageClassInput) {
-				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
-					m_vertexFormat |= attribute;
-				}
-			}
-		}
-
-		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
-			if (variable.second.storage_class == SpvStorageClassInput) {
-				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
-					VkVertexInputAttributeDescription inputAttributeDescription;
-					inputAttributeDescription.binding = 0;
-					inputAttributeDescription.location = variable.second.location;
-					inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
-					inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
-					inputAttributeDescriptions.push_back(inputAttributeDescription);
-				}
-			}
-		}
-
-		VkVertexInputBindingDescription inputBindingDescription;
-		inputBindingDescription.binding = 0;
-		inputBindingDescription.stride = m_pDevice->GetVertexSize(m_vertexFormat);
-		inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-		inputBindingDescriptions.push_back(inputBindingDescription);
-
-		m_vertexInputState.vertexBindingDescriptionCount = inputBindingDescriptions.size();
-		m_vertexInputState.pVertexBindingDescriptions = inputBindingDescriptions.data();
-		m_vertexInputState.vertexAttributeDescriptionCount = inputAttributeDescriptions.size();
-		m_vertexInputState.pVertexAttributeDescriptions = inputAttributeDescriptions.data();
-
-		return TRUE;
-	}
-
-	BOOL CRendererPipelineGraphics::CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments)
-	{
-		colorBlendAttachments.clear();
-
-		for (const auto &itColorBlendAttachment : m_colorBlendAttachmentStates) {
-			colorBlendAttachments.push_back(itColorBlendAttachment.second);
-		}
-
-		m_colorBlendState.attachmentCount = colorBlendAttachments.size();
-		m_colorBlendState.pAttachments = colorBlendAttachments.data();
-
-		return TRUE;
+		return m_vertexFormat;
 	}
 
 }

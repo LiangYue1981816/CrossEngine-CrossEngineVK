@@ -40,21 +40,6 @@ namespace CrossEngine {
 		ASSERT(m_vkFrameBuffer == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererFrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView)
-	{
-		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
-			return FALSE;
-		}
-
-		if (m_width == 0) m_width = width;
-		if (m_height == 0) m_height = height;
-		if (m_width != width || m_height != height) return FALSE;
-
-		m_views[indexAttachment] = vkView;
-
-		return TRUE;
-	}
-
 	BOOL CRendererFrameBuffer::Create(VkRenderPass vkRenderPass)
 	{
 		try {
@@ -111,6 +96,26 @@ namespace CrossEngine {
 		m_views.clear();
 	}
 
+	BOOL CRendererFrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView)
+	{
+		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
+			return FALSE;
+		}
+
+		if (m_width == 0) m_width = width;
+		if (m_height == 0) m_height = height;
+		if (m_width != width || m_height != height) return FALSE;
+
+		m_views[indexAttachment] = vkView;
+
+		return TRUE;
+	}
+
+	VkFramebuffer CRendererFrameBuffer::GetFrameBuffer(void) const
+	{
+		return m_vkFrameBuffer;
+	}
+
 	void CRendererFrameBuffer::DumpLog(void) const
 	{
 		if (m_vkFrameBuffer) {
@@ -121,11 +126,6 @@ namespace CrossEngine {
 				}
 			}
 		}
-	}
-
-	VkFramebuffer CRendererFrameBuffer::GetFrameBuffer(void) const
-	{
-		return m_vkFrameBuffer;
 	}
 
 }

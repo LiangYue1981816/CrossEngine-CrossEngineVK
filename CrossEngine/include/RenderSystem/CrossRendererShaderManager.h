@@ -47,6 +47,7 @@ namespace CrossEngine {
 		void SetForcedVersionProfile(uint32_t version, shaderc_profile profile);
 		void SetMacroDefinition(const char *szName, const char *szValue);
 
+	public:
 		const shaderc::CompileOptions& GetCompileOptions(void) const;
 
 

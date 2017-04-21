@@ -69,11 +69,12 @@ namespace CrossEngine {
 
 
 	protected:
+		VkDeviceMemory m_vkMemory;
+
+	protected:
 		uint32_t m_type;
 		VkFlags m_flags;
 		VkDeviceSize m_size;
-
-		VkDeviceMemory m_vkMemory;
 
 	protected:
 		rb_root m_root;
