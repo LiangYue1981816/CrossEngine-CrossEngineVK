@@ -38,12 +38,7 @@ namespace CrossEngine {
 
 	}
 
-	void CRendererDescriptorSet::ClearWriteDescriptorSets(void)
-	{
-		m_vkWriteDescriptorSets.clear();
-	}
-
-	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo* pDescriptorBufferInfos, uint32_t descriptorCount)
+	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo vkDescriptorImageInfos)
 	{
 		m_vkWriteDescriptorSets[binding] = {};
 		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -51,26 +46,41 @@ namespace CrossEngine {
 		m_vkWriteDescriptorSets[binding].dstSet = m_vkDescriptorSet;
 		m_vkWriteDescriptorSets[binding].dstBinding = binding;
 		m_vkWriteDescriptorSets[binding].dstArrayElement = 0;
-		m_vkWriteDescriptorSets[binding].descriptorCount = descriptorCount;
+		m_vkWriteDescriptorSets[binding].descriptorCount = 1;
 		m_vkWriteDescriptorSets[binding].descriptorType = type;
-		m_vkWriteDescriptorSets[binding].pImageInfo = NULL;
-		m_vkWriteDescriptorSets[binding].pBufferInfo = pDescriptorBufferInfos;
-		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
-	}
-
-	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo* pDescriptorImageInfos, uint32_t descriptorCount)
-	{
-		m_vkWriteDescriptorSets[binding] = {};
-		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		m_vkWriteDescriptorSets[binding].pNext = NULL;
-		m_vkWriteDescriptorSets[binding].dstSet = m_vkDescriptorSet;
-		m_vkWriteDescriptorSets[binding].dstBinding = binding;
-		m_vkWriteDescriptorSets[binding].dstArrayElement = 0;
-		m_vkWriteDescriptorSets[binding].descriptorCount = descriptorCount;
-		m_vkWriteDescriptorSets[binding].descriptorType = type;
-		m_vkWriteDescriptorSets[binding].pImageInfo = pDescriptorImageInfos;
+		m_vkWriteDescriptorSets[binding].pImageInfo = &vkDescriptorImageInfos;
 		m_vkWriteDescriptorSets[binding].pBufferInfo = NULL;
 		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
+	}
+
+	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo vkDescriptorBufferInfos)
+	{
+		m_vkWriteDescriptorSets[binding] = {};
+		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		m_vkWriteDescriptorSets[binding].pNext = NULL;
+		m_vkWriteDescriptorSets[binding].dstSet = m_vkDescriptorSet;
+		m_vkWriteDescriptorSets[binding].dstBinding = binding;
+		m_vkWriteDescriptorSets[binding].dstArrayElement = 0;
+		m_vkWriteDescriptorSets[binding].descriptorCount = 1;
+		m_vkWriteDescriptorSets[binding].descriptorType = type;
+		m_vkWriteDescriptorSets[binding].pImageInfo = NULL;
+		m_vkWriteDescriptorSets[binding].pBufferInfo = &vkDescriptorBufferInfos;
+		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
+	}
+
+	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkBufferView)
+	{
+		m_vkWriteDescriptorSets[binding] = {};
+		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		m_vkWriteDescriptorSets[binding].pNext = NULL;
+		m_vkWriteDescriptorSets[binding].dstSet = m_vkDescriptorSet;
+		m_vkWriteDescriptorSets[binding].dstBinding = binding;
+		m_vkWriteDescriptorSets[binding].dstArrayElement = 0;
+		m_vkWriteDescriptorSets[binding].descriptorCount = 1;
+		m_vkWriteDescriptorSets[binding].descriptorType = type;
+		m_vkWriteDescriptorSets[binding].pImageInfo = NULL;
+		m_vkWriteDescriptorSets[binding].pBufferInfo = NULL;
+		m_vkWriteDescriptorSets[binding].pTexelBufferView = &vkBufferView;
 	}
 
 	void CRendererDescriptorSet::UpdateDescriptorSets(void) const
@@ -82,6 +92,11 @@ namespace CrossEngine {
 		}
 
 		vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);
+	}
+
+	void CRendererDescriptorSet::ClearWriteDescriptorSets(void)
+	{
+		m_vkWriteDescriptorSets.clear();
 	}
 
 	VkDescriptorSet CRendererDescriptorSet::GetDescriptorSet(void) const

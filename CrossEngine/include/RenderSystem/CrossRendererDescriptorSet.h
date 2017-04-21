@@ -37,10 +37,11 @@ namespace CrossEngine {
 
 
 	public:
-		void ClearWriteDescriptorSets(void);
-		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo* pDescriptorBufferInfos, uint32_t descriptorCount);
-		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo* pDescriptorImageInfos, uint32_t descriptorCount);
+		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo vkDescriptorImageInfos);
+		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo vkDescriptorBufferInfos);
+		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkBufferView);
 		void UpdateDescriptorSets(void) const;
+		void ClearWriteDescriptorSets(void);
 
 	public:
 		VkDescriptorSet GetDescriptorSet(void) const;
