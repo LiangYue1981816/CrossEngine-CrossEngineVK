@@ -56,4 +56,22 @@ namespace CrossEngine {
 		CVulkanDevice *m_pDevice;
 	};
 
+	class CROSS_EXPORT CVulkanStagingBufferAutoRelease
+	{
+	public:
+		CVulkanStagingBufferAutoRelease(CVulkanDevice *pDevice, VkDeviceSize size);
+		virtual ~CVulkanStagingBufferAutoRelease(void);
+
+
+	public:
+		CVulkanStagingBuffer* GetBuffer(void) const;
+
+
+	protected:
+		CVulkanStagingBuffer *m_pBuffer;
+
+	protected:
+		CVulkanDevice *m_pDevice;
+	};
+
 }

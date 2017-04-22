@@ -142,4 +142,22 @@ namespace CrossEngine {
 		return TransferBuffer(vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, VK_ACCESS_UNIFORM_READ_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_TESSELLATION_CONTROL_SHADER_BIT | VK_PIPELINE_STAGE_TESSELLATION_EVALUATION_SHADER_BIT | VK_PIPELINE_STAGE_GEOMETRY_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, size, offset, pBuffer);
 	}
 
+
+	CVulkanStagingBufferAutoRelease::CVulkanStagingBufferAutoRelease(CVulkanDevice *pDevice, VkDeviceSize size)
+		: m_pDevice(pDevice)
+		, m_pBuffer(NULL)
+	{
+		m_pBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
+	}
+
+	CVulkanStagingBufferAutoRelease::~CVulkanStagingBufferAutoRelease(void)
+	{
+		m_pDevice->GetStagingBufferManager()->FreeBuffer(m_pBuffer);
+	}
+
+	CVulkanStagingBuffer* CVulkanStagingBufferAutoRelease::GetBuffer(void) const
+	{
+		return m_pBuffer;
+	}
+
 }
