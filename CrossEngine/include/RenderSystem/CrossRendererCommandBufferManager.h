@@ -33,14 +33,6 @@ namespace CrossEngine {
 		friend class CRendererDeviceGraphics;
 
 
-	public:
-		enum {
-			COMMAND_POOL_RESOURCE_BASE = 0,
-			COMMAND_POOL_PRIMARY_DRAW_BASE = 1000,
-			COMMAND_POOL_SECONDARY_DRAW_BASE = 2000,
-		};
-
-
 	protected:
 		CRendererCommandBufferManager(CRendererDevice *pDevice);
 		virtual ~CRendererCommandBufferManager(void);

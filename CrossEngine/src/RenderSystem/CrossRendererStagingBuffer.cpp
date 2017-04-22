@@ -48,14 +48,14 @@ namespace CrossEngine {
 		m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT);
 		m_pMemory->BindBuffer(m_vkBuffer);
 
-		m_pCommandBuffer = m_pDevice->GetCommandBufferManager()->AllocCommandBuffer(CRendererCommandBufferManager::COMMAND_POOL_RESOURCE_BASE, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		m_pCommandBuffer = m_pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 	}
 
 	CRendererStagingBuffer::~CRendererStagingBuffer(void)
 	{
 		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
 
-		m_pDevice->GetCommandBufferManager()->FreeCommandBuffer(CRendererCommandBufferManager::COMMAND_POOL_RESOURCE_BASE, m_pCommandBuffer);
+		m_pDevice->GetCommandBufferManager()->FreeCommandBuffer(0, m_pCommandBuffer);
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 	}
 
