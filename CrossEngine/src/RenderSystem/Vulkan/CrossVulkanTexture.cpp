@@ -117,10 +117,8 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::TransferTexture2D(const gli::texture2d &texture)
 	{
-		CVulkanStagingBuffer *pStagingBuffer = NULL;
-
 		try {
-			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+			CVulkanStagingBufferAutoRelease buffer(m_pDevice, m_pMemory->GetSize());
 			{
 				uint32_t offset = 0;
 				std::vector<VkBufferImageCopy> regions;
@@ -138,20 +136,15 @@ namespace CrossEngine {
 					offset += texture.size(level);
 				}
 
-				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data()));
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
+				CALL_VK_FUNCTION_THROW(buffer.GetBuffer()->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data()));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
 			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
 			return TRUE;
 		}
 		catch (VkResult err) {
 			CVulkan::SetLastError(err);
-
-			if (pStagingBuffer) {
-				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-			}
 
 			return FALSE;
 		}
@@ -159,10 +152,8 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::TransferTexture2DArray(const gli::texture2d_array &texture)
 	{
-		CVulkanStagingBuffer *pStagingBuffer = NULL;
-
 		try {
-			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+			CVulkanStagingBufferAutoRelease buffer(m_pDevice, m_pMemory->GetSize());
 			{
 				uint32_t offset = 0;
 				std::vector<VkBufferImageCopy> regions;
@@ -182,20 +173,15 @@ namespace CrossEngine {
 					}
 				}
 
-				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data()));
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
+				CALL_VK_FUNCTION_THROW(buffer.GetBuffer()->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data()));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
 			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
 			return TRUE;
 		}
 		catch (VkResult err) {
 			CVulkan::SetLastError(err);
-
-			if (pStagingBuffer) {
-				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-			}
 
 			return FALSE;
 		}
@@ -203,10 +189,8 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::TransferTextureCube(const gli::texture_cube &texture)
 	{
-		CVulkanStagingBuffer *pStagingBuffer = NULL;
-
 		try {
-			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+			CVulkanStagingBufferAutoRelease buffer(m_pDevice, m_pMemory->GetSize());
 			{
 				uint32_t offset = 0;
 				std::vector<VkBufferImageCopy> regions;
@@ -226,20 +210,15 @@ namespace CrossEngine {
 					}
 				}
 
-				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data()));
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
+				CALL_VK_FUNCTION_THROW(buffer.GetBuffer()->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data()));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
 			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
 			return TRUE;
 		}
 		catch (VkResult err) {
 			CVulkan::SetLastError(err);
-
-			if (pStagingBuffer) {
-				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-			}
 
 			return FALSE;
 		}
