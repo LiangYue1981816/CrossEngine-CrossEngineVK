@@ -93,34 +93,25 @@ namespace CrossEngine {
 
 	BOOL CVulkanBuffer::UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
-		if (pBuffer) {
-			if (m_pMemory->IsHostVisible()) {
-				void *pAddress = NULL;
-
-				m_pMemory->BeginMapMemory(size, offset, &pAddress);
-				{
-					memcpy(pAddress, pBuffer, size);
-				}
-				m_pMemory->EndMapMemory();
-			}
-			else {
-				VkAccessFlags dstAccessMask = 0;
-				VkPipelineStageFlags dstStageMask = 0;
-				if (m_usage & VK_BUFFER_USAGE_INDEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_INDEX_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-				if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-				if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
-
-				CVulkanStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
-				{
-					pStagingBuffer->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer);
-					m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE);
-					m_pDevice->GetQueue()->WaitIdle();
-				}
-				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-			}
+		if (pBuffer == NULL) {
+			return FALSE;
 		}
 
-		return TRUE;
+		try {
+			if (m_pMemory->IsHostVisible()) {
+				CALL_VK_FUNCTION_THROW(CopyData(size, offset, pBuffer));
+			}
+			else {
+				CALL_VK_FUNCTION_THROW(TransferData(size, offset, pBuffer));
+			}
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CVulkan::SetLastError(err);
+
+			return FALSE;
+		}
 	}
 
 	VkResult CVulkanBuffer::CopyData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
