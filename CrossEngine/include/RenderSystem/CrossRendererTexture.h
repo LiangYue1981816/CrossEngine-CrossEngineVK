@@ -37,9 +37,26 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL CreateTexture2D(const gli::texture2d &texture);
-		virtual BOOL CreateTexture2DArray(const gli::texture2d_array &texture);
-		virtual BOOL CreateTextureCube(const gli::texture_cube &texture);
+		virtual BOOL CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		virtual BOOL CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		virtual BOOL CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		virtual void Destroy(void);
+
+	protected:
+		BOOL TransferTexture2D(const gli::texture2d &texture);
+		BOOL TransferTexture2DArray(const gli::texture2d_array &texture);
+		BOOL TransferTextureCube(const gli::texture_cube &texture);
+
+		BOOL CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		void DestroySampler(void);
+
+	public:
+		const VkDescriptorImageInfo& GetDescriptorImageInfo(void) const;
+
+
+	protected:
+		CRendererSampler *m_pSampler;
+		VkDescriptorImageInfo m_vkDescriptorImageInfo;
 	};
 
 }

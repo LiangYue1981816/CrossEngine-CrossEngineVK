@@ -27,128 +27,241 @@ namespace CrossEngine {
 
 	CRendererTexture::CRendererTexture(CRendererDevice *pDevice, CRendererResourceManager *pManager)
 		: CRendererImage(pDevice, pManager)
+		, m_pSampler(NULL)
 	{
 
 	}
 
 	CRendererTexture::~CRendererTexture(void)
 	{
-
+		ASSERT(m_pSampler == NULL);
 	}
 
-	BOOL CRendererTexture::CreateTexture2D(const gli::texture2d &texture)
+	BOOL CRendererTexture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		if (CRendererHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
 			return FALSE;
 		}
 
-		if (Create(VK_IMAGE_VIEW_TYPE_2D, (VkFormat)texture.format(), VK_IMAGE_ASPECT_COLOR_BIT, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT) == FALSE) {
+		try {
+			CALL_BOOL_FUNCTION_THROW(Create(VK_IMAGE_VIEW_TYPE_2D, (VkFormat)texture.format(), VK_IMAGE_ASPECT_COLOR_BIT, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT));
+			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
+			CALL_BOOL_FUNCTION_THROW(TransferTexture2D(texture));
+
+			m_vkDescriptorImageInfo.sampler = m_pSampler->GetSampler();
+			m_vkDescriptorImageInfo.imageView = m_vkImageView;
+			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+			return TRUE;
+		}
+		catch (BOOL) {
+			Destroy();
+
 			return FALSE;
 		}
-
-		CRendererStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
-		{
-			uint32_t offset = 0;
-			std::vector<VkBufferImageCopy> regions;
-
-			for (uint32_t level = 0; level < texture.levels(); level++) {
-				VkBufferImageCopy region;
-				region.bufferOffset = offset;
-				region.bufferRowLength = 0;
-				region.bufferImageHeight = 0;
-				region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, 0, 1 };
-				region.imageOffset = { 0, 0, 0 };
-				region.imageExtent = { (uint32_t)texture.extent(level).x, (uint32_t)texture.extent(level).y, 1 };
-
-				regions.push_back(region);
-				offset += texture.size(level);
-			}
-
-			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data());
-			m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE);
-			m_pDevice->GetQueue()->WaitIdle();
-		}
-		m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-
-		return TRUE;
 	}
 
-	BOOL CRendererTexture::CreateTexture2DArray(const gli::texture2d_array &texture)
+	BOOL CRendererTexture::CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		if (CRendererHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
 			return FALSE;
 		}
 
-		if (Create(VK_IMAGE_VIEW_TYPE_2D_ARRAY, (VkFormat)texture.format(), VK_IMAGE_ASPECT_COLOR_BIT, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), texture.layers(), VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT) == FALSE) {
+		try {
+			CALL_BOOL_FUNCTION_THROW(Create(VK_IMAGE_VIEW_TYPE_2D_ARRAY, (VkFormat)texture.format(), VK_IMAGE_ASPECT_COLOR_BIT, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), texture.layers(), VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT));
+			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
+			CALL_BOOL_FUNCTION_THROW(TransferTexture2DArray(texture));
+
+			m_vkDescriptorImageInfo.sampler = m_pSampler->GetSampler();
+			m_vkDescriptorImageInfo.imageView = m_vkImageView;
+			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+			return TRUE;
+		}
+		catch (BOOL) {
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	BOOL CRendererTexture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		if (CRendererHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
 			return FALSE;
 		}
 
-		CRendererStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
-		{
-			uint32_t offset = 0;
-			std::vector<VkBufferImageCopy> regions;
+		try {
+			CALL_BOOL_FUNCTION_THROW(Create(VK_IMAGE_VIEW_TYPE_CUBE, (VkFormat)texture.format(), VK_IMAGE_ASPECT_COLOR_BIT, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT));
+			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
+			CALL_BOOL_FUNCTION_THROW(TransferTextureCube(texture));
 
-			for (uint32_t layer = 0; layer < texture.layers(); layer++) {
+			m_vkDescriptorImageInfo.sampler = m_pSampler->GetSampler();
+			m_vkDescriptorImageInfo.imageView = m_vkImageView;
+			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+			return TRUE;
+		}
+		catch (BOOL) {
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	BOOL CRendererTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		m_pSampler = m_pDevice->GetSamplerManager()->AllocSampler();
+		return m_pSampler->Create(minFilter, magFilter, mipmapMode, addressMode);
+	}
+
+	BOOL CRendererTexture::TransferTexture2D(const gli::texture2d &texture)
+	{
+		CRendererStagingBuffer *pStagingBuffer = NULL;
+
+		try {
+			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+			{
+				uint32_t offset = 0;
+				std::vector<VkBufferImageCopy> regions;
+
 				for (uint32_t level = 0; level < texture.levels(); level++) {
 					VkBufferImageCopy region;
 					region.bufferOffset = offset;
 					region.bufferRowLength = 0;
 					region.bufferImageHeight = 0;
-					region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, layer, 1 };
+					region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, 0, 1 };
 					region.imageOffset = { 0, 0, 0 };
-					region.imageExtent = { (uint32_t)texture[layer].extent(level).x, (uint32_t)texture[layer].extent(level).y, 1 };
+					region.imageExtent = { (uint32_t)texture.extent(level).x, (uint32_t)texture.extent(level).y, 1 };
 
 					regions.push_back(region);
-					offset += texture[layer].size(level);
+					offset += texture.size(level);
 				}
+
+				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data()));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
+			}
+			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CRenderer::SetLastError(err);
+
+			if (pStagingBuffer) {
+				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 			}
 
-			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data());
-			m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE);
-			m_pDevice->GetQueue()->WaitIdle();
+			return FALSE;
 		}
-		m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-
-		return TRUE;
 	}
 
-	BOOL CRendererTexture::CreateTextureCube(const gli::texture_cube &texture)
+	BOOL CRendererTexture::TransferTexture2DArray(const gli::texture2d_array &texture)
 	{
-		if (CRendererHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
-			return FALSE;
-		}
+		CRendererStagingBuffer *pStagingBuffer = NULL;
 
-		if (Create(VK_IMAGE_VIEW_TYPE_CUBE, (VkFormat)texture.format(), VK_IMAGE_ASPECT_COLOR_BIT, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT) == FALSE) {
-			return FALSE;
-		}
+		try {
+			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+			{
+				uint32_t offset = 0;
+				std::vector<VkBufferImageCopy> regions;
 
-		CRendererStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
-		{
-			uint32_t offset = 0;
-			std::vector<VkBufferImageCopy> regions;
+				for (uint32_t layer = 0; layer < texture.layers(); layer++) {
+					for (uint32_t level = 0; level < texture.levels(); level++) {
+						VkBufferImageCopy region;
+						region.bufferOffset = offset;
+						region.bufferRowLength = 0;
+						region.bufferImageHeight = 0;
+						region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, layer, 1 };
+						region.imageOffset = { 0, 0, 0 };
+						region.imageExtent = { (uint32_t)texture[layer].extent(level).x, (uint32_t)texture[layer].extent(level).y, 1 };
 
-			for (uint32_t face = 0; face < 6; face++) {
-				for (uint32_t level = 0; level < texture.levels(); level++) {
-					VkBufferImageCopy region;
-					region.bufferOffset = offset;
-					region.bufferRowLength = 0;
-					region.bufferImageHeight = 0;
-					region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, face, 1 };
-					region.imageOffset = { 0, 0, 0 };
-					region.imageExtent = { (uint32_t)texture[face].extent(level).x, (uint32_t)texture[face].extent(level).y, 1 };
-
-					regions.push_back(region);
-					offset += texture[face].size(level);
+						regions.push_back(region);
+						offset += texture[layer].size(level);
+					}
 				}
+
+				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data()));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
+			}
+			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CRenderer::SetLastError(err);
+
+			if (pStagingBuffer) {
+				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 			}
 
-			pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data());
-			m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE);
-			m_pDevice->GetQueue()->WaitIdle();
+			return FALSE;
 		}
-		m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
+	}
 
-		return TRUE;
+	BOOL CRendererTexture::TransferTextureCube(const gli::texture_cube &texture)
+	{
+		CRendererStagingBuffer *pStagingBuffer = NULL;
+
+		try {
+			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+			{
+				uint32_t offset = 0;
+				std::vector<VkBufferImageCopy> regions;
+
+				for (uint32_t face = 0; face < 6; face++) {
+					for (uint32_t level = 0; level < texture.levels(); level++) {
+						VkBufferImageCopy region;
+						region.bufferOffset = offset;
+						region.bufferRowLength = 0;
+						region.bufferImageHeight = 0;
+						region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, face, 1 };
+						region.imageOffset = { 0, 0, 0 };
+						region.imageExtent = { (uint32_t)texture[face].extent(level).x, (uint32_t)texture[face].extent(level).y, 1 };
+
+						regions.push_back(region);
+						offset += texture[face].size(level);
+					}
+				}
+
+				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data()));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
+			}
+			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CRenderer::SetLastError(err);
+
+			if (pStagingBuffer) {
+				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
+			}
+
+			return FALSE;
+		}
+	}
+	
+	void CRendererTexture::Destroy(void)
+	{
+		DestroySampler();
+		CRendererImage::Destroy();
+	}
+
+	void CRendererTexture::DestroySampler(void)
+	{
+		if (m_pSampler) {
+			m_pSampler->Release();
+			m_pSampler = NULL;
+		}
+	}
+
+	const VkDescriptorImageInfo& CRendererTexture::GetDescriptorImageInfo(void) const
+	{
+		return m_vkDescriptorImageInfo;
 	}
 
 }
