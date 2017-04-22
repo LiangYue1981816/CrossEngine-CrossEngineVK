@@ -44,7 +44,7 @@ namespace CrossEngine {
 	public:
 		VkPipeline GetPipeline(void) const;
 		VkPipelineLayout GetPipelineLayout(void) const;
-		VkDescriptorSetLayout GetDescriptorSetLayout(uint32_t set) const;
+		const CRendererDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
 
 
 	protected:

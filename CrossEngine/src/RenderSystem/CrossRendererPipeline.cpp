@@ -168,10 +168,10 @@ namespace CrossEngine {
 		return m_vkPipelineLayout;
 	}
 
-	VkDescriptorSetLayout CRendererPipeline::GetDescriptorSetLayout(uint32_t set) const
+	const CRendererDescriptorSetLayout* CRendererPipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
 		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
-		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second->GetLayout() : NULL;
+		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : NULL;
 	}
 
 }
