@@ -85,7 +85,7 @@ namespace CrossEngine {
 
 		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
 			if (CRendererDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				m_pDevice->GetDescriptorSetLayoutManager()->Free(pDescriptorSetLayout);
+				pDescriptorSetLayout->Release();
 			}
 		}
 
