@@ -78,6 +78,7 @@ void CreatePipeline(void)
 	pPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	pPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	pPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
+	pPipeline->SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
 	pPipeline->Create(pRenderPass->GetRenderPass());
 }
 
@@ -115,16 +116,16 @@ void CreateBuffer(void)
 	};
 
 	std::vector<Vertex> vertexBuffer = {
-		{ { -1.0f, -1.0f, 0.0f },{ 1.0f, 0.0f, 0.0f } },
-		{ {  1.0f, -1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f } },
-		{ {  1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f, 1.0f } },
-		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 1.0f, 1.0f } }
+		{ { -1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } },
+		{ {  1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } },
+		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } },
+		{ { -1.0f,  1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } }
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	pVertexBuffer = pDevice->GetBufferManager()->AllocVertexBuffer();
 	pVertexBuffer->Create(vertexBufferSize, 0, vertexBuffer.data());
 
-	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 3 };
+	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
 	pIndexBuffer = pDevice->GetBufferManager()->AllocIndexBuffer();
 	pIndexBuffer->Create(indexBufferSize, 0, indexBuffer.data());
@@ -194,7 +195,7 @@ void CreateCommandBuffer(void)
 					pCommandBuffers[indexView]->CmdBindIndexBuffer(vkIndexBuffer, offsets, VK_INDEX_TYPE_UINT32);
 					pCommandBuffers[indexView]->CmdBindVertexBuffers(0, 1, &vkVertexBuffer, &offsets);
 
-					pCommandBuffers[indexView]->CmdDrawIndexed(4, 1, 0, 0, 1);
+					pCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 1);
 				}
 			}
 			pCommandBuffers[indexView]->CmdEndRenderPass();
