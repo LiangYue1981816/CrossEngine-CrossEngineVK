@@ -135,7 +135,18 @@ void CreateBuffer(void)
 
 	pUniformBufferB = pDevice->GetBufferManager()->AllocUniformBuffer();
 	pUniformBufferB->Create(sizeof(glm::mat4), 0, NULL);
+}
 
+void DestroyBuffer(void)
+{
+	pIndexBuffer->Release();
+	pVertexBuffer->Release();
+	pUniformBufferA->Release();
+	pUniformBufferB->Release();
+}
+
+void CreateDescriptorSet(void)
+{
 	const CrossEngine::CVulkanDescriptorSetLayout *pDescriptorSetLayout = pPipeline->GetDescriptorSetLayout(0);
 
 	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
@@ -147,15 +158,10 @@ void CreateBuffer(void)
 	pDescriptorSetB->UpdateDescriptorSets();
 }
 
-void DestroyBuffer()
+void DestroyDescriptorSet(void)
 {
 	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSetA);
 	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSetB);
-
-	pIndexBuffer->Release();
-	pVertexBuffer->Release();
-	pUniformBufferA->Release();
-	pUniformBufferB->Release();
 }
 
 void CreateCommandBuffer(void)
@@ -224,7 +230,6 @@ void DestroyCommandBuffer(void)
 	}
 }
 
-
 void Create(HINSTANCE hInstance, HWND hWnd)
 {
 	RECT rcView;
@@ -241,6 +246,7 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 	CreateFrameBuffer();
 	CreatePipeline();
 	CreateBuffer();
+	CreateDescriptorSet();
 	CreateCommandBuffer();
 
 	pDevice->DumpLog();
@@ -252,6 +258,7 @@ void Destroy(void)
 		pDevice->GetQueue()->WaitIdle();
 
 		DestroyBuffer();
+		DestroyDescriptorSet();
 		DestroyPipeline();
 		DestroyFrameBuffer();
 		DestroyRenderPass();

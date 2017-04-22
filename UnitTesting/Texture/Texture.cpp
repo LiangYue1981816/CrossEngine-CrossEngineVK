@@ -9,6 +9,7 @@ CrossEngine::CVulkanShader *pShaderVertex = NULL;
 CrossEngine::CVulkanShader *pShaderFragment = NULL;
 CrossEngine::CVulkanPipelineGraphics *pPipeline = NULL;
 
+CrossEngine::CVulkanTexture *pTexture = NULL;
 CrossEngine::CVulkanIndexBuffer *pIndexBuffer = NULL;
 CrossEngine::CVulkanVertexBuffer *pVertexBuffer = NULL;
 CrossEngine::CVulkanUniformBuffer *pUniformBuffer = NULL;
@@ -64,11 +65,11 @@ void CreatePipeline(void)
 {
 	static char szSourceCode[1024 * 1024];
 
-	LoadShader("../Data/Shader/triangle.vert", szSourceCode, sizeof(szSourceCode));
+	LoadShader("../Data/Shader/texture.vert", szSourceCode, sizeof(szSourceCode));
 	pShaderVertex = pDevice->GetShaderManager()->AllocShader();
 	pShaderVertex->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_vertex_shader);
 
-	LoadShader("../Data/Shader/triangle.frag", szSourceCode, sizeof(szSourceCode));
+	LoadShader("../Data/Shader/texture.frag", szSourceCode, sizeof(szSourceCode));
 	pShaderFragment = pDevice->GetShaderManager()->AllocShader();
 	pShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
 
@@ -108,18 +109,29 @@ void DestroySynchronization(void)
 	}
 }
 
+void CreateTexture(void)
+{
+	pTexture = pDevice->GetTextureManager()->AllocTexture();
+	pTexture->CreateTexture2D((gli::texture2d)gli::load("../Data/Texture/het_kanonschot_rgba8.ktx"), VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
+}
+
+void DestroyTexture(void)
+{
+	pTexture->Release();
+}
+
 void CreateBuffer(void)
 {
 	struct Vertex {
 		float position[3];
-		float color[3];
+		float texcoord[2];
 	};
 
 	std::vector<Vertex> vertexBuffer = {
-		{ { -1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } },
-		{ {  1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } },
-		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } },
-		{ { -1.0f,  1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f } }
+		{ { -1.0f, -1.0f, 0.0f },{ 0.0f, 1.0f } },
+		{ {  1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f } },
+		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 0.0f } },
+		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f } }
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	pVertexBuffer = pDevice->GetBufferManager()->AllocVertexBuffer();
@@ -132,20 +144,27 @@ void CreateBuffer(void)
 
 	pUniformBuffer = pDevice->GetBufferManager()->AllocUniformBuffer();
 	pUniformBuffer->Create(sizeof(glm::mat4), 0, NULL);
-
-	const CrossEngine::CVulkanDescriptorSetLayout *pDescriptorSetLayout = pPipeline->GetDescriptorSetLayout(0);
-	pDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
-	pDescriptorSet->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBuffer->GetDescriptorBufferInfo());
-	pDescriptorSet->UpdateDescriptorSets();
 }
 
-void DestroyBuffer()
+void DestroyBuffer(void)
 {
-	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSet);
-
 	pIndexBuffer->Release();
 	pVertexBuffer->Release();
 	pUniformBuffer->Release();
+}
+
+void CreateDescriptorSet(void)
+{
+	const CrossEngine::CVulkanDescriptorSetLayout *pDescriptorSetLayout = pPipeline->GetDescriptorSetLayout(0);
+	pDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSet->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBuffer->GetDescriptorBufferInfo());
+	pDescriptorSet->WriteDescriptorSet(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, pTexture->GetDescriptorImageInfo());
+	pDescriptorSet->UpdateDescriptorSets();
+}
+
+void DestroyDescriptorSet(void)
+{
+	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSet);
 }
 
 void CreateCommandBuffer(void)
@@ -211,7 +230,6 @@ void DestroyCommandBuffer(void)
 	}
 }
 
-
 void Create(HINSTANCE hInstance, HWND hWnd)
 {
 	RECT rcView;
@@ -227,7 +245,9 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 	CreateRenderPass();
 	CreateFrameBuffer();
 	CreatePipeline();
+	CreateTexture();
 	CreateBuffer();
+	CreateDescriptorSet();
 	CreateCommandBuffer();
 
 	pDevice->DumpLog();
@@ -239,6 +259,8 @@ void Destroy(void)
 		pDevice->GetQueue()->WaitIdle();
 
 		DestroyBuffer();
+		DestroyTexture();
+		DestroyDescriptorSet();
 		DestroyPipeline();
 		DestroyFrameBuffer();
 		DestroyRenderPass();
@@ -259,7 +281,7 @@ void Render(void)
 		return;
 	}
 
-	static float angle = 0.0f; angle += 0.05f;
+	static float angle = 0.0f; //angle += 0.05f;
 	static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
 	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
