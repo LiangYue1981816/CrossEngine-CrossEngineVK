@@ -12,6 +12,7 @@ CrossEngine::CRendererPipelineGraphics *pPipeline = NULL;
 CrossEngine::CRendererIndexBuffer *pIndexBuffer = NULL;
 CrossEngine::CRendererVertexBuffer *pVertexBuffer = NULL;
 CrossEngine::CRendererUniformBuffer *pUniformBuffer = NULL;
+CrossEngine::CRendererDescriptorSet *pDescriptorSet = NULL;
 
 CrossEngine::CRendererRenderTexture *pDepthTexture = NULL;
 CrossEngine::CRendererRenderPass *pRenderPass = NULL;
@@ -25,12 +26,10 @@ CrossEngine::CRendererCommandBuffer *pCommandBuffers[3] = { NULL };
 void CreateRenderPass(void)
 {
 	pRenderPass = pDevice->GetRenderPassManager()->AllocRenderPass();
-	pRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
-	pRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE);
+	pRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f});
+	pRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, {1.0f, 0});
 	pRenderPass->SetSubpassOutputColorReference(0, 0);
 	pRenderPass->SetSubpassOutputDepthStencilReference(0, 1);
-	pRenderPass->SetClearColorValue(0.0f, 0.0f, 0.0f, 1.0f);
-	pRenderPass->SetClearDepthStencilValue(1.0f, 0);
 	pRenderPass->Create();
 }
 
@@ -73,7 +72,7 @@ void CreatePipeline(void)
 	pShaderFragment = pDevice->GetShaderManager()->AllocShader();
 	pShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
 
-	pPipeline = pDevice->GetPipelineManager()->AllocPipelineGraphics(0);
+	pPipeline = pDevice->GetPipelineManager()->AllocPipelineGraphics();
 	pPipeline->SetVertexShader(pShaderVertex->GetShaderModule(), pShaderVertex->GetModule());
 	pPipeline->SetFragmentShader(pShaderFragment->GetShaderModule(), pShaderFragment->GetModule());
 	pPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
@@ -131,11 +130,16 @@ void CreateBuffer(void)
 
 	pUniformBuffer = pDevice->GetBufferManager()->AllocUniformBuffer();
 	pUniformBuffer->Create(sizeof(glm::mat4), 0, NULL);
-	pPipeline->SetUniformBuffer("UBO", pUniformBuffer->GetBuffer(), 0, pUniformBuffer->GetBufferSize());
+
+	const CrossEngine::CRendererDescriptorSetLayout *pDescriptorSetLayout = pPipeline->GetDescriptorSetLayout(0);
+	pDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSet->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBuffer->GetDescriptorBufferInfo());
+	pDescriptorSet->UpdateDescriptorSets();
 }
 
 void DestroyBuffer()
 {
+	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSet);
 	pIndexBuffer->Release();
 	pVertexBuffer->Release();
 	pUniformBuffer->Release();
@@ -147,6 +151,7 @@ void CreateCommandBuffer(void)
 		pCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		pCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
+			std::vector<VkClearValue> clearValues = pRenderPass->GetClearValues();
 			VkRenderPassBeginInfo renderPassBeginInfo = {};
 			renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 			renderPassBeginInfo.pNext = nullptr;
@@ -156,8 +161,8 @@ void CreateCommandBuffer(void)
 			renderPassBeginInfo.renderArea.offset.y = 0;
 			renderPassBeginInfo.renderArea.extent.width = pSwapchain->GetWidth();
 			renderPassBeginInfo.renderArea.extent.height = pSwapchain->GetHeight();
-			renderPassBeginInfo.clearValueCount = pRenderPass->GetClearValueCount();
-			renderPassBeginInfo.pClearValues = pRenderPass->GetClearValues();
+			renderPassBeginInfo.clearValueCount = clearValues.size();
+			renderPassBeginInfo.pClearValues = clearValues.data();
 			pCommandBuffers[indexView]->CmdBeginRenderPass(&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 			{
 				VkViewport viewport = {};
@@ -176,9 +181,11 @@ void CreateCommandBuffer(void)
 				scissor.extent.height = pSwapchain->GetHeight();
 				pCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
 
-				pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, pPipeline->GetDescriptorSets().data(), 0, NULL);
 				pCommandBuffers[indexView]->CmdBindPipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipeline());
 				{
+					VkDescriptorSet set = pDescriptorSet->GetDescriptorSet();
+					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, &set, 0, NULL);
+
 					VkDeviceSize offsets = 0;
 					VkBuffer vkIndexBuffer = pIndexBuffer->GetBuffer();
 					VkBuffer vkVertexBuffer = pVertexBuffer->GetBuffer();
