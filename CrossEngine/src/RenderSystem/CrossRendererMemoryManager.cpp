@@ -56,6 +56,18 @@ namespace CrossEngine {
 		m_pAllocatorListHeads.clear();
 	}
 
+	uint32_t CRendererMemoryManager::GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const
+	{
+		for (uint32_t index = 0; index < m_pDevice->GetMemoryProperties().memoryTypeCount; index++) {
+			if ((memoryTypeBits & 1) == 1 && (m_pDevice->GetMemoryProperties().memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
+				return index;
+			}
+			memoryTypeBits >>= 1;
+		}
+
+		return -1;
+	}
+
 	CRendererMemory* CRendererMemoryManager::AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags)
 	{
 		uint32_t memoryTypeIndex = GetMemoryTypeIndex(memoryTypeBits, memoryPropertyFlags);
@@ -108,18 +120,6 @@ namespace CrossEngine {
 
 			SAFE_DELETE(pAllocator);
 		}
-	}
-
-	uint32_t CRendererMemoryManager::GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const
-	{
-		for (uint32_t index = 0; index < m_pDevice->GetMemoryProperties().memoryTypeCount; index++) {
-			if ((memoryTypeBits & 1) == 1 && (m_pDevice->GetMemoryProperties().memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
-				return index;
-			}
-			memoryTypeBits >>= 1;
-		}
-
-		return -1;
 	}
 
 	void CRendererMemoryManager::DumpLog(const char *szTitle) const

@@ -69,6 +69,7 @@ namespace CrossEngine {
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
 		BOOL SetColorBlendAttachment(uint32_t attachment, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
 
+	public:
 		uint32_t GetVertexFormat(void) const;
 
 
