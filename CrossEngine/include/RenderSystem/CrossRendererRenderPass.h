@@ -56,9 +56,9 @@ namespace CrossEngine {
 		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
 
 	public:
-		BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp);
-		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp);
-		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp);
+		BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue);
+		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue);
+		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue);
 
 		BOOL SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment);
 		BOOL SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment);
@@ -70,6 +70,7 @@ namespace CrossEngine {
 	public:
 		uint32_t GetSubpassCount(void) const;
 		VkRenderPass GetRenderPass(void) const;
+		std::vector<VkClearValue> GetClearValues(void) const;
 
 	public:
 		virtual void DumpLog(void) const;
@@ -79,6 +80,7 @@ namespace CrossEngine {
 		VkRenderPass m_vkRenderPass;
 
 	protected:
+		std::map<uint32_t, VkClearValue> m_attachmentClearValues;
 		std::map<uint32_t, VkAttachmentDescription> m_attachments;
 		std::map<uint32_t, VkSubpassInformation> m_subpasses;
 		std::map<uint32_t, VkSubpassDependency> m_dependencies;

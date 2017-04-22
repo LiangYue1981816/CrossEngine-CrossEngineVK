@@ -156,7 +156,7 @@ namespace CrossEngine {
 		m_dependencies.clear();
 	}
 
-	BOOL CRendererRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp)
+	BOOL CRendererRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -172,11 +172,12 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
 
-	BOOL CRendererRenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp)
+	BOOL CRendererRenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -192,11 +193,12 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
 
-	BOOL CRendererRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp)
+	BOOL CRendererRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -212,6 +214,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilStoreOp = stencilStoreOp;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -298,6 +301,17 @@ namespace CrossEngine {
 	VkRenderPass CRendererRenderPass::GetRenderPass(void) const
 	{
 		return m_vkRenderPass;
+	}
+
+	std::vector<VkClearValue> CRendererRenderPass::GetClearValues(void) const
+	{
+		std::vector<VkClearValue> clearValues;
+
+		for (const auto &itClearValues : m_attachmentClearValues) {
+			clearValues.push_back(itClearValues.second);
+		}
+
+		return clearValues;
 	}
 
 	void CRendererRenderPass::DumpLog(void) const
