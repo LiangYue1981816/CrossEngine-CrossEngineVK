@@ -41,7 +41,16 @@ namespace CrossEngine {
 		CALL_BOOL_FUNCTION_RETURN(CRendererBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT));
 		CALL_BOOL_FUNCTION_RETURN(UpdateData(size, offset, pBuffer));
 
+		m_vkDescriptorBufferInfo.buffer = m_vkBuffer;
+		m_vkDescriptorBufferInfo.offset = offset;
+		m_vkDescriptorBufferInfo.range = size;
+
 		return TRUE;
+	}
+
+	const VkDescriptorBufferInfo& CRendererUniformBuffer::GetDescriptorBufferInfo(void) const
+	{
+		return m_vkDescriptorBufferInfo;
 	}
 
 }
