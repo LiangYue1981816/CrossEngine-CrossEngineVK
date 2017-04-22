@@ -1,26 +1,28 @@
 #include "stdafx.h"
 
 
-CrossEngine::CRenderer *pRenderer = NULL;
-CrossEngine::CRendererDeviceGraphics *pDevice = NULL;
-CrossEngine::CRendererSwapchain *pSwapchain = NULL;
+CrossEngine::CVulkan *pVulkan = NULL;
+CrossEngine::CVulkanDeviceGraphics *pDevice = NULL;
+CrossEngine::CVulkanSwapchain *pSwapchain = NULL;
 
-CrossEngine::CRendererShader *pShaderVertex = NULL;
-CrossEngine::CRendererShader *pShaderFragment = NULL;
-CrossEngine::CRendererPipelineGraphics *pPipeline = NULL;
+CrossEngine::CVulkanShader *pShaderVertex = NULL;
+CrossEngine::CVulkanShader *pShaderFragment = NULL;
+CrossEngine::CVulkanPipelineGraphics *pPipeline = NULL;
 
-CrossEngine::CRendererIndexBuffer *pIndexBuffer = NULL;
-CrossEngine::CRendererVertexBuffer *pVertexBuffer = NULL;
-CrossEngine::CRendererUniformBuffer *pUniformBuffer = NULL;
-CrossEngine::CRendererDescriptorSet *pDescriptorSet = NULL;
+CrossEngine::CVulkanIndexBuffer *pIndexBuffer = NULL;
+CrossEngine::CVulkanVertexBuffer *pVertexBuffer = NULL;
+CrossEngine::CVulkanUniformBuffer *pUniformBufferA = NULL;
+CrossEngine::CVulkanUniformBuffer *pUniformBufferB = NULL;
+CrossEngine::CVulkanDescriptorSet *pDescriptorSetA = NULL;
+CrossEngine::CVulkanDescriptorSet *pDescriptorSetB = NULL;
 
-CrossEngine::CRendererRenderTexture *pDepthTexture = NULL;
-CrossEngine::CRendererRenderPass *pRenderPass = NULL;
-CrossEngine::CRendererFrameBuffer *pFrameBuffers[3] = { NULL };
+CrossEngine::CVulkanRenderTexture *pDepthTexture = NULL;
+CrossEngine::CVulkanRenderPass *pRenderPass = NULL;
+CrossEngine::CVulkanFrameBuffer *pFrameBuffers[3] = { NULL };
 
-CrossEngine::CRendererFence *pFences[3] = { NULL };
-CrossEngine::CRendererSemaphore *pRenderDoneSemaphores[3] = { NULL };
-CrossEngine::CRendererCommandBuffer *pCommandBuffers[3] = { NULL };
+CrossEngine::CVulkanFence *pFences[3] = { NULL };
+CrossEngine::CVulkanSemaphore *pRenderDoneSemaphores[3] = { NULL };
+CrossEngine::CVulkanCommandBuffer *pCommandBuffers[3] = { NULL };
 
 
 void CreateRenderPass(void)
@@ -128,21 +130,32 @@ void CreateBuffer(void)
 	pIndexBuffer = pDevice->GetBufferManager()->AllocIndexBuffer();
 	pIndexBuffer->Create(indexBufferSize, 0, indexBuffer.data());
 
-	pUniformBuffer = pDevice->GetBufferManager()->AllocUniformBuffer();
-	pUniformBuffer->Create(sizeof(glm::mat4), 0, NULL);
+	pUniformBufferA = pDevice->GetBufferManager()->AllocUniformBuffer();
+	pUniformBufferA->Create(sizeof(glm::mat4), 0, NULL);
 
-	const CrossEngine::CRendererDescriptorSetLayout *pDescriptorSetLayout = pPipeline->GetDescriptorSetLayout(0);
-	pDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
-	pDescriptorSet->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBuffer->GetDescriptorBufferInfo());
-	pDescriptorSet->UpdateDescriptorSets();
+	pUniformBufferB = pDevice->GetBufferManager()->AllocUniformBuffer();
+	pUniformBufferB->Create(sizeof(glm::mat4), 0, NULL);
+
+	const CrossEngine::CVulkanDescriptorSetLayout *pDescriptorSetLayout = pPipeline->GetDescriptorSetLayout(0);
+
+	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSetA->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBufferA->GetDescriptorBufferInfo());
+	pDescriptorSetA->UpdateDescriptorSets();
+
+	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSetB->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBufferB->GetDescriptorBufferInfo());
+	pDescriptorSetB->UpdateDescriptorSets();
 }
 
 void DestroyBuffer()
 {
-	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSet);
+	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSetA);
+	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSetB);
+
 	pIndexBuffer->Release();
 	pVertexBuffer->Release();
-	pUniformBuffer->Release();
+	pUniformBufferA->Release();
+	pUniformBufferB->Release();
 }
 
 void CreateCommandBuffer(void)
@@ -183,14 +196,18 @@ void CreateCommandBuffer(void)
 
 				pCommandBuffers[indexView]->CmdBindPipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipeline());
 				{
-					VkDescriptorSet set = pDescriptorSet->GetDescriptorSet();
-					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, &set, 0, NULL);
-
 					VkDeviceSize offsets = 0;
 					VkBuffer vkIndexBuffer = pIndexBuffer->GetBuffer();
 					VkBuffer vkVertexBuffer = pVertexBuffer->GetBuffer();
 					pCommandBuffers[indexView]->CmdBindIndexBuffer(vkIndexBuffer, offsets, VK_INDEX_TYPE_UINT32);
 					pCommandBuffers[indexView]->CmdBindVertexBuffers(0, 1, &vkVertexBuffer, &offsets);
+
+					VkDescriptorSet setA = pDescriptorSetA->GetDescriptorSet();
+					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, &setA, 0, NULL);
+					pCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
+
+					VkDescriptorSet setB = pDescriptorSetB->GetDescriptorSet();
+					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, &setB, 0, NULL);
 					pCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 				}
 			}
@@ -213,11 +230,11 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 	RECT rcView;
 	GetClientRect(hWnd, &rcView);
 
-	pRenderer = SAFE_NEW CrossEngine::CRenderer;
-	pRenderer->Create(hInstance, hWnd);
-	pRenderer->CreateSwapchain(rcView.right - rcView.left, rcView.bottom - rcView.top, VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR);
-	pDevice = pRenderer->GetGraphicsDevice();
-	pSwapchain = pRenderer->GetSwapchain();
+	pVulkan = SAFE_NEW CrossEngine::CVulkan;
+	pVulkan->Create(hInstance, hWnd);
+	pVulkan->CreateSwapchain(rcView.right - rcView.left, rcView.bottom - rcView.top, VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR);
+	pDevice = pVulkan->GetGraphicsDevice();
+	pSwapchain = pVulkan->GetSwapchain();
 
 	CreateSynchronization();
 	CreateRenderPass();
@@ -231,7 +248,7 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 
 void Destroy(void)
 {
-	if (pRenderer) {
+	if (pVulkan) {
 		pDevice->GetQueue()->WaitIdle();
 
 		DestroyBuffer();
@@ -242,10 +259,10 @@ void Destroy(void)
 		DestroySynchronization();
 
 		pDevice->DumpLog();
-		pRenderer->DestroySwapchain();
-		pRenderer->Destroy();
+		pVulkan->DestroySwapchain();
+		pVulkan->Destroy();
 
-		SAFE_DELETE(pRenderer);
+		SAFE_DELETE(pVulkan);
 	}
 }
 
@@ -257,11 +274,19 @@ void Render(void)
 
 	static float angle = 0.0f; angle += 0.05f;
 	static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+
 	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
 	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 mtxModel = glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
-	glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-	pUniformBuffer->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+	{
+		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
+		pUniformBufferA->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+	}
+	{
+		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(-2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), -angle, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
+		pUniformBufferB->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+	}
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{

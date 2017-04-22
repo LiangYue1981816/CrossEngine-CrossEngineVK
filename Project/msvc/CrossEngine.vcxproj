@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;WIN32;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/include/rendersystem/vulkan;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem;../../CrossEngine/src/rendersystem/vulkan</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -116,7 +116,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;__LP64__;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/include/rendersystem/vulkan;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem;../../CrossEngine/src/rendersystem/vulkan</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -138,7 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;WIN32;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/include/rendersystem/vulkan;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem;../../CrossEngine/src/rendersystem/vulkan</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -161,7 +161,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;_PLATFORM_WINDOWS_;_DEV_;__LP64__;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/core;../../CrossEngine/include/rendersystem;../../CrossEngine/include/rendersystem/vulkan;../../CrossEngine/src;../../CrossEngine/src/core;../../CrossEngine/src/core/nvwa;../../CrossEngine/src/rendersystem;../../CrossEngine/src/rendersystem/vulkan</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -184,54 +184,54 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossType.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtility.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererAllocator.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererBufferManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererCommandBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererCommandBufferManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererCommandPool.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorLayout.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorLayoutManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorPool.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorSet.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDescriptorSetManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDevice.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDeviceCompute.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererDeviceGraphics.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFence.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFenceManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFrameBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererFrameBufferManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererHelper.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererImage.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererIndexBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererMemory.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererMemoryAllocator.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererMemoryManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipeline.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipelineCompute.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipelineGraphics.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererPipelineManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererQueue.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererRenderPass.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererRenderPassManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererRenderTexture.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererResource.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererResourceManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSampler.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSamplerManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSemaphore.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSemaphoreManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererShader.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererShaderManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererStagingBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererStagingBufferManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererSwapchain.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererTexture.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererTextureManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererUniformBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRendererVertexBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkan.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanAllocator.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanBufferManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanCommandBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanCommandBufferManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanCommandPool.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDescriptorLayout.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDescriptorLayoutManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDescriptorPool.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDescriptorSet.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDescriptorSetManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDevice.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDeviceCompute.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanDeviceGraphics.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanFence.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanFenceManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanFrameBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanFrameBufferManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanHelper.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanImage.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanIndexBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanMemory.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanMemoryAllocator.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanMemoryManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanPipeline.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanPipelineCompute.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanPipelineGraphics.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanPipelineManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanQueue.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanRenderPass.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanRenderPassManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanRenderTexture.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanResource.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanResourceManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanSampler.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanSamplerManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanSemaphore.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanSemaphoreManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanShader.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanShaderManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanStagingBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanStagingBufferManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanSwapchain.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanTexture.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanTextureManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanUniformBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanVertexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\c++11.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\debug_new.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\fast_mutex.h" />
@@ -252,55 +252,55 @@
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossUtility.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\debug_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\operator_new.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererAllocator.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererBufferManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererCommandBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererCommandBufferManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererCommandPool.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorLayout.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorLayoutManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorPool.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorSet.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDescriptorSetManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDevice.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDeviceCompute.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDeviceGraphics.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererDeviceVertex.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFence.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFenceManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFrameBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererFrameBufferManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererHelper.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererImage.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererIndexBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererMemory.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererMemoryAllocator.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererMemoryManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipeline.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipelineCompute.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipelineGraphics.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererPipelineManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererQueue.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererRenderPass.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererRenderPassManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererRenderTexture.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererResource.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererResourceManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSampler.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSamplerManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSemaphore.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSemaphoreManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererShader.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererShaderManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererStagingBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererStagingBufferManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererSwapchain.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererTexture.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererTextureManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererUniformBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRendererVertexBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkan.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanAllocator.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanBufferManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanCommandBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanCommandBufferManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanCommandPool.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDescriptorLayout.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDescriptorLayoutManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDescriptorPool.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDescriptorSet.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDescriptorSetManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDevice.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDeviceCompute.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDeviceGraphics.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanDeviceVertex.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanFence.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanFenceManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanFrameBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanFrameBufferManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanHelper.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanImage.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanIndexBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanMemory.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanMemoryAllocator.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanMemoryManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanPipeline.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanPipelineCompute.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanPipelineGraphics.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanPipelineManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanQueue.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanRenderPass.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanRenderPassManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanRenderTexture.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanResource.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanResourceManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanSampler.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanSamplerManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanSemaphore.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanSemaphoreManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanShader.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanShaderManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanStagingBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanStagingBufferManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanSwapchain.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanTexture.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanTextureManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanUniformBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanVertexBuffer.cpp" />
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp" />
     <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp" />
     <ClCompile Include="..\..\Dependencies\zlib\adler32.c" />
