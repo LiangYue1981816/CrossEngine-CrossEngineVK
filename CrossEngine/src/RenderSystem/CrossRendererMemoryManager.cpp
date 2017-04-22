@@ -25,27 +25,27 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererMemoryManager::CRendererMemoryManager(CRendererDevice *pDevice)
+	CVulkanMemoryManager::CVulkanMemoryManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
 
 	}
 
-	CRendererMemoryManager::~CRendererMemoryManager(void)
+	CVulkanMemoryManager::~CVulkanMemoryManager(void)
 	{
 		ASSERT(m_pAllocatorListHeads.empty());
 	}
 
-	BOOL CRendererMemoryManager::Create(void)
+	BOOL CVulkanMemoryManager::Create(void)
 	{
 		return m_pAllocatorListHeads.size() == 0 ? TRUE : FALSE;
 	}
 
-	void CRendererMemoryManager::Destroy(void)
+	void CVulkanMemoryManager::Destroy(void)
 	{
 		for (const auto &itAllocator : m_pAllocatorListHeads) {
-			if (CRendererMemoryAllocator *pAllocator = itAllocator.second) {
-				CRendererMemoryAllocator *pAllocatorNext = NULL;
+			if (CVulkanMemoryAllocator *pAllocator = itAllocator.second) {
+				CVulkanMemoryAllocator *pAllocatorNext = NULL;
 				do {
 					pAllocatorNext = pAllocator->pNext;
 					SAFE_DELETE(pAllocator);
@@ -56,7 +56,7 @@ namespace CrossEngine {
 		m_pAllocatorListHeads.clear();
 	}
 
-	uint32_t CRendererMemoryManager::GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const
+	uint32_t CVulkanMemoryManager::GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const
 	{
 		for (uint32_t index = 0; index < m_pDevice->GetMemoryProperties().memoryTypeCount; index++) {
 			if ((memoryTypeBits & 1) == 1 && (m_pDevice->GetMemoryProperties().memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
@@ -68,15 +68,15 @@ namespace CrossEngine {
 		return -1;
 	}
 
-	CRendererMemory* CRendererMemoryManager::AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags)
+	CVulkanMemory* CVulkanMemoryManager::AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags)
 	{
 		uint32_t memoryTypeIndex = GetMemoryTypeIndex(memoryTypeBits, memoryPropertyFlags);
 		if (memoryTypeIndex == -1) return NULL;
 
 		do {
-			if (CRendererMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryTypeIndex]) {
+			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryTypeIndex]) {
 				do {
-					if (CRendererMemory *pMemory = pAllocator->AllocMemory(size, alignment)) {
+					if (CVulkanMemory *pMemory = pAllocator->AllocMemory(size, alignment)) {
 						return pMemory;
 					}
 				} while (pAllocator = pAllocator->pNext);
@@ -87,7 +87,7 @@ namespace CrossEngine {
 			memorySize = (memoryPropertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) ? DEVICE_MEMORY_POOL_SIZE : memorySize;
 			memorySize = max(size, memorySize);
 
-			CRendererMemoryAllocator *pAllocator = SAFE_NEW CRendererMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, memoryPropertyFlags);
+			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, memoryPropertyFlags);
 
 			if (m_pAllocatorListHeads[memoryTypeIndex]) {
 				m_pAllocatorListHeads[memoryTypeIndex]->pPrev = pAllocator;
@@ -98,9 +98,9 @@ namespace CrossEngine {
 		} while (TRUE);
 	}
 
-	void CRendererMemoryManager::FreeMemory(CRendererMemory *pMemory)
+	void CVulkanMemoryManager::FreeMemory(CVulkanMemory *pMemory)
 	{
-		CRendererMemoryAllocator *pAllocator = pMemory->GetAllocator();
+		CVulkanMemoryAllocator *pAllocator = pMemory->GetAllocator();
 		pAllocator->FreeMemory(pMemory);
 
 		if (pAllocator->IsEmpty()) {
@@ -122,7 +122,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRendererMemoryManager::DumpLog(const char *szTitle) const
+	void CVulkanMemoryManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
 		VkDeviceSize size = 0;
@@ -133,7 +133,7 @@ namespace CrossEngine {
 			for (const auto &itAllocator : m_pAllocatorListHeads) {
 				LOGI("\tMemory type index: %d\n", itAllocator.first);
 
-				if (const CRendererMemoryAllocator *pAllocator = itAllocator.second) {
+				if (const CVulkanMemoryAllocator *pAllocator = itAllocator.second) {
 					do {
 						pAllocator->DumpLog();
 						size += pAllocator->GetFullSize();

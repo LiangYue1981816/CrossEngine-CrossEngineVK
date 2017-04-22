@@ -26,34 +26,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererMemoryAllocator
+	class CROSS_EXPORT CVulkanMemoryAllocator
 	{
-		friend class CRendererMemory;
-		friend class CRendererMemoryManager;
+		friend class CVulkanMemory;
+		friend class CVulkanMemoryManager;
 
 
 	protected:
 		typedef struct {
 			rb_node node;
 			VkDeviceSize size;
-			CRendererMemory *pFreeListHead;
+			CVulkanMemory *pFreeListHead;
 		} mem_node;
 
 
 	protected:
-		CRendererMemoryAllocator(CRendererDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkMemoryPropertyFlags memoryPropertyFlags);
-		virtual ~CRendererMemoryAllocator(void);
+		CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkMemoryPropertyFlags memoryPropertyFlags);
+		virtual ~CVulkanMemoryAllocator(void);
 
 
 	protected:
-		CRendererMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment);
-		void FreeMemory(CRendererMemory *pMemory);
+		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment);
+		void FreeMemory(CVulkanMemory *pMemory);
 
 	protected:
 		void InitNodes(uint32_t numNodes);
-		void InsertMemory(CRendererMemory *pMemory);
-		void RemoveMemory(CRendererMemory *pMemory);
-		CRendererMemory* SearchMemory(VkDeviceSize size) const;
+		void InsertMemory(CVulkanMemory *pMemory);
+		void RemoveMemory(CVulkanMemory *pMemory);
+		CVulkanMemory* SearchMemory(VkDeviceSize size) const;
 
 	protected:
 		BOOL IsEmpty(void) const;
@@ -79,14 +79,14 @@ namespace CrossEngine {
 	protected:
 		rb_root m_root;
 		mem_node *m_nodes;
-		CRendererMemory *m_pListHead;
+		CVulkanMemory *m_pListHead;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 
 	protected:
-		CRendererMemoryAllocator *pNext;
-		CRendererMemoryAllocator *pPrev;
+		CVulkanMemoryAllocator *pNext;
+		CVulkanMemoryAllocator *pPrev;
 	};
 
 }

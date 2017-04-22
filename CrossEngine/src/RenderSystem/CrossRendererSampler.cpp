@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererSampler::CRendererSampler(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanSampler::CVulkanSampler(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkSampler(VK_NULL_HANDLE)
 
 		, m_minFilter(VK_FILTER_NEAREST)
@@ -37,12 +37,12 @@ namespace CrossEngine {
 
 	}
 
-	CRendererSampler::~CRendererSampler(void)
+	CVulkanSampler::~CVulkanSampler(void)
 	{
 		ASSERT(m_vkSampler == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererSampler::Create(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	BOOL CVulkanSampler::Create(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		try {
 			VkSamplerCreateInfo createInfo = {};
@@ -64,41 +64,41 @@ namespace CrossEngine {
 			createInfo.maxLod = 0.0f;
 			createInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
 			createInfo.unnormalizedCoordinates = VK_FALSE;
-			CALL_VK_FUNCTION_THROW(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
+			CALL_VK_FUNCTION_THROW(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererSampler::Destroy(void)
+	void CVulkanSampler::Destroy(void)
 	{
 		if (m_vkSampler) {
-			vkDestroySampler(m_pDevice->GetDevice(), m_vkSampler, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySampler(m_pDevice->GetDevice(), m_vkSampler, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkSampler = VK_NULL_HANDLE;
 	}
 
-	VkSampler CRendererSampler::GetSampler(void) const
+	VkSampler CVulkanSampler::GetSampler(void) const
 	{
 		return m_vkSampler;
 	}
 
-	void CRendererSampler::DumpLog(void) const
+	void CVulkanSampler::DumpLog(void) const
 	{
 		if (m_vkSampler) {
 			LOGI("\t\tSampler 0x%x: min filter = %s mag filter = %s mipmap mode = %s address mode = %s\n",
 				m_vkSampler,
-				CRendererHelper::vkFilterToString(m_minFilter),
-				CRendererHelper::vkFilterToString(m_magFilter),
-				CRendererHelper::vkSamplerMipmapModeToString(m_mipmapMode),
-				CRendererHelper::vkSamplerAddressModeToString(m_addressMode));
+				CVulkanHelper::vkFilterToString(m_minFilter),
+				CVulkanHelper::vkFilterToString(m_magFilter),
+				CVulkanHelper::vkSamplerMipmapModeToString(m_mipmapMode),
+				CVulkanHelper::vkSamplerAddressModeToString(m_addressMode));
 		}
 	}
 

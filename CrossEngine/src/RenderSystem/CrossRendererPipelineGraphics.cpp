@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererPipelineGraphics::CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererPipeline(pDevice, pManager)
+	CVulkanPipelineGraphics::CVulkanPipelineGraphics(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanPipeline(pDevice, pManager)
 		, m_vertexFormat(0)
 	{
 		m_vertexInputState = {};
@@ -106,12 +106,12 @@ namespace CrossEngine {
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
-	CRendererPipelineGraphics::~CRendererPipelineGraphics(void)
+	CVulkanPipelineGraphics::~CVulkanPipelineGraphics(void)
 	{
 
 	}
 
-	BOOL CRendererPipelineGraphics::Create(VkRenderPass vkRenderPass)
+	BOOL CVulkanPipelineGraphics::Create(VkRenderPass vkRenderPass)
 	{
 		try {
 			std::vector<VkDescriptorSetLayout> layouts;
@@ -133,7 +133,7 @@ namespace CrossEngine {
 			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
 			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
 			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
 
 			VkGraphicsPipelineCreateInfo pipelineCreateInfo = {};
 			pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -155,19 +155,19 @@ namespace CrossEngine {
 			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CRendererPipelineManager *)m_pManager)->GetPipelineCache(), 1, &pipelineCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pManager)->GetPipelineCache(), 1, &pipelineCreateInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	BOOL CRendererPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
+	BOOL CVulkanPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
 	{
 		m_vertexFormat = 0;
 
@@ -209,7 +209,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments)
+	BOOL CVulkanPipelineGraphics::CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments)
 	{
 		colorBlendAttachments.clear();
 
@@ -223,7 +223,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT] = module;
 
@@ -234,7 +234,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
 			m_shaderModules[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = module;
@@ -247,7 +247,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
 			m_shaderModules[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = module;
@@ -260,7 +260,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().geometryShader) {
 			m_shaderModules[VK_SHADER_STAGE_GEOMETRY_BIT] = module;
@@ -273,7 +273,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		m_shaderModules[VK_SHADER_STAGE_FRAGMENT_BIT] = module;
 
@@ -284,7 +284,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetPrimitiveTopology(VkPrimitiveTopology topology, VkBool32 primitiveRestartEnable)
+	BOOL CVulkanPipelineGraphics::SetPrimitiveTopology(VkPrimitiveTopology topology, VkBool32 primitiveRestartEnable)
 	{
 		m_inputAssemblyState.topology = topology;
 		m_inputAssemblyState.primitiveRestartEnable = primitiveRestartEnable;
@@ -292,35 +292,35 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetTessellationPatchControlPoints(uint32_t patchControlPoints)
+	BOOL CVulkanPipelineGraphics::SetTessellationPatchControlPoints(uint32_t patchControlPoints)
 	{
 		m_tessellationState.patchControlPoints = patchControlPoints;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetPolygonMode(VkPolygonMode polygonMode)
+	BOOL CVulkanPipelineGraphics::SetPolygonMode(VkPolygonMode polygonMode)
 	{
 		m_rasterizationState.polygonMode = polygonMode;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetCullMode(VkCullModeFlags cullMode)
+	BOOL CVulkanPipelineGraphics::SetCullMode(VkCullModeFlags cullMode)
 	{
 		m_rasterizationState.cullMode = cullMode;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetFrontFace(VkFrontFace frontFace)
+	BOOL CVulkanPipelineGraphics::SetFrontFace(VkFrontFace frontFace)
 	{
 		m_rasterizationState.frontFace = frontFace;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetDepthClamp(VkBool32 depthClampEnable)
+	BOOL CVulkanPipelineGraphics::SetDepthClamp(VkBool32 depthClampEnable)
 	{
 		if (depthClampEnable) {
 			depthClampEnable = m_pDevice->GetDeviceFeatures().depthClamp;
@@ -331,7 +331,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetDepthBias(VkBool32 depthBiasEnable, float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor)
+	BOOL CVulkanPipelineGraphics::SetDepthBias(VkBool32 depthBiasEnable, float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor)
 	{
 		m_rasterizationState.depthBiasEnable = depthBiasEnable;
 		m_rasterizationState.depthBiasConstantFactor = depthBiasConstantFactor;
@@ -341,21 +341,21 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetRasterizerDiscard(VkBool32 rasterizerDiscardEnable)
+	BOOL CVulkanPipelineGraphics::SetRasterizerDiscard(VkBool32 rasterizerDiscardEnable)
 	{
 		m_rasterizationState.rasterizerDiscardEnable = rasterizerDiscardEnable;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetSampleCounts(VkSampleCountFlagBits rasterizationSamples)
+	BOOL CVulkanPipelineGraphics::SetSampleCounts(VkSampleCountFlagBits rasterizationSamples)
 	{
 		m_multiSampleState.rasterizationSamples = rasterizationSamples;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetSampleShading(VkBool32 sampleShadingEnable, float minSampleShading)
+	BOOL CVulkanPipelineGraphics::SetSampleShading(VkBool32 sampleShadingEnable, float minSampleShading)
 	{
 		if (sampleShadingEnable) {
 			sampleShadingEnable = m_pDevice->GetDeviceFeatures().sampleRateShading;
@@ -367,28 +367,28 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetSampleMask(const VkSampleMask* pSampleMask)
+	BOOL CVulkanPipelineGraphics::SetSampleMask(const VkSampleMask* pSampleMask)
 	{
 		m_multiSampleState.pSampleMask = pSampleMask;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetSampleAlphaToCoverage(VkBool32 alphaToCoverageEnable)
+	BOOL CVulkanPipelineGraphics::SetSampleAlphaToCoverage(VkBool32 alphaToCoverageEnable)
 	{
 		m_multiSampleState.alphaToCoverageEnable = alphaToCoverageEnable;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetSampleAlphaToOne(VkBool32 alphaToOneEnable)
+	BOOL CVulkanPipelineGraphics::SetSampleAlphaToOne(VkBool32 alphaToOneEnable)
 	{
 		m_multiSampleState.alphaToOneEnable = alphaToOneEnable;
 
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetDepthTest(VkBool32 depthTestEnable, VkBool32 depthWriteEnable, VkCompareOp depthCompareOp)
+	BOOL CVulkanPipelineGraphics::SetDepthTest(VkBool32 depthTestEnable, VkBool32 depthWriteEnable, VkCompareOp depthCompareOp)
 	{
 		m_depthStencilState.depthTestEnable = depthTestEnable;
 		m_depthStencilState.depthWriteEnable = depthWriteEnable;
@@ -397,7 +397,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetDepthBoundsTest(VkBool32 depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds)
+	BOOL CVulkanPipelineGraphics::SetDepthBoundsTest(VkBool32 depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds)
 	{
 		if (depthBoundsTestEnable) {
 			depthBoundsTestEnable = m_pDevice->GetDeviceFeatures().depthBounds;
@@ -410,7 +410,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetStencilTest(VkBool32 stencilTestEnable, VkStencilOpState front, VkStencilOpState back)
+	BOOL CVulkanPipelineGraphics::SetStencilTest(VkBool32 stencilTestEnable, VkStencilOpState front, VkStencilOpState back)
 	{
 		m_depthStencilState.stencilTestEnable = stencilTestEnable;
 		m_depthStencilState.front = front;
@@ -419,7 +419,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetColorBlendLogic(VkBool32 logicOpEnable, VkLogicOp logicOp)
+	BOOL CVulkanPipelineGraphics::SetColorBlendLogic(VkBool32 logicOpEnable, VkLogicOp logicOp)
 	{
 		m_colorBlendState.logicOpEnable = logicOpEnable;
 		m_colorBlendState.logicOp = logicOp;
@@ -427,7 +427,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetColorBlendConstants(float r, float g, float b, float a)
+	BOOL CVulkanPipelineGraphics::SetColorBlendConstants(float r, float g, float b, float a)
 	{
 		m_colorBlendState.blendConstants[0] = r;
 		m_colorBlendState.blendConstants[1] = g;
@@ -437,7 +437,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CRendererPipelineGraphics::SetColorBlendAttachment(uint32_t attachment, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
+	BOOL CVulkanPipelineGraphics::SetColorBlendAttachment(uint32_t attachment, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
 	{
 		m_colorBlendAttachmentStates[attachment].blendEnable = blendEnable;
 		m_colorBlendAttachmentStates[attachment].srcColorBlendFactor = srcColorBlendFactor;
@@ -451,7 +451,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	uint32_t CRendererPipelineGraphics::GetVertexFormat(void) const
+	uint32_t CVulkanPipelineGraphics::GetVertexFormat(void) const
 	{
 		return m_vertexFormat;
 	}

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererAllocator::CRendererAllocator(void)
+	CVulkanAllocator::CVulkanAllocator(void)
 		: m_memAllocator(TRUE, FALSE, FALSE)
 
 		, m_dwAllocatedSize(0)
@@ -33,46 +33,46 @@ namespace CrossEngine {
 	{
 		memset(&m_vkCallback, 0, sizeof(m_vkCallback));
 		m_vkCallback.pUserData = this;
-		m_vkCallback.pfnAllocation = CRendererAllocator::vkAllocationFunction;
-		m_vkCallback.pfnReallocation = CRendererAllocator::vkReallocationFunction;
-		m_vkCallback.pfnFree = CRendererAllocator::vkFreeFunction;
-		m_vkCallback.pfnInternalAllocation = CRendererAllocator::vkInternalAllocationNotification;
-		m_vkCallback.pfnInternalFree = CRendererAllocator::vkInternalFreeNotification;
+		m_vkCallback.pfnAllocation = CVulkanAllocator::vkAllocationFunction;
+		m_vkCallback.pfnReallocation = CVulkanAllocator::vkReallocationFunction;
+		m_vkCallback.pfnFree = CVulkanAllocator::vkFreeFunction;
+		m_vkCallback.pfnInternalAllocation = CVulkanAllocator::vkInternalAllocationNotification;
+		m_vkCallback.pfnInternalFree = CVulkanAllocator::vkInternalFreeNotification;
 	}
 
-	CRendererAllocator::~CRendererAllocator(void)
+	CVulkanAllocator::~CVulkanAllocator(void)
 	{
 
 	}
 
-	void* CRendererAllocator::Alloc(size_t size, MEMTYPE type)
+	void* CVulkanAllocator::Alloc(size_t size, MEMTYPE type)
 	{
 		return m_memAllocator.Alloc(size, type);
 	}
 
-	void CRendererAllocator::Free(void *ptr)
+	void CVulkanAllocator::Free(void *ptr)
 	{
 		m_memAllocator.Free(ptr);
 	}
 
-	DWORD CRendererAllocator::GetAllocatedSize(void) const
+	DWORD CVulkanAllocator::GetAllocatedSize(void) const
 	{
 		return m_dwAllocatedSize;
 	}
 
-	DWORD CRendererAllocator::GetMaxAllocatedSize(void) const
+	DWORD CVulkanAllocator::GetMaxAllocatedSize(void) const
 	{
 		return m_dwMaxAllocatedSize;
 	}
 
-	const VkAllocationCallbacks* CRendererAllocator::GetAllocationCallbacks(void) const
+	const VkAllocationCallbacks* CVulkanAllocator::GetAllocationCallbacks(void) const
 	{
 		return &m_vkCallback;
 	}
 
-	void* VKAPI_PTR CRendererAllocator::vkAllocationFunction(void *pUserData, size_t size, size_t alignment, VkSystemAllocationScope allocationScope)
+	void* VKAPI_PTR CVulkanAllocator::vkAllocationFunction(void *pUserData, size_t size, size_t alignment, VkSystemAllocationScope allocationScope)
 	{
-		if (CRendererAllocator *pAllocator = (CRendererAllocator *)pUserData) {
+		if (CVulkanAllocator *pAllocator = (CVulkanAllocator *)pUserData) {
 			void *pPointer = pAllocator->Alloc(size, MEMTYPE_HEAP);
 			pAllocator->m_dwAllocatedSize += MEM_SIZE(pPointer);
 			pAllocator->m_dwMaxAllocatedSize = pAllocator->m_dwMaxAllocatedSize >= pAllocator->m_dwAllocatedSize ? pAllocator->m_dwMaxAllocatedSize : pAllocator->m_dwAllocatedSize;
@@ -82,9 +82,9 @@ namespace CrossEngine {
 		return NULL;
 	}
 
-	void* VKAPI_PTR CRendererAllocator::vkReallocationFunction(void *pUserData, void *pOriginal, size_t size, size_t alignment, VkSystemAllocationScope allocationScope)
+	void* VKAPI_PTR CVulkanAllocator::vkReallocationFunction(void *pUserData, void *pOriginal, size_t size, size_t alignment, VkSystemAllocationScope allocationScope)
 	{
-		if (CRendererAllocator *pAllocator = (CRendererAllocator *)pUserData) {
+		if (CVulkanAllocator *pAllocator = (CVulkanAllocator *)pUserData) {
 			void *pPointer = pAllocator->Alloc(size, MEMTYPE_HEAP);
 			memcpy(pPointer, pOriginal, min(MEM_SIZE(pPointer), MEM_SIZE(pOriginal)));
 			pAllocator->m_dwAllocatedSize += MEM_SIZE(pPointer);
@@ -97,9 +97,9 @@ namespace CrossEngine {
 		return NULL;
 	}
 
-	void VKAPI_PTR CRendererAllocator::vkFreeFunction(void *pUserData, void *pPointer)
+	void VKAPI_PTR CVulkanAllocator::vkFreeFunction(void *pUserData, void *pPointer)
 	{
-		if (CRendererAllocator *pAllocator = (CRendererAllocator *)pUserData) {
+		if (CVulkanAllocator *pAllocator = (CVulkanAllocator *)pUserData) {
 			if (pPointer) {
 				pAllocator->m_dwAllocatedSize -= MEM_SIZE(pPointer);
 				pAllocator->Free(pPointer);
@@ -107,17 +107,17 @@ namespace CrossEngine {
 		}
 	}
 
-	void VKAPI_PTR CRendererAllocator::vkInternalAllocationNotification(void *pUserData, size_t size, VkInternalAllocationType allocationType, VkSystemAllocationScope allocationScope)
+	void VKAPI_PTR CVulkanAllocator::vkInternalAllocationNotification(void *pUserData, size_t size, VkInternalAllocationType allocationType, VkSystemAllocationScope allocationScope)
 	{
-		if (CRendererAllocator *pAllocator = (CRendererAllocator *)pUserData) {
+		if (CVulkanAllocator *pAllocator = (CVulkanAllocator *)pUserData) {
 			pAllocator->m_dwAllocatedSize += size;
 			pAllocator->m_dwMaxAllocatedSize = pAllocator->m_dwMaxAllocatedSize >= pAllocator->m_dwAllocatedSize ? pAllocator->m_dwMaxAllocatedSize : pAllocator->m_dwAllocatedSize;
 		}
 	}
 
-	void VKAPI_PTR CRendererAllocator::vkInternalFreeNotification(void *pUserData, size_t size, VkInternalAllocationType allocationType, VkSystemAllocationScope allocationScope)
+	void VKAPI_PTR CVulkanAllocator::vkInternalFreeNotification(void *pUserData, size_t size, VkInternalAllocationType allocationType, VkSystemAllocationScope allocationScope)
 	{
-		if (CRendererAllocator *pAllocator = (CRendererAllocator *)pUserData) {
+		if (CVulkanAllocator *pAllocator = (CVulkanAllocator *)pUserData) {
 			pAllocator->m_dwAllocatedSize -= size;
 			pAllocator->m_dwMaxAllocatedSize = pAllocator->m_dwMaxAllocatedSize >= pAllocator->m_dwAllocatedSize ? pAllocator->m_dwMaxAllocatedSize : pAllocator->m_dwAllocatedSize;
 		}

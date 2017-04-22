@@ -25,10 +25,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	VkFormatProperties CRendererHelper::vkFormatProperties[VK_FORMAT_RANGE_SIZE];
-	VkComponentMapping CRendererHelper::vkFormatComponentMapping[VK_FORMAT_RANGE_SIZE];
+	VkFormatProperties CVulkanHelper::vkFormatProperties[VK_FORMAT_RANGE_SIZE];
+	VkComponentMapping CVulkanHelper::vkFormatComponentMapping[VK_FORMAT_RANGE_SIZE];
 
-	void CRendererHelper::vkSetupFormat(VkPhysicalDevice vkPhysicalDevice)
+	void CVulkanHelper::vkSetupFormat(VkPhysicalDevice vkPhysicalDevice)
 	{
 		for (uint32_t indexFormat = 0; indexFormat < VK_FORMAT_RANGE_SIZE; indexFormat++) {
 			vkGetPhysicalDeviceFormatProperties(vkPhysicalDevice, (VkFormat)indexFormat, &vkFormatProperties[indexFormat]);
@@ -86,17 +86,17 @@ namespace CrossEngine {
 		vkFormatComponentMapping[VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK] = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
 	}
 
-	BOOL CRendererHelper::vkIsFormatSupported(VkFormat format)
+	BOOL CVulkanHelper::vkIsFormatSupported(VkFormat format)
 	{
 		return vkFormatProperties[format].bufferFeatures || vkFormatProperties[format].linearTilingFeatures || vkFormatProperties[format].optimalTilingFeatures ? TRUE : FALSE;
 	}
 
-	const VkComponentMapping& CRendererHelper::vkGetFormatComponentMapping(VkFormat format)
+	const VkComponentMapping& CVulkanHelper::vkGetFormatComponentMapping(VkFormat format)
 	{
 		return vkFormatComponentMapping[format];
 	}
 
-	BOOL CRendererHelper::vkIsFormatDepthOnly(VkFormat format)
+	BOOL CVulkanHelper::vkIsFormatDepthOnly(VkFormat format)
 	{
 		switch (format) {
 		case VK_FORMAT_D16_UNORM: return TRUE;
@@ -105,7 +105,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CRendererHelper::vkIsFormatStencilOnly(VkFormat format)
+	BOOL CVulkanHelper::vkIsFormatStencilOnly(VkFormat format)
 	{
 		switch (format) {
 		case VK_FORMAT_S8_UINT: return TRUE;
@@ -113,7 +113,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CRendererHelper::vkIsFormatDepthStencil(VkFormat format)
+	BOOL CVulkanHelper::vkIsFormatDepthStencil(VkFormat format)
 	{
 		switch (format) {
 		case VK_FORMAT_D16_UNORM_S8_UINT: return TRUE;
@@ -123,7 +123,7 @@ namespace CrossEngine {
 		}
 	}
 
-	VkAccessFlags CRendererHelper::vkGetAccessMask(VkImageLayout layout)
+	VkAccessFlags CVulkanHelper::vkGetAccessMask(VkImageLayout layout)
 	{
 		switch (layout) {
 		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL: return VK_ACCESS_TRANSFER_READ_BIT;
@@ -137,7 +137,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkImageTypeToString(VkImageType type)
+	const char* CVulkanHelper::vkImageTypeToString(VkImageType type)
 	{
 		switch (type) {
 		case VK_IMAGE_TYPE_1D: return "VK_IMAGE_TYPE_1D";
@@ -147,7 +147,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkFormatToString(VkFormat format)
+	const char* CVulkanHelper::vkFormatToString(VkFormat format)
 	{
 		switch (format) {
 		case VK_FORMAT_UNDEFINED: return "VK_FORMAT_UNDEFINED";
@@ -347,7 +347,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample)
+	const char* CVulkanHelper::vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample)
 	{
 		switch (sample) {
 		case VK_SAMPLE_COUNT_1_BIT: return "VK_SAMPLE_COUNT_1_BIT";
@@ -361,7 +361,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkImageTilingToString(VkImageTiling tiling)
+	const char* CVulkanHelper::vkImageTilingToString(VkImageTiling tiling)
 	{
 		switch (tiling) {
 		case VK_IMAGE_TILING_OPTIMAL: return "VK_IMAGE_TILING_OPTIMAL";
@@ -370,7 +370,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage)
+	const char* CVulkanHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage)
 	{
 		switch (usage) {
 		case VK_BUFFER_USAGE_TRANSFER_SRC_BIT: return "VK_BUFFER_USAGE_TRANSFER_SRC_BIT";
@@ -386,7 +386,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkFilterToString(VkFilter filter)
+	const char* CVulkanHelper::vkFilterToString(VkFilter filter)
 	{
 		switch (filter) {
 		case VK_FILTER_NEAREST: return "VK_FILTER_NEAREST";
@@ -396,7 +396,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkSamplerMipmapModeToString(VkSamplerMipmapMode mode)
+	const char* CVulkanHelper::vkSamplerMipmapModeToString(VkSamplerMipmapMode mode)
 	{
 		switch (mode) {
 		case VK_SAMPLER_MIPMAP_MODE_NEAREST: return "VK_SAMPLER_MIPMAP_MODE_NEAREST";
@@ -405,7 +405,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkSamplerAddressModeToString(VkSamplerAddressMode mode)
+	const char* CVulkanHelper::vkSamplerAddressModeToString(VkSamplerAddressMode mode)
 	{
 		switch (mode) {
 		case VK_SAMPLER_ADDRESS_MODE_REPEAT: return "VK_SAMPLER_ADDRESS_MODE_REPEAT";
@@ -417,7 +417,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
+	const char* CVulkanHelper::vkAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		switch (loadOp) {
 		case VK_ATTACHMENT_LOAD_OP_LOAD: return "VK_ATTACHMENT_LOAD_OP_LOAD";
@@ -427,7 +427,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkAttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
+	const char* CVulkanHelper::vkAttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
 	{
 		switch (storeOp) {
 		case VK_ATTACHMENT_STORE_OP_STORE: return "VK_ATTACHMENT_STORE_OP_STORE";
@@ -436,7 +436,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkImageLayoutToString(VkImageLayout layout)
+	const char* CVulkanHelper::vkImageLayoutToString(VkImageLayout layout)
 	{
 		switch (layout) {
 		case VK_IMAGE_LAYOUT_UNDEFINED: return "VK_IMAGE_LAYOUT_UNDEFINED";
@@ -453,7 +453,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkPipelineStageFlagsToString(VkPipelineStageFlags flags)
+	const char* CVulkanHelper::vkPipelineStageFlagsToString(VkPipelineStageFlags flags)
 	{
 		switch (flags) {
 		case VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT: return "VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT";
@@ -477,7 +477,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkAccessFlagsToString(VkAccessFlags flags)
+	const char* CVulkanHelper::vkAccessFlagsToString(VkAccessFlags flags)
 	{
 		switch (flags) {
 		case VK_ACCESS_INDIRECT_COMMAND_READ_BIT: return "VK_ACCESS_INDIRECT_COMMAND_READ_BIT";
@@ -501,7 +501,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CRendererHelper::vkDescriptorTypeToString(VkDescriptorType type)
+	const char* CVulkanHelper::vkDescriptorTypeToString(VkDescriptorType type)
 	{
 		switch (type)
 		{

@@ -26,19 +26,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererTextureManager : public CRendererResourceManager
+	class CROSS_EXPORT CVulkanTextureManager : public CVulkanResourceManager
 	{
-		friend class CRendererDevice;
+		friend class CVulkanDevice;
 
 
 	protected:
-		CRendererTextureManager(CRendererDevice *pDevice);
-		virtual ~CRendererTextureManager(void);
+		CVulkanTextureManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanTextureManager(void);
 
 
 	public:
-		CRendererTexture* AllocTexture(void);
-		CRendererRenderTexture* AllocRenderTexture(void);
+		CVulkanTexture* AllocTexture(void);
+		CVulkanRenderTexture* AllocRenderTexture(void);
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;

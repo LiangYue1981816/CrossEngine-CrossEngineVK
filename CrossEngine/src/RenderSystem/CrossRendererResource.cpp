@@ -25,19 +25,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererResource::CRendererResource(CRendererDevice *pDevice, CRendererResourceManager *pManager)
+	CVulkanResource::CVulkanResource(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
 		: m_pDevice(pDevice)
 		, m_pManager(pManager)
 	{
 
 	}
 
-	CRendererResource::~CRendererResource(void)
+	CVulkanResource::~CVulkanResource(void)
 	{
 
 	}
 
-	void CRendererResource::Release(void)
+	void CVulkanResource::Release(void)
 	{
 		m_pManager->Free(this);
 	}

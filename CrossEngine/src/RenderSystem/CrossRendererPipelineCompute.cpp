@@ -25,18 +25,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererPipelineCompute::CRendererPipelineCompute(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererPipeline(pDevice, pManager)
+	CVulkanPipelineCompute::CVulkanPipelineCompute(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanPipeline(pDevice, pManager)
 	{
 
 	}
 
-	CRendererPipelineCompute::~CRendererPipelineCompute(void)
+	CVulkanPipelineCompute::~CVulkanPipelineCompute(void)
 	{
 
 	}
 	
-	BOOL CRendererPipelineCompute::Create(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineCompute::Create(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
 	{
 		m_shaderModules[VK_SHADER_STAGE_COMPUTE_BIT] = module;
 
@@ -52,7 +52,7 @@ namespace CrossEngine {
 			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
 			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
 			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
 
 			VkComputePipelineCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
@@ -68,12 +68,12 @@ namespace CrossEngine {
 			createInfo.layout = m_vkPipelineLayout;
 			createInfo.basePipelineHandle = VK_NULL_HANDLE;
 			createInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), ((CRendererPipelineManager *)m_pManager)->GetPipelineCache(), 1, &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pManager)->GetPipelineCache(), 1, &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;

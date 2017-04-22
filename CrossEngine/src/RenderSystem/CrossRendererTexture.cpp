@@ -25,21 +25,21 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererTexture::CRendererTexture(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererImage(pDevice, pManager)
+	CVulkanTexture::CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanImage(pDevice, pManager)
 		, m_pSampler(NULL)
 	{
 
 	}
 
-	CRendererTexture::~CRendererTexture(void)
+	CVulkanTexture::~CVulkanTexture(void)
 	{
 		ASSERT(m_pSampler == NULL);
 	}
 
-	BOOL CRendererTexture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	BOOL CVulkanTexture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (CRendererHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
+		if (CVulkanHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CVulkanHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CVulkanHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
 			return FALSE;
 		}
 
@@ -61,9 +61,9 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CRendererTexture::CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	BOOL CVulkanTexture::CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (CRendererHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
+		if (CVulkanHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CVulkanHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CVulkanHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
 			return FALSE;
 		}
 
@@ -85,9 +85,9 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CRendererTexture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	BOOL CVulkanTexture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (CRendererHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CRendererHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
+		if (CVulkanHelper::vkIsFormatDepthOnly((VkFormat)texture.format()) || CVulkanHelper::vkIsFormatStencilOnly((VkFormat)texture.format()) || CVulkanHelper::vkIsFormatDepthStencil((VkFormat)texture.format())) {
 			return FALSE;
 		}
 
@@ -109,15 +109,15 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CRendererTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	BOOL CVulkanTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		m_pSampler = m_pDevice->GetSamplerManager()->AllocSampler();
 		return m_pSampler->Create(minFilter, magFilter, mipmapMode, addressMode);
 	}
 
-	BOOL CRendererTexture::TransferTexture2D(const gli::texture2d &texture)
+	BOOL CVulkanTexture::TransferTexture2D(const gli::texture2d &texture)
 	{
-		CRendererStagingBuffer *pStagingBuffer = NULL;
+		CVulkanStagingBuffer *pStagingBuffer = NULL;
 
 		try {
 			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
@@ -147,7 +147,7 @@ namespace CrossEngine {
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 
 			if (pStagingBuffer) {
 				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
@@ -157,9 +157,9 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CRendererTexture::TransferTexture2DArray(const gli::texture2d_array &texture)
+	BOOL CVulkanTexture::TransferTexture2DArray(const gli::texture2d_array &texture)
 	{
-		CRendererStagingBuffer *pStagingBuffer = NULL;
+		CVulkanStagingBuffer *pStagingBuffer = NULL;
 
 		try {
 			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
@@ -191,7 +191,7 @@ namespace CrossEngine {
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 
 			if (pStagingBuffer) {
 				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
@@ -201,9 +201,9 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CRendererTexture::TransferTextureCube(const gli::texture_cube &texture)
+	BOOL CVulkanTexture::TransferTextureCube(const gli::texture_cube &texture)
 	{
-		CRendererStagingBuffer *pStagingBuffer = NULL;
+		CVulkanStagingBuffer *pStagingBuffer = NULL;
 
 		try {
 			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
@@ -235,7 +235,7 @@ namespace CrossEngine {
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 
 			if (pStagingBuffer) {
 				m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
@@ -245,13 +245,13 @@ namespace CrossEngine {
 		}
 	}
 	
-	void CRendererTexture::Destroy(void)
+	void CVulkanTexture::Destroy(void)
 	{
 		DestroySampler();
-		CRendererImage::Destroy();
+		CVulkanImage::Destroy();
 	}
 
-	void CRendererTexture::DestroySampler(void)
+	void CVulkanTexture::DestroySampler(void)
 	{
 		if (m_pSampler) {
 			m_pSampler->Release();
@@ -259,7 +259,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const VkDescriptorImageInfo& CRendererTexture::GetDescriptorImageInfo(void) const
+	const VkDescriptorImageInfo& CVulkanTexture::GetDescriptorImageInfo(void) const
 	{
 		return m_vkDescriptorImageInfo;
 	}

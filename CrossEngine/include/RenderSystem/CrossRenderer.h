@@ -51,17 +51,17 @@ namespace CrossEngine {
 	}
 
 
-	class CROSS_EXPORT CRendererAllocator;
-	class CROSS_EXPORT CRendererSwapchain;
-	class CROSS_EXPORT CRendererDevice;
-	class CROSS_EXPORT CRendererDeviceCompute;
-	class CROSS_EXPORT CRendererDeviceGraphics;
+	class CROSS_EXPORT CVulkanAllocator;
+	class CROSS_EXPORT CVulkanSwapchain;
+	class CROSS_EXPORT CVulkanDevice;
+	class CROSS_EXPORT CVulkanDeviceCompute;
+	class CROSS_EXPORT CVulkanDeviceGraphics;
 
-	class CROSS_EXPORT CRenderer
+	class CROSS_EXPORT CVulkan
 	{
 	public:
-		CRenderer(void);
-		virtual ~CRenderer(void);
+		CVulkan(void);
+		virtual ~CVulkan(void);
 	
 	
 	public:
@@ -94,10 +94,10 @@ namespace CrossEngine {
 		VkSurfaceKHR GetSurface(void) const;
 
 	public:
-		CRendererAllocator* GetAllocator(void) const;
-		CRendererSwapchain* GetSwapchain(void) const;
-		CRendererDeviceCompute* GetComputeDevice(void) const;
-		CRendererDeviceGraphics* GetGraphicsDevice(void) const;
+		CVulkanAllocator* GetAllocator(void) const;
+		CVulkanSwapchain* GetSwapchain(void) const;
+		CVulkanDeviceCompute* GetComputeDevice(void) const;
+		CVulkanDeviceGraphics* GetGraphicsDevice(void) const;
 
 
 	protected:
@@ -105,10 +105,10 @@ namespace CrossEngine {
 		VkSurfaceKHR m_vkSurface;
 
 	protected:
-		CRendererAllocator *m_pAllocator;
-		CRendererSwapchain *m_pSwapchain;
-		CRendererDeviceCompute *m_pComputeDevice;
-		CRendererDeviceGraphics *m_pGraphicsDevice;
+		CVulkanAllocator *m_pAllocator;
+		CVulkanSwapchain *m_pSwapchain;
+		CVulkanDeviceCompute *m_pComputeDevice;
+		CVulkanDeviceGraphics *m_pGraphicsDevice;
 
 #ifdef _DEBUG
 		VkDebugReportCallbackEXT m_vkDebugReportCallback;

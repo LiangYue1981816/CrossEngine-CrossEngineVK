@@ -25,26 +25,26 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererCommandBufferManager::CRendererCommandBufferManager(CRendererDevice *pDevice)
+	CVulkanCommandBufferManager::CVulkanCommandBufferManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
 
 	}
 
-	CRendererCommandBufferManager::~CRendererCommandBufferManager(void)
+	CVulkanCommandBufferManager::~CVulkanCommandBufferManager(void)
 	{
 		ASSERT(m_pCommandPools.empty());
 	}
 
-	BOOL CRendererCommandBufferManager::Create(void)
+	BOOL CVulkanCommandBufferManager::Create(void)
 	{
 		return m_pCommandPools.empty() ? TRUE : FALSE;
 	}
 
-	void CRendererCommandBufferManager::Destroy(void)
+	void CVulkanCommandBufferManager::Destroy(void)
 	{
 		for (const auto &itCommandPool : m_pCommandPools) {
-			if (CRendererCommandPool *pCommandPool = itCommandPool.second) {
+			if (CVulkanCommandPool *pCommandPool = itCommandPool.second) {
 				SAFE_DELETE(pCommandPool);
 			}
 		}
@@ -52,27 +52,27 @@ namespace CrossEngine {
 		m_pCommandPools.clear();
 	}
 
-	CRendererCommandBuffer* CRendererCommandBufferManager::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
+	CVulkanCommandBuffer* CVulkanCommandBufferManager::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
 		return GetCommandPool(pool)->AllocCommandBuffer(level);
 	}
 
-	void CRendererCommandBufferManager::FreeCommandBuffer(uint32_t pool, CRendererCommandBuffer *pCommandBuffer)
+	void CVulkanCommandBufferManager::FreeCommandBuffer(uint32_t pool, CVulkanCommandBuffer *pCommandBuffer)
 	{
 		GetCommandPool(pool)->FreeCommandBuffer(pCommandBuffer);
 	}
 
-	void CRendererCommandBufferManager::ResetCommandPool(uint32_t pool, BOOL bReleaseResources)
+	void CVulkanCommandBufferManager::ResetCommandPool(uint32_t pool, BOOL bReleaseResources)
 	{
 		GetCommandPool(pool)->ResetCommandPool(bReleaseResources);
 	}
 
-	CRendererCommandPool* CRendererCommandBufferManager::GetCommandPool(uint32_t pool)
+	CVulkanCommandPool* CVulkanCommandBufferManager::GetCommandPool(uint32_t pool)
 	{
 		const auto &itCommandPool = m_pCommandPools.find(pool);
 		if (itCommandPool != m_pCommandPools.end()) return itCommandPool->second;
 
-		CRendererCommandPool *pCommandPool = SAFE_NEW CRendererCommandPool(m_pDevice);
+		CVulkanCommandPool *pCommandPool = SAFE_NEW CVulkanCommandPool(m_pDevice);
 		m_pCommandPools[pool] = pCommandPool;
 
 		return pCommandPool;

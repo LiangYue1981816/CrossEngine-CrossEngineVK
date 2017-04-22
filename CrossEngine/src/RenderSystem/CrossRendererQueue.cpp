@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererQueue::CRendererQueue(CRendererDevice *pDevice)
+	CVulkanQueue::CVulkanQueue(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 		, m_vkQueue(VK_NULL_HANDLE)
 		, m_queueFamilyIndex(UINT32_MAX)
@@ -33,12 +33,12 @@ namespace CrossEngine {
 
 	}
 
-	CRendererQueue::~CRendererQueue(void)
+	CVulkanQueue::~CVulkanQueue(void)
 	{
 		ASSERT(m_vkQueue == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererQueue::Create(uint32_t queueFamilyIndex)
+	BOOL CVulkanQueue::Create(uint32_t queueFamilyIndex)
 	{
 		m_queueFamilyIndex = queueFamilyIndex;
 		vkGetDeviceQueue(m_pDevice->GetDevice(), m_queueFamilyIndex, 0, &m_vkQueue);
@@ -46,32 +46,32 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CRendererQueue::Destroy(void)
+	void CVulkanQueue::Destroy(void)
 	{
 		m_vkQueue = VK_NULL_HANDLE;
 	}
 
-	VkQueue CRendererQueue::GetQueue(void) const
+	VkQueue CVulkanQueue::GetQueue(void) const
 	{
 		return m_vkQueue;
 	}
 
-	uint32_t CRendererQueue::GetQueueFamilyIndex(void) const
+	uint32_t CVulkanQueue::GetQueueFamilyIndex(void) const
 	{
 		return m_queueFamilyIndex;
 	}
 
-	VkResult CRendererQueue::Submit(VkCommandBuffer vkCommandBuffers, VkFence vkFence) const
+	VkResult CVulkanQueue::Submit(VkCommandBuffer vkCommandBuffers, VkFence vkFence) const
 	{
 		return Submit(1, &vkCommandBuffers, 0, NULL, NULL, 0, NULL, vkFence);
 	}
 
-	VkResult CRendererQueue::Submit(VkCommandBuffer vkCommandBuffers, VkSemaphore vkWaitSemaphores, VkPipelineStageFlags vkWaitDstStageMask, VkSemaphore vkSignalSemaphores, VkFence vkFence) const
+	VkResult CVulkanQueue::Submit(VkCommandBuffer vkCommandBuffers, VkSemaphore vkWaitSemaphores, VkPipelineStageFlags vkWaitDstStageMask, VkSemaphore vkSignalSemaphores, VkFence vkFence) const
 	{
 		return Submit(1, &vkCommandBuffers, vkWaitSemaphores != VK_NULL_HANDLE ? 1 : 0, &vkWaitSemaphores, &vkWaitDstStageMask, vkSignalSemaphores != VK_NULL_HANDLE ? 1 : 0, &vkSignalSemaphores, vkFence);
 	}
 
-	VkResult CRendererQueue::Submit(uint32_t commandBufferCount, const VkCommandBuffer *pCommandBuffers, uint32_t waitSemaphoreCount, const VkSemaphore *pWaitSemaphores, const VkPipelineStageFlags *pWaitDstStageMask, uint32_t signalSemaphoreCount, const VkSemaphore *pSignalSemaphores, VkFence vkFence) const
+	VkResult CVulkanQueue::Submit(uint32_t commandBufferCount, const VkCommandBuffer *pCommandBuffers, uint32_t waitSemaphoreCount, const VkSemaphore *pWaitSemaphores, const VkPipelineStageFlags *pWaitDstStageMask, uint32_t signalSemaphoreCount, const VkSemaphore *pSignalSemaphores, VkFence vkFence) const
 	{
 		VkSubmitInfo submitInfo = {};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -86,7 +86,7 @@ namespace CrossEngine {
 		return vkQueueSubmit(m_vkQueue, 1, &submitInfo, vkFence);
 	}
 
-	VkResult CRendererQueue::WaitIdle(void) const
+	VkResult CVulkanQueue::WaitIdle(void) const
 	{
 		return vkQueueWaitIdle(m_vkQueue);
 	}

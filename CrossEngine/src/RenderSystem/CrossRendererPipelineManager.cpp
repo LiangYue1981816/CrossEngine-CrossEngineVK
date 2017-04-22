@@ -25,19 +25,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererPipelineManager::CRendererPipelineManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanPipelineManager::CVulkanPipelineManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 		, m_vkPipelineCache(VK_NULL_HANDLE)
 	{
 
 	}
 
-	CRendererPipelineManager::~CRendererPipelineManager(void)
+	CVulkanPipelineManager::~CVulkanPipelineManager(void)
 	{
 
 	}
 
-	BOOL CRendererPipelineManager::Create(void)
+	BOOL CVulkanPipelineManager::Create(void)
 	{
 		try {
 			VkPipelineCacheCreateInfo createInfo = {};
@@ -46,51 +46,51 @@ namespace CrossEngine {
 			createInfo.flags = 0;
 			createInfo.initialDataSize = 0;
 			createInfo.pInitialData = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
 
-			return CRendererResourceManager::Create();
+			return CVulkanResourceManager::Create();
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererPipelineManager::Destroy(void)
+	void CVulkanPipelineManager::Destroy(void)
 	{
 		if (m_vkPipelineCache) {
-			vkDestroyPipelineCache(m_pDevice->GetDevice(), m_vkPipelineCache, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyPipelineCache(m_pDevice->GetDevice(), m_vkPipelineCache, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkPipelineCache = VK_NULL_HANDLE;
 
-		CRendererResourceManager::Destroy();
+		CVulkanResourceManager::Destroy();
 	}
 
-	CRendererPipelineCompute* CRendererPipelineManager::AllocPipelineCompute(void)
+	CVulkanPipelineCompute* CVulkanPipelineManager::AllocPipelineCompute(void)
 	{
-		CRendererPipelineCompute *pPipeline = SAFE_NEW CRendererPipelineCompute(m_pDevice, this);
+		CVulkanPipelineCompute *pPipeline = SAFE_NEW CVulkanPipelineCompute(m_pDevice, this);
 		m_pResources[pPipeline] = pPipeline;
 
 		return pPipeline;
 	}
 
-	CRendererPipelineGraphics* CRendererPipelineManager::AllocPipelineGraphics(void)
+	CVulkanPipelineGraphics* CVulkanPipelineManager::AllocPipelineGraphics(void)
 	{
-		CRendererPipelineGraphics *pPipeline = SAFE_NEW CRendererPipelineGraphics(m_pDevice, this);
+		CVulkanPipelineGraphics *pPipeline = SAFE_NEW CVulkanPipelineGraphics(m_pDevice, this);
 		m_pResources[pPipeline] = pPipeline;
 
 		return pPipeline;
 	}
 
-	VkPipelineCache CRendererPipelineManager::GetPipelineCache(void) const
+	VkPipelineCache CVulkanPipelineManager::GetPipelineCache(void) const
 	{
 		return m_vkPipelineCache;
 	}
 
-	void CRendererPipelineManager::DumpLog(const char *szTitle) const
+	void CVulkanPipelineManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
 
@@ -98,7 +98,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itResource : m_pResources) {
-				if (const CRendererPipeline *pResource = (CRendererPipeline *)itResource.second) {
+				if (const CVulkanPipeline *pResource = (CVulkanPipeline *)itResource.second) {
 					pResource->DumpLog();
 					count++;
 				}

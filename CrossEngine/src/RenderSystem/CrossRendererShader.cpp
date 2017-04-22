@@ -38,26 +38,26 @@ namespace CrossEngine {
 		return { module.cbegin(), module.cend() };
 	}
 
-	CRendererShader::CRendererShader(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanShader::CVulkanShader(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkShaderModule(VK_NULL_HANDLE)
 	{
 
 	}
 
-	CRendererShader::~CRendererShader(void)
+	CVulkanShader::~CVulkanShader(void)
 	{
 		ASSERT(m_vkShaderModule == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)
+	BOOL CVulkanShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)
 	{
 		shaderc::CompileOptions options = CreateCompileOptions();
 		std::vector<uint32_t> words = CompileShader(szSource, length, kind, options);
 		return Create(words.data(), words.size());
 	}
 
-	BOOL CRendererShader::Create(const uint32_t *words, size_t numWords)
+	BOOL CVulkanShader::Create(const uint32_t *words, size_t numWords)
 	{
 		try {
 			VkShaderModuleCreateInfo createInfo = {};
@@ -66,23 +66,23 @@ namespace CrossEngine {
 			createInfo.flags = 0;
 			createInfo.codeSize = numWords * 4;
 			createInfo.pCode = words;
-			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
+			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
 			m_module = spirv::parse(words, numWords);
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	shaderc::CompileOptions CRendererShader::CreateCompileOptions(void)
+	shaderc::CompileOptions CVulkanShader::CreateCompileOptions(void)
 	{
-		shaderc::CompileOptions options(((CRendererShaderManager *)m_pManager)->GetCompileOptions());
+		shaderc::CompileOptions options(((CVulkanShaderManager *)m_pManager)->GetCompileOptions());
 
 		for (const auto &itMacroDefinition : m_strMacroDefinitions) {
 			if (itMacroDefinition.second.empty()) {
@@ -96,42 +96,42 @@ namespace CrossEngine {
 		return options;
 	}
 
-	void CRendererShader::Destroy(void)
+	void CVulkanShader::Destroy(void)
 	{
 		if (m_vkShaderModule) {
-			vkDestroyShaderModule(m_pDevice->GetDevice(), m_vkShaderModule, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyShaderModule(m_pDevice->GetDevice(), m_vkShaderModule, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkShaderModule = VK_NULL_HANDLE;
 	}
 
-	void CRendererShader::AddMacroDefinition(const char *szName, const char *szValue)
+	void CVulkanShader::AddMacroDefinition(const char *szName, const char *szValue)
 	{
 		m_strMacroDefinitions[szName] = szValue;
 	}
 
-	void CRendererShader::DelMacroDefinition(const char *szName)
+	void CVulkanShader::DelMacroDefinition(const char *szName)
 	{
 		const auto &itMacroDefinition = m_strMacroDefinitions.find(szName);
 		if (itMacroDefinition != m_strMacroDefinitions.end()) m_strMacroDefinitions.erase(itMacroDefinition);
 	}
 
-	void CRendererShader::ClearMacroDefinitions(void)
+	void CVulkanShader::ClearMacroDefinitions(void)
 	{
 		m_strMacroDefinitions.clear();
 	}
 
-	VkShaderModule CRendererShader::GetShaderModule(void) const
+	VkShaderModule CVulkanShader::GetShaderModule(void) const
 	{
 		return m_vkShaderModule;
 	}
 
-	const spirv::module_type& CRendererShader::GetModule(void) const
+	const spirv::module_type& CVulkanShader::GetModule(void) const
 	{
 		return m_module;
 	}
 
-	void CRendererShader::DumpLog(void) const
+	void CVulkanShader::DumpLog(void) const
 	{
 		if (m_vkShaderModule) {
 			LOGI("\t\tShader 0x%x\n", m_vkShaderModule);

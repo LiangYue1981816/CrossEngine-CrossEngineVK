@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererCommandBuffer
+	class CROSS_EXPORT CVulkanCommandBuffer
 	{
-		friend class CRendererCommandPool;
+		friend class CVulkanCommandPool;
 
 
 	protected:
-		CRendererCommandBuffer(CRendererDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level);
-		virtual ~CRendererCommandBuffer(void);
+		CVulkanCommandBuffer(CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level);
+		virtual ~CVulkanCommandBuffer(void);
 
 
 	public:
@@ -97,12 +97,12 @@ namespace CrossEngine {
 		VkCommandBufferLevel m_vkCommandBufferLevel;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 
 	protected:
-		CRendererCommandBuffer *pFreeNext;
-		CRendererCommandBuffer *pActiveNext;
-		CRendererCommandBuffer *pActivePrev;
+		CVulkanCommandBuffer *pFreeNext;
+		CVulkanCommandBuffer *pActiveNext;
+		CVulkanCommandBuffer *pActivePrev;
 	};
 
 }

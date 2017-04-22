@@ -28,7 +28,7 @@ namespace CrossEngine {
 	#define NODE_INDEX(size) (((size) / UNIT_SIZE) - 1)
 	static const VkDeviceSize UNIT_SIZE = 1024;
 
-	CRendererMemoryAllocator::CRendererMemoryAllocator(CRendererDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkMemoryPropertyFlags memoryPropertyFlags)
+	CVulkanMemoryAllocator::CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkMemoryPropertyFlags memoryPropertyFlags)
 		: m_pDevice(pDevice)
 		, m_vkMemory(VK_NULL_HANDLE)
 
@@ -47,16 +47,16 @@ namespace CrossEngine {
 		allocInfo.pNext = NULL;
 		allocInfo.allocationSize = m_size;
 		allocInfo.memoryTypeIndex = m_type;
-		vkAllocateMemory(m_pDevice->GetDevice(), &allocInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkMemory);
+		vkAllocateMemory(m_pDevice->GetDevice(), &allocInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkMemory);
 
 		m_nodes = SAFE_NEW mem_node[m_size / UNIT_SIZE];
-		m_pListHead = SAFE_NEW CRendererMemory(this, m_pDevice, m_vkMemory, m_flags, m_size, 0);
+		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, m_size, 0);
 
 		InitNodes(m_size / UNIT_SIZE);
 		InsertMemory(m_pListHead);
 	}
 
-	CRendererMemoryAllocator::~CRendererMemoryAllocator(void)
+	CVulkanMemoryAllocator::~CVulkanMemoryAllocator(void)
 	{
 		SAFE_DELETE_ARRAY(m_nodes);
 
@@ -65,10 +65,10 @@ namespace CrossEngine {
 		ASSERT(m_pListHead->m_size == m_size);
 		SAFE_DELETE(m_pListHead);
 
-		vkFreeMemory(m_pDevice->GetDevice(), m_vkMemory, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		vkFreeMemory(m_pDevice->GetDevice(), m_vkMemory, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CRendererMemory* CRendererMemoryAllocator::AllocMemory(VkDeviceSize size, VkDeviceSize alignment)
+	CVulkanMemory* CVulkanMemoryAllocator::AllocMemory(VkDeviceSize size, VkDeviceSize alignment)
 	{
 		//  Device Memory
 		//
@@ -87,13 +87,13 @@ namespace CrossEngine {
 		ASSERT(ALIGN_1KBYTE(alignment) == ALIGN_1KBYTE(1));
 		size = ALIGN_1KBYTE(size);
 
-		if (CRendererMemory *pMemory = SearchMemory(size)) {
+		if (CVulkanMemory *pMemory = SearchMemory(size)) {
 			RemoveMemory(pMemory);
 
 			pMemory->bInUse = TRUE;
 
 			if (pMemory->m_size >= size + UNIT_SIZE) {
-				CRendererMemory *pMemoryNext = SAFE_NEW CRendererMemory(this, m_pDevice, m_vkMemory, m_flags, pMemory->m_size - size, pMemory->m_offset + size);
+				CVulkanMemory *pMemoryNext = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, pMemory->m_size - size, pMemory->m_offset + size);
 
 				pMemoryNext->pNext = pMemory->pNext;
 				pMemoryNext->pPrev = pMemory;
@@ -113,11 +113,11 @@ namespace CrossEngine {
 		return NULL;
 	}
 
-	void CRendererMemoryAllocator::FreeMemory(CRendererMemory *pMemory)
+	void CVulkanMemoryAllocator::FreeMemory(CVulkanMemory *pMemory)
 	{
 		pMemory->bInUse = FALSE;
 
-		if (CRendererMemory *pMemoryNext = pMemory->pNext) {
+		if (CVulkanMemory *pMemoryNext = pMemory->pNext) {
 			if (pMemoryNext->bInUse == FALSE) {
 				if (pMemory->m_offset + pMemory->m_size == pMemoryNext->m_offset) {
 					RemoveMemory(pMemoryNext);
@@ -137,7 +137,7 @@ namespace CrossEngine {
 			}
 		}
 
-		if (CRendererMemory *pMemoryPrev = pMemory->pPrev) {
+		if (CVulkanMemory *pMemoryPrev = pMemory->pPrev) {
 			if (pMemoryPrev->bInUse == FALSE) {
 				if (pMemoryPrev->m_offset + pMemoryPrev->m_size == pMemory->m_offset) {
 					RemoveMemory(pMemoryPrev);
@@ -162,7 +162,7 @@ namespace CrossEngine {
 		InsertMemory(pMemory);
 	}
 
-	void CRendererMemoryAllocator::InitNodes(uint32_t numNodes)
+	void CVulkanMemoryAllocator::InitNodes(uint32_t numNodes)
 	{
 		m_root = RB_ROOT;
 
@@ -172,7 +172,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRendererMemoryAllocator::InsertMemory(CRendererMemory *pMemory)
+	void CVulkanMemoryAllocator::InsertMemory(CVulkanMemory *pMemory)
 	{
 		ASSERT(pMemory->bInUse == FALSE);
 		mem_node *pMemoryNode = &m_nodes[NODE_INDEX(pMemory->m_size)];
@@ -213,7 +213,7 @@ namespace CrossEngine {
 		rb_insert_color(&pMemoryNode->node, &m_root);
 	}
 
-	void CRendererMemoryAllocator::RemoveMemory(CRendererMemory *pMemory)
+	void CVulkanMemoryAllocator::RemoveMemory(CVulkanMemory *pMemory)
 	{
 		ASSERT(pMemory->bInUse == FALSE);
 		mem_node *pMemoryNode = &m_nodes[NODE_INDEX(pMemory->m_size)];
@@ -235,7 +235,7 @@ namespace CrossEngine {
 		}
 	}
 
-	CRendererMemory* CRendererMemoryAllocator::SearchMemory(VkDeviceSize size) const
+	CVulkanMemory* CVulkanMemoryAllocator::SearchMemory(VkDeviceSize size) const
 	{
 		mem_node *pMemoryNode = NULL;
 		rb_node *node = m_root.rb_node;
@@ -265,26 +265,26 @@ namespace CrossEngine {
 		return pMemoryNode ? pMemoryNode->pFreeListHead : NULL;
 	}
 
-	BOOL CRendererMemoryAllocator::IsEmpty(void) const
+	BOOL CVulkanMemoryAllocator::IsEmpty(void) const
 	{
 		return m_pListHead->pNext == NULL && m_pListHead->pPrev == NULL && m_pListHead->m_size == m_size ? TRUE : FALSE;
 	}
 
-	uint32_t CRendererMemoryAllocator::GetMemoryTypeIndex(void) const
+	uint32_t CVulkanMemoryAllocator::GetMemoryTypeIndex(void) const
 	{
 		return m_type;
 	}
 
-	VkDeviceSize CRendererMemoryAllocator::GetFullSize(void) const
+	VkDeviceSize CVulkanMemoryAllocator::GetFullSize(void) const
 	{
 		return m_size;
 	}
 
-	VkDeviceSize CRendererMemoryAllocator::GetAllocatedSize(void) const
+	VkDeviceSize CVulkanMemoryAllocator::GetAllocatedSize(void) const
 	{
 		VkDeviceSize size = 0;
 
-		if (const CRendererMemory *pMemory = m_pListHead) {
+		if (const CVulkanMemory *pMemory = m_pListHead) {
 			do {
 				if (pMemory->bInUse) {
 					size += pMemory->m_size;
@@ -295,11 +295,11 @@ namespace CrossEngine {
 		return size;
 	}
 
-	uint32_t CRendererMemoryAllocator::GetAllocationCount(void) const
+	uint32_t CVulkanMemoryAllocator::GetAllocationCount(void) const
 	{
 		uint32_t count = 0;
 
-		if (const CRendererMemory *pMemory = m_pListHead) {
+		if (const CVulkanMemory *pMemory = m_pListHead) {
 			do {
 				if (pMemory->bInUse) {
 					count++;
@@ -310,7 +310,7 @@ namespace CrossEngine {
 		return count;
 	}
 
-	void CRendererMemoryAllocator::DumpLog(void) const
+	void CVulkanMemoryAllocator::DumpLog(void) const
 	{
 		LOGI("\t\tAllocator: host = %s coherent = %s cached = %s pointer number = %d size = %d full = %d\n", 
 			m_flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT ? "true" : "false",

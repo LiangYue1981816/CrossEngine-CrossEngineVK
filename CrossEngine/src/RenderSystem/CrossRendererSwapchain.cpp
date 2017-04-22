@@ -89,7 +89,7 @@ namespace CrossEngine {
 	}
 
 
-	CRendererSwapchain::CRendererSwapchain(CRendererDeviceGraphics *pDevice)
+	CVulkanSwapchain::CVulkanSwapchain(CVulkanDeviceGraphics *pDevice)
 		: m_pDevice(pDevice)
 		, m_vkSwapchain(VK_NULL_HANDLE)
 		, m_vkAcquireSemaphore(VK_NULL_HANDLE)
@@ -103,7 +103,7 @@ namespace CrossEngine {
 
 	}
 
-	CRendererSwapchain::~CRendererSwapchain(void)
+	CVulkanSwapchain::~CVulkanSwapchain(void)
 	{
 		ASSERT(m_vkSwapchain == VK_NULL_HANDLE);
 		ASSERT(m_vkAcquireSemaphore == VK_NULL_HANDLE);
@@ -111,7 +111,7 @@ namespace CrossEngine {
 		ASSERT(m_imageViews.empty());
 	}
 
-	BOOL CRendererSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
+	BOOL CVulkanSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		try {
 			std::vector<VkPresentModeKHR> modes;
@@ -127,53 +127,53 @@ namespace CrossEngine {
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererSwapchain::Destroy(void)
+	void CVulkanSwapchain::Destroy(void)
 	{
 		DestroyImagesAndImageViews();
 		DestroySwapchain();
 	}
 
-	VkResult CRendererSwapchain::EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const
+	VkResult CVulkanSwapchain::EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const
 	{
 		modes.clear();
 
 		uint32_t numModes;
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetRenderer()->GetSurface(), &numModes, NULL));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numModes, NULL));
 
 		ASSERT(numModes > 0);
 		modes.resize(numModes);
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetRenderer()->GetSurface(), &numModes, modes.data()));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numModes, modes.data()));
 
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererSwapchain::EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const
+	VkResult CVulkanSwapchain::EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const
 	{
 		formats.clear();
 
 		uint32_t numFormats;
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetRenderer()->GetSurface(), &numFormats, NULL));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numFormats, NULL));
 
 		ASSERT(numFormats > 0);
 		formats.resize(numFormats);
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetRenderer()->GetSurface(), &numFormats, formats.data()));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numFormats, formats.data()));
 
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererSwapchain::EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const
+	VkResult CVulkanSwapchain::EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const
 	{
-		return vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetRenderer()->GetSurface(), &capabilities);
+		return vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &capabilities);
 	}
 
-	VkResult CRendererSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
+	VkResult CVulkanSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
 	{
 		uint32_t numImages = GetSwapchainNumImages(capabilities);
 		VkExtent2D imageExtent = GetSwapchainExtent(capabilities, width, height);
@@ -186,7 +186,7 @@ namespace CrossEngine {
 		swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 		swapchainInfo.pNext = NULL;
 		swapchainInfo.flags = 0;
-		swapchainInfo.surface = m_pDevice->GetRenderer()->GetSurface();
+		swapchainInfo.surface = m_pDevice->GetVulkan()->GetSurface();
 		swapchainInfo.minImageCount = numImages;
 		swapchainInfo.imageFormat = imageFormat.format;
 		swapchainInfo.imageColorSpace = imageFormat.colorSpace;
@@ -201,13 +201,13 @@ namespace CrossEngine {
 		swapchainInfo.presentMode = presentMode;
 		swapchainInfo.clipped = TRUE;
 		swapchainInfo.oldSwapchain = VK_NULL_HANDLE;
-		CALL_VK_FUNCTION_RETURN(vkCreateSwapchainKHR(m_pDevice->GetDevice(), &swapchainInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSwapchain));
+		CALL_VK_FUNCTION_RETURN(vkCreateSwapchainKHR(m_pDevice->GetDevice(), &swapchainInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkSwapchain));
 
 		VkSemaphoreCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;
-		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkAcquireSemaphore));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkAcquireSemaphore));
 
 		m_width = width;
 		m_height = height;
@@ -216,7 +216,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererSwapchain::CreateImagesAndImageViews(void)
+	VkResult CVulkanSwapchain::CreateImagesAndImageViews(void)
 	{
 		uint32_t numImages;
 		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, NULL));
@@ -234,39 +234,39 @@ namespace CrossEngine {
 			createInfo.image = m_images[index];
 			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 			createInfo.format = m_format;
-			createInfo.components = CRendererHelper::vkGetFormatComponentMapping(m_format);
+			createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(m_format);
 			createInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-			CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_imageViews[index]));
+			CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_imageViews[index]));
 		}
 
 		return VK_SUCCESS;
 	}
 
-	void CRendererSwapchain::DestroySwapchain(void)
+	void CVulkanSwapchain::DestroySwapchain(void)
 	{
 		if (m_vkSwapchain) {
-			vkDestroySwapchainKHR(m_pDevice->GetDevice(), m_vkSwapchain, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySwapchainKHR(m_pDevice->GetDevice(), m_vkSwapchain, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_vkAcquireSemaphore) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkSwapchain = VK_NULL_HANDLE;
 		m_vkAcquireSemaphore = VK_NULL_HANDLE;
 	}
 
-	void CRendererSwapchain::DestroyImagesAndImageViews(void)
+	void CVulkanSwapchain::DestroyImagesAndImageViews(void)
 	{
 		for (uint32_t index = 0; index < m_imageViews.size(); index++) {
-			vkDestroyImageView(m_pDevice->GetDevice(), m_imageViews[index], m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyImageView(m_pDevice->GetDevice(), m_imageViews[index], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_images.clear();
 		m_imageViews.clear();
 	}
 
-	VkResult CRendererSwapchain::Present(VkSemaphore vkSemaphoreWaitRenderingDone) const
+	VkResult CVulkanSwapchain::Present(VkSemaphore vkSemaphoreWaitRenderingDone) const
 	{
 		VkPresentInfoKHR presentInfo = {};
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -280,43 +280,43 @@ namespace CrossEngine {
 		return vkQueuePresentKHR(m_pDevice->GetQueue()->GetQueue(), &presentInfo);
 	}
 
-	VkResult CRendererSwapchain::AcquireNextImage(VkFence vkFence)
+	VkResult CVulkanSwapchain::AcquireNextImage(VkFence vkFence)
 	{
 		m_indexImage = -1;
 		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, UINT64_MAX, m_vkAcquireSemaphore, vkFence, &m_indexImage);
 	}
 
-	VkSemaphore CRendererSwapchain::GetAcquireSemaphore(void) const
+	VkSemaphore CVulkanSwapchain::GetAcquireSemaphore(void) const
 	{
 		return m_vkAcquireSemaphore;
 	}
 
-	uint32_t CRendererSwapchain::GetImageIndex(void) const
+	uint32_t CVulkanSwapchain::GetImageIndex(void) const
 	{
 		return m_indexImage;
 	}
 
-	uint32_t CRendererSwapchain::GetWidth(void) const
+	uint32_t CVulkanSwapchain::GetWidth(void) const
 	{
 		return m_width;
 	}
 
-	uint32_t CRendererSwapchain::GetHeight(void) const
+	uint32_t CVulkanSwapchain::GetHeight(void) const
 	{
 		return m_height;
 	}
 
-	VkFormat CRendererSwapchain::GetFormat(void) const
+	VkFormat CVulkanSwapchain::GetFormat(void) const
 	{
 		return m_format;
 	}
 
-	uint32_t CRendererSwapchain::GetImageCount(void) const
+	uint32_t CVulkanSwapchain::GetImageCount(void) const
 	{
 		return m_images.size();
 	}
 
-	VkImageView CRendererSwapchain::GetImageView(uint32_t indexImage) const
+	VkImageView CVulkanSwapchain::GetImageView(uint32_t indexImage) const
 	{
 		return m_imageViews[indexImage];
 	}

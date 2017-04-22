@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDescriptorSet::CRendererDescriptorSet(CRendererDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount)
 		: m_pDevice(pDevice)
 		, m_vkDescriptorSet(vkDescriptorSet)
 		, m_typesUsedCount{ 0 }
@@ -33,12 +33,12 @@ namespace CrossEngine {
 		memcpy(m_typesUsedCount, typesUsedCount, sizeof(m_typesUsedCount));
 	}
 
-	CRendererDescriptorSet::~CRendererDescriptorSet(void)
+	CVulkanDescriptorSet::~CVulkanDescriptorSet(void)
 	{
 
 	}
 
-	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo vkDescriptorImageInfos)
+	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo vkDescriptorImageInfos)
 	{
 		m_vkWriteDescriptorSets[binding] = {};
 		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -53,7 +53,7 @@ namespace CrossEngine {
 		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
 	}
 
-	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo vkDescriptorBufferInfos)
+	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo vkDescriptorBufferInfos)
 	{
 		m_vkWriteDescriptorSets[binding] = {};
 		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -68,7 +68,7 @@ namespace CrossEngine {
 		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
 	}
 
-	void CRendererDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkBufferView)
+	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkBufferView)
 	{
 		m_vkWriteDescriptorSets[binding] = {};
 		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -83,7 +83,7 @@ namespace CrossEngine {
 		m_vkWriteDescriptorSets[binding].pTexelBufferView = &vkBufferView;
 	}
 
-	void CRendererDescriptorSet::UpdateDescriptorSets(void) const
+	void CVulkanDescriptorSet::UpdateDescriptorSets(void) const
 	{
 		std::vector<VkWriteDescriptorSet> writes;
 
@@ -94,12 +94,12 @@ namespace CrossEngine {
 		vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);
 	}
 
-	VkDescriptorSet CRendererDescriptorSet::GetDescriptorSet(void) const
+	VkDescriptorSet CVulkanDescriptorSet::GetDescriptorSet(void) const
 	{
 		return m_vkDescriptorSet;
 	}
 
-	const uint32_t* CRendererDescriptorSet::GetTypesUsedCount(void) const
+	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
 	{
 		return m_typesUsedCount;
 	}

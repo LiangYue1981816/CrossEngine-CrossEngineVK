@@ -26,18 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererStagingBuffer
+	class CROSS_EXPORT CVulkanStagingBuffer
 	{
-		friend class CRendererStagingBufferManager;
+		friend class CVulkanStagingBufferManager;
 
 
 	protected:
-		CRendererStagingBuffer(CRendererDevice *pDevice, VkDeviceSize size);
-		virtual ~CRendererStagingBuffer(void);
+		CVulkanStagingBuffer(CVulkanDevice *pDevice, VkDeviceSize size);
+		virtual ~CVulkanStagingBuffer(void);
 
 
 	public:
-		CRendererCommandBuffer* GetCommandBuffer(void) const;
+		CVulkanCommandBuffer* GetCommandBuffer(void) const;
 
 	public:
 		VkResult TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const;
@@ -49,11 +49,11 @@ namespace CrossEngine {
 
 	protected:
 		VkBuffer m_vkBuffer;
-		CRendererMemory *m_pMemory;
-		CRendererCommandBuffer *m_pCommandBuffer;
+		CVulkanMemory *m_pMemory;
+		CVulkanCommandBuffer *m_pCommandBuffer;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 	};
 
 }

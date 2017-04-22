@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererDescriptorSetLayout : public CRendererResource
+	class CROSS_EXPORT CVulkanDescriptorSetLayout : public CVulkanResource
 	{
-		friend class CRendererDescriptorSetLayoutManager;
+		friend class CVulkanDescriptorSetLayoutManager;
 
 
 	protected:
-		CRendererDescriptorSetLayout(CRendererDevice *pDevice, CRendererResourceManager *pManager);
-		virtual ~CRendererDescriptorSetLayout(void);
+		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		virtual ~CVulkanDescriptorSetLayout(void);
 
 
 	public:

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererCommandPool::CRendererCommandPool(CRendererDevice *pDevice)
+	CVulkanCommandPool::CVulkanCommandPool(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 		, m_vkCommandPool(VK_NULL_HANDLE)
 
@@ -37,22 +37,22 @@ namespace CrossEngine {
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 		createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
-		vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
+		vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
 	}
 
-	CRendererCommandPool::~CRendererCommandPool(void)
+	CVulkanCommandPool::~CVulkanCommandPool(void)
 	{
 		for (uint32_t level = 0; level < VK_COMMAND_BUFFER_LEVEL_RANGE_SIZE; level++) {
-			if (CRendererCommandBuffer *pCommandBuffer = m_pFreeListHead[level]) {
-				CRendererCommandBuffer *pCommandBufferNext = NULL;
+			if (CVulkanCommandBuffer *pCommandBuffer = m_pFreeListHead[level]) {
+				CVulkanCommandBuffer *pCommandBufferNext = NULL;
 				do {
 					pCommandBufferNext = pCommandBuffer->pFreeNext;
 					SAFE_DELETE(pCommandBuffer);
 				} while (pCommandBuffer = pCommandBufferNext);
 			}
 
-			if (CRendererCommandBuffer *pCommandBuffer = m_pActiveListHead[level]) {
-				CRendererCommandBuffer *pCommandBufferNext = NULL;
+			if (CVulkanCommandBuffer *pCommandBuffer = m_pActiveListHead[level]) {
+				CVulkanCommandBuffer *pCommandBufferNext = NULL;
 				do {
 					pCommandBufferNext = pCommandBuffer->pActiveNext;
 					SAFE_DELETE(pCommandBuffer);
@@ -60,10 +60,10 @@ namespace CrossEngine {
 			}
 		}
 
-		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CRendererCommandBuffer* CRendererCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
+	CVulkanCommandBuffer* CVulkanCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
 	{
 		if (m_pFreeListHead[level] == NULL) {
 			VkCommandBuffer vkCommandBuffer;
@@ -75,10 +75,10 @@ namespace CrossEngine {
 			commandBufferInfo.commandBufferCount = 1;
 			vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
 
-			m_pFreeListHead[level] = SAFE_NEW CRendererCommandBuffer(m_pDevice, vkCommandBuffer, level);
+			m_pFreeListHead[level] = SAFE_NEW CVulkanCommandBuffer(m_pDevice, vkCommandBuffer, level);
 		}
 
-		CRendererCommandBuffer  *pCommandBuffer = m_pFreeListHead[level];
+		CVulkanCommandBuffer  *pCommandBuffer = m_pFreeListHead[level];
 		m_pFreeListHead[level] = pCommandBuffer->pFreeNext;
 
 		pCommandBuffer->pActiveNext = m_pActiveListHead[level];
@@ -93,7 +93,7 @@ namespace CrossEngine {
 		return pCommandBuffer;
 	}
 
-	void CRendererCommandPool::FreeCommandBuffer(CRendererCommandBuffer *pCommandBuffer)
+	void CVulkanCommandPool::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
 		VkCommandBufferLevel level = pCommandBuffer->GetCommandBufferLevel();
 
@@ -113,7 +113,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRendererCommandPool::ResetCommandPool(BOOL bReleaseResources) const
+	void CVulkanCommandPool::ResetCommandPool(BOOL bReleaseResources) const
 	{
 		vkResetCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, bReleaseResources ? VK_COMMAND_POOL_RESET_RELEASE_RESOURCES_BIT : 0);
 	}

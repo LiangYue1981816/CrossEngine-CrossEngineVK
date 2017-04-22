@@ -26,16 +26,16 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererCommandBufferManager
+	class CROSS_EXPORT CVulkanCommandBufferManager
 	{
-		friend class CRendererDevice;
-		friend class CRendererDeviceCompute;
-		friend class CRendererDeviceGraphics;
+		friend class CVulkanDevice;
+		friend class CVulkanDeviceCompute;
+		friend class CVulkanDeviceGraphics;
 
 
 	protected:
-		CRendererCommandBufferManager(CRendererDevice *pDevice);
-		virtual ~CRendererCommandBufferManager(void);
+		CVulkanCommandBufferManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanCommandBufferManager(void);
 
 
 	protected:
@@ -43,19 +43,19 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	public:
-		CRendererCommandBuffer* AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
-		void FreeCommandBuffer(uint32_t pool, CRendererCommandBuffer *pCommandBuffer);
+		CVulkanCommandBuffer* AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
+		void FreeCommandBuffer(uint32_t pool, CVulkanCommandBuffer *pCommandBuffer);
 		void ResetCommandPool(uint32_t pool, BOOL bReleaseResources = FALSE);
 
 	public:
-		CRendererCommandPool* GetCommandPool(uint32_t pool);
+		CVulkanCommandPool* GetCommandPool(uint32_t pool);
 
 
 	protected:
-		std::map<uint32_t, CRendererCommandPool*> m_pCommandPools;
+		std::map<uint32_t, CVulkanCommandPool*> m_pCommandPools;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 	};
 
 }

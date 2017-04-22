@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererAllocator
+	class CROSS_EXPORT CVulkanAllocator
 	{
-		friend class CRenderer;
+		friend class CVulkan;
 
 
 	protected:
-		CRendererAllocator(void);
-		virtual ~CRendererAllocator(void);
+		CVulkanAllocator(void);
+		virtual ~CVulkanAllocator(void);
 
 
 	protected:

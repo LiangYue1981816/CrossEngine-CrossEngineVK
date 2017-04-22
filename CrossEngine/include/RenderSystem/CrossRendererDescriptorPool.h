@@ -26,19 +26,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererDescriptorPool
+	class CROSS_EXPORT CVulkanDescriptorPool
 	{
-		friend class CRendererDescriptorSetManager;
+		friend class CVulkanDescriptorSetManager;
 
 
 	protected:
-		CRendererDescriptorPool(CRendererDevice *pDevice);
-		virtual ~CRendererDescriptorPool(void);
+		CVulkanDescriptorPool(CVulkanDevice *pDevice);
+		virtual ~CVulkanDescriptorPool(void);
 
 
 	public:
-		CRendererDescriptorSet* AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount);
-		void FreeDescriptorSet(CRendererDescriptorSet *pDescriptorSet);
+		CVulkanDescriptorSet* AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount);
+		void FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet);
 		void ResetDescriptorPool(void);
 
 	public:
@@ -50,7 +50,7 @@ namespace CrossEngine {
 
 	protected:
 		VkDescriptorPool m_vkDescriptorPool;
-		std::map<CRendererDescriptorSet*, CRendererDescriptorSet*> m_pDescriptorSets;
+		std::map<CVulkanDescriptorSet*, CVulkanDescriptorSet*> m_pDescriptorSets;
 
 	protected:
 		uint32_t m_numDescriptorSets;
@@ -59,7 +59,7 @@ namespace CrossEngine {
 		uint32_t m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 	};
 
 }

@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererDeviceCompute : public CRendererDevice
+	class CROSS_EXPORT CVulkanDeviceCompute : public CVulkanDevice
 	{
-		friend class CRenderer;
+		friend class CVulkan;
 
 
 	protected:
-		CRendererDeviceCompute(CRenderer *pRenderer);
-		virtual ~CRendererDeviceCompute(void);
+		CVulkanDeviceCompute(CVulkan *pVulkan);
+		virtual ~CVulkanDeviceCompute(void);
 
 
 	protected:

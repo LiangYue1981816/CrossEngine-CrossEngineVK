@@ -26,19 +26,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererMemory
+	class CROSS_EXPORT CVulkanMemory
 	{
-		friend class CRendererMemoryManager;
-		friend class CRendererMemoryAllocator;
+		friend class CVulkanMemoryManager;
+		friend class CVulkanMemoryAllocator;
 
 
 	protected:
-		CRendererMemory(CRendererMemoryAllocator *pAllocator, CRendererDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset);
-		virtual ~CRendererMemory(void);
+		CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset);
+		virtual ~CVulkanMemory(void);
 
 
 	protected:
-		CRendererMemoryAllocator* GetAllocator(void) const;
+		CVulkanMemoryAllocator* GetAllocator(void) const;
 
 	public:
 		BOOL IsHostVisible(void) const;
@@ -64,16 +64,16 @@ namespace CrossEngine {
 		VkDeviceSize m_offset;
 
 	protected:
-		CRendererMemoryAllocator *m_pAllocator;
-		CRendererDevice *m_pDevice;
+		CVulkanMemoryAllocator *m_pAllocator;
+		CVulkanDevice *m_pDevice;
 
 	protected:
 		BOOL bInUse;
 
-		CRendererMemory *pNext;
-		CRendererMemory *pPrev;
-		CRendererMemory *pFreeNext;
-		CRendererMemory *pFreePrev;
+		CVulkanMemory *pNext;
+		CVulkanMemory *pPrev;
+		CVulkanMemory *pFreeNext;
+		CVulkanMemory *pFreePrev;
 	};
 
 }

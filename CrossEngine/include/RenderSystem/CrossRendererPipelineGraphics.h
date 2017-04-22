@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererPipelineGraphics : public CRendererPipeline
+	class CROSS_EXPORT CVulkanPipelineGraphics : public CVulkanPipeline
 	{
-		friend class CRendererPipelineManager;
+		friend class CVulkanPipelineManager;
 
 
 	protected:
-		CRendererPipelineGraphics(CRendererDevice *pDevice, CRendererResourceManager *pManager);
-		virtual ~CRendererPipelineGraphics(void);
+		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		virtual ~CVulkanPipelineGraphics(void);
 
 
 	public:

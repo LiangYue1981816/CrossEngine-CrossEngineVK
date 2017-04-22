@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDescriptorPool::CRendererDescriptorPool(CRendererDevice *pDevice)
+	CVulkanDescriptorPool::CVulkanDescriptorPool(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 		, m_vkDescriptorPool(VK_NULL_HANDLE)
 
@@ -60,15 +60,15 @@ namespace CrossEngine {
 		createInfo.maxSets = m_maxDescriptorSets;
 		createInfo.poolSizeCount = 7;
 		createInfo.pPoolSizes = poolSizes;
-		vkCreateDescriptorPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorPool);
+		vkCreateDescriptorPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorPool);
 	}
 
-	CRendererDescriptorPool::~CRendererDescriptorPool(void)
+	CVulkanDescriptorPool::~CVulkanDescriptorPool(void)
 	{
-		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CRendererDescriptorSet* CRendererDescriptorPool::AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
 	{
 		if (m_numDescriptorSets + 1 > m_maxDescriptorSets) {
 			return NULL;
@@ -90,7 +90,7 @@ namespace CrossEngine {
 		VkDescriptorSet vkDescriptorSet = VK_NULL_HANDLE;
 		vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
 
-		CRendererDescriptorSet *pDescriptorSet = SAFE_NEW CRendererDescriptorSet(m_pDevice, vkDescriptorSet, typesUsedCount);
+		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(m_pDevice, vkDescriptorSet, typesUsedCount);
 		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
 
 		m_numDescriptorSets++;
@@ -101,7 +101,7 @@ namespace CrossEngine {
 		return pDescriptorSet;
 	}
 
-	void CRendererDescriptorPool::FreeDescriptorSet(CRendererDescriptorSet *pDescriptorSet)
+	void CVulkanDescriptorPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
 		if (pDescriptorSet) {
 			const auto &itDescriptorSet = m_pDescriptorSets.find(pDescriptorSet);
@@ -119,10 +119,10 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRendererDescriptorPool::ResetDescriptorPool(void)
+	void CVulkanDescriptorPool::ResetDescriptorPool(void)
 	{
 		for (const auto &itDescriptorSet : m_pDescriptorSets) {
-			if (CRendererDescriptorSet *pDescriptorSet = itDescriptorSet.second) {
+			if (CVulkanDescriptorSet *pDescriptorSet = itDescriptorSet.second) {
 				SAFE_DELETE(pDescriptorSet);
 			}
 		}
@@ -131,16 +131,16 @@ namespace CrossEngine {
 		vkResetDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, 0);
 	}
 
-	uint32_t CRendererDescriptorPool::GetDescriptorSetCount(void) const
+	uint32_t CVulkanDescriptorPool::GetDescriptorSetCount(void) const
 	{
 		return m_numDescriptorSets;
 	}
 
-	void CRendererDescriptorPool::DumpLog(void) const
+	void CVulkanDescriptorPool::DumpLog(void) const
 	{
 		LOGI("\t\tDescriptorSet = %d/%d\n", m_numDescriptorSets, m_maxDescriptorSets);
 		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
-			LOGI("\t\t\t%s = %d/%d\n", CRendererHelper::vkDescriptorTypeToString((VkDescriptorType)index), m_numAllocatedTypes[index], m_maxAllocatedTypes[index]);
+			LOGI("\t\t\t%s = %d/%d\n", CVulkanHelper::vkDescriptorTypeToString((VkDescriptorType)index), m_numAllocatedTypes[index], m_maxAllocatedTypes[index]);
 		}
 	}
 

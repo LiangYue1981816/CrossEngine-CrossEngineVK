@@ -26,29 +26,29 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererFence;
-	class CROSS_EXPORT CRendererFrameBuffer;
-	class CROSS_EXPORT CRendererCommandBuffer;
-	class CROSS_EXPORT CRendererDescriptorSet;
+	class CROSS_EXPORT CVulkanFence;
+	class CROSS_EXPORT CVulkanFrameBuffer;
+	class CROSS_EXPORT CVulkanCommandBuffer;
+	class CROSS_EXPORT CVulkanDescriptorSet;
 
-	class CROSS_EXPORT CRendererQueue;
-	class CROSS_EXPORT CRendererFenceManager;
-	class CROSS_EXPORT CRendererSemaphoreManager;
-	class CROSS_EXPORT CRendererMemoryManager;
-	class CROSS_EXPORT CRendererStagingBufferManager;
-	class CROSS_EXPORT CRendererCommandBufferManager;
-	class CROSS_EXPORT CRendererDescriptorSetManager;
-	class CROSS_EXPORT CRendererDescriptorSetLayoutManager;
+	class CROSS_EXPORT CVulkanQueue;
+	class CROSS_EXPORT CVulkanFenceManager;
+	class CROSS_EXPORT CVulkanSemaphoreManager;
+	class CROSS_EXPORT CVulkanMemoryManager;
+	class CROSS_EXPORT CVulkanStagingBufferManager;
+	class CROSS_EXPORT CVulkanCommandBufferManager;
+	class CROSS_EXPORT CVulkanDescriptorSetManager;
+	class CROSS_EXPORT CVulkanDescriptorSetLayoutManager;
 
-	class CROSS_EXPORT CRendererBufferManager;
-	class CROSS_EXPORT CRendererShaderManager;
-	class CROSS_EXPORT CRendererSamplerManager;
-	class CROSS_EXPORT CRendererTextureManager;
-	class CROSS_EXPORT CRendererPipelineManager;
-	class CROSS_EXPORT CRendererRenderPassManager;
-	class CROSS_EXPORT CRendererFrameBufferManager;
+	class CROSS_EXPORT CVulkanBufferManager;
+	class CROSS_EXPORT CVulkanShaderManager;
+	class CROSS_EXPORT CVulkanSamplerManager;
+	class CROSS_EXPORT CVulkanTextureManager;
+	class CROSS_EXPORT CVulkanPipelineManager;
+	class CROSS_EXPORT CVulkanRenderPassManager;
+	class CROSS_EXPORT CVulkanFrameBufferManager;
 
-	class CROSS_EXPORT CRendererDevice
+	class CROSS_EXPORT CVulkanDevice
 	{
 	public:
 		enum {
@@ -86,8 +86,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CRendererDevice(CRenderer *pRenderer);
-		virtual ~CRendererDevice(void);
+		CVulkanDevice(CVulkan *pVulkan);
+		virtual ~CVulkanDevice(void);
 
 
 	protected:
@@ -134,8 +134,8 @@ namespace CrossEngine {
 		virtual void DestroyFrameBufferManager(void);
 
 	public:
-		CRenderer* GetRenderer(void) const;
-		CRendererQueue* GetQueue(void) const;
+		CVulkan* GetVulkan(void) const;
+		CVulkanQueue* GetQueue(void) const;
 
 	public:
 		VkDevice GetDevice(void) const;
@@ -147,22 +147,22 @@ namespace CrossEngine {
 		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties(void) const;
 
 	public:
-		CRendererFenceManager* GetFenceManager(void) const;
-		CRendererSemaphoreManager* GetSemaphoreManager(void) const;
-		CRendererMemoryManager* GetMemoryManager(void) const;
-		CRendererStagingBufferManager* GetStagingBufferManager(void) const;
-		CRendererCommandBufferManager* GetCommandBufferManager(void) const;
-		CRendererDescriptorSetManager* GetDescriptorSetManager(void) const;
-		CRendererDescriptorSetLayoutManager* GetDescriptorSetLayoutManager(void) const;
+		CVulkanFenceManager* GetFenceManager(void) const;
+		CVulkanSemaphoreManager* GetSemaphoreManager(void) const;
+		CVulkanMemoryManager* GetMemoryManager(void) const;
+		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
+		CVulkanCommandBufferManager* GetCommandBufferManager(void) const;
+		CVulkanDescriptorSetManager* GetDescriptorSetManager(void) const;
+		CVulkanDescriptorSetLayoutManager* GetDescriptorSetLayoutManager(void) const;
 
 	public:
-		CRendererBufferManager* GetBufferManager(void) const;
-		CRendererShaderManager* GetShaderManager(void) const;
-		CRendererSamplerManager* GetSamplerManager(void) const;
-		CRendererTextureManager* GetTextureManager(void) const;
-		CRendererPipelineManager* GetPipelineManager(void) const;
-		CRendererRenderPassManager* GetRenderPassManager(void) const;
-		CRendererFrameBufferManager* GetFrameBufferManager(void) const;
+		CVulkanBufferManager* GetBufferManager(void) const;
+		CVulkanShaderManager* GetShaderManager(void) const;
+		CVulkanSamplerManager* GetSamplerManager(void) const;
+		CVulkanTextureManager* GetTextureManager(void) const;
+		CVulkanPipelineManager* GetPipelineManager(void) const;
+		CVulkanRenderPassManager* GetRenderPassManager(void) const;
+		CVulkanFrameBufferManager* GetFrameBufferManager(void) const;
 
 	public:
 		void DumpLog(void) const;
@@ -184,26 +184,26 @@ namespace CrossEngine {
 		VkPhysicalDeviceMemoryProperties m_vkMemoryProperties;
 
 	protected:
-		CRendererQueue *m_pQueue;
-		CRendererFenceManager *m_pFenceManager;
-		CRendererSemaphoreManager *m_pSemaphoreManager;
-		CRendererMemoryManager *m_pMemoryManager;
-		CRendererStagingBufferManager *m_pStagingBufferManager;
-		CRendererCommandBufferManager *m_pCommandBufferManager;
-		CRendererDescriptorSetManager *m_pDescriptorSetManager;
-		CRendererDescriptorSetLayoutManager *m_pDescriptorSetLayoutManager;
+		CVulkanQueue *m_pQueue;
+		CVulkanFenceManager *m_pFenceManager;
+		CVulkanSemaphoreManager *m_pSemaphoreManager;
+		CVulkanMemoryManager *m_pMemoryManager;
+		CVulkanStagingBufferManager *m_pStagingBufferManager;
+		CVulkanCommandBufferManager *m_pCommandBufferManager;
+		CVulkanDescriptorSetManager *m_pDescriptorSetManager;
+		CVulkanDescriptorSetLayoutManager *m_pDescriptorSetLayoutManager;
 
 	protected:
-		CRendererBufferManager *m_pBufferManager;
-		CRendererShaderManager *m_pShaderManager;
-		CRendererSamplerManager *m_pSamplerManager;
-		CRendererTextureManager *m_pTextureManager;
-		CRendererPipelineManager *m_pPipelineManager;
-		CRendererRenderPassManager *m_pRenderPassManager;
-		CRendererFrameBufferManager *m_pFrameBufferManager;
+		CVulkanBufferManager *m_pBufferManager;
+		CVulkanShaderManager *m_pShaderManager;
+		CVulkanSamplerManager *m_pSamplerManager;
+		CVulkanTextureManager *m_pTextureManager;
+		CVulkanPipelineManager *m_pPipelineManager;
+		CVulkanRenderPassManager *m_pRenderPassManager;
+		CVulkanFrameBufferManager *m_pFrameBufferManager;
 
 	protected:
-		CRenderer *m_pRenderer;
+		CVulkan *m_pVulkan;
 	};
 
 }

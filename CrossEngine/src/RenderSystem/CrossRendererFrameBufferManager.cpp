@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererFrameBufferManager::CRendererFrameBufferManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanFrameBufferManager::CVulkanFrameBufferManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererFrameBufferManager::~CRendererFrameBufferManager(void)
+	CVulkanFrameBufferManager::~CVulkanFrameBufferManager(void)
 	{
 
 	}
 
-	CRendererFrameBuffer* CRendererFrameBufferManager::AllocFrameBuffer(void)
+	CVulkanFrameBuffer* CVulkanFrameBufferManager::AllocFrameBuffer(void)
 	{
-		CRendererFrameBuffer *pFrameBuffer = SAFE_NEW CRendererFrameBuffer(m_pDevice, this);
+		CVulkanFrameBuffer *pFrameBuffer = SAFE_NEW CVulkanFrameBuffer(m_pDevice, this);
 		m_pResources[pFrameBuffer] = pFrameBuffer;
 
 		return pFrameBuffer;

@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererSamplerManager::CRendererSamplerManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanSamplerManager::CVulkanSamplerManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererSamplerManager::~CRendererSamplerManager(void)
+	CVulkanSamplerManager::~CVulkanSamplerManager(void)
 	{
 
 	}
 
-	CRendererSampler* CRendererSamplerManager::AllocSampler(void)
+	CVulkanSampler* CVulkanSamplerManager::AllocSampler(void)
 	{
-		CRendererSampler *pSampler = SAFE_NEW CRendererSampler(m_pDevice, this);
+		CVulkanSampler *pSampler = SAFE_NEW CVulkanSampler(m_pDevice, this);
 		m_pResources[pSampler] = pSampler;
 
 		return pSampler;

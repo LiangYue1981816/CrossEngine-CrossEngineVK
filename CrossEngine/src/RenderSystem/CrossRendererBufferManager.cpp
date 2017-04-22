@@ -25,50 +25,50 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererBufferManager::CRendererBufferManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanBufferManager::CVulkanBufferManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererBufferManager::~CRendererBufferManager(void)
+	CVulkanBufferManager::~CVulkanBufferManager(void)
 	{
 
 	}
 
-	CRendererBuffer* CRendererBufferManager::AllocBuffer(void)
+	CVulkanBuffer* CVulkanBufferManager::AllocBuffer(void)
 	{
-		CRendererBuffer *pBuffer = SAFE_NEW CRendererBuffer(m_pDevice, this);
+		CVulkanBuffer *pBuffer = SAFE_NEW CVulkanBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
 
 		return pBuffer;
 	}
 
-	CRendererIndexBuffer* CRendererBufferManager::AllocIndexBuffer(void)
+	CVulkanIndexBuffer* CVulkanBufferManager::AllocIndexBuffer(void)
 	{
-		CRendererIndexBuffer *pBuffer = SAFE_NEW CRendererIndexBuffer(m_pDevice, this);
+		CVulkanIndexBuffer *pBuffer = SAFE_NEW CVulkanIndexBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
 
 		return pBuffer;
 	}
 
-	CRendererVertexBuffer* CRendererBufferManager::AllocVertexBuffer(void)
+	CVulkanVertexBuffer* CVulkanBufferManager::AllocVertexBuffer(void)
 	{
-		CRendererVertexBuffer *pBuffer = SAFE_NEW CRendererVertexBuffer(m_pDevice, this);
+		CVulkanVertexBuffer *pBuffer = SAFE_NEW CVulkanVertexBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
 
 		return pBuffer;
 	}
 
-	CRendererUniformBuffer* CRendererBufferManager::AllocUniformBuffer(void)
+	CVulkanUniformBuffer* CVulkanBufferManager::AllocUniformBuffer(void)
 	{
-		CRendererUniformBuffer *pBuffer = SAFE_NEW CRendererUniformBuffer(m_pDevice, this);
+		CVulkanUniformBuffer *pBuffer = SAFE_NEW CVulkanUniformBuffer(m_pDevice, this);
 		m_pResources[pBuffer] = pBuffer;
 
 		return pBuffer;
 	}
 
-	void CRendererBufferManager::DumpLog(const char *szTitle) const
+	void CVulkanBufferManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
 		VkDeviceSize bufferSize = 0;
@@ -78,7 +78,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itResource : m_pResources) {
-				if (const CRendererBuffer *pResource = (CRendererBuffer *)itResource.second) {
+				if (const CVulkanBuffer *pResource = (CVulkanBuffer *)itResource.second) {
 					pResource->DumpLog();
 					bufferSize += pResource->GetBufferSize();
 					memorySize += pResource->GetMemorySize();

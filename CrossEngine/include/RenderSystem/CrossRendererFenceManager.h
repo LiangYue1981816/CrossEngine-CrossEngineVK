@@ -26,18 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererFenceManager : public CRendererResourceManager
+	class CROSS_EXPORT CVulkanFenceManager : public CVulkanResourceManager
 	{
-		friend class CRendererDevice;
+		friend class CVulkanDevice;
 
 
 	protected:
-		CRendererFenceManager(CRendererDevice *pDevice);
-		virtual ~CRendererFenceManager(void);
+		CVulkanFenceManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanFenceManager(void);
 
 
 	public:
-		CRendererFence* AllocFence(void);
+		CVulkanFence* AllocFence(void);
 	};
 
 }

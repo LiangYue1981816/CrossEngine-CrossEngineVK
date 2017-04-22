@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererMemory::CRendererMemory(CRendererMemoryAllocator *pAllocator, CRendererDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset)
+	CVulkanMemory::CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset)
 		: m_pDevice(pDevice)
 		, m_pAllocator(pAllocator)
 
@@ -45,37 +45,37 @@ namespace CrossEngine {
 
 	}
 
-	CRendererMemory::~CRendererMemory(void)
+	CVulkanMemory::~CVulkanMemory(void)
 	{
 
 	}
 
-	CRendererMemoryAllocator* CRendererMemory::GetAllocator(void) const
+	CVulkanMemoryAllocator* CVulkanMemory::GetAllocator(void) const
 	{
 		return m_pAllocator;
 	}
 
-	BOOL CRendererMemory::IsHostVisible(void) const
+	BOOL CVulkanMemory::IsHostVisible(void) const
 	{
 		return m_flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT ? TRUE : FALSE;
 	}
 
-	BOOL CRendererMemory::IsHostCoherent(void) const
+	BOOL CVulkanMemory::IsHostCoherent(void) const
 	{
 		return m_flags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT ? TRUE : FALSE;
 	}
 
-	BOOL CRendererMemory::IsHostCached(void) const
+	BOOL CVulkanMemory::IsHostCached(void) const
 	{
 		return m_flags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? TRUE : FALSE;
 	}
 
-	VkDeviceSize CRendererMemory::GetSize(void) const
+	VkDeviceSize CVulkanMemory::GetSize(void) const
 	{
 		return m_size;
 	}
 
-	VkResult CRendererMemory::BindImage(VkImage vkImage) const
+	VkResult CVulkanMemory::BindImage(VkImage vkImage) const
 	{
 #ifdef _DEBUG
 		VkMemoryRequirements requirements;
@@ -87,7 +87,7 @@ namespace CrossEngine {
 		return vkBindImageMemory(m_pDevice->GetDevice(), vkImage, m_vkMemory, m_offset);
 	}
 
-	VkResult CRendererMemory::BindBuffer(VkBuffer vkBuffer) const
+	VkResult CVulkanMemory::BindBuffer(VkBuffer vkBuffer) const
 	{
 #ifdef _DEBUG
 		VkMemoryRequirements requirements;
@@ -99,12 +99,12 @@ namespace CrossEngine {
 		return vkBindBufferMemory(m_pDevice->GetDevice(), vkBuffer, m_vkMemory, m_offset);
 	}
 
-	VkResult CRendererMemory::BeginMapMemory(VkDeviceSize size, VkDeviceSize offset, void **ppAddress) const
+	VkResult CVulkanMemory::BeginMapMemory(VkDeviceSize size, VkDeviceSize offset, void **ppAddress) const
 	{
 		return vkMapMemory(m_pDevice->GetDevice(), m_vkMemory, m_offset + offset, size, 0, ppAddress);
 	}
 
-	VkResult CRendererMemory::FlushMappedMemory(VkDeviceSize size, VkDeviceSize offset) const
+	VkResult CVulkanMemory::FlushMappedMemory(VkDeviceSize size, VkDeviceSize offset) const
 	{
 		if (IsHostCoherent()) {
 			return VK_SUCCESS;
@@ -119,7 +119,7 @@ namespace CrossEngine {
 		return vkFlushMappedMemoryRanges(m_pDevice->GetDevice(), 1, &range);
 	}
 
-	VkResult CRendererMemory::EndMapMemory(void) const
+	VkResult CVulkanMemory::EndMapMemory(void) const
 	{
 		vkUnmapMemory(m_pDevice->GetDevice(), m_vkMemory);
 		return VK_SUCCESS;

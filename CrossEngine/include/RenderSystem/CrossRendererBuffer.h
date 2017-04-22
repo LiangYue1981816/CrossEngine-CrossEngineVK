@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererBuffer : public CRendererResource
+	class CROSS_EXPORT CVulkanBuffer : public CVulkanResource
 	{
-		friend class CRendererBufferManager;
+		friend class CVulkanBufferManager;
 
 
 	protected:
-		CRendererBuffer(CRendererDevice *pDevice, CRendererResourceManager *pManager);
-		virtual ~CRendererBuffer(void);
+		CVulkanBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		virtual ~CVulkanBuffer(void);
 
 
 	public:
@@ -53,7 +53,7 @@ namespace CrossEngine {
 
 	protected:
 		VkBuffer m_vkBuffer;
-		CRendererMemory *m_pMemory;
+		CVulkanMemory *m_pMemory;
 
 	protected:
 		VkDeviceSize m_bufferSize;

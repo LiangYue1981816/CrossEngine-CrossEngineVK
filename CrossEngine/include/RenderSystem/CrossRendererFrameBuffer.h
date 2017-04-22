@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererFrameBuffer : public CRendererResource
+	class CROSS_EXPORT CVulkanFrameBuffer : public CVulkanResource
 	{
-		friend class CRendererFrameBufferManager;
+		friend class CVulkanFrameBufferManager;
 
 
 	protected:
-		CRendererFrameBuffer(CRendererDevice *pDevice, CRendererResourceManager *pManager);
-		virtual ~CRendererFrameBuffer(void);
+		CVulkanFrameBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		virtual ~CVulkanFrameBuffer(void);
 
 
 	public:

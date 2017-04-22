@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDescriptorSetLayout::CRendererDescriptorSetLayout(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanDescriptorSetLayout::CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkDescriptorSetLayout(VK_NULL_HANDLE)
 		, m_numTypesUsedCount{ 0 }
 	{
 
 	}
 
-	CRendererDescriptorSetLayout::~CRendererDescriptorSetLayout(void)
+	CVulkanDescriptorSetLayout::~CVulkanDescriptorSetLayout(void)
 	{
 		ASSERT(m_vkDescriptorSetLayout == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererDescriptorSetLayout::Create(void)
+	BOOL CVulkanDescriptorSetLayout::Create(void)
 	{
 		try {
 			std::vector<VkDescriptorSetLayoutBinding> bindings;
@@ -50,19 +50,19 @@ namespace CrossEngine {
 			createInfo.flags = 0;
 			createInfo.bindingCount = bindings.size();
 			createInfo.pBindings = bindings.data();
-			CALL_VK_FUNCTION_THROW(vkCreateDescriptorSetLayout(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorSetLayout));
+			CALL_VK_FUNCTION_THROW(vkCreateDescriptorSetLayout(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorSetLayout));
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	BOOL CRendererDescriptorSetLayout::CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings)
+	BOOL CVulkanDescriptorSetLayout::CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings)
 	{
 		bindings.clear();
 
@@ -73,17 +73,17 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CRendererDescriptorSetLayout::Destroy(void)
+	void CVulkanDescriptorSetLayout::Destroy(void)
 	{
 		if (m_vkDescriptorSetLayout) {
-			vkDestroyDescriptorSetLayout(m_pDevice->GetDevice(), m_vkDescriptorSetLayout, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyDescriptorSetLayout(m_pDevice->GetDevice(), m_vkDescriptorSetLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkDescriptorSetLayout = VK_NULL_HANDLE;
 		m_bindings.clear();
 	}
 
-	BOOL CRendererDescriptorSetLayout::SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags /*= VK_SHADER_STAGE_ALL*/)
+	BOOL CVulkanDescriptorSetLayout::SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags /*= VK_SHADER_STAGE_ALL*/)
 	{
 		m_numTypesUsedCount[type]++;
 
@@ -96,22 +96,22 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	VkDescriptorSetLayout CRendererDescriptorSetLayout::GetLayout(void) const
+	VkDescriptorSetLayout CVulkanDescriptorSetLayout::GetLayout(void) const
 	{
 		return m_vkDescriptorSetLayout;
 	}
 
-	const uint32_t* CRendererDescriptorSetLayout::GetTypesUsedCount(void) const
+	const uint32_t* CVulkanDescriptorSetLayout::GetTypesUsedCount(void) const
 	{
 		return m_numTypesUsedCount;
 	}
 
-	uint32_t CRendererDescriptorSetLayout::GetTypeUsedCount(VkDescriptorType type) const
+	uint32_t CVulkanDescriptorSetLayout::GetTypeUsedCount(VkDescriptorType type) const
 	{
 		return m_numTypesUsedCount[type];
 	}
 
-	void CRendererDescriptorSetLayout::DumpLog(void) const
+	void CVulkanDescriptorSetLayout::DumpLog(void) const
 	{
 
 	}

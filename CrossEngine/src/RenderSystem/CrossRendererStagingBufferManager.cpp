@@ -25,26 +25,26 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererStagingBufferManager::CRendererStagingBufferManager(CRendererDevice *pDevice)
+	CVulkanStagingBufferManager::CVulkanStagingBufferManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
 
 	}
 
-	CRendererStagingBufferManager::~CRendererStagingBufferManager(void)
+	CVulkanStagingBufferManager::~CVulkanStagingBufferManager(void)
 	{
 		ASSERT(m_pBuffers.empty());
 	}
 
-	BOOL CRendererStagingBufferManager::Create(void)
+	BOOL CVulkanStagingBufferManager::Create(void)
 	{
 		return m_pBuffers.empty() ? TRUE : FALSE;
 	}
 
-	void CRendererStagingBufferManager::Destroy(void)
+	void CVulkanStagingBufferManager::Destroy(void)
 	{
 		for (const auto &itBuffer : m_pBuffers) {
-			if (CRendererStagingBuffer *pBuffer = itBuffer.second) {
+			if (CVulkanStagingBuffer *pBuffer = itBuffer.second) {
 				SAFE_DELETE(pBuffer);
 			}
 		}
@@ -52,15 +52,15 @@ namespace CrossEngine {
 		m_pBuffers.clear();
 	}
 
-	CRendererStagingBuffer* CRendererStagingBufferManager::AllocBuffer(VkDeviceSize size)
+	CVulkanStagingBuffer* CVulkanStagingBufferManager::AllocBuffer(VkDeviceSize size)
 	{
-		CRendererStagingBuffer *pBuffer = SAFE_NEW CRendererStagingBuffer(m_pDevice, size);
+		CVulkanStagingBuffer *pBuffer = SAFE_NEW CVulkanStagingBuffer(m_pDevice, size);
 		m_pBuffers[pBuffer] = pBuffer;
 
 		return pBuffer;
 	}
 
-	void CRendererStagingBufferManager::FreeBuffer(CRendererStagingBuffer *pBuffer)
+	void CVulkanStagingBufferManager::FreeBuffer(CVulkanStagingBuffer *pBuffer)
 	{
 		const auto &itBuffer = m_pBuffers.find(pBuffer);
 		if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);

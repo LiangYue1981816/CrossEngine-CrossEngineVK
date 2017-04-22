@@ -26,18 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererShaderManager : public CRendererResourceManager
+	class CROSS_EXPORT CVulkanShaderManager : public CVulkanResourceManager
 	{
-		friend class CRendererDevice;
+		friend class CVulkanDevice;
 
 
 	protected:
-		CRendererShaderManager(CRendererDevice *pDevice);
-		virtual ~CRendererShaderManager(void);
+		CVulkanShaderManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanShaderManager(void);
 
 
 	public:
-		CRendererShader* AllocShader(void);
+		CVulkanShader* AllocShader(void);
 
 	public:
 		void SetWarningsAsErrors(void);

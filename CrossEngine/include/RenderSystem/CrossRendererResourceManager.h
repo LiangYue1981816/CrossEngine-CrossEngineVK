@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererResourceManager
+	class CROSS_EXPORT CVulkanResourceManager
 	{
 	protected:
-		CRendererResourceManager(CRendererDevice *pDevice);
-		virtual ~CRendererResourceManager(void);
+		CVulkanResourceManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanResourceManager(void);
 
 
 	protected:
@@ -38,17 +38,17 @@ namespace CrossEngine {
 		virtual void Destroy(void);
 
 	public:
-		virtual void Free(CRendererResource *pResource);
+		virtual void Free(CVulkanResource *pResource);
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;
 
 
 	protected:
-		std::map<CRendererResource*, CRendererResource*> m_pResources;
+		std::map<CVulkanResource*, CVulkanResource*> m_pResources;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 	};
 
 }

@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererFenceManager::CRendererFenceManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanFenceManager::CVulkanFenceManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererFenceManager::~CRendererFenceManager(void)
+	CVulkanFenceManager::~CVulkanFenceManager(void)
 	{
 
 	}
 
-	CRendererFence* CRendererFenceManager::AllocFence(void)
+	CVulkanFence* CVulkanFenceManager::AllocFence(void)
 	{
-		CRendererFence *pFence = SAFE_NEW CRendererFence(m_pDevice, this);
+		CVulkanFence *pFence = SAFE_NEW CVulkanFence(m_pDevice, this);
 		m_pResources[pFence] = pFence;
 
 		return pFence;

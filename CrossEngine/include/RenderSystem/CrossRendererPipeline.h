@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererPipeline : public CRendererResource
+	class CROSS_EXPORT CVulkanPipeline : public CVulkanResource
 	{
 	protected:
-		CRendererPipeline(CRendererDevice *pDevice, CRendererResourceManager *pManager);
-		virtual ~CRendererPipeline(void);
+		CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		virtual ~CVulkanPipeline(void);
 
 
 	public:
@@ -44,13 +44,13 @@ namespace CrossEngine {
 	public:
 		VkPipeline GetPipeline(void) const;
 		VkPipelineLayout GetPipelineLayout(void) const;
-		const CRendererDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
+		const CVulkanDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
 
 
 	protected:
 		VkPipeline m_vkPipeline;
 		VkPipelineLayout m_vkPipelineLayout;
-		std::map<uint32_t, CRendererDescriptorSetLayout*> m_pDescriptorSetLayouts;
+		std::map<uint32_t, CVulkanDescriptorSetLayout*> m_pDescriptorSetLayouts;
 
 	protected:
 		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;

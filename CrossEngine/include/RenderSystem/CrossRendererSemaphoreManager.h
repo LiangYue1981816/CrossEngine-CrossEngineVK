@@ -26,18 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererSemaphoreManager : public CRendererResourceManager
+	class CROSS_EXPORT CVulkanSemaphoreManager : public CVulkanResourceManager
 	{
-		friend class CRendererDevice;
+		friend class CVulkanDevice;
 
 
 	protected:
-		CRendererSemaphoreManager(CRendererDevice *pDevice);
-		virtual ~CRendererSemaphoreManager(void);
+		CVulkanSemaphoreManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanSemaphoreManager(void);
 
 
 	public:
-		CRendererSemaphore* AllocSemaphore(void);
+		CVulkanSemaphore* AllocSemaphore(void);
 	};
 
 }

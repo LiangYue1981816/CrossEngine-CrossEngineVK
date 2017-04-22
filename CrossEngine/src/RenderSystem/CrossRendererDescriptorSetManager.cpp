@@ -25,26 +25,26 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDescriptorSetManager::CRendererDescriptorSetManager(CRendererDevice *pDevice)
+	CVulkanDescriptorSetManager::CVulkanDescriptorSetManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
 
 	}
 
-	CRendererDescriptorSetManager::~CRendererDescriptorSetManager(void)
+	CVulkanDescriptorSetManager::~CVulkanDescriptorSetManager(void)
 	{
 		ASSERT(m_pDescriptorPools.empty());
 	}
 
-	BOOL CRendererDescriptorSetManager::Create(void)
+	BOOL CVulkanDescriptorSetManager::Create(void)
 	{
 		return m_pDescriptorPools.empty() ? TRUE : FALSE;
 	}
 
-	void CRendererDescriptorSetManager::Destroy(void)
+	void CVulkanDescriptorSetManager::Destroy(void)
 	{
 		for (const auto &itDescriptorPool : m_pDescriptorPools) {
-			if (CRendererDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+			if (CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
 				SAFE_DELETE(pDescriptorPool);
 			}
 		}
@@ -52,33 +52,33 @@ namespace CrossEngine {
 		m_pDescriptorPools.clear();
 	}
 
-	CRendererDescriptorSet* CRendererDescriptorSetManager::AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet* CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
 	{
 		return GetDescriptorPool(pool)->AllocDescriptorSet(vkSetLayout, typesUsedCount);
 	}
 
-	void CRendererDescriptorSetManager::FreeDescriptorSet(uint32_t pool, CRendererDescriptorSet *pDescriptorSet)
+	void CVulkanDescriptorSetManager::FreeDescriptorSet(uint32_t pool, CVulkanDescriptorSet *pDescriptorSet)
 	{
 		GetDescriptorPool(pool)->FreeDescriptorSet(pDescriptorSet);
 	}
 
-	void CRendererDescriptorSetManager::ResetDescriptorPool(uint32_t pool)
+	void CVulkanDescriptorSetManager::ResetDescriptorPool(uint32_t pool)
 	{
 		GetDescriptorPool(pool)->ResetDescriptorPool();
 	}
 
-	CRendererDescriptorPool* CRendererDescriptorSetManager::GetDescriptorPool(uint32_t pool)
+	CVulkanDescriptorPool* CVulkanDescriptorSetManager::GetDescriptorPool(uint32_t pool)
 	{
 		const auto &itDescriptorPool = m_pDescriptorPools.find(pool);
 		if (itDescriptorPool != m_pDescriptorPools.end()) return itDescriptorPool->second;
 
-		CRendererDescriptorPool *pDescriptorPool = SAFE_NEW CRendererDescriptorPool(m_pDevice);
+		CVulkanDescriptorPool *pDescriptorPool = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
 		m_pDescriptorPools[pool] = pDescriptorPool;
 
 		return pDescriptorPool;
 	}
 
-	void CRendererDescriptorSetManager::DumpLog(const char *szTitle) const
+	void CVulkanDescriptorSetManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
 
@@ -86,7 +86,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itDescriptorPool : m_pDescriptorPools) {
-				if (const CRendererDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+				if (const CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
 					LOGI("\tPool = %d\n", itDescriptorPool.first);
 					pDescriptorPool->DumpLog();
 					count += pDescriptorPool->GetDescriptorSetCount();

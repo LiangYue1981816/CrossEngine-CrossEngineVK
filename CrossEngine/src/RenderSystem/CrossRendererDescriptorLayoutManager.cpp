@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDescriptorSetLayoutManager::CRendererDescriptorSetLayoutManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanDescriptorSetLayoutManager::CVulkanDescriptorSetLayoutManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererDescriptorSetLayoutManager::~CRendererDescriptorSetLayoutManager(void)
+	CVulkanDescriptorSetLayoutManager::~CVulkanDescriptorSetLayoutManager(void)
 	{
 
 	}
 
-	CRendererDescriptorSetLayout* CRendererDescriptorSetLayoutManager::AllocDescriptorSetLayout(void)
+	CVulkanDescriptorSetLayout* CVulkanDescriptorSetLayoutManager::AllocDescriptorSetLayout(void)
 	{
-		CRendererDescriptorSetLayout *pDescriptorSetLayout = SAFE_NEW CRendererDescriptorSetLayout(m_pDevice, this);
+		CVulkanDescriptorSetLayout *pDescriptorSetLayout = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, this);
 		m_pResources[pDescriptorSetLayout] = pDescriptorSetLayout;
 
 		return pDescriptorSetLayout;

@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererSwapchain
+	class CROSS_EXPORT CVulkanSwapchain
 	{
-		friend class CRenderer;
+		friend class CVulkan;
 
 
 	protected:
-		CRendererSwapchain(CRendererDeviceGraphics *pDevice);
-		virtual ~CRendererSwapchain(void);
+		CVulkanSwapchain(CVulkanDeviceGraphics *pDevice);
+		virtual ~CVulkanSwapchain(void);
 
 
 	protected:
@@ -82,7 +82,7 @@ namespace CrossEngine {
 		std::vector<VkImageView> m_imageViews;
 
 	protected:
-		CRendererDeviceGraphics *m_pDevice;
+		CVulkanDeviceGraphics *m_pDevice;
 	};
 
 }

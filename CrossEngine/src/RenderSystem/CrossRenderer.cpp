@@ -51,11 +51,11 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	VkResult CRenderer::vkErrorCode = VK_SUCCESS;
+	VkResult CVulkan::vkErrorCode = VK_SUCCESS;
 	PFN_vkCreateDebugReportCallbackEXT vkCreateDebugReportCallback = NULL;
 	PFN_vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallback = NULL;
 
-	CRenderer::CRenderer(void)
+	CVulkan::CVulkan(void)
 		: m_vkInstance(VK_NULL_HANDLE)
 		, m_vkSurface(VK_NULL_HANDLE)
 
@@ -68,13 +68,13 @@ namespace CrossEngine {
 		, m_vkDebugReportCallback(VK_NULL_HANDLE)
 #endif
 	{
-		m_pAllocator = SAFE_NEW CRendererAllocator();
-		m_pComputeDevice = SAFE_NEW CRendererDeviceCompute(this);
-		m_pGraphicsDevice = SAFE_NEW CRendererDeviceGraphics(this);
-		m_pSwapchain = SAFE_NEW CRendererSwapchain(m_pGraphicsDevice);
+		m_pAllocator = SAFE_NEW CVulkanAllocator();
+		m_pComputeDevice = SAFE_NEW CVulkanDeviceCompute(this);
+		m_pGraphicsDevice = SAFE_NEW CVulkanDeviceGraphics(this);
+		m_pSwapchain = SAFE_NEW CVulkanSwapchain(m_pGraphicsDevice);
 	}
 
-	CRenderer::~CRenderer(void)
+	CVulkan::~CVulkan(void)
 	{
 		ASSERT(m_vkInstance == VK_NULL_HANDLE);
 		ASSERT(m_vkSurface == VK_NULL_HANDLE);
@@ -85,17 +85,17 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pAllocator);
 	}
 
-	void CRenderer::SetLastError(VkResult err)
+	void CVulkan::SetLastError(VkResult err)
 	{
 		vkErrorCode = err;
 	}
 
-	VkResult CRenderer::GetLastError(void)
+	VkResult CVulkan::GetLastError(void)
 	{
 		return vkErrorCode;
 	}
 
-	BOOL CRenderer::Create(HINSTANCE hInstance, HWND hWnd)
+	BOOL CVulkan::Create(HINSTANCE hInstance, HWND hWnd)
 	{
 		try {
 			std::vector<const char*> enabledInstanceLayers;
@@ -111,14 +111,14 @@ namespace CrossEngine {
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRenderer::Destroy(void)
+	void CVulkan::Destroy(void)
 	{
 		DestroyDevice();
 		DestroyPresentationSurface();
@@ -126,17 +126,17 @@ namespace CrossEngine {
 		DestroyInstance();
 	}
 
-	BOOL CRenderer::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
+	BOOL CVulkan::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		return m_pSwapchain->Create(width, height, transform);
 	}
 
-	void CRenderer::DestroySwapchain(void)
+	void CVulkan::DestroySwapchain(void)
 	{
 		m_pSwapchain->Destroy();
 	}
 
-	VkResult CRenderer::EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const
+	VkResult CVulkan::EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const
 	{
 		enabledInstanceLayers.clear();
 
@@ -160,7 +160,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRenderer::EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const
+	VkResult CVulkan::EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const
 	{
 		enabledInstanceExtensions.clear();
 		
@@ -211,7 +211,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRenderer::CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions)
+	VkResult CVulkan::CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions)
 	{
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -234,7 +234,7 @@ namespace CrossEngine {
 		return vkCreateInstance(&createInfo, m_pAllocator->GetAllocationCallbacks(), &m_vkInstance);
 	}
 
-	VkResult CRenderer::CreateDebugReportCallback(void)
+	VkResult CVulkan::CreateDebugReportCallback(void)
 	{
 #ifdef _DEBUG
 		vkCreateDebugReportCallback = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(m_vkInstance, "vkCreateDebugReportCallbackEXT");
@@ -259,7 +259,7 @@ namespace CrossEngine {
 #endif
 	}
 
-	VkResult CRenderer::CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd)
+	VkResult CVulkan::CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd)
 	{
 #ifdef _PLATFORM_WINDOWS_
 		VkWin32SurfaceCreateInfoKHR surfaceInfo = {};
@@ -281,7 +281,7 @@ namespace CrossEngine {
 #endif
 	}
 
-	VkResult CRenderer::CreateDevice(void)
+	VkResult CVulkan::CreateDevice(void)
 	{
 		if (m_pComputeDevice->Create() == FALSE) {
 			return VK_ERROR_INITIALIZATION_FAILED;
@@ -294,7 +294,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	void CRenderer::DestroyInstance(void)
+	void CVulkan::DestroyInstance(void)
 	{
 		if (m_vkInstance) {
 			vkDestroyInstance(m_vkInstance, m_pAllocator->GetAllocationCallbacks());
@@ -303,7 +303,7 @@ namespace CrossEngine {
 		m_vkInstance = VK_NULL_HANDLE;
 	}
 
-	void CRenderer::DestroyDebugReportCallback(void)
+	void CVulkan::DestroyDebugReportCallback(void)
 	{
 #ifdef _DEBUG
 		if (vkDestroyDebugReportCallback && m_vkDebugReportCallback) {
@@ -314,7 +314,7 @@ namespace CrossEngine {
 #endif
 	}
 
-	void CRenderer::DestroyPresentationSurface(void)
+	void CVulkan::DestroyPresentationSurface(void)
 	{
 		if (m_vkSurface) {
 			vkDestroySurfaceKHR(m_vkInstance, m_vkSurface, m_pAllocator->GetAllocationCallbacks());
@@ -323,38 +323,38 @@ namespace CrossEngine {
 		m_vkSurface = VK_NULL_HANDLE;
 	}
 
-	void CRenderer::DestroyDevice(void)
+	void CVulkan::DestroyDevice(void)
 	{
 		m_pComputeDevice->Destroy();
 		m_pGraphicsDevice->Destroy();
 	}
 
-	VkInstance CRenderer::GetInstance(void) const
+	VkInstance CVulkan::GetInstance(void) const
 	{
 		return m_vkInstance;
 	}
 
-	VkSurfaceKHR CRenderer::GetSurface(void) const
+	VkSurfaceKHR CVulkan::GetSurface(void) const
 	{
 		return m_vkSurface;
 	}
 
-	CRendererAllocator* CRenderer::GetAllocator(void) const
+	CVulkanAllocator* CVulkan::GetAllocator(void) const
 	{
 		return m_pAllocator;
 	}
 
-	CRendererSwapchain* CRenderer::GetSwapchain(void) const
+	CVulkanSwapchain* CVulkan::GetSwapchain(void) const
 	{
 		return m_pSwapchain;
 	}
 
-	CRendererDeviceCompute* CRenderer::GetComputeDevice(void) const
+	CVulkanDeviceCompute* CVulkan::GetComputeDevice(void) const
 	{
 		return m_pComputeDevice;
 	}
 
-	CRendererDeviceGraphics* CRenderer::GetGraphicsDevice(void) const
+	CVulkanDeviceGraphics* CVulkan::GetGraphicsDevice(void) const
 	{
 		return m_pGraphicsDevice;
 	}

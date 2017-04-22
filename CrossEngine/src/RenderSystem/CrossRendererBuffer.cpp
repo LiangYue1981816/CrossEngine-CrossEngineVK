@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererBuffer::CRendererBuffer(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanBuffer::CVulkanBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
 		, m_usage(0)
@@ -38,13 +38,13 @@ namespace CrossEngine {
 
 	}
 
-	CRendererBuffer::~CRendererBuffer(void)
+	CVulkanBuffer::~CVulkanBuffer(void)
 	{
 		ASSERT(m_pMemory == NULL);
 		ASSERT(m_vkBuffer == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererBuffer::Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags)
+	BOOL CVulkanBuffer::Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags)
 	{
 		try {
 			VkBufferCreateInfo createInfo = {};
@@ -56,7 +56,7 @@ namespace CrossEngine {
 			createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			createInfo.queueFamilyIndexCount = 0;
 			createInfo.pQueueFamilyIndices = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer));
+			CALL_VK_FUNCTION_THROW(vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer));
 
 			VkMemoryRequirements requirements;
 			vkGetBufferMemoryRequirements(m_pDevice->GetDevice(), m_vkBuffer, &requirements);
@@ -70,17 +70,17 @@ namespace CrossEngine {
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererBuffer::Destroy(void)
+	void CVulkanBuffer::Destroy(void)
 	{
 		if (m_vkBuffer) {
-			vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 		
 		if (m_pMemory) {
@@ -91,7 +91,7 @@ namespace CrossEngine {
 		m_vkBuffer = VK_NULL_HANDLE;
 	}
 
-	BOOL CRendererBuffer::UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	BOOL CVulkanBuffer::UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
 		if (pBuffer) {
 			if (m_pMemory->IsHostVisible()) {
@@ -110,7 +110,7 @@ namespace CrossEngine {
 				if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
 				if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
 
-				CRendererStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
+				CVulkanStagingBuffer *pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
 				{
 					pStagingBuffer->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer);
 					m_pDevice->GetQueue()->Submit(pStagingBuffer->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE);
@@ -123,30 +123,30 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	VkBuffer CRendererBuffer::GetBuffer(void) const
+	VkBuffer CVulkanBuffer::GetBuffer(void) const
 	{
 		return m_vkBuffer;
 	}
 
-	VkDeviceSize CRendererBuffer::GetBufferSize(void) const
+	VkDeviceSize CVulkanBuffer::GetBufferSize(void) const
 	{
 		return m_bufferSize;
 	}
 
-	VkDeviceSize CRendererBuffer::GetMemorySize(void) const
+	VkDeviceSize CVulkanBuffer::GetMemorySize(void) const
 	{
 		return m_memorySize;
 	}
 
-	VkBufferUsageFlags CRendererBuffer::GetUsage(void) const
+	VkBufferUsageFlags CVulkanBuffer::GetUsage(void) const
 	{
 		return m_usage;
 	}
 
-	void CRendererBuffer::DumpLog(void) const
+	void CVulkanBuffer::DumpLog(void) const
 	{
 		if (m_vkBuffer) {
-			LOGI("\t\tBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_memorySize, CRendererHelper::vkBufferUsageFlagsToString(m_usage));
+			LOGI("\t\tBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_memorySize, CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
 		}
 	}
 

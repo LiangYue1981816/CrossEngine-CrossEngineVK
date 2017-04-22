@@ -25,45 +25,45 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererRenderTexture::CRendererRenderTexture(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererImage(pDevice, pManager)
+	CVulkanRenderTexture::CVulkanRenderTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanImage(pDevice, pManager)
 	{
 
 	}
 
-	CRendererRenderTexture::~CRendererRenderTexture(void)
+	CVulkanRenderTexture::~CVulkanRenderTexture(void)
 	{
 
 	}
 
-	BOOL CRendererRenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height)
+	BOOL CVulkanRenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height)
 	{
-		if (CRendererHelper::vkIsFormatDepthOnly(format)) {
+		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
 			return FALSE;
 		}
 
-		if (CRendererHelper::vkIsFormatStencilOnly(format)) {
+		if (CVulkanHelper::vkIsFormatStencilOnly(format)) {
 			return FALSE;
 		}
 
-		if (CRendererHelper::vkIsFormatDepthStencil(format)) {
+		if (CVulkanHelper::vkIsFormatDepthStencil(format)) {
 			return FALSE;
 		}
 
 		return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_COLOR_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 	}
 
-	BOOL CRendererRenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height)
+	BOOL CVulkanRenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height)
 	{
-		if (CRendererHelper::vkIsFormatDepthOnly(format)) {
+		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
 			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 		}
 
-		if (CRendererHelper::vkIsFormatStencilOnly(format)) {
+		if (CVulkanHelper::vkIsFormatStencilOnly(format)) {
 			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 		}
 		
-		if (CRendererHelper::vkIsFormatDepthStencil(format)) {
+		if (CVulkanHelper::vkIsFormatDepthStencil(format)) {
 			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 		}
 

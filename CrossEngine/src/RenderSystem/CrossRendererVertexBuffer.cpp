@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererVertexBuffer::CRendererVertexBuffer(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererBuffer(pDevice, pManager)
+	CVulkanVertexBuffer::CVulkanVertexBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanBuffer(pDevice, pManager)
 	{
 
 	}
 
-	CRendererVertexBuffer::~CRendererVertexBuffer(void)
+	CVulkanVertexBuffer::~CVulkanVertexBuffer(void)
 	{
 
 	}
 
-	BOOL CRendererVertexBuffer::Create(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer)
+	BOOL CVulkanVertexBuffer::Create(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer)
 	{
-		CALL_BOOL_FUNCTION_RETURN(CRendererBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
+		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
 		CALL_BOOL_FUNCTION_RETURN(UpdateData(size, offset, pBuffer));
 
 		return TRUE;

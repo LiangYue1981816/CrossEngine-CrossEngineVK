@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererSemaphoreManager::CRendererSemaphoreManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanSemaphoreManager::CVulkanSemaphoreManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererSemaphoreManager::~CRendererSemaphoreManager(void)
+	CVulkanSemaphoreManager::~CVulkanSemaphoreManager(void)
 	{
 
 	}
 
-	CRendererSemaphore* CRendererSemaphoreManager::AllocSemaphore(void)
+	CVulkanSemaphore* CVulkanSemaphoreManager::AllocSemaphore(void)
 	{
-		CRendererSemaphore *pSemaphore = SAFE_NEW CRendererSemaphore(m_pDevice, this);
+		CVulkanSemaphore *pSemaphore = SAFE_NEW CVulkanSemaphore(m_pDevice, this);
 		m_pResources[pSemaphore] = pSemaphore;
 
 		return pSemaphore;

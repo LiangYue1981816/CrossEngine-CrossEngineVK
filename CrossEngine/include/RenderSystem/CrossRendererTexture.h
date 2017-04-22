@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererTexture : public CRendererImage
+	class CROSS_EXPORT CVulkanTexture : public CVulkanImage
 	{
-		friend class CRendererTextureManager;
+		friend class CVulkanTextureManager;
 
 
 	protected:
-		CRendererTexture(CRendererDevice *pDevice, CRendererResourceManager *pManager);
-		virtual ~CRendererTexture(void);
+		CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		virtual ~CVulkanTexture(void);
 
 
 	public:
@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CRendererSampler *m_pSampler;
+		CVulkanSampler *m_pSampler;
 		VkDescriptorImageInfo m_vkDescriptorImageInfo;
 	};
 

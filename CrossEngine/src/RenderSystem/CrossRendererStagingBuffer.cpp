@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererStagingBuffer::CRendererStagingBuffer(CRendererDevice *pDevice, VkDeviceSize size)
+	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkDeviceSize size)
 		: m_pDevice(pDevice)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
@@ -41,7 +41,7 @@ namespace CrossEngine {
 		createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		createInfo.queueFamilyIndexCount = 0;
 		createInfo.pQueueFamilyIndices = NULL;
-		vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer);
+		vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer);
 
 		VkMemoryRequirements requirements;
 		vkGetBufferMemoryRequirements(m_pDevice->GetDevice(), m_vkBuffer, &requirements);
@@ -51,20 +51,20 @@ namespace CrossEngine {
 		m_pCommandBuffer = m_pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 	}
 
-	CRendererStagingBuffer::~CRendererStagingBuffer(void)
+	CVulkanStagingBuffer::~CVulkanStagingBuffer(void)
 	{
-		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 
 		m_pDevice->GetCommandBufferManager()->FreeCommandBuffer(0, m_pCommandBuffer);
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 	}
 
-	CRendererCommandBuffer* CRendererStagingBuffer::GetCommandBuffer(void) const
+	CVulkanCommandBuffer* CVulkanStagingBuffer::GetCommandBuffer(void) const
 	{
 		return m_pCommandBuffer;
 	}
 
-	VkResult CRendererStagingBuffer::TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const
+	VkResult CVulkanStagingBuffer::TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const
 	{
 		void *pAddress = NULL;
 
@@ -92,7 +92,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererStagingBuffer::TransferBuffer(VkBuffer vkBuffer, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	VkResult CVulkanStagingBuffer::TransferBuffer(VkBuffer vkBuffer, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
 		void *pAddress = NULL;
 
@@ -127,17 +127,17 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererStagingBuffer::TransferIndexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	VkResult CVulkanStagingBuffer::TransferIndexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
 		return TransferBuffer(vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, VK_ACCESS_INDEX_READ_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_VERTEX_INPUT_BIT, size, offset, pBuffer);
 	}
 
-	VkResult CRendererStagingBuffer::TransferVertexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	VkResult CVulkanStagingBuffer::TransferVertexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
 		return TransferBuffer(vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_VERTEX_INPUT_BIT, size, offset, pBuffer);
 	}
 
-	VkResult CRendererStagingBuffer::TransferUniformBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	VkResult CVulkanStagingBuffer::TransferUniformBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
 		return TransferBuffer(vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, VK_ACCESS_UNIFORM_READ_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_TESSELLATION_CONTROL_SHADER_BIT | VK_PIPELINE_STAGE_TESSELLATION_EVALUATION_SHADER_BIT | VK_PIPELINE_STAGE_GEOMETRY_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, size, offset, pBuffer);
 	}

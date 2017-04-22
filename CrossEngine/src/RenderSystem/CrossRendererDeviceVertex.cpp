@@ -32,28 +32,28 @@ namespace CrossEngine {
 		const char *name;
 	};
 
-	static const VERTEX_ATTRIBUTE vertexAttributes[CRendererDevice::ATTRIBUTE_COUNT] = {
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_POSITION,    12, VK_FORMAT_R32G32B32_SFLOAT, "inPosition"   },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_NORMAL,      12, VK_FORMAT_R32G32B32_SFLOAT, "inNormal"     },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_BINORMAL,    12, VK_FORMAT_R32G32B32_SFLOAT, "inBinormal"   },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_COLOR,       12, VK_FORMAT_R32G32B32_SFLOAT, "inColor"      },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_INDEX,  8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinIndex"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_WEIGHT, 8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinWeight" },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD0,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord0"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD1,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord1"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD2,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord2"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD3,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord3"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD4,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord4"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD5,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord5"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD6,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord6"  },
-		{ CRendererDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD7,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord7"  },
+	static const VERTEX_ATTRIBUTE vertexAttributes[CVulkanDevice::ATTRIBUTE_COUNT] = {
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_POSITION,    12, VK_FORMAT_R32G32B32_SFLOAT, "inPosition"   },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_NORMAL,      12, VK_FORMAT_R32G32B32_SFLOAT, "inNormal"     },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_BINORMAL,    12, VK_FORMAT_R32G32B32_SFLOAT, "inBinormal"   },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_COLOR,       12, VK_FORMAT_R32G32B32_SFLOAT, "inColor"      },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_INDEX,  8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinIndex"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_SKIN_WEIGHT, 8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinWeight" },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD0,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord0"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD1,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord1"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD2,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord2"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD3,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord3"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD4,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord4"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD5,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord5"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD6,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord6"  },
+		{ CVulkanDevice::VERTEX_ATTRIBUTE_FLAG_TEXCOORD7,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord7"  },
 	};
 
-	uint32_t CRendererDevice::GetVertexSize(uint32_t format) const
+	uint32_t CVulkanDevice::GetVertexSize(uint32_t format) const
 	{
 		uint32_t size = 0;
 
-		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < CVulkanDevice::ATTRIBUTE_COUNT; indexAttribute++) {
 			if (format & vertexAttributes[indexAttribute].flag) {
 				size += vertexAttributes[indexAttribute].size;
 			}
@@ -62,11 +62,11 @@ namespace CrossEngine {
 		return size;
 	}
 
-	uint32_t CRendererDevice::GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const
+	uint32_t CVulkanDevice::GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const
 	{
 		uint32_t offset = 0;
 
-		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < CVulkanDevice::ATTRIBUTE_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) return offset;
 			if (format & vertexAttributes[indexAttribute].flag) offset += vertexAttributes[indexAttribute].size;
 		}
@@ -74,9 +74,9 @@ namespace CrossEngine {
 		return -1;
 	}
 
-	uint32_t CRendererDevice::GetVertexAttributeFlag(const char *szName) const
+	uint32_t CVulkanDevice::GetVertexAttributeFlag(const char *szName) const
 	{
-		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < CVulkanDevice::ATTRIBUTE_COUNT; indexAttribute++) {
 			if (strcmp(vertexAttributes[indexAttribute].name, szName) == 0) {
 				return vertexAttributes[indexAttribute].flag;
 			}
@@ -85,9 +85,9 @@ namespace CrossEngine {
 		return 0;
 	}
 
-	VkFormat CRendererDevice::GetVertexAttributeFormat(uint32_t attribute) const
+	VkFormat CVulkanDevice::GetVertexAttributeFormat(uint32_t attribute) const
 	{
-		for (uint32_t indexAttribute = 0; indexAttribute < CRendererDevice::ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < CVulkanDevice::ATTRIBUTE_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) {
 				return vertexAttributes[indexAttribute].format;
 			}

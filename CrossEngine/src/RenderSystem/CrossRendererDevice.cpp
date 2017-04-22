@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDevice::CRendererDevice(CRenderer *pRenderer)
-		: m_pRenderer(pRenderer)
+	CVulkanDevice::CVulkanDevice(CVulkan *pVulkan)
+		: m_pVulkan(pVulkan)
 		, m_vkDevice(VK_NULL_HANDLE)
 		, m_vkPhysicalDevice(VK_NULL_HANDLE)
 
@@ -51,25 +51,25 @@ namespace CrossEngine {
 		memset(&m_vkDeviceProperties, 0, sizeof(m_vkDeviceProperties));
 		memset(&m_vkMemoryProperties, 0, sizeof(m_vkMemoryProperties));
 
-		m_pQueue = SAFE_NEW CRendererQueue(this);
-		m_pFenceManager = SAFE_NEW CRendererFenceManager(this);
-		m_pSemaphoreManager = SAFE_NEW CRendererSemaphoreManager(this);
-		m_pMemoryManager = SAFE_NEW CRendererMemoryManager(this);
-		m_pStagingBufferManager = SAFE_NEW CRendererStagingBufferManager(this);
-		m_pCommandBufferManager = SAFE_NEW CRendererCommandBufferManager(this);
-		m_pDescriptorSetManager = SAFE_NEW CRendererDescriptorSetManager(this);
-		m_pDescriptorSetLayoutManager = SAFE_NEW CRendererDescriptorSetLayoutManager(this);
+		m_pQueue = SAFE_NEW CVulkanQueue(this);
+		m_pFenceManager = SAFE_NEW CVulkanFenceManager(this);
+		m_pSemaphoreManager = SAFE_NEW CVulkanSemaphoreManager(this);
+		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
+		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
+		m_pCommandBufferManager = SAFE_NEW CVulkanCommandBufferManager(this);
+		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
+		m_pDescriptorSetLayoutManager = SAFE_NEW CVulkanDescriptorSetLayoutManager(this);
 
-		m_pBufferManager = SAFE_NEW CRendererBufferManager(this);
-		m_pShaderManager = SAFE_NEW CRendererShaderManager(this);
-		m_pSamplerManager = SAFE_NEW CRendererSamplerManager(this);
-		m_pTextureManager = SAFE_NEW CRendererTextureManager(this);
-		m_pPipelineManager = SAFE_NEW CRendererPipelineManager(this);
-		m_pRenderPassManager = SAFE_NEW CRendererRenderPassManager(this);
-		m_pFrameBufferManager = SAFE_NEW CRendererFrameBufferManager(this);
+		m_pBufferManager = SAFE_NEW CVulkanBufferManager(this);
+		m_pShaderManager = SAFE_NEW CVulkanShaderManager(this);
+		m_pSamplerManager = SAFE_NEW CVulkanSamplerManager(this);
+		m_pTextureManager = SAFE_NEW CVulkanTextureManager(this);
+		m_pPipelineManager = SAFE_NEW CVulkanPipelineManager(this);
+		m_pRenderPassManager = SAFE_NEW CVulkanRenderPassManager(this);
+		m_pFrameBufferManager = SAFE_NEW CVulkanFrameBufferManager(this);
 	}
 
-	CRendererDevice::~CRendererDevice(void)
+	CVulkanDevice::~CVulkanDevice(void)
 	{
 		ASSERT(m_vkDevice == VK_NULL_HANDLE);
 		ASSERT(m_vkPhysicalDevice == VK_NULL_HANDLE);
@@ -92,7 +92,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pFrameBufferManager);
 	}
 
-	BOOL CRendererDevice::Create(void)
+	BOOL CVulkanDevice::Create(void)
 	{
 		try {
 			uint32_t queueFamilyIndex;
@@ -117,19 +117,19 @@ namespace CrossEngine {
 			CALL_VK_FUNCTION_THROW(CreateRenderPassManager());
 			CALL_VK_FUNCTION_THROW(CreateFrameBufferManager());
 
-			CRendererHelper::vkSetupFormat(m_vkPhysicalDevice);
+			CVulkanHelper::vkSetupFormat(m_vkPhysicalDevice);
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererDevice::Destroy(void)
+	void CVulkanDevice::Destroy(void)
 	{
 		if (m_vkDevice == VK_NULL_HANDLE || m_vkPhysicalDevice == VK_NULL_HANDLE) {
 			return;
@@ -154,282 +154,282 @@ namespace CrossEngine {
 			DestroyFenceManager();
 			DestroyQueue();
 		}
-		vkDestroyDevice(m_vkDevice, m_pRenderer->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyDevice(m_vkDevice, m_pVulkan->GetAllocator()->GetAllocationCallbacks());
 
 		m_vkDevice = VK_NULL_HANDLE;
 		m_vkPhysicalDevice = VK_NULL_HANDLE;
 	}
 
-	VkResult CRendererDevice::EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const
+	VkResult CVulkanDevice::EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const
 	{
 		devices.clear();
 
 		uint32_t numDevices;
-		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pRenderer->GetInstance(), &numDevices, NULL));
+		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, NULL));
 
 		ASSERT(numDevices > 0);
 		devices.resize(numDevices);
-		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pRenderer->GetInstance(), &numDevices, devices.data()));
+		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, devices.data()));
 
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererDevice::CreateQueue(uint32_t queueFamilyIndex)
+	VkResult CVulkanDevice::CreateQueue(uint32_t queueFamilyIndex)
 	{
 		return m_pQueue->Create(queueFamilyIndex) ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateFenceManager(void)
+	VkResult CVulkanDevice::CreateFenceManager(void)
 	{
 		return m_pFenceManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateSemaphoreManager(void)
+	VkResult CVulkanDevice::CreateSemaphoreManager(void)
 	{
 		return m_pSemaphoreManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateMemoryManager(void)
+	VkResult CVulkanDevice::CreateMemoryManager(void)
 	{
 		return m_pMemoryManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateStagingBufferManager(void)
+	VkResult CVulkanDevice::CreateStagingBufferManager(void)
 	{
 		return m_pStagingBufferManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateCommandBufferManager(void)
+	VkResult CVulkanDevice::CreateCommandBufferManager(void)
 	{
 		return m_pCommandBufferManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateDescriptorSetManager(void)
+	VkResult CVulkanDevice::CreateDescriptorSetManager(void)
 	{
 		return m_pDescriptorSetManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateDescriptorSetLayoutManager(void)
+	VkResult CVulkanDevice::CreateDescriptorSetLayoutManager(void)
 	{
 		return m_pDescriptorSetLayoutManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateBufferManager(void)
+	VkResult CVulkanDevice::CreateBufferManager(void)
 	{
 		return m_pBufferManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateShaderManager(void)
+	VkResult CVulkanDevice::CreateShaderManager(void)
 	{
 		return m_pShaderManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateSamplerManager(void)
+	VkResult CVulkanDevice::CreateSamplerManager(void)
 	{
 		return m_pSamplerManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateTextureManager(void)
+	VkResult CVulkanDevice::CreateTextureManager(void)
 	{
 		return m_pTextureManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreatePipelineManager(void)
+	VkResult CVulkanDevice::CreatePipelineManager(void)
 	{
 		return m_pPipelineManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateRenderPassManager(void)
+	VkResult CVulkanDevice::CreateRenderPassManager(void)
 	{
 		return m_pRenderPassManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDevice::CreateFrameBufferManager(void)
+	VkResult CVulkanDevice::CreateFrameBufferManager(void)
 	{
 		return m_pFrameBufferManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	void CRendererDevice::DestroyQueue(void)
+	void CVulkanDevice::DestroyQueue(void)
 	{
 		m_pQueue->Destroy();
 	}
 
-	void CRendererDevice::DestroyFenceManager(void)
+	void CVulkanDevice::DestroyFenceManager(void)
 	{
 		m_pFenceManager->Destroy();
 	}
 
-	void CRendererDevice::DestroySemaphoreManager(void)
+	void CVulkanDevice::DestroySemaphoreManager(void)
 	{
 		m_pSemaphoreManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyMemoryManager(void)
+	void CVulkanDevice::DestroyMemoryManager(void)
 	{
 		m_pMemoryManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyStagingBufferManager(void)
+	void CVulkanDevice::DestroyStagingBufferManager(void)
 	{
 		m_pStagingBufferManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyCommandBufferManager(void)
+	void CVulkanDevice::DestroyCommandBufferManager(void)
 	{
 		m_pCommandBufferManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyDescriptorSetManager(void)
+	void CVulkanDevice::DestroyDescriptorSetManager(void)
 	{
 		m_pDescriptorSetManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyDescriptorSetLayoutManager(void)
+	void CVulkanDevice::DestroyDescriptorSetLayoutManager(void)
 	{
 		m_pDescriptorSetLayoutManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyBufferManager(void)
+	void CVulkanDevice::DestroyBufferManager(void)
 	{
 		m_pBufferManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyShaderManager(void)
+	void CVulkanDevice::DestroyShaderManager(void)
 	{
 		m_pShaderManager->Destroy();
 	}
 
-	void CRendererDevice::DestroySamplerManager(void)
+	void CVulkanDevice::DestroySamplerManager(void)
 	{
 		m_pSamplerManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyTextureManager(void)
+	void CVulkanDevice::DestroyTextureManager(void)
 	{
 		m_pTextureManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyPipelineManager(void)
+	void CVulkanDevice::DestroyPipelineManager(void)
 	{
 		m_pPipelineManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyRenderPassManager(void)
+	void CVulkanDevice::DestroyRenderPassManager(void)
 	{
 		m_pRenderPassManager->Destroy();
 	}
 
-	void CRendererDevice::DestroyFrameBufferManager(void)
+	void CVulkanDevice::DestroyFrameBufferManager(void)
 	{
 		m_pFrameBufferManager->Destroy();
 	}
 
-	CRenderer* CRendererDevice::GetRenderer(void) const
+	CVulkan* CVulkanDevice::GetVulkan(void) const
 	{
-		return m_pRenderer;
+		return m_pVulkan;
 	}
 
-	CRendererQueue* CRendererDevice::GetQueue(void) const
+	CVulkanQueue* CVulkanDevice::GetQueue(void) const
 	{
 		return m_pQueue;
 	}
 
-	VkDevice CRendererDevice::GetDevice(void) const
+	VkDevice CVulkanDevice::GetDevice(void) const
 	{
 		return m_vkDevice;
 	}
 
-	VkPhysicalDevice CRendererDevice::GetPhysicalDevice(void) const
+	VkPhysicalDevice CVulkanDevice::GetPhysicalDevice(void) const
 	{
 		return m_vkPhysicalDevice;
 	}
 
-	const VkPhysicalDeviceFeatures& CRendererDevice::GetDeviceFeatures(void) const
+	const VkPhysicalDeviceFeatures& CVulkanDevice::GetDeviceFeatures(void) const
 	{
 		return m_vkDeviceFeatures;
 	}
 
-	const VkPhysicalDeviceProperties& CRendererDevice::GetDeviceProperties(void) const
+	const VkPhysicalDeviceProperties& CVulkanDevice::GetDeviceProperties(void) const
 	{
 		return m_vkDeviceProperties;
 	}
 
-	const VkPhysicalDeviceMemoryProperties& CRendererDevice::GetMemoryProperties(void) const
+	const VkPhysicalDeviceMemoryProperties& CVulkanDevice::GetMemoryProperties(void) const
 	{
 		return m_vkMemoryProperties;
 	}
 
-	CRendererFenceManager* CRendererDevice::GetFenceManager(void) const
+	CVulkanFenceManager* CVulkanDevice::GetFenceManager(void) const
 	{
 		return m_pFenceManager;
 	}
 
-	CRendererSemaphoreManager* CRendererDevice::GetSemaphoreManager(void) const
+	CVulkanSemaphoreManager* CVulkanDevice::GetSemaphoreManager(void) const
 	{
 		return m_pSemaphoreManager;
 	}
 
-	CRendererMemoryManager* CRendererDevice::GetMemoryManager(void) const
+	CVulkanMemoryManager* CVulkanDevice::GetMemoryManager(void) const
 	{
 		return m_pMemoryManager;
 	}
 
-	CRendererStagingBufferManager* CRendererDevice::GetStagingBufferManager(void) const
+	CVulkanStagingBufferManager* CVulkanDevice::GetStagingBufferManager(void) const
 	{
 		return m_pStagingBufferManager;
 	}
 
-	CRendererCommandBufferManager* CRendererDevice::GetCommandBufferManager(void) const
+	CVulkanCommandBufferManager* CVulkanDevice::GetCommandBufferManager(void) const
 	{
 		return m_pCommandBufferManager;
 	}
 
-	CRendererDescriptorSetManager* CRendererDevice::GetDescriptorSetManager(void) const
+	CVulkanDescriptorSetManager* CVulkanDevice::GetDescriptorSetManager(void) const
 	{
 		return m_pDescriptorSetManager;
 	}
 
-	CRendererDescriptorSetLayoutManager* CRendererDevice::GetDescriptorSetLayoutManager(void) const
+	CVulkanDescriptorSetLayoutManager* CVulkanDevice::GetDescriptorSetLayoutManager(void) const
 	{
 		return m_pDescriptorSetLayoutManager;
 	}
 
-	CRendererBufferManager* CRendererDevice::GetBufferManager(void) const
+	CVulkanBufferManager* CVulkanDevice::GetBufferManager(void) const
 	{
 		return m_pBufferManager;
 	}
 
-	CRendererShaderManager* CRendererDevice::GetShaderManager(void) const
+	CVulkanShaderManager* CVulkanDevice::GetShaderManager(void) const
 	{
 		return m_pShaderManager;
 	}
 
-	CRendererSamplerManager* CRendererDevice::GetSamplerManager(void) const
+	CVulkanSamplerManager* CVulkanDevice::GetSamplerManager(void) const
 	{
 		return m_pSamplerManager;
 	}
 
-	CRendererTextureManager* CRendererDevice::GetTextureManager(void) const
+	CVulkanTextureManager* CVulkanDevice::GetTextureManager(void) const
 	{
 		return m_pTextureManager;
 	}
 
-	CRendererPipelineManager* CRendererDevice::GetPipelineManager(void) const
+	CVulkanPipelineManager* CVulkanDevice::GetPipelineManager(void) const
 	{
 		return m_pPipelineManager;
 	}
 
-	CRendererRenderPassManager* CRendererDevice::GetRenderPassManager(void) const
+	CVulkanRenderPassManager* CVulkanDevice::GetRenderPassManager(void) const
 	{
 		return m_pRenderPassManager;
 	}
 
-	CRendererFrameBufferManager* CRendererDevice::GetFrameBufferManager(void) const
+	CVulkanFrameBufferManager* CVulkanDevice::GetFrameBufferManager(void) const
 	{
 		return m_pFrameBufferManager;
 	}
 
-	void CRendererDevice::DumpLog(void) const
+	void CVulkanDevice::DumpLog(void) const
 	{
 		m_pMemoryManager->DumpLog("Device Memory ...");
 		m_pFrameBufferManager->DumpLog("FrameBuffer ...");

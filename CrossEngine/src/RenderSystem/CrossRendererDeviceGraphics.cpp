@@ -25,18 +25,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDeviceGraphics::CRendererDeviceGraphics(CRenderer *pRenderer)
-		: CRendererDevice(pRenderer)
+	CVulkanDeviceGraphics::CVulkanDeviceGraphics(CVulkan *pVulkan)
+		: CVulkanDevice(pVulkan)
 	{
 
 	}
 
-	CRendererDeviceGraphics::~CRendererDeviceGraphics(void)
+	CVulkanDeviceGraphics::~CVulkanDeviceGraphics(void)
 	{
 
 	}
 
-	VkPhysicalDevice CRendererDeviceGraphics::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, uint32_t &queueFamilyIndex)
+	VkPhysicalDevice CVulkanDeviceGraphics::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, uint32_t &queueFamilyIndex)
 	{
 		for (uint32_t index = 0; index < devices.size(); index++) {
 			if (CheckDeviceCapabilities(devices[index]) != VK_SUCCESS) continue;
@@ -49,7 +49,7 @@ namespace CrossEngine {
 		return VK_NULL_HANDLE;
 	}
 
-	VkResult CRendererDeviceGraphics::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
+	VkResult CVulkanDeviceGraphics::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
 		float queuePpriorities[1] = { 0.0f };
 		VkDeviceQueueCreateInfo queueCreateInfo[1] = {};
@@ -76,10 +76,10 @@ namespace CrossEngine {
 		m_vkPhysicalDevice = vkPhysicalDevice;
 		vkGetPhysicalDeviceMemoryProperties(m_vkPhysicalDevice, &m_vkMemoryProperties);
 
-		return vkCreateDevice(m_vkPhysicalDevice, &deviceCreateInfo, m_pRenderer->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice);
+		return vkCreateDevice(m_vkPhysicalDevice, &deviceCreateInfo, m_pVulkan->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice);
 	}
 
-	VkResult CRendererDeviceGraphics::CheckDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice)
+	VkResult CVulkanDeviceGraphics::CheckDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice)
 	{
 		vkGetPhysicalDeviceFeatures(vkPhysicalDevice, &m_vkDeviceFeatures);
 		vkGetPhysicalDeviceProperties(vkPhysicalDevice, &m_vkDeviceProperties);
@@ -91,7 +91,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererDeviceGraphics::CheckDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const
+	VkResult CVulkanDeviceGraphics::CheckDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const
 	{
 		uint32_t numExtensions;
 		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, NULL));
@@ -111,7 +111,7 @@ namespace CrossEngine {
 		return bSwapchainExtension ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CRendererDeviceGraphics::CheckDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
+	VkResult CVulkanDeviceGraphics::CheckDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
 	{
 		queueFamilyIndex = UINT32_MAX;
 
@@ -124,7 +124,7 @@ namespace CrossEngine {
 
 		std::vector<VkBool32> surfaceSupports(numQueueFamilies);
 		for (uint32_t index = 0; index < numQueueFamilies; index++) {
-			CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pRenderer->GetSurface(), &surfaceSupports[index]));
+			CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pVulkan->GetSurface(), &surfaceSupports[index]));
 
 			if ((queueFamilies[index].queueCount > 0) && (queueFamilies[index].queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
 				if (queueFamilyIndex == UINT32_MAX && surfaceSupports[index] == TRUE) {

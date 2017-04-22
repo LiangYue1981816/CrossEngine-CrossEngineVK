@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererStagingBufferManager
+	class CROSS_EXPORT CVulkanStagingBufferManager
 	{
-		friend class CRendererDevice;
+		friend class CVulkanDevice;
 
 
 	protected:
-		CRendererStagingBufferManager(CRendererDevice *pDevice);
-		virtual ~CRendererStagingBufferManager(void);
+		CVulkanStagingBufferManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanStagingBufferManager(void);
 
 
 	protected:
@@ -41,15 +41,15 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	public:
-		CRendererStagingBuffer* AllocBuffer(VkDeviceSize size);
-		void FreeBuffer(CRendererStagingBuffer *pBuffer);
+		CVulkanStagingBuffer* AllocBuffer(VkDeviceSize size);
+		void FreeBuffer(CVulkanStagingBuffer *pBuffer);
 
 
 	protected:
-		std::map<CRendererStagingBuffer*, CRendererStagingBuffer*> m_pBuffers;
+		std::map<CVulkanStagingBuffer*, CVulkanStagingBuffer*> m_pBuffers;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 	};
 
 }

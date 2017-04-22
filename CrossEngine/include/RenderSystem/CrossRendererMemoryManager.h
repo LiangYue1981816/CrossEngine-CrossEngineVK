@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererMemoryManager
+	class CROSS_EXPORT CVulkanMemoryManager
 	{
-		friend class CRendererDevice;
+		friend class CVulkanDevice;
 
 
 	protected:
-		CRendererMemoryManager(CRendererDevice *pDevice);
-		virtual ~CRendererMemoryManager(void);
+		CVulkanMemoryManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanMemoryManager(void);
 
 
 	protected:
@@ -44,8 +44,8 @@ namespace CrossEngine {
 		uint32_t GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const;
 
 	public:
-		CRendererMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
-		void FreeMemory(CRendererMemory *pMemory);
+		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
+		void FreeMemory(CVulkanMemory *pMemory);
 
 	public:
 		void DumpLog(const char *szTitle) const;
@@ -56,10 +56,10 @@ namespace CrossEngine {
 		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 32 * 1024 * 1024;
 
 	protected:
-		std::map<uint32_t, CRendererMemoryAllocator*> m_pAllocatorListHeads;
+		std::map<uint32_t, CVulkanMemoryAllocator*> m_pAllocatorListHeads;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 	};
 
 }

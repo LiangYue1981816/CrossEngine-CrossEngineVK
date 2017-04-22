@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererShaderManager::CRendererShaderManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanShaderManager::CVulkanShaderManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 		SetWarningsAsErrors();
 		SetSourceLanguage(shaderc_source_language_glsl);
@@ -34,50 +34,50 @@ namespace CrossEngine {
 //		SetForcedVersionProfile(450, shaderc_profile_core);
 	}
 
-	CRendererShaderManager::~CRendererShaderManager(void)
+	CVulkanShaderManager::~CVulkanShaderManager(void)
 	{
 
 	}
 
-	CRendererShader* CRendererShaderManager::AllocShader(void)
+	CVulkanShader* CVulkanShaderManager::AllocShader(void)
 	{
-		CRendererShader *pShader = SAFE_NEW CRendererShader(m_pDevice, this);
+		CVulkanShader *pShader = SAFE_NEW CVulkanShader(m_pDevice, this);
 		m_pResources[pShader] = pShader;
 
 		return pShader;
 	}
 
-	void CRendererShaderManager::SetWarningsAsErrors(void)
+	void CVulkanShaderManager::SetWarningsAsErrors(void)
 	{
 		m_options.SetWarningsAsErrors();
 	}
 
-	void CRendererShaderManager::SetSourceLanguage(shaderc_source_language lang)
+	void CVulkanShaderManager::SetSourceLanguage(shaderc_source_language lang)
 	{
 		m_options.SetSourceLanguage(lang);
 	}
 
-	void CRendererShaderManager::SetOptimizationLevel(shaderc_optimization_level level)
+	void CVulkanShaderManager::SetOptimizationLevel(shaderc_optimization_level level)
 	{
 		m_options.SetOptimizationLevel(level);
 	}
 
-	void CRendererShaderManager::SetTargetEnvironment(uint32_t version, shaderc_target_env target)
+	void CVulkanShaderManager::SetTargetEnvironment(uint32_t version, shaderc_target_env target)
 	{
 		m_options.SetTargetEnvironment(target, version);
 	}
 
-	void CRendererShaderManager::SetForcedVersionProfile(uint32_t version, shaderc_profile profile)
+	void CVulkanShaderManager::SetForcedVersionProfile(uint32_t version, shaderc_profile profile)
 	{
 		m_options.SetForcedVersionProfile(version, profile);
 	}
 
-	void CRendererShaderManager::SetMacroDefinition(const char *szName, const char *szValue)
+	void CVulkanShaderManager::SetMacroDefinition(const char *szName, const char *szValue)
 	{
 		m_options.AddMacroDefinition(szName, szValue);
 	}
 
-	const shaderc::CompileOptions& CRendererShaderManager::GetCompileOptions(void) const
+	const shaderc::CompileOptions& CVulkanShaderManager::GetCompileOptions(void) const
 	{
 		return m_options;
 	}

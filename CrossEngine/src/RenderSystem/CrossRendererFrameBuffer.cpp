@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererFrameBuffer::CRendererFrameBuffer(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanFrameBuffer::CVulkanFrameBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkFrameBuffer(VK_NULL_HANDLE)
 
 		, m_width(0)
@@ -35,12 +35,12 @@ namespace CrossEngine {
 
 	}
 
-	CRendererFrameBuffer::~CRendererFrameBuffer(void)
+	CVulkanFrameBuffer::~CVulkanFrameBuffer(void)
 	{
 		ASSERT(m_vkFrameBuffer == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererFrameBuffer::Create(VkRenderPass vkRenderPass)
+	BOOL CVulkanFrameBuffer::Create(VkRenderPass vkRenderPass)
 	{
 		try {
 			std::vector<VkImageView> attachments;
@@ -56,19 +56,19 @@ namespace CrossEngine {
 			createInfo.width = m_width;
 			createInfo.height = m_height;
 			createInfo.layers = 1;
-			CALL_VK_FUNCTION_THROW(vkCreateFramebuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkFrameBuffer));
+			CALL_VK_FUNCTION_THROW(vkCreateFramebuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkFrameBuffer));
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	uint32_t CRendererFrameBuffer::CreateAttachments(std::vector<VkImageView> &attachments)
+	uint32_t CVulkanFrameBuffer::CreateAttachments(std::vector<VkImageView> &attachments)
 	{
 		uint32_t numAttachment = 0;
 
@@ -83,10 +83,10 @@ namespace CrossEngine {
 		return numAttachment;
 	}
 
-	void CRendererFrameBuffer::Destroy(void)
+	void CVulkanFrameBuffer::Destroy(void)
 	{
 		if (m_vkFrameBuffer) {
-			vkDestroyFramebuffer(m_pDevice->GetDevice(), m_vkFrameBuffer, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyFramebuffer(m_pDevice->GetDevice(), m_vkFrameBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkFrameBuffer = VK_NULL_HANDLE;
@@ -96,7 +96,7 @@ namespace CrossEngine {
 		m_views.clear();
 	}
 
-	BOOL CRendererFrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView)
+	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -111,12 +111,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	VkFramebuffer CRendererFrameBuffer::GetFrameBuffer(void) const
+	VkFramebuffer CVulkanFrameBuffer::GetFrameBuffer(void) const
 	{
 		return m_vkFrameBuffer;
 	}
 
-	void CRendererFrameBuffer::DumpLog(void) const
+	void CVulkanFrameBuffer::DumpLog(void) const
 	{
 		if (m_vkFrameBuffer) {
 			LOGI("\t\tFrameBuffer 0x%x: width = %d height = %d\n", m_vkFrameBuffer, m_width, m_height);

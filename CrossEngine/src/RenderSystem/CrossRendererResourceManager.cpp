@@ -25,26 +25,26 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererResourceManager::CRendererResourceManager(CRendererDevice *pDevice)
+	CVulkanResourceManager::CVulkanResourceManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
 
 	}
 
-	CRendererResourceManager::~CRendererResourceManager(void)
+	CVulkanResourceManager::~CVulkanResourceManager(void)
 	{
 
 	}
 
-	BOOL CRendererResourceManager::Create(void)
+	BOOL CVulkanResourceManager::Create(void)
 	{
 		return m_pResources.empty() ? TRUE : FALSE;
 	}
 
-	void CRendererResourceManager::Destroy(void)
+	void CVulkanResourceManager::Destroy(void)
 	{
 		for (const auto &itResource : m_pResources) {
-			if (CRendererResource *pResource = itResource.second) {
+			if (CVulkanResource *pResource = itResource.second) {
 				pResource->Destroy();
 				SAFE_DELETE(pResource);
 			}
@@ -53,7 +53,7 @@ namespace CrossEngine {
 		m_pResources.clear();
 	}
 
-	void CRendererResourceManager::Free(CRendererResource *pResource)
+	void CVulkanResourceManager::Free(CVulkanResource *pResource)
 	{
 		if (pResource) {
 			const auto &itResource = m_pResources.find(pResource);
@@ -64,7 +64,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRendererResourceManager::DumpLog(const char *szTitle) const
+	void CVulkanResourceManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
 
@@ -72,7 +72,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itResource : m_pResources) {
-				if (const CRendererResource *pResource = itResource.second) {
+				if (const CVulkanResource *pResource = itResource.second) {
 					pResource->DumpLog();
 					count++;
 				}

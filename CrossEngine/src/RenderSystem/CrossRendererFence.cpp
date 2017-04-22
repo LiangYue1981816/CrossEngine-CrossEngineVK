@@ -25,67 +25,67 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererFence::CRendererFence(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanFence::CVulkanFence(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkFence(VK_NULL_HANDLE)
 	{
 
 	}
 
-	CRendererFence::~CRendererFence(void)
+	CVulkanFence::~CVulkanFence(void)
 	{
 		ASSERT(m_vkFence == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererFence::Create(void)
+	BOOL CVulkanFence::Create(void)
 	{
 		try {
 			VkFenceCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-			CALL_VK_FUNCTION_THROW(vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence));
+			CALL_VK_FUNCTION_THROW(vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence));
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererFence::Destroy(void)
+	void CVulkanFence::Destroy(void)
 	{
 		if (m_vkFence) {
-			vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkFence = VK_NULL_HANDLE;
 	}
 
-	VkFence CRendererFence::GetFence(void) const
+	VkFence CVulkanFence::GetFence(void) const
 	{
 		return m_vkFence;
 	}
 
-	BOOL CRendererFence::IsSignaled(void) const
+	BOOL CVulkanFence::IsSignaled(void) const
 	{
 		return vkGetFenceStatus(m_pDevice->GetDevice(), m_vkFence) == VK_SUCCESS ? TRUE : FALSE;
 	}
 
-	BOOL CRendererFence::Wait(uint64_t timeout) const
+	BOOL CVulkanFence::Wait(uint64_t timeout) const
 	{
 		return vkWaitForFences(m_pDevice->GetDevice(), 1, &m_vkFence, VK_FALSE, timeout) == VK_SUCCESS ? TRUE : FALSE;
 	}
 
-	VkResult CRendererFence::Reset(void) const
+	VkResult CVulkanFence::Reset(void) const
 	{
 		return vkResetFences(m_pDevice->GetDevice(), 1, &m_vkFence);
 	}
 
-	void CRendererFence::DumpLog(void) const
+	void CVulkanFence::DumpLog(void) const
 	{
 		if (m_vkFence) {
 			LOGI("\t\tFence 0x%x\n", m_vkFence);

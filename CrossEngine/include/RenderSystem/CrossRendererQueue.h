@@ -26,16 +26,16 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererQueue
+	class CROSS_EXPORT CVulkanQueue
 	{
-		friend class CRendererDevice;
-		friend class CRendererDeviceCompute;
-		friend class CRendererDeviceGraphics;
+		friend class CVulkanDevice;
+		friend class CVulkanDeviceCompute;
+		friend class CVulkanDeviceGraphics;
 
 
 	protected:
-		CRendererQueue(CRendererDevice *pDevice);
-		virtual ~CRendererQueue(void);
+		CVulkanQueue(CVulkanDevice *pDevice);
+		virtual ~CVulkanQueue(void);
 
 
 	protected:
@@ -58,7 +58,7 @@ namespace CrossEngine {
 		uint32_t m_queueFamilyIndex;
 
 	protected:
-		CRendererDevice *m_pDevice;
+		CVulkanDevice *m_pDevice;
 	};
 
 }

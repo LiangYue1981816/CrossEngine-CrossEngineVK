@@ -26,9 +26,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererRenderPass : public CRendererResource
+	class CROSS_EXPORT CVulkanRenderPass : public CVulkanResource
 	{
-		friend class CRendererRenderPassManager;
+		friend class CVulkanRenderPassManager;
 
 
 	protected:
@@ -42,8 +42,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CRendererRenderPass(CRendererDevice *pDevice, CRendererResourceManager *pManager);
-		virtual ~CRendererRenderPass(void);
+		CVulkanRenderPass(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		virtual ~CVulkanRenderPass(void);
 
 
 	public:

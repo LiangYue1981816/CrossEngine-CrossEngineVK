@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererRenderPassManager::CRendererRenderPassManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanRenderPassManager::CVulkanRenderPassManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererRenderPassManager::~CRendererRenderPassManager(void)
+	CVulkanRenderPassManager::~CVulkanRenderPassManager(void)
 	{
 
 	}
 
-	CRendererRenderPass* CRendererRenderPassManager::AllocRenderPass(void)
+	CVulkanRenderPass* CVulkanRenderPassManager::AllocRenderPass(void)
 	{
-		CRendererRenderPass *pRenderPass = SAFE_NEW CRendererRenderPass(m_pDevice, this);
+		CVulkanRenderPass *pRenderPass = SAFE_NEW CVulkanRenderPass(m_pDevice, this);
 		m_pResources[pRenderPass] = pRenderPass;
 
 		return pRenderPass;

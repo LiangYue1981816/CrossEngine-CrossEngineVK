@@ -25,18 +25,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererDeviceCompute::CRendererDeviceCompute(CRenderer *pRenderer)
-		: CRendererDevice(pRenderer)
+	CVulkanDeviceCompute::CVulkanDeviceCompute(CVulkan *pVulkan)
+		: CVulkanDevice(pVulkan)
 	{
 
 	}
 
-	CRendererDeviceCompute::~CRendererDeviceCompute(void)
+	CVulkanDeviceCompute::~CVulkanDeviceCompute(void)
 	{
 
 	}
 
-	VkPhysicalDevice CRendererDeviceCompute::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, uint32_t &queueFamilyIndex)
+	VkPhysicalDevice CVulkanDeviceCompute::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, uint32_t &queueFamilyIndex)
 	{
 		for (uint32_t index = 0; index < devices.size(); index++) {
 			if (CheckDeviceCapabilities(devices[index]) != VK_SUCCESS) continue;
@@ -49,7 +49,7 @@ namespace CrossEngine {
 		return VK_NULL_HANDLE;
 	}
 
-	VkResult CRendererDeviceCompute::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
+	VkResult CVulkanDeviceCompute::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
 		float queuePpriorities[1] = { 0.0f };
 		VkDeviceQueueCreateInfo queueCreateInfo[1] = {};
@@ -75,10 +75,10 @@ namespace CrossEngine {
 		m_vkPhysicalDevice = vkPhysicalDevice;
 		vkGetPhysicalDeviceMemoryProperties(m_vkPhysicalDevice, &m_vkMemoryProperties);
 
-		return vkCreateDevice(m_vkPhysicalDevice, &deviceCreateInfo, m_pRenderer->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice);
+		return vkCreateDevice(m_vkPhysicalDevice, &deviceCreateInfo, m_pVulkan->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice);
 	}
 
-	VkResult CRendererDeviceCompute::CheckDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice)
+	VkResult CVulkanDeviceCompute::CheckDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice)
 	{
 		vkGetPhysicalDeviceFeatures(vkPhysicalDevice, &m_vkDeviceFeatures);
 		vkGetPhysicalDeviceProperties(vkPhysicalDevice, &m_vkDeviceProperties);
@@ -90,12 +90,12 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererDeviceCompute::CheckDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const
+	VkResult CVulkanDeviceCompute::CheckDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererDeviceCompute::CheckDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
+	VkResult CVulkanDeviceCompute::CheckDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
 	{
 		queueFamilyIndex = UINT32_MAX;
 

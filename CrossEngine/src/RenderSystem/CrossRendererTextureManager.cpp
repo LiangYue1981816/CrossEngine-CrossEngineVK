@@ -25,34 +25,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererTextureManager::CRendererTextureManager(CRendererDevice *pDevice)
-		: CRendererResourceManager(pDevice)
+	CVulkanTextureManager::CVulkanTextureManager(CVulkanDevice *pDevice)
+		: CVulkanResourceManager(pDevice)
 	{
 
 	}
 
-	CRendererTextureManager::~CRendererTextureManager(void)
+	CVulkanTextureManager::~CVulkanTextureManager(void)
 	{
 
 	}
 
-	CRendererTexture* CRendererTextureManager::AllocTexture(void)
+	CVulkanTexture* CVulkanTextureManager::AllocTexture(void)
 	{
-		CRendererTexture *pTexture = SAFE_NEW CRendererTexture(m_pDevice, this);
+		CVulkanTexture *pTexture = SAFE_NEW CVulkanTexture(m_pDevice, this);
 		m_pResources[pTexture] = pTexture;
 
 		return pTexture;
 	}
 
-	CRendererRenderTexture* CRendererTextureManager::AllocRenderTexture(void)
+	CVulkanRenderTexture* CVulkanTextureManager::AllocRenderTexture(void)
 	{
-		CRendererRenderTexture *pTexture = SAFE_NEW CRendererRenderTexture(m_pDevice, this);
+		CVulkanRenderTexture *pTexture = SAFE_NEW CVulkanRenderTexture(m_pDevice, this);
 		m_pResources[pTexture] = pTexture;
 
 		return pTexture;
 	}
 
-	void CRendererTextureManager::DumpLog(const char *szTitle) const
+	void CVulkanTextureManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
 		VkDeviceSize size = 0;
@@ -61,7 +61,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itResource : m_pResources) {
-				if (const CRendererImage *pResource = (CRendererImage *)itResource.second) {
+				if (const CVulkanImage *pResource = (CVulkanImage *)itResource.second) {
 					pResource->DumpLog();
 					size += pResource->GetSize();
 					count++;

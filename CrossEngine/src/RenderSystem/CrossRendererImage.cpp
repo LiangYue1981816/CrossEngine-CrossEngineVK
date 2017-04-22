@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererImage::CRendererImage(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanImage::CVulkanImage(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkImage(VK_NULL_HANDLE)
 		, m_vkImageView(VK_NULL_HANDLE)
 
@@ -46,14 +46,14 @@ namespace CrossEngine {
 
 	}
 
-	CRendererImage::~CRendererImage(void)
+	CVulkanImage::~CVulkanImage(void)
 	{
 		ASSERT(m_pMemory == NULL);
 		ASSERT(m_vkImage == VK_NULL_HANDLE);
 		ASSERT(m_vkImageView == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
+	BOOL CVulkanImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
 	{
 		try {
 			CALL_VK_FUNCTION_THROW(CreateImage(viewType, format, width, height, depth, mipLevels, arrayLayers, samples, tiling, usage));
@@ -62,27 +62,27 @@ namespace CrossEngine {
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererImage::Destroy(void)
+	void CVulkanImage::Destroy(void)
 	{
 		DestroyImageView();
 		DestroyImage();
 	}
 
-	VkResult CRendererImage::CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
+	VkResult CVulkanImage::CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
 	{
 		depth = max(depth, 1);
 		width = max(width, 1);
 		height = max(height, 1);
 		mipLevels = max(mipLevels, 1);
 
-		if (CRendererHelper::vkIsFormatSupported(format) == FALSE) {
+		if (CVulkanHelper::vkIsFormatSupported(format) == FALSE) {
 			return VK_ERROR_FORMAT_NOT_SUPPORTED;
 		}
 
@@ -158,7 +158,7 @@ namespace CrossEngine {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 
-			if (CRendererHelper::vkIsFormatDepthOnly(format) || CRendererHelper::vkIsFormatStencilOnly(format) || CRendererHelper::vkIsFormatDepthStencil(format)) {
+			if (CVulkanHelper::vkIsFormatDepthOnly(format) || CVulkanHelper::vkIsFormatStencilOnly(format) || CVulkanHelper::vkIsFormatDepthStencil(format)) {
 				createInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 				createInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 			}
@@ -178,7 +178,7 @@ namespace CrossEngine {
 		}
 
 		CALL_VK_FUNCTION_RETURN(CheckParameters(createInfo.imageType, createInfo.format, createInfo.extent.width, createInfo.extent.height, createInfo.extent.depth, createInfo.mipLevels, createInfo.arrayLayers, createInfo.samples, createInfo.tiling, createInfo.usage));
-		CALL_VK_FUNCTION_RETURN(vkCreateImage(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkImage));
+		CALL_VK_FUNCTION_RETURN(vkCreateImage(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImage));
 
 		VkMemoryPropertyFlags memoryPropertyFlags;
 		memoryPropertyFlags = createInfo.tiling == VK_IMAGE_TILING_LINEAR ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
@@ -202,7 +202,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CRendererImage::CreateImageView(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t mipLevels)
+	VkResult CVulkanImage::CreateImageView(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t mipLevels)
 	{
 		VkImageViewCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -211,16 +211,16 @@ namespace CrossEngine {
 		createInfo.image = m_vkImage;
 		createInfo.viewType = viewType;
 		createInfo.format = format;
-		createInfo.components = CRendererHelper::vkGetFormatComponentMapping(format);
+		createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(format);
 		createInfo.subresourceRange.aspectMask = aspectMask;
 		createInfo.subresourceRange.baseMipLevel = 0;
 		createInfo.subresourceRange.levelCount = mipLevels;
 		createInfo.subresourceRange.baseArrayLayer = 0;
 		createInfo.subresourceRange.layerCount = viewType == VK_IMAGE_VIEW_TYPE_CUBE ? 6 : 1;
-		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
+		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
 	}
 
-	VkResult CRendererImage::CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const
+	VkResult CVulkanImage::CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const
 	{
 		VkImageFormatProperties formatProperties;
 		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceImageFormatProperties(m_pDevice->GetPhysicalDevice(), format, type, tiling, usage, 0, &formatProperties));
@@ -235,10 +235,10 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	void CRendererImage::DestroyImage(void)
+	void CVulkanImage::DestroyImage(void)
 	{
 		if (m_vkImage) {
-			vkDestroyImage(m_pDevice->GetDevice(), m_vkImage, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyImage(m_pDevice->GetDevice(), m_vkImage, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_pMemory) {
@@ -249,82 +249,82 @@ namespace CrossEngine {
 		m_vkImage = VK_NULL_HANDLE;
 	}
 
-	void CRendererImage::DestroyImageView(void)
+	void CVulkanImage::DestroyImageView(void)
 	{
 		if (m_vkImageView) {
-			vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageView, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageView, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkImageView = VK_NULL_HANDLE;
 	}
 
-	VkImageView CRendererImage::GetImageView(void) const
+	VkImageView CVulkanImage::GetImageView(void) const
 	{
 		return m_vkImageView;
 	}
 
-	uint32_t CRendererImage::GetWidth(void) const
+	uint32_t CVulkanImage::GetWidth(void) const
 	{
 		return m_width;
 	}
 
-	uint32_t CRendererImage::GetHeight(void) const
+	uint32_t CVulkanImage::GetHeight(void) const
 	{
 		return m_height;
 	}
 
-	uint32_t CRendererImage::GetDepth(void) const
+	uint32_t CVulkanImage::GetDepth(void) const
 	{
 		return m_depth;
 	}
 
-	uint32_t CRendererImage::GetMips(void) const
+	uint32_t CVulkanImage::GetMips(void) const
 	{
 		return m_mipLevels;
 	}
 
-	uint32_t CRendererImage::GetLayers(void) const
+	uint32_t CVulkanImage::GetLayers(void) const
 	{
 		return m_arrayLayers;
 	}
 
-	VkImageType CRendererImage::GetType(void) const
+	VkImageType CVulkanImage::GetType(void) const
 	{
 		return m_type;
 	}
 
-	VkFormat CRendererImage::GetFormat(void) const
+	VkFormat CVulkanImage::GetFormat(void) const
 	{
 		return m_format;
 	}
 
-	VkSampleCountFlagBits CRendererImage::GetSamples(void) const
+	VkSampleCountFlagBits CVulkanImage::GetSamples(void) const
 	{
 		return m_samples;
 	}
 
-	VkImageTiling CRendererImage::GetTiling(void) const
+	VkImageTiling CVulkanImage::GetTiling(void) const
 	{
 		return m_tiling;
 	}
 
-	VkDeviceSize CRendererImage::GetSize(void) const
+	VkDeviceSize CVulkanImage::GetSize(void) const
 	{
 		return m_size;
 	}
 
-	void CRendererImage::DumpLog(void) const
+	void CVulkanImage::DumpLog(void) const
 	{
 		if (m_vkImage) {
 			LOGI("\t\tTexture 0x%x: view = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %s tiling = %s\n",
 				m_vkImage,
 				m_vkImageView,
 				m_size,
-				CRendererHelper::vkImageTypeToString(m_type),
-				CRendererHelper::vkFormatToString(m_format),
+				CVulkanHelper::vkImageTypeToString(m_type),
+				CVulkanHelper::vkFormatToString(m_format),
 				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
-				CRendererHelper::vkSampleCountFlagBitsToString(m_samples),
-				CRendererHelper::vkImageTilingToString(m_tiling));
+				CVulkanHelper::vkSampleCountFlagBitsToString(m_samples),
+				CVulkanHelper::vkImageTilingToString(m_tiling));
 		}
 	}
 

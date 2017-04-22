@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRendererHelper
+	class CROSS_EXPORT CVulkanHelper
 	{
 	public:
 		static void vkSetupFormat(VkPhysicalDevice vkPhysicalDevice);

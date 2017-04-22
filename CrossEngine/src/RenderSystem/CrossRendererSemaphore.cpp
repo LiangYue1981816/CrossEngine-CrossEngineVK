@@ -25,52 +25,52 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRendererSemaphore::CRendererSemaphore(CRendererDevice *pDevice, CRendererResourceManager *pManager)
-		: CRendererResource(pDevice, pManager)
+	CVulkanSemaphore::CVulkanSemaphore(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+		: CVulkanResource(pDevice, pManager)
 		, m_vkSemaphore(VK_NULL_HANDLE)
 	{
 
 	}
 
-	CRendererSemaphore::~CRendererSemaphore(void)
+	CVulkanSemaphore::~CVulkanSemaphore(void)
 	{
 		ASSERT(m_vkSemaphore == VK_NULL_HANDLE);
 	}
 
-	BOOL CRendererSemaphore::Create(void)
+	BOOL CVulkanSemaphore::Create(void)
 	{
 		try {
 			VkSemaphoreCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks(), &m_vkSemaphore));
+			CALL_VK_FUNCTION_THROW(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkSemaphore));
 
 			return TRUE;
 		}
 		catch (VkResult err) {
-			CRenderer::SetLastError(err);
+			CVulkan::SetLastError(err);
 			Destroy();
 
 			return FALSE;
 		}
 	}
 
-	void CRendererSemaphore::Destroy(void)
+	void CVulkanSemaphore::Destroy(void)
 	{
 		if (m_vkSemaphore) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkSemaphore, m_pDevice->GetRenderer()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkSemaphore, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkSemaphore = VK_NULL_HANDLE;
 	}
 
-	VkSemaphore CRendererSemaphore::GetSemaphore(void) const
+	VkSemaphore CVulkanSemaphore::GetSemaphore(void) const
 	{
 		return m_vkSemaphore;
 	}
 
-	void CRendererSemaphore::DumpLog(void) const
+	void CVulkanSemaphore::DumpLog(void) const
 	{
 		if (m_vkSemaphore) {
 			LOGI("\t\tSemaphore 0x%x\n", m_vkSemaphore);
