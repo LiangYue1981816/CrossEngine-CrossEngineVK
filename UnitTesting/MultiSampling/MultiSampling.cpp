@@ -17,6 +17,12 @@ CrossEngine::CVulkanVertexBuffer *pVertexBuffer = NULL;
 CrossEngine::CVulkanUniformBuffer *pUniformBuffer = NULL;
 CrossEngine::CVulkanDescriptorSet *pDescriptorSet = NULL;
 
+int indexPresentAttachment = 0;
+int indexDepthAttachment = 1;
+int indexColorAttachmentMSAA = 2;
+int indexDepthAttachmentMSAA = 3;
+CrossEngine::CVulkanRenderTexture *pColorTextureMSAA = NULL;
+CrossEngine::CVulkanRenderTexture *pDepthTextureMSAA = NULL;
 CrossEngine::CVulkanRenderTexture *pDepthTexture = NULL;
 CrossEngine::CVulkanRenderPass *pRenderPass = NULL;
 CrossEngine::CVulkanFrameBuffer *pFrameBuffers[3] = { NULL };
@@ -29,10 +35,14 @@ CrossEngine::CVulkanCommandBuffer *pCommandBuffers[3] = { NULL };
 void CreateRenderPass(void)
 {
 	pRenderPass = pDevice->GetRenderPassManager()->AllocRenderPass();
-	pRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f});
-	pRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, {1.0f, 0});
-	pRenderPass->SetSubpassOutputColorReference(0, 0);
-	pRenderPass->SetSubpassOutputDepthStencilReference(0, 1);
+	pRenderPass->SetPresentAttachment(indexPresentAttachment, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f});
+	pRenderPass->SetDepthStencilAttachment(indexDepthAttachment, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 1.0f, 0 });
+	pRenderPass->SetColorAttachment(indexColorAttachmentMSAA, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 0.0f, 0.0f, 0.0f, 1.0f }, SAMPLE_COUNT);
+	pRenderPass->SetDepthStencilAttachment(indexDepthAttachmentMSAA, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 1.0f, 0 }, SAMPLE_COUNT);
+	pRenderPass->SetSubpassResolveAttachment(0, indexPresentAttachment, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	pRenderPass->SetSubpassResolveAttachment(0, indexDepthAttachment, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+	pRenderPass->SetSubpassOutputColorReference(0, indexColorAttachmentMSAA);
+	pRenderPass->SetSubpassOutputDepthStencilReference(0, indexDepthAttachmentMSAA);
 	pRenderPass->Create();
 }
 
@@ -43,19 +53,29 @@ void DestroyRenderPass(void)
 
 void CreateFrameBuffer(void)
 {
+	pColorTextureMSAA = pDevice->GetTextureManager()->AllocRenderTexture();
+	pColorTextureMSAA->CreateColorTarget(VK_FORMAT_B8G8R8A8_UNORM, pSwapchain->GetWidth(), pSwapchain->GetHeight(), SAMPLE_COUNT);
+
+	pDepthTextureMSAA = pDevice->GetTextureManager()->AllocRenderTexture();
+	pDepthTextureMSAA->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight(), SAMPLE_COUNT);
+
 	pDepthTexture = pDevice->GetTextureManager()->AllocRenderTexture();
 	pDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight());
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		pFrameBuffers[indexView] = pDevice->GetFrameBufferManager()->AllocFrameBuffer();
-		pFrameBuffers[indexView]->SetAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
-		pFrameBuffers[indexView]->SetAttachment(1, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pDepthTexture->GetImageView());
+		pFrameBuffers[indexView]->SetAttachment(indexPresentAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
+		pFrameBuffers[indexView]->SetAttachment(indexDepthAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pDepthTexture->GetImageView());
+		pFrameBuffers[indexView]->SetAttachment(indexColorAttachmentMSAA, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pColorTextureMSAA->GetImageView());
+		pFrameBuffers[indexView]->SetAttachment(indexDepthAttachmentMSAA, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pDepthTextureMSAA->GetImageView());
 		pFrameBuffers[indexView]->Create(pRenderPass->GetRenderPass());
 	}
 }
 
 void DestroyFrameBuffer(void)
 {
+	pColorTextureMSAA->Release();
+	pDepthTextureMSAA->Release();
 	pDepthTexture->Release();
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
@@ -82,6 +102,7 @@ void CreatePipeline(void)
 	pPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	pPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 	pPipeline->SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
+	pPipeline->SetSampleCounts(SAMPLE_COUNT);
 	pPipeline->Create(pRenderPass->GetRenderPass());
 }
 
@@ -283,7 +304,7 @@ void Render(void)
 		return;
 	}
 
-	static float angle = 30.0f; //angle += 0.05f;
+	static float angle = 30.0f; angle += 0.05f;
 	static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
 	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
