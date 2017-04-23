@@ -156,7 +156,7 @@ namespace CrossEngine {
 		m_dependencies.clear();
 	}
 
-	BOOL CVulkanRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue)
+	BOOL CVulkanRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -165,7 +165,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment] = {};
 		m_attachments[indexAttachment].flags = 0;
 		m_attachments[indexAttachment].format = format;
-		m_attachments[indexAttachment].samples = VK_SAMPLE_COUNT_1_BIT;
+		m_attachments[indexAttachment].samples = samples;
 		m_attachments[indexAttachment].loadOp = loadOp;
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -177,7 +177,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue)
+	BOOL CVulkanRenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -186,7 +186,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment] = {};
 		m_attachments[indexAttachment].flags = 0;
 		m_attachments[indexAttachment].format = format;
-		m_attachments[indexAttachment].samples = VK_SAMPLE_COUNT_1_BIT;
+		m_attachments[indexAttachment].samples = samples;
 		m_attachments[indexAttachment].loadOp = loadOp;
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -198,7 +198,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue)
+	BOOL CVulkanRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -207,7 +207,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment] = {};
 		m_attachments[indexAttachment].flags = 0;
 		m_attachments[indexAttachment].format = format;
-		m_attachments[indexAttachment].samples = VK_SAMPLE_COUNT_1_BIT;
+		m_attachments[indexAttachment].samples = samples;
 		m_attachments[indexAttachment].loadOp = loadOp;
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = stencilLoadOp;

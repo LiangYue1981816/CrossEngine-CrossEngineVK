@@ -37,8 +37,8 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		virtual BOOL CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		virtual BOOL CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
+		virtual BOOL CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
 		virtual BOOL CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		virtual void Destroy(void);
 

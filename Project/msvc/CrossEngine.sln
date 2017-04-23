@@ -20,6 +20,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Texture", "..\..\UnitTestin
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultiSampling", "..\..\UnitTesting\MultiSampling\MultiSampling.vcxproj", "{4D69C66A-DF4E-4620-9CD8-BAFE017E8A1C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9E400C16-418C-4B8F-BB00-8C5DE8CC3D2F} = {9E400C16-418C-4B8F-BB00-8C5DE8CC3D2F}
+		{F3C89080-B49C-4FAD-B788-2D22427E2AF9} = {F3C89080-B49C-4FAD-B788-2D22427E2AF9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

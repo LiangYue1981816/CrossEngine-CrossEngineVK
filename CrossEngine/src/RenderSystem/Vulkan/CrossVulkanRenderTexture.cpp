@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CVulkanRenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height)
+	BOOL CVulkanRenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples)
 	{
 		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
 			return FALSE;
@@ -50,21 +50,21 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_COLOR_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
+		return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_COLOR_BIT, width, height, 1, 1, 1, samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 	}
 
-	BOOL CVulkanRenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height)
+	BOOL CVulkanRenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples)
 	{
 		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
-			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
+			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT, width, height, 1, 1, 1, samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 		}
 
 		if (CVulkanHelper::vkIsFormatStencilOnly(format)) {
-			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
+			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 		}
 		
 		if (CVulkanHelper::vkIsFormatDepthStencil(format)) {
-			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
+			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 		}
 
 		return FALSE;
