@@ -264,6 +264,17 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CVulkanRenderPass::SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
+	{
+		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
+			return FALSE;
+		}
+
+		m_subpasses[indexSubpass].resolveAttachments[indexAttachment] = imageLayout;
+
+		return TRUE;
+	}
+
 	BOOL CVulkanRenderPass::SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
