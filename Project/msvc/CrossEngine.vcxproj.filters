@@ -497,5 +497,8 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanVertexBuffer.cpp">
       <Filter>Engine\Source Files\RenderSystem\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

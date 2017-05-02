@@ -143,6 +143,29 @@ THE SOFTWARE.
 #define TAG_NAME "CrossEngine"
 
 
+#define Engine()             CrossEngine::CEngine::GetEngine()
+
+
 namespace CrossEngine {
+
+	class CROSS_EXPORT CEngine
+	{
+	protected:
+		CEngine(void);
+		virtual ~CEngine(void);
+
+
+	public:
+		static CEngine* GetEngine(void);
+
+
+	public:
+		void Init(HINSTANCE hInstance, HWND hWnd, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode);
+		void Exit(void);
+
+
+	protected:
+		static CEngine sInstance;
+	};
 
 }
