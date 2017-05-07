@@ -25,29 +25,35 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static BOOL SaveShader(const char *szFileName, const std::vector<uint32_t> &words)
+	static BOOL SaveShaderBinary(const char *szFileName, const std::vector<uint32_t> &words)
 	{
 		FILE *pFile = fopen(szFileName, "wb");  
 		if (pFile == NULL) return FALSE;
+
+		DWORD dwHashValue = HashValue((BYTE *)words.data(), sizeof(uint32_t) * words.size());
 		
+		fwrite(&dwHashValue, sizeof(dwHashValue), 1, pFile);
 		fwrite(words.data(), sizeof(uint32_t), words.size(), pFile);
 		fclose(pFile);
 
 		return TRUE;
 	}
 
-	static BOOL LoadShader(const char *szFileName, std::vector<uint32_t> &words)
+	static BOOL LoadShaderBinary(const char *szFileName, std::vector<uint32_t> &words)
 	{
 		FILE *pFile = fopen(szFileName, "rb");
 		if (pFile == NULL) return FALSE;
 
-		words.clear();
-		words.resize(fsize(pFile) / sizeof(uint32_t));
+		DWORD dwHashValue;
 
+		words.clear();
+		words.resize((fsize(pFile) - sizeof(dwHashValue)) / sizeof(uint32_t));
+
+		fread(&dwHashValue, sizeof(dwHashValue), 1, pFile);
 		fread(words.data(), sizeof(uint32_t), words.size(), pFile);
 		fclose(pFile);
 
-		return TRUE;
+		return HashValue((BYTE *)words.data(), sizeof(uint32_t) * words.size()) == dwHashValue ? TRUE : FALSE;
 	}
 
 	static BOOL CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options, std::vector<uint32_t> &words)
@@ -82,12 +88,12 @@ namespace CrossEngine {
 		sprintf(szFileName, "%s/%x", m_pDevice->GetVulkan()->GetCachePath(), HashValue(szSource));
 
 		std::vector<uint32_t> words;
-		if (LoadShader(szFileName, words) == FALSE) {
+		if (LoadShaderBinary(szFileName, words) == FALSE) {
 			if (CompileShader(szSource, length, kind, CreateCompileOptions(), words) == FALSE) {
 				return FALSE;
 			}
 
-			SaveShader(szFileName, words);
+			SaveShaderBinary(szFileName, words);
 		}
 
 		return Create(words.data(), words.size());
