@@ -25,17 +25,43 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static std::vector<uint32_t> CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options)
+	static BOOL SaveShader(const char *szFileName, const std::vector<uint32_t> &words)
+	{
+		FILE *pFile = fopen(szFileName, "wb");  
+		if (pFile == NULL) return FALSE;
+		
+		fwrite(words.data(), sizeof(uint32_t), words.size(), pFile);
+		fclose(pFile);
+
+		return TRUE;
+	}
+
+	static BOOL LoadShader(const char *szFileName, std::vector<uint32_t> &words)
+	{
+		FILE *pFile = fopen(szFileName, "rb");
+		if (pFile == NULL) return FALSE;
+
+		words.clear();
+		words.resize(fsize(pFile) / sizeof(uint32_t));
+
+		fread(words.data(), sizeof(uint32_t), words.size(), pFile);
+		fclose(pFile);
+
+		return TRUE;
+	}
+
+	static BOOL CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options, std::vector<uint32_t> &words)
 	{
 		shaderc::Compiler compiler;
 		shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, length, kind, "SPIR-V Compiler", options);
 
 		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
 			LOGW(module.GetErrorMessage().c_str());
-			return std::vector<uint32_t>();
+			return FALSE;
 		}
 
-		return { module.cbegin(), module.cend() };
+		words = { module.cbegin(), module.cend() };
+		return TRUE;
 	}
 
 	CVulkanShader::CVulkanShader(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
@@ -52,8 +78,18 @@ namespace CrossEngine {
 
 	BOOL CVulkanShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)
 	{
-		shaderc::CompileOptions options = CreateCompileOptions();
-		std::vector<uint32_t> words = CompileShader(szSource, length, kind, options);
+		char szFileName[_MAX_PATH];
+		sprintf(szFileName, "%s/%x", m_pDevice->GetVulkan()->GetCachePath(), HashValue(szSource));
+
+		std::vector<uint32_t> words;
+		if (LoadShader(szFileName, words) == FALSE) {
+			if (CompileShader(szSource, length, kind, CreateCompileOptions(), words) == FALSE) {
+				return FALSE;
+			}
+
+			SaveShader(szFileName, words);
+		}
+
 		return Create(words.data(), words.size());
 	}
 
