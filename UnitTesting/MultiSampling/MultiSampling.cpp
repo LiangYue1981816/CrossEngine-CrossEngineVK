@@ -259,7 +259,14 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 	RECT rcView;
 	GetClientRect(hWnd, &rcView);
 
-	pVulkan = SAFE_NEW CrossEngine::CVulkan;
+	char szCurPath[_MAX_PATH];
+	GetCurrentDirectory(sizeof(szCurPath), szCurPath);
+
+	char szCachePath[_MAX_PATH];
+	sprintf(szCachePath, "%s/Cache", szCurPath);
+	mkdir(szCachePath);
+
+	pVulkan = SAFE_NEW CrossEngine::CVulkan(szCachePath);
 	pVulkan->Create(hInstance, hWnd);
 	pVulkan->CreateSwapchain(rcView.right - rcView.left, rcView.bottom - rcView.top, VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR);
 	pDevice = pVulkan->GetGraphicsDevice();

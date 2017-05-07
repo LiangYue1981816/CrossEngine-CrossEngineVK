@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 	#include <winsock2.h>
 	#include <windows.h>
+	#include <direct.h>
 
 #elif defined _PLATFORM_ANDROID_
 

@@ -55,8 +55,10 @@ namespace CrossEngine {
 	PFN_vkCreateDebugReportCallbackEXT vkCreateDebugReportCallback = NULL;
 	PFN_vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallback = NULL;
 
-	CVulkan::CVulkan(void)
-		: m_vkInstance(VK_NULL_HANDLE)
+	CVulkan::CVulkan(const char *szCachePath)
+		: m_szCachePath{ 0 }
+
+		, m_vkInstance(VK_NULL_HANDLE)
 		, m_vkSurface(VK_NULL_HANDLE)
 
 		, m_pAllocator(NULL)
@@ -68,6 +70,9 @@ namespace CrossEngine {
 		, m_vkDebugReportCallback(VK_NULL_HANDLE)
 #endif
 	{
+		ASSERT(szCachePath);
+		strcpy(m_szCachePath, szCachePath);
+
 		m_pAllocator = SAFE_NEW CVulkanAllocator();
 		m_pComputeDevice = SAFE_NEW CVulkanDeviceCompute(this);
 		m_pGraphicsDevice = SAFE_NEW CVulkanDeviceGraphics(this);
@@ -327,6 +332,11 @@ namespace CrossEngine {
 	{
 		m_pComputeDevice->Destroy();
 		m_pGraphicsDevice->Destroy();
+	}
+
+	const char* CVulkan::GetCachePath(void) const
+	{
+		return m_szCachePath;
 	}
 
 	VkInstance CVulkan::GetInstance(void) const

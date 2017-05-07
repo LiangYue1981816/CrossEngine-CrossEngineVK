@@ -60,7 +60,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkan
 	{
 	public:
-		CVulkan(void);
+		CVulkan(const char *szCachePath);
 		virtual ~CVulkan(void);
 	
 	
@@ -90,6 +90,9 @@ namespace CrossEngine {
 		void DestroyDevice(void);
 
 	public:
+		const char* GetCachePath(void) const;
+
+	public:
 		VkInstance GetInstance(void) const;
 		VkSurfaceKHR GetSurface(void) const;
 
@@ -99,6 +102,9 @@ namespace CrossEngine {
 		CVulkanDeviceCompute* GetComputeDevice(void) const;
 		CVulkanDeviceGraphics* GetGraphicsDevice(void) const;
 
+
+	protected:
+		char m_szCachePath[_MAX_PATH];
 
 	protected:
 		VkInstance m_vkInstance;
