@@ -40,6 +40,21 @@ namespace CrossEngine {
 		return dwHashValue ? dwHashValue : INVALID_HASHNAME;
 	}
 
+	CROSS_EXPORT DWORD HashValue(const BYTE *pBuffer, int length)
+	{
+		ASSERT(pBuffer);
+
+		const BYTE *c = pBuffer;
+		DWORD dwHashValue = 0x00000000;
+
+		while (length--) {
+			dwHashValue = (dwHashValue << 5) - dwHashValue + (*c == '/' ? '\\' : *c);
+			c++;
+		}
+
+		return dwHashValue ? dwHashValue : INVALID_HASHNAME;
+	}
+
 	static DWORD dwRandomValue = 0x19810816;
 	static DWORD dwRandomKernel = 0x19810130;
 
