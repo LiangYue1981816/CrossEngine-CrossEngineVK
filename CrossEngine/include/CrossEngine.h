@@ -89,6 +89,7 @@ THE SOFTWARE.
 #include "CrossUtility.h"
 #include "CrossLog.h"
 #include "CrossStream.h"
+#include "CrossSharedPtr.h"
 
 #include "CrossVulkan.h"
 #include "CrossVulkanHelper.h"
@@ -139,6 +140,10 @@ THE SOFTWARE.
 #include "CrossVulkanPipelineCompute.h"
 #include "CrossVulkanPipelineGraphics.h"
 #include "CrossVulkanPipelineManager.h"
+
+#include "CrossResource.h"
+#include "CrossResourceManager.h"
+#include "CrossResourceSystem.h"
 
 
 #define TAG_NAME "CrossEngine"
