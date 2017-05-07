@@ -31,297 +31,191 @@ namespace CrossEngine {
 		Init();
 	}
 
-	CResource::~CResource(VOID)
+	CResource::~CResource(void)
 	{
 		Free();
 	}
 
-	//
-	// 初始化资源
-	//
-	VOID CResource::Init(VOID)
+	void CResource::Init(void)
 	{
 		m_stream.Init();
 	}
 
-	//
-	// 释放资源
-	//
-	VOID CResource::Free(VOID)
+	void CResource::Free(void)
 	{
 		m_stream.Free();
 		Init();
 	}
 
-	//
-	// 获得资源管理器
-	//
-	CResourceManager* CResource::GetResourceManager(VOID) const
-	{
-		return m_pResourceManager;
-	}
-
-	//
-	// 获得数据流
-	//
-	const CStream* CResource::GetStream(VOID) const
+	const CStream* CResource::GetStream(void) const
 	{
 		return &m_stream;
 	}
 
-	//
-	// 设置资源名
-	//
-	BOOL CResource::SetName(const CHAR *szName)
+	CResourceManager* CResource::GetResourceManager(void) const
 	{
-		ASSERT(szName);
+		return m_pResourceManager;
+	}
+
+	BOOL CResource::SetName(const char *szName)
+	{
 		return m_stream.SetName(szName);
 	}
 
-	//
-	// 获得资源名
-	//
-	const CHAR* CResource::GetName(VOID) const
+	const char* CResource::GetName(void) const
 	{
 		return m_stream.GetName();
 	}
 
-	//
-	// 获得资源名
-	//
-	DWORD CResource::GetHashName(VOID) const
+	DWORD CResource::GetHashName(void) const
 	{
 		return m_stream.GetHashName();
 	}
 
-	//
-	// 设置文件名
-	//
-	BOOL CResource::SetFileName(const CHAR *szFileName)
+	BOOL CResource::SetFileName(const char *szFileName)
 	{
-		ASSERT(szFileName);
 		return m_stream.SetFileName(szFileName);
 	}
 
-	//
-	// 获得文件名
-	//
-	const CHAR* CResource::GetFileName(VOID) const
+	const char* CResource::GetFileName(void) const
 	{
 		return m_stream.GetFileName();
 	}
 
-	//
-	// 复制资源
-	//
 	BOOL CResource::CopyFrom(const CResource *pCopyFrom)
 	{
-		//
-		// 1. 参数安全检查
-		//
-		if (pCopyFrom == NULL) {
-			return FALSE;
-		}
-
-		if (pCopyFrom->IsValid() == FALSE) {
-			return FALSE;
-		}
-
-		if (pCopyFrom->GetType() != GetType()) {
-			return FALSE;
-		}
-
-		//
-		// 2. 释放资源
-		//
 		Free();
 
-		//
-		// 3. 复制资源
-		//
 		try {
-			WriteLogI("Copy from resource: %s\n", pCopyFrom->GetName());
+			if (pCopyFrom == NULL) {
+				throw "Invalid resource.";
+			}
+
+			if (pCopyFrom->IsValid() == FALSE) {
+				throw "Invalid resource.";
+			}
+
+			if (pCopyFrom->GetType() != GetType()) {
+				throw "Invalid resource type.";
+			}
 
 			if (m_stream.CopyFrom(pCopyFrom->GetStream()) == FALSE) throw "Copy stream failed.";
 			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
 
 			return TRUE;
 		}
-		catch (const CHAR *szError) {
-			WriteLogE("Error CResource::CopyFrom: %s %s %d\n", szError, __FILE__, __LINE__);
+		catch (const char *szError) {
+			LOGE("CResource::CopyFrom(0x%016x): %s\n", pCopyFrom, szError);
 			Free();
 
 			return FALSE;
 		}
 	}
 
-	//
-	// 从文件加载资源
-	//
-	BOOL CResource::LoadFromFile(const CHAR *szFileName)
+	BOOL CResource::LoadFromFile(const char *szFileName)
 	{
-		//
-		// 1. 参数安全检查
-		//
-		if (szFileName == NULL) {
-			return FALSE;
-		}
-
-		//
-		// 2. 释放资源
-		//
 		Free();
 
-		//
-		// 3. 加载资源
-		//
 		try {
-			WriteLogI("Load from file: %s\n", szFileName);
+			if (szFileName == NULL) {
+				throw "Invalid file name.";
+			}
 
-			if (m_stream.LoadFromFile(szFileName) == FALSE) throw "Load file failed.";
+			if (m_stream.LoadFromFile(szFileName) == FALSE) throw "Load stream from file failed.";
 			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
 
 			return TRUE;
 		}
-		catch (const CHAR *szError) {
-			WriteLogE("Error CResource::LoadFromFile: %s %s %d\n", szError, __FILE__, __LINE__);
+		catch (const char *szError) {
+			LOGE("CResource::LoadFromFile(\"%s\"): %s\n", szFileName ? szFileName : "NULL", szError);
 			Free();
 
 			return FALSE;
 		}
 	}
 
-	//
-	// 从压缩包加载资源
-	//
-	BOOL CResource::LoadFromZip(const CHAR *szZipName, const CHAR *szFileName)
+	BOOL CResource::LoadFromPack(const char *szPackName, const char *szFileName)
 	{
-		//
-		// 1. 参数安全检查
-		//
-		if (szZipName == NULL) {
-			return FALSE;
-		}
-
-		if (szFileName == NULL) {
-			return FALSE;
-		}
-
-		//
-		// 2. 释放资源
-		//
 		Free();
 
-		//
-		// 3. 加载资源
-		//
 		try {
-			WriteLogI("Load from zip: %s<%s>\n", szZipName, szFileName);
+			if (szPackName == NULL) {
+				throw "Invalid pack name.";
+			}
 
-			if (m_stream.LoadFromZip(szZipName, szFileName) == FALSE) throw "Load zip failed.";
+			if (szFileName == NULL) {
+				throw "Invalid file name.";
+			}
+
+			if (m_stream.LoadFromPack(szPackName, szFileName)) throw "Load stream from pack failed.";
 			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
 
 			return TRUE;
 		}
-		catch (const CHAR *szError) {
-			WriteLogE("Error CResource::LoadFromZip: %s %s %d\n", szError, __FILE__, __LINE__);
+		catch (const char *szError) {
+			LOGE("CResource::LoadFromPack(\"%s\", \"%s\"): %s\n", szPackName ? szPackName : "NULL", szFileName ? szFileName : "NULL", szError);
 			Free();
 
 			return FALSE;
 		}
 	}
 
-	//
-	// 从压缩包加载资源
-	//
-	BOOL CResource::LoadFromZip(ZZIP_DIR *pZipPack, const CHAR *szFileName)
+	BOOL CResource::LoadFromPack(ZZIP_DIR *pPack, const char *szFileName)
 	{
-		//
-		// 1. 参数安全检查
-		//
-		if (pZipPack == NULL) {
-			return FALSE;
-		}
-
-		if (szFileName == NULL) {
-			return FALSE;
-		}
-
-		//
-		// 2. 释放资源
-		//
 		Free();
 
-		//
-		// 3. 加载资源
-		//
 		try {
-			WriteLogI("Load from zip: <%s>\n", szFileName);
+			if (pPack == NULL) {
+				throw "Invalid pack.";
+			}
 
-			if (m_stream.LoadFromZip(pZipPack, szFileName) == FALSE) throw "Load zip failed.";
+			if (szFileName == NULL) {
+				throw "Invalid file name.";
+			}
+
+			if (m_stream.LoadFromPack(pPack, szFileName)) throw "Load stream from pack failed.";
 			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
 
 			return TRUE;
 		}
-		catch (const CHAR *szError) {
-			WriteLogE("Error CResource::LoadFromZip: %s %s %d\n", szError, __FILE__, __LINE__);
+		catch (const char *szError) {
+			LOGE("CResource::LoadFromPack(0x%016x, \"%s\"): %s\n", pPack, szFileName ? szFileName : "NULL", szError);
 			Free();
 
 			return FALSE;
 		}
 	}
 
-	//
-	// 保存到文件
-	//
-	BOOL CResource::SaveToFile(const CHAR *szFileName)
+	BOOL CResource::SaveToFile(const char *szFileName)
 	{
-		//
-		// 1. 参数安全检查
-		//
-		if (szFileName == NULL) {
-			return FALSE;
-		}
-
-		if (IsValid() == FALSE) {
-			return FALSE;
-		}
-
-		//
-		// 2. 保存到文件
-		//
 		FILE *pFile = NULL;
 
 		try {
-			WriteLogI("Save to file: %s\n", szFileName);
-
-			//
-			// 2.1. 打开文件
-			//
-			pFile = fopen(szFileName, "wb");
-			if (pFile == NULL) throw "Open file failed.";
-
-			//
-			// 2.2. 保存文件
-			//
-			if (SaveToFileStream(pFile) == FALSE) {
-				throw "Save file failed.";
+			if (szFileName == NULL) {
+				throw "Invalid file name.";
 			}
 
-			//
-			// 2.3. 设置文件名
-			//
+			if (IsValid() == FALSE) {
+				throw "Invalid resource.";
+			}
+
+			pFile = fopen(szFileName, "wb");
+			if (pFile == NULL) {
+				throw "Open file failed.";
+			}
+
+			if (SaveToFileStream(pFile) == FALSE) {
+				throw "Save file stream failed.";
+			}
+
 			SetFileName(szFileName);
 
-			//
-			// 2.4. 关闭文件
-			//
 			fclose(pFile);
 
 			return TRUE;
 		}
-		catch (const CHAR *szError) {
-			WriteLogE("Error CResource::SaveToFile: %s %s %d\n", szError, __FILE__, __LINE__);
+		catch (const char *szError) {
+			LOGE("CResource::SaveToFile(\"%s\"): %s\n", szFileName ? szFileName : "NULL", szError);
 
 			if (pFile) {
 				fclose(pFile);
@@ -331,9 +225,6 @@ namespace CrossEngine {
 		}
 	}
 
-	//
-	// 保存到文件数据流
-	//
 	BOOL CResource::SaveToFileStream(FILE *pFile)
 	{
 		return TRUE;

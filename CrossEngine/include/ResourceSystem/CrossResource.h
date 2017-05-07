@@ -31,6 +31,12 @@ namespace CrossEngine {
 		friend class CResourceManager;
 
 
+	public:
+		typedef enum {
+			SHADER, TEXTURE, MATERIAL, MESH, SKELETON, EFFECT, SOUND
+		} TYPE;
+
+
 	protected:
 		CResource(CResourceManager *pResourceManager);
 		virtual ~CResource(void);
@@ -43,6 +49,8 @@ namespace CrossEngine {
 		virtual BOOL IsValid(void) const = 0;
 
 	public:
+		virtual TYPE GetType(void) const = 0;
+
 		virtual const CStream* GetStream(void) const;
 		virtual CResourceManager* GetResourceManager(void) const;
 
