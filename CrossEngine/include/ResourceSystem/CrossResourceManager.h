@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-/*
+
 #pragma once
 #include "CrossEngine.h"
 
@@ -66,6 +66,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CResourceManager
 	{
+		friend class CResourceSystem;
+
+
 	public:
 		typedef std::map<DWORD, ZZIP_DIR*> PackMap;
 		typedef std::map<DWORD, CResourceHandle*> ResourceMap;
@@ -79,6 +82,9 @@ namespace CrossEngine {
 	protected:
 		virtual void Init(void);
 		virtual void Free(void);
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const = 0;
 
 	public:
 		virtual CResource* CreateResource(void) = 0;
@@ -120,4 +126,3 @@ namespace CrossEngine {
 	};
 
 }
-*/

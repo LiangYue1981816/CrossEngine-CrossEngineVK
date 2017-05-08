@@ -151,6 +151,15 @@ THE SOFTWARE.
 
 #define Engine()             CrossEngine::CEngine::GetEngine()
 
+#define ResourceSystem()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()
+#define ShaderManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SHADER)
+#define TextureManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::TEXTURE)
+#define MaterialManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::MATERIAL)
+#define MeshManager()        CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::MESH)
+#define SkeletonManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SKELETON)
+#define EffectManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::EFFECT)
+#define SoundManager()       CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SOUND)
+
 
 namespace CrossEngine {
 
@@ -164,11 +173,17 @@ namespace CrossEngine {
 	public:
 		static CEngine* GetEngine(void);
 
+	public:
+		CResourceSystem* GetResourceSystem(void) const;
+
 
 	public:
 		void Init(HINSTANCE hInstance, HWND hWnd, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode);
 		void Exit(void);
 
+
+	protected:
+		CResourceSystem *m_pResourceSystem;
 
 	protected:
 		static CEngine sInstance;

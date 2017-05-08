@@ -32,6 +32,7 @@ namespace CrossEngine {
 	}
 
 	CEngine::CEngine(void)
+		: m_pResourceSystem(NULL)
 	{
 
 	}
@@ -39,6 +40,11 @@ namespace CrossEngine {
 	CEngine::~CEngine(void)
 	{
 
+	}
+
+	CResourceSystem* CEngine::GetResourceSystem(void) const
+	{
+		return m_pResourceSystem;
 	}
 
 	void CEngine::Init(HINSTANCE hInstance, HWND hWnd, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode)

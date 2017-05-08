@@ -19,22 +19,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-/*
+
 #pragma once
 #include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
+	typedef enum {
+		SHADER, TEXTURE, MATERIAL, MESH, SKELETON, EFFECT, SOUND, COUNT
+	} RESOURCE_TYPE;
+
 	class CROSS_EXPORT CResource
 	{
+		friend class CResourcePtr;
 		friend class CResourceManager;
-
-
-	public:
-		typedef enum {
-			SHADER, TEXTURE, MATERIAL, MESH, SKELETON, EFFECT, SOUND
-		} TYPE;
 
 
 	protected:
@@ -49,7 +48,7 @@ namespace CrossEngine {
 		virtual BOOL IsValid(void) const = 0;
 
 	public:
-		virtual TYPE GetType(void) const = 0;
+		virtual RESOURCE_TYPE GetType(void) const = 0;
 
 		virtual const CStream* GetStream(void) const;
 		virtual CResourceManager* GetResourceManager(void) const;
@@ -91,25 +90,12 @@ namespace CrossEngine {
 
 
 	protected:
-		virtual VOID FreePointer(VOID)
+		virtual void FreePointer(void)
 		{
 			if (m_pPointer) {
-				m_pPointer->GetResourceManager()->DestroyResource(m_pPointer);
+				SAFE_DELETE(m_pPointer);
 			}
-		}
-
-
-	public:
-		operator CResource* ()
-		{
-			return (CResource *)m_pPointer;
-		}
-
-		operator const CResource* () const
-		{
-			return (const CResource *)m_pPointer;
 		}
 	};
 
 }
-*/

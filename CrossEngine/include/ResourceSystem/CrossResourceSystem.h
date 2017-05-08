@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-/*
+
 #pragma once
 #include "CrossEngine.h"
 
@@ -31,46 +31,28 @@ namespace CrossEngine {
 		friend class CEngine;
 
 
-	public:
-		typedef enum {
-			RESOURCE_MANAGER_SOUND = 0,
-			RESOURCE_MANAGER_SHADER,
-			RESOURCE_MANAGER_TEXTURE,
-			RESOURCE_MANAGER_MATERIAL,
-			RESOURCE_MANAGER_SKELETON,
-			RESOURCE_MANAGER_MESH,
-			RESOURCE_MANAGER_EFFECT,
-			RESOURCE_MANAGER_HALO,
-			RESOURCE_MANAGER_COUNT
-		} RESOURCE_MANAGER;
-
-
 	protected:
 		CResourceSystem(void);
 		virtual ~CResourceSystem(void);
 
 
 	public:
-		CResourceManager* GetResourceManager(RESOURCE_MANAGER manager) const;
+		CResourceManager* GetResourceManager(RESOURCE_TYPE type) const;
 
 	public:
-		CResource* CreateResource(RESOURCE_MANAGER manager);
+		CResource* CreateResource(RESOURCE_TYPE type);
 		void DestroyResource(CResource *pResource);
 
 	public:
-		BOOL LoadResourceZip(const char *szZipName);
 		BOOL LoadResourcePath(const char *szPathName);
-
-		BOOL ReloadAll(void);
-		BOOL ReloadGfx(void);
+		BOOL LoadResourcePack(const char *szPackName);
 
 	public:
 		void GarbageCollection(void);
 
 
 	protected:
-		CResourceManager *m_pResourceManager[RESOURCE_MANAGER_COUNT];
+		CResourceManager *m_pResourceManager[RESOURCE_TYPE::COUNT];
 	};
 
 }
-*/

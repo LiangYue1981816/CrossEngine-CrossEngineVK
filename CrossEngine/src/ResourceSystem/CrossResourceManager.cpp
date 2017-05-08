@@ -19,132 +19,101 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-/*
+
 #include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const CHAR *szName)
+	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szName)
 		: m_pResourceManager(pResourceManager)
 
 		, m_szName(NULL)
 		, m_szFileName(NULL)
-		, m_pZipPack(NULL)
+		, m_pPack(NULL)
 
 		, m_bIsWaste(TRUE)
 	{
-		m_szName = (CHAR *)SAFE_MALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
-		ASSERT(m_szName);
+		m_szName = (char *)SAFE_ALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
 		strcpy(m_szName, szName);
 	}
 
-	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const CHAR *szName, const CHAR *szFileName)
+	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName)
 		: m_pResourceManager(pResourceManager)
 
 		, m_szName(NULL)
 		, m_szFileName(NULL)
-		, m_pZipPack(NULL)
+		, m_pPack(NULL)
 
 		, m_bIsWaste(TRUE)
 	{
-		m_szName = (CHAR *)SAFE_MALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
-		ASSERT(m_szName);
+		m_szName = (char *)SAFE_ALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
 		strcpy(m_szName, szName);
 
-		m_szFileName = (CHAR *)SAFE_MALLOC(strlen(szFileName) + 1, MEMTYPE_HEAP);
-		ASSERT(m_szFileName);
+		m_szFileName = (char *)SAFE_ALLOC(strlen(szFileName) + 1, MEMTYPE_HEAP);
 		strcpy(m_szFileName, szFileName);
 	}
 
-	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const CHAR *szName, const CHAR *szFileName, ZZIP_DIR *pZipPack)
+	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName, ZZIP_DIR *pPack)
 		: m_pResourceManager(pResourceManager)
 
 		, m_szName(NULL)
 		, m_szFileName(NULL)
-		, m_pZipPack(NULL)
+		, m_pPack(pPack)
 
 		, m_bIsWaste(TRUE)
 	{
-		m_szName = (CHAR *)SAFE_MALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
-		ASSERT(m_szName);
+		m_szName = (char *)SAFE_ALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
 		strcpy(m_szName, szName);
 
-		m_szFileName = (CHAR *)SAFE_MALLOC(strlen(szFileName) + 1, MEMTYPE_HEAP);
-		ASSERT(m_szFileName);
+		m_szFileName = (char *)SAFE_ALLOC(strlen(szFileName) + 1, MEMTYPE_HEAP);
 		strcpy(m_szFileName, szFileName);
-
-		m_pZipPack = pZipPack;
 	}
 
-	CResourceHandle::~CResourceHandle(VOID)
+	CResourceHandle::~CResourceHandle(void)
 	{
 		SAFE_FREE(m_szName);
 		SAFE_FREE(m_szFileName);
-
 		m_ptrResource.SetNull();
 	}
 
-	//
-	// 垃圾资源
-	//
-	BOOL CResourceHandle::IsWaste(VOID) const
+	BOOL CResourceHandle::IsWaste(void) const
 	{
 		return m_bIsWaste;
 	}
 
-	//
-	// 获得资源名
-	//
-	const CHAR* CResourceHandle::GetName(VOID) const
+	const char* CResourceHandle::GetName(void) const
 	{
 		return m_szName;
 	}
 
-	//
-	// 获得资源文件名
-	//
-	const CHAR* CResourceHandle::GetFileName(VOID) const
+	const char* CResourceHandle::GetFileName(void) const
 	{
 		return m_szFileName;
 	}
 
-	//
-	// 获得资源指针
-	//
-	CResourcePtr& CResourceHandle::GetResourcePtr(VOID)
+	CResourcePtr& CResourceHandle::GetResourcePtr(void)
 	{
 		return m_ptrResource;
 	}
 
-	//
-	// 加载资源
-	//
 	BOOL CResourceHandle::LoadResource(BOOL bReload)
 	{
 		try {
-			m_bIsWaste = FALSE;
-
 			if (m_ptrResource.IsNull() || bReload) {
-				//
-				// 1. 创建资源共享指针
-				//
 				if (m_ptrResource.IsNull()) {
 					m_ptrResource = CResourcePtr(m_pResourceManager->CreateResource());
 				}
 
-				//
-				// 2. 加载资源
-				//
 				if (m_szFileName) {
-					if (m_pZipPack) {
-						if (m_ptrResource->LoadFromZip(m_pZipPack, m_szFileName) == FALSE) {
-							throw m_szFileName;
+					if (m_pPack) {
+						if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
+							throw "Load from pack failed.";
 						}
 					}
 					else {
 						if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
-							throw m_szFileName;
+							throw "Load from file failed.";
 						}
 					}
 				}
@@ -152,38 +121,26 @@ namespace CrossEngine {
 
 			return m_ptrResource->IsValid();
 		}
-		catch (const CHAR *szError) {
-			WriteLogE("Error CResourceHandle::LoadResource: %s %s %d\n", szError, __FILE__, __LINE__);
+		catch (const char *szError) {
+			LOGE("CResourceHandle::LoadResource(%s): %s\n", bReload ? "TRUE" : "FALSE", szError);
 			FreeResource();
 
 			return FALSE;
 		}
 	}
 
-	//
-	// 释放资源
-	//
-	VOID CResourceHandle::FreeResource(VOID)
+	void CResourceHandle::FreeResource(void)
 	{
 		m_ptrResource.SetNull();
 	}
 
-	//
-	// 删除资源
-	//
-	VOID CResourceHandle::DeleteResource(VOID)
+	void CResourceHandle::DeleteResource(void)
 	{
-		//
-		// 1. 删除压缩包内文件
-		//
-		if (m_szFileName && m_pZipPack) {
+		if (m_szFileName && m_pPack) {
 			// ...
 			return;
 		}
 
-		//
-		// 2. 删除文件
-		//
 		if (m_szFileName) {
 			// ...
 			return;
@@ -191,22 +148,21 @@ namespace CrossEngine {
 	}
 
 
-	CResourceManager::CResourceManager(VOID)
+	static const CResourcePtr ptrResourceNull;
+
+	CResourceManager::CResourceManager(void)
 	{
 		pthread_mutex_init(&m_mutex, NULL);
 		Init();
 	}
 
-	CResourceManager::~CResourceManager(VOID)
+	CResourceManager::~CResourceManager(void)
 	{
 		Free();
 		pthread_mutex_destroy(&m_mutex);
 	}
 
-	//
-	// 初始化资源管理器
-	//
-	VOID CResourceManager::Init(VOID)
+	void CResourceManager::Init(void)
 	{
 		pthread_mutex_lock(&m_mutex);
 		{
@@ -216,185 +172,106 @@ namespace CrossEngine {
 		pthread_mutex_unlock(&m_mutex);
 	}
 
-	//
-	// 释放资源管理器
-	//
-	VOID CResourceManager::Free(VOID)
+	void CResourceManager::Free(void)
 	{
 		pthread_mutex_lock(&m_mutex);
 		{
-			//
-			// 1. 释放所有资源
-			//
-			for (ResourceMap::const_iterator itResource = m_resources.begin(); itResource != m_resources.end(); ++itResource) {
-				const CResourceHandle *pResource = itResource->second;
+			for (const auto &itPack : m_packs) {
+				ZZIP_DIR *pPack = itPack.second;
+				ASSERT(pPack);
+
+				zzip_closedir(pPack);
+			}
+
+			for (const auto &itResource : m_resources) {
+				const CResourceHandle *pResource = itResource.second;
 				ASSERT(pResource);
 
 				if (pResource->IsWaste()) {
-					WriteLogI("Waste Resource: %s\n", pResource->GetFileName());
+					LOGI("Unreference Resource: %s\n", pResource->GetFileName());
 				}
 
 				SAFE_DELETE(pResource);
 			}
 
-			m_resources.clear();
-
-			//
-			// 2. 关闭所有压缩包
-			//
-			for (PackMap::const_iterator itPack = m_packs.begin(); itPack != m_packs.end(); ++itPack) {
-				ZZIP_DIR *pZipPack = itPack->second;
-				ASSERT(pZipPack);
-
-				zzip_closedir(pZipPack);
-			}
-
 			m_packs.clear();
+			m_resources.clear();
 		}
 		pthread_mutex_unlock(&m_mutex);
 	}
 
-	//
-	// 销毁资源
-	//
-	VOID CResourceManager::DestroyResource(CResource * pResource)
+	void CResourceManager::DestroyResource(CResource *pResource)
 	{
-		ASSERT(pResource);
 		SAFE_DELETE(pResource);
 	}
 
-	//
-	// 查找资源
-	//
-	const CResourcePtr& CResourceManager::QueryResource(const CHAR *szName, BOOL bReload)
-	{
-		ASSERT(szName);
-		return QueryResource(HashValue(szName), bReload);
-	}
-
-	//
-	// 查找资源
-	//
 	const CResourcePtr& CResourceManager::QueryResource(DWORD dwName, BOOL bReload)
 	{
-		static const CResourcePtr ptrResourceNull;
 		CResourceHandle *pResource = NULL;
 
-		//
-		// 1. 查找资源
-		//
 		pthread_mutex_lock(&m_mutex);
 		{
-			ResourceMap::const_iterator itResource = m_resources.find(dwName);
+			const auto &itResource = m_resources.find(dwName);
 			if (itResource != m_resources.end()) pResource = itResource->second;
 		}
 		pthread_mutex_unlock(&m_mutex);
 
-		//
-		// 2. 加载资源
-		//
-		if (pResource) {
-			pResource->LoadResource(bReload);
-			return pResource->GetResourcePtr();
+		if (pResource == NULL) {
+			return ptrResourceNull;
 		}
 
-		return ptrResourceNull;
+		if (pResource->LoadResource(bReload) == FALSE) {
+			return ptrResourceNull;
+		}
+
+		return pResource->GetResourcePtr();
 	}
 
-	//
-	// 释放资源
-	//
-	BOOL CResourceManager::FreeResource(const CHAR *szName)
-	{
-		ASSERT(szName);
-		return FreeResource(HashValue(szName));
-	}
-
-	//
-	// 释放资源
-	//
 	BOOL CResourceManager::FreeResource(DWORD dwName)
 	{
 		CResourceHandle *pResource = NULL;
 
-		//
-		// 1. 查找资源
-		//
 		pthread_mutex_lock(&m_mutex);
 		{
-			ResourceMap::const_iterator itResource = m_resources.find(dwName);
+			const auto &itResource = m_resources.find(dwName);
 			if (itResource != m_resources.end()) pResource = itResource->second;
 		}
 		pthread_mutex_unlock(&m_mutex);
 
-		//
-		// 2. 释放资源
-		//
-		if (pResource) {
-			pResource->FreeResource();
-			return TRUE;
+		if (pResource == NULL) {
+			return FALSE;
 		}
 
-		return FALSE;
+		pResource->FreeResource();
+		return TRUE;
 	}
 
-	//
-	// 删除资源
-	//
-	BOOL CResourceManager::DeleteResource(const CHAR *szName)
-	{
-		ASSERT(szName);
-		return DeleteResource(HashValue(szName));
-	}
-
-	//
-	// 删除资源
-	//
 	BOOL CResourceManager::DeleteResource(DWORD dwName)
 	{
 		CResourceHandle *pResource = NULL;
 
-		//
-		// 1. 查找资源
-		//
 		pthread_mutex_lock(&m_mutex);
 		{
-			ResourceMap::const_iterator itResource = m_resources.find(dwName);
+			const auto &itResource = m_resources.find(dwName);
 			if (itResource != m_resources.end()) { pResource = itResource->second; m_resources.erase(itResource); }
 		}
 		pthread_mutex_unlock(&m_mutex);
 
-		//
-		// 2. 删除资源
-		//
-		if (pResource) {
-			pResource->DeleteResource();
-			SAFE_DELETE(pResource);
-			return TRUE;
+		if (pResource == NULL) {
+			return FALSE;
 		}
 
-		return FALSE;
+		pResource->DeleteResource();
+		return TRUE;
 	}
 
-	//
-	// 获得资源集合
-	//
-	const CResourceManager::ResourceMap& CResourceManager::GetResources(VOID) const
+	const CResourceManager::ResourceMap& CResourceManager::GetResources(void) const
 	{
 		return m_resources;
 	}
 
-	//
-	// 复制资源
-	//
-	const CResourcePtr& CResourceManager::CopyFrom(const CHAR *szName, const CResource *pCopyFrom)
+	const CResourcePtr& CResourceManager::CopyFrom(const char *szName, const CResource *pCopyFrom)
 	{
-		static const CResourcePtr ptrResourceNull;
-		CResourceHandle *pResource = NULL;
-
-		//
-		// 1. 参数安全检查
-		//
 		if (szName == NULL) {
 			return ptrResourceNull;
 		}
@@ -411,44 +288,33 @@ namespace CrossEngine {
 			return ptrResourceNull;
 		}
 
-		//
-		// 2. 查找资源
-		//
+		CResourceHandle *pResource = NULL;
+
 		pthread_mutex_lock(&m_mutex);
 		{
 			DWORD dwName = HashValue(szName);
-			ResourceMap::const_iterator itResource = m_resources.find(dwName);
 
-			if (itResource != m_resources.end()) {
-				pResource = itResource->second;
+			if (m_resources[dwName] == NULL) {
+				m_resources[dwName] = SAFE_NEW CResourceHandle(this, szName);
 			}
-			else {
-				pResource = SAFE_NEW(MEMTYPE_HEAP) CResourceHandle(this, szName);
-				m_resources[dwName] = pResource;
-			}
+
+			pResource = m_resources[dwName];
 		}
 		pthread_mutex_unlock(&m_mutex);
 
-		//
-		// 3. 复制资源
-		//
 		const CResourcePtr &ptrResource = pResource->GetResourcePtr();
-
 		ptrResource->CopyFrom(pCopyFrom);
 		ptrResource->SetName(szName);
 
 		return ptrResource;
 	}
 
-	//
-	// 重新加载资源
-	//
-	BOOL CResourceManager::Reload(VOID)
+	BOOL CResourceManager::Reload(void)
 	{
 		pthread_mutex_lock(&m_mutex);
 		{
-			for (ResourceMap::const_iterator itResource = m_resources.begin(); itResource != m_resources.end(); ++itResource) {
-				CResourceHandle *pResource = itResource->second;
+			for (const auto &itResource : m_resources) {
+				CResourceHandle *pResource = itResource.second;
 				ASSERT(pResource);
 
 				pResource->LoadResource(TRUE);
@@ -459,16 +325,8 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	//
-	// 从文件加载
-	//
-	BOOL CResourceManager::LoadFromFile(const CHAR *szFileName, const CHAR *szExtName)
+	BOOL CResourceManager::LoadFromFile(const char *szFileName, const char *szExtName)
 	{
-		CResourceHandle *pResource = NULL;
-
-		//
-		// 1. 参数安全检查
-		//
 		if (szFileName == NULL) {
 			return FALSE;
 		}
@@ -477,51 +335,39 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		//
-		// 2. 检查文件类型
-		//
-		CHAR szFName[_MAX_STRING];
-		CHAR szEName[_MAX_STRING];
+		char szFName[_MAX_STRING];
+		char szEName[_MAX_STRING];
 
 		splitfilename(szFileName, szFName, szEName);
 		if (stricmp(szExtName, szEName)) return FALSE;
 
-		//
-		// 3. 查找资源
-		//
+		CResourceHandle *pResource = NULL;
+
 		pthread_mutex_lock(&m_mutex);
 		{
-			CHAR szName[_MAX_STRING];
+			char szName[_MAX_STRING];
 			sprintf(szName, "%s%s", szFName, szEName);
 
 			DWORD dwName = HashValue(szName);
-			ResourceMap::const_iterator itResource = m_resources.find(dwName);
 
-			if (itResource != m_resources.end()) {
-				pResource = itResource->second;
-				WriteLogW("Exist resource name = %s\n", szFileName);
+			if (m_resources[dwName] == NULL) {
+				m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szName, szFileName);
 			}
 			else {
-				pResource = SAFE_NEW(MEMTYPE_HEAP) CResourceHandle(this, szName, szFileName);
-				m_resources[dwName] = pResource;
+				LOGW("Exist resource : %s\n", szFileName);
 			}
 		}
 		pthread_mutex_unlock(&m_mutex);
 
-		//
-		// 4. 预加载资源
-		//
-		return PreLoad(pResource);
+		if (pResource) {
+			PreLoad(pResource);
+		}
+
+		return TRUE;
 	}
 
-	//
-	// 从文件夹加载
-	//
-	BOOL CResourceManager::LoadFromPath(const CHAR *szPathName, const CHAR *szExtName)
+	BOOL CResourceManager::LoadFromPath(const char *szPathName, const char *szExtName)
 	{
-		//
-		// 1. 参数安全检查
-		//
 		if (szPathName == NULL) {
 			return FALSE;
 		}
@@ -530,17 +376,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		//
-		// 2. 遍历文件夹
-		//
 #if defined _PLATFORM_WINDOWS_
 
-		CHAR szFilter[_MAX_STRING];
+		char szFilter[_MAX_STRING];
 		sprintf(szFilter, "%s/*", szPathName);
 
 #else
 
-		CHAR szFilter[_MAX_STRING];
+		char szFilter[_MAX_STRING];
 		sprintf(szFilter, "%s/", szPathName);
 
 #endif
@@ -550,53 +393,40 @@ namespace CrossEngine {
 
 		if (hFile != -1) {
 			do {
-				CResourceHandle *pResource = NULL;
-
-				//
-				// 2.1. 目录检查
-				//
 				if (fileData.attrib&_A_SUBDIR) {
 					continue;
 				}
 
-				//
-				// 2.2. 检查文件类型
-				//
-				CHAR szFName[_MAX_STRING];
-				CHAR szEName[_MAX_STRING];
+				char szFName[_MAX_STRING];
+				char szEName[_MAX_STRING];
 
 				splitfilename(fileData.name, szFName, szEName);
 				if (stricmp(szExtName, szEName)) continue;
 
-				//
-				// 2.3. 查找资源
-				//
+				CResourceHandle *pResource = NULL;
+
 				pthread_mutex_lock(&m_mutex);
 				{
-					CHAR szName[_MAX_STRING];
-					CHAR szFileName[_MAX_STRING];
+					char szName[_MAX_STRING];
+					char szFileName[_MAX_STRING];
 
 					sprintf(szName, "%s%s", szFName, szEName);
 					sprintf(szFileName, "%s/%s", szPathName, szName);
 
 					DWORD dwName = HashValue(szName);
-					ResourceMap::const_iterator itResource = m_resources.find(dwName);
 
-					if (itResource != m_resources.end()) {
-						pResource = itResource->second;
-						WriteLogW("Exist resource name = %s\n", szFileName);
+					if (m_resources[dwName] == NULL) {
+						m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szName, szFileName);
 					}
 					else {
-						pResource = SAFE_NEW(MEMTYPE_HEAP) CResourceHandle(this, szName, szFileName);
-						m_resources[dwName] = pResource;
+						LOGW("Exist resource : %s\n", szFileName);
 					}
 				}
 				pthread_mutex_unlock(&m_mutex);
 
-				//
-				// 2.4. 预加载资源
-				//
-				PreLoad(pResource);
+				if (pResource) {
+					PreLoad(pResource);
+				}	
 			} while (_findnext(hFile, &fileData) == 0);
 
 			_findclose(hFile);
@@ -605,18 +435,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	//
-	// 从压缩包加载
-	//
-	BOOL CResourceManager::LoadFromZip(const CHAR *szZipName, const CHAR *szExtName)
+	BOOL CResourceManager::LoadFromPack(const char *szPackName, const char *szExtName)
 	{
-		ZZIP_DIR *pZipPack = NULL;
-		ZZIP_DIRENT *pZipEntry = NULL;
-
-		//
-		// 1. 参数安全检查
-		//
-		if (szZipName == NULL) {
+		if (szPackName == NULL) {
 			return FALSE;
 		}
 
@@ -624,100 +445,73 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		//
-		// 2. 打开压缩包文件
-		//
+		ZZIP_DIR *pPack = NULL;
+
 		pthread_mutex_lock(&m_mutex);
 		{
-			DWORD dwPackName = HashValue(szZipName);
-			PackMap::const_iterator itPack = m_packs.find(dwPackName);
+			DWORD dwName = HashValue(szPackName);
 
-			if (itPack != m_packs.end()) {
-				pZipPack = itPack->second;
+			if (m_packs[dwName] == NULL) {
+				m_packs[dwName] = zzip_opendir(szPackName);
 			}
-			else {
-				pZipPack = zzip_opendir(szZipName);
-				m_packs[dwPackName] = pZipPack;
-			}
+
+			pPack = m_packs[dwName];
 		}
 		pthread_mutex_unlock(&m_mutex);
 
-		zzip_seekdir(pZipPack, 0);
+		zzip_seekdir(pPack, 0);
 
-		//
-		// 3. 遍历压缩包
-		//
-		while (pZipEntry = zzip_readdir(pZipPack)) {
+		while (ZZIP_DIRENT *pEntry = zzip_readdir(pPack)) {
+			char szFName[_MAX_STRING];
+			char szEName[_MAX_STRING];
+
+			splitfilename(pEntry->d_name, szFName, szEName);
+			if (stricmp(szExtName, szEName)) continue;
+			
 			CResourceHandle *pResource = NULL;
 
-			//
-			// 3.1. 检查文件类型
-			//
-			CHAR szFName[_MAX_STRING];
-			CHAR szEName[_MAX_STRING];
-
-			splitfilename(pZipEntry->d_name, szFName, szEName);
-			if (stricmp(szExtName, szEName)) continue;
-
-			//
-			// 3.2. 查找资源
-			//
 			pthread_mutex_lock(&m_mutex);
 			{
-				CHAR szName[_MAX_STRING];
-				CHAR szFileName[_MAX_STRING];
+				char szName[_MAX_STRING];
+				char szFileName[_MAX_STRING];
 
 				sprintf(szName, "%s%s", szFName, szEName);
-				sprintf(szFileName, "%s", pZipEntry->d_name);
+				sprintf(szFileName, "%s", pEntry->d_name);
 
 				DWORD dwName = HashValue(szName);
-				ResourceMap::const_iterator itResource = m_resources.find(dwName);
 
-				if (itResource != m_resources.end()) {
-					pResource = itResource->second;
-					WriteLogW("Exist resource name = %s<%s>\n", szZipName, szFileName);
+				if (m_resources[dwName] == NULL) {
+					m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szName, szFileName, pPack);
 				}
 				else {
-					pResource = SAFE_NEW(MEMTYPE_HEAP) CResourceHandle(this, szName, szFileName, pZipPack);
-					m_resources[dwName] = pResource;
+					LOGW("Exist resource : %s\n", szFileName);
 				}
 			}
 			pthread_mutex_unlock(&m_mutex);
 
-			//
-			// 3.3. 预加载资源
-			//
-			PreLoad(pResource);
+			if (pResource) {
+				PreLoad(pResource);
+			}
 		}
 
 		return TRUE;
 	}
 
-	//
-	// 预加载资源
-	//
 	BOOL CResourceManager::PreLoad(CResourceHandle *pResource)
 	{
 		return TRUE;
 	}
 
-	//
-	// 垃圾回收
-	//
-	VOID CResourceManager::GarbageCollection(VOID)
+	void CResourceManager::GarbageCollection(void)
 	{
 		pthread_mutex_lock(&m_mutex);
 		{
-			for (ResourceMap::const_iterator itResource = m_resources.begin(); itResource != m_resources.end(); ++itResource) {
-				CResourceHandle *pResource = itResource->second;
+			for (const auto &itResource : m_resources) {
+				CResourceHandle *pResource = itResource.second;
 				ASSERT(pResource);
 
-				// 注意: 这里直接使用m_ptrResource成员变量为了避免调用GetResourcePtr()函数
-				//       引起的引用计数增加, 从而导致无法资源回收。
-				if (DWORD *pdwRefCount = pResource->m_ptrResource.GetRefCount()) {
-					if (1 == *pdwRefCount) { // 只有资源管理器持有资源
-						pResource->m_ptrResource.SetNull();
-					}
+				if (pResource->m_ptrResource.GetRefCount() == 1) {
+					pResource->m_ptrResource.SetNull();
 				}
 			}
 		}
@@ -725,4 +519,3 @@ namespace CrossEngine {
 	}
 
 }
-*/

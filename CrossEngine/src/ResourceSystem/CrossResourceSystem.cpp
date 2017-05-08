@@ -19,132 +19,63 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-/*
+
 #include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CResourceSystem::CResourceSystem(VOID)
+	CResourceSystem::CResourceSystem(void)
+		: m_pResourceManager{ NULL }
 	{
-		m_pResourceManager[RESOURCE_MANAGER_SOUND] = SAFE_NEW(MEMTYPE_HEAP) CSoundManager;
-		m_pResourceManager[RESOURCE_MANAGER_SHADER] = SAFE_NEW(MEMTYPE_HEAP) CShaderManager;
-		m_pResourceManager[RESOURCE_MANAGER_TEXTURE] = SAFE_NEW(MEMTYPE_HEAP) CTextureManager;
-		m_pResourceManager[RESOURCE_MANAGER_MATERIAL] = SAFE_NEW(MEMTYPE_HEAP) CMaterialManager;
-		m_pResourceManager[RESOURCE_MANAGER_SKELETON] = SAFE_NEW(MEMTYPE_HEAP) CSkeletonManager;
-		m_pResourceManager[RESOURCE_MANAGER_MESH] = SAFE_NEW(MEMTYPE_HEAP) CMeshManager;
-		m_pResourceManager[RESOURCE_MANAGER_EFFECT] = SAFE_NEW(MEMTYPE_HEAP) CEffectManager;
-		m_pResourceManager[RESOURCE_MANAGER_HALO] = NULL; // SAFE_NEW(MEMTYPE_HEAP) CHaloManager;
+
 	}
 
-	CResourceSystem::~CResourceSystem(VOID)
+	CResourceSystem::~CResourceSystem(void)
 	{
-		for (INT indexManager = RESOURCE_MANAGER_COUNT - 1; indexManager >= 0; indexManager--) {
+		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
 			SAFE_DELETE(m_pResourceManager[indexManager]);
 		}
 	}
 
-	//
-	// 获得资源管理器
-	//
-	CResourceManager* CResourceSystem::GetResourceManager(RESOURCE_MANAGER manager) const
+	CResourceManager* CResourceSystem::GetResourceManager(RESOURCE_TYPE type) const
 	{
-		ASSERT(m_pResourceManager[manager]);
-		return m_pResourceManager[manager];
+		return m_pResourceManager[type];
 	}
 
-	//
-	// 创建资源
-	//
-	CResource* CResourceSystem::CreateResource(RESOURCE_MANAGER manager)
+	CResource* CResourceSystem::CreateResource(RESOURCE_TYPE type)
 	{
-		ASSERT(m_pResourceManager[manager]);
-		return m_pResourceManager[manager]->CreateResource();
+		return m_pResourceManager[type]->CreateResource();
 	}
 
-	//
-	// 销毁资源
-	//
-	VOID CResourceSystem::DestroyResource(CResource *pResource)
+	void CResourceSystem::DestroyResource(CResource *pResource)
 	{
-		ASSERT(pResource);
 		pResource->GetResourceManager()->DestroyResource(pResource);
 	}
 
-	//
-	// 加载资源包资源
-	//
-	BOOL CResourceSystem::LoadResourceZip(const CHAR *szZipName)
+	BOOL CResourceSystem::LoadResourcePath(const char *szPathName)
 	{
-		ASSERT(szZipName);
-
-		for (INT indexManager = 0; indexManager < RESOURCE_MANAGER_COUNT; indexManager++) {
-			if (m_pResourceManager[indexManager]) {
-				m_pResourceManager[indexManager]->LoadFromZip(szZipName);
-			}
+		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
+			m_pResourceManager[indexManager]->LoadFromPath(szPathName);
 		}
 
 		return TRUE;
 	}
 
-	//
-	// 加载文件夹资源
-	//
-	BOOL CResourceSystem::LoadResourcePath(const CHAR *szPathName)
+	BOOL CResourceSystem::LoadResourcePack(const char *szPackName)
 	{
-		ASSERT(szPathName);
-
-		for (INT indexManager = 0; indexManager < RESOURCE_MANAGER_COUNT; indexManager++) {
-			if (m_pResourceManager[indexManager]) {
-				m_pResourceManager[indexManager]->LoadFromPath(szPathName);
-			}
+		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
+			m_pResourceManager[indexManager]->LoadFromPack(szPackName);
 		}
 
 		return TRUE;
 	}
 
-	//
-	// 重新加载所有资源
-	//
-	BOOL CResourceSystem::ReloadAll(VOID)
+	void CResourceSystem::GarbageCollection(void)
 	{
-		for (INT indexManager = 0; indexManager < RESOURCE_MANAGER_COUNT; indexManager++) {
-			if (m_pResourceManager[indexManager]) {
-				m_pResourceManager[indexManager]->Reload();
-			}
-		}
-
-		return TRUE;
-	}
-
-	//
-	// 重新加载图形资源
-	//
-	BOOL CResourceSystem::ReloadGfx(VOID)
-	{
-		ASSERT(m_pResourceManager[RESOURCE_MANAGER_MESH]);
-		ASSERT(m_pResourceManager[RESOURCE_MANAGER_SHADER]);
-		ASSERT(m_pResourceManager[RESOURCE_MANAGER_TEXTURE]);
-
-		m_pResourceManager[RESOURCE_MANAGER_MESH]->Reload();
-		m_pResourceManager[RESOURCE_MANAGER_SHADER]->Reload();
-		m_pResourceManager[RESOURCE_MANAGER_TEXTURE]->Reload();
-
-		return TRUE;
-	}
-
-	//
-	// 垃圾回收
-	// 注意: 资源之间的依赖关系决定垃圾回收顺序
-	//
-	VOID CResourceSystem::GarbageCollection(VOID)
-	{
-		for (INT indexManager = RESOURCE_MANAGER_COUNT - 1; indexManager >= 0; indexManager--) {
-			if (m_pResourceManager[indexManager]) {
-				m_pResourceManager[indexManager]->GarbageCollection();
-			}
+		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
+			m_pResourceManager[indexManager]->GarbageCollection();
 		}
 	}
 
 }
-*/
