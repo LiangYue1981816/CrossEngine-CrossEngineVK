@@ -84,7 +84,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)
 	{
-		char szFileName[_MAX_PATH];
+		char szFileName[_MAX_STRING];
 		sprintf(szFileName, "%s/%x", m_pDevice->GetVulkan()->GetCachePath(), HashValue(szSource));
 
 		std::vector<uint32_t> words;

@@ -104,7 +104,7 @@ namespace CrossEngine {
 
 
 	protected:
-		char m_szCachePath[_MAX_PATH];
+		char m_szCachePath[_MAX_STRING];
 
 	protected:
 		VkInstance m_vkInstance;
