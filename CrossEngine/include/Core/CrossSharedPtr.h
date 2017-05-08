@@ -63,8 +63,8 @@ namespace CrossEngine {
 
 			SetNull();
 
-			m_pPointer = pPointer;
-			m_pRefCount = pRefCount;
+			m_pPointer = (T *)pPointer;
+			m_pRefCount = (DWORD *)pRefCount;
 
 			if (m_pRefCount == NULL) {
 				m_pRefCount = (DWORD *)SAFE_ALLOC(sizeof(*m_pRefCount), MEMTYPE_HEAP); (*m_pRefCount) = 0;
@@ -73,12 +73,7 @@ namespace CrossEngine {
 			++(*m_pRefCount);
 		}
 
-		virtual void FreePointer(void)
-		{
-			if (m_pPointer) {
-				SAFE_DELETE(m_pPointer);
-			}
-		}
+		virtual void FreePointer(void) = 0;
 
 
 	public:
