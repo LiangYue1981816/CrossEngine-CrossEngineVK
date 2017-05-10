@@ -88,6 +88,16 @@ namespace CrossEngine {
 			return m_pPointer;
 		}
 
+		inline operator T* (void) const
+		{
+			return m_pPointer;
+		}
+
+		inline operator const T* (void) const
+		{
+			return m_pPointer;
+		}
+
 		inline BOOL IsNull(void) const
 		{
 			return m_pPointer && m_pRefCount ? FALSE : TRUE;
