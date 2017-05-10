@@ -58,7 +58,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanFencePtr : public CVulkanResourcePtr<CVulkanFence>
 	{
-
+	public:
+		CVulkanFencePtr(void) : CVulkanResourcePtr<CVulkanFence>() {}
+		CVulkanFencePtr(const CVulkanFence *p) : CVulkanResourcePtr<CVulkanFence>(p) {}
+		CVulkanFencePtr(const CVulkanFencePtr &ptr) : CVulkanResourcePtr<CVulkanFence>(ptr) {}
 	};
 
 }

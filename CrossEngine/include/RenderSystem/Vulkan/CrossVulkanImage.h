@@ -88,7 +88,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanImagePtr : public CVulkanResourcePtr<CVulkanImage>
 	{
-
+	public:
+		CVulkanImagePtr(void) : CVulkanResourcePtr<CVulkanImage>() {}
+		CVulkanImagePtr(const CVulkanImage *p) : CVulkanResourcePtr<CVulkanImage>(p) {}
+		CVulkanImagePtr(const CVulkanImagePtr &ptr) : CVulkanResourcePtr<CVulkanImage>(ptr) {}
 	};
 
 }

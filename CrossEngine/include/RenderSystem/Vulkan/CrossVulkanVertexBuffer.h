@@ -42,7 +42,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanVertexBufferPtr : public CVulkanResourcePtr<CVulkanVertexBuffer>
 	{
-
+	public:
+		CVulkanVertexBufferPtr(void) : CVulkanResourcePtr<CVulkanVertexBuffer>() {}
+		CVulkanVertexBufferPtr(const CVulkanVertexBuffer *p) : CVulkanResourcePtr<CVulkanVertexBuffer>(p) {}
+		CVulkanVertexBufferPtr(const CVulkanVertexBufferPtr &ptr) : CVulkanResourcePtr<CVulkanVertexBuffer>(ptr) {}
 	};
 
 }

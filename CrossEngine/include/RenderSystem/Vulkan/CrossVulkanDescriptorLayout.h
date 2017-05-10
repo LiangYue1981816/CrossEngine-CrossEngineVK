@@ -67,7 +67,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanDescriptorSetLayoutPtr : public CVulkanResourcePtr<CVulkanDescriptorSetLayout>
 	{
-
+	public:
+		CVulkanDescriptorSetLayoutPtr(void) : CVulkanResourcePtr<CVulkanDescriptorSetLayout>() {}
+		CVulkanDescriptorSetLayoutPtr(const CVulkanDescriptorSetLayout *p) : CVulkanResourcePtr<CVulkanDescriptorSetLayout>(p) {}
+		CVulkanDescriptorSetLayoutPtr(const CVulkanDescriptorSetLayoutPtr &ptr) : CVulkanResourcePtr<CVulkanDescriptorSetLayout>(ptr) {}
 	};
 
 }

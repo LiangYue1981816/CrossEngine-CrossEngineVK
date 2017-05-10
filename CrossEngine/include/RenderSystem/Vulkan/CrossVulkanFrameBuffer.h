@@ -64,7 +64,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanFrameBufferPtr : public CVulkanResourcePtr<CVulkanFrameBuffer>
 	{
-
+	public:
+		CVulkanFrameBufferPtr(void) : CVulkanResourcePtr<CVulkanFrameBuffer>() {}
+		CVulkanFrameBufferPtr(const CVulkanFrameBuffer *p) : CVulkanResourcePtr<CVulkanFrameBuffer>(p) {}
+		CVulkanFrameBufferPtr(const CVulkanFrameBufferPtr &ptr) : CVulkanResourcePtr<CVulkanFrameBuffer>(ptr) {}
 	};
 
 }

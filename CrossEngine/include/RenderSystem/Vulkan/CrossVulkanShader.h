@@ -67,7 +67,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanShaderPtr : public CVulkanResourcePtr<CVulkanShader>
 	{
-
+	public:
+		CVulkanShaderPtr(void) : CVulkanResourcePtr<CVulkanShader>() {}
+		CVulkanShaderPtr(const CVulkanShader *p) : CVulkanResourcePtr<CVulkanShader>(p) {}
+		CVulkanShaderPtr(const CVulkanShaderPtr &ptr) : CVulkanResourcePtr<CVulkanShader>(ptr) {}
 	};
 
 }

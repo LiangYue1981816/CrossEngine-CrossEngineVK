@@ -89,7 +89,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanRenderPassPtr : public CVulkanResourcePtr<CVulkanRenderPass>
 	{
-
+	public:
+		CVulkanRenderPassPtr(void) : CVulkanResourcePtr<CVulkanRenderPass>() {}
+		CVulkanRenderPassPtr(const CVulkanRenderPass *p) : CVulkanResourcePtr<CVulkanRenderPass>(p) {}
+		CVulkanRenderPassPtr(const CVulkanRenderPassPtr &ptr) : CVulkanResourcePtr<CVulkanRenderPass>(ptr) {}
 	};
 
 }

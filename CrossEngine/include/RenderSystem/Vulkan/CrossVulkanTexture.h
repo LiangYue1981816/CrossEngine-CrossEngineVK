@@ -61,7 +61,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanTexturePtr : public CVulkanResourcePtr<CVulkanTexture>
 	{
-
+	public:
+		CVulkanTexturePtr(void) : CVulkanResourcePtr<CVulkanTexture>() {}
+		CVulkanTexturePtr(const CVulkanTexture *p) : CVulkanResourcePtr<CVulkanTexture>(p) {}
+		CVulkanTexturePtr(const CVulkanTexturePtr &ptr) : CVulkanResourcePtr<CVulkanTexture>(ptr) {}
 	};
 
 }

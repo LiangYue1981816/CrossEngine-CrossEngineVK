@@ -53,7 +53,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanSemaphorePtr : public CVulkanResourcePtr<CVulkanSemaphore>
 	{
-
+	public:
+		CVulkanSemaphorePtr(void) : CVulkanResourcePtr<CVulkanSemaphore>() {}
+		CVulkanSemaphorePtr(const CVulkanSemaphore *p) : CVulkanResourcePtr<CVulkanSemaphore>(p) {}
+		CVulkanSemaphorePtr(const CVulkanSemaphorePtr &ptr) : CVulkanResourcePtr<CVulkanSemaphore>(ptr) {}
 	};
 
 }
