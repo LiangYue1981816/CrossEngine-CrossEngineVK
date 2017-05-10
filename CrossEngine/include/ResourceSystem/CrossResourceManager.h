@@ -43,7 +43,7 @@ namespace CrossEngine {
 
 		const char* GetName(void) const;
 		const char* GetFileName(void) const;
-		CResourcePtr& GetResourcePtr(void);
+		CResourcePtr<CResource>& GetResourcePtr(void);
 
 	public:
 		BOOL LoadResource(BOOL bReload);
@@ -60,7 +60,7 @@ namespace CrossEngine {
 		ZZIP_DIR *m_pPack;
 
 	protected:
-		CResourcePtr m_ptrResource;
+		CResourcePtr<CResource> m_ptrResource;
 		CResourceManager *m_pResourceManager;
 	};
 
@@ -91,14 +91,14 @@ namespace CrossEngine {
 		virtual void DestroyResource(CResource *pResource);
 
 	public:
-		const CResourcePtr& QueryResource(DWORD dwName, BOOL bReload = FALSE);
+		const CResourcePtr<CResource>& QueryResource(DWORD dwName, BOOL bReload = FALSE);
 		BOOL FreeResource(DWORD dwName);
 		BOOL DeleteResource(DWORD dwName);
 
 		const ResourceMap& GetResources(void) const;
 
 	public:
-		virtual const CResourcePtr& CopyFrom(const char *szName, const CResource *pCopyFrom);
+		virtual const CResourcePtr<CResource>& CopyFrom(const char *szName, const CResource *pCopyFrom);
 
 		virtual BOOL LoadFromFile(const char *szFileName) = 0;
 		virtual BOOL LoadFromPath(const char *szPathName) = 0;

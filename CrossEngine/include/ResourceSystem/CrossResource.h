@@ -32,7 +32,6 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CResource
 	{
-		friend class CResourcePtr;
 		friend class CResourceManager;
 
 
@@ -80,12 +79,13 @@ namespace CrossEngine {
 		CResourceManager *m_pResourceManager;
 	};
 
-	class CROSS_EXPORT CResourcePtr : public CSharedPtr<CResource>
+	template<class T>
+	class CROSS_EXPORT CResourcePtr : public CSharedPtr<T>
 	{
 	public:
-		CResourcePtr(void) : CSharedPtr<CResource>() {}
-		CResourcePtr(const CResource *pPointer) : CSharedPtr<CResource>(pPointer) {}
-		CResourcePtr(const CResourcePtr &ptr) : CSharedPtr<CResource>(ptr) {}
+		CResourcePtr(void) : CSharedPtr<T>() {}
+		CResourcePtr(const T *pPointer) : CSharedPtr<T>(pPointer) {}
+		CResourcePtr(const CResourcePtr &ptr) : CSharedPtr<T>(ptr) {}
 		virtual ~CResourcePtr(void) {}
 
 
@@ -93,7 +93,7 @@ namespace CrossEngine {
 		virtual void FreePointer(void)
 		{
 			if (m_pPointer) {
-				SAFE_DELETE(m_pPointer);
+				((CResource *)m_pPointer)->GetResourceManager()->DestroyResource((CResource *)m_pPointer);
 			}
 		}
 	};

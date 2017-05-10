@@ -92,7 +92,7 @@ namespace CrossEngine {
 		return m_szFileName;
 	}
 
-	CResourcePtr& CResourceHandle::GetResourcePtr(void)
+	CResourcePtr<CResource>& CResourceHandle::GetResourcePtr(void)
 	{
 		return m_ptrResource;
 	}
@@ -102,7 +102,7 @@ namespace CrossEngine {
 		try {
 			if (m_ptrResource.IsNull() || bReload) {
 				if (m_ptrResource.IsNull()) {
-					m_ptrResource = CResourcePtr(m_pResourceManager->CreateResource());
+					m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 				}
 
 				if (m_szFileName) {
@@ -148,7 +148,7 @@ namespace CrossEngine {
 	}
 
 
-	static const CResourcePtr ptrResourceNull;
+	static const CResourcePtr<CResource> ptrResourceNull;
 
 	CResourceManager::CResourceManager(void)
 	{
@@ -205,7 +205,7 @@ namespace CrossEngine {
 		SAFE_DELETE(pResource);
 	}
 
-	const CResourcePtr& CResourceManager::QueryResource(DWORD dwName, BOOL bReload)
+	const CResourcePtr<CResource>& CResourceManager::QueryResource(DWORD dwName, BOOL bReload)
 	{
 		CResourceHandle *pResource = NULL;
 
@@ -270,7 +270,7 @@ namespace CrossEngine {
 		return m_resources;
 	}
 
-	const CResourcePtr& CResourceManager::CopyFrom(const char *szName, const CResource *pCopyFrom)
+	const CResourcePtr<CResource>& CResourceManager::CopyFrom(const char *szName, const CResource *pCopyFrom)
 	{
 		if (szName == NULL) {
 			return ptrResourceNull;
@@ -302,7 +302,7 @@ namespace CrossEngine {
 		}
 		pthread_mutex_unlock(&m_mutex);
 
-		const CResourcePtr &ptrResource = pResource->GetResourcePtr();
+		const CResourcePtr<CResource> &ptrResource = pResource->GetResourcePtr();
 		ptrResource->CopyFrom(pCopyFrom);
 		ptrResource->SetName(szName);
 
