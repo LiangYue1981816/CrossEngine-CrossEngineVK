@@ -56,7 +56,6 @@ namespace CrossEngine {
 		CVulkanResourcePtr(void) : CSharedPtr<T>() {}
 		CVulkanResourcePtr(const T *pPointer) : CSharedPtr<T>(pPointer) {}
 		CVulkanResourcePtr(const CVulkanResourcePtr &ptr) : CSharedPtr<T>(ptr) {}
-		virtual ~CVulkanResourcePtr(void) {}
 
 
 	protected:
