@@ -42,11 +42,11 @@ namespace CrossEngine {
 		{
 			Set(pPointer, NULL);
 		}
-		CSharedPtr(const CSharedPtr &share)
+		CSharedPtr(const CSharedPtr &ptr)
 			: m_pPointer(NULL)
 			, m_pRefCount(NULL)
 		{
-			Set(share.m_pPointer, share.m_pRefCount);
+			Set(ptr.m_pPointer, ptr.m_pRefCount);
 		}
 		virtual ~CSharedPtr(void)
 		{
@@ -77,9 +77,9 @@ namespace CrossEngine {
 
 
 	public:
-		inline CSharedPtr& operator = (const CSharedPtr &share)
+		inline CSharedPtr& operator = (const CSharedPtr &ptr)
 		{
-			Set(share.m_pPointer, share.m_pRefCount);
+			Set(ptr.m_pPointer, ptr.m_pRefCount);
 			return *this;
 		}
 
