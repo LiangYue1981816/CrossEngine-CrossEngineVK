@@ -84,7 +84,7 @@ namespace CrossEngine {
 	{
 	public:
 		CResourcePtr(void) : CSharedPtr<T>() {}
-		CResourcePtr(const T *pPointer) : CSharedPtr<T>(pPointer) {}
+		CResourcePtr(const T *p) : CSharedPtr<T>(p) {}
 		CResourcePtr(const CResourcePtr &ptr) : CSharedPtr<T>(ptr) {}
 		virtual ~CResourcePtr(void) {}
 
