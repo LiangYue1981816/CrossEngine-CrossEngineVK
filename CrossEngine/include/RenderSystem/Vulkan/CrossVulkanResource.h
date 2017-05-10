@@ -47,4 +47,22 @@ namespace CrossEngine {
 		CVulkanResourceManager *m_pManager;
 	};
 
+	class CROSS_EXPORT CVulkanResourcePtr : public CSharedPtr<CVulkanResource>
+	{
+	public:
+		CVulkanResourcePtr(void) : CSharedPtr<CVulkanResource>() {}
+		CVulkanResourcePtr(const CVulkanResource *pResource) : CSharedPtr<CVulkanResource>(pResource) {}
+		CVulkanResourcePtr(const CVulkanResourcePtr &ptrResource) : CSharedPtr<CVulkanResource>(ptrResource) {}
+		virtual ~CVulkanResourcePtr(void) {}
+
+
+	protected:
+		virtual void FreePointer(void)
+		{
+			if (m_pPointer) {
+				m_pPointer->Release();
+			}
+		}
+	};
+
 }
