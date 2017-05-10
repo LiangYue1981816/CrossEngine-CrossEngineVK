@@ -70,8 +70,8 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	CVulkanShader::CVulkanShader(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanResource(pDevice, pManager)
+	CVulkanShader::CVulkanShader(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanResource(pDevice, pResourceManager)
 		, m_vkShaderModule(VK_NULL_HANDLE)
 	{
 
@@ -124,7 +124,7 @@ namespace CrossEngine {
 
 	shaderc::CompileOptions CVulkanShader::CreateCompileOptions(void)
 	{
-		shaderc::CompileOptions options(((CVulkanShaderManager *)m_pManager)->GetCompileOptions());
+		shaderc::CompileOptions options(((CVulkanShaderManager *)m_pResourceManager)->GetCompileOptions());
 
 		for (const auto &itMacroDefinition : m_strMacroDefinitions) {
 			if (itMacroDefinition.second.empty()) {

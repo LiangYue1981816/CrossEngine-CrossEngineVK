@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanPipeline::CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanResource(pDevice, pManager)
+	CVulkanPipeline::CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanResource(pDevice, pResourceManager)
 		, m_vkPipeline(VK_NULL_HANDLE)
 		, m_vkPipelineLayout(VK_NULL_HANDLE)
 	{
@@ -85,7 +85,7 @@ namespace CrossEngine {
 
 		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
 			if (CVulkanDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				pDescriptorSetLayout->Release();
+				pDescriptorSetLayout->GetResourceManager()->Free(pDescriptorSetLayout);
 			}
 		}
 

@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSetLayout::CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanResource(pDevice, pManager)
+	CVulkanDescriptorSetLayout::CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanResource(pDevice, pResourceManager)
 		, m_vkDescriptorSetLayout(VK_NULL_HANDLE)
 		, m_numTypesUsedCount{ 0 }
 	{

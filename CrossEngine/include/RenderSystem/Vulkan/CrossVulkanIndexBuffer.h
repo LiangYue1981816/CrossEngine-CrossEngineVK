@@ -32,12 +32,17 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanIndexBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanIndexBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanIndexBuffer(void);
 
 
 	public:
 		virtual BOOL Create(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer);
+	};
+
+	class CROSS_EXPORT CVulkanIndexBufferPtr : public CVulkanResourcePtr<CVulkanIndexBuffer>
+	{
+
 	};
 
 }

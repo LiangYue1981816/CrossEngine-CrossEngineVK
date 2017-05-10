@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanRenderTexture::CVulkanRenderTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanImage(pDevice, pManager)
+	CVulkanRenderTexture::CVulkanRenderTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanImage(pDevice, pResourceManager)
 	{
 
 	}

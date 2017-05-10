@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanImage::CVulkanImage(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanResource(pDevice, pManager)
+	CVulkanImage::CVulkanImage(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanResource(pDevice, pResourceManager)
 		, m_vkImage(VK_NULL_HANDLE)
 		, m_vkImageView(VK_NULL_HANDLE)
 

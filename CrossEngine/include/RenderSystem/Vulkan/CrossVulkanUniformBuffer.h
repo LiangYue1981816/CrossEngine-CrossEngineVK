@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanUniformBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanUniformBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanUniformBuffer(void);
 
 
@@ -45,6 +45,11 @@ namespace CrossEngine {
 
 	protected:
 		VkDescriptorBufferInfo m_vkDescriptorBufferInfo;
+	};
+
+	class CROSS_EXPORT CVulkanUniformBufferPtr : public CVulkanResourcePtr<CVulkanUniformBuffer>
+	{
+
 	};
 
 }

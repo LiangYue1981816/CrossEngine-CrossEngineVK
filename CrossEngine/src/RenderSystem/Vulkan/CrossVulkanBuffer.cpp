@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanBuffer::CVulkanBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanResource(pDevice, pManager)
+	CVulkanBuffer::CVulkanBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanResource(pDevice, pResourceManager)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
 		, m_usage(0)

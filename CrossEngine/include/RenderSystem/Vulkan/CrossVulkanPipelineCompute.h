@@ -32,12 +32,17 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanPipelineCompute(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanPipelineCompute(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanPipelineCompute(void);
 
 
 	public:
 		virtual BOOL Create(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
+	};
+
+	class CROSS_EXPORT CVulkanPipelineComputePtr : public CVulkanResourcePtr<CVulkanPipelineCompute>
+	{
+
 	};
 
 }

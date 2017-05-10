@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanTexture(void);
 
 
@@ -57,6 +57,11 @@ namespace CrossEngine {
 	protected:
 		CVulkanSampler *m_pSampler;
 		VkDescriptorImageInfo m_vkDescriptorImageInfo;
+	};
+
+	class CROSS_EXPORT CVulkanTexturePtr : public CVulkanResourcePtr<CVulkanTexture>
+	{
+
 	};
 
 }

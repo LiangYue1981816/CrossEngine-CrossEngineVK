@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanFrameBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanFrameBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanFrameBuffer(void);
 
 
@@ -60,6 +60,11 @@ namespace CrossEngine {
 		uint32_t m_width;
 		uint32_t m_height;
 		std::map<uint32_t, VkImageView> m_views;
+	};
+
+	class CROSS_EXPORT CVulkanFrameBufferPtr : public CVulkanResourcePtr<CVulkanFrameBuffer>
+	{
+
 	};
 
 }

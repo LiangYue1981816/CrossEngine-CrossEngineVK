@@ -25,9 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanResource::CVulkanResource(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
+	CVulkanResource::CVulkanResource(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
 		: m_pDevice(pDevice)
-		, m_pManager(pManager)
+		, m_pResourceManager(pResourceManager)
 	{
 
 	}
@@ -37,9 +37,9 @@ namespace CrossEngine {
 
 	}
 
-	void CVulkanResource::Release(void)
+	CVulkanResourceManager* CVulkanResource::GetResourceManager(void) const
 	{
-		m_pManager->Free(this);
+		return m_pResourceManager;
 	}
 
 }

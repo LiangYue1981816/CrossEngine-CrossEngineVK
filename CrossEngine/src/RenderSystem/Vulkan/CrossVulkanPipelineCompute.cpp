@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanPipelineCompute::CVulkanPipelineCompute(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanPipeline(pDevice, pManager)
+	CVulkanPipelineCompute::CVulkanPipelineCompute(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanPipeline(pDevice, pResourceManager)
 	{
 
 	}
@@ -68,7 +68,7 @@ namespace CrossEngine {
 			createInfo.layout = m_vkPipelineLayout;
 			createInfo.basePipelineHandle = VK_NULL_HANDLE;
 			createInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pManager)->GetPipelineCache(), 1, &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pResourceManager)->GetPipelineCache(), 1, &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}

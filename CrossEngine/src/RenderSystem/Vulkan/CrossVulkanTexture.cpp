@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanTexture::CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pManager)
-		: CVulkanImage(pDevice, pManager)
+	CVulkanTexture::CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
+		: CVulkanImage(pDevice, pResourceManager)
 		, m_pSampler(NULL)
 	{
 
@@ -233,7 +233,7 @@ namespace CrossEngine {
 	void CVulkanTexture::DestroySampler(void)
 	{
 		if (m_pSampler) {
-			m_pSampler->Release();
+			m_pSampler->GetResourceManager()->Free(m_pSampler);
 			m_pSampler = NULL;
 		}
 	}

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanDescriptorSetLayout(void);
 
 
@@ -63,6 +63,11 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
+	};
+
+	class CROSS_EXPORT CVulkanDescriptorSetLayoutPtr : public CVulkanResourcePtr<CVulkanDescriptorSetLayout>
+	{
+
 	};
 
 }

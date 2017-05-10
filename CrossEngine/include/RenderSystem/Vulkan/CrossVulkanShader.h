@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanShader(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanShader(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanShader(void);
 
 
@@ -63,6 +63,11 @@ namespace CrossEngine {
 
 	protected:
 		std::map<std::string, std::string> m_strMacroDefinitions;
+	};
+
+	class CROSS_EXPORT CVulkanShaderPtr : public CVulkanResourcePtr<CVulkanShader>
+	{
+
 	};
 
 }

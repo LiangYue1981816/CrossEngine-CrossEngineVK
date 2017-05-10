@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanImage(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanImage(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanImage(void);
 
 
@@ -84,6 +84,11 @@ namespace CrossEngine {
 		VkSampleCountFlagBits m_samples;
 		VkImageTiling m_tiling;
 		VkDeviceSize m_size;
+	};
+
+	class CROSS_EXPORT CVulkanImagePtr : public CVulkanResourcePtr<CVulkanImage>
+	{
+
 	};
 
 }

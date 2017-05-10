@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanPipelineGraphics(void);
 
 
@@ -89,6 +89,11 @@ namespace CrossEngine {
 
 	protected:
 		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+	};
+
+	class CROSS_EXPORT CVulkanPipelineGraphicsPtr : public CVulkanResourcePtr<CVulkanPipelineGraphics>
+	{
+
 	};
 
 }

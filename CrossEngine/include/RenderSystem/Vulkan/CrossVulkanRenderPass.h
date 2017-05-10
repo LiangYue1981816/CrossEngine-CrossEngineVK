@@ -42,7 +42,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanRenderPass(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanRenderPass(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanRenderPass(void);
 
 
@@ -85,6 +85,11 @@ namespace CrossEngine {
 		std::map<uint32_t, VkAttachmentDescription> m_attachments;
 		std::map<uint32_t, VkSubpassInformation> m_subpasses;
 		std::map<uint32_t, VkSubpassDependency> m_dependencies;
+	};
+
+	class CROSS_EXPORT CVulkanRenderPassPtr : public CVulkanResourcePtr<CVulkanRenderPass>
+	{
+
 	};
 
 }

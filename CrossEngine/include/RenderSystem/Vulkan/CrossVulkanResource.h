@@ -32,27 +32,30 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanResource(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanResource(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanResource(void);
 
 
 	public:
-		virtual void Release(void);
+		virtual CVulkanResourceManager* GetResourceManager(void) const;
+
+	public:
 		virtual void Destroy(void) {}
 		virtual void DumpLog(void) const {}
 
 
 	protected:
 		CVulkanDevice *m_pDevice;
-		CVulkanResourceManager *m_pManager;
+		CVulkanResourceManager *m_pResourceManager;
 	};
 
-	class CROSS_EXPORT CVulkanResourcePtr : public CSharedPtr<CVulkanResource>
+	template<class T>
+	class CROSS_EXPORT CVulkanResourcePtr : public CSharedPtr<T>
 	{
 	public:
-		CVulkanResourcePtr(void) : CSharedPtr<CVulkanResource>() {}
-		CVulkanResourcePtr(const CVulkanResource *pPointer) : CSharedPtr<CVulkanResource>(pPointer) {}
-		CVulkanResourcePtr(const CVulkanResourcePtr &ptr) : CSharedPtr<CVulkanResource>(ptr) {}
+		CVulkanResourcePtr(void) : CSharedPtr<T>() {}
+		CVulkanResourcePtr(const T *pPointer) : CSharedPtr<T>(pPointer) {}
+		CVulkanResourcePtr(const CVulkanResourcePtr &ptr) : CSharedPtr<T>(ptr) {}
 		virtual ~CVulkanResourcePtr(void) {}
 
 
@@ -60,7 +63,7 @@ namespace CrossEngine {
 		virtual void FreePointer(void)
 		{
 			if (m_pPointer) {
-				m_pPointer->Release();
+				((CVulkanResource *)m_pPointer)->GetResourceManager()->Free((CVulkanResource *)m_pPointer);
 			}
 		}
 	};

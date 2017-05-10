@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanPipeline : public CVulkanResource
 	{
 	protected:
-		CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanPipeline(void);
 
 
@@ -55,6 +55,11 @@ namespace CrossEngine {
 	protected:
 		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
 		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
+	};
+
+	class CROSS_EXPORT CVulkanPipelinePtr : public CVulkanResourcePtr<CVulkanPipeline>
+	{
+
 	};
 
 }

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanSemaphore(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanSemaphore(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanSemaphore(void);
 
 
@@ -49,6 +49,11 @@ namespace CrossEngine {
 
 	protected:
 		VkSemaphore m_vkSemaphore;
+	};
+
+	class CROSS_EXPORT CVulkanSemaphorePtr : public CVulkanResourcePtr<CVulkanSemaphore>
+	{
+
 	};
 
 }

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanSampler(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanSampler(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanSampler(void);
 
 
@@ -55,6 +55,11 @@ namespace CrossEngine {
 		VkFilter m_magFilter;
 		VkSamplerMipmapMode m_mipmapMode;
 		VkSamplerAddressMode m_addressMode;
+	};
+
+	class CROSS_EXPORT CVulkanSamplerPtr : public CVulkanResourcePtr<CVulkanSampler>
+	{
+
 	};
 
 }

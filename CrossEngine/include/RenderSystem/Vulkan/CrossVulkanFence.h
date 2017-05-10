@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanFence(CVulkanDevice *pDevice, CVulkanResourceManager *pManager);
+		CVulkanFence(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanFence(void);
 
 
@@ -54,6 +54,11 @@ namespace CrossEngine {
 
 	protected:
 		VkFence m_vkFence;
+	};
+
+	class CROSS_EXPORT CVulkanFencePtr : public CVulkanResourcePtr<CVulkanFence>
+	{
+
 	};
 
 }
