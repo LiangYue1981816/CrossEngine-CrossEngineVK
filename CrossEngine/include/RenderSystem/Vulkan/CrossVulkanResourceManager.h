@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanResourceManager
 	{
+		template<class T> friend class CVulkanResourcePtr;
+
+
 	protected:
 		CVulkanResourceManager(CVulkanDevice *pDevice);
 		virtual ~CVulkanResourceManager(void);
@@ -37,7 +40,7 @@ namespace CrossEngine {
 		virtual BOOL Create(void);
 		virtual void Destroy(void);
 
-	public:
+	protected:
 		virtual void Free(CVulkanResource *pResource);
 
 	public:
