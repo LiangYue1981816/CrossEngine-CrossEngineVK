@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	static const CVulkanDescriptorSetLayoutPtr ptrDescriptorSetLayoutNull;
+
 	CVulkanPipeline::CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
 		: CVulkanResource(pDevice, pResourceManager)
 		, m_vkPipeline(VK_NULL_HANDLE)
@@ -83,15 +85,9 @@ namespace CrossEngine {
 			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
-		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
-			if (CVulkanDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				pDescriptorSetLayout->GetResourceManager()->Free(pDescriptorSetLayout);
-			}
-		}
-
 		m_vkPipeline = VK_NULL_HANDLE;
 		m_vkPipelineLayout = VK_NULL_HANDLE;
-		m_pDescriptorSetLayouts.clear();
+		m_ptrDescriptorSetLayouts.clear();
 	}
 
 	void CVulkanPipeline::DumpLog(void) const
@@ -104,9 +100,7 @@ namespace CrossEngine {
 	BOOL CVulkanPipeline::CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts)
 	{
 		layouts.clear();
-		m_pDescriptorSetLayouts.clear();
-
-		std::map<uint32_t, CVulkanDescriptorSetLayout*> pDescriptorSetLayouts;
+		m_ptrDescriptorSetLayouts.clear();
 
 		for (const auto &itMoudle : m_shaderModules) {
 			for (const auto &variable : itMoudle.second.variables) {
@@ -119,27 +113,24 @@ namespace CrossEngine {
 				uint32_t binding = variable.second.binding;
 				VkShaderStageFlags shaderStageFlags = itMoudle.first;
 
-				if (pDescriptorSetLayouts[set] == NULL) {
-					pDescriptorSetLayouts[set] = m_pDevice->GetDescriptorSetLayoutManager()->AllocDescriptorSetLayout();
+				if (m_ptrDescriptorSetLayouts[set].IsNull()) {
+					m_ptrDescriptorSetLayouts[set] = m_pDevice->GetDescriptorSetLayoutManager()->AllocDescriptorSetLayout();
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniform) {
-					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniformConstant) {
-					pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
 				}
 			}
 		}
 
-		for (const auto &itDescriptorSetLayout : pDescriptorSetLayouts) {
-			if (CVulkanDescriptorSetLayout *pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				pDescriptorSetLayout->Create();
-
-				m_pDescriptorSetLayouts[itDescriptorSetLayout.first] = pDescriptorSetLayout;
-				layouts.push_back(pDescriptorSetLayout->GetLayout());
-			}
+		for (auto &itDescriptorSetLayout : m_ptrDescriptorSetLayouts) {
+			CVulkanDescriptorSetLayoutPtr& ptrDescriptorSetLayout = itDescriptorSetLayout.second;
+			ptrDescriptorSetLayout->Create();
+			layouts.push_back(ptrDescriptorSetLayout->GetLayout());
 		}
 
 		return TRUE;
@@ -168,10 +159,10 @@ namespace CrossEngine {
 		return m_vkPipelineLayout;
 	}
 
-	const CVulkanDescriptorSetLayout* CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
+	const CVulkanDescriptorSetLayoutPtr& CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
-		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
-		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : NULL;
+		const auto &itDescriptorSetLayout = m_ptrDescriptorSetLayouts.find(set);
+		return itDescriptorSetLayout != m_ptrDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : ptrDescriptorSetLayoutNull;
 	}
 
 }

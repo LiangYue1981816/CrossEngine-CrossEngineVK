@@ -44,13 +44,13 @@ namespace CrossEngine {
 	public:
 		VkPipeline GetPipeline(void) const;
 		VkPipelineLayout GetPipelineLayout(void) const;
-		const CVulkanDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
+		const CVulkanDescriptorSetLayoutPtr& GetDescriptorSetLayout(uint32_t set) const;
 
 
 	protected:
 		VkPipeline m_vkPipeline;
 		VkPipelineLayout m_vkPipelineLayout;
-		std::map<uint32_t, CVulkanDescriptorSetLayout*> m_pDescriptorSetLayouts;
+		std::map<uint32_t, CVulkanDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
 
 	protected:
 		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
