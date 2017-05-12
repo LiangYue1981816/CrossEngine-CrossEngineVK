@@ -69,20 +69,20 @@ namespace CrossEngine {
 		CVulkanResourceManager::Destroy();
 	}
 
-	CVulkanPipelineCompute* CVulkanPipelineManager::AllocPipelineCompute(void)
+	CVulkanPipelineComputePtr CVulkanPipelineManager::AllocPipelineCompute(void)
 	{
 		CVulkanPipelineCompute *pPipeline = SAFE_NEW CVulkanPipelineCompute(m_pDevice, this);
 		m_pResources[pPipeline] = pPipeline;
 
-		return pPipeline;
+		return CVulkanPipelineComputePtr(pPipeline);
 	}
 
-	CVulkanPipelineGraphics* CVulkanPipelineManager::AllocPipelineGraphics(void)
+	CVulkanPipelineGraphicsPtr CVulkanPipelineManager::AllocPipelineGraphics(void)
 	{
 		CVulkanPipelineGraphics *pPipeline = SAFE_NEW CVulkanPipelineGraphics(m_pDevice, this);
 		m_pResources[pPipeline] = pPipeline;
 
-		return pPipeline;
+		return CVulkanPipelineGraphicsPtr(pPipeline);
 	}
 
 	VkPipelineCache CVulkanPipelineManager::GetPipelineCache(void) const

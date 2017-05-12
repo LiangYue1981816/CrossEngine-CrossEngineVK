@@ -36,12 +36,12 @@ namespace CrossEngine {
 
 	}
 
-	CVulkanDescriptorSetLayout* CVulkanDescriptorSetLayoutManager::AllocDescriptorSetLayout(void)
+	CVulkanDescriptorSetLayoutPtr CVulkanDescriptorSetLayoutManager::AllocDescriptorSetLayout(void)
 	{
 		CVulkanDescriptorSetLayout *pDescriptorSetLayout = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, this);
 		m_pResources[pDescriptorSetLayout] = pDescriptorSetLayout;
 
-		return pDescriptorSetLayout;
+		return CVulkanDescriptorSetLayoutPtr(pDescriptorSetLayout);
 	}
 
 }

@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanSampler* AllocSampler(void);
+		CVulkanSamplerPtr AllocSampler(void);
 	};
 
 }

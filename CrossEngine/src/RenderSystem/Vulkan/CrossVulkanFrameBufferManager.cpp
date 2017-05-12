@@ -36,12 +36,12 @@ namespace CrossEngine {
 
 	}
 
-	CVulkanFrameBuffer* CVulkanFrameBufferManager::AllocFrameBuffer(void)
+	CVulkanFrameBufferPtr CVulkanFrameBufferManager::AllocFrameBuffer(void)
 	{
 		CVulkanFrameBuffer *pFrameBuffer = SAFE_NEW CVulkanFrameBuffer(m_pDevice, this);
 		m_pResources[pFrameBuffer] = pFrameBuffer;
 
-		return pFrameBuffer;
+		return CVulkanFrameBufferPtr(pFrameBuffer);
 	}
 	
 }

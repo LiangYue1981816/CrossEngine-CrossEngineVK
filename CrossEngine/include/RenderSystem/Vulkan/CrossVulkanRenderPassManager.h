@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanRenderPass* AllocRenderPass(void);
+		CVulkanRenderPassPtr AllocRenderPass(void);
 	};
 
 }

@@ -36,20 +36,20 @@ namespace CrossEngine {
 
 	}
 
-	CVulkanTexture* CVulkanTextureManager::AllocTexture(void)
+	CVulkanTexturePtr CVulkanTextureManager::AllocTexture(void)
 	{
 		CVulkanTexture *pTexture = SAFE_NEW CVulkanTexture(m_pDevice, this);
 		m_pResources[pTexture] = pTexture;
 
-		return pTexture;
+		return CVulkanTexturePtr(pTexture);
 	}
 
-	CVulkanRenderTexture* CVulkanTextureManager::AllocRenderTexture(void)
+	CVulkanRenderTexturePtr CVulkanTextureManager::AllocRenderTexture(void)
 	{
 		CVulkanRenderTexture *pTexture = SAFE_NEW CVulkanRenderTexture(m_pDevice, this);
 		m_pResources[pTexture] = pTexture;
 
-		return pTexture;
+		return CVulkanRenderTexturePtr(pTexture);
 	}
 
 	void CVulkanTextureManager::DumpLog(const char *szTitle) const

@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanFrameBuffer* AllocFrameBuffer(void);
+		CVulkanFrameBufferPtr AllocFrameBuffer(void);
 	};
 
 }

@@ -37,10 +37,10 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanBuffer* AllocBuffer(void);
-		CVulkanIndexBuffer* AllocIndexBuffer(void);
-		CVulkanVertexBuffer* AllocVertexBuffer(void);
-		CVulkanUniformBuffer* AllocUniformBuffer(void);
+		CVulkanBufferPtr AllocBuffer(void);
+		CVulkanIndexBufferPtr AllocIndexBuffer(void);
+		CVulkanVertexBufferPtr AllocVertexBuffer(void);
+		CVulkanUniformBufferPtr AllocUniformBuffer(void);
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;

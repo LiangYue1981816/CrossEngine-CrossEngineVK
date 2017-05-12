@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanDescriptorSetLayout* AllocDescriptorSetLayout(void);
+		CVulkanDescriptorSetLayoutPtr AllocDescriptorSetLayout(void);
 	};
 
 }

@@ -36,12 +36,12 @@ namespace CrossEngine {
 
 	}
 
-	CVulkanFence* CVulkanFenceManager::AllocFence(void)
+	CVulkanFencePtr CVulkanFenceManager::AllocFence(void)
 	{
 		CVulkanFence *pFence = SAFE_NEW CVulkanFence(m_pDevice, this);
 		m_pResources[pFence] = pFence;
 
-		return pFence;
+		return CVulkanFencePtr(pFence);
 	}
 
 }

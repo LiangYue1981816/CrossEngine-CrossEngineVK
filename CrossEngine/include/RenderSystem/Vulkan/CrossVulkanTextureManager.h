@@ -37,8 +37,8 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanTexture* AllocTexture(void);
-		CVulkanRenderTexture* AllocRenderTexture(void);
+		CVulkanTexturePtr AllocTexture(void);
+		CVulkanRenderTexturePtr AllocRenderTexture(void);
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;

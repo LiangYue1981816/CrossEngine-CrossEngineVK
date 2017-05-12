@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanFence* AllocFence(void);
+		CVulkanFencePtr AllocFence(void);
 	};
 
 }

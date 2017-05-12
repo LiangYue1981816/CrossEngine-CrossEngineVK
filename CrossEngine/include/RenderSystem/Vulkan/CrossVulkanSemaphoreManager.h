@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanSemaphore* AllocSemaphore(void);
+		CVulkanSemaphorePtr AllocSemaphore(void);
 	};
 
 }

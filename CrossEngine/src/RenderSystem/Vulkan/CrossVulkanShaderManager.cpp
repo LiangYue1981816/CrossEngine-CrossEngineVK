@@ -39,12 +39,12 @@ namespace CrossEngine {
 
 	}
 
-	CVulkanShader* CVulkanShaderManager::AllocShader(void)
+	CVulkanShaderPtr CVulkanShaderManager::AllocShader(void)
 	{
 		CVulkanShader *pShader = SAFE_NEW CVulkanShader(m_pDevice, this);
 		m_pResources[pShader] = pShader;
 
-		return pShader;
+		return CVulkanShaderPtr(pShader);
 	}
 
 	void CVulkanShaderManager::SetWarningsAsErrors(void)

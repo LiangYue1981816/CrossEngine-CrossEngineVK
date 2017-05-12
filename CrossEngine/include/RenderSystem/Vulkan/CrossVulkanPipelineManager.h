@@ -41,8 +41,8 @@ namespace CrossEngine {
 		virtual void Destroy(void);
 
 	public:
-		CVulkanPipelineCompute* AllocPipelineCompute(void);
-		CVulkanPipelineGraphics* AllocPipelineGraphics(void);
+		CVulkanPipelineComputePtr AllocPipelineCompute(void);
+		CVulkanPipelineGraphicsPtr AllocPipelineGraphics(void);
 
 	public:
 		VkPipelineCache GetPipelineCache(void) const;

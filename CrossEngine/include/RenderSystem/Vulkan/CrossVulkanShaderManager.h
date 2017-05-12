@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanShader* AllocShader(void);
+		CVulkanShaderPtr AllocShader(void);
 
 	public:
 		void SetWarningsAsErrors(void);

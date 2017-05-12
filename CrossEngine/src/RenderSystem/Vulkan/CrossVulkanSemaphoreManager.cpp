@@ -36,12 +36,12 @@ namespace CrossEngine {
 
 	}
 
-	CVulkanSemaphore* CVulkanSemaphoreManager::AllocSemaphore(void)
+	CVulkanSemaphorePtr CVulkanSemaphoreManager::AllocSemaphore(void)
 	{
 		CVulkanSemaphore *pSemaphore = SAFE_NEW CVulkanSemaphore(m_pDevice, this);
 		m_pResources[pSemaphore] = pSemaphore;
 
-		return pSemaphore;
+		return CVulkanSemaphorePtr(pSemaphore);
 	}
 
 }
