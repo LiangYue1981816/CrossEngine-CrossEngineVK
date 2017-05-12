@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanSampler *m_pSampler;
+		CVulkanSamplerPtr m_ptrSampler;
 		VkDescriptorImageInfo m_vkDescriptorImageInfo;
 	};
 

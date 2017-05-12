@@ -27,14 +27,13 @@ namespace CrossEngine {
 
 	CVulkanTexture::CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
 		: CVulkanImage(pDevice, pResourceManager)
-		, m_pSampler(NULL)
 	{
 
 	}
 
 	CVulkanTexture::~CVulkanTexture(void)
 	{
-		ASSERT(m_pSampler == NULL);
+		ASSERT(m_ptrSampler.IsNull());
 	}
 
 	BOOL CVulkanTexture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
@@ -48,7 +47,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
 			CALL_BOOL_FUNCTION_THROW(TransferTexture2D(texture));
 
-			m_vkDescriptorImageInfo.sampler = m_pSampler->GetSampler();
+			m_vkDescriptorImageInfo.sampler = m_ptrSampler->GetSampler();
 			m_vkDescriptorImageInfo.imageView = m_vkImageView;
 			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -72,7 +71,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
 			CALL_BOOL_FUNCTION_THROW(TransferTexture2DArray(texture));
 
-			m_vkDescriptorImageInfo.sampler = m_pSampler->GetSampler();
+			m_vkDescriptorImageInfo.sampler = m_ptrSampler->GetSampler();
 			m_vkDescriptorImageInfo.imageView = m_vkImageView;
 			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -96,7 +95,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
 			CALL_BOOL_FUNCTION_THROW(TransferTextureCube(texture));
 
-			m_vkDescriptorImageInfo.sampler = m_pSampler->GetSampler();
+			m_vkDescriptorImageInfo.sampler = m_ptrSampler->GetSampler();
 			m_vkDescriptorImageInfo.imageView = m_vkImageView;
 			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -111,8 +110,8 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		m_pSampler = m_pDevice->GetSamplerManager()->AllocSampler();
-		return m_pSampler->Create(minFilter, magFilter, mipmapMode, addressMode);
+		m_ptrSampler = m_pDevice->GetSamplerManager()->AllocSampler();
+		return m_ptrSampler->Create(minFilter, magFilter, mipmapMode, addressMode);
 	}
 
 	BOOL CVulkanTexture::TransferTexture2D(const gli::texture2d &texture)
@@ -232,10 +231,7 @@ namespace CrossEngine {
 
 	void CVulkanTexture::DestroySampler(void)
 	{
-		if (m_pSampler) {
-			m_pSampler->GetResourceManager()->Free(m_pSampler);
-			m_pSampler = NULL;
-		}
+		m_ptrSampler.SetNull();
 	}
 
 	const VkDescriptorImageInfo& CVulkanTexture::GetDescriptorImageInfo(void) const
