@@ -85,6 +85,11 @@ namespace CrossEngine {
 			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
+		for (auto &itDescriptorSetLayout : m_ptrDescriptorSetLayouts) {
+			CVulkanDescriptorSetLayoutPtr& ptrDescriptorSetLayout = itDescriptorSetLayout.second;
+			ptrDescriptorSetLayout.SetNull();
+		}
+
 		m_vkPipeline = VK_NULL_HANDLE;
 		m_vkPipelineLayout = VK_NULL_HANDLE;
 		m_ptrDescriptorSetLayouts.clear();

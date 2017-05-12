@@ -5,60 +5,60 @@ CrossEngine::CVulkan *pVulkan = NULL;
 CrossEngine::CVulkanDeviceGraphics *pDevice = NULL;
 CrossEngine::CVulkanSwapchain *pSwapchain = NULL;
 
-CrossEngine::CVulkanShader *pShaderVertex = NULL;
-CrossEngine::CVulkanShader *pShaderFragment = NULL;
-CrossEngine::CVulkanPipelineGraphics *pPipeline = NULL;
+CrossEngine::CVulkanShaderPtr ptrShaderVertex;
+CrossEngine::CVulkanShaderPtr ptrShaderFragment;
+CrossEngine::CVulkanPipelineGraphicsPtr ptrPipeline;
 
-CrossEngine::CVulkanIndexBuffer *pIndexBuffer = NULL;
-CrossEngine::CVulkanVertexBuffer *pVertexBuffer = NULL;
-CrossEngine::CVulkanUniformBuffer *pUniformBufferA = NULL;
-CrossEngine::CVulkanUniformBuffer *pUniformBufferB = NULL;
+CrossEngine::CVulkanIndexBufferPtr ptrIndexBuffer;
+CrossEngine::CVulkanVertexBufferPtr ptrVertexBuffer;
+CrossEngine::CVulkanUniformBufferPtr ptrUniformBufferA;
+CrossEngine::CVulkanUniformBufferPtr ptrUniformBufferB;
 CrossEngine::CVulkanDescriptorSet *pDescriptorSetA = NULL;
 CrossEngine::CVulkanDescriptorSet *pDescriptorSetB = NULL;
 
-CrossEngine::CVulkanRenderTexture *pDepthTexture = NULL;
-CrossEngine::CVulkanRenderPass *pRenderPass = NULL;
-CrossEngine::CVulkanFrameBuffer *pFrameBuffers[3] = { NULL };
+CrossEngine::CVulkanRenderTexturePtr ptrDepthTexture;
+CrossEngine::CVulkanRenderPassPtr ptrRenderPass;
+CrossEngine::CVulkanFrameBufferPtr ptrFrameBuffers[3];
 
-CrossEngine::CVulkanFence *pFences[3] = { NULL };
-CrossEngine::CVulkanSemaphore *pRenderDoneSemaphores[3] = { NULL };
+CrossEngine::CVulkanFencePtr ptrFences[3];
+CrossEngine::CVulkanSemaphorePtr ptrRenderDoneSemaphores[3];
 CrossEngine::CVulkanCommandBuffer *pCommandBuffers[3] = { NULL };
 
 
 void CreateRenderPass(void)
 {
-	pRenderPass = pDevice->GetRenderPassManager()->AllocRenderPass();
-	pRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f});
-	pRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, {1.0f, 0});
-	pRenderPass->SetSubpassOutputColorReference(0, 0);
-	pRenderPass->SetSubpassOutputDepthStencilReference(0, 1);
-	pRenderPass->Create();
+	ptrRenderPass = pDevice->GetRenderPassManager()->AllocRenderPass();
+	ptrRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f});
+	ptrRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, {1.0f, 0});
+	ptrRenderPass->SetSubpassOutputColorReference(0, 0);
+	ptrRenderPass->SetSubpassOutputDepthStencilReference(0, 1);
+	ptrRenderPass->Create();
 }
 
 void DestroyRenderPass(void)
 {
-	pRenderPass->Release();
+	ptrRenderPass.SetNull();
 }
 
 void CreateFrameBuffer(void)
 {
-	pDepthTexture = pDevice->GetTextureManager()->AllocRenderTexture();
-	pDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight());
+	ptrDepthTexture = pDevice->GetTextureManager()->AllocRenderTexture();
+	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight());
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pFrameBuffers[indexView] = pDevice->GetFrameBufferManager()->AllocFrameBuffer();
-		pFrameBuffers[indexView]->SetAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
-		pFrameBuffers[indexView]->SetAttachment(1, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pDepthTexture->GetImageView());
-		pFrameBuffers[indexView]->Create(pRenderPass->GetRenderPass());
+		ptrFrameBuffers[indexView] = pDevice->GetFrameBufferManager()->AllocFrameBuffer();
+		ptrFrameBuffers[indexView]->SetAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
+		ptrFrameBuffers[indexView]->SetAttachment(1, pSwapchain->GetWidth(), pSwapchain->GetHeight(), ptrDepthTexture->GetImageView());
+		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetRenderPass());
 	}
 }
 
 void DestroyFrameBuffer(void)
 {
-	pDepthTexture->Release();
+	ptrDepthTexture.SetNull();
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pFrameBuffers[indexView]->Release();
+		ptrFrameBuffers[indexView].SetNull();
 	}
 }
 
@@ -67,45 +67,45 @@ void CreatePipeline(void)
 	static char szSourceCode[1024 * 1024];
 
 	LoadShader("../Data/Shader/triangle.vert", szSourceCode, sizeof(szSourceCode));
-	pShaderVertex = pDevice->GetShaderManager()->AllocShader();
-	pShaderVertex->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_vertex_shader);
+	ptrShaderVertex = pDevice->GetShaderManager()->AllocShader();
+	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_vertex_shader);
 
 	LoadShader("../Data/Shader/triangle.frag", szSourceCode, sizeof(szSourceCode));
-	pShaderFragment = pDevice->GetShaderManager()->AllocShader();
-	pShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
+	ptrShaderFragment = pDevice->GetShaderManager()->AllocShader();
+	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
 
-	pPipeline = pDevice->GetPipelineManager()->AllocPipelineGraphics();
-	pPipeline->SetVertexShader(pShaderVertex->GetShaderModule(), pShaderVertex->GetModule());
-	pPipeline->SetFragmentShader(pShaderFragment->GetShaderModule(), pShaderFragment->GetModule());
-	pPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
-	pPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
-	pPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
-	pPipeline->Create(pRenderPass->GetRenderPass());
+	ptrPipeline = pDevice->GetPipelineManager()->AllocPipelineGraphics();
+	ptrPipeline->SetVertexShader(ptrShaderVertex->GetShaderModule(), ptrShaderVertex->GetModule());
+	ptrPipeline->SetFragmentShader(ptrShaderFragment->GetShaderModule(), ptrShaderFragment->GetModule());
+	ptrPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
+	ptrPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
+	ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
+	ptrPipeline->Create(ptrRenderPass->GetRenderPass());
 }
 
 void DestroyPipeline(void)
 {
-	pPipeline->Release();
-	pShaderVertex->Release();
-	pShaderFragment->Release();
+	ptrPipeline.SetNull();
+	ptrShaderVertex.SetNull();
+	ptrShaderFragment.SetNull();
 }
 
 void CreateSynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pFences[indexView] = pDevice->GetFenceManager()->AllocFence();
-		pFences[indexView]->Create();
+		ptrFences[indexView] = pDevice->GetFenceManager()->AllocFence();
+		ptrFences[indexView]->Create();
 
-		pRenderDoneSemaphores[indexView] = pDevice->GetSemaphoreManager()->AllocSemaphore();
-		pRenderDoneSemaphores[indexView]->Create();
+		ptrRenderDoneSemaphores[indexView] = pDevice->GetSemaphoreManager()->AllocSemaphore();
+		ptrRenderDoneSemaphores[indexView]->Create();
 	}
 }
 
 void DestroySynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pFences[indexView]->Release();
-		pRenderDoneSemaphores[indexView]->Release();
+		ptrFences[indexView].SetNull();
+		ptrRenderDoneSemaphores[indexView].SetNull();
 	}
 }
 
@@ -122,39 +122,39 @@ void CreateBuffer(void)
 		{ { 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f, 1.0f } }
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
-	pVertexBuffer = pDevice->GetBufferManager()->AllocVertexBuffer();
-	pVertexBuffer->Create(vertexBufferSize, 0, vertexBuffer.data());
+	ptrVertexBuffer = pDevice->GetBufferManager()->AllocVertexBuffer();
+	ptrVertexBuffer->Create(vertexBufferSize, 0, vertexBuffer.data());
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
-	pIndexBuffer = pDevice->GetBufferManager()->AllocIndexBuffer();
-	pIndexBuffer->Create(indexBufferSize, 0, indexBuffer.data());
+	ptrIndexBuffer = pDevice->GetBufferManager()->AllocIndexBuffer();
+	ptrIndexBuffer->Create(indexBufferSize, 0, indexBuffer.data());
 
-	pUniformBufferA = pDevice->GetBufferManager()->AllocUniformBuffer();
-	pUniformBufferA->Create(sizeof(glm::mat4), 0, NULL);
+	ptrUniformBufferA = pDevice->GetBufferManager()->AllocUniformBuffer();
+	ptrUniformBufferA->Create(sizeof(glm::mat4), 0, NULL);
 
-	pUniformBufferB = pDevice->GetBufferManager()->AllocUniformBuffer();
-	pUniformBufferB->Create(sizeof(glm::mat4), 0, NULL);
+	ptrUniformBufferB = pDevice->GetBufferManager()->AllocUniformBuffer();
+	ptrUniformBufferB->Create(sizeof(glm::mat4), 0, NULL);
 }
 
 void DestroyBuffer(void)
 {
-	pIndexBuffer->Release();
-	pVertexBuffer->Release();
-	pUniformBufferA->Release();
-	pUniformBufferB->Release();
+	ptrIndexBuffer.SetNull();
+	ptrVertexBuffer.SetNull();
+	ptrUniformBufferA.SetNull();
+	ptrUniformBufferB.SetNull();
 }
 
 void CreateDescriptorSet(void)
 {
-	const CrossEngine::CVulkanDescriptorSetLayout *pDescriptorSetLayout = pPipeline->GetDescriptorSetLayout(0);
+	const CrossEngine::CVulkanDescriptorSetLayout *pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
 
 	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
-	pDescriptorSetA->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBufferA->GetDescriptorBufferInfo());
+	pDescriptorSetA->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ptrUniformBufferA->GetDescriptorBufferInfo());
 	pDescriptorSetA->UpdateDescriptorSets();
 
 	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
-	pDescriptorSetB->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, pUniformBufferB->GetDescriptorBufferInfo());
+	pDescriptorSetB->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ptrUniformBufferB->GetDescriptorBufferInfo());
 	pDescriptorSetB->UpdateDescriptorSets();
 }
 
@@ -170,12 +170,12 @@ void CreateCommandBuffer(void)
 		pCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		pCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
-			std::vector<VkClearValue> clearValues = pRenderPass->GetClearValues();
+			std::vector<VkClearValue> clearValues = ptrRenderPass->GetClearValues();
 			VkRenderPassBeginInfo renderPassBeginInfo = {};
 			renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 			renderPassBeginInfo.pNext = nullptr;
-			renderPassBeginInfo.framebuffer = pFrameBuffers[indexView]->GetFrameBuffer();
-			renderPassBeginInfo.renderPass = pRenderPass->GetRenderPass();
+			renderPassBeginInfo.framebuffer = ptrFrameBuffers[indexView]->GetFrameBuffer();
+			renderPassBeginInfo.renderPass = ptrRenderPass->GetRenderPass();
 			renderPassBeginInfo.renderArea.offset.x = 0;
 			renderPassBeginInfo.renderArea.offset.y = 0;
 			renderPassBeginInfo.renderArea.extent.width = pSwapchain->GetWidth();
@@ -200,20 +200,20 @@ void CreateCommandBuffer(void)
 				scissor.extent.height = pSwapchain->GetHeight();
 				pCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
 
-				pCommandBuffers[indexView]->CmdBindPipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipeline());
+				pCommandBuffers[indexView]->CmdBindPipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipeline());
 				{
 					VkDeviceSize offsets = 0;
-					VkBuffer vkIndexBuffer = pIndexBuffer->GetBuffer();
-					VkBuffer vkVertexBuffer = pVertexBuffer->GetBuffer();
+					VkBuffer vkIndexBuffer = ptrIndexBuffer->GetBuffer();
+					VkBuffer vkVertexBuffer = ptrVertexBuffer->GetBuffer();
 					pCommandBuffers[indexView]->CmdBindIndexBuffer(vkIndexBuffer, offsets, VK_INDEX_TYPE_UINT32);
 					pCommandBuffers[indexView]->CmdBindVertexBuffers(0, 1, &vkVertexBuffer, &offsets);
 
 					VkDescriptorSet setA = pDescriptorSetA->GetDescriptorSet();
-					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, &setA, 0, NULL);
+					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), 0, 1, &setA, 0, NULL);
 					pCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 
 					VkDescriptorSet setB = pDescriptorSetB->GetDescriptorSet();
-					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->GetPipelineLayout(), 0, 1, &setB, 0, NULL);
+					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), 0, 1, &setB, 0, NULL);
 					pCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 				}
 			}
@@ -294,24 +294,24 @@ void Render(void)
 	{
 		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
 		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-		pUniformBufferA->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+		ptrUniformBufferA->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
 	}
 	{
 		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(-2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), -angle, glm::vec3(0.0f, 0.0f, 1.0f));
 		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-		pUniformBufferB->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+		ptrUniformBufferB->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
 	}
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
-		pFences[pSwapchain->GetImageIndex()]->Wait(UINT64_MAX);
-		pFences[pSwapchain->GetImageIndex()]->Reset();
+		ptrFences[pSwapchain->GetImageIndex()]->Wait(UINT64_MAX);
+		ptrFences[pSwapchain->GetImageIndex()]->Reset();
 
 		pDevice->GetQueue()->Submit(
 			pCommandBuffers[pSwapchain->GetImageIndex()]->GetCommandBuffer(), 
 			pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-			pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore(),
-			pFences[pSwapchain->GetImageIndex()]->GetFence());
+			ptrRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore(),
+			ptrFences[pSwapchain->GetImageIndex()]->GetFence());
 	}
-	pSwapchain->Present(pRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());
+	pSwapchain->Present(ptrRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());
 }
