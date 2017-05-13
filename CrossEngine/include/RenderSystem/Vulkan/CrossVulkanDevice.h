@@ -38,7 +38,6 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanStagingBufferManager;
 	class CROSS_EXPORT CVulkanCommandBufferManager;
 	class CROSS_EXPORT CVulkanDescriptorSetManager;
-	class CROSS_EXPORT CVulkanDescriptorSetLayoutManager;
 
 	class CROSS_EXPORT CVulkanBufferManager;
 	class CROSS_EXPORT CVulkanShaderManager;
@@ -105,7 +104,6 @@ namespace CrossEngine {
 		virtual VkResult CreateStagingBufferManager(void);
 		virtual VkResult CreateCommandBufferManager(void);
 		virtual VkResult CreateDescriptorSetManager(void);
-		virtual VkResult CreateDescriptorSetLayoutManager(void);
 
 		virtual VkResult CreateBufferManager(void);
 		virtual VkResult CreateShaderManager(void);
@@ -123,7 +121,6 @@ namespace CrossEngine {
 		virtual void DestroyStagingBufferManager(void);
 		virtual void DestroyCommandBufferManager(void);
 		virtual void DestroyDescriptorSetManager(void);
-		virtual void DestroyDescriptorSetLayoutManager(void);
 
 		virtual void DestroyBufferManager(void);
 		virtual void DestroyShaderManager(void);
@@ -153,7 +150,6 @@ namespace CrossEngine {
 		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
 		CVulkanCommandBufferManager* GetCommandBufferManager(void) const;
 		CVulkanDescriptorSetManager* GetDescriptorSetManager(void) const;
-		CVulkanDescriptorSetLayoutManager* GetDescriptorSetLayoutManager(void) const;
 
 	public:
 		CVulkanBufferManager* GetBufferManager(void) const;
@@ -191,7 +187,6 @@ namespace CrossEngine {
 		CVulkanStagingBufferManager *m_pStagingBufferManager;
 		CVulkanCommandBufferManager *m_pCommandBufferManager;
 		CVulkanDescriptorSetManager *m_pDescriptorSetManager;
-		CVulkanDescriptorSetLayoutManager *m_pDescriptorSetLayoutManager;
 
 	protected:
 		CVulkanBufferManager *m_pBufferManager;

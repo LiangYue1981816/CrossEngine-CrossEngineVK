@@ -155,8 +155,8 @@ void DestroyBuffer(void)
 
 void CreateDescriptorSet(void)
 {
-	const CrossEngine::CVulkanDescriptorSetLayoutPtr& ptrDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
-	pDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, ptrDescriptorSetLayout->GetLayout(), ptrDescriptorSetLayout->GetTypesUsedCount());
+	const CrossEngine::CVulkanDescriptorSetLayout* pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
+	pDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
 	pDescriptorSet->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ptrUniformBuffer->GetDescriptorBufferInfo());
 	pDescriptorSet->WriteDescriptorSet(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, ptrTexture->GetDescriptorImageInfo());
 	pDescriptorSet->UpdateDescriptorSets();

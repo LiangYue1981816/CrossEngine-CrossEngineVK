@@ -37,7 +37,6 @@ namespace CrossEngine {
 		, m_pStagingBufferManager(NULL)
 		, m_pCommandBufferManager(NULL)
 		, m_pDescriptorSetManager(NULL)
-		, m_pDescriptorSetLayoutManager(NULL)
 
 		, m_pBufferManager(NULL)
 		, m_pShaderManager(NULL)
@@ -58,7 +57,6 @@ namespace CrossEngine {
 		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
 		m_pCommandBufferManager = SAFE_NEW CVulkanCommandBufferManager(this);
 		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
-		m_pDescriptorSetLayoutManager = SAFE_NEW CVulkanDescriptorSetLayoutManager(this);
 
 		m_pBufferManager = SAFE_NEW CVulkanBufferManager(this);
 		m_pShaderManager = SAFE_NEW CVulkanShaderManager(this);
@@ -81,7 +79,6 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pStagingBufferManager);
 		SAFE_DELETE(m_pCommandBufferManager);
 		SAFE_DELETE(m_pDescriptorSetManager);
-		SAFE_DELETE(m_pDescriptorSetLayoutManager);
 
 		SAFE_DELETE(m_pBufferManager);
 		SAFE_DELETE(m_pShaderManager);
@@ -107,7 +104,6 @@ namespace CrossEngine {
 			CALL_VK_FUNCTION_THROW(CreateStagingBufferManager());
 			CALL_VK_FUNCTION_THROW(CreateCommandBufferManager());
 			CALL_VK_FUNCTION_THROW(CreateDescriptorSetManager());
-			CALL_VK_FUNCTION_THROW(CreateDescriptorSetLayoutManager());
 
 			CALL_VK_FUNCTION_THROW(CreateBufferManager());
 			CALL_VK_FUNCTION_THROW(CreateShaderManager());
@@ -145,7 +141,6 @@ namespace CrossEngine {
 			DestroyShaderManager();
 			DestroyBufferManager();
 
-			DestroyDescriptorSetLayoutManager();
 			DestroyDescriptorSetManager();
 			DestroyCommandBufferManager();
 			DestroyStagingBufferManager();
@@ -207,11 +202,6 @@ namespace CrossEngine {
 	VkResult CVulkanDevice::CreateDescriptorSetManager(void)
 	{
 		return m_pDescriptorSetManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
-	}
-
-	VkResult CVulkanDevice::CreateDescriptorSetLayoutManager(void)
-	{
-		return m_pDescriptorSetLayoutManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	VkResult CVulkanDevice::CreateBufferManager(void)
@@ -282,11 +272,6 @@ namespace CrossEngine {
 	void CVulkanDevice::DestroyDescriptorSetManager(void)
 	{
 		m_pDescriptorSetManager->Destroy();
-	}
-
-	void CVulkanDevice::DestroyDescriptorSetLayoutManager(void)
-	{
-		m_pDescriptorSetLayoutManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyBufferManager(void)
@@ -387,11 +372,6 @@ namespace CrossEngine {
 	CVulkanDescriptorSetManager* CVulkanDevice::GetDescriptorSetManager(void) const
 	{
 		return m_pDescriptorSetManager;
-	}
-
-	CVulkanDescriptorSetLayoutManager* CVulkanDevice::GetDescriptorSetLayoutManager(void) const
-	{
-		return m_pDescriptorSetLayoutManager;
 	}
 
 	CVulkanBufferManager* CVulkanDevice::GetBufferManager(void) const

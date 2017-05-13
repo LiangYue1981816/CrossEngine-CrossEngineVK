@@ -134,8 +134,6 @@ THE SOFTWARE.
 #include "CrossVulkanRenderPassManager.h"
 #include "CrossVulkanFrameBuffer.h"
 #include "CrossVulkanFrameBufferManager.h"
-#include "CrossVulkanDescriptorLayout.h"
-#include "CrossVulkanDescriptorLayoutManager.h"
 #include "CrossVulkanPipeline.h"
 #include "CrossVulkanPipelineCompute.h"
 #include "CrossVulkanPipelineGraphics.h"

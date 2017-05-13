@@ -25,7 +25,87 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static const CVulkanDescriptorSetLayoutPtr ptrDescriptorSetLayoutNull;
+	CVulkanDescriptorSetLayout::CVulkanDescriptorSetLayout(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
+		, m_vkDescriptorSetLayout(VK_NULL_HANDLE)
+		, m_numTypesUsedCount{ 0 }
+	{
+
+	}
+
+	CVulkanDescriptorSetLayout::~CVulkanDescriptorSetLayout(void)
+	{
+		ASSERT(m_vkDescriptorSetLayout == VK_NULL_HANDLE);
+	}
+
+	BOOL CVulkanDescriptorSetLayout::Create(void)
+	{
+		try {
+			std::vector<VkDescriptorSetLayoutBinding> bindings;
+			CALL_BOOL_FUNCTION_THROW(CreateBindings(bindings));
+
+			VkDescriptorSetLayoutCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.bindingCount = bindings.size();
+			createInfo.pBindings = bindings.data();
+			CALL_VK_FUNCTION_THROW(vkCreateDescriptorSetLayout(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorSetLayout));
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CVulkan::SetLastError(err);
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	void CVulkanDescriptorSetLayout::Destroy(void)
+	{
+		if (m_vkDescriptorSetLayout) {
+			vkDestroyDescriptorSetLayout(m_pDevice->GetDevice(), m_vkDescriptorSetLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkDescriptorSetLayout = VK_NULL_HANDLE;
+		m_bindings.clear();
+	}
+
+	BOOL CVulkanDescriptorSetLayout::SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags)
+	{
+		m_numTypesUsedCount[type]++;
+
+		m_bindings[binding].binding = binding;
+		m_bindings[binding].descriptorType = type;
+		m_bindings[binding].descriptorCount = 1;
+		m_bindings[binding].stageFlags = flags;
+		m_bindings[binding].pImmutableSamplers = NULL;
+
+		return TRUE;
+	}
+
+	BOOL CVulkanDescriptorSetLayout::CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings)
+	{
+		bindings.clear();
+
+		for (const auto &itBinding : m_bindings) {
+			bindings.push_back(itBinding.second);
+		}
+
+		return TRUE;
+	}
+
+	VkDescriptorSetLayout CVulkanDescriptorSetLayout::GetLayout(void) const
+	{
+		return m_vkDescriptorSetLayout;
+	}
+
+	const uint32_t* CVulkanDescriptorSetLayout::GetTypesUsedCount(void) const
+	{
+		return m_numTypesUsedCount;
+	}
+
 
 	CVulkanPipeline::CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
 		: CVulkanResource(pDevice, pResourceManager)
@@ -85,14 +165,16 @@ namespace CrossEngine {
 			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
-		for (auto &itDescriptorSetLayout : m_ptrDescriptorSetLayouts) {
-			CVulkanDescriptorSetLayoutPtr& ptrDescriptorSetLayout = itDescriptorSetLayout.second;
-			ptrDescriptorSetLayout.SetNull();
+		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			if (CVulkanDescriptorSetLayout* pDescriptorSetLayout = itDescriptorSetLayout.second) {
+				pDescriptorSetLayout->Destroy();
+				SAFE_DELETE(pDescriptorSetLayout);
+			}
 		}
 
 		m_vkPipeline = VK_NULL_HANDLE;
 		m_vkPipelineLayout = VK_NULL_HANDLE;
-		m_ptrDescriptorSetLayouts.clear();
+		m_pDescriptorSetLayouts.clear();
 	}
 
 	void CVulkanPipeline::DumpLog(void) const
@@ -105,7 +187,7 @@ namespace CrossEngine {
 	BOOL CVulkanPipeline::CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts)
 	{
 		layouts.clear();
-		m_ptrDescriptorSetLayouts.clear();
+		m_pDescriptorSetLayouts.clear();
 
 		for (const auto &itMoudle : m_shaderModules) {
 			for (const auto &variable : itMoudle.second.variables) {
@@ -118,24 +200,25 @@ namespace CrossEngine {
 				uint32_t binding = variable.second.binding;
 				VkShaderStageFlags shaderStageFlags = itMoudle.first;
 
-				if (m_ptrDescriptorSetLayouts[set].IsNull()) {
-					m_ptrDescriptorSetLayouts[set] = m_pDevice->GetDescriptorSetLayoutManager()->AllocDescriptorSetLayout();
+				if (m_pDescriptorSetLayouts[set] == NULL) {
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice);
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniform) {
-					m_ptrDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
+					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniformConstant) {
-					m_ptrDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
+					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
 				}
 			}
 		}
 
-		for (auto &itDescriptorSetLayout : m_ptrDescriptorSetLayouts) {
-			CVulkanDescriptorSetLayoutPtr& ptrDescriptorSetLayout = itDescriptorSetLayout.second;
-			ptrDescriptorSetLayout->Create();
-			layouts.push_back(ptrDescriptorSetLayout->GetLayout());
+		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			if (CVulkanDescriptorSetLayout* pDescriptorSetLayout = itDescriptorSetLayout.second) {
+				pDescriptorSetLayout->Create();
+				layouts.push_back(pDescriptorSetLayout->GetLayout());
+			}
 		}
 
 		return TRUE;
@@ -146,7 +229,7 @@ namespace CrossEngine {
 		shaderStages.clear();
 
 		for (const auto &itShaderStage : m_shaderStages) {
-			if (itShaderStage.second.module != VK_NULL_HANDLE) {
+			if (itShaderStage.second.module) {
 				shaderStages.push_back(itShaderStage.second);
 			}
 		}
@@ -164,10 +247,10 @@ namespace CrossEngine {
 		return m_vkPipelineLayout;
 	}
 
-	const CVulkanDescriptorSetLayoutPtr& CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
+	const CVulkanDescriptorSetLayout* CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
-		const auto &itDescriptorSetLayout = m_ptrDescriptorSetLayouts.find(set);
-		return itDescriptorSetLayout != m_ptrDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : ptrDescriptorSetLayoutNull;
+		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
+		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : NULL;
 	}
 
 }

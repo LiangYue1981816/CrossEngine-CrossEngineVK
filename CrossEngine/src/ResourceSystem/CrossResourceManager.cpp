@@ -177,21 +177,19 @@ namespace CrossEngine {
 		pthread_mutex_lock(&m_mutex);
 		{
 			for (const auto &itPack : m_packs) {
-				ZZIP_DIR *pPack = itPack.second;
-				ASSERT(pPack);
-
-				zzip_closedir(pPack);
+				if (ZZIP_DIR *pPack = itPack.second) {
+					zzip_closedir(pPack);
+				}
 			}
 
 			for (const auto &itResource : m_resources) {
-				const CResourceHandle *pResource = itResource.second;
-				ASSERT(pResource);
+				if (const CResourceHandle *pResource = itResource.second) {
+					if (pResource->IsWaste()) {
+						LOGI("Unreference Resource: %s\n", pResource->GetFileName());
+					}
 
-				if (pResource->IsWaste()) {
-					LOGI("Unreference Resource: %s\n", pResource->GetFileName());
+					SAFE_DELETE(pResource);
 				}
-
-				SAFE_DELETE(pResource);
 			}
 
 			m_packs.clear();
@@ -314,10 +312,9 @@ namespace CrossEngine {
 		pthread_mutex_lock(&m_mutex);
 		{
 			for (const auto &itResource : m_resources) {
-				CResourceHandle *pResource = itResource.second;
-				ASSERT(pResource);
-
-				pResource->LoadResource(TRUE);
+				if (CResourceHandle *pResource = itResource.second) {
+					pResource->LoadResource(TRUE);
+				}
 			}
 		}
 		pthread_mutex_unlock(&m_mutex);
@@ -507,11 +504,10 @@ namespace CrossEngine {
 		pthread_mutex_lock(&m_mutex);
 		{
 			for (const auto &itResource : m_resources) {
-				CResourceHandle *pResource = itResource.second;
-				ASSERT(pResource);
-
-				if (pResource->m_ptrResource.GetRefCount() == 1) {
-					pResource->m_ptrResource.SetNull();
+				if (CResourceHandle *pResource = itResource.second) {
+					if (pResource->m_ptrResource.GetRefCount() == 1) {
+						pResource->m_ptrResource.SetNull();
+					}
 				}
 			}
 		}

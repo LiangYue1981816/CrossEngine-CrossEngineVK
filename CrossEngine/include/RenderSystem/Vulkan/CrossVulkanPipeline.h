@@ -26,6 +26,40 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	class CROSS_EXPORT CVulkanDescriptorSetLayout
+	{
+		friend class CVulkanPipeline;
+
+
+	protected:
+		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice);
+		virtual ~CVulkanDescriptorSetLayout(void);
+
+
+	protected:
+		virtual BOOL Create(void);
+		virtual void Destroy(void);
+
+	protected:
+		BOOL SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags = VK_SHADER_STAGE_ALL);
+		BOOL CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings);
+
+	public:
+		VkDescriptorSetLayout GetLayout(void) const;
+		const uint32_t* GetTypesUsedCount(void) const;
+
+
+	protected:
+		VkDescriptorSetLayout m_vkDescriptorSetLayout;
+		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
+
+	protected:
+		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+
+	protected:
+		CVulkanDevice *m_pDevice;
+	};
+
 	class CROSS_EXPORT CVulkanPipeline : public CVulkanResource
 	{
 	protected:
@@ -44,13 +78,13 @@ namespace CrossEngine {
 	public:
 		VkPipeline GetPipeline(void) const;
 		VkPipelineLayout GetPipelineLayout(void) const;
-		const CVulkanDescriptorSetLayoutPtr& GetDescriptorSetLayout(uint32_t set) const;
+		const CVulkanDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
 
 
 	protected:
 		VkPipeline m_vkPipeline;
 		VkPipelineLayout m_vkPipelineLayout;
-		std::map<uint32_t, CVulkanDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
+		std::map<uint32_t, CVulkanDescriptorSetLayout*> m_pDescriptorSetLayouts;
 
 	protected:
 		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
