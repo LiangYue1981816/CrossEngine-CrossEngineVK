@@ -187,7 +187,6 @@ namespace CrossEngine {
 	BOOL CVulkanPipeline::CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts)
 	{
 		layouts.clear();
-		m_pDescriptorSetLayouts.clear();
 
 		for (const auto &itMoudle : m_shaderModules) {
 			for (const auto &variable : itMoudle.second.variables) {
