@@ -165,16 +165,11 @@ namespace CrossEngine {
 			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
-		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
-			if (CVulkanDescriptorSetLayout* pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				pDescriptorSetLayout->Destroy();
-				SAFE_DELETE(pDescriptorSetLayout);
-			}
-		}
+		DestroyDescriptorSetLayouts();
+		DestroyShaderStages();
 
 		m_vkPipeline = VK_NULL_HANDLE;
 		m_vkPipelineLayout = VK_NULL_HANDLE;
-		m_pDescriptorSetLayouts.clear();
 	}
 
 	void CVulkanPipeline::DumpLog(void) const
@@ -234,6 +229,41 @@ namespace CrossEngine {
 		}
 
 		return TRUE;
+	}
+
+	void CVulkanPipeline::DestroyDescriptorSetLayouts(void)
+	{
+		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			if (CVulkanDescriptorSetLayout* pDescriptorSetLayout = itDescriptorSetLayout.second) {
+				pDescriptorSetLayout->Destroy();
+				SAFE_DELETE(pDescriptorSetLayout);
+			}
+		}
+
+		m_pDescriptorSetLayouts.clear();
+	}
+
+	void CVulkanPipeline::DestroyShaderStages(void)
+	{
+		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pName = NULL;
+
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pName = NULL;
+
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pName = NULL;
+
+		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pName = NULL;
+
+		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pName = NULL;
+
+		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].pName = NULL;
+
+		m_shaderModules.clear();
 	}
 
 	VkPipeline CVulkanPipeline::GetPipeline(void) const
