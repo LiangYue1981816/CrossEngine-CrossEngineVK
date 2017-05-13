@@ -167,6 +167,11 @@ namespace CrossEngine {
 		}
 	}
 
+	void CVulkanPipelineGraphics::Destroy(void)
+	{
+		CVulkanPipeline::Destroy();
+	}
+
 	BOOL CVulkanPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
 	{
 		m_vertexFormat = 0;

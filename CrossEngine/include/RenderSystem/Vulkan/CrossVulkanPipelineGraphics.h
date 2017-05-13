@@ -38,6 +38,7 @@ namespace CrossEngine {
 
 	public:
 		virtual BOOL Create(VkRenderPass vkRenderPass);
+		virtual void Destroy(void);
 
 	protected:
 		BOOL CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions);
