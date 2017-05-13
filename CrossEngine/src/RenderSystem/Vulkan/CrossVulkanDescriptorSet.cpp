@@ -68,7 +68,7 @@ namespace CrossEngine {
 		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
 	}
 
-	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkBufferView)
+	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkTexelBufferView)
 	{
 		m_vkWriteDescriptorSets[binding] = {};
 		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -80,7 +80,7 @@ namespace CrossEngine {
 		m_vkWriteDescriptorSets[binding].descriptorType = type;
 		m_vkWriteDescriptorSets[binding].pImageInfo = NULL;
 		m_vkWriteDescriptorSets[binding].pBufferInfo = NULL;
-		m_vkWriteDescriptorSets[binding].pTexelBufferView = &vkBufferView;
+		m_vkWriteDescriptorSets[binding].pTexelBufferView = &vkTexelBufferView;
 	}
 
 	void CVulkanDescriptorSet::UpdateDescriptorSets(void) const
