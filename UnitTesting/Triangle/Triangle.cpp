@@ -147,13 +147,13 @@ void DestroyBuffer(void)
 
 void CreateDescriptorSet(void)
 {
-	const CrossEngine::CVulkanDescriptorSetLayout *pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
+	const CrossEngine::CVulkanDescriptorSetLayoutPtr& ptrDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
 
-	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, ptrDescriptorSetLayout->GetLayout(), ptrDescriptorSetLayout->GetTypesUsedCount());
 	pDescriptorSetA->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ptrUniformBufferA->GetDescriptorBufferInfo());
 	pDescriptorSetA->UpdateDescriptorSets();
 
-	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, ptrDescriptorSetLayout->GetLayout(), ptrDescriptorSetLayout->GetTypesUsedCount());
 	pDescriptorSetB->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ptrUniformBufferB->GetDescriptorBufferInfo());
 	pDescriptorSetB->UpdateDescriptorSets();
 }
