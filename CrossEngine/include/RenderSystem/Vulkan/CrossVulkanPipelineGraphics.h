@@ -35,6 +35,7 @@ namespace CrossEngine {
 		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanPipelineGraphics(void);
 
+		void SetDefault(void);
 
 	public:
 		virtual BOOL Create(VkRenderPass vkRenderPass);

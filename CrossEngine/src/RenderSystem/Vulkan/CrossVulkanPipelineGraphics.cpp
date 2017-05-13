@@ -80,11 +80,24 @@ namespace CrossEngine {
 		m_dynamicState.dynamicStateCount = 4;
 		m_dynamicState.pDynamicStates = dynamicStates;
 
+		SetDefault();
+	}
+
+	CVulkanPipelineGraphics::~CVulkanPipelineGraphics(void)
+	{
+
+	}
+
+	void CVulkanPipelineGraphics::SetDefault(void)
+	{
 		VkStencilOpState front = {};
 		VkStencilOpState back = {};
 		back.failOp = front.failOp = VK_STENCIL_OP_KEEP;
 		back.passOp = front.passOp = VK_STENCIL_OP_KEEP;
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
+
+		m_vertexFormat = 0;
+		m_colorBlendAttachmentStates.clear();
 
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FALSE);
 		SetTessellationPatchControlPoints(0);
@@ -104,11 +117,6 @@ namespace CrossEngine {
 		SetStencilTest(VK_FALSE, front, back);
 		SetColorBlendLogic(VK_FALSE, VK_LOGIC_OP_CLEAR);
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
-	}
-
-	CVulkanPipelineGraphics::~CVulkanPipelineGraphics(void)
-	{
-
 	}
 
 	BOOL CVulkanPipelineGraphics::Create(VkRenderPass vkRenderPass)
@@ -169,6 +177,7 @@ namespace CrossEngine {
 
 	void CVulkanPipelineGraphics::Destroy(void)
 	{
+		SetDefault();
 		CVulkanPipeline::Destroy();
 	}
 
