@@ -139,6 +139,16 @@ namespace CrossEngine {
 		return m_vkFrameBuffer;
 	}
 
+	uint32_t CVulkanFrameBuffer::GetWidth(void) const
+	{
+		return m_width;
+	}
+
+	uint32_t CVulkanFrameBuffer::GetHeight(void) const
+	{
+		return m_height;
+	}
+
 	void CVulkanFrameBuffer::DumpLog(void) const
 	{
 		if (m_vkFrameBuffer) {

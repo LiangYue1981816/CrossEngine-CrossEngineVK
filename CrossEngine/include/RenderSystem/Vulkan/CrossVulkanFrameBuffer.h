@@ -61,6 +61,9 @@ namespace CrossEngine {
 	public:
 		VkFramebuffer GetFrameBuffer(void) const;
 
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+
 	public:
 		virtual void DumpLog(void) const;
 
