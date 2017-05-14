@@ -266,6 +266,11 @@ namespace CrossEngine {
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].module = VK_NULL_HANDLE;
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].pName = NULL;
 
+		for (auto &itShader : m_ptrShaders) {
+			CVulkanShaderPtr &ptrShader = itShader.second;
+			ptrShader.SetNull();
+		}
+
 		m_ptrShaders.clear();
 	}
 
