@@ -32,6 +32,13 @@ namespace CrossEngine {
 
 
 	protected:
+		typedef struct {
+			CVulkanRenderTexturePtr ptrRenderTexture;
+			VkImageView vkImageView;
+		} VkAttachmentInformation;
+
+
+	protected:
 		CVulkanFrameBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
 		virtual ~CVulkanFrameBuffer(void);
 
@@ -43,8 +50,13 @@ namespace CrossEngine {
 	protected:
 		uint32_t CreateAttachments(std::vector<VkImageView> &attachments);
 
+	protected:
+		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView);
+
 	public:
-		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView);
+		BOOL SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView);
+		BOOL SetColorAttachment(uint32_t indexAttachment, const CVulkanRenderTexturePtr &ptrColorTexture);
+		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CVulkanRenderTexturePtr &ptrDepthStencilTexture);
 
 	public:
 		VkFramebuffer GetFrameBuffer(void) const;
@@ -59,7 +71,7 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
-		std::map<uint32_t, VkImageView> m_views;
+		std::map<uint32_t, VkAttachmentInformation> m_attachments;
 	};
 
 	class CROSS_EXPORT CVulkanFrameBufferPtr : public CVulkanResourcePtr<CVulkanFrameBuffer>

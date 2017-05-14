@@ -64,10 +64,10 @@ void CreateFrameBuffer(void)
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView] = pDevice->GetFrameBufferManager()->AllocFrameBuffer();
-		ptrFrameBuffers[indexView]->SetAttachment(indexPresentAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
-		ptrFrameBuffers[indexView]->SetAttachment(indexDepthAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), ptrDepthTexture->GetImageView());
-		ptrFrameBuffers[indexView]->SetAttachment(indexColorAttachmentMSAA, pSwapchain->GetWidth(), pSwapchain->GetHeight(), ptrColorTextureMSAA->GetImageView());
-		ptrFrameBuffers[indexView]->SetAttachment(indexDepthAttachmentMSAA, pSwapchain->GetWidth(), pSwapchain->GetHeight(), ptrDepthTextureMSAA->GetImageView());
+		ptrFrameBuffers[indexView]->SetPresentAttachment(indexPresentAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
+		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachment, ptrDepthTexture);
+		ptrFrameBuffers[indexView]->SetColorAttachment(indexColorAttachmentMSAA, ptrColorTextureMSAA);
+		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachmentMSAA, ptrDepthTextureMSAA);
 		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetRenderPass());
 	}
 }

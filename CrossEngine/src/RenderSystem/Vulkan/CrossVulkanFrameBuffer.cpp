@@ -75,9 +75,9 @@ namespace CrossEngine {
 		attachments.clear();
 		attachments.resize(m_pDevice->GetDeviceProperties().limits.maxColorAttachments);
 
-		for (const auto &itAttachment : m_views) {
+		for (const auto &itAttachment : m_attachments) {
 			numAttachment = max(numAttachment, itAttachment.first + 1);
-			attachments[itAttachment.first] = itAttachment.second;
+			attachments[itAttachment.first] = itAttachment.second.vkImageView;
 		}
 
 		return numAttachment;
@@ -89,14 +89,19 @@ namespace CrossEngine {
 			vkDestroyFramebuffer(m_pDevice->GetDevice(), m_vkFrameBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
+		for (auto &itAttachment : m_attachments) {
+			CVulkanRenderTexturePtr &ptrRenderTexture = itAttachment.second.ptrRenderTexture;
+			ptrRenderTexture.SetNull();
+		}
+
 		m_vkFrameBuffer = VK_NULL_HANDLE;
 
 		m_width = 0;
 		m_height = 0;
-		m_views.clear();
+		m_attachments.clear();
 	}
 
-	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkView)
+	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -106,9 +111,27 @@ namespace CrossEngine {
 		if (m_height == 0) m_height = height;
 		if (m_width != width || m_height != height) return FALSE;
 
-		m_views[indexAttachment] = vkView;
+		m_attachments[indexAttachment].vkImageView = vkImageView;
 
 		return TRUE;
+	}
+
+	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView)
+	{
+		m_attachments[indexAttachment].ptrRenderTexture.SetNull();
+		return SetAttachment(indexAttachment, width, height, vkImageView);
+	}
+
+	BOOL CVulkanFrameBuffer::SetColorAttachment(uint32_t indexAttachment, const CVulkanRenderTexturePtr &ptrColorTexture)
+	{
+		m_attachments[indexAttachment].ptrRenderTexture = ptrColorTexture;
+		return SetAttachment(indexAttachment, ptrColorTexture->GetWidth(), ptrColorTexture->GetHeight(), ptrColorTexture->GetImageView());
+	}
+
+	BOOL CVulkanFrameBuffer::SetDepthStencilAttachment(uint32_t indexAttachment, const CVulkanRenderTexturePtr &ptrDepthStencilTexture)
+	{
+		m_attachments[indexAttachment].ptrRenderTexture = ptrDepthStencilTexture;
+		return SetAttachment(indexAttachment, ptrDepthStencilTexture->GetWidth(), ptrDepthStencilTexture->GetHeight(), ptrDepthStencilTexture->GetImageView());
 	}
 
 	VkFramebuffer CVulkanFrameBuffer::GetFrameBuffer(void) const
@@ -120,9 +143,9 @@ namespace CrossEngine {
 	{
 		if (m_vkFrameBuffer) {
 			LOGI("\t\tFrameBuffer 0x%x: width = %d height = %d\n", m_vkFrameBuffer, m_width, m_height);
-			for (const auto &itAttachment : m_views) {
-				if (const VkImageView view = itAttachment.second) {
-					LOGI("\t\t\tAttachment %d: view = 0x%x\n", itAttachment.first, view);
+			for (const auto &itAttachment : m_attachments) {
+				if (const VkImageView vkImageView = itAttachment.second.vkImageView) {
+					LOGI("\t\t\tAttachment %d: view = 0x%x\n", itAttachment.first, vkImageView);
 				}
 			}
 		}

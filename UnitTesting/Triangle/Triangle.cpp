@@ -47,8 +47,8 @@ void CreateFrameBuffer(void)
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView] = pDevice->GetFrameBufferManager()->AllocFrameBuffer();
-		ptrFrameBuffers[indexView]->SetAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
-		ptrFrameBuffers[indexView]->SetAttachment(1, pSwapchain->GetWidth(), pSwapchain->GetHeight(), ptrDepthTexture->GetImageView());
+		ptrFrameBuffers[indexView]->SetPresentAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
+		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(1, ptrDepthTexture);
 		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetRenderPass());
 	}
 }
@@ -85,9 +85,9 @@ void CreatePipeline(void)
 
 void DestroyPipeline(void)
 {
-	ptrPipeline.SetNull();
 	ptrShaderVertex.SetNull();
 	ptrShaderFragment.SetNull();
+	ptrPipeline.SetNull();
 }
 
 void CreateSynchronization(void)
