@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
+		virtual BOOL Create(const CVulkanShaderPtr &ptrShader, const char *szName = "main");
 	};
 
 	class CROSS_EXPORT CVulkanPipelineComputePtr : public CVulkanResourcePtr<CVulkanPipelineCompute>

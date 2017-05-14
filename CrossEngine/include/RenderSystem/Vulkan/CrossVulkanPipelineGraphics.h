@@ -46,11 +46,11 @@ namespace CrossEngine {
 		BOOL CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments);
 
 	public:
-		BOOL SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
-		BOOL SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
-		BOOL SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
-		BOOL SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
-		BOOL SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName = "main");
+		BOOL SetVertexShader(const CVulkanShaderPtr &ptrShader, const char *szName = "main");
+		BOOL SetTessellationControlShader(const CVulkanShaderPtr &ptrShader, const char *szName = "main");
+		BOOL SetTessellationEvaluationShader(const CVulkanShaderPtr &ptrShader, const char *szName = "main");
+		BOOL SetGeometryShader(const CVulkanShaderPtr &ptrShader, const char *szName = "main");
+		BOOL SetFragmentShader(const CVulkanShaderPtr &ptrShader, const char *szName = "main");
 		BOOL SetPrimitiveTopology(VkPrimitiveTopology topology, VkBool32 primitiveRestartEnable = VK_FALSE);
 		BOOL SetTessellationPatchControlPoints(uint32_t patchControlPoints);
 		BOOL SetPolygonMode(VkPolygonMode polygonMode);

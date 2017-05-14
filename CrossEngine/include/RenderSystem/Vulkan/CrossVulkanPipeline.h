@@ -90,7 +90,7 @@ namespace CrossEngine {
 		std::map<uint32_t, CVulkanDescriptorSetLayout*> m_pDescriptorSetLayouts;
 
 	protected:
-		std::map<VkShaderStageFlagBits, spirv::module_type> m_shaderModules;
+		std::map<VkShaderStageFlagBits, CVulkanShaderPtr> m_ptrShaders;
 		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
 	};
 

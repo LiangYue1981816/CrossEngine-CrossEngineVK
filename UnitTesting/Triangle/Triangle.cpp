@@ -75,8 +75,8 @@ void CreatePipeline(void)
 	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
 
 	ptrPipeline = pDevice->GetPipelineManager()->AllocPipelineGraphics();
-	ptrPipeline->SetVertexShader(ptrShaderVertex->GetShaderModule(), ptrShaderVertex->GetModule());
-	ptrPipeline->SetFragmentShader(ptrShaderFragment->GetShaderModule(), ptrShaderFragment->GetModule());
+	ptrPipeline->SetVertexShader(ptrShaderVertex);
+	ptrPipeline->SetFragmentShader(ptrShaderFragment);
 	ptrPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	ptrPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);

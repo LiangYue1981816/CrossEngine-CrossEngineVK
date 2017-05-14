@@ -183,8 +183,11 @@ namespace CrossEngine {
 	{
 		layouts.clear();
 
-		for (const auto &itMoudle : m_shaderModules) {
-			for (const auto &variable : itMoudle.second.variables) {
+		for (const auto &itShader : m_ptrShaders) {
+			const CVulkanShaderPtr &ptrShader = itShader.second;
+			const spirv::module_type &module = ptrShader->GetModule();
+
+			for (const auto &variable : module.variables) {
 				if (variable.second.storage_class != SpvStorageClassUniform &&
 					variable.second.storage_class != SpvStorageClassUniformConstant) {
 					continue;
@@ -192,7 +195,7 @@ namespace CrossEngine {
 
 				uint32_t set = variable.second.descriptor_set;
 				uint32_t binding = variable.second.binding;
-				VkShaderStageFlags shaderStageFlags = itMoudle.first;
+				VkShaderStageFlags shaderStageFlags = itShader.first;
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
 					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice);
@@ -263,7 +266,7 @@ namespace CrossEngine {
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].module = VK_NULL_HANDLE;
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].pName = NULL;
 
-		m_shaderModules.clear();
+		m_ptrShaders.clear();
 	}
 
 	VkPipeline CVulkanPipeline::GetPipeline(void) const

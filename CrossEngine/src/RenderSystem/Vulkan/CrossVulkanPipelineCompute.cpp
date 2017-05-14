@@ -36,9 +36,9 @@ namespace CrossEngine {
 
 	}
 	
-	BOOL CVulkanPipelineCompute::Create(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineCompute::Create(const CVulkanShaderPtr &ptrShader, const char *szName)
 	{
-		m_shaderModules[VK_SHADER_STAGE_COMPUTE_BIT] = module;
+		m_ptrShaders[VK_SHADER_STAGE_COMPUTE_BIT] = ptrShader;
 
 		try {
 			std::vector<VkDescriptorSetLayout> layouts;
@@ -62,7 +62,7 @@ namespace CrossEngine {
 			createInfo.stage.pNext = NULL;
 			createInfo.stage.flags = 0;
 			createInfo.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-			createInfo.stage.module = vkShader;
+			createInfo.stage.module = ptrShader->GetShaderModule();
 			createInfo.stage.pName = szName;
 			createInfo.stage.pSpecializationInfo = NULL;
 			createInfo.layout = m_vkPipelineLayout;

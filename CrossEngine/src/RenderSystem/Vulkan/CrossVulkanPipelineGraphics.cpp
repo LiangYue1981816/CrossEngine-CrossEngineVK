@@ -188,7 +188,13 @@ namespace CrossEngine {
 		inputBindingDescriptions.clear();
 		inputAttributeDescriptions.clear();
 
-		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
+		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull()) {
+			return FALSE;
+		}
+
+		const spirv::module_type& moudle = m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetModule();
+
+		for (const auto &variable : moudle.variables) {
 			if (variable.second.storage_class == SpvStorageClassInput) {
 				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
 					m_vertexFormat |= attribute;
@@ -196,7 +202,7 @@ namespace CrossEngine {
 			}
 		}
 
-		for (const auto &variable : m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT].variables) {
+		for (const auto &variable : moudle.variables) {
 			if (variable.second.storage_class == SpvStorageClassInput) {
 				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
 					VkVertexInputAttributeDescription inputAttributeDescription;
@@ -237,23 +243,23 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetVertexShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetVertexShader(const CVulkanShaderPtr &ptrShader, const char *szName)
 	{
-		m_shaderModules[VK_SHADER_STAGE_VERTEX_BIT] = module;
+		m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT] = ptrShader;
 
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = vkShader;
+		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = ptrShader->GetShaderModule();
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pName = szName;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pSpecializationInfo = NULL;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetTessellationControlShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetTessellationControlShader(const CVulkanShaderPtr &ptrShader, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
-			m_shaderModules[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = module;
+			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = ptrShader;
 
-			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = vkShader;
+			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = ptrShader->GetShaderModule();
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pName = szName;
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pSpecializationInfo = NULL;
 		}
@@ -261,12 +267,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetTessellationEvaluationShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetTessellationEvaluationShader(const CVulkanShaderPtr &ptrShader, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().tessellationShader) {
-			m_shaderModules[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = module;
+			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = ptrShader;
 
-			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = vkShader;
+			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = ptrShader->GetShaderModule();
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pName = szName;
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pSpecializationInfo = NULL;
 		}
@@ -274,12 +280,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetGeometryShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetGeometryShader(const CVulkanShaderPtr &ptrShader, const char *szName)
 	{
 		if (m_pDevice->GetDeviceFeatures().geometryShader) {
-			m_shaderModules[VK_SHADER_STAGE_GEOMETRY_BIT] = module;
+			m_ptrShaders[VK_SHADER_STAGE_GEOMETRY_BIT] = ptrShader;
 
-			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = vkShader;
+			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = ptrShader->GetShaderModule();
 			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pName = szName;
 			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pSpecializationInfo = NULL;
 		}
@@ -287,11 +293,11 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetFragmentShader(VkShaderModule vkShader, const spirv::module_type &module, const char *szName)
+	BOOL CVulkanPipelineGraphics::SetFragmentShader(const CVulkanShaderPtr &ptrShader, const char *szName)
 	{
-		m_shaderModules[VK_SHADER_STAGE_FRAGMENT_BIT] = module;
+		m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT] = ptrShader;
 
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = vkShader;
+		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = ptrShader->GetShaderModule();
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pName = szName;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pSpecializationInfo = NULL;
 
