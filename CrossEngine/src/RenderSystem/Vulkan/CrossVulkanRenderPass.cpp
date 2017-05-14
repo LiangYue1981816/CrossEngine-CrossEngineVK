@@ -156,27 +156,6 @@ namespace CrossEngine {
 		m_dependencies.clear();
 	}
 
-	BOOL CVulkanRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
-	{
-		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
-			return FALSE;
-		}
-
-		m_attachments[indexAttachment] = {};
-		m_attachments[indexAttachment].flags = 0;
-		m_attachments[indexAttachment].format = format;
-		m_attachments[indexAttachment].samples = samples;
-		m_attachments[indexAttachment].loadOp = loadOp;
-		m_attachments[indexAttachment].storeOp = storeOp;
-		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-		m_attachmentClearValues[indexAttachment] = clearValue;
-
-		return TRUE;
-	}
-
 	BOOL CVulkanRenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
@@ -193,6 +172,27 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+		m_attachmentClearValues[indexAttachment] = clearValue;
+
+		return TRUE;
+	}
+
+	BOOL CVulkanRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
+	{
+		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
+			return FALSE;
+		}
+
+		m_attachments[indexAttachment] = {};
+		m_attachments[indexAttachment].flags = 0;
+		m_attachments[indexAttachment].format = format;
+		m_attachments[indexAttachment].samples = samples;
+		m_attachments[indexAttachment].loadOp = loadOp;
+		m_attachments[indexAttachment].storeOp = storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;

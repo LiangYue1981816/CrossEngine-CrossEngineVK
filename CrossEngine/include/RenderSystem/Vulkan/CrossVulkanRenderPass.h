@@ -56,8 +56,8 @@ namespace CrossEngine {
 		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
 
 	public:
-		BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
 		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
+		BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
 		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
 
 		BOOL SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment);
