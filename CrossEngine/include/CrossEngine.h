@@ -99,9 +99,6 @@ THE SOFTWARE.
 #include "CrossVulkanDevice.h"
 #include "CrossVulkanDeviceCompute.h"
 #include "CrossVulkanDeviceGraphics.h"
-#include "CrossVulkanCommandPool.h"
-#include "CrossVulkanCommandBuffer.h"
-#include "CrossVulkanCommandBufferManager.h"
 #include "CrossVulkanDescriptorPool.h"
 #include "CrossVulkanDescriptorSet.h"
 #include "CrossVulkanDescriptorSetManager.h"
@@ -138,6 +135,10 @@ THE SOFTWARE.
 #include "CrossVulkanPipelineCompute.h"
 #include "CrossVulkanPipelineGraphics.h"
 #include "CrossVulkanPipelineManager.h"
+
+#include "CrossVulkanCommandPool.h"
+#include "CrossVulkanCommandBuffer.h"
+#include "CrossVulkanCommandBufferManager.h"
 
 #include "CrossResource.h"
 #include "CrossResourceManager.h"

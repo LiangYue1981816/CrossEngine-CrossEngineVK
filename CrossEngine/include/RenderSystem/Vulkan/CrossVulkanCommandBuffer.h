@@ -45,7 +45,8 @@ namespace CrossEngine {
 		VkResult BeginSecondary(VkCommandBufferUsageFlags flags, VkFramebuffer vkFramebuffer, VkRenderPass vkRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0) const;
 		VkResult End(void) const;
 
-		void CmdBindPipeline(VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline) const;
+		void CmdBindPipelineCompute(const CVulkanPipelineComputePtr &ptrPipelineCompute) const;
+		void CmdBindPipelineGraphics(const CVulkanPipelineGraphicsPtr &ptrPipelineGraphics) const;
 		void CmdSetViewport(uint32_t firstViewport, uint32_t viewportCount, const VkViewport* pViewports) const;
 		void CmdSetScissor(uint32_t firstScissor, uint32_t scissorCount, const VkRect2D* pScissors) const;
 		void CmdSetLineWidth(float lineWidth) const;
@@ -56,8 +57,8 @@ namespace CrossEngine {
 		void CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask) const;
 		void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference) const;
 		void CmdBindDescriptorSets(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet, uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets, uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets) const;
-		void CmdBindIndexBuffer(VkBuffer buffer, VkDeviceSize offset, VkIndexType indexType) const;
-		void CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets) const;
+		void CmdBindIndexBuffer(const CVulkanIndexBufferPtr &ptrIndexBufer, VkDeviceSize offset, VkIndexType indexType) const;
+		void CmdBindVertexBuffer(const CVulkanVertexBufferPtr &ptrVertexBufer, VkDeviceSize offset) const;
 		void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) const;
 		void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) const;
 		void CmdDrawIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride) const;
@@ -85,7 +86,8 @@ namespace CrossEngine {
 		void CmdWriteTimestamp(VkPipelineStageFlagBits pipelineStage, VkQueryPool queryPool, uint32_t query) const;
 		void CmdCopyQueryPoolResults(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount, VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize stride, VkQueryResultFlags flags) const;
 		void CmdPushConstants(VkPipelineLayout layout, VkShaderStageFlags stageFlags, uint32_t offset, uint32_t size, const void* pValues) const;
-		void CmdBeginRenderPass(const VkRenderPassBeginInfo* pRenderPassBegin, VkSubpassContents contents) const;
+		void CmdBeginRenderPass(const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, VkSubpassContents contents) const;
+		void CmdBeginRenderPass(const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents) const;
 		void CmdNextSubpass(VkSubpassContents contents) const;
 		void CmdEndRenderPass(void) const;
 		void CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) const;

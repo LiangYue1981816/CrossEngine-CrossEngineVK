@@ -88,9 +88,14 @@ namespace CrossEngine {
 		return vkEndCommandBuffer(m_vkCommandBuffer);
 	}
 
-	void CVulkanCommandBuffer::CmdBindPipeline(VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline) const
+	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CVulkanPipelineComputePtr &ptrPipelineCompute) const
 	{
-		vkCmdBindPipeline(m_vkCommandBuffer, pipelineBindPoint, pipeline);
+		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, ptrPipelineCompute->GetPipeline());
+	}
+
+	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CVulkanPipelineGraphicsPtr &ptrPipelineGraphics) const
+	{
+		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipelineGraphics->GetPipeline());
 	}
 
 	void CVulkanCommandBuffer::CmdSetViewport(uint32_t firstViewport, uint32_t viewportCount, const VkViewport* pViewports) const
@@ -143,14 +148,15 @@ namespace CrossEngine {
 		vkCmdBindDescriptorSets(m_vkCommandBuffer, pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets, dynamicOffsetCount, pDynamicOffsets);
 	}
 
-	void CVulkanCommandBuffer::CmdBindIndexBuffer(VkBuffer buffer, VkDeviceSize offset, VkIndexType indexType) const
+	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CVulkanIndexBufferPtr &ptrIndexBufer, VkDeviceSize offset, VkIndexType indexType) const
 	{
-		vkCmdBindIndexBuffer(m_vkCommandBuffer, buffer, offset, indexType);
+		vkCmdBindIndexBuffer(m_vkCommandBuffer, ptrIndexBufer->GetBuffer(), offset, indexType);
 	}
 
-	void CVulkanCommandBuffer::CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets) const
+	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CVulkanVertexBufferPtr &ptrVertexBufer, VkDeviceSize offset) const
 	{
-		vkCmdBindVertexBuffers(m_vkCommandBuffer, firstBinding, bindingCount, pBuffers, pOffsets);
+		VkBuffer vkBuffer = ptrVertexBufer->GetBuffer();
+		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
 	}
 
 	void CVulkanCommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) const
@@ -288,9 +294,24 @@ namespace CrossEngine {
 		vkCmdPushConstants(m_vkCommandBuffer, layout, stageFlags, offset, size, pValues);
 	}
 
-	void CVulkanCommandBuffer::CmdBeginRenderPass(const VkRenderPassBeginInfo* pRenderPassBegin, VkSubpassContents contents) const
+	void CVulkanCommandBuffer::CmdBeginRenderPass(const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, VkSubpassContents contents) const
 	{
-		vkCmdBeginRenderPass(m_vkCommandBuffer, pRenderPassBegin, contents);
+		VkRect2D renderArea = { 0, 0, ptrFrameBuffer->GetWidth(),ptrFrameBuffer->GetHeight() };
+		CmdBeginRenderPass(ptrFrameBuffer, ptrRenderPass, renderArea, contents);
+	}
+
+	void CVulkanCommandBuffer::CmdBeginRenderPass(const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents) const
+	{
+		std::vector<VkClearValue> clearValues = ptrRenderPass->GetClearValues();
+		VkRenderPassBeginInfo renderPassBeginInfo = {};
+		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassBeginInfo.pNext = nullptr;
+		renderPassBeginInfo.framebuffer = ptrFrameBuffer->GetFrameBuffer();
+		renderPassBeginInfo.renderPass = ptrRenderPass->GetRenderPass();
+		renderPassBeginInfo.renderArea = renderArea;
+		renderPassBeginInfo.clearValueCount = clearValues.size();
+		renderPassBeginInfo.pClearValues = clearValues.data();
+		vkCmdBeginRenderPass(m_vkCommandBuffer, &renderPassBeginInfo, contents);
 	}
 
 	void CVulkanCommandBuffer::CmdNextSubpass(VkSubpassContents contents) const

@@ -197,19 +197,7 @@ void CreateCommandBuffer(void)
 		pCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		pCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
-			std::vector<VkClearValue> clearValues = ptrRenderPass->GetClearValues();
-			VkRenderPassBeginInfo renderPassBeginInfo = {};
-			renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-			renderPassBeginInfo.pNext = nullptr;
-			renderPassBeginInfo.framebuffer = ptrFrameBuffers[indexView]->GetFrameBuffer();
-			renderPassBeginInfo.renderPass = ptrRenderPass->GetRenderPass();
-			renderPassBeginInfo.renderArea.offset.x = 0;
-			renderPassBeginInfo.renderArea.offset.y = 0;
-			renderPassBeginInfo.renderArea.extent.width = pSwapchain->GetWidth();
-			renderPassBeginInfo.renderArea.extent.height = pSwapchain->GetHeight();
-			renderPassBeginInfo.clearValueCount = clearValues.size();
-			renderPassBeginInfo.pClearValues = clearValues.data();
-			pCommandBuffers[indexView]->CmdBeginRenderPass(&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+			pCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
 				VkViewport viewport = {};
 				viewport.x = 0;
@@ -227,17 +215,13 @@ void CreateCommandBuffer(void)
 				scissor.extent.height = pSwapchain->GetHeight();
 				pCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
 
-				pCommandBuffers[indexView]->CmdBindPipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipeline());
+				pCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
 				{
+					pCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+					pCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
+
 					VkDescriptorSet set = pDescriptorSet->GetDescriptorSet();
 					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), 0, 1, &set, 0, NULL);
-
-					VkDeviceSize offsets = 0;
-					VkBuffer vkIndexBuffer = ptrIndexBuffer->GetBuffer();
-					VkBuffer vkVertexBuffer = ptrVertexBuffer->GetBuffer();
-					pCommandBuffers[indexView]->CmdBindIndexBuffer(vkIndexBuffer, offsets, VK_INDEX_TYPE_UINT32);
-					pCommandBuffers[indexView]->CmdBindVertexBuffers(0, 1, &vkVertexBuffer, &offsets);
-
 					pCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 1);
 				}
 			}
