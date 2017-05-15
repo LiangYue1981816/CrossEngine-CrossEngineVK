@@ -259,31 +259,6 @@ namespace CrossEngine {
 		vkCmdPipelineBarrier(m_vkCommandBuffer, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
 	}
 
-	void CVulkanCommandBuffer::CmdBeginQuery(VkQueryPool queryPool, uint32_t query, VkQueryControlFlags flags) const
-	{
-		vkCmdBeginQuery(m_vkCommandBuffer, queryPool, query, flags);
-	}
-
-	void CVulkanCommandBuffer::CmdEndQuery(VkQueryPool queryPool, uint32_t query) const
-	{
-		vkCmdEndQuery(m_vkCommandBuffer, queryPool, query);
-	}
-
-	void CVulkanCommandBuffer::CmdResetQueryPool(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) const
-	{
-		vkCmdResetQueryPool(m_vkCommandBuffer, queryPool, firstQuery, queryCount);
-	}
-
-	void CVulkanCommandBuffer::CmdWriteTimestamp(VkPipelineStageFlagBits pipelineStage, VkQueryPool queryPool, uint32_t query) const
-	{
-		vkCmdWriteTimestamp(m_vkCommandBuffer, pipelineStage, queryPool, query);
-	}
-
-	void CVulkanCommandBuffer::CmdCopyQueryPoolResults(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount, VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize stride, VkQueryResultFlags flags) const
-	{
-		vkCmdCopyQueryPoolResults(m_vkCommandBuffer, queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
-	}
-
 	void CVulkanCommandBuffer::CmdPushConstants(VkPipelineLayout layout, VkShaderStageFlags stageFlags, uint32_t offset, uint32_t size, const void* pValues) const
 	{
 		vkCmdPushConstants(m_vkCommandBuffer, layout, stageFlags, offset, size, pValues);
