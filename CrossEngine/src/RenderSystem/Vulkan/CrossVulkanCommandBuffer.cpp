@@ -329,7 +329,7 @@ namespace CrossEngine {
 		vkCmdExecuteCommands(m_vkCommandBuffer, commandBufferCount, pCommandBuffers);
 	}
 
-	void CVulkanCommandBuffer::CmdSetImageLayout(VkImage vkImage, VkImageLayout oldLayout, VkImageLayout newLayout, const VkImageSubresourceRange &range) const
+	void CVulkanCommandBuffer::CmdSetImageLayout(VkImage vkImage, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkImageLayout oldLayout, VkImageLayout newLayout, const VkImageSubresourceRange &range) const
 	{
 		VkImageMemoryBarrier barrier = {};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -342,9 +342,6 @@ namespace CrossEngine {
 		barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 		barrier.image = vkImage;
 		barrier.subresourceRange = range;
-
-		VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-		VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
 
 		if (oldLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR)
 		{
