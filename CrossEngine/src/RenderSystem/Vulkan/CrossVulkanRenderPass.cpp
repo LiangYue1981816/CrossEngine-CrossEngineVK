@@ -177,7 +177,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
+	BOOL CVulkanRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -192,13 +192,13 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		m_attachments[indexAttachment].finalLayout = finalLayout;
 		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
+	BOOL CVulkanRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
 		if (indexAttachment >= m_pDevice->GetDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -213,7 +213,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilLoadOp = stencilLoadOp;
 		m_attachments[indexAttachment].stencilStoreOp = stencilStoreOp;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		m_attachments[indexAttachment].finalLayout = finalLayout;
 		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
