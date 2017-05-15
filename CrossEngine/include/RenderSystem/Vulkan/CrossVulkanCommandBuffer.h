@@ -42,7 +42,7 @@ namespace CrossEngine {
 
 	public:
 		VkResult BeginPrimary(VkCommandBufferUsageFlags flags) const;
-		VkResult BeginSecondary(VkCommandBufferUsageFlags flags, VkFramebuffer vkFramebuffer, VkRenderPass vkRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0) const;
+		VkResult BeginSecondary(VkCommandBufferUsageFlags flags, const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0) const;
 		VkResult End(void) const;
 
 		void CmdBindPipelineCompute(const CVulkanPipelineComputePtr &ptrPipelineCompute) const;

@@ -63,14 +63,14 @@ namespace CrossEngine {
 		return vkBeginCommandBuffer(m_vkCommandBuffer, &beginInfo);
 	}
 
-	VkResult CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, VkFramebuffer vkFramebuffer, VkRenderPass vkRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics) const
+	VkResult CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics) const
 	{
 		VkCommandBufferInheritanceInfo inheritanceInfo = {};
 		inheritanceInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
 		inheritanceInfo.pNext = NULL;
-		inheritanceInfo.renderPass = vkRenderPass;
+		inheritanceInfo.renderPass = ptrRenderPass->GetRenderPass();
 		inheritanceInfo.subpass = indexSubpass;
-		inheritanceInfo.framebuffer = vkFramebuffer;
+		inheritanceInfo.framebuffer = ptrFrameBuffer->GetFrameBuffer();
 		inheritanceInfo.occlusionQueryEnable = occlusionQueryEnable;
 		inheritanceInfo.queryFlags = queryFlags;
 		inheritanceInfo.pipelineStatistics = pipelineStatistics;
