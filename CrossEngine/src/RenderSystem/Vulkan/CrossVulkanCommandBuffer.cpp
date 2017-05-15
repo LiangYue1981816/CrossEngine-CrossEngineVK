@@ -169,14 +169,14 @@ namespace CrossEngine {
 		vkCmdDrawIndexed(m_vkCommandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
 	}
 
-	void CVulkanCommandBuffer::CmdDrawIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride) const
+	void CVulkanCommandBuffer::CmdDrawIndirect(const CVulkanBufferPtr &ptrBuffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride) const
 	{
-		vkCmdDrawIndirect(m_vkCommandBuffer, buffer, offset, drawCount, stride);
+		vkCmdDrawIndirect(m_vkCommandBuffer, ptrBuffer->GetBuffer(), offset, drawCount, stride);
 	}
 
-	void CVulkanCommandBuffer::CmdDrawIndexedIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride) const
+	void CVulkanCommandBuffer::CmdDrawIndexedIndirect(const CVulkanBufferPtr &ptrBuffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride) const
 	{
-		vkCmdDrawIndexedIndirect(m_vkCommandBuffer, buffer, offset, drawCount, stride);
+		vkCmdDrawIndexedIndirect(m_vkCommandBuffer, ptrBuffer->GetBuffer(), offset, drawCount, stride);
 	}
 
 	void CVulkanCommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) const
@@ -184,9 +184,9 @@ namespace CrossEngine {
 		vkCmdDispatch(m_vkCommandBuffer, groupCountX, groupCountY, groupCountZ);
 	}
 
-	void CVulkanCommandBuffer::CmdDispatchIndirect(VkBuffer buffer, VkDeviceSize offset) const
+	void CVulkanCommandBuffer::CmdDispatchIndirect(const CVulkanBufferPtr &ptrBuffer, VkDeviceSize offset) const
 	{
-		vkCmdDispatchIndirect(m_vkCommandBuffer, buffer, offset);
+		vkCmdDispatchIndirect(m_vkCommandBuffer, ptrBuffer->GetBuffer(), offset);
 	}
 
 	void CVulkanCommandBuffer::CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, uint32_t regionCount, const VkBufferCopy* pRegions) const
