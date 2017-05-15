@@ -258,6 +258,11 @@ namespace CrossEngine {
 		m_vkImageView = VK_NULL_HANDLE;
 	}
 
+	VkImage CVulkanImage::GetImage(void) const
+	{
+		return m_vkImage;
+	}
+
 	VkImageView CVulkanImage::GetImageView(void) const
 	{
 		return m_vkImageView;

@@ -224,24 +224,19 @@ namespace CrossEngine {
 		vkCmdFillBuffer(m_vkCommandBuffer, dstBuffer, dstOffset, size, data);
 	}
 
-	void CVulkanCommandBuffer::CmdClearColorImage(VkImage image, VkImageLayout imageLayout, const VkClearColorValue* pColor, uint32_t rangeCount, const VkImageSubresourceRange* pRanges) const
+	void CVulkanCommandBuffer::CmdClearColorImage(const CVulkanRenderTexturePtr &ptrColorTexture, VkImageLayout imageLayout, const VkClearColorValue* pColor, uint32_t rangeCount, const VkImageSubresourceRange* pRanges) const
 	{
-		vkCmdClearColorImage(m_vkCommandBuffer, image, imageLayout, pColor, rangeCount, pRanges);
+		vkCmdClearColorImage(m_vkCommandBuffer, ptrColorTexture->GetImage(), imageLayout, pColor, rangeCount, pRanges);
 	}
 
-	void CVulkanCommandBuffer::CmdClearDepthStencilImage(VkImage image, VkImageLayout imageLayout, const VkClearDepthStencilValue* pDepthStencil, uint32_t rangeCount, const VkImageSubresourceRange* pRanges) const
+	void CVulkanCommandBuffer::CmdClearDepthStencilImage(const CVulkanRenderTexturePtr &ptrDepthStencilTexture, VkImageLayout imageLayout, const VkClearDepthStencilValue* pDepthStencil, uint32_t rangeCount, const VkImageSubresourceRange* pRanges) const
 	{
-		vkCmdClearDepthStencilImage(m_vkCommandBuffer, image, imageLayout, pDepthStencil, rangeCount, pRanges);
+		vkCmdClearDepthStencilImage(m_vkCommandBuffer, ptrDepthStencilTexture->GetImage(), imageLayout, pDepthStencil, rangeCount, pRanges);
 	}
 
 	void CVulkanCommandBuffer::CmdClearAttachments(uint32_t attachmentCount, const VkClearAttachment* pAttachments, uint32_t rectCount, const VkClearRect* pRects) const
 	{
 		vkCmdClearAttachments(m_vkCommandBuffer, attachmentCount, pAttachments, rectCount, pRects);
-	}
-
-	void CVulkanCommandBuffer::CmdResolveImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount, const VkImageResolve* pRegions) const
-	{
-		vkCmdResolveImage(m_vkCommandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
 	}
 
 	void CVulkanCommandBuffer::CmdSetEvent(VkEvent event, VkPipelineStageFlags stageMask) const

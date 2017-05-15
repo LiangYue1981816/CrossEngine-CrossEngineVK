@@ -50,6 +50,7 @@ namespace CrossEngine {
 		void DestroyImageView(void);
 
 	public:
+		VkImage GetImage(void) const;
 		VkImageView GetImageView(void) const;
 
 		uint32_t GetWidth(void) const;
