@@ -50,42 +50,42 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::ClearResources(void)
 	{
-		for (auto itFrameBuffer : m_ptrFrameBuffers) {
+		for (auto &itFrameBuffer : m_ptrFrameBuffers) {
 			CVulkanFrameBufferPtr &ptrFrameBuffer = itFrameBuffer.second;
 			ptrFrameBuffer.SetNull();
 		}
 
-		for (auto itRenderPass : m_ptrRenderPasses) {
+		for (auto &itRenderPass : m_ptrRenderPasses) {
 			CVulkanRenderPassPtr &ptrRenderPass = itRenderPass.second;
 			ptrRenderPass.SetNull();
 		}
 
-		for (auto itPipeline : m_ptrPipelineComputes) {
+		for (auto &itPipeline : m_ptrPipelineComputes) {
 			CVulkanPipelineComputePtr &ptrPipeline = itPipeline.second;
 			ptrPipeline.SetNull();
 		}
 
-		for (auto itPipeline : m_ptrPipelineGraphics) {
+		for (auto &itPipeline : m_ptrPipelineGraphics) {
 			CVulkanPipelineGraphicsPtr &ptrPipeline = itPipeline.second;
 			ptrPipeline.SetNull();
 		}
 
-		for (auto itBuffer : m_ptrIndexBuffers) {
+		for (auto &itBuffer : m_ptrIndexBuffers) {
 			CVulkanIndexBufferPtr &ptrBuffer = itBuffer.second;
 			ptrBuffer.SetNull();
 		}
 
-		for (auto itBuffer : m_ptrVertexBuffers) {
+		for (auto &itBuffer : m_ptrVertexBuffers) {
 			CVulkanVertexBufferPtr &ptrBuffer = itBuffer.second;
 			ptrBuffer.SetNull();
 		}
 
-		for (auto itBuffer : m_ptrBuffers) {
+		for (auto &itBuffer : m_ptrBuffers) {
 			CVulkanBufferPtr &ptrBuffer = itBuffer.second;
 			ptrBuffer.SetNull();
 		}
 
-		for (auto itTexture : m_ptrRenderTextures) {
+		for (auto &itTexture : m_ptrRenderTextures) {
 			CVulkanRenderTexturePtr &ptrTexture = itTexture.second;
 			ptrTexture.SetNull();
 		}

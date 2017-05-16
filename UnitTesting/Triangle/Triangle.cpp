@@ -249,13 +249,14 @@ void Destroy(void)
 	if (pVulkan) {
 		pDevice->GetQueue()->WaitIdle();
 
-		DestroyBuffer();
-		DestroyDescriptorSet();
-		DestroyPipeline();
-		DestroyFrameBuffer();
 		DestroyRenderPass();
+		DestroyFrameBuffer();
 		DestroyCommandBuffer();
 		DestroySynchronization();
+
+		DestroyPipeline();
+		DestroyBuffer();
+		DestroyDescriptorSet();
 
 		pDevice->DumpLog();
 		pVulkan->DestroySwapchain();

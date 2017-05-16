@@ -97,6 +97,8 @@ namespace CrossEngine {
 	{
 		VkCommandBufferLevel level = pCommandBuffer->GetCommandBufferLevel();
 
+		pCommandBuffer->ClearResources();
+
 		pCommandBuffer->pFreeNext = m_pFreeListHead[level];
 		m_pFreeListHead[level] = pCommandBuffer;
 
