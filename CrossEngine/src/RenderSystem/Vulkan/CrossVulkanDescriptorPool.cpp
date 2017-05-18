@@ -90,7 +90,7 @@ namespace CrossEngine {
 		VkDescriptorSet vkDescriptorSet = VK_NULL_HANDLE;
 		vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
 
-		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(m_pDevice, vkDescriptorSet, typesUsedCount);
+		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(this, m_pDevice, vkDescriptorSet, typesUsedCount);
 		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
 
 		m_numDescriptorSets++;

@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount)
 		: m_pDevice(pDevice)
+		, m_pDescriptorPool(pDescriptorPool)
 		, m_vkDescriptorSet(vkDescriptorSet)
 		, m_typesUsedCount{ 0 }
 	{
@@ -92,6 +93,11 @@ namespace CrossEngine {
 		}
 
 		vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);
+	}
+
+	CVulkanDescriptorPool* CVulkanDescriptorSet::GetDescriptorPool(void) const
+	{
+		return m_pDescriptorPool;
 	}
 
 	VkDescriptorSet CVulkanDescriptorSet::GetDescriptorSet(void) const

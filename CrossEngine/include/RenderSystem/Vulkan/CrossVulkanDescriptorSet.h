@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanDescriptorSet(CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount);
+		CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount);
 		virtual ~CVulkanDescriptorSet(void);
 
 
@@ -43,12 +43,14 @@ namespace CrossEngine {
 		void UpdateDescriptorSets(void) const;
 
 	public:
+		CVulkanDescriptorPool* GetDescriptorPool(void) const;
 		VkDescriptorSet GetDescriptorSet(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
 
 
 	protected:
 		VkDescriptorSet m_vkDescriptorSet;
+		CVulkanDescriptorPool *m_pDescriptorPool;
 
 	protected:
 		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
