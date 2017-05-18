@@ -65,6 +65,12 @@ namespace CrossEngine {
 
 	CVulkanDescriptorPool::~CVulkanDescriptorPool(void)
 	{
+		for (const auto &itDescriptorSet : m_pDescriptorSets) {
+			if (CVulkanDescriptorSet *pDescriptorSet = itDescriptorSet.second) {
+				SAFE_DELETE(pDescriptorSet);
+			}
+		}
+
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
@@ -88,7 +94,8 @@ namespace CrossEngine {
 		allocInfo.pSetLayouts = &vkSetLayout;
 
 		VkDescriptorSet vkDescriptorSet = VK_NULL_HANDLE;
-		vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
+		VkResult result = vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
+		if (result != VK_SUCCESS) return NULL;
 
 		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(this, m_pDevice, vkDescriptorSet, typesUsedCount);
 		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
@@ -103,35 +110,18 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
-		if (pDescriptorSet) {
-			const auto &itDescriptorSet = m_pDescriptorSets.find(pDescriptorSet);
-			if (itDescriptorSet != m_pDescriptorSets.end()) m_pDescriptorSets.erase(itDescriptorSet);
+		const auto &itDescriptorSet = m_pDescriptorSets.find(pDescriptorSet);
+		if (itDescriptorSet != m_pDescriptorSets.end()) m_pDescriptorSets.erase(itDescriptorSet);
 
-			VkDescriptorSet vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
-			vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
+		VkDescriptorSet vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
+		vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
 
-			m_numDescriptorSets--;
-			for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
-				m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
-			}
-
-			SAFE_DELETE(pDescriptorSet);
-		}
-	}
-
-	void CVulkanDescriptorPool::ResetDescriptorPool(void)
-	{
-		for (const auto &itDescriptorSet : m_pDescriptorSets) {
-			if (CVulkanDescriptorSet *pDescriptorSet = itDescriptorSet.second) {
-				SAFE_DELETE(pDescriptorSet);
-			}
+		m_numDescriptorSets--;
+		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
+			m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
 		}
 
-		m_numDescriptorSets = 0;
-		memset(m_numAllocatedTypes, 0, sizeof(m_numAllocatedTypes));
-
-		m_pDescriptorSets.clear();
-		vkResetDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, 0);
+		SAFE_DELETE(pDescriptorSet);
 	}
 
 	uint32_t CVulkanDescriptorPool::GetDescriptorSetCount(void) const
