@@ -127,6 +127,9 @@ namespace CrossEngine {
 			}
 		}
 
+		m_numDescriptorSets = 0;
+		memset(m_numAllocatedTypes, 0, sizeof(m_numAllocatedTypes));
+
 		m_pDescriptorSets.clear();
 		vkResetDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, 0);
 	}
