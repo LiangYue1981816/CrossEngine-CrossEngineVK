@@ -43,7 +43,6 @@ namespace CrossEngine {
 	public:
 		CVulkanDescriptorSet* AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount);
 		void FreeDescriptorSet(uint32_t pool, CVulkanDescriptorSet *pDescriptorSet);
-		void ResetDescriptorPool(uint32_t pool);
 
 	public:
 		CVulkanDescriptorPool* GetDescriptorPool(uint32_t pool);

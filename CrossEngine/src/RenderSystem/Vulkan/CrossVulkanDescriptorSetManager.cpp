@@ -62,11 +62,6 @@ namespace CrossEngine {
 		GetDescriptorPool(pool)->FreeDescriptorSet(pDescriptorSet);
 	}
 
-	void CVulkanDescriptorSetManager::ResetDescriptorPool(uint32_t pool)
-	{
-		GetDescriptorPool(pool)->ResetDescriptorPool();
-	}
-
 	CVulkanDescriptorPool* CVulkanDescriptorSetManager::GetDescriptorPool(uint32_t pool)
 	{
 		const auto &itDescriptorPool = m_pDescriptorPools.find(pool);
