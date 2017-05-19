@@ -37,9 +37,8 @@ namespace CrossEngine {
 
 
 	public:
-		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo vkDescriptorImageInfos);
-		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo vkDescriptorBufferInfos);
-		void WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkTexelBufferView);
+		void SetTexture(uint32_t binding, const CVulkanTexturePtr &ptrTexture);
+		void SetUniformBuffer(uint32_t binding, const CVulkanUniformBufferPtr &ptrUniformBuffer);
 		void UpdateDescriptorSets(void) const;
 
 	public:
@@ -54,7 +53,8 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
-		std::map<uint32_t, VkWriteDescriptorSet> m_vkWriteDescriptorSets;
+		std::map<uint32_t, CVulkanTexturePtr> m_ptrTextures;
+		std::map<uint32_t, CVulkanUniformBufferPtr> m_ptrUniformBuffers;
 
 	protected:
 		CVulkanDevice *m_pDevice;

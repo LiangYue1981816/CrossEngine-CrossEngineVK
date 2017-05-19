@@ -36,60 +36,70 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSet::~CVulkanDescriptorSet(void)
 	{
+		for (auto itTexture : m_ptrTextures) {
+			CVulkanTexturePtr &ptrTexture = itTexture.second;
+			ptrTexture.SetNull();
+		}
 
+		for (auto itUniformBuffer : m_ptrUniformBuffers) {
+			CVulkanUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
+			ptrUniformBuffer.SetNull();
+		}
+
+		m_ptrTextures.clear();
+		m_ptrUniformBuffers.clear();
 	}
 
-	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorImageInfo vkDescriptorImageInfos)
+	void CVulkanDescriptorSet::SetTexture(uint32_t binding, const CVulkanTexturePtr &ptrTexture)
 	{
-		m_vkWriteDescriptorSets[binding] = {};
-		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		m_vkWriteDescriptorSets[binding].pNext = NULL;
-		m_vkWriteDescriptorSets[binding].dstSet = m_vkDescriptorSet;
-		m_vkWriteDescriptorSets[binding].dstBinding = binding;
-		m_vkWriteDescriptorSets[binding].dstArrayElement = 0;
-		m_vkWriteDescriptorSets[binding].descriptorCount = 1;
-		m_vkWriteDescriptorSets[binding].descriptorType = type;
-		m_vkWriteDescriptorSets[binding].pImageInfo = &vkDescriptorImageInfos;
-		m_vkWriteDescriptorSets[binding].pBufferInfo = NULL;
-		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
+		m_ptrTextures[binding] = ptrTexture;
 	}
 
-	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkDescriptorBufferInfo vkDescriptorBufferInfos)
+	void CVulkanDescriptorSet::SetUniformBuffer(uint32_t binding, const CVulkanUniformBufferPtr &ptrUniformBuffer)
 	{
-		m_vkWriteDescriptorSets[binding] = {};
-		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		m_vkWriteDescriptorSets[binding].pNext = NULL;
-		m_vkWriteDescriptorSets[binding].dstSet = m_vkDescriptorSet;
-		m_vkWriteDescriptorSets[binding].dstBinding = binding;
-		m_vkWriteDescriptorSets[binding].dstArrayElement = 0;
-		m_vkWriteDescriptorSets[binding].descriptorCount = 1;
-		m_vkWriteDescriptorSets[binding].descriptorType = type;
-		m_vkWriteDescriptorSets[binding].pImageInfo = NULL;
-		m_vkWriteDescriptorSets[binding].pBufferInfo = &vkDescriptorBufferInfos;
-		m_vkWriteDescriptorSets[binding].pTexelBufferView = NULL;
-	}
-
-	void CVulkanDescriptorSet::WriteDescriptorSet(uint32_t binding, VkDescriptorType type, VkBufferView vkTexelBufferView)
-	{
-		m_vkWriteDescriptorSets[binding] = {};
-		m_vkWriteDescriptorSets[binding].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		m_vkWriteDescriptorSets[binding].pNext = NULL;
-		m_vkWriteDescriptorSets[binding].dstSet = m_vkDescriptorSet;
-		m_vkWriteDescriptorSets[binding].dstBinding = binding;
-		m_vkWriteDescriptorSets[binding].dstArrayElement = 0;
-		m_vkWriteDescriptorSets[binding].descriptorCount = 1;
-		m_vkWriteDescriptorSets[binding].descriptorType = type;
-		m_vkWriteDescriptorSets[binding].pImageInfo = NULL;
-		m_vkWriteDescriptorSets[binding].pBufferInfo = NULL;
-		m_vkWriteDescriptorSets[binding].pTexelBufferView = &vkTexelBufferView;
+		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
 	}
 
 	void CVulkanDescriptorSet::UpdateDescriptorSets(void) const
 	{
 		std::vector<VkWriteDescriptorSet> writes;
 
-		for (const auto &itWrite : m_vkWriteDescriptorSets) {
-			writes.push_back(itWrite.second);
+		for (const auto itTexture : m_ptrTextures) {
+			const uint32_t binding = itTexture.first;
+			const CVulkanTexturePtr &ptrTexture = itTexture.second;
+
+			VkWriteDescriptorSet write = {};
+			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			write.pNext = NULL;
+			write.dstSet = m_vkDescriptorSet;
+			write.dstBinding = binding;
+			write.dstArrayElement = 0;
+			write.descriptorCount = 1;
+			write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+			write.pImageInfo = &ptrTexture->GetDescriptorImageInfo();
+			write.pBufferInfo = NULL;
+			write.pTexelBufferView = NULL;
+
+			writes.push_back(write);
+		}
+
+		for (const auto itUniformBuffer : m_ptrUniformBuffers) {
+			const uint32_t binding = itUniformBuffer.first;
+			const CVulkanUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
+
+			VkWriteDescriptorSet write = {};
+			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			write.pNext = NULL;
+			write.dstSet = m_vkDescriptorSet;
+			write.dstBinding = binding;
+			write.dstArrayElement = 0;
+			write.descriptorCount = 1;
+			write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			write.pImageInfo = NULL;
+			write.pBufferInfo = &ptrUniformBuffer->GetDescriptorBufferInfo();
+			write.pTexelBufferView = NULL;
+
+			writes.push_back(write);
 		}
 
 		vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);

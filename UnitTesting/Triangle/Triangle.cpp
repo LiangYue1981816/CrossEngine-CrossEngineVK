@@ -150,11 +150,11 @@ void CreateDescriptorSet(void)
 	const CrossEngine::CVulkanDescriptorSetLayout* pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
 
 	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
-	pDescriptorSetA->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ptrUniformBufferA->GetDescriptorBufferInfo());
+	pDescriptorSetA->SetUniformBuffer(0, ptrUniformBufferA);
 	pDescriptorSetA->UpdateDescriptorSets();
 
 	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
-	pDescriptorSetB->WriteDescriptorSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ptrUniformBufferB->GetDescriptorBufferInfo());
+	pDescriptorSetB->SetUniformBuffer(0, ptrUniformBufferB);
 	pDescriptorSetB->UpdateDescriptorSets();
 }
 
