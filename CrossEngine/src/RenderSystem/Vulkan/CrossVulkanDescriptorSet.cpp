@@ -36,12 +36,12 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSet::~CVulkanDescriptorSet(void)
 	{
-		for (auto itTexture : m_ptrTextures) {
+		for (auto &itTexture : m_ptrTextures) {
 			CVulkanTexturePtr &ptrTexture = itTexture.second;
 			ptrTexture.SetNull();
 		}
 
-		for (auto itUniformBuffer : m_ptrUniformBuffers) {
+		for (auto &itUniformBuffer : m_ptrUniformBuffers) {
 			CVulkanUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
 			ptrUniformBuffer.SetNull();
 		}
@@ -64,7 +64,7 @@ namespace CrossEngine {
 	{
 		std::vector<VkWriteDescriptorSet> writes;
 
-		for (const auto itTexture : m_ptrTextures) {
+		for (const auto &itTexture : m_ptrTextures) {
 			const uint32_t binding = itTexture.first;
 			const CVulkanTexturePtr &ptrTexture = itTexture.second;
 
@@ -83,7 +83,7 @@ namespace CrossEngine {
 			writes.push_back(write);
 		}
 
-		for (const auto itUniformBuffer : m_ptrUniformBuffers) {
+		for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
 			const uint32_t binding = itUniformBuffer.first;
 			const CVulkanUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
 
