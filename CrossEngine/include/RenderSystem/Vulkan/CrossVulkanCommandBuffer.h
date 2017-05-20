@@ -35,6 +35,8 @@ namespace CrossEngine {
 		CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level);
 		virtual ~CVulkanCommandBuffer(void);
 
+		void ClearResources(void);
+
 
 	public:
 		VkCommandBuffer GetCommandBuffer(void) const;
@@ -45,8 +47,8 @@ namespace CrossEngine {
 		
 
 	public:
-		void ClearResources(void);
 		void Reset(void);
+		BOOL Wait(uint64_t timeout) const;
 
 	public:
 		VkResult BeginPrimary(VkCommandBufferUsageFlags flags);

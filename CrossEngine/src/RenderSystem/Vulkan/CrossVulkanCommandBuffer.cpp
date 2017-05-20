@@ -46,26 +46,6 @@ namespace CrossEngine {
 		m_ptrFence.SetNull();
 	}
 
-	VkCommandBuffer CVulkanCommandBuffer::GetCommandBuffer(void) const
-	{
-		return m_vkCommandBuffer;
-	}
-
-	VkCommandBufferLevel CVulkanCommandBuffer::GetCommandBufferLevel(void) const
-	{
-		return m_vkCommandBufferLevel;
-	}
-
-	CVulkanFencePtr& CVulkanCommandBuffer::GetFence(void)
-	{
-		return m_ptrFence;
-	}
-
-	CVulkanCommandPool* CVulkanCommandBuffer::GetCommandPool(void) const
-	{
-		return m_pCommandPool;
-	}
-
 	void CVulkanCommandBuffer::ClearResources(void)
 	{
 		for (auto &itFrameBuffer : m_ptrFrameBuffers) {
@@ -118,12 +98,37 @@ namespace CrossEngine {
 		m_ptrRenderTextures.clear();
 	}
 
+	VkCommandBuffer CVulkanCommandBuffer::GetCommandBuffer(void) const
+	{
+		return m_vkCommandBuffer;
+	}
+
+	VkCommandBufferLevel CVulkanCommandBuffer::GetCommandBufferLevel(void) const
+	{
+		return m_vkCommandBufferLevel;
+	}
+
+	CVulkanFencePtr& CVulkanCommandBuffer::GetFence(void)
+	{
+		return m_ptrFence;
+	}
+
+	CVulkanCommandPool* CVulkanCommandBuffer::GetCommandPool(void) const
+	{
+		return m_pCommandPool;
+	}
+
 	void CVulkanCommandBuffer::Reset(void)
 	{
-		m_ptrFence->Wait(UINT64_MAX);
-
+		Wait(UINT64_MAX);
 		ClearResources();
 		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
+	}
+
+	BOOL CVulkanCommandBuffer::Wait(uint64_t timeout) const
+	{
+		m_ptrFence->Wait(timeout);
+		m_ptrFence->Reset();
 	}
 
 	VkResult CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)

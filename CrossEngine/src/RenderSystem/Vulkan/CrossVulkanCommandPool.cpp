@@ -113,8 +113,6 @@ namespace CrossEngine {
 		if (pCommandBuffer->pActiveNext) {
 			pCommandBuffer->pActiveNext->pActivePrev = pCommandBuffer->pActivePrev;
 		}
-
-		pCommandBuffer->ClearResources();
 	}
 
 }
