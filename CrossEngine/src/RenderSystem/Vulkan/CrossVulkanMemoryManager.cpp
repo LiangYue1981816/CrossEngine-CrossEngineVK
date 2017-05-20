@@ -28,12 +28,13 @@ namespace CrossEngine {
 	CVulkanMemoryManager::CVulkanMemoryManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
-
+		pthread_mutex_init(&m_mutex, NULL);
 	}
 
 	CVulkanMemoryManager::~CVulkanMemoryManager(void)
 	{
 		ASSERT(m_pAllocatorListHeads.empty());
+		pthread_mutex_destroy(&m_mutex);
 	}
 
 	BOOL CVulkanMemoryManager::Create(void)
@@ -73,6 +74,8 @@ namespace CrossEngine {
 		uint32_t memoryTypeIndex = GetMemoryTypeIndex(memoryTypeBits, memoryPropertyFlags);
 		if (memoryTypeIndex == -1) return NULL;
 
+		mutex_autolock mutex(m_mutex);
+
 		do {
 			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryTypeIndex]) {
 				do {
@@ -101,6 +104,8 @@ namespace CrossEngine {
 
 	void CVulkanMemoryManager::FreeMemory(CVulkanMemory *pMemory)
 	{
+		mutex_autolock mutex(m_mutex);
+
 		CVulkanMemoryAllocator *pAllocator = pMemory->GetAllocator();
 		pAllocator->FreeMemory(pMemory);
 

@@ -56,6 +56,7 @@ namespace CrossEngine {
 		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
 
 	protected:
+		pthread_mutex_t m_mutex;
 		std::map<uint32_t, CVulkanMemoryAllocator*> m_pAllocatorListHeads;
 
 	protected:
