@@ -95,39 +95,37 @@ namespace CrossEngine {
 		const DWORD dwMemSize = (DWORD)ALIGN_16BYTE(size);
 
 		if (dwMemSize > 0) {
-			if (m_mutex) pthread_mutex_lock(&m_mutex);
-			{
-				if (pPointer == NULL && memType == MEMTYPE_STACK) {
-					pPointer = (DWORD *)STACK_Alloc(m_pStackAllocator, dwMemSize);
-				}
+			mutex_autolock mutex(m_mutex);
 
-				if (pPointer == NULL) {
-					pPointer = (DWORD *)POOL_Alloc(m_pHeapAllocator, m_pPoolAllocator, dwMemSize);
-				}
-
-				if (pPointer == NULL) {
-					pPointer = (DWORD *)HEAP_Alloc(m_pHeapAllocator, dwMemSize);
-				}
-
-				if (pPointer == NULL) {
-					pPointer = (DWORD *)_malloc(dwMemSize + 16);
-
-					*pPointer++ = 0xcccccccc;
-					*pPointer++ = 0xcccccccc;
-					*pPointer++ = 0xcccccccc;
-					*pPointer++ = dwMemSize;
-				}
-
-				ASSERT(pPointer);
-				ASSERT((uint64_t)pPointer == ((uint64_t)pPointer / 16) * 16);
-
-				m_dwPointerCount++;
-				m_dwAllocatedSize += MEM_SIZE(pPointer);
-
-				if (m_dwMaxPointerCount < m_dwPointerCount) m_dwMaxPointerCount = m_dwPointerCount;
-				if (m_dwMaxAllocatedSize < m_dwAllocatedSize) m_dwMaxAllocatedSize = m_dwAllocatedSize;
+			if (pPointer == NULL && memType == MEMTYPE_STACK) {
+				pPointer = (DWORD *)STACK_Alloc(m_pStackAllocator, dwMemSize);
 			}
-			if (m_mutex) pthread_mutex_unlock(&m_mutex);
+
+			if (pPointer == NULL) {
+				pPointer = (DWORD *)POOL_Alloc(m_pHeapAllocator, m_pPoolAllocator, dwMemSize);
+			}
+
+			if (pPointer == NULL) {
+				pPointer = (DWORD *)HEAP_Alloc(m_pHeapAllocator, dwMemSize);
+			}
+
+			if (pPointer == NULL) {
+				pPointer = (DWORD *)_malloc(dwMemSize + 16);
+
+				*pPointer++ = 0xcccccccc;
+				*pPointer++ = 0xcccccccc;
+				*pPointer++ = 0xcccccccc;
+				*pPointer++ = dwMemSize;
+			}
+
+			ASSERT(pPointer);
+			ASSERT((uint64_t)pPointer == ((uint64_t)pPointer / 16) * 16);
+
+			m_dwPointerCount++;
+			m_dwAllocatedSize += MEM_SIZE(pPointer);
+
+			if (m_dwMaxPointerCount < m_dwPointerCount) m_dwMaxPointerCount = m_dwPointerCount;
+			if (m_dwMaxAllocatedSize < m_dwAllocatedSize) m_dwMaxAllocatedSize = m_dwAllocatedSize;
 		}
 
 		return pPointer;
@@ -140,28 +138,26 @@ namespace CrossEngine {
 			const DWORD dwMemSize = MEM_SIZE(ptr);
 
 			if (dwMemSize > 0) {
-				if (m_mutex) pthread_mutex_lock(&m_mutex);
-				{
-					if (bFree == FALSE && IsStackMemory(m_pStackAllocator, ptr)) {
-						bFree = STACK_Free(m_pStackAllocator, ptr);
-					}
+				mutex_autolock mutex(m_mutex);
 
-					if (bFree == FALSE) {
-						bFree = POOL_Free(m_pHeapAllocator, m_pPoolAllocator, ptr);
-					}
-
-					if (bFree == FALSE) {
-						bFree = HEAP_Free(m_pHeapAllocator, ptr);
-					}
-
-					if (bFree == FALSE) {
-						_free((BYTE *)ptr - 16);
-					}
-
-					m_dwPointerCount--;
-					m_dwAllocatedSize -= dwMemSize;
+				if (bFree == FALSE && IsStackMemory(m_pStackAllocator, ptr)) {
+					bFree = STACK_Free(m_pStackAllocator, ptr);
 				}
-				if (m_mutex) pthread_mutex_unlock(&m_mutex);
+
+				if (bFree == FALSE) {
+					bFree = POOL_Free(m_pHeapAllocator, m_pPoolAllocator, ptr);
+				}
+
+				if (bFree == FALSE) {
+					bFree = HEAP_Free(m_pHeapAllocator, ptr);
+				}
+
+				if (bFree == FALSE) {
+					_free((BYTE *)ptr - 16);
+				}
+
+				m_dwPointerCount--;
+				m_dwAllocatedSize -= dwMemSize;
 			}
 		}
 	}
@@ -173,46 +169,26 @@ namespace CrossEngine {
 
 	DWORD CMemAllocator::GetPointerCount(void)
 	{
-		DWORD dwPointerCount;
-		if (m_mutex) pthread_mutex_lock(&m_mutex);
-		{
-			dwPointerCount = m_dwPointerCount;
-		}
-		if (m_mutex) pthread_mutex_unlock(&m_mutex);
-		return dwPointerCount;
+		mutex_autolock mutex(m_mutex);
+		return m_dwPointerCount;
 	}
 
 	DWORD CMemAllocator::GetAllocatedSize(void)
 	{
-		DWORD dwAllocatedSize;
-		if (m_mutex) pthread_mutex_lock(&m_mutex);
-		{
-			dwAllocatedSize = m_dwAllocatedSize;
-		}
-		if (m_mutex) pthread_mutex_unlock(&m_mutex);
-		return dwAllocatedSize;
+		mutex_autolock mutex(m_mutex);
+		return m_dwAllocatedSize;
 	}
 
 	DWORD CMemAllocator::GetMaxPointerCount(void)
 	{
-		DWORD dwMaxPointerCount;
-		if (m_mutex) pthread_mutex_lock(&m_mutex);
-		{
-			dwMaxPointerCount = m_dwMaxPointerCount;
-		}
-		if (m_mutex) pthread_mutex_unlock(&m_mutex);
-		return dwMaxPointerCount;
+		mutex_autolock mutex(m_mutex);
+		return m_dwMaxPointerCount;
 	}
 
 	DWORD CMemAllocator::GetMaxAllocatedSize(void)
 	{
-		DWORD dwMaxAllocatedSize;
-		if (m_mutex) pthread_mutex_lock(&m_mutex);
-		{
-			dwMaxAllocatedSize = m_dwMaxAllocatedSize;
-		}
-		if (m_mutex) pthread_mutex_unlock(&m_mutex);
-		return dwMaxAllocatedSize;
+		mutex_autolock mutex(m_mutex);
+		return m_dwMaxAllocatedSize;
 	}
 
 
