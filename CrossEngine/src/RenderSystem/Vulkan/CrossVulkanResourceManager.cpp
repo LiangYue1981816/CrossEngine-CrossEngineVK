@@ -38,7 +38,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanResourceManager::Create(void)
 	{
-		return m_pResources.empty() ? TRUE : FALSE;
+		return TRUE;
 	}
 
 	void CVulkanResourceManager::Destroy(void)

@@ -33,7 +33,6 @@ namespace CrossEngine {
 
 	CVulkanMemoryManager::~CVulkanMemoryManager(void)
 	{
-		ASSERT(m_pAllocatorListHeads.empty());
 		pthread_mutex_destroy(&m_mutex);
 	}
 

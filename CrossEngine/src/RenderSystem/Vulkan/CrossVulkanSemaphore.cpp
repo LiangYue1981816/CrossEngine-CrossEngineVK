@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 	CVulkanSemaphore::~CVulkanSemaphore(void)
 	{
-		ASSERT(m_vkSemaphore == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanSemaphore::Create(void)

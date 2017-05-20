@@ -40,7 +40,6 @@ namespace CrossEngine {
 	protected:
 		CVulkanCommandBuffer* AllocCommandBuffer(VkCommandBufferLevel level);
 		void FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer);
-		void ResetCommandPool(BOOL bReleaseResources = FALSE) const;
 
 
 	protected:

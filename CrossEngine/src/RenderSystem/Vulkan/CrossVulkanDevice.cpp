@@ -69,9 +69,6 @@ namespace CrossEngine {
 
 	CVulkanDevice::~CVulkanDevice(void)
 	{
-		ASSERT(m_vkDevice == VK_NULL_HANDLE);
-		ASSERT(m_vkPhysicalDevice == VK_NULL_HANDLE);
-
 		SAFE_DELETE(m_pQueue);
 		SAFE_DELETE(m_pFenceManager);
 		SAFE_DELETE(m_pSemaphoreManager);

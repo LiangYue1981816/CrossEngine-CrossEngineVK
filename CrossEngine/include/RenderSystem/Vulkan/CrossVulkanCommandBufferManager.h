@@ -44,11 +44,7 @@ namespace CrossEngine {
 
 	public:
 		CVulkanCommandBuffer* AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
-		void FreeCommandBuffer(uint32_t pool, CVulkanCommandBuffer *pCommandBuffer);
-		void ResetCommandPool(uint32_t pool, BOOL bReleaseResources = FALSE);
-
-	protected:
-		CVulkanCommandPool* GetCommandPool(uint32_t pool);
+		void FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer);
 
 
 	protected:

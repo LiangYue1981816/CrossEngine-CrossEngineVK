@@ -33,12 +33,12 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSetManager::~CVulkanDescriptorSetManager(void)
 	{
-		ASSERT(m_pDescriptorPools.empty());
+
 	}
 
 	BOOL CVulkanDescriptorSetManager::Create(void)
 	{
-		return m_pDescriptorPools.empty() ? TRUE : FALSE;
+		return TRUE;
 	}
 
 	void CVulkanDescriptorSetManager::Destroy(void)

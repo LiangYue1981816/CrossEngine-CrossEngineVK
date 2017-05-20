@@ -117,9 +117,4 @@ namespace CrossEngine {
 		pCommandBuffer->ClearResources();
 	}
 
-	void CVulkanCommandPool::ResetCommandPool(BOOL bReleaseResources) const
-	{
-		vkResetCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, bReleaseResources ? VK_COMMAND_POOL_RESET_RELEASE_RESOURCES_BIT : 0);
-	}
-
 }

@@ -35,7 +35,7 @@ namespace CrossEngine {
 
 	CVulkanQueue::~CVulkanQueue(void)
 	{
-		ASSERT(m_vkQueue == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanQueue::Create(uint32_t queueFamilyIndex)

@@ -105,10 +105,7 @@ namespace CrossEngine {
 
 	CVulkanSwapchain::~CVulkanSwapchain(void)
 	{
-		ASSERT(m_vkSwapchain == VK_NULL_HANDLE);
-		ASSERT(m_vkAcquireSemaphore == VK_NULL_HANDLE);
-		ASSERT(m_images.empty());
-		ASSERT(m_imageViews.empty());
+
 	}
 
 	BOOL CVulkanSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)

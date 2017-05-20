@@ -48,9 +48,7 @@ namespace CrossEngine {
 
 	CVulkanImage::~CVulkanImage(void)
 	{
-		ASSERT(m_pMemory == NULL);
-		ASSERT(m_vkImage == VK_NULL_HANDLE);
-		ASSERT(m_vkImageView == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)

@@ -40,8 +40,7 @@ namespace CrossEngine {
 
 	CVulkanBuffer::~CVulkanBuffer(void)
 	{
-		ASSERT(m_pMemory == NULL);
-		ASSERT(m_vkBuffer == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanBuffer::Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags)

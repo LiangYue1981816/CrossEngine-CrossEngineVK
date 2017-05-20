@@ -33,13 +33,12 @@ namespace CrossEngine {
 
 	CVulkanCommandBufferManager::~CVulkanCommandBufferManager(void)
 	{
-		ASSERT(m_pCommandPools.empty());
 		pthread_mutex_destroy(&m_mutex);
 	}
 
 	BOOL CVulkanCommandBufferManager::Create(void)
 	{
-		return m_pCommandPools.empty() ? TRUE : FALSE;
+		return TRUE;
 	}
 
 	void CVulkanCommandBufferManager::Destroy(void)
@@ -55,30 +54,23 @@ namespace CrossEngine {
 
 	CVulkanCommandBuffer* CVulkanCommandBufferManager::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
-		return GetCommandPool(pool)->AllocCommandBuffer(level);
+		CVulkanCommandPool *pCommandPool = NULL;
+		{
+			mutex_autolock mutex(m_mutex);
+
+			if (m_pCommandPools[pool] == NULL) {
+				m_pCommandPools[pool] = SAFE_NEW CVulkanCommandPool(m_pDevice);
+			}
+
+			pCommandPool = m_pCommandPools[pool];
+		}
+
+		return pCommandPool->AllocCommandBuffer(level);
 	}
 
-	void CVulkanCommandBufferManager::FreeCommandBuffer(uint32_t pool, CVulkanCommandBuffer *pCommandBuffer)
+	void CVulkanCommandBufferManager::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
-		GetCommandPool(pool)->FreeCommandBuffer(pCommandBuffer);
-	}
-
-	void CVulkanCommandBufferManager::ResetCommandPool(uint32_t pool, BOOL bReleaseResources)
-	{
-		GetCommandPool(pool)->ResetCommandPool(bReleaseResources);
-	}
-
-	CVulkanCommandPool* CVulkanCommandBufferManager::GetCommandPool(uint32_t pool)
-	{
-		mutex_autolock mutex(m_mutex);
-
-		const auto &itCommandPool = m_pCommandPools.find(pool);
-		if (itCommandPool != m_pCommandPools.end()) return itCommandPool->second;
-
-		CVulkanCommandPool *pCommandPool = SAFE_NEW CVulkanCommandPool(m_pDevice);
-		m_pCommandPools[pool] = pCommandPool;
-
-		return pCommandPool;
+		pCommandBuffer->Release();
 	}
 
 }

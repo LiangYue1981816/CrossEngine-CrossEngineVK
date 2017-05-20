@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 	CVulkanFrameBuffer::~CVulkanFrameBuffer(void)
 	{
-		ASSERT(m_vkFrameBuffer == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanFrameBuffer::Create(VkRenderPass vkRenderPass)

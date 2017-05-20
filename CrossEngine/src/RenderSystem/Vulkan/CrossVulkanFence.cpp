@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 	CVulkanFence::~CVulkanFence(void)
 	{
-		ASSERT(m_vkFence == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanFence::Create(void)

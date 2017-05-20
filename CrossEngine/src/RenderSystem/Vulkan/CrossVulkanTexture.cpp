@@ -33,7 +33,7 @@ namespace CrossEngine {
 
 	CVulkanTexture::~CVulkanTexture(void)
 	{
-		ASSERT(m_ptrSampler.IsNull());
+
 	}
 
 	BOOL CVulkanTexture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)

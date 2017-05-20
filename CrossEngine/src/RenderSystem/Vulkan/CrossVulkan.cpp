@@ -81,9 +81,6 @@ namespace CrossEngine {
 
 	CVulkan::~CVulkan(void)
 	{
-		ASSERT(m_vkInstance == VK_NULL_HANDLE);
-		ASSERT(m_vkSurface == VK_NULL_HANDLE);
-
 		SAFE_DELETE(m_pSwapchain);
 		SAFE_DELETE(m_pGraphicsDevice);
 		SAFE_DELETE(m_pComputeDevice);

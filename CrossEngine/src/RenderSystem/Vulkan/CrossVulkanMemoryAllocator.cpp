@@ -58,12 +58,11 @@ namespace CrossEngine {
 
 	CVulkanMemoryAllocator::~CVulkanMemoryAllocator(void)
 	{
-		SAFE_DELETE_ARRAY(m_nodes);
-
 		ASSERT(m_pListHead->pNext == NULL);
 		ASSERT(m_pListHead->pPrev == NULL);
 		ASSERT(m_pListHead->m_size == m_size);
 		SAFE_DELETE(m_pListHead);
+		SAFE_DELETE_ARRAY(m_nodes);
 
 		vkFreeMemory(m_pDevice->GetDevice(), m_vkMemory, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}

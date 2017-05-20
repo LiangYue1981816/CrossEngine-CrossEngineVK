@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 	CVulkanRenderPass::~CVulkanRenderPass(void)
 	{
-		ASSERT(m_vkRenderPass == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanRenderPass::Create(void)

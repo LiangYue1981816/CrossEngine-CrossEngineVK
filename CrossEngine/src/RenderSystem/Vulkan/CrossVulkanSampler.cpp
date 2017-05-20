@@ -39,7 +39,7 @@ namespace CrossEngine {
 
 	CVulkanSampler::~CVulkanSampler(void)
 	{
-		ASSERT(m_vkSampler == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanSampler::Create(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)

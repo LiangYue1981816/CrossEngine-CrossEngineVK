@@ -33,12 +33,12 @@ namespace CrossEngine {
 
 	CVulkanStagingBufferManager::~CVulkanStagingBufferManager(void)
 	{
-		ASSERT(m_pBuffers.empty());
+
 	}
 
 	BOOL CVulkanStagingBufferManager::Create(void)
 	{
-		return m_pBuffers.empty() ? TRUE : FALSE;
+		return TRUE;
 	}
 
 	void CVulkanStagingBufferManager::Destroy(void)

@@ -79,7 +79,7 @@ namespace CrossEngine {
 
 	CVulkanShader::~CVulkanShader(void)
 	{
-		ASSERT(m_vkShaderModule == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanShader::Create(const char *szSource, size_t length, shaderc_shader_kind kind)

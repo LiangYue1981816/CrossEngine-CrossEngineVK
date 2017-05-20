@@ -35,7 +35,7 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSetLayout::~CVulkanDescriptorSetLayout(void)
 	{
-		ASSERT(m_vkDescriptorSetLayout == VK_NULL_HANDLE);
+
 	}
 
 	BOOL CVulkanDescriptorSetLayout::Create(void)
@@ -151,8 +151,7 @@ namespace CrossEngine {
 
 	CVulkanPipeline::~CVulkanPipeline(void)
 	{
-		ASSERT(m_vkPipeline == VK_NULL_HANDLE);
-		ASSERT(m_vkPipelineLayout == VK_NULL_HANDLE);
+
 	}
 
 	void CVulkanPipeline::Destroy(void)
