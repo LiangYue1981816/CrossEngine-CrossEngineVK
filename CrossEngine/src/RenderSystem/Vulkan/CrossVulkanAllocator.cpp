@@ -26,7 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CVulkanAllocator::CVulkanAllocator(void)
-		: m_memAllocator(TRUE, FALSE, FALSE)
+		: m_memAllocator(TRUE, FALSE, TRUE)
 
 		, m_dwAllocatedSize(0)
 		, m_dwMaxAllocatedSize(0)
