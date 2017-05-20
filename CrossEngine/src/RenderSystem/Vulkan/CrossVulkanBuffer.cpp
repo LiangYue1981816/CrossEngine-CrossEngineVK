@@ -135,7 +135,7 @@ namespace CrossEngine {
 		CVulkanStagingBufferAutoRelease buffer(m_pDevice, size);
 		{
 			CALL_VK_FUNCTION_RETURN(buffer.GetBuffer()->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer));
-			CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()->GetCommandBuffer(), VK_NULL_HANDLE));
+			CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer(), NULL, 0, NULL));
 			CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->WaitIdle());
 		}
 

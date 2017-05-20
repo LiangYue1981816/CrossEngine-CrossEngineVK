@@ -61,20 +61,24 @@ namespace CrossEngine {
 		return m_queueFamilyIndex;
 	}
 
-	VkResult CVulkanQueue::Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags WaitStageFlags, CVulkanSemaphore *pSignalSemaphore) const
+	VkResult CVulkanQueue::Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags waitStageFlags, CVulkanSemaphore *pSignalSemaphore) const
 	{
-		//VkSubmitInfo submitInfo = {};
-		//submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		//submitInfo.pNext = NULL;
-		//submitInfo.waitSemaphoreCount = waitSemaphoreCount;
-		//submitInfo.pWaitSemaphores = pWaitSemaphores;
-		//submitInfo.pWaitDstStageMask = pWaitDstStageMask;
-		//submitInfo.commandBufferCount = commandBufferCount;
-		//submitInfo.pCommandBuffers = pCommandBuffers;
-		//submitInfo.signalSemaphoreCount = signalSemaphoreCount;
-		//submitInfo.pSignalSemaphores = pSignalSemaphores;
-		//return vkQueueSubmit(m_vkQueue, 1, &submitInfo, vkFence);
-		return VK_SUCCESS;
+		VkFence vkFence = pCommandBuffer->GetFence()->GetFence();
+		VkCommandBuffer vkCommandBuffer = pCommandBuffer->GetCommandBuffer();
+		VkSemaphore vkWaitSemaphore = pWaitSemaphore ? pWaitSemaphore->GetSemaphore() : VK_NULL_HANDLE;
+		VkSemaphore vkSignalSemaphore = pSignalSemaphore ? pSignalSemaphore->GetSemaphore() : VK_NULL_HANDLE;
+
+		VkSubmitInfo submitInfo = {};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.pNext = NULL;
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &vkCommandBuffer;
+		submitInfo.waitSemaphoreCount = pWaitSemaphore ? 1 : 0;
+		submitInfo.pWaitSemaphores = pWaitSemaphore ? &vkWaitSemaphore : NULL;
+		submitInfo.pWaitDstStageMask = pWaitSemaphore ? &waitStageFlags : NULL;
+		submitInfo.signalSemaphoreCount = pSignalSemaphore ? 1 : 0;
+		submitInfo.pSignalSemaphores = pSignalSemaphore ? &vkSignalSemaphore : NULL;
+		return vkQueueSubmit(m_vkQueue, 1, &submitInfo, vkFence);
 	}
 
 	VkResult CVulkanQueue::WaitIdle(void) const

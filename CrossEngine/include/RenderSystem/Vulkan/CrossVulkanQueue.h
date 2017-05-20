@@ -50,7 +50,7 @@ namespace CrossEngine {
 		uint32_t GetQueueFamilyIndex(void) const;
 
 	public:
-		VkResult Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags WaitStageFlags, CVulkanSemaphore *pSignalSemaphore) const;
+		VkResult Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags waitStageFlags, CVulkanSemaphore *pSignalSemaphore) const;
 		VkResult WaitIdle(void) const;
 
 
