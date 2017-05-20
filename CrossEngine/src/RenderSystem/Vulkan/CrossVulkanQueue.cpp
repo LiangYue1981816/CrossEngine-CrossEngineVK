@@ -77,11 +77,11 @@ namespace CrossEngine {
 		submitInfo.pNext = NULL;
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &vkCommandBuffer;
-		submitInfo.waitSemaphoreCount = vkWaitSemaphore == VK_NULL_HANDLE ? 1 : 0;
-		submitInfo.pWaitSemaphores = vkWaitSemaphore == VK_NULL_HANDLE ? &vkWaitSemaphore : NULL;
-		submitInfo.pWaitDstStageMask = vkWaitSemaphore == VK_NULL_HANDLE ? &waitStageFlags : NULL;
-		submitInfo.signalSemaphoreCount = vkSignalSemaphore == VK_NULL_HANDLE ? 1 : 0;
-		submitInfo.pSignalSemaphores = vkSignalSemaphore == VK_NULL_HANDLE ? &vkSignalSemaphore : NULL;
+		submitInfo.waitSemaphoreCount = vkWaitSemaphore != VK_NULL_HANDLE ? 1 : 0;
+		submitInfo.pWaitSemaphores = vkWaitSemaphore != VK_NULL_HANDLE ? &vkWaitSemaphore : NULL;
+		submitInfo.pWaitDstStageMask = vkWaitSemaphore != VK_NULL_HANDLE ? &waitStageFlags : NULL;
+		submitInfo.signalSemaphoreCount = vkSignalSemaphore != VK_NULL_HANDLE ? 1 : 0;
+		submitInfo.pSignalSemaphores = vkSignalSemaphore != VK_NULL_HANDLE ? &vkSignalSemaphore : NULL;
 		return vkQueueSubmit(m_vkQueue, 1, &submitInfo, vkFence);
 	}
 
