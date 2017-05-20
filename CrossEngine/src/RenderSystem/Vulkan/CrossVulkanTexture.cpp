@@ -136,7 +136,7 @@ namespace CrossEngine {
 				}
 
 				CALL_VK_FUNCTION_THROW(buffer.GetBuffer()->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data()));
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer(), NULL, 0, NULL));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()));
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
 			}
 
@@ -173,7 +173,7 @@ namespace CrossEngine {
 				}
 
 				CALL_VK_FUNCTION_THROW(buffer.GetBuffer()->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data()));
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer(), NULL, 0, NULL));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()));
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
 			}
 
@@ -210,7 +210,7 @@ namespace CrossEngine {
 				}
 
 				CALL_VK_FUNCTION_THROW(buffer.GetBuffer()->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data()));
-				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer(), NULL, 0, NULL));
+				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()));
 				CALL_VK_FUNCTION_THROW(m_pDevice->GetQueue()->WaitIdle());
 			}
 

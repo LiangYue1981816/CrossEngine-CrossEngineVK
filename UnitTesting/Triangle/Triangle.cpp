@@ -20,7 +20,6 @@ CrossEngine::CVulkanRenderTexturePtr ptrDepthTexture;
 CrossEngine::CVulkanRenderPassPtr ptrRenderPass;
 CrossEngine::CVulkanFrameBufferPtr ptrFrameBuffers[3];
 
-CrossEngine::CVulkanFencePtr ptrFences[3];
 CrossEngine::CVulkanSemaphorePtr ptrRenderDoneSemaphores[3];
 CrossEngine::CVulkanCommandBuffer *pCommandBuffers[3] = { NULL };
 
@@ -93,9 +92,6 @@ void DestroyPipeline(void)
 void CreateSynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrFences[indexView] = pDevice->GetFenceManager()->AllocFence();
-		ptrFences[indexView]->Create();
-
 		ptrRenderDoneSemaphores[indexView] = pDevice->GetSemaphoreManager()->AllocSemaphore();
 		ptrRenderDoneSemaphores[indexView]->Create();
 	}
@@ -104,7 +100,6 @@ void CreateSynchronization(void)
 void DestroySynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrFences[indexView].SetNull();
 		ptrRenderDoneSemaphores[indexView].SetNull();
 	}
 }
@@ -290,14 +285,11 @@ void Render(void)
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
-		ptrFences[pSwapchain->GetImageIndex()]->Wait(UINT64_MAX);
-		ptrFences[pSwapchain->GetImageIndex()]->Reset();
-
 		pDevice->GetQueue()->Submit(
-			pCommandBuffers[pSwapchain->GetImageIndex()]->GetCommandBuffer(), 
-			pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-			ptrRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore(),
-			ptrFences[pSwapchain->GetImageIndex()]->GetFence());
+			pCommandBuffers[pSwapchain->GetImageIndex()], 
+			pSwapchain->GetAcquireSemaphore(),
+			VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+			ptrRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());
 	}
 	pSwapchain->Present(ptrRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());
 }

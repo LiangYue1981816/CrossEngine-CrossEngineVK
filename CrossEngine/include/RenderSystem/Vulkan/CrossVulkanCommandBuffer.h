@@ -47,7 +47,9 @@ namespace CrossEngine {
 
 	public:
 		void Reset(void);
-		BOOL Wait(uint64_t timeout) const;
+
+		BOOL FenceWait(uint64_t timeout) const;
+		void FenceReset(void) const;
 
 	public:
 		VkResult BeginPrimary(VkCommandBufferUsageFlags flags);

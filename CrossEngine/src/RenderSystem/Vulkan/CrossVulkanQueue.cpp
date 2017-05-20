@@ -61,17 +61,19 @@ namespace CrossEngine {
 		return m_queueFamilyIndex;
 	}
 
-	VkResult CVulkanQueue::Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags waitStageFlags, CVulkanSemaphore *pSignalSemaphore) const
+	VkResult CVulkanQueue::Submit(CVulkanCommandBuffer *pCommandBuffer) const
 	{
-		VkFence vkFence = pCommandBuffer->GetFence()->GetFence();
-		VkCommandBuffer vkCommandBuffer = pCommandBuffer->GetCommandBuffer();
-		VkSemaphore vkWaitSemaphore = pWaitSemaphore ? pWaitSemaphore->GetSemaphore() : VK_NULL_HANDLE;
-		VkSemaphore vkSignalSemaphore = pSignalSemaphore ? pSignalSemaphore->GetSemaphore() : VK_NULL_HANDLE;
-		return Submit(vkCommandBuffer, vkWaitSemaphore, waitStageFlags, vkSignalSemaphore, vkFence);
+		return Submit(pCommandBuffer, VK_NULL_HANDLE, 0, VK_NULL_HANDLE);
 	}
 
-	VkResult CVulkanQueue::Submit(VkCommandBuffer vkCommandBuffer, VkSemaphore vkWaitSemaphore, VkPipelineStageFlags waitStageFlags, VkSemaphore vkSignalSemaphore, VkFence vkFence) const
+	VkResult CVulkanQueue::Submit(CVulkanCommandBuffer *pCommandBuffer, VkSemaphore vkWaitSemaphore, VkPipelineStageFlags waitStageFlags, VkSemaphore vkSignalSemaphore) const
 	{
+		pCommandBuffer->FenceWait(UINT64_MAX);
+		pCommandBuffer->FenceReset();
+
+		VkFence vkFence = pCommandBuffer->GetFence()->GetFence();
+		VkCommandBuffer vkCommandBuffer = pCommandBuffer->GetCommandBuffer();
+
 		VkSubmitInfo submitInfo = {};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		submitInfo.pNext = NULL;

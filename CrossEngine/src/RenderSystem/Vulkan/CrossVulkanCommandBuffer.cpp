@@ -120,19 +120,19 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::Reset(void)
 	{
-		Wait(UINT64_MAX);
+		FenceWait(UINT64_MAX);
 		ClearResources();
 		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
 	}
 
-	BOOL CVulkanCommandBuffer::Wait(uint64_t timeout) const
+	BOOL CVulkanCommandBuffer::FenceWait(uint64_t timeout) const
 	{
-		if (m_ptrFence->Wait(timeout)) {
-			m_ptrFence->Reset();
-			return TRUE;
-		}
+		return m_ptrFence->Wait(timeout);
+	}
 
-		return FALSE;
+	void CVulkanCommandBuffer::FenceReset(void) const
+	{
+		m_ptrFence->Reset();
 	}
 
 	VkResult CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
