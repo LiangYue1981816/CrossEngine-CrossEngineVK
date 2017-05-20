@@ -127,8 +127,12 @@ namespace CrossEngine {
 
 	BOOL CVulkanCommandBuffer::Wait(uint64_t timeout) const
 	{
-		m_ptrFence->Wait(timeout);
-		m_ptrFence->Reset();
+		if (m_ptrFence->Wait(timeout)) {
+			m_ptrFence->Reset();
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	VkResult CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)

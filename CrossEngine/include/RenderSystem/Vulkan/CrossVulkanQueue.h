@@ -51,6 +51,7 @@ namespace CrossEngine {
 
 	public:
 		VkResult Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags waitStageFlags, CVulkanSemaphore *pSignalSemaphore) const;
+		VkResult Submit(VkCommandBuffer vkCommandBuffer, VkSemaphore vkWaitSemaphore, VkPipelineStageFlags waitStageFlags, VkSemaphore vkSignalSemaphore, VkFence vkFence) const;
 		VkResult WaitIdle(void) const;
 
 
