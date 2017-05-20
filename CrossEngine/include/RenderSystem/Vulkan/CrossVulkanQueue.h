@@ -26,6 +26,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	class CROSS_EXPORT CVulkanSemaphore;
+	class CROSS_EXPORT CVulkanCommandBuffer;
+
 	class CROSS_EXPORT CVulkanQueue
 	{
 		friend class CVulkanDevice;
@@ -47,9 +50,7 @@ namespace CrossEngine {
 		uint32_t GetQueueFamilyIndex(void) const;
 
 	public:
-		VkResult Submit(VkCommandBuffer vkCommandBuffers, VkFence vkFence) const;
-		VkResult Submit(VkCommandBuffer vkCommandBuffers, VkSemaphore vkWaitSemaphores, VkPipelineStageFlags vkWaitDstStageMask, VkSemaphore vkSignalSemaphores, VkFence vkFence) const;
-		VkResult Submit(uint32_t commandBufferCount, const VkCommandBuffer *pCommandBuffers, uint32_t waitSemaphoreCount, const VkSemaphore *pWaitSemaphores, const VkPipelineStageFlags *pWaitDstStageMask, uint32_t signalSemaphoreCount, const VkSemaphore *pSignalSemaphores, VkFence vkFence) const;
+		VkResult Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags WaitStageFlags, CVulkanSemaphore *pSignalSemaphore) const;
 		VkResult WaitIdle(void) const;
 
 

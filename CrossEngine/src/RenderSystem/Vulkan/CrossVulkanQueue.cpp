@@ -61,29 +61,20 @@ namespace CrossEngine {
 		return m_queueFamilyIndex;
 	}
 
-	VkResult CVulkanQueue::Submit(VkCommandBuffer vkCommandBuffers, VkFence vkFence) const
+	VkResult CVulkanQueue::Submit(CVulkanCommandBuffer *pCommandBuffer, CVulkanSemaphore *pWaitSemaphore, VkPipelineStageFlags WaitStageFlags, CVulkanSemaphore *pSignalSemaphore) const
 	{
-		return Submit(1, &vkCommandBuffers, 0, NULL, NULL, 0, NULL, vkFence);
-	}
-
-	VkResult CVulkanQueue::Submit(VkCommandBuffer vkCommandBuffers, VkSemaphore vkWaitSemaphores, VkPipelineStageFlags vkWaitDstStageMask, VkSemaphore vkSignalSemaphores, VkFence vkFence) const
-	{
-		return Submit(1, &vkCommandBuffers, vkWaitSemaphores != VK_NULL_HANDLE ? 1 : 0, &vkWaitSemaphores, &vkWaitDstStageMask, vkSignalSemaphores != VK_NULL_HANDLE ? 1 : 0, &vkSignalSemaphores, vkFence);
-	}
-
-	VkResult CVulkanQueue::Submit(uint32_t commandBufferCount, const VkCommandBuffer *pCommandBuffers, uint32_t waitSemaphoreCount, const VkSemaphore *pWaitSemaphores, const VkPipelineStageFlags *pWaitDstStageMask, uint32_t signalSemaphoreCount, const VkSemaphore *pSignalSemaphores, VkFence vkFence) const
-	{
-		VkSubmitInfo submitInfo = {};
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		submitInfo.pNext = NULL;
-		submitInfo.waitSemaphoreCount = waitSemaphoreCount;
-		submitInfo.pWaitSemaphores = pWaitSemaphores;
-		submitInfo.pWaitDstStageMask = pWaitDstStageMask;
-		submitInfo.commandBufferCount = commandBufferCount;
-		submitInfo.pCommandBuffers = pCommandBuffers;
-		submitInfo.signalSemaphoreCount = signalSemaphoreCount;
-		submitInfo.pSignalSemaphores = pSignalSemaphores;
-		return vkQueueSubmit(m_vkQueue, 1, &submitInfo, vkFence);
+		//VkSubmitInfo submitInfo = {};
+		//submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		//submitInfo.pNext = NULL;
+		//submitInfo.waitSemaphoreCount = waitSemaphoreCount;
+		//submitInfo.pWaitSemaphores = pWaitSemaphores;
+		//submitInfo.pWaitDstStageMask = pWaitDstStageMask;
+		//submitInfo.commandBufferCount = commandBufferCount;
+		//submitInfo.pCommandBuffers = pCommandBuffers;
+		//submitInfo.signalSemaphoreCount = signalSemaphoreCount;
+		//submitInfo.pSignalSemaphores = pSignalSemaphores;
+		//return vkQueueSubmit(m_vkQueue, 1, &submitInfo, vkFence);
+		return VK_SUCCESS;
 	}
 
 	VkResult CVulkanQueue::WaitIdle(void) const

@@ -56,6 +56,11 @@ namespace CrossEngine {
 		return m_vkCommandBufferLevel;
 	}
 
+	CVulkanFencePtr& CVulkanCommandBuffer::GetFence(void)
+	{
+		return m_ptrFence;
+	}
+
 	CVulkanCommandPool* CVulkanCommandBuffer::GetCommandPool(void) const
 	{
 		return m_pCommandPool;
