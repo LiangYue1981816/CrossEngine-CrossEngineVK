@@ -55,7 +55,7 @@ namespace CrossEngine {
 	{
 		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 
-		m_pDevice->GetCommandBufferManager()->FreeCommandBuffer(0, m_pCommandBuffer);
+		m_pDevice->GetCommandBufferManager()->FreeCommandBuffer(m_pCommandBuffer);
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 	}
 

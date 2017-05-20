@@ -210,7 +210,7 @@ void CreateCommandBuffer(void)
 void DestroyCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pDevice->GetCommandBufferManager()->FreeCommandBuffer(0, pCommandBuffers[indexView]);
+		pDevice->GetCommandBufferManager()->FreeCommandBuffer(pCommandBuffers[indexView]);
 	}
 }
 
