@@ -28,12 +28,12 @@ namespace CrossEngine {
 	CVulkanDescriptorSetManager::CVulkanDescriptorSetManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
-
+		pthread_mutex_init(&m_mutex, NULL);
 	}
 
 	CVulkanDescriptorSetManager::~CVulkanDescriptorSetManager(void)
 	{
-
+		pthread_mutex_destroy(&m_mutex);
 	}
 
 	BOOL CVulkanDescriptorSetManager::Create(void)
@@ -54,23 +54,23 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSet* CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
 	{
-		return GetDescriptorPool(pool)->AllocDescriptorSet(vkSetLayout, typesUsedCount);
+		CVulkanDescriptorPool *pDescriptorPool = NULL;
+		{
+			mutex_autolock mutex(m_mutex);
+
+			if (m_pDescriptorPools[pool] == NULL) {
+				m_pDescriptorPools[pool] = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
+			}
+
+			pDescriptorPool = m_pDescriptorPools[pool];
+		}
+
+		return pDescriptorPool->AllocDescriptorSet(vkSetLayout, typesUsedCount);
 	}
 
-	void CVulkanDescriptorSetManager::FreeDescriptorSet(uint32_t pool, CVulkanDescriptorSet *pDescriptorSet)
+	void CVulkanDescriptorSetManager::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
-		GetDescriptorPool(pool)->FreeDescriptorSet(pDescriptorSet);
-	}
-
-	CVulkanDescriptorPool* CVulkanDescriptorSetManager::GetDescriptorPool(uint32_t pool)
-	{
-		const auto &itDescriptorPool = m_pDescriptorPools.find(pool);
-		if (itDescriptorPool != m_pDescriptorPools.end()) return itDescriptorPool->second;
-
-		CVulkanDescriptorPool *pDescriptorPool = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
-		m_pDescriptorPools[pool] = pDescriptorPool;
-
-		return pDescriptorPool;
+		pDescriptorSet->GetDescriptorPool()->FreeDescriptorSet(pDescriptorSet);
 	}
 
 	void CVulkanDescriptorSetManager::DumpLog(const char *szTitle) const
