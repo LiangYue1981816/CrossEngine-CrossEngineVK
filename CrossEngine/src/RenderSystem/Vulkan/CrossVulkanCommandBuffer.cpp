@@ -54,6 +54,11 @@ namespace CrossEngine {
 		return m_vkCommandBufferLevel;
 	}
 
+	CVulkanCommandPool* CVulkanCommandBuffer::GetCommandPool(void) const
+	{
+		return m_pCommandPool;
+	}
+
 	void CVulkanCommandBuffer::ClearResources(void)
 	{
 		for (auto &itFrameBuffer : m_ptrFrameBuffers) {
@@ -110,12 +115,6 @@ namespace CrossEngine {
 	{
 		ClearResources();
 		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
-	}
-
-	void CVulkanCommandBuffer::Release(void)
-	{
-		Reset();
-		m_pCommandPool->FreeCommandBuffer(this);
 	}
 
 	VkResult CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)

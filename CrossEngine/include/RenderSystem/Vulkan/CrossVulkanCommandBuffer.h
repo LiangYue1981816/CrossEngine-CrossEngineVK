@@ -39,11 +39,11 @@ namespace CrossEngine {
 	public:
 		VkCommandBuffer GetCommandBuffer(void) const;
 		VkCommandBufferLevel GetCommandBufferLevel(void) const;
+		CVulkanCommandPool* GetCommandPool(void) const;
 
 	public:
 		void ClearResources(void);
 		void Reset(void);
-		void Release(void);
 
 	public:
 		VkResult BeginPrimary(VkCommandBufferUsageFlags flags);

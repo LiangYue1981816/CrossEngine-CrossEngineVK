@@ -70,7 +70,8 @@ namespace CrossEngine {
 
 	void CVulkanCommandBufferManager::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
-		pCommandBuffer->Release();
+		pCommandBuffer->Reset();
+		pCommandBuffer->GetCommandPool()->FreeCommandBuffer(pCommandBuffer);
 	}
 
 }

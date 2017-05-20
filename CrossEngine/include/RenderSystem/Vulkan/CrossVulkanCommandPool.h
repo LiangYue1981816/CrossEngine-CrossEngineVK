@@ -28,7 +28,6 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanCommandPool
 	{
-		friend class CVulkanCommandBuffer;
 		friend class CVulkanCommandBufferManager;
 
 
