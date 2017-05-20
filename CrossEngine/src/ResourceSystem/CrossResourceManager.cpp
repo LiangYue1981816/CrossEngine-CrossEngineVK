@@ -373,7 +373,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 		char szFilter[_MAX_STRING];
 		sprintf(szFilter, "%s/*", szPathName);

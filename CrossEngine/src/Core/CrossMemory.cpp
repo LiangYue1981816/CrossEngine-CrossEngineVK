@@ -40,6 +40,8 @@ namespace CrossEngine {
 	{
 		dwAllocatorCount++;
 
+#ifdef ENABLE_MEMORY_POOL
+
 		if (bHeap) {
 			m_pHeapAllocator = HEAP_Create();
 			m_pPoolAllocator = POOL_Create(m_pHeapAllocator);
@@ -48,6 +50,8 @@ namespace CrossEngine {
 		if (bStack) {
 			m_pStackAllocator = STACK_Create();
 		}
+
+#endif
 
 		if (bMultiThread) {
 			pthread_mutex_init(&m_mutex, NULL);

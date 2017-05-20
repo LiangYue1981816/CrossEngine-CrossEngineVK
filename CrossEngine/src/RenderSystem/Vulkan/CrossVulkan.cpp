@@ -185,7 +185,7 @@ namespace CrossEngine {
 				continue;
 			}
 
-#ifdef _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 			if (stricmp(extensions[index].extensionName, VK_KHR_WIN32_SURFACE_EXTENSION_NAME) == 0) {
 				enabledInstanceExtensions.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
 				bPlatformSurfaceExtension = TRUE;
@@ -193,7 +193,7 @@ namespace CrossEngine {
 			}
 #endif
 
-#ifdef _PLATFORM_ANDROID_
+#ifdef PLATFORM_ANDROID
 			if (stricmp(extensions[index].extensionName, VK_KHR_ANDROID_SURFACE_EXTENSION_NAME) == 0) {
 				enabledInstanceExtensions.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
 				bPlatformSurfaceExtension = TRUE;
@@ -266,7 +266,7 @@ namespace CrossEngine {
 
 	VkResult CVulkan::CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd)
 	{
-#ifdef _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 		VkWin32SurfaceCreateInfoKHR surfaceInfo = {};
 		surfaceInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 		surfaceInfo.pNext = NULL;
@@ -276,7 +276,7 @@ namespace CrossEngine {
 		return vkCreateWin32SurfaceKHR(m_vkInstance, &surfaceInfo, m_pAllocator->GetAllocationCallbacks(), &m_vkSurface);
 #endif
 
-#ifdef _PLATFORM_ANDROID_
+#ifdef PLATFORM_ANDROID
 		VkAndroidSurfaceCreateInfoKHR surfaceInfo = {};
 		surfaceInfo.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
 		surfaceInfo.pNext = NULL;

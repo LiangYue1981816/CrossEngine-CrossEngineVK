@@ -38,9 +38,9 @@ CROSS_EXPORT int wcstoi(const wchar_t *wsz);
 CROSS_EXPORT float wcstof(const wchar_t *wsz);
 
 
-#if !defined _PLATFORM_WINDOWS_
+#if defined(PLATFORM_ANDROID) || defined(PLATFORM_IOS)
 
-#if defined _PLATFORM_IOS_
+#ifdef PLATFORM_IOS
 
 CROSS_EXPORT size_t mbstowcs(wchar_t *wsz, const char *sz, size_t count);
 CROSS_EXPORT size_t wcstombs(char *sz, const wchar_t *wsz, size_t count);

@@ -86,6 +86,7 @@ namespace CrossEngine {
 			memorySize = (memoryPropertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) ? HOST_MEMORY_POOL_SIZE : memorySize;
 			memorySize = (memoryPropertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) ? DEVICE_MEMORY_POOL_SIZE : memorySize;
 			memorySize = max(size, memorySize);
+			memorySize = ALIGN_1KBYTE(memorySize);
 
 			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, memoryPropertyFlags);
 

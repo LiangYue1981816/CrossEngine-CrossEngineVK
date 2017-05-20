@@ -57,11 +57,11 @@ namespace CrossEngine {
 				fclose(pFile);
 			}
 
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 			OutputDebugString(szLogText);
 
-#elif defined _PLATFORM_ANDROID_
+#elif PLATFORM_ANDROID
 
 			__android_log_print(ANDROID_LOG_INFO, TAG_NAME, szLogText);
 
@@ -88,11 +88,11 @@ namespace CrossEngine {
 				fclose(pFile);
 			}
 
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 			OutputDebugString(szLogText);
 
-#elif defined _PLATFORM_ANDROID_
+#elif PLATFORM_ANDROID
 
 			__android_log_print(ANDROID_LOG_WARN, TAG_NAME, szLogText);
 
@@ -121,11 +121,11 @@ namespace CrossEngine {
 				fclose(pFile);
 			}
 
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 			OutputDebugString(szLogText);
 
-#elif defined _PLATFORM_ANDROID_
+#elif PLATFORM_ANDROID
 
 			__android_log_print(ANDROID_LOG_ERROR, TAG_NAME, szLogText);
 

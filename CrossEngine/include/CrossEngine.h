@@ -23,13 +23,13 @@ THE SOFTWARE.
 #pragma once
 
 
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 	#include <winsock2.h>
 	#include <windows.h>
 	#include <direct.h>
 
-#elif defined _PLATFORM_ANDROID_
+#elif PLATFORM_ANDROID
 
 	#include <dirent.h>
 	#include <unistd.h>
@@ -42,7 +42,7 @@ THE SOFTWARE.
 	#include <string.h>
 	#include <android/log.h>
 
-#elif defined _PLATFORM_IOS_
+#elif PLATFORM_IOS
 
 	#include <dirent.h>
 	#include <unistd.h>

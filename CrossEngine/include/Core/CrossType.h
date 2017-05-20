@@ -32,7 +32,7 @@ typedef unsigned short                 uint16_t; // 2BYTE
 typedef unsigned int                   uint32_t; // 4BYTE
 typedef unsigned long long             uint64_t; // 8BYTE
 
-#ifdef _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 typedef unsigned char                  BYTE;     // 1BYTE
 typedef unsigned short                 WORD;     // 2BYTE
 typedef unsigned long                  DWORD;    // 4BYTE
@@ -124,7 +124,7 @@ typedef unsigned int                   COLORREF; // 4BYTE
 #define ALIGN_4KBYTE(a)                ALIGN_BYTE(a, 4096)
 
 
-#ifdef _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 #define CROSS_EXPORT                   __declspec(dllexport)
 #else
 #define CROSS_EXPORT

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 CROSS_EXPORT unsigned int tick(void)
 {
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 	LARGE_INTEGER freq;
 	LARGE_INTEGER count;
@@ -187,9 +187,9 @@ CROSS_EXPORT float wcstof(const wchar_t *wsz)
 	return (float)atof(sz);
 }
 
-#if !defined _PLATFORM_WINDOWS_
+#if defined(PLATFORM_ANDROID) || defined(PLATFORM_IOS)
 
-#if defined _PLATFORM_IOS_
+#ifdef PLATFORM_IOS
 
 CROSS_EXPORT size_t mbstowcs(wchar_t *wsz, const char *sz, size_t count)
 {

@@ -31,11 +31,11 @@ namespace CrossEngine {
 
 		void *ptr = NULL;
 
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 		ptr = _aligned_malloc(size, 16);
 
-#elif defined _PLATFORM_ANDROID_
+#elif PLATFORM_ANDROID
 
 		ptr = memalign(16, size);
 
@@ -56,7 +56,7 @@ namespace CrossEngine {
 	{
 		ASSERT(ptr);
 
-#if defined _PLATFORM_WINDOWS_
+#ifdef PLATFORM_WINDOWS
 
 		_aligned_free(ptr);
 
