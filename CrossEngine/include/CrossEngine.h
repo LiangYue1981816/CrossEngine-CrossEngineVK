@@ -83,6 +83,7 @@ THE SOFTWARE.
 
 
 #include "CrossType.h"
+#include "CrossMutex.h"
 #include "CrossMemory.h"
 #include "CrossDelegate.h"
 #include "CrossC.h"

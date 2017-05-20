@@ -252,6 +252,9 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossSharedPtr.h">
       <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossMutex.h">
+      <Filter>Engine\Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
