@@ -155,8 +155,8 @@ void CreateDescriptorSet(void)
 
 void DestroyDescriptorSet(void)
 {
-	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSetA);
-	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(0, pDescriptorSetB);
+	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(pDescriptorSetA);
+	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(pDescriptorSetB);
 }
 
 void CreateCommandBuffer(void)
