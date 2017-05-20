@@ -36,20 +36,19 @@ namespace CrossEngine {
 		virtual ~CVulkanDescriptorPool(void);
 
 
-	public:
+	protected:
 		CVulkanDescriptorSet* AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount);
 		void FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet);
 
-	public:
+	protected:
 		uint32_t GetDescriptorSetCount(void) const;
 
-	public:
+	protected:
 		void DumpLog(void) const;
 
 
 	protected:
 		VkDescriptorPool m_vkDescriptorPool;
-		std::map<CVulkanDescriptorSet*, CVulkanDescriptorSet*> m_pDescriptorSets;
 
 	protected:
 		uint32_t m_numDescriptorSets;
