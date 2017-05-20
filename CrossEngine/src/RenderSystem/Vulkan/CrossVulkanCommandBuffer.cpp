@@ -36,12 +36,14 @@ namespace CrossEngine {
 		, pActiveNext(NULL)
 		, pActivePrev(NULL)
 	{
-
+		m_ptrFence = m_pDevice->GetFenceManager()->AllocFence();
+		m_ptrFence->Create();
 	}
 
 	CVulkanCommandBuffer::~CVulkanCommandBuffer(void)
 	{
-		ClearResources();
+		Reset();
+		m_ptrFence.SetNull();
 	}
 
 	VkCommandBuffer CVulkanCommandBuffer::GetCommandBuffer(void) const
@@ -113,6 +115,8 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::Reset(void)
 	{
+		m_ptrFence->Wait(UINT64_MAX);
+
 		ClearResources();
 		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
 	}

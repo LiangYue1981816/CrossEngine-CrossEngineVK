@@ -106,6 +106,9 @@ namespace CrossEngine {
 		CVulkanCommandPool *m_pCommandPool;
 
 	protected:
+		CVulkanFencePtr m_ptrFence;
+
+	protected:
 		std::map<VkFramebuffer, CVulkanFrameBufferPtr> m_ptrFrameBuffers;
 		std::map<VkRenderPass, CVulkanRenderPassPtr> m_ptrRenderPasses;
 		std::map<VkPipeline, CVulkanPipelineComputePtr> m_ptrPipelineComputes;
