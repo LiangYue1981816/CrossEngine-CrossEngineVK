@@ -44,7 +44,6 @@ namespace CrossEngine {
 
 		CVulkanFencePtr& GetFence(void);
 		CVulkanCommandPool* GetCommandPool(void) const;
-		
 
 	public:
 		void Reset(void);
