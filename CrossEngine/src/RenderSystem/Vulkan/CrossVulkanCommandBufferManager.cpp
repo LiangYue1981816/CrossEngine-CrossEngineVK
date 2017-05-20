@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CVulkanCommandBufferManager::CVulkanCommandBufferManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
+		, m_mutex(NULL)
 	{
 		pthread_mutex_init(&m_mutex, NULL);
 	}

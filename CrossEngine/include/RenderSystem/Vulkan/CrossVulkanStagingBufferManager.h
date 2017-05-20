@@ -46,6 +46,7 @@ namespace CrossEngine {
 
 
 	protected:
+		pthread_mutex_t m_mutex;
 		std::map<CVulkanStagingBuffer*, CVulkanStagingBuffer*> m_pBuffers;
 
 	protected:
