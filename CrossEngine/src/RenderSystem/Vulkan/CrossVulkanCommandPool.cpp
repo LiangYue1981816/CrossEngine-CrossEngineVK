@@ -97,6 +97,8 @@ namespace CrossEngine {
 
 	void CVulkanCommandPool::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
+		ASSERT(pCommandBuffer->GetCommandPool() == this);
+
 		VkCommandBufferLevel level = pCommandBuffer->GetCommandBufferLevel();
 
 		pCommandBuffer->pFreeNext = m_pFreeListHead[level];
