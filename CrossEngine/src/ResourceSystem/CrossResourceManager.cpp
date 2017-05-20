@@ -202,7 +202,6 @@ namespace CrossEngine {
 	const CResourcePtr<CResource>& CResourceManager::QueryResource(DWORD dwName, BOOL bReload)
 	{
 		CResourceHandle *pResource = NULL;
-
 		{
 			mutex_autolock mutex(m_mutex);
 			const auto &itResource = m_resources.find(dwName);
@@ -223,7 +222,6 @@ namespace CrossEngine {
 	BOOL CResourceManager::FreeResource(DWORD dwName)
 	{
 		CResourceHandle *pResource = NULL;
-
 		{
 			mutex_autolock mutex(m_mutex);
 			const auto &itResource = m_resources.find(dwName);
@@ -241,7 +239,6 @@ namespace CrossEngine {
 	BOOL CResourceManager::DeleteResource(DWORD dwName)
 	{
 		CResourceHandle *pResource = NULL;
-
 		{
 			mutex_autolock mutex(m_mutex);
 			const auto &itResource = m_resources.find(dwName);
@@ -280,7 +277,6 @@ namespace CrossEngine {
 		}
 
 		CResourceHandle *pResource = NULL;
-
 		{
 			mutex_autolock mutex(m_mutex);
 			DWORD dwName = HashValue(szName);
@@ -329,7 +325,6 @@ namespace CrossEngine {
 		if (stricmp(szExtName, szEName)) return FALSE;
 
 		CResourceHandle *pResource = NULL;
-
 		{
 			mutex_autolock mutex(m_mutex);
 
@@ -391,7 +386,6 @@ namespace CrossEngine {
 				if (stricmp(szExtName, szEName)) continue;
 
 				CResourceHandle *pResource = NULL;
-
 				{
 					mutex_autolock mutex(m_mutex);
 
@@ -433,7 +427,6 @@ namespace CrossEngine {
 		}
 
 		ZZIP_DIR *pPack = NULL;
-
 		{
 			mutex_autolock mutex(m_mutex);
 			DWORD dwName = HashValue(szPackName);
@@ -455,7 +448,6 @@ namespace CrossEngine {
 			if (stricmp(szExtName, szEName)) continue;
 			
 			CResourceHandle *pResource = NULL;
-
 			{
 				mutex_autolock mutex(m_mutex);
 
