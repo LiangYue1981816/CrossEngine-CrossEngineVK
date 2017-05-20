@@ -47,11 +47,12 @@ namespace CrossEngine {
 		void FreeCommandBuffer(uint32_t pool, CVulkanCommandBuffer *pCommandBuffer);
 		void ResetCommandPool(uint32_t pool, BOOL bReleaseResources = FALSE);
 
-	public:
+	protected:
 		CVulkanCommandPool* GetCommandPool(uint32_t pool);
 
 
 	protected:
+		pthread_mutex_t m_mutex;
 		std::map<uint32_t, CVulkanCommandPool*> m_pCommandPools;
 
 	protected:

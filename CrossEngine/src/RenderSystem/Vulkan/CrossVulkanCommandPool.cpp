@@ -66,16 +66,18 @@ namespace CrossEngine {
 	CVulkanCommandBuffer* CVulkanCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
 	{
 		if (m_pFreeListHead[level] == NULL) {
-			VkCommandBuffer vkCommandBuffer;
 			VkCommandBufferAllocateInfo commandBufferInfo = {};
 			commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 			commandBufferInfo.pNext = NULL;
 			commandBufferInfo.commandPool = m_vkCommandPool;
 			commandBufferInfo.level = level;
 			commandBufferInfo.commandBufferCount = 1;
-			vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
 
-			m_pFreeListHead[level] = SAFE_NEW CVulkanCommandBuffer(m_pDevice, vkCommandBuffer, level);
+			VkCommandBuffer vkCommandBuffer = VK_NULL_HANDLE;
+			VkResult result = vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
+			if (result != VK_SUCCESS) return NULL;
+
+			m_pFreeListHead[level] = SAFE_NEW CVulkanCommandBuffer(this, m_pDevice, vkCommandBuffer, level);
 		}
 
 		CVulkanCommandBuffer  *pCommandBuffer = m_pFreeListHead[level];
@@ -97,8 +99,6 @@ namespace CrossEngine {
 	{
 		VkCommandBufferLevel level = pCommandBuffer->GetCommandBufferLevel();
 
-		pCommandBuffer->ClearResources();
-
 		pCommandBuffer->pFreeNext = m_pFreeListHead[level];
 		m_pFreeListHead[level] = pCommandBuffer;
 
@@ -113,6 +113,8 @@ namespace CrossEngine {
 		if (pCommandBuffer->pActiveNext) {
 			pCommandBuffer->pActiveNext->pActivePrev = pCommandBuffer->pActivePrev;
 		}
+
+		pCommandBuffer->ClearResources();
 	}
 
 	void CVulkanCommandPool::ResetCommandPool(BOOL bReleaseResources) const

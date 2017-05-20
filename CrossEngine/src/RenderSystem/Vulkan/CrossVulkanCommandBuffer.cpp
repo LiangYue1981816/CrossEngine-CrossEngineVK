@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanCommandBuffer::CVulkanCommandBuffer(CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level)
+	CVulkanCommandBuffer::CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level)
 		: m_pDevice(pDevice)
+		, m_pCommandPool(pCommandPool)
 
 		, m_vkCommandBuffer(vkCommandBuffer)
 		, m_vkCommandBufferLevel(level)
@@ -43,9 +44,14 @@ namespace CrossEngine {
 		ClearResources();
 	}
 
-	void CVulkanCommandBuffer::Reset(void)
+	VkCommandBuffer CVulkanCommandBuffer::GetCommandBuffer(void) const
 	{
-		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
+		return m_vkCommandBuffer;
+	}
+
+	VkCommandBufferLevel CVulkanCommandBuffer::GetCommandBufferLevel(void) const
+	{
+		return m_vkCommandBufferLevel;
 	}
 
 	void CVulkanCommandBuffer::ClearResources(void)
@@ -100,14 +106,16 @@ namespace CrossEngine {
 		m_ptrRenderTextures.clear();
 	}
 
-	VkCommandBuffer CVulkanCommandBuffer::GetCommandBuffer(void) const
+	void CVulkanCommandBuffer::Reset(void)
 	{
-		return m_vkCommandBuffer;
+		ClearResources();
+		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
 	}
 
-	VkCommandBufferLevel CVulkanCommandBuffer::GetCommandBufferLevel(void) const
+	void CVulkanCommandBuffer::Release(void)
 	{
-		return m_vkCommandBufferLevel;
+		Reset();
+		m_pCommandPool->FreeCommandBuffer(this);
 	}
 
 	VkResult CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)

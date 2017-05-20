@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandBuffer(CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level);
+		CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level);
 		virtual ~CVulkanCommandBuffer(void);
 
 
@@ -41,9 +41,11 @@ namespace CrossEngine {
 		VkCommandBufferLevel GetCommandBufferLevel(void) const;
 
 	public:
-		void Reset(void);
 		void ClearResources(void);
+		void Reset(void);
+		void Release(void);
 
+	public:
 		VkResult BeginPrimary(VkCommandBufferUsageFlags flags);
 		VkResult BeginSecondary(VkCommandBufferUsageFlags flags, const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
 		VkResult End(void);
@@ -101,6 +103,7 @@ namespace CrossEngine {
 	protected:
 		VkCommandBuffer m_vkCommandBuffer;
 		VkCommandBufferLevel m_vkCommandBufferLevel;
+		CVulkanCommandPool *m_pCommandPool;
 
 	protected:
 		std::map<VkFramebuffer, CVulkanFrameBufferPtr> m_ptrFrameBuffers;
