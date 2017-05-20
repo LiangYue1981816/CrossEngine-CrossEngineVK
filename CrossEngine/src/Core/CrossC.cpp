@@ -44,6 +44,19 @@ CROSS_EXPORT unsigned int tick(void)
 #endif
 }
 
+CROSS_EXPORT unsigned int thread_id(void)
+{
+#ifdef PLATFORM_WINDOWS
+
+	return GetCurrentThreadId();
+
+#else
+
+	return pthread_self();
+
+#endif
+}
+
 CROSS_EXPORT void splitfilename(const char *name, char *fname, char *ext)
 {
 	ASSERT(name);

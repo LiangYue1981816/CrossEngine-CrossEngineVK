@@ -25,6 +25,7 @@ THE SOFTWARE.
 
 
 CROSS_EXPORT unsigned int tick(void);
+CROSS_EXPORT unsigned int thread_id(void);
 CROSS_EXPORT void splitfilename(const char *name, char *fname, char *ext);
 
 

@@ -167,7 +167,7 @@ void DestroyDescriptorSet(void)
 void CreateCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		pCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		pCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
 			pCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
