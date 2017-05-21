@@ -28,12 +28,12 @@ namespace CrossEngine {
 	CVulkanResourceManager::CVulkanResourceManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
-
+		pthread_mutex_init(&m_mutex, NULL);
 	}
 
 	CVulkanResourceManager::~CVulkanResourceManager(void)
 	{
-
+		pthread_mutex_destroy(&m_mutex);
 	}
 
 	BOOL CVulkanResourceManager::Create(void)
@@ -56,8 +56,11 @@ namespace CrossEngine {
 	void CVulkanResourceManager::Free(CVulkanResource *pResource)
 	{
 		if (pResource) {
-			const auto &itResource = m_pResources.find(pResource);
-			if (itResource != m_pResources.end()) m_pResources.erase(itResource);
+			{
+				mutex_autolock mutex(m_mutex);
+				const auto &itResource = m_pResources.find(pResource);
+				if (itResource != m_pResources.end()) m_pResources.erase(itResource);
+			}
 
 			pResource->Destroy();
 			SAFE_DELETE(pResource);

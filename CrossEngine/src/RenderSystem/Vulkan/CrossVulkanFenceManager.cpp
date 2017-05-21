@@ -39,8 +39,10 @@ namespace CrossEngine {
 	CVulkanFencePtr CVulkanFenceManager::AllocFence(void)
 	{
 		CVulkanFence *pFence = SAFE_NEW CVulkanFence(m_pDevice, this);
-		m_pResources[pFence] = pFence;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pFence] = pFence;
+		}
 		return CVulkanFencePtr(pFence);
 	}
 

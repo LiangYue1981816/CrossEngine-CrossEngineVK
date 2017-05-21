@@ -39,8 +39,10 @@ namespace CrossEngine {
 	CVulkanSamplerPtr CVulkanSamplerManager::AllocSampler(void)
 	{
 		CVulkanSampler *pSampler = SAFE_NEW CVulkanSampler(m_pDevice, this);
-		m_pResources[pSampler] = pSampler;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pSampler] = pSampler;
+		}
 		return CVulkanSamplerPtr(pSampler);
 	}
 

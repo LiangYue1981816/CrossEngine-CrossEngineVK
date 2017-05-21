@@ -60,7 +60,6 @@ namespace CrossEngine {
 			mutex_autolock mutex(m_mutex);
 			m_pBuffers[pBuffer] = pBuffer;
 		}
-
 		return pBuffer;
 	}
 

@@ -48,6 +48,7 @@ namespace CrossEngine {
 
 
 	protected:
+		pthread_mutex_t m_mutex;
 		std::map<CVulkanResource*, CVulkanResource*> m_pResources;
 
 	protected:

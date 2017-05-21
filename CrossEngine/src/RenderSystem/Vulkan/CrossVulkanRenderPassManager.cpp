@@ -39,8 +39,10 @@ namespace CrossEngine {
 	CVulkanRenderPassPtr CVulkanRenderPassManager::AllocRenderPass(void)
 	{
 		CVulkanRenderPass *pRenderPass = SAFE_NEW CVulkanRenderPass(m_pDevice, this);
-		m_pResources[pRenderPass] = pRenderPass;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pRenderPass] = pRenderPass;
+		}
 		return CVulkanRenderPassPtr(pRenderPass);
 	}
 

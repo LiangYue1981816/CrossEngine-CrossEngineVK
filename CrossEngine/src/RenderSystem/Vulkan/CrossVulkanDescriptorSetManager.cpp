@@ -76,6 +76,7 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorSetManager::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
+		mutex_autolock mutex(m_mutex);
 		pDescriptorSet->GetDescriptorPool()->FreeDescriptorSet(pDescriptorSet);
 	}
 

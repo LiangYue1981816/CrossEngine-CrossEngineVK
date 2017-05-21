@@ -39,32 +39,40 @@ namespace CrossEngine {
 	CVulkanBufferPtr CVulkanBufferManager::AllocBuffer(void)
 	{
 		CVulkanBuffer *pBuffer = SAFE_NEW CVulkanBuffer(m_pDevice, this);
-		m_pResources[pBuffer] = pBuffer;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pBuffer] = pBuffer;
+		}
 		return CVulkanBufferPtr(pBuffer);
 	}
 
 	CVulkanIndexBufferPtr CVulkanBufferManager::AllocIndexBuffer(void)
 	{
 		CVulkanIndexBuffer *pBuffer = SAFE_NEW CVulkanIndexBuffer(m_pDevice, this);
-		m_pResources[pBuffer] = pBuffer;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pBuffer] = pBuffer;
+		}
 		return CVulkanIndexBufferPtr(pBuffer);
 	}
 
 	CVulkanVertexBufferPtr CVulkanBufferManager::AllocVertexBuffer(void)
 	{
 		CVulkanVertexBuffer *pBuffer = SAFE_NEW CVulkanVertexBuffer(m_pDevice, this);
-		m_pResources[pBuffer] = pBuffer;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pBuffer] = pBuffer;
+		}
 		return CVulkanVertexBufferPtr(pBuffer);
 	}
 
 	CVulkanUniformBufferPtr CVulkanBufferManager::AllocUniformBuffer(void)
 	{
 		CVulkanUniformBuffer *pBuffer = SAFE_NEW CVulkanUniformBuffer(m_pDevice, this);
-		m_pResources[pBuffer] = pBuffer;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pBuffer] = pBuffer;
+		}
 		return CVulkanUniformBufferPtr(pBuffer);
 	}
 

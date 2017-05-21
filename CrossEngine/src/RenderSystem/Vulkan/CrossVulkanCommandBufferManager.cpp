@@ -65,14 +65,17 @@ namespace CrossEngine {
 
 			pCommandPool = m_pCommandPools[pool];
 		}
-
 		return pCommandPool->AllocCommandBuffer(level);
 	}
 
 	void CVulkanCommandBufferManager::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
 		pCommandBuffer->Reset();
-		pCommandBuffer->GetCommandPool()->FreeCommandBuffer(pCommandBuffer);
+
+		{
+			mutex_autolock mutex(m_mutex);
+			pCommandBuffer->GetCommandPool()->FreeCommandBuffer(pCommandBuffer);
+		}
 	}
 
 }

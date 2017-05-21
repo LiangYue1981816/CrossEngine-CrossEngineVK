@@ -39,8 +39,10 @@ namespace CrossEngine {
 	CVulkanSemaphorePtr CVulkanSemaphoreManager::AllocSemaphore(void)
 	{
 		CVulkanSemaphore *pSemaphore = SAFE_NEW CVulkanSemaphore(m_pDevice, this);
-		m_pResources[pSemaphore] = pSemaphore;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pSemaphore] = pSemaphore;
+		}
 		return CVulkanSemaphorePtr(pSemaphore);
 	}
 

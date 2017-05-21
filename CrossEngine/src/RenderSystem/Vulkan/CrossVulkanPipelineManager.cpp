@@ -72,16 +72,20 @@ namespace CrossEngine {
 	CVulkanPipelineComputePtr CVulkanPipelineManager::AllocPipelineCompute(void)
 	{
 		CVulkanPipelineCompute *pPipeline = SAFE_NEW CVulkanPipelineCompute(m_pDevice, this);
-		m_pResources[pPipeline] = pPipeline;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pPipeline] = pPipeline;
+		}
 		return CVulkanPipelineComputePtr(pPipeline);
 	}
 
 	CVulkanPipelineGraphicsPtr CVulkanPipelineManager::AllocPipelineGraphics(void)
 	{
 		CVulkanPipelineGraphics *pPipeline = SAFE_NEW CVulkanPipelineGraphics(m_pDevice, this);
-		m_pResources[pPipeline] = pPipeline;
-
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pPipeline] = pPipeline;
+		}
 		return CVulkanPipelineGraphicsPtr(pPipeline);
 	}
 
