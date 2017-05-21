@@ -119,6 +119,7 @@ namespace CrossEngine {
 		{
 			memcpy(pAddress, pBuffer, size);
 		}
+		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(size, offset));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
 		return VK_SUCCESS;

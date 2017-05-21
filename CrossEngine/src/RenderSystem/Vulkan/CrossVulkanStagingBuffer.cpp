@@ -73,6 +73,7 @@ namespace CrossEngine {
 		{
 			memcpy(pAddress, pPixels, size);
 		}
+		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(size, 0));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
 		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));
@@ -101,6 +102,7 @@ namespace CrossEngine {
 		{
 			memcpy(pAddress, pBuffer, size);
 		}
+		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(size, 0));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
 		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));
