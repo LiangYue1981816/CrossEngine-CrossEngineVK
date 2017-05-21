@@ -230,6 +230,11 @@ namespace CrossEngine {
 		vkCmdSetStencilReference(m_vkCommandBuffer, faceMask, reference);
 	}
 
+	void CVulkanCommandBuffer::CmdBindDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, VkDescriptorSet descriptor)
+	{
+		vkCmdBindDescriptorSets(m_vkCommandBuffer, pipelineBindPoint, layout, 0, 1, &descriptor, 0, NULL);
+	}
+
 	void CVulkanCommandBuffer::CmdBindDescriptorSets(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet, uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets, uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets)
 	{
 		vkCmdBindDescriptorSets(m_vkCommandBuffer, pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets, dynamicOffsetCount, pDynamicOffsets);

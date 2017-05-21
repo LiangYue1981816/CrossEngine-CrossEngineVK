@@ -67,6 +67,7 @@ namespace CrossEngine {
 		void CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask);
 		void CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask);
 		void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference);
+		void CmdBindDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, VkDescriptorSet descriptor);
 		void CmdBindDescriptorSets(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet, uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets, uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets);
 		void CmdBindIndexBuffer(const CVulkanIndexBufferPtr &ptrIndexBuffer, VkDeviceSize offset, VkIndexType indexType);
 		void CmdBindVertexBuffer(const CVulkanVertexBufferPtr &ptrVertexBuffer, VkDeviceSize offset);

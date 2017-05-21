@@ -49,6 +49,7 @@ namespace CrossEngine {
 
 	protected:
 		VkDescriptorPool m_vkDescriptorPool;
+		std::map<CVulkanDescriptorSet*, CVulkanDescriptorSet*> m_pDescriptorSets;
 
 	protected:
 		uint32_t m_numDescriptorSets;

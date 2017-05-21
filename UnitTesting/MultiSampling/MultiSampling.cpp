@@ -215,8 +215,7 @@ void CreateCommandBuffer(void)
 					pCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
 					pCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
 
-					VkDescriptorSet set = pDescriptorSet->GetDescriptorSet();
-					pCommandBuffers[indexView]->CmdBindDescriptorSets(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), 0, 1, &set, 0, NULL);
+					pCommandBuffers[indexView]->CmdBindDescriptorSet(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), pDescriptorSet->GetDescriptorSet());
 					pCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 1);
 				}
 			}

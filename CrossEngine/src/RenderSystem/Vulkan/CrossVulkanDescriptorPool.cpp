@@ -67,6 +67,12 @@ namespace CrossEngine {
 
 	CVulkanDescriptorPool::~CVulkanDescriptorPool(void)
 	{
+		for (const auto &itDescriptorSet : m_pDescriptorSets) {
+			if (CVulkanDescriptorSet *pDescriptorSet = itDescriptorSet.second) {
+				SAFE_DELETE(pDescriptorSet);
+			}
+		}
+
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
@@ -93,17 +99,23 @@ namespace CrossEngine {
 		VkResult result = vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
 		if (result != VK_SUCCESS) return NULL;
 
+		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(this, m_pDevice, vkDescriptorSet, typesUsedCount);
+		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
+
 		m_numDescriptorSets++;
 		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
-			m_numAllocatedTypes[index] += typesUsedCount[index];
+			m_numAllocatedTypes[index] += pDescriptorSet->GetTypesUsedCount()[index];
 		}
 
-		return SAFE_NEW CVulkanDescriptorSet(this, m_pDevice, vkDescriptorSet, typesUsedCount);;
+		return pDescriptorSet;
 	}
 
 	void CVulkanDescriptorPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
 		ASSERT(pDescriptorSet->GetDescriptorPool() == this);
+
+		const auto &itDescriptor = m_pDescriptorSets.find(pDescriptorSet);
+		if (itDescriptor != m_pDescriptorSets.end()) m_pDescriptorSets.erase(itDescriptor);
 
 		VkDescriptorSet vkDescriptorSet = pDescriptorSet->GetDescriptorSet();
 		vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
