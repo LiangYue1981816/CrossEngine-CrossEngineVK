@@ -58,6 +58,9 @@ namespace CrossEngine {
 
 	protected:
 		CVulkanDevice *m_pDevice;
+
+	protected:
+		CVulkanDescriptorPool *pNext;
 	};
 
 }

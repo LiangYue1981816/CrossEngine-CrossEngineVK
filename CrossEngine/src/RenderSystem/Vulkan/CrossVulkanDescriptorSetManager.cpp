@@ -43,29 +43,35 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorSetManager::Destroy(void)
 	{
-		for (const auto &itDescriptorPool : m_pDescriptorPools) {
+		for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {
 			if (CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
-				SAFE_DELETE(pDescriptorPool);
+				CVulkanDescriptorPool *pDescriptorPoolNext = NULL;
+				do {
+					pDescriptorPoolNext = pDescriptorPool->pNext;
+					SAFE_DELETE(pDescriptorPool);
+				} while (pDescriptorPool = pDescriptorPoolNext);
 			}
 		}
 
-		m_pDescriptorPools.clear();
+		m_pDescriptorPoolListHeads.clear();
 	}
 
 	CVulkanDescriptorSet* CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
 	{
-		CVulkanDescriptorPool *pDescriptorPool = NULL;
-		{
-			mutex_autolock mutex(m_mutex);
+		mutex_autolock mutex(m_mutex);
 
-			if (m_pDescriptorPools[pool] == NULL) {
-				m_pDescriptorPools[pool] = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
+		do {
+			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
+				if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(vkSetLayout, typesUsedCount)) {
+					return pDescriptorSet;
+				}
 			}
 
-			pDescriptorPool = m_pDescriptorPools[pool];
-		}
+			CVulkanDescriptorPool *pDescriptorPool = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
 
-		return pDescriptorPool->AllocDescriptorSet(vkSetLayout, typesUsedCount);
+			pDescriptorPool->pNext = m_pDescriptorPoolListHeads[pool];
+			m_pDescriptorPoolListHeads[pool] = pDescriptorPool;
+		} while (TRUE);
 	}
 
 	void CVulkanDescriptorSetManager::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
@@ -80,11 +86,13 @@ namespace CrossEngine {
 		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
-			for (const auto &itDescriptorPool : m_pDescriptorPools) {
-				if (const CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
-					LOGI("\tPool = %d\n", itDescriptorPool.first);
-					pDescriptorPool->DumpLog();
-					count += pDescriptorPool->GetDescriptorSetCount();
+			for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {
+				if (CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+					do {
+						LOGI("\tPool = %d\n", itDescriptorPool.first);
+						pDescriptorPool->DumpLog();
+						count += pDescriptorPool->GetDescriptorSetCount();
+					} while (pDescriptorPool = pDescriptorPool->pNext);
 				}
 			}
 		}

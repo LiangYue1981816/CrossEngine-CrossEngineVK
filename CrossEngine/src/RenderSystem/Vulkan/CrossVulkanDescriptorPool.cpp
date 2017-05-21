@@ -33,6 +33,8 @@ namespace CrossEngine {
 		, m_numDescriptorSets(0)
 		, m_maxAllocatedTypes{ 0 }
 		, m_numAllocatedTypes{ 0 }
+
+		, pNext(NULL)
 	{
 		m_maxDescriptorSets = 16384;
 		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER] = 2048;
