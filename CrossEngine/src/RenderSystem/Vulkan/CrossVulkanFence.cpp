@@ -88,7 +88,7 @@ namespace CrossEngine {
 	void CVulkanFence::DumpLog(void) const
 	{
 		if (m_vkFence) {
-			LOGI("\t\tFence 0x%x\n", m_vkFence);
+			LOGI("\t\tFence 0x%x signal = %s\n", m_vkFence, Wait(0) ? "true" : "false");
 		}
 	}
 
