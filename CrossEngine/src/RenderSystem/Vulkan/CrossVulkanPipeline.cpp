@@ -25,9 +25,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSetLayout::CVulkanDescriptorSetLayout(CVulkanDevice *pDevice)
+	CVulkanDescriptorSetLayout::CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, uint32_t set)
 		: m_pDevice(pDevice)
 		, m_vkDescriptorSetLayout(VK_NULL_HANDLE)
+		, m_set(set)
 		, m_numTypesUsedCount{ 0 }
 	{
 
@@ -99,6 +100,11 @@ namespace CrossEngine {
 	VkDescriptorSetLayout CVulkanDescriptorSetLayout::GetLayout(void) const
 	{
 		return m_vkDescriptorSetLayout;
+	}
+
+	uint32_t CVulkanDescriptorSetLayout::GetSet(void) const
+	{
+		return m_set;
 	}
 
 	const uint32_t* CVulkanDescriptorSetLayout::GetTypesUsedCount(void) const
@@ -197,7 +203,7 @@ namespace CrossEngine {
 				VkShaderStageFlags shaderStageFlags = itShader.first;
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice);
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
 				}
 
 				if (variable.second.storage_class == SpvStorageClassUniform) {

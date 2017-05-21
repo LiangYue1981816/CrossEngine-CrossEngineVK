@@ -96,7 +96,7 @@ namespace CrossEngine {
 			write.descriptorCount = 1;
 			write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			write.pImageInfo = NULL;
-			write.pBufferInfo = &ptrUniformBuffer->GetDescriptorBufferInfo();
+			write.pBufferInfo = &ptrUniformBuffer->GetDescriptorBufferInfo(binding);
 			write.pTexelBufferView = NULL;
 
 			writes.push_back(write);

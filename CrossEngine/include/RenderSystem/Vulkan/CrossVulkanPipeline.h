@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice);
+		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, uint32_t set);
 		virtual ~CVulkanDescriptorSetLayout(void);
 
 
@@ -46,11 +46,13 @@ namespace CrossEngine {
 
 	public:
 		VkDescriptorSetLayout GetLayout(void) const;
+		uint32_t GetSet(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
 
 
 	protected:
 		VkDescriptorSetLayout m_vkDescriptorSetLayout;
+		uint32_t m_set;
 		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
 
 	protected:

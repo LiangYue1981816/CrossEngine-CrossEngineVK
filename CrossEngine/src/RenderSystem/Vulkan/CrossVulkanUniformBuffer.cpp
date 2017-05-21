@@ -41,16 +41,25 @@ namespace CrossEngine {
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT));
 		CALL_BOOL_FUNCTION_RETURN(UpdateData(0, size, pBuffer));
 
-		m_vkDescriptorBufferInfo.buffer = m_vkBuffer;
-		m_vkDescriptorBufferInfo.offset = 0;
-		m_vkDescriptorBufferInfo.range = size;
+		return TRUE;
+	}
+
+	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t binding, VkDeviceSize offset, VkDeviceSize size)
+	{
+		if (offset + size > m_bufferSize) {
+			return FALSE;
+		}
+
+		m_vkDescriptorBufferInfos[binding].buffer = m_vkBuffer;
+		m_vkDescriptorBufferInfos[binding].offset = offset;
+		m_vkDescriptorBufferInfos[binding].range = size;
 
 		return TRUE;
 	}
 
-	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(void) const
+	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(uint32_t binding)
 	{
-		return m_vkDescriptorBufferInfo;
+		return m_vkDescriptorBufferInfos[binding];
 	}
 
 }

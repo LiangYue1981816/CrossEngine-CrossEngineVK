@@ -127,9 +127,11 @@ void CreateBuffer(void)
 
 	ptrUniformBufferA = pDevice->GetBufferManager()->AllocUniformBuffer();
 	ptrUniformBufferA->Create(sizeof(glm::mat4), NULL);
+	ptrUniformBufferA->SetDescriptorBufferInfo(0, 0, sizeof(glm::mat4));
 
 	ptrUniformBufferB = pDevice->GetBufferManager()->AllocUniformBuffer();
 	ptrUniformBufferB->Create(sizeof(glm::mat4), NULL);
+	ptrUniformBufferB->SetDescriptorBufferInfo(0, 0, sizeof(glm::mat4));
 }
 
 void DestroyBuffer(void)
