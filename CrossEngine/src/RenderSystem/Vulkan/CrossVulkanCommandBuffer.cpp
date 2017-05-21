@@ -331,9 +331,6 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdBeginRenderPass(const CVulkanFrameBufferPtr &ptrFrameBuffer, const CVulkanRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
 	{
-		m_ptrFrameBuffers[ptrFrameBuffer->GetFrameBuffer()] = ptrFrameBuffer;
-		m_ptrRenderPasses[ptrRenderPass->GetRenderPass()] = ptrRenderPass;
-
 		VkRect2D renderArea = { 0, 0, ptrFrameBuffer->GetWidth(),ptrFrameBuffer->GetHeight() };
 		CmdBeginRenderPass(ptrFrameBuffer, ptrRenderPass, renderArea, contents);
 	}
