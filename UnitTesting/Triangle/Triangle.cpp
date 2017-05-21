@@ -118,18 +118,18 @@ void CreateBuffer(void)
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	ptrVertexBuffer = pDevice->GetBufferManager()->AllocVertexBuffer();
-	ptrVertexBuffer->Create(vertexBufferSize, 0, vertexBuffer.data());
+	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data());
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
 	ptrIndexBuffer = pDevice->GetBufferManager()->AllocIndexBuffer();
-	ptrIndexBuffer->Create(indexBufferSize, 0, indexBuffer.data());
+	ptrIndexBuffer->Create(indexBufferSize, indexBuffer.data());
 
 	ptrUniformBufferA = pDevice->GetBufferManager()->AllocUniformBuffer();
-	ptrUniformBufferA->Create(sizeof(glm::mat4), 0, NULL);
+	ptrUniformBufferA->Create(sizeof(glm::mat4), NULL);
 
 	ptrUniformBufferB = pDevice->GetBufferManager()->AllocUniformBuffer();
-	ptrUniformBufferB->Create(sizeof(glm::mat4), 0, NULL);
+	ptrUniformBufferB->Create(sizeof(glm::mat4), NULL);
 }
 
 void DestroyBuffer(void)
@@ -273,12 +273,12 @@ void Render(void)
 	{
 		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
 		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-		ptrUniformBufferA->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+		ptrUniformBufferA->UpdateData(0, sizeof(glm::mat4), &mtxViewModelProjection);
 	}
 	{
 		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(-2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), -angle, glm::vec3(0.0f, 0.0f, 1.0f));
 		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-		ptrUniformBufferB->UpdateData(sizeof(glm::mat4), 0, &mtxViewModelProjection);
+		ptrUniformBufferB->UpdateData(0, sizeof(glm::mat4), &mtxViewModelProjection);
 	}
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);

@@ -90,15 +90,15 @@ namespace CrossEngine {
 		m_vkBuffer = VK_NULL_HANDLE;
 	}
 
-	BOOL CVulkanBuffer::UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	BOOL CVulkanBuffer::UpdateData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
 		try {
 			if (pBuffer) {
 				if (m_pMemory->IsHostVisible()) {
-					CALL_VK_FUNCTION_THROW(CopyData(size, offset, pBuffer));
+					CALL_VK_FUNCTION_THROW(CopyData(offset, size, pBuffer));
 				}
 				else {
-					CALL_VK_FUNCTION_THROW(TransferData(size, offset, pBuffer));
+					CALL_VK_FUNCTION_THROW(TransferData(offset, size, pBuffer));
 				}
 			}
 			
@@ -111,21 +111,21 @@ namespace CrossEngine {
 		}
 	}
 
-	VkResult CVulkanBuffer::CopyData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	VkResult CVulkanBuffer::CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
 		void *pAddress = NULL;
 
-		CALL_VK_FUNCTION_RETURN(m_pMemory->BeginMapMemory(size, offset, &pAddress));
+		CALL_VK_FUNCTION_RETURN(m_pMemory->BeginMapMemory(offset, size, &pAddress));
 		{
 			memcpy(pAddress, pBuffer, size);
 		}
-		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(size, offset));
+		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(offset, size));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanBuffer::TransferData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
+	VkResult CVulkanBuffer::TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
 		VkAccessFlags dstAccessMask = 0;
 		VkPipelineStageFlags dstStageMask = 0;

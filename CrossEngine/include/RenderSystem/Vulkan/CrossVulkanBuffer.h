@@ -39,11 +39,11 @@ namespace CrossEngine {
 	public:
 		virtual BOOL Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags);
 		virtual void Destroy(void);
-		virtual BOOL UpdateData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
+		virtual BOOL UpdateData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 
 	protected:
-		VkResult CopyData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
-		VkResult TransferData(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
+		VkResult CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
+		VkResult TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 
 	public:
 		VkBuffer GetBuffer(void) const;

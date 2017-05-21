@@ -69,11 +69,11 @@ namespace CrossEngine {
 	{
 		void *pAddress = NULL;
 
-		CALL_VK_FUNCTION_RETURN(m_pMemory->BeginMapMemory(size, 0, &pAddress));
+		CALL_VK_FUNCTION_RETURN(m_pMemory->BeginMapMemory(0, size, &pAddress));
 		{
 			memcpy(pAddress, pPixels, size);
 		}
-		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(size, 0));
+		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(0, size));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
 		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));
@@ -98,11 +98,11 @@ namespace CrossEngine {
 	{
 		void *pAddress = NULL;
 
-		CALL_VK_FUNCTION_RETURN(m_pMemory->BeginMapMemory(size, 0, &pAddress));
+		CALL_VK_FUNCTION_RETURN(m_pMemory->BeginMapMemory(0, size, &pAddress));
 		{
 			memcpy(pAddress, pBuffer, size);
 		}
-		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(size, 0));
+		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(0, size));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
 		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));

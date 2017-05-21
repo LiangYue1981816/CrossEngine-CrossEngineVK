@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(VkDeviceSize size, VkDeviceSize offset, const void *pBuffer);
+		virtual BOOL Create(VkDeviceSize size, const void *pBuffer);
 
 	public:
 		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(void) const;

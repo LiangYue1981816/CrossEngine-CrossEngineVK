@@ -99,7 +99,7 @@ namespace CrossEngine {
 		return vkBindBufferMemory(m_pDevice->GetDevice(), vkBuffer, m_vkMemory, m_offset);
 	}
 
-	VkResult CVulkanMemory::BeginMapMemory(VkDeviceSize size, VkDeviceSize offset, void **ppAddress) const
+	VkResult CVulkanMemory::BeginMapMemory(VkDeviceSize offset, VkDeviceSize size, void **ppAddress) const
 	{
 		return vkMapMemory(m_pDevice->GetDevice(), m_vkMemory, m_offset + offset, size, 0, ppAddress);
 	}
@@ -110,7 +110,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanMemory::FlushMappedMemory(VkDeviceSize size, VkDeviceSize offset) const
+	VkResult CVulkanMemory::FlushMappedMemory(VkDeviceSize offset, VkDeviceSize size) const
 	{
 		if (IsHostCoherent()) {
 			return VK_SUCCESS;
