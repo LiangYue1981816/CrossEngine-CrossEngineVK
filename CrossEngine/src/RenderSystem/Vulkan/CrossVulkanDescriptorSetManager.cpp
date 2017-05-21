@@ -84,7 +84,6 @@ namespace CrossEngine {
 	{
 		uint32_t count = 0;
 
-		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {

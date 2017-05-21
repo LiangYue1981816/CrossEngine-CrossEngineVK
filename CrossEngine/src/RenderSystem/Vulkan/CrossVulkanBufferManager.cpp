@@ -82,7 +82,6 @@ namespace CrossEngine {
 		VkDeviceSize bufferSize = 0;
 		VkDeviceSize memorySize = 0;
 
-		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itResource : m_pResources) {

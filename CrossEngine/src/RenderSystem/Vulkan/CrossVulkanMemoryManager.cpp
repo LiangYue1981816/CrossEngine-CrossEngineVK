@@ -133,7 +133,6 @@ namespace CrossEngine {
 		uint32_t count = 0;
 		VkDeviceSize size = 0;
 
-		LOGI("\n");
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itAllocator : m_pAllocatorListHeads) {
