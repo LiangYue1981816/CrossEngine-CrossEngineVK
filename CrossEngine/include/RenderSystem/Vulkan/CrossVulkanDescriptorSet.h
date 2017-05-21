@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount);
+		CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, uint32_t set, const uint32_t *typesUsedCount);
 		virtual ~CVulkanDescriptorSet(void);
 
 
@@ -53,6 +53,7 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+		uint32_t m_set;
 		std::map<uint32_t, CVulkanTexturePtr> m_ptrTextures;
 		std::map<uint32_t, CVulkanUniformBufferPtr> m_ptrUniformBuffers;
 

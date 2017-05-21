@@ -127,11 +127,11 @@ void CreateBuffer(void)
 
 	ptrUniformBufferA = pDevice->GetBufferManager()->AllocUniformBuffer();
 	ptrUniformBufferA->Create(sizeof(glm::mat4), NULL);
-	ptrUniformBufferA->SetDescriptorBufferInfo(0, 0, sizeof(glm::mat4));
+	ptrUniformBufferA->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 
 	ptrUniformBufferB = pDevice->GetBufferManager()->AllocUniformBuffer();
 	ptrUniformBufferB->Create(sizeof(glm::mat4), NULL);
-	ptrUniformBufferB->SetDescriptorBufferInfo(0, 0, sizeof(glm::mat4));
+	ptrUniformBufferB->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 }
 
 void DestroyBuffer(void)
@@ -146,11 +146,11 @@ void CreateDescriptorSet(void)
 {
 	const CrossEngine::CVulkanDescriptorSetLayout* pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
 
-	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
 	pDescriptorSetA->SetUniformBuffer(0, ptrUniformBufferA);
 	pDescriptorSetA->UpdateDescriptorSets();
 
-	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout->GetLayout(), pDescriptorSetLayout->GetTypesUsedCount());
+	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
 	pDescriptorSetB->SetUniformBuffer(0, ptrUniformBufferB);
 	pDescriptorSetB->UpdateDescriptorSets();
 }

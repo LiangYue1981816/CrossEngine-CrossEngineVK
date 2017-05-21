@@ -76,18 +76,19 @@ namespace CrossEngine {
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(const CVulkanDescriptorSetLayout *pSetLayout)
 	{
 		if (m_numDescriptorSets + 1 > m_maxDescriptorSets) {
 			return NULL;
 		}
 
 		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
-			if (m_numAllocatedTypes[index] + typesUsedCount[index] > m_maxAllocatedTypes[index]) {
+			if (m_numAllocatedTypes[index] + pSetLayout->GetTypesUsedCount()[index] > m_maxAllocatedTypes[index]) {
 				return NULL;
 			}
 		}
 
+		VkDescriptorSetLayout vkSetLayout = pSetLayout->GetLayout();
 		VkDescriptorSetAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 		allocInfo.pNext = NULL;
@@ -99,7 +100,7 @@ namespace CrossEngine {
 		VkResult result = vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
 		if (result != VK_SUCCESS) return NULL;
 
-		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(this, m_pDevice, vkDescriptorSet, typesUsedCount);
+		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(this, m_pDevice, vkDescriptorSet, pSetLayout->GetSet(), pSetLayout->GetTypesUsedCount());
 		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
 
 		m_numDescriptorSets++;

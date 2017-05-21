@@ -56,13 +56,13 @@ namespace CrossEngine {
 		m_pDescriptorPoolListHeads.clear();
 	}
 
-	CVulkanDescriptorSet* CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet* CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
 	{
 		mutex_autolock mutex(m_mutex);
 
 		do {
 			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
-				if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(vkSetLayout, typesUsedCount)) {
+				if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(pSetLayout)) {
 					return pDescriptorSet;
 				}
 			}

@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanDescriptorSet* AllocDescriptorSet(VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount);
+		CVulkanDescriptorSet* AllocDescriptorSet(const CVulkanDescriptorSetLayout *pSetLayout);
 		void FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet);
 
 	protected:

@@ -40,12 +40,12 @@ namespace CrossEngine {
 		virtual BOOL Create(VkDeviceSize size, const void *pBuffer);
 
 	public:
-		BOOL SetDescriptorBufferInfo(uint32_t binding, VkDeviceSize offset, VkDeviceSize size);
-		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t binding);
+		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size);
+		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding);
 
 
 	protected:
-		std::map<uint32_t, VkDescriptorBufferInfo> m_vkDescriptorBufferInfos;
+		std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>> m_vkDescriptorBufferInfos;
 	};
 
 	class CROSS_EXPORT CVulkanUniformBufferPtr : public CVulkanResourcePtr<CVulkanUniformBuffer>

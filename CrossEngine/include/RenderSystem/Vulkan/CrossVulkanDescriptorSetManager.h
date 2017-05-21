@@ -41,7 +41,7 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	public:
-		CVulkanDescriptorSet* AllocDescriptorSet(uint32_t pool, VkDescriptorSetLayout vkSetLayout, const uint32_t *typesUsedCount);
+		CVulkanDescriptorSet* AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
 		void FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet);
 
 	public:

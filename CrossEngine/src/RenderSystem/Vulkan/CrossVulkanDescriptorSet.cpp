@@ -25,10 +25,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, uint32_t set, const uint32_t *typesUsedCount)
 		: m_pDevice(pDevice)
 		, m_pDescriptorPool(pDescriptorPool)
 		, m_vkDescriptorSet(vkDescriptorSet)
+		, m_set(set)
 		, m_typesUsedCount{ 0 }
 	{
 		memcpy(m_typesUsedCount, typesUsedCount, sizeof(m_typesUsedCount));
@@ -96,7 +97,7 @@ namespace CrossEngine {
 			write.descriptorCount = 1;
 			write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			write.pImageInfo = NULL;
-			write.pBufferInfo = &ptrUniformBuffer->GetDescriptorBufferInfo(binding);
+			write.pBufferInfo = &ptrUniformBuffer->GetDescriptorBufferInfo(m_set, binding);
 			write.pTexelBufferView = NULL;
 
 			writes.push_back(write);
