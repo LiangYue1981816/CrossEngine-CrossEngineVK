@@ -28,6 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanDescriptorPool
 	{
+		friend class CVulkanDescriptorSet;
 		friend class CVulkanDescriptorSetPtr;
 		friend class CVulkanDescriptorSetManager;
 

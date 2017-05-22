@@ -26,27 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanFence;
-	class CROSS_EXPORT CVulkanFrameBuffer;
-	class CROSS_EXPORT CVulkanCommandBuffer;
-	class CROSS_EXPORT CVulkanDescriptorSet;
-
-	class CROSS_EXPORT CVulkanQueue;
-	class CROSS_EXPORT CVulkanFenceManager;
-	class CROSS_EXPORT CVulkanSemaphoreManager;
-	class CROSS_EXPORT CVulkanMemoryManager;
-	class CROSS_EXPORT CVulkanStagingBufferManager;
-	class CROSS_EXPORT CVulkanCommandBufferManager;
-	class CROSS_EXPORT CVulkanDescriptorSetManager;
-
-	class CROSS_EXPORT CVulkanBufferManager;
-	class CROSS_EXPORT CVulkanShaderManager;
-	class CROSS_EXPORT CVulkanSamplerManager;
-	class CROSS_EXPORT CVulkanTextureManager;
-	class CROSS_EXPORT CVulkanPipelineManager;
-	class CROSS_EXPORT CVulkanRenderPassManager;
-	class CROSS_EXPORT CVulkanFrameBufferManager;
-
 	class CROSS_EXPORT CVulkanDevice
 	{
 		friend class CVulkanImage;
@@ -103,11 +82,13 @@ namespace CrossEngine {
 		virtual VkResult EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const;
 		virtual VkPhysicalDevice SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, uint32_t &queueFamilyIndex) = 0;
 		virtual VkResult CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex) = 0;
+
 		virtual VkResult CreateQueue(uint32_t queueFamilyIndex);
-		virtual VkResult CreateFenceManager(void);
-		virtual VkResult CreateSemaphoreManager(void);
 		virtual VkResult CreateMemoryManager(void);
 		virtual VkResult CreateStagingBufferManager(void);
+
+		virtual VkResult CreateFenceManager(void);
+		virtual VkResult CreateSemaphoreManager(void);
 		virtual VkResult CreateCommandBufferManager(void);
 		virtual VkResult CreateDescriptorSetManager(void);
 
@@ -121,10 +102,11 @@ namespace CrossEngine {
 
 	protected:
 		virtual void DestroyQueue(void);
-		virtual void DestroyFenceManager(void);
-		virtual void DestroySemaphoreManager(void);
 		virtual void DestroyMemoryManager(void);
 		virtual void DestroyStagingBufferManager(void);
+
+		virtual void DestroyFenceManager(void);
+		virtual void DestroySemaphoreManager(void);
 		virtual void DestroyCommandBufferManager(void);
 		virtual void DestroyDescriptorSetManager(void);
 
@@ -188,10 +170,12 @@ namespace CrossEngine {
 
 	protected:
 		CVulkanQueue *m_pQueue;
-		CVulkanFenceManager *m_pFenceManager;
-		CVulkanSemaphoreManager *m_pSemaphoreManager;
 		CVulkanMemoryManager *m_pMemoryManager;
 		CVulkanStagingBufferManager *m_pStagingBufferManager;
+
+	protected:
+		CVulkanFenceManager *m_pFenceManager;
+		CVulkanSemaphoreManager *m_pSemaphoreManager;
 		CVulkanCommandBufferManager *m_pCommandBufferManager;
 		CVulkanDescriptorSetManager *m_pDescriptorSetManager;
 

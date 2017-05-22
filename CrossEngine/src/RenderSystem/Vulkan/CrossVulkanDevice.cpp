@@ -31,10 +31,11 @@ namespace CrossEngine {
 		, m_vkPhysicalDevice(VK_NULL_HANDLE)
 
 		, m_pQueue(NULL)
-		, m_pFenceManager(NULL)
-		, m_pSemaphoreManager(NULL)
 		, m_pMemoryManager(NULL)
 		, m_pStagingBufferManager(NULL)
+
+		, m_pFenceManager(NULL)
+		, m_pSemaphoreManager(NULL)
 		, m_pCommandBufferManager(NULL)
 		, m_pDescriptorSetManager(NULL)
 
@@ -51,10 +52,11 @@ namespace CrossEngine {
 		memset(&m_vkMemoryProperties, 0, sizeof(m_vkMemoryProperties));
 
 		m_pQueue = SAFE_NEW CVulkanQueue(this);
-		m_pFenceManager = SAFE_NEW CVulkanFenceManager(this);
-		m_pSemaphoreManager = SAFE_NEW CVulkanSemaphoreManager(this);
 		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
 		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
+
+		m_pFenceManager = SAFE_NEW CVulkanFenceManager(this);
+		m_pSemaphoreManager = SAFE_NEW CVulkanSemaphoreManager(this);
 		m_pCommandBufferManager = SAFE_NEW CVulkanCommandBufferManager(this);
 		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
 
@@ -70,10 +72,11 @@ namespace CrossEngine {
 	CVulkanDevice::~CVulkanDevice(void)
 	{
 		SAFE_DELETE(m_pQueue);
-		SAFE_DELETE(m_pFenceManager);
-		SAFE_DELETE(m_pSemaphoreManager);
 		SAFE_DELETE(m_pMemoryManager);
 		SAFE_DELETE(m_pStagingBufferManager);
+
+		SAFE_DELETE(m_pFenceManager);
+		SAFE_DELETE(m_pSemaphoreManager);
 		SAFE_DELETE(m_pCommandBufferManager);
 		SAFE_DELETE(m_pDescriptorSetManager);
 
@@ -94,11 +97,13 @@ namespace CrossEngine {
 
 			CALL_VK_FUNCTION_THROW(EnumeratePhysicalDevices(devices));
 			CALL_VK_FUNCTION_THROW(CreateDevice(SelectPhysicalDevices(devices, queueFamilyIndex), queueFamilyIndex));
+
 			CALL_VK_FUNCTION_THROW(CreateQueue(queueFamilyIndex));
-			CALL_VK_FUNCTION_THROW(CreateFenceManager());
-			CALL_VK_FUNCTION_THROW(CreateSemaphoreManager());
 			CALL_VK_FUNCTION_THROW(CreateMemoryManager());
 			CALL_VK_FUNCTION_THROW(CreateStagingBufferManager());
+
+			CALL_VK_FUNCTION_THROW(CreateFenceManager());
+			CALL_VK_FUNCTION_THROW(CreateSemaphoreManager());
 			CALL_VK_FUNCTION_THROW(CreateCommandBufferManager());
 			CALL_VK_FUNCTION_THROW(CreateDescriptorSetManager());
 
@@ -140,10 +145,11 @@ namespace CrossEngine {
 
 			DestroyDescriptorSetManager();
 			DestroyCommandBufferManager();
-			DestroyStagingBufferManager();
-			DestroyMemoryManager();
 			DestroySemaphoreManager();
 			DestroyFenceManager();
+
+			DestroyStagingBufferManager();
+			DestroyMemoryManager();
 			DestroyQueue();
 		}
 		vkDestroyDevice(m_vkDevice, m_pVulkan->GetAllocator()->GetAllocationCallbacks());
@@ -171,16 +177,6 @@ namespace CrossEngine {
 		return m_pQueue->Create(queueFamilyIndex) ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CVulkanDevice::CreateFenceManager(void)
-	{
-		return m_pFenceManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
-	}
-
-	VkResult CVulkanDevice::CreateSemaphoreManager(void)
-	{
-		return m_pSemaphoreManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
-	}
-
 	VkResult CVulkanDevice::CreateMemoryManager(void)
 	{
 		return m_pMemoryManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
@@ -189,6 +185,16 @@ namespace CrossEngine {
 	VkResult CVulkanDevice::CreateStagingBufferManager(void)
 	{
 		return m_pStagingBufferManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
+	}
+
+	VkResult CVulkanDevice::CreateFenceManager(void)
+	{
+		return m_pFenceManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
+	}
+
+	VkResult CVulkanDevice::CreateSemaphoreManager(void)
+	{
+		return m_pSemaphoreManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	VkResult CVulkanDevice::CreateCommandBufferManager(void)
@@ -241,16 +247,6 @@ namespace CrossEngine {
 		m_pQueue->Destroy();
 	}
 
-	void CVulkanDevice::DestroyFenceManager(void)
-	{
-		m_pFenceManager->Destroy();
-	}
-
-	void CVulkanDevice::DestroySemaphoreManager(void)
-	{
-		m_pSemaphoreManager->Destroy();
-	}
-
 	void CVulkanDevice::DestroyMemoryManager(void)
 	{
 		m_pMemoryManager->Destroy();
@@ -259,6 +255,16 @@ namespace CrossEngine {
 	void CVulkanDevice::DestroyStagingBufferManager(void)
 	{
 		m_pStagingBufferManager->Destroy();
+	}
+
+	void CVulkanDevice::DestroyFenceManager(void)
+	{
+		m_pFenceManager->Destroy();
+	}
+
+	void CVulkanDevice::DestroySemaphoreManager(void)
+	{
+		m_pSemaphoreManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyCommandBufferManager(void)
