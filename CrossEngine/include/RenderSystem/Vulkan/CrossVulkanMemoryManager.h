@@ -29,6 +29,9 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanMemoryManager
 	{
 		friend class CVulkanDevice;
+		friend class CVulkanImage;
+		friend class CVulkanBuffer;
+		friend class CVulkanStagingBuffer;
 
 
 	protected:
@@ -43,7 +46,7 @@ namespace CrossEngine {
 	protected:
 		uint32_t GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const;
 
-	public:
+	protected:
 		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
 		void FreeMemory(CVulkanMemory *pMemory);
 

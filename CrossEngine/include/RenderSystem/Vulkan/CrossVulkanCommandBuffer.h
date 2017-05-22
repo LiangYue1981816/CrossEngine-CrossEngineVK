@@ -65,7 +65,7 @@ namespace CrossEngine {
 		void CmdBindPipelineGraphics(const CVulkanPipelineGraphicsPtr &ptrPipelineGraphics);
 		void CmdBindIndexBuffer(const CVulkanIndexBufferPtr &ptrIndexBuffer, VkDeviceSize offset, VkIndexType indexType);
 		void CmdBindVertexBuffer(const CVulkanVertexBufferPtr &ptrVertexBuffer, VkDeviceSize offset);
-		void CmdBindDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, VkDescriptorSet descriptor);
+		void CmdBindDescriptorSet(const CVulkanDescriptorSetPtr &ptrDescriptorSet, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout);
 
 		void CmdClearColorImage(const CVulkanRenderTexturePtr &ptrColorTexture, VkImageLayout imageLayout, const VkClearColorValue* pColor, uint32_t rangeCount, const VkImageSubresourceRange* pRanges);
 		void CmdClearDepthStencilImage(const CVulkanRenderTexturePtr &ptrDepthStencilTexture, VkImageLayout imageLayout, const VkClearDepthStencilValue* pDepthStencil, uint32_t rangeCount, const VkImageSubresourceRange* pRanges);
@@ -130,6 +130,7 @@ namespace CrossEngine {
 		std::map<VkBuffer, CVulkanVertexBufferPtr> m_ptrVertexBuffers;
 		std::map<VkBuffer, CVulkanBufferPtr> m_ptrBuffers;
 		std::map<VkImage, CVulkanRenderTexturePtr> m_ptrRenderTextures;
+		std::map<VkDescriptorSet, CVulkanDescriptorSetPtr> m_ptrDescriptorSets;
 
 	protected:
 		CVulkanDevice *m_pDevice;

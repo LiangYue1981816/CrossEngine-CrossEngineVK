@@ -232,9 +232,12 @@ namespace CrossEngine {
 		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, VkDescriptorSet descriptor)
+	void CVulkanCommandBuffer::CmdBindDescriptorSet(const CVulkanDescriptorSetPtr &ptrDescriptorSet, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout)
 	{
-		vkCmdBindDescriptorSets(m_vkCommandBuffer, pipelineBindPoint, layout, 0, 1, &descriptor, 0, NULL);
+		m_ptrDescriptorSets[ptrDescriptorSet->GetDescriptorSet()] = ptrDescriptorSet;
+
+		VkDescriptorSet vkDescriptorSet = ptrDescriptorSet->GetDescriptorSet();
+		vkCmdBindDescriptorSets(m_vkCommandBuffer, pipelineBindPoint, layout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
 	void CVulkanCommandBuffer::CmdClearColorImage(const CVulkanRenderTexturePtr &ptrColorTexture, VkImageLayout imageLayout, const VkClearColorValue* pColor, uint32_t rangeCount, const VkImageSubresourceRange* pRanges)
