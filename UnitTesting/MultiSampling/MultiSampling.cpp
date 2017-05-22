@@ -15,7 +15,7 @@ CrossEngine::CVulkanTexturePtr ptrTexture;
 CrossEngine::CVulkanIndexBufferPtr ptrIndexBuffer;
 CrossEngine::CVulkanVertexBufferPtr ptrVertexBuffer;
 CrossEngine::CVulkanUniformBufferPtr ptrUniformBuffer;
-CrossEngine::CVulkanDescriptorSet *pDescriptorSet = NULL;
+CrossEngine::CVulkanDescriptorSetPtr ptrDescriptorSet;
 
 int indexPresentAttachment = 0;
 int indexDepthAttachment = 1;
@@ -28,7 +28,7 @@ CrossEngine::CVulkanRenderPassPtr ptrRenderPass;
 CrossEngine::CVulkanFrameBufferPtr ptrFrameBuffers[3];
 
 CrossEngine::CVulkanSemaphorePtr ptrRenderDoneSemaphores[3];
-CrossEngine::CVulkanCommandBuffer *pCommandBuffers[3] = { NULL };
+CrossEngine::CVulkanCommandBufferPtr ptrCommandBuffers[3];
 
 
 void CreateRenderPass(void)
@@ -176,24 +176,24 @@ void DestroyBuffer(void)
 void CreateDescriptorSet(void)
 {
 	const CrossEngine::CVulkanDescriptorSetLayout* pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
-	pDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
-	pDescriptorSet->SetUniformBuffer(0, ptrUniformBuffer);
-	pDescriptorSet->SetTexture(1, ptrTexture);
-	pDescriptorSet->UpdateDescriptorSets();
+	ptrDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
+	ptrDescriptorSet->SetUniformBuffer(0, ptrUniformBuffer);
+	ptrDescriptorSet->SetTexture(1, ptrTexture);
+	ptrDescriptorSet->UpdateDescriptorSets();
 }
 
 void DestroyDescriptorSet(void)
 {
-	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(pDescriptorSet);
+	ptrDescriptorSet.SetNull();
 }
 
 void CreateCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-		pCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+		ptrCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
-			pCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
+			ptrCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
 				VkViewport viewport = {};
 				viewport.x = 0;
@@ -202,34 +202,34 @@ void CreateCommandBuffer(void)
 				viewport.height = pSwapchain->GetHeight();
 				viewport.minDepth = 0.0f;
 				viewport.maxDepth = 1.0f;
-				pCommandBuffers[indexView]->CmdSetViewport(0, 1, &viewport);
+				ptrCommandBuffers[indexView]->CmdSetViewport(0, 1, &viewport);
 
 				VkRect2D scissor = {};
 				scissor.offset.x = 0;
 				scissor.offset.y = 0;
 				scissor.extent.width = pSwapchain->GetWidth();
 				scissor.extent.height = pSwapchain->GetHeight();
-				pCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
+				ptrCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
 
-				pCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
+				ptrCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
 				{
-					pCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
-					pCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
+					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
 
-					pCommandBuffers[indexView]->CmdBindDescriptorSet(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), pDescriptorSet->GetDescriptorSet());
-					pCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 1);
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSet(ptrDescriptorSet, VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 1);
 				}
 			}
-			pCommandBuffers[indexView]->CmdEndRenderPass();
+			ptrCommandBuffers[indexView]->CmdEndRenderPass();
 		}
-		pCommandBuffers[indexView]->End();
+		ptrCommandBuffers[indexView]->End();
 	}
 }
 
 void DestroyCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pDevice->GetCommandBufferManager()->FreeCommandBuffer(pCommandBuffers[indexView]);
+		ptrCommandBuffers[indexView].SetNull();
 	}
 }
 
@@ -304,7 +304,7 @@ void Render(void)
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
 		pDevice->GetQueue()->Submit(
-			pCommandBuffers[pSwapchain->GetImageIndex()],
+			ptrCommandBuffers[pSwapchain->GetImageIndex()],
 			pSwapchain->GetAcquireSemaphore(),
 			VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 			ptrRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());

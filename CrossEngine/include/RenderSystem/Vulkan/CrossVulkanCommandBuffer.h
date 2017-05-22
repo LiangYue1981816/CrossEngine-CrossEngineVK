@@ -141,4 +141,21 @@ namespace CrossEngine {
 		CVulkanCommandBuffer *pActivePrev;
 	};
 
+	class CROSS_EXPORT CVulkanCommandBufferPtr : public CSharedPtr<CVulkanCommandBuffer>
+	{
+	public:
+		CVulkanCommandBufferPtr(void) : CSharedPtr<CVulkanCommandBuffer>() {}
+		CVulkanCommandBufferPtr(const CVulkanCommandBuffer *p) : CSharedPtr<CVulkanCommandBuffer>(p) {}
+		CVulkanCommandBufferPtr(const CVulkanCommandBufferPtr &ptr) : CSharedPtr<CVulkanCommandBuffer>(ptr) {}
+
+
+	protected:
+		virtual void FreePointer(void)
+		{
+			if (m_pPointer) {
+				m_pPointer->GetCommandPool()->FreeCommandBuffer(m_pPointer);
+			}
+		}
+	};
+
 }

@@ -43,8 +43,7 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	public:
-		CVulkanCommandBuffer* AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
-		void FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer);
+		CVulkanCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 
 
 	protected:

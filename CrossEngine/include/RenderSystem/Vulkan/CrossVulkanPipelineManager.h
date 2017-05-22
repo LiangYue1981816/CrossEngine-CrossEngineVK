@@ -44,7 +44,7 @@ namespace CrossEngine {
 		CVulkanPipelineComputePtr AllocPipelineCompute(void);
 		CVulkanPipelineGraphicsPtr AllocPipelineGraphics(void);
 
-	public:
+	protected:
 		VkPipelineCache GetPipelineCache(void) const;
 
 	public:

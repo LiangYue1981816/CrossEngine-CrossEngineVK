@@ -13,15 +13,15 @@ CrossEngine::CVulkanIndexBufferPtr ptrIndexBuffer;
 CrossEngine::CVulkanVertexBufferPtr ptrVertexBuffer;
 CrossEngine::CVulkanUniformBufferPtr ptrUniformBufferA;
 CrossEngine::CVulkanUniformBufferPtr ptrUniformBufferB;
-CrossEngine::CVulkanDescriptorSet *pDescriptorSetA = NULL;
-CrossEngine::CVulkanDescriptorSet *pDescriptorSetB = NULL;
+CrossEngine::CVulkanDescriptorSetPtr ptrDescriptorSetA;
+CrossEngine::CVulkanDescriptorSetPtr ptrDescriptorSetB;
 
 CrossEngine::CVulkanRenderTexturePtr ptrDepthTexture;
 CrossEngine::CVulkanRenderPassPtr ptrRenderPass;
 CrossEngine::CVulkanFrameBufferPtr ptrFrameBuffers[3];
 
 CrossEngine::CVulkanSemaphorePtr ptrRenderDoneSemaphores[3];
-CrossEngine::CVulkanCommandBuffer *pCommandBuffers[3] = { NULL };
+CrossEngine::CVulkanCommandBufferPtr ptrCommandBuffers[3];
 
 
 void CreateRenderPass(void)
@@ -146,28 +146,28 @@ void CreateDescriptorSet(void)
 {
 	const CrossEngine::CVulkanDescriptorSetLayout* pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
 
-	pDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
-	pDescriptorSetA->SetUniformBuffer(0, ptrUniformBufferA);
-	pDescriptorSetA->UpdateDescriptorSets();
+	ptrDescriptorSetA = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
+	ptrDescriptorSetA->SetUniformBuffer(0, ptrUniformBufferA);
+	ptrDescriptorSetA->UpdateDescriptorSets();
 
-	pDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
-	pDescriptorSetB->SetUniformBuffer(0, ptrUniformBufferB);
-	pDescriptorSetB->UpdateDescriptorSets();
+	ptrDescriptorSetB = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
+	ptrDescriptorSetB->SetUniformBuffer(0, ptrUniformBufferB);
+	ptrDescriptorSetB->UpdateDescriptorSets();
 }
 
 void DestroyDescriptorSet(void)
 {
-	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(pDescriptorSetA);
-	pDevice->GetDescriptorSetManager()->FreeDescriptorSet(pDescriptorSetB);
+	ptrDescriptorSetA.SetNull();
+	ptrDescriptorSetB.SetNull();
 }
 
 void CreateCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-		pCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+		ptrCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
-			pCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
+			ptrCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
 				VkViewport viewport = {};
 				viewport.x = 0;
@@ -176,37 +176,37 @@ void CreateCommandBuffer(void)
 				viewport.height = pSwapchain->GetHeight();
 				viewport.minDepth = 0.0f;
 				viewport.maxDepth = 1.0f;
-				pCommandBuffers[indexView]->CmdSetViewport(0, 1, &viewport);
+				ptrCommandBuffers[indexView]->CmdSetViewport(0, 1, &viewport);
 
 				VkRect2D scissor = {};
 				scissor.offset.x = 0;
 				scissor.offset.y = 0;
 				scissor.extent.width = pSwapchain->GetWidth();
 				scissor.extent.height = pSwapchain->GetHeight();
-				pCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
+				ptrCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
 
-				pCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
+				ptrCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
 				{
-					pCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
-					pCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
+					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
 
-					pCommandBuffers[indexView]->CmdBindDescriptorSet(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), pDescriptorSetA->GetDescriptorSet());
-					pCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSet(ptrDescriptorSetA, VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 
-					pCommandBuffers[indexView]->CmdBindDescriptorSet(VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout(), pDescriptorSetB->GetDescriptorSet());
-					pCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSet(ptrDescriptorSetB, VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 				}
 			}
-			pCommandBuffers[indexView]->CmdEndRenderPass();
+			ptrCommandBuffers[indexView]->CmdEndRenderPass();
 		}
-		pCommandBuffers[indexView]->End();
+		ptrCommandBuffers[indexView]->End();
 	}
 }
 
 void DestroyCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		pDevice->GetCommandBufferManager()->FreeCommandBuffer(pCommandBuffers[indexView]);
+		ptrCommandBuffers[indexView].SetNull();
 	}
 }
 
@@ -286,7 +286,7 @@ void Render(void)
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
 		pDevice->GetQueue()->Submit(
-			pCommandBuffers[pSwapchain->GetImageIndex()], 
+			ptrCommandBuffers[pSwapchain->GetImageIndex()],
 			pSwapchain->GetAcquireSemaphore(),
 			VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 			ptrRenderDoneSemaphores[pSwapchain->GetImageIndex()]->GetSemaphore());

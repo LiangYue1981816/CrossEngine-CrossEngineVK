@@ -88,6 +88,11 @@ namespace CrossEngine {
 			ptrTexture.SetNull();
 		}
 
+		for (auto &itDescriptorSet : m_ptrDescriptorSets) {
+			CVulkanDescriptorSetPtr &ptrDescriptorSet = itDescriptorSet.second;
+			ptrDescriptorSet.SetNull();
+		}
+
 		m_ptrFrameBuffers.clear();
 		m_ptrRenderPasses.clear();
 		m_ptrPipelineComputes.clear();
@@ -96,6 +101,7 @@ namespace CrossEngine {
 		m_ptrVertexBuffers.clear();
 		m_ptrBuffers.clear();
 		m_ptrRenderTextures.clear();
+		m_ptrDescriptorSets.clear();
 	}
 
 	VkCommandBuffer CVulkanCommandBuffer::GetCommandBuffer(void) const

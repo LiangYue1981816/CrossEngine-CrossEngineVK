@@ -37,9 +37,6 @@ namespace CrossEngine {
 
 
 	public:
-		CVulkanCommandBuffer* GetCommandBuffer(void) const;
-
-	public:
 		VkResult TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const;
 		VkResult TransferBuffer(VkBuffer vkBuffer, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 		VkResult TransferIndexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
@@ -50,7 +47,7 @@ namespace CrossEngine {
 	protected:
 		VkBuffer m_vkBuffer;
 		CVulkanMemory *m_pMemory;
-		CVulkanCommandBuffer *m_pCommandBuffer;
+		CVulkanCommandBufferPtr m_ptrCommandBuffer;
 
 	protected:
 		CVulkanDevice *m_pDevice;

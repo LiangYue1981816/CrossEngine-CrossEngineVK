@@ -27,10 +27,8 @@ namespace CrossEngine {
 
 	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkDeviceSize size)
 		: m_pDevice(pDevice)
-		, m_vkBuffer(VK_NULL_HANDLE)
-
 		, m_pMemory(NULL)
-		, m_pCommandBuffer(NULL)
+		, m_vkBuffer(VK_NULL_HANDLE)
 	{
 		VkBufferCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -49,20 +47,15 @@ namespace CrossEngine {
 //		m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT); // More memory required
 		m_pMemory->BindBuffer(m_vkBuffer);
 
-		m_pCommandBuffer = m_pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		m_ptrCommandBuffer = m_pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 	}
 
 	CVulkanStagingBuffer::~CVulkanStagingBuffer(void)
 	{
+		m_ptrCommandBuffer.SetNull();
+
 		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-
-		m_pDevice->GetCommandBufferManager()->FreeCommandBuffer(m_pCommandBuffer);
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
-	}
-
-	CVulkanCommandBuffer* CVulkanStagingBuffer::GetCommandBuffer(void) const
-	{
-		return m_pCommandBuffer;
 	}
 
 	VkResult CVulkanStagingBuffer::TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const
@@ -76,7 +69,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(0, size));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
-		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));
+		CALL_VK_FUNCTION_RETURN(m_ptrCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));
 		{
 			VkImageSubresourceRange range;
 			range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -85,11 +78,14 @@ namespace CrossEngine {
 			range.baseArrayLayer = 0;
 			range.layerCount = arrayLayers;
 
-			m_pCommandBuffer->CmdSetImageLayout(vkImage, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, range);
-			m_pCommandBuffer->CmdCopyBufferToImage(m_vkBuffer, vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, regionCount, pRegions);
-			m_pCommandBuffer->CmdSetImageLayout(vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, range);
+			m_ptrCommandBuffer->CmdSetImageLayout(vkImage, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, range);
+			m_ptrCommandBuffer->CmdCopyBufferToImage(m_vkBuffer, vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, regionCount, pRegions);
+			m_ptrCommandBuffer->CmdSetImageLayout(vkImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, range);
 		}
-		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->End());
+		CALL_VK_FUNCTION_RETURN(m_ptrCommandBuffer->End());
+
+		CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->Submit(m_ptrCommandBuffer));
+		CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->WaitIdle());
 		
 		return VK_SUCCESS;
 	}
@@ -105,13 +101,13 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(0, size));
 		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
-		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));
+		CALL_VK_FUNCTION_RETURN(m_ptrCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT));
 		{
 			VkBufferCopy region;
 			region.srcOffset = 0;
 			region.dstOffset = offset;
 			region.size = size;
-			m_pCommandBuffer->CmdCopyBuffer(m_vkBuffer, vkBuffer, 1, &region);
+			m_ptrCommandBuffer->CmdCopyBuffer(m_vkBuffer, vkBuffer, 1, &region);
 
 			VkBufferMemoryBarrier barrier = {};
 			barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
@@ -123,9 +119,12 @@ namespace CrossEngine {
 			barrier.buffer = vkBuffer;
 			barrier.offset = offset;
 			barrier.size = size;
-			m_pCommandBuffer->CmdPipelineBarrier(srcStageMask, dstStageMask, 0, 0, NULL, 1, &barrier, 0, NULL);
+			m_ptrCommandBuffer->CmdPipelineBarrier(srcStageMask, dstStageMask, 0, 0, NULL, 1, &barrier, 0, NULL);
 		}
-		CALL_VK_FUNCTION_RETURN(m_pCommandBuffer->End());
+		CALL_VK_FUNCTION_RETURN(m_ptrCommandBuffer->End());
+
+		CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->Submit(m_ptrCommandBuffer));
+		CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->WaitIdle());
 
 		return VK_SUCCESS;
 	}

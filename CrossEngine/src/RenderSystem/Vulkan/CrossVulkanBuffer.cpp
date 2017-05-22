@@ -127,17 +127,15 @@ namespace CrossEngine {
 
 	VkResult CVulkanBuffer::TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
-		VkAccessFlags dstAccessMask = 0;
-		VkPipelineStageFlags dstStageMask = 0;
-		if (m_usage & VK_BUFFER_USAGE_INDEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_INDEX_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-		if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-		if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
-
 		CVulkanStagingBufferAutoRelease buffer(m_pDevice, size);
 		{
+			VkAccessFlags dstAccessMask = 0;
+			VkPipelineStageFlags dstStageMask = 0;
+			if (m_usage & VK_BUFFER_USAGE_INDEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_INDEX_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
+			if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
+			if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
+
 			CALL_VK_FUNCTION_RETURN(buffer.GetBuffer()->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer));
-			CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->Submit(buffer.GetBuffer()->GetCommandBuffer()));
-			CALL_VK_FUNCTION_RETURN(m_pDevice->GetQueue()->WaitIdle());
 		}
 
 		return VK_SUCCESS;

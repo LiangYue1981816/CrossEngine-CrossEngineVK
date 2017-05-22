@@ -103,8 +103,6 @@ THE SOFTWARE.
 #include "CrossVulkanMemory.h"
 #include "CrossVulkanMemoryAllocator.h"
 #include "CrossVulkanMemoryManager.h"
-#include "CrossVulkanStagingBuffer.h"
-#include "CrossVulkanStagingBufferManager.h"
 
 #include "CrossVulkanResource.h"
 #include "CrossVulkanResourceManager.h"
@@ -140,6 +138,8 @@ THE SOFTWARE.
 #include "CrossVulkanCommandPool.h"
 #include "CrossVulkanCommandBuffer.h"
 #include "CrossVulkanCommandBufferManager.h"
+#include "CrossVulkanStagingBuffer.h"
+#include "CrossVulkanStagingBufferManager.h"
 
 #include "CrossResource.h"
 #include "CrossResourceManager.h"
