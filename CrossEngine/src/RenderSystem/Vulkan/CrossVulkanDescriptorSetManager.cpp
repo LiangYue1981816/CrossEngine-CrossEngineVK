@@ -56,14 +56,14 @@ namespace CrossEngine {
 		m_pDescriptorPoolListHeads.clear();
 	}
 
-	CVulkanDescriptorSet* CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
+	CVulkanDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
 	{
 		mutex_autolock mutex(m_mutex);
 
 		do {
 			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 				if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(pSetLayout)) {
-					return pDescriptorSet;
+					return CVulkanDescriptorSetPtr(pDescriptorSet);
 				}
 			}
 
@@ -72,12 +72,6 @@ namespace CrossEngine {
 			pDescriptorPool->pNext = m_pDescriptorPoolListHeads[pool];
 			m_pDescriptorPoolListHeads[pool] = pDescriptorPool;
 		} while (TRUE);
-	}
-
-	void CVulkanDescriptorSetManager::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
-	{
-		mutex_autolock mutex(m_mutex);
-		pDescriptorSet->GetDescriptorPool()->FreeDescriptorSet(pDescriptorSet);
 	}
 
 	void CVulkanDescriptorSetManager::DumpLog(const char *szTitle) const
