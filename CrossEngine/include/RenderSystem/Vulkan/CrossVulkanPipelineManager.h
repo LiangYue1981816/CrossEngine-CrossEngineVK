@@ -29,6 +29,8 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanPipelineManager : public CVulkanResourceManager
 	{
 		friend class CVulkanDevice;
+		friend class CVulkanPipelineCompute;
+		friend class CVulkanPipelineGraphics;
 
 
 	protected:

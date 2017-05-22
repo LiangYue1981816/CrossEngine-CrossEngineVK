@@ -49,6 +49,12 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanDevice
 	{
+		friend class CVulkanImage;
+		friend class CVulkanBuffer;
+		friend class CVulkanStagingBuffer;
+		friend class CVulkanStagingBufferAutoRelease;
+
+
 	public:
 		enum {
 			ATTRIBUTE_POSITION = 0,
@@ -143,15 +149,16 @@ namespace CrossEngine {
 		const VkPhysicalDeviceProperties& GetDeviceProperties(void) const;
 		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties(void) const;
 
+	protected:
+		CVulkanMemoryManager* GetMemoryManager(void) const;
+		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
+
 	public:
 		CVulkanFenceManager* GetFenceManager(void) const;
 		CVulkanSemaphoreManager* GetSemaphoreManager(void) const;
-		CVulkanMemoryManager* GetMemoryManager(void) const;
-		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
 		CVulkanCommandBufferManager* GetCommandBufferManager(void) const;
 		CVulkanDescriptorSetManager* GetDescriptorSetManager(void) const;
 
-	public:
 		CVulkanBufferManager* GetBufferManager(void) const;
 		CVulkanShaderManager* GetShaderManager(void) const;
 		CVulkanSamplerManager* GetSamplerManager(void) const;

@@ -39,7 +39,7 @@ namespace CrossEngine {
 	public:
 		CVulkanShaderPtr AllocShader(void);
 
-	public:
+	protected:
 		void SetWarningsAsErrors(void);
 		void SetSourceLanguage(shaderc_source_language lang);
 		void SetOptimizationLevel(shaderc_optimization_level level);
