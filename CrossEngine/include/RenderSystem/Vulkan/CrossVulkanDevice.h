@@ -136,18 +136,23 @@ namespace CrossEngine {
 		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
 
 	public:
-		CVulkanFenceManager* GetFenceManager(void) const;
-		CVulkanSemaphoreManager* GetSemaphoreManager(void) const;
-		CVulkanCommandBufferManager* GetCommandBufferManager(void) const;
-		CVulkanDescriptorSetManager* GetDescriptorSetManager(void) const;
+		CVulkanCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
+		CVulkanDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
 
-		CVulkanBufferManager* GetBufferManager(void) const;
-		CVulkanShaderManager* GetShaderManager(void) const;
-		CVulkanSamplerManager* GetSamplerManager(void) const;
-		CVulkanTextureManager* GetTextureManager(void) const;
-		CVulkanPipelineManager* GetPipelineManager(void) const;
-		CVulkanRenderPassManager* GetRenderPassManager(void) const;
-		CVulkanFrameBufferManager* GetFrameBufferManager(void) const;
+		CVulkanFencePtr CreateFence(void);
+		CVulkanSemaphorePtr CreateSemaphore(void);
+		CVulkanBufferPtr CreateBuffer(void);
+		CVulkanIndexBufferPtr CreateIndexBuffer(void);
+		CVulkanVertexBufferPtr CreateVertexBuffer(void);
+		CVulkanUniformBufferPtr CreateUniformBuffer(void);
+		CVulkanSamplerPtr CreateSampler(void);
+		CVulkanTexturePtr CreateTexture(void);
+		CVulkanRenderTexturePtr CreateRenderTexture(void);
+		CVulkanShaderPtr CreateShader(void);
+		CVulkanPipelineComputePtr CreatePipelineCompute(void);
+		CVulkanPipelineGraphicsPtr CreatePipelineGraphics(void);
+		CVulkanRenderPassPtr CreateRenderPass(void);
+		CVulkanFrameBufferPtr CreateFrameBuffer(void);
 
 	public:
 		void DumpLog(void) const;

@@ -47,7 +47,7 @@ namespace CrossEngine {
 //		m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT); // More memory required
 		m_pMemory->BindBuffer(m_vkBuffer);
 
-		m_ptrCommandBuffer = m_pDevice->GetCommandBufferManager()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		m_ptrCommandBuffer = m_pDevice->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 	}
 
 	CVulkanStagingBuffer::~CVulkanStagingBuffer(void)

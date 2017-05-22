@@ -347,16 +347,6 @@ namespace CrossEngine {
 		return m_vkMemoryProperties;
 	}
 
-	CVulkanFenceManager* CVulkanDevice::GetFenceManager(void) const
-	{
-		return m_pFenceManager;
-	}
-
-	CVulkanSemaphoreManager* CVulkanDevice::GetSemaphoreManager(void) const
-	{
-		return m_pSemaphoreManager;
-	}
-
 	CVulkanMemoryManager* CVulkanDevice::GetMemoryManager(void) const
 	{
 		return m_pMemoryManager;
@@ -367,63 +357,96 @@ namespace CrossEngine {
 		return m_pStagingBufferManager;
 	}
 
-	CVulkanCommandBufferManager* CVulkanDevice::GetCommandBufferManager(void) const
+	CVulkanCommandBufferPtr CVulkanDevice::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
-		return m_pCommandBufferManager;
+		return m_pCommandBufferManager->AllocCommandBuffer(pool, level);
 	}
 
-	CVulkanDescriptorSetManager* CVulkanDevice::GetDescriptorSetManager(void) const
+	CVulkanDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
 	{
-		return m_pDescriptorSetManager;
+		return m_pDescriptorSetManager->AllocDescriptorSet(pool, pSetLayout);
 	}
 
-	CVulkanBufferManager* CVulkanDevice::GetBufferManager(void) const
+	CVulkanFencePtr CVulkanDevice::CreateFence(void)
 	{
-		return m_pBufferManager;
+		return m_pFenceManager->AllocFence();
 	}
 
-	CVulkanShaderManager* CVulkanDevice::GetShaderManager(void) const
+	CVulkanSemaphorePtr CVulkanDevice::CreateSemaphore(void)
 	{
-		return m_pShaderManager;
+		return m_pSemaphoreManager->AllocSemaphore();
 	}
 
-	CVulkanSamplerManager* CVulkanDevice::GetSamplerManager(void) const
+	CVulkanBufferPtr CVulkanDevice::CreateBuffer(void)
 	{
-		return m_pSamplerManager;
+		return m_pBufferManager->AllocBuffer();
 	}
 
-	CVulkanTextureManager* CVulkanDevice::GetTextureManager(void) const
+	CVulkanIndexBufferPtr CVulkanDevice::CreateIndexBuffer(void)
 	{
-		return m_pTextureManager;
+		return m_pBufferManager->AllocIndexBuffer();
 	}
 
-	CVulkanPipelineManager* CVulkanDevice::GetPipelineManager(void) const
+	CVulkanVertexBufferPtr CVulkanDevice::CreateVertexBuffer(void)
 	{
-		return m_pPipelineManager;
+		return m_pBufferManager->AllocVertexBuffer();
 	}
 
-	CVulkanRenderPassManager* CVulkanDevice::GetRenderPassManager(void) const
+	CVulkanUniformBufferPtr CVulkanDevice::CreateUniformBuffer(void)
 	{
-		return m_pRenderPassManager;
+		return m_pBufferManager->AllocUniformBuffer();
 	}
 
-	CVulkanFrameBufferManager* CVulkanDevice::GetFrameBufferManager(void) const
+	CVulkanSamplerPtr CVulkanDevice::CreateSampler(void)
 	{
-		return m_pFrameBufferManager;
+		return m_pSamplerManager->AllocSampler();
+	}
+
+	CVulkanTexturePtr CVulkanDevice::CreateTexture(void)
+	{
+		return m_pTextureManager->AllocTexture();
+	}
+
+	CVulkanRenderTexturePtr CVulkanDevice::CreateRenderTexture(void)
+	{
+		return m_pTextureManager->AllocRenderTexture();
+	}
+
+	CVulkanShaderPtr CVulkanDevice::CreateShader(void)
+	{
+		return m_pShaderManager->AllocShader();
+	}
+
+	CVulkanPipelineComputePtr CVulkanDevice::CreatePipelineCompute(void)
+	{
+		return m_pPipelineManager->AllocPipelineCompute();
+	}
+
+	CVulkanPipelineGraphicsPtr CVulkanDevice::CreatePipelineGraphics(void)
+	{
+		return m_pPipelineManager->AllocPipelineGraphics();
+	}
+
+	CVulkanRenderPassPtr CVulkanDevice::CreateRenderPass(void)
+	{
+		return m_pRenderPassManager->AllocRenderPass();
+	}
+
+	CVulkanFrameBufferPtr CVulkanDevice::CreateFrameBuffer(void)
+	{
+		return m_pFrameBufferManager->AllocFrameBuffer();
 	}
 
 	void CVulkanDevice::DumpLog(void) const
 	{
 		m_pMemoryManager->DumpLog("Device Memory ...");
+		m_pDescriptorSetManager->DumpLog("DescriptorSet ...");
 		m_pFrameBufferManager->DumpLog("FrameBuffer ...");
 		m_pRenderPassManager->DumpLog("RenderPass ...");
-		m_pDescriptorSetManager->DumpLog("DescriptorSet ...");
-		m_pFenceManager->DumpLog("Fence ...");
-		m_pBufferManager->DumpLog("Buffer ...");
 		m_pShaderManager->DumpLog("Shader ...");
-		m_pSamplerManager->DumpLog("Sampler ...");
-		m_pTextureManager->DumpLog("Texture ...");
 		m_pPipelineManager->DumpLog("Pipeline ...");
+		m_pBufferManager->DumpLog("Buffer ...");
+		m_pTextureManager->DumpLog("Texture ...");
 	}
 
 }

@@ -36,7 +36,7 @@ namespace CrossEngine {
 		, pActiveNext(NULL)
 		, pActivePrev(NULL)
 	{
-		m_ptrFence = m_pDevice->GetFenceManager()->AllocFence();
+		m_ptrFence = m_pDevice->CreateFence();
 		m_ptrFence->Create();
 	}
 

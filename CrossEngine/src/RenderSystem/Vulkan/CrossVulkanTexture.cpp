@@ -110,7 +110,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		m_ptrSampler = m_pDevice->GetSamplerManager()->AllocSampler();
+		m_ptrSampler = m_pDevice->CreateSampler();
 		return m_ptrSampler->Create(minFilter, magFilter, mipmapMode, addressMode);
 	}
 

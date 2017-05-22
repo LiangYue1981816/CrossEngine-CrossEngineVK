@@ -25,7 +25,7 @@ CrossEngine::CVulkanCommandBufferPtr ptrCommandBuffers[3];
 
 void CreateRenderPass(void)
 {
-	ptrRenderPass = pDevice->GetRenderPassManager()->AllocRenderPass();
+	ptrRenderPass = pDevice->CreateRenderPass();
 	ptrRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f}, VK_SAMPLE_COUNT_1_BIT);
 	ptrRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, {1.0f, 0}, VK_SAMPLE_COUNT_1_BIT);
 	ptrRenderPass->SetSubpassOutputColorReference(0, 0);
@@ -40,11 +40,11 @@ void DestroyRenderPass(void)
 
 void CreateFrameBuffer(void)
 {
-	ptrDepthTexture = pDevice->GetTextureManager()->AllocRenderTexture();
+	ptrDepthTexture = pDevice->CreateRenderTexture();
 	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight());
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrFrameBuffers[indexView] = pDevice->GetFrameBufferManager()->AllocFrameBuffer();
+		ptrFrameBuffers[indexView] = pDevice->CreateFrameBuffer();
 		ptrFrameBuffers[indexView]->SetPresentAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(1, ptrDepthTexture);
 		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetRenderPass());
@@ -65,14 +65,14 @@ void CreatePipeline(void)
 	static char szSourceCode[1024 * 1024];
 
 	LoadShader("../Data/Shader/texture.vert", szSourceCode, sizeof(szSourceCode));
-	ptrShaderVertex = pDevice->GetShaderManager()->AllocShader();
+	ptrShaderVertex = pDevice->CreateShader();
 	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_vertex_shader);
 
 	LoadShader("../Data/Shader/texture.frag", szSourceCode, sizeof(szSourceCode));
-	ptrShaderFragment = pDevice->GetShaderManager()->AllocShader();
+	ptrShaderFragment = pDevice->CreateShader();
 	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
 
-	ptrPipeline = pDevice->GetPipelineManager()->AllocPipelineGraphics();
+	ptrPipeline = pDevice->CreatePipelineGraphics();
 	ptrPipeline->SetVertexShader(ptrShaderVertex);
 	ptrPipeline->SetFragmentShader(ptrShaderFragment);
 	ptrPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
@@ -92,7 +92,7 @@ void DestroyPipeline(void)
 void CreateSynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrRenderDoneSemaphores[indexView] = pDevice->GetSemaphoreManager()->AllocSemaphore();
+		ptrRenderDoneSemaphores[indexView] = pDevice->CreateSemaphore();
 		ptrRenderDoneSemaphores[indexView]->Create();
 	}
 }
@@ -106,7 +106,7 @@ void DestroySynchronization(void)
 
 void CreateTexture(void)
 {
-	ptrTexture = pDevice->GetTextureManager()->AllocTexture();
+	ptrTexture = pDevice->CreateTexture();
 	ptrTexture->CreateTexture2D((gli::texture2d)gli::load("../Data/Texture/het_kanonschot_rgba8.ktx"), VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
 }
 
@@ -129,15 +129,15 @@ void CreateBuffer(void)
 		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f } }
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
-	ptrVertexBuffer = pDevice->GetBufferManager()->AllocVertexBuffer();
+	ptrVertexBuffer = pDevice->CreateVertexBuffer();
 	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data());
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
-	ptrIndexBuffer = pDevice->GetBufferManager()->AllocIndexBuffer();
+	ptrIndexBuffer = pDevice->CreateIndexBuffer();
 	ptrIndexBuffer->Create(indexBufferSize, indexBuffer.data());
 
-	ptrUniformBuffer = pDevice->GetBufferManager()->AllocUniformBuffer();
+	ptrUniformBuffer = pDevice->CreateUniformBuffer();
 	ptrUniformBuffer->Create(sizeof(glm::mat4), NULL);
 	ptrUniformBuffer->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 }
@@ -152,7 +152,7 @@ void DestroyBuffer(void)
 void CreateDescriptorSet(void)
 {
 	const CrossEngine::CVulkanDescriptorSetLayout* pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
-	ptrDescriptorSet = pDevice->GetDescriptorSetManager()->AllocDescriptorSet(0, pDescriptorSetLayout);
+	ptrDescriptorSet = pDevice->AllocDescriptorSet(0, pDescriptorSetLayout);
 	ptrDescriptorSet->SetUniformBuffer(0, ptrUniformBuffer);
 	ptrDescriptorSet->SetTexture(1, ptrTexture);
 	ptrDescriptorSet->UpdateDescriptorSets();
@@ -166,7 +166,7 @@ void DestroyDescriptorSet(void)
 void CreateCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrCommandBuffers[indexView] = pDevice->GetCommandBufferManager()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		ptrCommandBuffers[indexView] = pDevice->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
 			ptrCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
