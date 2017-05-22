@@ -28,7 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanCommandBuffer
 	{
+		friend class CVulkanQueue;
 		friend class CVulkanCommandPool;
+		friend class CVulkanCommandBufferPtr;
 
 
 	protected:
@@ -42,6 +44,7 @@ namespace CrossEngine {
 		VkCommandBuffer GetCommandBuffer(void) const;
 		VkCommandBufferLevel GetCommandBufferLevel(void) const;
 
+	protected:
 		CVulkanFencePtr& GetFence(void);
 		CVulkanCommandPool* GetCommandPool(void) const;
 

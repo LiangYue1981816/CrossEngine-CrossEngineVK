@@ -106,11 +106,6 @@ namespace CrossEngine {
 		vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);
 	}
 
-	CVulkanDescriptorPool* CVulkanDescriptorSet::GetDescriptorPool(void) const
-	{
-		return m_pDescriptorPool;
-	}
-
 	VkDescriptorSet CVulkanDescriptorSet::GetDescriptorSet(void) const
 	{
 		return m_vkDescriptorSet;
@@ -119,6 +114,11 @@ namespace CrossEngine {
 	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
 	{
 		return m_typesUsedCount;
+	}
+
+	CVulkanDescriptorPool* CVulkanDescriptorSet::GetDescriptorPool(void) const
+	{
+		return m_pDescriptorPool;
 	}
 
 }

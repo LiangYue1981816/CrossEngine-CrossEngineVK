@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanDescriptorSet
 	{
 		friend class CVulkanDescriptorPool;
+		friend class CVulkanDescriptorSetPtr;
 
 
 	protected:
@@ -42,9 +43,11 @@ namespace CrossEngine {
 		void UpdateDescriptorSets(void) const;
 
 	public:
-		CVulkanDescriptorPool* GetDescriptorPool(void) const;
 		VkDescriptorSet GetDescriptorSet(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
+
+	protected:
+		CVulkanDescriptorPool* GetDescriptorPool(void) const;
 
 
 	protected:
