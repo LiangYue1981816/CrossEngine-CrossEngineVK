@@ -61,4 +61,21 @@ namespace CrossEngine {
 		CVulkanDevice *m_pDevice;
 	};
 
+	class CROSS_EXPORT CVulkanDescriptorSetPtr : public CSharedPtr<CVulkanDescriptorSet>
+	{
+	public:
+		CVulkanDescriptorSetPtr(void) : CSharedPtr<CVulkanDescriptorSet>() {}
+		CVulkanDescriptorSetPtr(const CVulkanDescriptorSet *p) : CSharedPtr<CVulkanDescriptorSet>(p) {}
+		CVulkanDescriptorSetPtr(const CVulkanDescriptorSetPtr &ptr) : CSharedPtr<CVulkanDescriptorSet>(ptr) {}
+
+
+	protected:
+		virtual void FreePointer(void)
+		{
+			if (m_pPointer) {
+				m_pPointer->GetDescriptorPool()->FreeDescriptorSet(m_pPointer);
+			}
+		}
+	};
+
 }
