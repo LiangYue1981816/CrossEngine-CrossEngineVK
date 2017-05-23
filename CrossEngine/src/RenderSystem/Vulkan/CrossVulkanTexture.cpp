@@ -110,7 +110,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		m_ptrSampler = m_pDevice->CreateSampler();
+		m_ptrSampler = m_pDevice->NewSampler();
 		return m_ptrSampler->Create(minFilter, magFilter, mipmapMode, addressMode);
 	}
 
@@ -225,7 +225,7 @@ namespace CrossEngine {
 
 	void CVulkanTexture::DestroySampler(void)
 	{
-		m_ptrSampler.SetNull();
+		m_ptrSampler.Release();
 	}
 
 	const VkDescriptorImageInfo& CVulkanTexture::GetDescriptorImageInfo(void) const

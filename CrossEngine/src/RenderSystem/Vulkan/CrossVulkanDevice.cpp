@@ -367,72 +367,72 @@ namespace CrossEngine {
 		return m_pDescriptorSetManager->AllocDescriptorSet(pool, pSetLayout);
 	}
 
-	CVulkanFencePtr CVulkanDevice::CreateFence(void)
+	CVulkanFencePtr CVulkanDevice::NewFence(void)
 	{
 		return m_pFenceManager->AllocFence();
 	}
 
-	CVulkanSemaphorePtr CVulkanDevice::CreateSemaphore(void)
+	CVulkanSemaphorePtr CVulkanDevice::NewSemaphore(void)
 	{
 		return m_pSemaphoreManager->AllocSemaphore();
 	}
 
-	CVulkanBufferPtr CVulkanDevice::CreateBuffer(void)
+	CVulkanBufferPtr CVulkanDevice::NewBuffer(void)
 	{
 		return m_pBufferManager->AllocBuffer();
 	}
 
-	CVulkanIndexBufferPtr CVulkanDevice::CreateIndexBuffer(void)
+	CVulkanIndexBufferPtr CVulkanDevice::NewIndexBuffer(void)
 	{
 		return m_pBufferManager->AllocIndexBuffer();
 	}
 
-	CVulkanVertexBufferPtr CVulkanDevice::CreateVertexBuffer(void)
+	CVulkanVertexBufferPtr CVulkanDevice::NewVertexBuffer(void)
 	{
 		return m_pBufferManager->AllocVertexBuffer();
 	}
 
-	CVulkanUniformBufferPtr CVulkanDevice::CreateUniformBuffer(void)
+	CVulkanUniformBufferPtr CVulkanDevice::NewUniformBuffer(void)
 	{
 		return m_pBufferManager->AllocUniformBuffer();
 	}
 
-	CVulkanSamplerPtr CVulkanDevice::CreateSampler(void)
+	CVulkanSamplerPtr CVulkanDevice::NewSampler(void)
 	{
 		return m_pSamplerManager->AllocSampler();
 	}
 
-	CVulkanTexturePtr CVulkanDevice::CreateTexture(void)
+	CVulkanTexturePtr CVulkanDevice::NewTexture(void)
 	{
 		return m_pTextureManager->AllocTexture();
 	}
 
-	CVulkanRenderTexturePtr CVulkanDevice::CreateRenderTexture(void)
+	CVulkanRenderTexturePtr CVulkanDevice::NewRenderTexture(void)
 	{
 		return m_pTextureManager->AllocRenderTexture();
 	}
 
-	CVulkanShaderPtr CVulkanDevice::CreateShader(void)
+	CVulkanShaderPtr CVulkanDevice::NewShader(void)
 	{
 		return m_pShaderManager->AllocShader();
 	}
 
-	CVulkanPipelineComputePtr CVulkanDevice::CreatePipelineCompute(void)
+	CVulkanPipelineComputePtr CVulkanDevice::NewPipelineCompute(void)
 	{
 		return m_pPipelineManager->AllocPipelineCompute();
 	}
 
-	CVulkanPipelineGraphicsPtr CVulkanDevice::CreatePipelineGraphics(void)
+	CVulkanPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(void)
 	{
 		return m_pPipelineManager->AllocPipelineGraphics();
 	}
 
-	CVulkanRenderPassPtr CVulkanDevice::CreateRenderPass(void)
+	CVulkanRenderPassPtr CVulkanDevice::NewRenderPass(void)
 	{
 		return m_pRenderPassManager->AllocRenderPass();
 	}
 
-	CVulkanFrameBufferPtr CVulkanDevice::CreateFrameBuffer(void)
+	CVulkanFrameBufferPtr CVulkanDevice::NewFrameBuffer(void)
 	{
 		return m_pFrameBufferManager->AllocFrameBuffer();
 	}

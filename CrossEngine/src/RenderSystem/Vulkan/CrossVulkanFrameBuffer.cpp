@@ -91,7 +91,7 @@ namespace CrossEngine {
 
 		for (auto &itAttachment : m_attachments) {
 			CVulkanRenderTexturePtr &ptrRenderTexture = itAttachment.second.ptrRenderTexture;
-			ptrRenderTexture.SetNull();
+			ptrRenderTexture.Release();
 		}
 
 		m_vkFrameBuffer = VK_NULL_HANDLE;
@@ -118,7 +118,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView)
 	{
-		m_attachments[indexAttachment].ptrRenderTexture.SetNull();
+		m_attachments[indexAttachment].ptrRenderTexture.Release();
 		return SetAttachment(indexAttachment, width, height, vkImageView);
 	}
 

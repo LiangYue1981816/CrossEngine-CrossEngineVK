@@ -273,7 +273,7 @@ namespace CrossEngine {
 
 		for (auto &itShader : m_ptrShaders) {
 			CVulkanShaderPtr &ptrShader = itShader.second;
-			ptrShader.SetNull();
+			ptrShader.Release();
 		}
 
 		m_ptrShaders.clear();

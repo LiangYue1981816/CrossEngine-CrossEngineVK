@@ -39,12 +39,12 @@ namespace CrossEngine {
 	{
 		for (auto &itTexture : m_ptrTextures) {
 			CVulkanTexturePtr &ptrTexture = itTexture.second;
-			ptrTexture.SetNull();
+			ptrTexture.Release();
 		}
 
 		for (auto &itUniformBuffer : m_ptrUniformBuffers) {
 			CVulkanUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
-			ptrUniformBuffer.SetNull();
+			ptrUniformBuffer.Release();
 		}
 
 		m_ptrTextures.clear();

@@ -74,7 +74,7 @@ namespace CrossEngine {
 	{
 		SAFE_FREE(m_szName);
 		SAFE_FREE(m_szFileName);
-		m_ptrResource.SetNull();
+		m_ptrResource.Release();
 	}
 
 	BOOL CResourceHandle::IsWaste(void) const
@@ -131,7 +131,7 @@ namespace CrossEngine {
 
 	void CResourceHandle::FreeResource(void)
 	{
-		m_ptrResource.SetNull();
+		m_ptrResource.Release();
 	}
 
 	void CResourceHandle::DeleteResource(void)
@@ -488,7 +488,7 @@ namespace CrossEngine {
 		for (const auto &itResource : m_resources) {
 			if (CResourceHandle *pResource = itResource.second) {
 				if (pResource->m_ptrResource.GetRefCount() == 1) {
-					pResource->m_ptrResource.SetNull();
+					pResource->m_ptrResource.Release();
 				}
 			}
 		}

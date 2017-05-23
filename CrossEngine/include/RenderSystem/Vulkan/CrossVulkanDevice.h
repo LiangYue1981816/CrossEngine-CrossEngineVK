@@ -139,20 +139,20 @@ namespace CrossEngine {
 		CVulkanCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 		CVulkanDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
 
-		CVulkanFencePtr CreateFence(void);
-		CVulkanSemaphorePtr CreateSemaphore(void);
-		CVulkanBufferPtr CreateBuffer(void);
-		CVulkanIndexBufferPtr CreateIndexBuffer(void);
-		CVulkanVertexBufferPtr CreateVertexBuffer(void);
-		CVulkanUniformBufferPtr CreateUniformBuffer(void);
-		CVulkanSamplerPtr CreateSampler(void);
-		CVulkanTexturePtr CreateTexture(void);
-		CVulkanRenderTexturePtr CreateRenderTexture(void);
-		CVulkanShaderPtr CreateShader(void);
-		CVulkanPipelineComputePtr CreatePipelineCompute(void);
-		CVulkanPipelineGraphicsPtr CreatePipelineGraphics(void);
-		CVulkanRenderPassPtr CreateRenderPass(void);
-		CVulkanFrameBufferPtr CreateFrameBuffer(void);
+		CVulkanFencePtr NewFence(void);
+		CVulkanSemaphorePtr NewSemaphore(void);
+		CVulkanBufferPtr NewBuffer(void);
+		CVulkanIndexBufferPtr NewIndexBuffer(void);
+		CVulkanVertexBufferPtr NewVertexBuffer(void);
+		CVulkanUniformBufferPtr NewUniformBuffer(void);
+		CVulkanSamplerPtr NewSampler(void);
+		CVulkanTexturePtr NewTexture(void);
+		CVulkanRenderTexturePtr NewRenderTexture(void);
+		CVulkanShaderPtr NewShader(void);
+		CVulkanPipelineComputePtr NewPipelineCompute(void);
+		CVulkanPipelineGraphicsPtr NewPipelineGraphics(void);
+		CVulkanRenderPassPtr NewRenderPass(void);
+		CVulkanFrameBufferPtr NewFrameBuffer(void);
 
 	public:
 		void DumpLog(void) const;

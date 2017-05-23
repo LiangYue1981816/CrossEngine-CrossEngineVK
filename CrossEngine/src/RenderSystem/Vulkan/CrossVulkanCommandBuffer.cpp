@@ -36,61 +36,61 @@ namespace CrossEngine {
 		, pActiveNext(NULL)
 		, pActivePrev(NULL)
 	{
-		m_ptrFence = m_pDevice->CreateFence();
+		m_ptrFence = m_pDevice->NewFence();
 		m_ptrFence->Create();
 	}
 
 	CVulkanCommandBuffer::~CVulkanCommandBuffer(void)
 	{
 		Reset();
-		m_ptrFence.SetNull();
+		m_ptrFence.Release();
 	}
 
 	void CVulkanCommandBuffer::ClearResources(void)
 	{
 		for (auto &itFrameBuffer : m_ptrFrameBuffers) {
 			CVulkanFrameBufferPtr &ptrFrameBuffer = itFrameBuffer.second;
-			ptrFrameBuffer.SetNull();
+			ptrFrameBuffer.Release();
 		}
 
 		for (auto &itRenderPass : m_ptrRenderPasses) {
 			CVulkanRenderPassPtr &ptrRenderPass = itRenderPass.second;
-			ptrRenderPass.SetNull();
+			ptrRenderPass.Release();
 		}
 
 		for (auto &itPipeline : m_ptrPipelineComputes) {
 			CVulkanPipelineComputePtr &ptrPipeline = itPipeline.second;
-			ptrPipeline.SetNull();
+			ptrPipeline.Release();
 		}
 
 		for (auto &itPipeline : m_ptrPipelineGraphics) {
 			CVulkanPipelineGraphicsPtr &ptrPipeline = itPipeline.second;
-			ptrPipeline.SetNull();
+			ptrPipeline.Release();
 		}
 
 		for (auto &itBuffer : m_ptrIndexBuffers) {
 			CVulkanIndexBufferPtr &ptrBuffer = itBuffer.second;
-			ptrBuffer.SetNull();
+			ptrBuffer.Release();
 		}
 
 		for (auto &itBuffer : m_ptrVertexBuffers) {
 			CVulkanVertexBufferPtr &ptrBuffer = itBuffer.second;
-			ptrBuffer.SetNull();
+			ptrBuffer.Release();
 		}
 
 		for (auto &itBuffer : m_ptrBuffers) {
 			CVulkanBufferPtr &ptrBuffer = itBuffer.second;
-			ptrBuffer.SetNull();
+			ptrBuffer.Release();
 		}
 
 		for (auto &itTexture : m_ptrRenderTextures) {
 			CVulkanRenderTexturePtr &ptrTexture = itTexture.second;
-			ptrTexture.SetNull();
+			ptrTexture.Release();
 		}
 
 		for (auto &itDescriptorSet : m_ptrDescriptorSets) {
 			CVulkanDescriptorSetPtr &ptrDescriptorSet = itDescriptorSet.second;
-			ptrDescriptorSet.SetNull();
+			ptrDescriptorSet.Release();
 		}
 
 		m_ptrFrameBuffers.clear();

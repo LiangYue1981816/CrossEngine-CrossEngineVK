@@ -25,7 +25,7 @@ CrossEngine::CVulkanCommandBufferPtr ptrCommandBuffers[3];
 
 void CreateRenderPass(void)
 {
-	ptrRenderPass = pDevice->CreateRenderPass();
+	ptrRenderPass = pDevice->NewRenderPass();
 	ptrRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f}, VK_SAMPLE_COUNT_1_BIT);
 	ptrRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, {1.0f, 0}, VK_SAMPLE_COUNT_1_BIT);
 	ptrRenderPass->SetSubpassOutputColorReference(0, 0);
@@ -35,16 +35,16 @@ void CreateRenderPass(void)
 
 void DestroyRenderPass(void)
 {
-	ptrRenderPass.SetNull();
+	ptrRenderPass.Release();
 }
 
 void CreateFrameBuffer(void)
 {
-	ptrDepthTexture = pDevice->CreateRenderTexture();
+	ptrDepthTexture = pDevice->NewRenderTexture();
 	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight());
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrFrameBuffers[indexView] = pDevice->CreateFrameBuffer();
+		ptrFrameBuffers[indexView] = pDevice->NewFrameBuffer();
 		ptrFrameBuffers[indexView]->SetPresentAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(1, ptrDepthTexture);
 		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetRenderPass());
@@ -53,10 +53,10 @@ void CreateFrameBuffer(void)
 
 void DestroyFrameBuffer(void)
 {
-	ptrDepthTexture.SetNull();
+	ptrDepthTexture.Release();
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrFrameBuffers[indexView].SetNull();
+		ptrFrameBuffers[indexView].Release();
 	}
 }
 
@@ -65,14 +65,14 @@ void CreatePipeline(void)
 	static char szSourceCode[1024 * 1024];
 
 	LoadShader("../Data/Shader/texture.vert", szSourceCode, sizeof(szSourceCode));
-	ptrShaderVertex = pDevice->CreateShader();
+	ptrShaderVertex = pDevice->NewShader();
 	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_vertex_shader);
 
 	LoadShader("../Data/Shader/texture.frag", szSourceCode, sizeof(szSourceCode));
-	ptrShaderFragment = pDevice->CreateShader();
+	ptrShaderFragment = pDevice->NewShader();
 	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
 
-	ptrPipeline = pDevice->CreatePipelineGraphics();
+	ptrPipeline = pDevice->NewPipelineGraphics();
 	ptrPipeline->SetVertexShader(ptrShaderVertex);
 	ptrPipeline->SetFragmentShader(ptrShaderFragment);
 	ptrPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
@@ -84,15 +84,15 @@ void CreatePipeline(void)
 
 void DestroyPipeline(void)
 {
-	ptrPipeline.SetNull();
-	ptrShaderVertex.SetNull();
-	ptrShaderFragment.SetNull();
+	ptrPipeline.Release();
+	ptrShaderVertex.Release();
+	ptrShaderFragment.Release();
 }
 
 void CreateSynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrRenderDoneSemaphores[indexView] = pDevice->CreateSemaphore();
+		ptrRenderDoneSemaphores[indexView] = pDevice->NewSemaphore();
 		ptrRenderDoneSemaphores[indexView]->Create();
 	}
 }
@@ -100,19 +100,19 @@ void CreateSynchronization(void)
 void DestroySynchronization(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrRenderDoneSemaphores[indexView].SetNull();
+		ptrRenderDoneSemaphores[indexView].Release();
 	}
 }
 
 void CreateTexture(void)
 {
-	ptrTexture = pDevice->CreateTexture();
+	ptrTexture = pDevice->NewTexture();
 	ptrTexture->CreateTexture2D((gli::texture2d)gli::load("../Data/Texture/het_kanonschot_rgba8.ktx"), VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
 }
 
 void DestroyTexture(void)
 {
-	ptrTexture.SetNull();
+	ptrTexture.Release();
 }
 
 void CreateBuffer(void)
@@ -129,24 +129,24 @@ void CreateBuffer(void)
 		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f } }
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
-	ptrVertexBuffer = pDevice->CreateVertexBuffer();
+	ptrVertexBuffer = pDevice->NewVertexBuffer();
 	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data());
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
-	ptrIndexBuffer = pDevice->CreateIndexBuffer();
+	ptrIndexBuffer = pDevice->NewIndexBuffer();
 	ptrIndexBuffer->Create(indexBufferSize, indexBuffer.data());
 
-	ptrUniformBuffer = pDevice->CreateUniformBuffer();
+	ptrUniformBuffer = pDevice->NewUniformBuffer();
 	ptrUniformBuffer->Create(sizeof(glm::mat4), NULL);
 	ptrUniformBuffer->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 }
 
 void DestroyBuffer(void)
 {
-	ptrIndexBuffer.SetNull();
-	ptrVertexBuffer.SetNull();
-	ptrUniformBuffer.SetNull();
+	ptrIndexBuffer.Release();
+	ptrVertexBuffer.Release();
+	ptrUniformBuffer.Release();
 }
 
 void CreateDescriptorSet(void)
@@ -160,7 +160,7 @@ void CreateDescriptorSet(void)
 
 void DestroyDescriptorSet(void)
 {
-	ptrDescriptorSet.SetNull();
+	ptrDescriptorSet.Release();
 }
 
 void CreateCommandBuffer(void)
@@ -205,7 +205,7 @@ void CreateCommandBuffer(void)
 void DestroyCommandBuffer(void)
 {
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
-		ptrCommandBuffers[indexView].SetNull();
+		ptrCommandBuffers[indexView].Release();
 	}
 }
 

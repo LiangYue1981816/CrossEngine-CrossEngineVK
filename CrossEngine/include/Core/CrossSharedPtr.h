@@ -50,7 +50,7 @@ namespace CrossEngine {
 		}
 		virtual ~CSharedPtr(void)
 		{
-			SetNull();
+			Release();
 		}
 
 
@@ -61,7 +61,7 @@ namespace CrossEngine {
 				return;
 			}
 
-			SetNull();
+			Release();
 
 			m_pPointer = (T *)pPointer;
 			m_pRefCount = (DWORD *)pRefCount;
@@ -103,7 +103,7 @@ namespace CrossEngine {
 			return m_pPointer && m_pRefCount ? FALSE : TRUE;
 		}
 
-		inline void SetNull(void)
+		inline void Release(void)
 		{
 			if (m_pRefCount) {
 				if (--(*m_pRefCount) == 0) {
