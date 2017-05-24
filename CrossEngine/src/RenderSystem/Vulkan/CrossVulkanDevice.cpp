@@ -35,7 +35,6 @@ namespace CrossEngine {
 		, m_pStagingBufferManager(NULL)
 
 		, m_pFenceManager(NULL)
-		, m_pSemaphoreManager(NULL)
 		, m_pCommandBufferManager(NULL)
 		, m_pDescriptorSetManager(NULL)
 
@@ -55,7 +54,6 @@ namespace CrossEngine {
 		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
 
 		m_pFenceManager = SAFE_NEW CVulkanFenceManager(this);
-		m_pSemaphoreManager = SAFE_NEW CVulkanSemaphoreManager(this);
 		m_pCommandBufferManager = SAFE_NEW CVulkanCommandBufferManager(this);
 		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
 
@@ -74,7 +72,6 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pStagingBufferManager);
 
 		SAFE_DELETE(m_pFenceManager);
-		SAFE_DELETE(m_pSemaphoreManager);
 		SAFE_DELETE(m_pCommandBufferManager);
 		SAFE_DELETE(m_pDescriptorSetManager);
 
@@ -100,7 +97,6 @@ namespace CrossEngine {
 			CALL_VK_FUNCTION_THROW(CreateStagingBufferManager());
 
 			CALL_VK_FUNCTION_THROW(CreateFenceManager());
-			CALL_VK_FUNCTION_THROW(CreateSemaphoreManager());
 			CALL_VK_FUNCTION_THROW(CreateCommandBufferManager());
 			CALL_VK_FUNCTION_THROW(CreateDescriptorSetManager());
 
@@ -140,7 +136,6 @@ namespace CrossEngine {
 
 			DestroyDescriptorSetManager();
 			DestroyCommandBufferManager();
-			DestroySemaphoreManager();
 			DestroyFenceManager();
 
 			DestroyStagingBufferManager();
@@ -185,11 +180,6 @@ namespace CrossEngine {
 	VkResult CVulkanDevice::CreateFenceManager(void)
 	{
 		return m_pFenceManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
-	}
-
-	VkResult CVulkanDevice::CreateSemaphoreManager(void)
-	{
-		return m_pSemaphoreManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	VkResult CVulkanDevice::CreateCommandBufferManager(void)
@@ -250,11 +240,6 @@ namespace CrossEngine {
 	void CVulkanDevice::DestroyFenceManager(void)
 	{
 		m_pFenceManager->Destroy();
-	}
-
-	void CVulkanDevice::DestroySemaphoreManager(void)
-	{
-		m_pSemaphoreManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyCommandBufferManager(void)
@@ -355,11 +340,6 @@ namespace CrossEngine {
 	CVulkanFencePtr CVulkanDevice::NewFence(void)
 	{
 		return m_pFenceManager->AllocFence();
-	}
-
-	CVulkanSemaphorePtr CVulkanDevice::NewSemaphore(void)
-	{
-		return m_pSemaphoreManager->AllocSemaphore();
 	}
 
 	CVulkanIndexBufferPtr CVulkanDevice::NewIndexBuffer(void)

@@ -219,8 +219,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanRenderTexture.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanResource.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanResourceManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanSemaphore.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanSemaphoreManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanShader.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanShaderManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanStagingBuffer.h" />
@@ -288,8 +286,6 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanRenderTexture.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanResource.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanResourceManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanSemaphore.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanSemaphoreManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanShader.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanShaderManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Vulkan\CrossVulkanStagingBuffer.cpp" />

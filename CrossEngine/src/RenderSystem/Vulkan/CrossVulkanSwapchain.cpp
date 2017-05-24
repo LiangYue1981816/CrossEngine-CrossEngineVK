@@ -215,7 +215,10 @@ namespace CrossEngine {
 
 	VkResult CVulkanSwapchain::CreateImagesAndImageViews(void)
 	{
-		uint32_t numImages = SWAPCHAIN_IMAGE_COUNT;
+		uint32_t numImages = 0;
+		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, NULL));
+
+		ASSERT(numImages == SWAPCHAIN_IMAGE_COUNT);
 		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, m_vkImages));
 
 		VkImageViewCreateInfo createInfo = {};
@@ -304,9 +307,9 @@ namespace CrossEngine {
 		return m_vkAcquireSemaphore;
 	}
 
-	VkSemaphore CVulkanSwapchain::GetRenderDoneSemaphore(uint32_t indexImage) const
+	VkSemaphore CVulkanSwapchain::GetRenderDoneSemaphore(void) const
 	{
-		return m_vkRenderDoneSemaphores[indexImage];
+		return m_vkRenderDoneSemaphores[m_indexImage];
 	}
 
 	VkImageView CVulkanSwapchain::GetImageView(uint32_t indexImage) const

@@ -26,7 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanSemaphore;
 	class CROSS_EXPORT CVulkanCommandBuffer;
 
 	class CROSS_EXPORT CVulkanQueue

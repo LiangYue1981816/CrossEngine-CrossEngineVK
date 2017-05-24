@@ -56,7 +56,7 @@ namespace CrossEngine {
 		VkResult AcquireNextImage(VkFence vkFence);
 
 		VkSemaphore GetAcquireSemaphore(void) const;
-		VkSemaphore GetRenderDoneSemaphore(uint32_t indexImage) const;
+		VkSemaphore GetRenderDoneSemaphore(void) const;
 		VkImageView GetImageView(uint32_t indexImage) const;
 
 		uint32_t GetImageIndex(void) const;
