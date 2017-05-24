@@ -25,11 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static uint32_t GetSwapchainNumImages(const VkSurfaceCapabilitiesKHR &capabilities)
-	{
-		return max(min(3, capabilities.maxImageCount), capabilities.minImageCount);
-	}
-
 	static VkExtent2D GetSwapchainExtent(const VkSurfaceCapabilitiesKHR &capabilities, uint32_t width, uint32_t height)
 	{
 		VkExtent2D extent = { width, height };
@@ -94,11 +89,14 @@ namespace CrossEngine {
 		, m_vkSwapchain(VK_NULL_HANDLE)
 		, m_vkAcquireSemaphore(VK_NULL_HANDLE)
 
+		, m_indexImage(0)
+		, m_vkImages{ VK_NULL_HANDLE }
+		, m_vkImageViews{ VK_NULL_HANDLE }
+		, m_vkRenderDoneSemaphores{ VK_NULL_HANDLE }
+
 		, m_width(0)
 		, m_height(0)
 		, m_format(VK_FORMAT_UNDEFINED)
-
-		, m_indexImage(0)
 	{
 
 	}
@@ -172,7 +170,6 @@ namespace CrossEngine {
 
 	VkResult CVulkanSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
 	{
-		uint32_t numImages = GetSwapchainNumImages(capabilities);
 		VkExtent2D imageExtent = GetSwapchainExtent(capabilities, width, height);
 		VkImageUsageFlags imageUsage = GetSwapchainUsageFlags(capabilities);
 		VkSurfaceTransformFlagBitsKHR preTransform = GetSwapchainTransform(capabilities, transform);
@@ -184,7 +181,7 @@ namespace CrossEngine {
 		swapchainInfo.pNext = NULL;
 		swapchainInfo.flags = 0;
 		swapchainInfo.surface = m_pDevice->GetVulkan()->GetSurface();
-		swapchainInfo.minImageCount = numImages;
+		swapchainInfo.minImageCount = SWAPCHAIN_IMAGE_COUNT;
 		swapchainInfo.imageFormat = imageFormat.format;
 		swapchainInfo.imageColorSpace = imageFormat.colorSpace;
 		swapchainInfo.imageExtent = imageExtent;
@@ -205,6 +202,9 @@ namespace CrossEngine {
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;
 		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkAcquireSemaphore));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[0]));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[1]));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[2]));
 
 		m_width = width;
 		m_height = height;
@@ -215,26 +215,26 @@ namespace CrossEngine {
 
 	VkResult CVulkanSwapchain::CreateImagesAndImageViews(void)
 	{
-		uint32_t numImages;
-		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, NULL));
+		uint32_t numImages = SWAPCHAIN_IMAGE_COUNT;
+		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, m_vkImages));
 
-		ASSERT(numImages > 0);
-		m_images.resize(numImages);
-		m_imageViews.resize(numImages);
-		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, m_images.data()));
+		VkImageViewCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = 0;
+		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		createInfo.format = m_format;
+		createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(m_format);
+		createInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
 
-		for (uint32_t index = 0; index < numImages; index++) {
-			VkImageViewCreateInfo createInfo = {};
-			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-			createInfo.pNext = NULL;
-			createInfo.flags = 0;
-			createInfo.image = m_images[index];
-			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			createInfo.format = m_format;
-			createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(m_format);
-			createInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-			CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_imageViews[index]));
-		}
+		createInfo.image = m_vkImages[0];
+		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[0]));
+
+		createInfo.image = m_vkImages[1];
+		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[1]));
+
+		createInfo.image = m_vkImages[2];
+		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[2]));
 
 		return VK_SUCCESS;
 	}
@@ -249,27 +249,39 @@ namespace CrossEngine {
 			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		}
 
+		if (m_vkRenderDoneSemaphores[0]) {
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[0], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		if (m_vkRenderDoneSemaphores[1]) {
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[1], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		if (m_vkRenderDoneSemaphores[2]) {
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[2], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
 		m_vkSwapchain = VK_NULL_HANDLE;
 		m_vkAcquireSemaphore = VK_NULL_HANDLE;
+		m_vkRenderDoneSemaphores[0] = VK_NULL_HANDLE;
+		m_vkRenderDoneSemaphores[1] = VK_NULL_HANDLE;
+		m_vkRenderDoneSemaphores[2] = VK_NULL_HANDLE;
 	}
 
 	void CVulkanSwapchain::DestroyImagesAndImageViews(void)
 	{
-		for (uint32_t index = 0; index < m_imageViews.size(); index++) {
-			vkDestroyImageView(m_pDevice->GetDevice(), m_imageViews[index], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		m_images.clear();
-		m_imageViews.clear();
+		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[0], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[1], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[2], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	VkResult CVulkanSwapchain::Present(VkSemaphore vkSemaphoreWaitRenderingDone) const
+	VkResult CVulkanSwapchain::Present(void) const
 	{
 		VkPresentInfoKHR presentInfo = {};
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 		presentInfo.pNext = NULL;
 		presentInfo.waitSemaphoreCount = 1;
-		presentInfo.pWaitSemaphores = &vkSemaphoreWaitRenderingDone;
+		presentInfo.pWaitSemaphores = &m_vkRenderDoneSemaphores[m_indexImage];
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = &m_vkSwapchain;
 		presentInfo.pImageIndices = &m_indexImage;
@@ -288,9 +300,24 @@ namespace CrossEngine {
 		return m_vkAcquireSemaphore;
 	}
 
+	VkSemaphore CVulkanSwapchain::GetRenderDoneSemaphore(uint32_t indexImage) const
+	{
+		return m_vkRenderDoneSemaphores[indexImage];
+	}
+
+	VkImageView CVulkanSwapchain::GetImageView(uint32_t indexImage) const
+	{
+		return m_vkImageViews[indexImage];
+	}
+
 	uint32_t CVulkanSwapchain::GetImageIndex(void) const
 	{
 		return m_indexImage;
+	}
+
+	uint32_t CVulkanSwapchain::GetImageCount(void) const
+	{
+		return SWAPCHAIN_IMAGE_COUNT;
 	}
 
 	uint32_t CVulkanSwapchain::GetWidth(void) const
@@ -306,16 +333,6 @@ namespace CrossEngine {
 	VkFormat CVulkanSwapchain::GetFormat(void) const
 	{
 		return m_format;
-	}
-
-	uint32_t CVulkanSwapchain::GetImageCount(void) const
-	{
-		return m_images.size();
-	}
-
-	VkImageView CVulkanSwapchain::GetImageView(uint32_t indexImage) const
-	{
-		return m_imageViews[indexImage];
 	}
 
 }

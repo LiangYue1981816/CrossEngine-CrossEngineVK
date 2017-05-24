@@ -52,24 +52,24 @@ namespace CrossEngine {
 		void DestroyImagesAndImageViews(void);
 
 	public:
-		VkResult Present(VkSemaphore vkSemaphoreWaitRenderingDone) const;
+		VkResult Present(void) const;
 		VkResult AcquireNextImage(VkFence vkFence);
+
 		VkSemaphore GetAcquireSemaphore(void) const;
+		VkSemaphore GetRenderDoneSemaphore(uint32_t indexImage) const;
+		VkImageView GetImageView(uint32_t indexImage) const;
+
 		uint32_t GetImageIndex(void) const;
+		uint32_t GetImageCount(void) const;
 
 	public:
 		uint32_t GetWidth(void) const;
 		uint32_t GetHeight(void) const;
 		VkFormat GetFormat(void) const;
 
-	public:
-		uint32_t GetImageCount(void) const;
-		VkImageView GetImageView(uint32_t indexImage) const;
-
 
 	protected:
-		VkSwapchainKHR m_vkSwapchain;
-		VkSemaphore m_vkAcquireSemaphore;
+		static const int SWAPCHAIN_IMAGE_COUNT = 3;
 
 	protected:
 		uint32_t m_width;
@@ -78,8 +78,13 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_indexImage;
-		std::vector<VkImage> m_images;
-		std::vector<VkImageView> m_imageViews;
+		VkImage m_vkImages[SWAPCHAIN_IMAGE_COUNT];
+		VkImageView m_vkImageViews[SWAPCHAIN_IMAGE_COUNT];
+
+	protected:
+		VkSwapchainKHR m_vkSwapchain;
+		VkSemaphore m_vkAcquireSemaphore;
+		VkSemaphore m_vkRenderDoneSemaphores[SWAPCHAIN_IMAGE_COUNT];
 
 	protected:
 		CVulkanDeviceGraphics *m_pDevice;
