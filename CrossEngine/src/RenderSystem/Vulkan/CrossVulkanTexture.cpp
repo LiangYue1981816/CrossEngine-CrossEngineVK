@@ -115,6 +115,12 @@ namespace CrossEngine {
 		}
 	}
 
+	void CVulkanTexture::Destroy(void)
+	{
+		DestroySampler();
+		CVulkanImage::Destroy();
+	}
+
 	BOOL CVulkanTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		try {
@@ -152,12 +158,6 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
-	}
-
-	void CVulkanTexture::Destroy(void)
-	{
-		DestroySampler();
-		CVulkanImage::Destroy();
 	}
 
 	void CVulkanTexture::DestroySampler(void)
