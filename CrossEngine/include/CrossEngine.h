@@ -110,8 +110,6 @@ THE SOFTWARE.
 #include "CrossVulkanVertexBuffer.h"
 #include "CrossVulkanUniformBuffer.h"
 #include "CrossVulkanBufferManager.h"
-#include "CrossVulkanSampler.h"
-#include "CrossVulkanSamplerManager.h"
 #include "CrossVulkanImage.h"
 #include "CrossVulkanTexture.h"
 #include "CrossVulkanRenderTexture.h"

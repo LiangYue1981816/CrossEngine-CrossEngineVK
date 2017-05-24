@@ -43,19 +43,29 @@ namespace CrossEngine {
 		virtual void Destroy(void);
 
 	protected:
+		BOOL CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		void DestroySampler(void);
+
+	protected:
 		BOOL TransferTexture2D(const gli::texture2d &texture);
 		BOOL TransferTexture2DArray(const gli::texture2d_array &texture);
 		BOOL TransferTextureCube(const gli::texture_cube &texture);
 
-		BOOL CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		void DestroySampler(void);
-
 	public:
 		const VkDescriptorImageInfo& GetDescriptorImageInfo(void) const;
 
+	public:
+		virtual void DumpLog(void) const;
+
 
 	protected:
-		CVulkanSamplerPtr m_ptrSampler;
+		VkFilter m_minFilter;
+		VkFilter m_magFilter;
+		VkSamplerMipmapMode m_mipmapMode;
+		VkSamplerAddressMode m_addressMode;
+
+	protected:
+		VkSampler m_vkSampler;
 		VkDescriptorImageInfo m_vkDescriptorImageInfo;
 	};
 

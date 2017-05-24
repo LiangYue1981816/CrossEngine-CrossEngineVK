@@ -94,7 +94,6 @@ namespace CrossEngine {
 
 		virtual VkResult CreateBufferManager(void);
 		virtual VkResult CreateShaderManager(void);
-		virtual VkResult CreateSamplerManager(void);
 		virtual VkResult CreateTextureManager(void);
 		virtual VkResult CreatePipelineManager(void);
 		virtual VkResult CreateRenderPassManager(void);
@@ -112,7 +111,6 @@ namespace CrossEngine {
 
 		virtual void DestroyBufferManager(void);
 		virtual void DestroyShaderManager(void);
-		virtual void DestroySamplerManager(void);
 		virtual void DestroyTextureManager(void);
 		virtual void DestroyPipelineManager(void);
 		virtual void DestroyRenderPassManager(void);
@@ -145,7 +143,6 @@ namespace CrossEngine {
 		CVulkanIndexBufferPtr NewIndexBuffer(void);
 		CVulkanVertexBufferPtr NewVertexBuffer(void);
 		CVulkanUniformBufferPtr NewUniformBuffer(void);
-		CVulkanSamplerPtr NewSampler(void);
 		CVulkanTexturePtr NewTexture(void);
 		CVulkanRenderTexturePtr NewRenderTexture(void);
 		CVulkanShaderPtr NewShader(void);
@@ -187,7 +184,6 @@ namespace CrossEngine {
 	protected:
 		CVulkanBufferManager *m_pBufferManager;
 		CVulkanShaderManager *m_pShaderManager;
-		CVulkanSamplerManager *m_pSamplerManager;
 		CVulkanTextureManager *m_pTextureManager;
 		CVulkanPipelineManager *m_pPipelineManager;
 		CVulkanRenderPassManager *m_pRenderPassManager;

@@ -27,6 +27,13 @@ namespace CrossEngine {
 
 	CVulkanTexture::CVulkanTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager)
 		: CVulkanImage(pDevice, pResourceManager)
+		, m_vkSampler(VK_NULL_HANDLE)
+		, m_vkDescriptorImageInfo{}
+
+		, m_minFilter(VK_FILTER_NEAREST)
+		, m_magFilter(VK_FILTER_NEAREST)
+		, m_mipmapMode(VK_SAMPLER_MIPMAP_MODE_NEAREST)
+		, m_addressMode(VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE)
 	{
 
 	}
@@ -47,7 +54,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
 			CALL_BOOL_FUNCTION_THROW(TransferTexture2D(texture));
 
-			m_vkDescriptorImageInfo.sampler = m_ptrSampler->GetSampler();
+			m_vkDescriptorImageInfo.sampler = m_vkSampler;
 			m_vkDescriptorImageInfo.imageView = m_vkImageView;
 			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -71,7 +78,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
 			CALL_BOOL_FUNCTION_THROW(TransferTexture2DArray(texture));
 
-			m_vkDescriptorImageInfo.sampler = m_ptrSampler->GetSampler();
+			m_vkDescriptorImageInfo.sampler = m_vkSampler;
 			m_vkDescriptorImageInfo.imageView = m_vkImageView;
 			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -95,7 +102,7 @@ namespace CrossEngine {
 			CALL_BOOL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
 			CALL_BOOL_FUNCTION_THROW(TransferTextureCube(texture));
 
-			m_vkDescriptorImageInfo.sampler = m_ptrSampler->GetSampler();
+			m_vkDescriptorImageInfo.sampler = m_vkSampler;
 			m_vkDescriptorImageInfo.imageView = m_vkImageView;
 			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -110,8 +117,56 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		m_ptrSampler = m_pDevice->NewSampler();
-		return m_ptrSampler->Create(minFilter, magFilter, mipmapMode, addressMode);
+		try {
+			VkSamplerCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.magFilter = magFilter;
+			createInfo.minFilter = minFilter;
+			createInfo.mipmapMode = mipmapMode;
+			createInfo.addressModeU = addressMode;
+			createInfo.addressModeV = addressMode;
+			createInfo.addressModeW = addressMode;
+			createInfo.mipLodBias = 0.0f;
+			createInfo.anisotropyEnable = VK_FALSE;
+			createInfo.maxAnisotropy = 1.0f;
+			createInfo.compareEnable = VK_FALSE;
+			createInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+			createInfo.minLod = 0.0f;
+			createInfo.maxLod = 0.0f;
+			createInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
+			createInfo.unnormalizedCoordinates = VK_FALSE;
+			CALL_VK_FUNCTION_THROW(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
+
+			m_minFilter = minFilter;
+			m_magFilter = magFilter;
+			m_mipmapMode = mipmapMode;
+			m_addressMode = addressMode;
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CVulkan::SetLastError(err);
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	void CVulkanTexture::Destroy(void)
+	{
+		DestroySampler();
+		CVulkanImage::Destroy();
+	}
+
+	void CVulkanTexture::DestroySampler(void)
+	{
+		if (m_vkSampler) {
+			vkDestroySampler(m_pDevice->GetDevice(), m_vkSampler, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkSampler = VK_NULL_HANDLE;
 	}
 
 	BOOL CVulkanTexture::TransferTexture2D(const gli::texture2d &texture)
@@ -217,20 +272,29 @@ namespace CrossEngine {
 		}
 	}
 	
-	void CVulkanTexture::Destroy(void)
-	{
-		DestroySampler();
-		CVulkanImage::Destroy();
-	}
-
-	void CVulkanTexture::DestroySampler(void)
-	{
-		m_ptrSampler.Release();
-	}
-
 	const VkDescriptorImageInfo& CVulkanTexture::GetDescriptorImageInfo(void) const
 	{
 		return m_vkDescriptorImageInfo;
+	}
+
+	void CVulkanTexture::DumpLog(void) const
+	{
+		if (m_vkImage) {
+			LOGI("\t\tTexture 0x%x: view = 0x%x sampler = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %s tiling = %s min filter = %s mag filter = %s mipmap mode = %s address mode = %s\n",
+				m_vkImage,
+				m_vkImageView,
+				m_vkSampler,
+				m_size,
+				CVulkanHelper::vkImageTypeToString(m_type),
+				CVulkanHelper::vkFormatToString(m_format),
+				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
+				CVulkanHelper::vkSampleCountFlagBitsToString(m_samples),
+				CVulkanHelper::vkImageTilingToString(m_tiling),
+				CVulkanHelper::vkFilterToString(m_minFilter),
+				CVulkanHelper::vkFilterToString(m_magFilter),
+				CVulkanHelper::vkSamplerMipmapModeToString(m_mipmapMode),
+				CVulkanHelper::vkSamplerAddressModeToString(m_addressMode));
+		}
 	}
 
 }

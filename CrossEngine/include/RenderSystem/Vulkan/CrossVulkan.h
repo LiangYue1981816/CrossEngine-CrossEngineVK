@@ -68,7 +68,6 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanBufferManager;
 	class CROSS_EXPORT CVulkanShaderManager;
-	class CROSS_EXPORT CVulkanSamplerManager;
 	class CROSS_EXPORT CVulkanTextureManager;
 	class CROSS_EXPORT CVulkanPipelineManager;
 	class CROSS_EXPORT CVulkanRenderPassManager;

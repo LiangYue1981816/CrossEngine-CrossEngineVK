@@ -41,7 +41,6 @@ namespace CrossEngine {
 
 		, m_pBufferManager(NULL)
 		, m_pShaderManager(NULL)
-		, m_pSamplerManager(NULL)
 		, m_pTextureManager(NULL)
 		, m_pPipelineManager(NULL)
 		, m_pRenderPassManager(NULL)
@@ -62,7 +61,6 @@ namespace CrossEngine {
 
 		m_pBufferManager = SAFE_NEW CVulkanBufferManager(this);
 		m_pShaderManager = SAFE_NEW CVulkanShaderManager(this);
-		m_pSamplerManager = SAFE_NEW CVulkanSamplerManager(this);
 		m_pTextureManager = SAFE_NEW CVulkanTextureManager(this);
 		m_pPipelineManager = SAFE_NEW CVulkanPipelineManager(this);
 		m_pRenderPassManager = SAFE_NEW CVulkanRenderPassManager(this);
@@ -82,7 +80,6 @@ namespace CrossEngine {
 
 		SAFE_DELETE(m_pBufferManager);
 		SAFE_DELETE(m_pShaderManager);
-		SAFE_DELETE(m_pSamplerManager);
 		SAFE_DELETE(m_pTextureManager);
 		SAFE_DELETE(m_pPipelineManager);
 		SAFE_DELETE(m_pRenderPassManager);
@@ -109,7 +106,6 @@ namespace CrossEngine {
 
 			CALL_VK_FUNCTION_THROW(CreateBufferManager());
 			CALL_VK_FUNCTION_THROW(CreateShaderManager());
-			CALL_VK_FUNCTION_THROW(CreateSamplerManager());
 			CALL_VK_FUNCTION_THROW(CreateTextureManager());
 			CALL_VK_FUNCTION_THROW(CreatePipelineManager());
 			CALL_VK_FUNCTION_THROW(CreateRenderPassManager());
@@ -139,7 +135,6 @@ namespace CrossEngine {
 			DestroyRenderPassManager();
 			DestroyPipelineManager();
 			DestroyTextureManager();
-			DestroySamplerManager();
 			DestroyShaderManager();
 			DestroyBufferManager();
 
@@ -217,11 +212,6 @@ namespace CrossEngine {
 		return m_pShaderManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
-	VkResult CVulkanDevice::CreateSamplerManager(void)
-	{
-		return m_pSamplerManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
-	}
-
 	VkResult CVulkanDevice::CreateTextureManager(void)
 	{
 		return m_pTextureManager->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
@@ -285,11 +275,6 @@ namespace CrossEngine {
 	void CVulkanDevice::DestroyShaderManager(void)
 	{
 		m_pShaderManager->Destroy();
-	}
-
-	void CVulkanDevice::DestroySamplerManager(void)
-	{
-		m_pSamplerManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyTextureManager(void)
@@ -395,11 +380,6 @@ namespace CrossEngine {
 	CVulkanUniformBufferPtr CVulkanDevice::NewUniformBuffer(void)
 	{
 		return m_pBufferManager->AllocUniformBuffer();
-	}
-
-	CVulkanSamplerPtr CVulkanDevice::NewSampler(void)
-	{
-		return m_pSamplerManager->AllocSampler();
 	}
 
 	CVulkanTexturePtr CVulkanDevice::NewTexture(void)
