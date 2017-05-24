@@ -273,6 +273,10 @@ namespace CrossEngine {
 		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[0], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[1], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[2], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+
+		m_vkImageViews[0] = VK_NULL_HANDLE;
+		m_vkImageViews[1] = VK_NULL_HANDLE;
+		m_vkImageViews[2] = VK_NULL_HANDLE;
 	}
 
 	VkResult CVulkanSwapchain::Present(void) const
@@ -292,7 +296,7 @@ namespace CrossEngine {
 	VkResult CVulkanSwapchain::AcquireNextImage(VkFence vkFence)
 	{
 		m_indexImage = -1;
-		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, UINT64_MAX, m_vkAcquireSemaphore, vkFence, &m_indexImage);
+		return vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_vkSwapchain, 0, m_vkAcquireSemaphore, vkFence, &m_indexImage);
 	}
 
 	VkSemaphore CVulkanSwapchain::GetAcquireSemaphore(void) const
