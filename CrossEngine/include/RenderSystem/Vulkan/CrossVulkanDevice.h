@@ -139,15 +139,18 @@ namespace CrossEngine {
 
 		CVulkanFencePtr NewFence(void);
 		CVulkanSemaphorePtr NewSemaphore(void);
-		CVulkanBufferPtr NewBuffer(void);
+
 		CVulkanIndexBufferPtr NewIndexBuffer(void);
 		CVulkanVertexBufferPtr NewVertexBuffer(void);
 		CVulkanUniformBufferPtr NewUniformBuffer(void);
+
 		CVulkanTexturePtr NewTexture(void);
 		CVulkanRenderTexturePtr NewRenderTexture(void);
+
 		CVulkanShaderPtr NewShader(void);
 		CVulkanPipelineComputePtr NewPipelineCompute(void);
 		CVulkanPipelineGraphicsPtr NewPipelineGraphics(void);
+
 		CVulkanRenderPassPtr NewRenderPass(void);
 		CVulkanFrameBufferPtr NewFrameBuffer(void);
 

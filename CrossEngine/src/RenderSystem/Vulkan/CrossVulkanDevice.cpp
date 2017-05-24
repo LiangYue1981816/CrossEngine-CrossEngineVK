@@ -362,11 +362,6 @@ namespace CrossEngine {
 		return m_pSemaphoreManager->AllocSemaphore();
 	}
 
-	CVulkanBufferPtr CVulkanDevice::NewBuffer(void)
-	{
-		return m_pBufferManager->AllocBuffer();
-	}
-
 	CVulkanIndexBufferPtr CVulkanDevice::NewIndexBuffer(void)
 	{
 		return m_pBufferManager->AllocIndexBuffer();
