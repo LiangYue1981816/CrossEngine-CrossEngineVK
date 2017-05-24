@@ -87,7 +87,6 @@ namespace CrossEngine {
 		virtual VkResult CreateMemoryManager(void);
 		virtual VkResult CreateStagingBufferManager(void);
 
-		virtual VkResult CreateFenceManager(void);
 		virtual VkResult CreateCommandBufferManager(void);
 		virtual VkResult CreateDescriptorSetManager(void);
 
@@ -103,7 +102,6 @@ namespace CrossEngine {
 		virtual void DestroyMemoryManager(void);
 		virtual void DestroyStagingBufferManager(void);
 
-		virtual void DestroyFenceManager(void);
 		virtual void DestroyCommandBufferManager(void);
 		virtual void DestroyDescriptorSetManager(void);
 
@@ -134,8 +132,6 @@ namespace CrossEngine {
 	public:
 		CVulkanCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 		CVulkanDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
-
-		CVulkanFencePtr NewFence(void);
 
 		CVulkanIndexBufferPtr NewIndexBuffer(void);
 		CVulkanVertexBufferPtr NewVertexBuffer(void);
@@ -176,7 +172,6 @@ namespace CrossEngine {
 		CVulkanStagingBufferManager *m_pStagingBufferManager;
 
 	protected:
-		CVulkanFenceManager *m_pFenceManager;
 		CVulkanCommandBufferManager *m_pCommandBufferManager;
 		CVulkanDescriptorSetManager *m_pDescriptorSetManager;
 

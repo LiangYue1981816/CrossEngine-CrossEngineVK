@@ -71,7 +71,7 @@ namespace CrossEngine {
 		pCommandBuffer->FenceWait(UINT64_MAX);
 		pCommandBuffer->FenceReset();
 
-		VkFence vkFence = pCommandBuffer->GetFence()->GetFence();
+		VkFence vkFence = pCommandBuffer->GetFence();
 		VkCommandBuffer vkCommandBuffer = pCommandBuffer->GetCommandBuffer();
 
 		VkSubmitInfo submitInfo = {};

@@ -29,6 +29,7 @@ namespace CrossEngine {
 		: m_pDevice(pDevice)
 		, m_pCommandPool(pCommandPool)
 
+		, m_vkFence(VK_NULL_HANDLE)
 		, m_vkCommandBuffer(vkCommandBuffer)
 		, m_vkCommandBufferLevel(level)
 
@@ -36,14 +37,17 @@ namespace CrossEngine {
 		, pActiveNext(NULL)
 		, pActivePrev(NULL)
 	{
-		m_ptrFence = m_pDevice->NewFence();
-		m_ptrFence->Create();
+		VkFenceCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+		CALL_VK_FUNCTION_THROW(vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence));
 	}
 
 	CVulkanCommandBuffer::~CVulkanCommandBuffer(void)
 	{
 		Reset();
-		m_ptrFence.Release();
+		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	void CVulkanCommandBuffer::ClearResources(void)
@@ -104,6 +108,16 @@ namespace CrossEngine {
 		m_ptrDescriptorSets.clear();
 	}
 
+	CVulkanCommandPool* CVulkanCommandBuffer::GetCommandPool(void) const
+	{
+		return m_pCommandPool;
+	}
+
+	VkFence CVulkanCommandBuffer::GetFence(void)
+	{
+		return m_vkFence;
+	}
+
 	VkCommandBuffer CVulkanCommandBuffer::GetCommandBuffer(void) const
 	{
 		return m_vkCommandBuffer;
@@ -112,16 +126,6 @@ namespace CrossEngine {
 	VkCommandBufferLevel CVulkanCommandBuffer::GetCommandBufferLevel(void) const
 	{
 		return m_vkCommandBufferLevel;
-	}
-
-	CVulkanFencePtr& CVulkanCommandBuffer::GetFence(void)
-	{
-		return m_ptrFence;
-	}
-
-	CVulkanCommandPool* CVulkanCommandBuffer::GetCommandPool(void) const
-	{
-		return m_pCommandPool;
 	}
 
 	void CVulkanCommandBuffer::Reset(void)
@@ -133,12 +137,12 @@ namespace CrossEngine {
 
 	BOOL CVulkanCommandBuffer::FenceWait(uint64_t timeout) const
 	{
-		return m_ptrFence->Wait(timeout);
+		return vkWaitForFences(m_pDevice->GetDevice(), 1, &m_vkFence, VK_FALSE, timeout) == VK_SUCCESS ? TRUE : FALSE;
 	}
 
 	void CVulkanCommandBuffer::FenceReset(void) const
 	{
-		m_ptrFence->Reset();
+		vkResetFences(m_pDevice->GetDevice(), 1, &m_vkFence);
 	}
 
 	VkResult CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)

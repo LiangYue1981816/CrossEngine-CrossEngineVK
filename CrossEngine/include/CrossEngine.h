@@ -101,8 +101,6 @@ THE SOFTWARE.
 
 #include "CrossVulkanResource.h"
 #include "CrossVulkanResourceManager.h"
-#include "CrossVulkanFence.h"
-#include "CrossVulkanFenceManager.h"
 #include "CrossVulkanBuffer.h"
 #include "CrossVulkanIndexBuffer.h"
 #include "CrossVulkanVertexBuffer.h"

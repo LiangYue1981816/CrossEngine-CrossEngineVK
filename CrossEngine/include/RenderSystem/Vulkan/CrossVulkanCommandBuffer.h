@@ -28,7 +28,6 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanCommandBuffer
 	{
-		friend class CVulkanQueue;
 		friend class CVulkanCommandPool;
 		friend class CVulkanCommandBufferPtr;
 
@@ -37,20 +36,18 @@ namespace CrossEngine {
 		CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer, VkCommandBufferLevel level);
 		virtual ~CVulkanCommandBuffer(void);
 
-		void ClearResources(void);
-
-
-	public:
-		VkCommandBuffer GetCommandBuffer(void) const;
-		VkCommandBufferLevel GetCommandBufferLevel(void) const;
 
 	protected:
-		CVulkanFencePtr& GetFence(void);
+		void ClearResources(void);
 		CVulkanCommandPool* GetCommandPool(void) const;
 
 	public:
-		void Reset(void);
+		VkFence GetFence(void);
+		VkCommandBuffer GetCommandBuffer(void) const;
+		VkCommandBufferLevel GetCommandBufferLevel(void) const;
 
+	public:
+		void Reset(void);
 		BOOL FenceWait(uint64_t timeout) const;
 		void FenceReset(void) const;
 
@@ -117,12 +114,10 @@ namespace CrossEngine {
 
 
 	protected:
+		VkFence m_vkFence;
 		VkCommandBuffer m_vkCommandBuffer;
 		VkCommandBufferLevel m_vkCommandBufferLevel;
 		CVulkanCommandPool *m_pCommandPool;
-
-	protected:
-		CVulkanFencePtr m_ptrFence;
 
 	protected:
 		std::map<VkFramebuffer, CVulkanFrameBufferPtr> m_ptrFrameBuffers;
