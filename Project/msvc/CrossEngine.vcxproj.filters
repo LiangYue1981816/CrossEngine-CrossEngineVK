@@ -276,12 +276,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderDevice.h">
       <Filter>Engine\Header Files\RenderSystem\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderDeviceCompute.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderDeviceGraphics.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResource.h">
       <Filter>Engine\Header Files\RenderSystem\Render</Filter>
     </ClInclude>
