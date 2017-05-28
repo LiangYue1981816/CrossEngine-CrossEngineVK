@@ -55,6 +55,12 @@
     <Filter Include="Engine\Source Files\ResourceSystem">
       <UniqueIdentifier>{5a31682b-2191-41a7-8a1f-6332b6e1ada9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\RenderSystem\GLES">
+      <UniqueIdentifier>{5eb48ab6-19f1-4b0c-afbf-86cb9372b254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\RenderSystem\GLES">
+      <UniqueIdentifier>{b5cb3f23-bb89-46c2-b932-10d8cac510e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -236,6 +242,12 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossMutex.h">
       <Filter>Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\GLES\CrossGLES.h">
+      <Filter>Engine\Header Files\RenderSystem\GLES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossGfx.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
