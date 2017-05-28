@@ -26,31 +26,51 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	/*
-	class CROSS_EXPORT CRender
+	class CROSS_EXPORT CVulkanBuffer : public CVulkanResource
+	{
+		friend class CVulkanBufferManager;
+
+
+	protected:
+		CVulkanBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
+		virtual ~CVulkanBuffer(void);
+
+
+	public:
+		virtual BOOL Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags);
+		virtual void Destroy(void);
+		virtual BOOL UpdateData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
+
+	protected:
+		VkResult CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
+		VkResult TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
+
+	public:
+		VkBuffer GetBuffer(void) const;
+		VkDeviceSize GetBufferSize(void) const;
+		VkDeviceSize GetMemorySize(void) const;
+		VkBufferUsageFlags GetUsage(void) const;
+
+	public:
+		virtual void DumpLog(void) const;
+
+
+	protected:
+		VkBuffer m_vkBuffer;
+		CVulkanMemory *m_pMemory;
+
+	protected:
+		VkDeviceSize m_bufferSize;
+		VkDeviceSize m_memorySize;
+		VkBufferUsageFlags m_usage;
+	};
+
+	class CROSS_EXPORT CVulkanBufferPtr : public CVulkanResourcePtr<CVulkanBuffer>
 	{
 	public:
-		CRender(const char *szCachePath);
-		virtual ~CRender(void);
-
-
-	public:
-		static void SetLastError(int err);
-		static int GetLastError(void);
-
-	public:
-		virtual BOOL Create(HINSTANCE hInstance, HWND hWnd, uint32_t width, uint32_t height);
-		virtual void Destroy(void);
-
-	public:
-		const char* GetCachePath(void) const;
-
-
-	protected:
-		char m_szCachePath[_MAX_STRING];
-
-	protected:
-		static int lastErrorCode;
+		CVulkanBufferPtr(void) : CVulkanResourcePtr<CVulkanBuffer>() {}
+		CVulkanBufferPtr(const CVulkanBuffer *p) : CVulkanResourcePtr<CVulkanBuffer>(p) {}
+		CVulkanBufferPtr(const CVulkanBufferPtr &ptr) : CVulkanResourcePtr<CVulkanBuffer>(ptr) {}
 	};
-	*/
+
 }

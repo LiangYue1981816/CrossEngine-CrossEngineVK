@@ -20,9 +20,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
+	/*
+	class CROSS_EXPORT CRenderResourceManager
+	{
+		template<class T> friend class CRenderResourcePtr;
 
+
+	protected:
+		CRenderResourceManager(CRenderDevice *pDevice);
+		virtual ~CRenderResourceManager(void);
+
+
+	protected:
+		virtual BOOL Create(void);
+		virtual void Destroy(void);
+
+	protected:
+		virtual void Free(CRenderResource *pResource);
+
+	public:
+		virtual void DumpLog(const char *szTitle) const;
+
+
+	protected:
+		pthread_mutex_t m_mutex;
+		std::map<CRenderResource*, CRenderResource*> m_pResources;
+
+	protected:
+		CRenderDevice *m_pDevice;
+	};
+	*/
 }

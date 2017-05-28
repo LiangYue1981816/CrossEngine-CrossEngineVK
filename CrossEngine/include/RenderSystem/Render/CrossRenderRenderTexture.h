@@ -20,9 +20,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanRenderTexture : public CVulkanImage
+	{
+		friend class CVulkanTextureManager;
+
+
+	protected:
+		CVulkanRenderTexture(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
+		virtual ~CVulkanRenderTexture(void);
+
+
+	public:
+		virtual BOOL CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
+		virtual BOOL CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
+	};
+
+	class CROSS_EXPORT CVulkanRenderTexturePtr : public CVulkanResourcePtr<CVulkanRenderTexture>
+	{
+	public:
+		CVulkanRenderTexturePtr(void) : CVulkanResourcePtr<CVulkanRenderTexture>() {}
+		CVulkanRenderTexturePtr(const CVulkanRenderTexture *p) : CVulkanResourcePtr<CVulkanRenderTexture>(p) {}
+		CVulkanRenderTexturePtr(const CVulkanRenderTexturePtr &ptr) : CVulkanResourcePtr<CVulkanRenderTexture>(ptr) {}
+	};
 
 }

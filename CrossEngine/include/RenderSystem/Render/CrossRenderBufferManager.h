@@ -20,9 +20,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanBufferManager : public CVulkanResourceManager
+	{
+		friend class CVulkanDevice;
+
+
+	protected:
+		CVulkanBufferManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanBufferManager(void);
+
+
+	public:
+		CVulkanBufferPtr AllocBuffer(void);
+		CVulkanIndexBufferPtr AllocIndexBuffer(void);
+		CVulkanVertexBufferPtr AllocVertexBuffer(void);
+		CVulkanUniformBufferPtr AllocUniformBuffer(void);
+
+	public:
+		virtual void DumpLog(const char *szTitle) const;
+	};
 
 }

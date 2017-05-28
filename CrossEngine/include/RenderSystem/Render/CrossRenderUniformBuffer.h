@@ -20,9 +20,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanUniformBuffer : public CVulkanBuffer
+	{
+		friend class CVulkanBufferManager;
+
+
+	protected:
+		CVulkanUniformBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
+		virtual ~CVulkanUniformBuffer(void);
+
+
+	public:
+		virtual BOOL Create(VkDeviceSize size, const void *pBuffer);
+
+	public:
+		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size);
+		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding);
+
+
+	protected:
+		std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>> m_vkDescriptorBufferInfos;
+	};
+
+	class CROSS_EXPORT CVulkanUniformBufferPtr : public CVulkanResourcePtr<CVulkanUniformBuffer>
+	{
+	public:
+		CVulkanUniformBufferPtr(void) : CVulkanResourcePtr<CVulkanUniformBuffer>() {}
+		CVulkanUniformBufferPtr(const CVulkanUniformBuffer *p) : CVulkanResourcePtr<CVulkanUniformBuffer>(p) {}
+		CVulkanUniformBufferPtr(const CVulkanUniformBufferPtr &ptr) : CVulkanResourcePtr<CVulkanUniformBuffer>(ptr) {}
+	};
 
 }

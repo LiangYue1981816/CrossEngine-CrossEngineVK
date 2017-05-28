@@ -20,9 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
+	/*
+	class CROSS_EXPORT CRenderDeviceGraphics : public CRenderDevice
+	{
+		friend class CRender;
 
+
+	protected:
+		CRenderDeviceGraphics(CRender *pRender);
+		virtual ~CRenderDeviceGraphics(void);
+	};
+	*/
 }

@@ -26,31 +26,51 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	/*
-	class CROSS_EXPORT CRender
+	class CROSS_EXPORT CVulkanShader : public CVulkanResource
 	{
-	public:
-		CRender(const char *szCachePath);
-		virtual ~CRender(void);
+		friend class CVulkanShaderManager;
+
+
+	protected:
+		CVulkanShader(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
+		virtual ~CVulkanShader(void);
 
 
 	public:
-		static void SetLastError(int err);
-		static int GetLastError(void);
-
-	public:
-		virtual BOOL Create(HINSTANCE hInstance, HWND hWnd, uint32_t width, uint32_t height);
+		virtual BOOL Create(const char *szSource, size_t length, shaderc_shader_kind kind);
+		virtual BOOL Create(const uint32_t *words, size_t numWords);
 		virtual void Destroy(void);
 
+	protected:
+		shaderc::CompileOptions CreateCompileOptions(void);
+
 	public:
-		const char* GetCachePath(void) const;
+		void AddMacroDefinition(const char *szName, const char *szValue);
+		void DelMacroDefinition(const char *szName);
+		void ClearMacroDefinitions(void);
+
+	public:
+		VkShaderModule GetShaderModule(void) const;
+		const spirv::module_type& GetModule(void) const;
+
+	public:
+		virtual void DumpLog(void) const;
 
 
 	protected:
-		char m_szCachePath[_MAX_STRING];
+		spirv::module_type m_module;
+		VkShaderModule m_vkShaderModule;
 
 	protected:
-		static int lastErrorCode;
+		std::map<std::string, std::string> m_strMacroDefinitions;
 	};
-	*/
+
+	class CROSS_EXPORT CVulkanShaderPtr : public CVulkanResourcePtr<CVulkanShader>
+	{
+	public:
+		CVulkanShaderPtr(void) : CVulkanResourcePtr<CVulkanShader>() {}
+		CVulkanShaderPtr(const CVulkanShader *p) : CVulkanResourcePtr<CVulkanShader>(p) {}
+		CVulkanShaderPtr(const CVulkanShaderPtr &ptr) : CVulkanResourcePtr<CVulkanShader>(ptr) {}
+	};
+
 }

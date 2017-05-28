@@ -20,9 +20,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanShaderManager : public CVulkanResourceManager
+	{
+		friend class CVulkanDevice;
+
+
+	protected:
+		CVulkanShaderManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanShaderManager(void);
+
+
+	public:
+		CVulkanShaderPtr AllocShader(void);
+
+	protected:
+		void SetWarningsAsErrors(void);
+		void SetSourceLanguage(shaderc_source_language lang);
+		void SetOptimizationLevel(shaderc_optimization_level level);
+		void SetTargetEnvironment(uint32_t version, shaderc_target_env target);
+		void SetForcedVersionProfile(uint32_t version, shaderc_profile profile);
+		void SetMacroDefinition(const char *szName, const char *szValue);
+
+	public:
+		const shaderc::CompileOptions& GetCompileOptions(void) const;
+
+
+	protected:
+		shaderc::CompileOptions m_options;
+	};
 
 }

@@ -20,9 +20,52 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
+	/*
+	class CROSS_EXPORT CRenderResource
+	{
+		friend class CRenderResourceManager;
+		template<class T> friend class CRenderResourcePtr;
 
+
+	protected:
+		CRenderResource(CRenderDevice *pDevice, CRenderResourceManager *pResourceManager);
+		virtual ~CRenderResource(void);
+
+
+	protected:
+		virtual CRenderResourceManager* GetResourceManager(void) const;
+
+	public:
+		virtual void Destroy(void) {}
+		virtual void DumpLog(void) const {}
+
+
+	protected:
+		CRenderDevice *m_pDevice;
+		CRenderResourceManager *m_pResourceManager;
+	};
+
+	template<class T>
+	class CROSS_EXPORT CRenderResourcePtr : public CSharedPtr<T>
+	{
+	public:
+		CRenderResourcePtr(void) : CSharedPtr<T>() {}
+		CRenderResourcePtr(const T *p) : CSharedPtr<T>(p) {}
+		CRenderResourcePtr(const CRenderResourcePtr &ptr) : CSharedPtr<T>(ptr) {}
+
+
+	protected:
+		virtual void FreePointer(void)
+		{
+			if (m_pPointer) {
+				((CRenderResource *)m_pPointer)->GetResourceManager()->Free((CRenderResource *)m_pPointer);
+			}
+		}
+	};
+	*/
 }
