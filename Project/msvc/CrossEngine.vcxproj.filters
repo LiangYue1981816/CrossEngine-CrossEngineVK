@@ -494,5 +494,8 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRender.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
