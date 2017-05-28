@@ -20,37 +20,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	/*
-	class CROSS_EXPORT CRender
+	int CRender::lastErrorCode = 0;
+
+	CRender::CRender(const char *szCachePath)
+		: m_szCachePath{ 0 }
 	{
-	public:
-		CRender(const char *szCachePath);
-		virtual ~CRender(void);
+		ASSERT(szCachePath);
+		strcpy(m_szCachePath, szCachePath);
+	}
 
+	CRender::~CRender(void)
+	{
 
-	public:
-		static void SetLastError(int err);
-		static int GetLastError(void);
+	}
 
-	public:
-		virtual BOOL Create(HINSTANCE hInstance, HWND hWnd);
-		virtual void Destroy(void);
+	void CRender::SetLastError(int err)
+	{
+		lastErrorCode = err;
+	}
 
-	public:
-		const char* GetCachePath(void) const;
+	int CRender::GetLastError(void)
+	{
+		return lastErrorCode;
+	}
 
+	BOOL CRender::Create(HINSTANCE hInstance, HWND hWnd, uint32_t width, uint32_t height)
+	{
+		return TRUE;
+	}
 
-	protected:
-		char m_szCachePath[_MAX_STRING];
+	void CRender::Destroy(void)
+	{
 
-	protected:
-		static int vkErrorCode;
-	};
-	*/
+	}
+
+	const char* CRender::GetCachePath(void) const
+	{
+		return m_szCachePath;
+	}
+
 }
