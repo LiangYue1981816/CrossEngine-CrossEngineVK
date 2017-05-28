@@ -230,8 +230,7 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 	mkdir(szCachePath);
 
 	pVulkan = SAFE_NEW CrossEngine::CVulkan(szCachePath);
-	pVulkan->Create(hInstance, hWnd);
-	pVulkan->CreateSwapchain(rcView.right - rcView.left, rcView.bottom - rcView.top, VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR);
+	pVulkan->Create(hInstance, hWnd, rcView.right - rcView.left, rcView.bottom - rcView.top);
 	pDevice = pVulkan->GetGraphicsDevice();
 	pSwapchain = pVulkan->GetSwapchain();
 
@@ -261,7 +260,6 @@ void Destroy(void)
 		DestroyDescriptorSet();
 
 		pDevice->DumpLog();
-		pVulkan->DestroySwapchain();
 		pVulkan->Destroy();
 
 		SAFE_DELETE(pVulkan);

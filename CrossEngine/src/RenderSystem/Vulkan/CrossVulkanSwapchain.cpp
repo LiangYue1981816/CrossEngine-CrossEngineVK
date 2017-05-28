@@ -106,27 +106,19 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CVulkanSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
+	VkResult CVulkanSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
-		try {
-			std::vector<VkPresentModeKHR> modes;
-			std::vector<VkSurfaceFormatKHR> formats;
-			VkSurfaceCapabilitiesKHR capabilities;
+		std::vector<VkPresentModeKHR> modes;
+		std::vector<VkSurfaceFormatKHR> formats;
+		VkSurfaceCapabilitiesKHR capabilities;
 
-			CALL_VK_FUNCTION_THROW(EnumDeviceSurfaceModes(modes));
-			CALL_VK_FUNCTION_THROW(EnumDeviceSurfaceFormats(formats));
-			CALL_VK_FUNCTION_THROW(EnumDeviceSurfaceCapabilities(capabilities));
-			CALL_VK_FUNCTION_THROW(CreateSwapchain(width, height, transform, modes, formats, capabilities));
-			CALL_VK_FUNCTION_THROW(CreateImagesAndImageViews());
+		CALL_VK_FUNCTION_RETURN(EnumDeviceSurfaceModes(modes));
+		CALL_VK_FUNCTION_RETURN(EnumDeviceSurfaceFormats(formats));
+		CALL_VK_FUNCTION_RETURN(EnumDeviceSurfaceCapabilities(capabilities));
+		CALL_VK_FUNCTION_RETURN(CreateSwapchain(width, height, transform, modes, formats, capabilities));
+		CALL_VK_FUNCTION_RETURN(CreateImagesAndImageViews());
 
-			return TRUE;
-		}
-		catch (VkResult err) {
-			CVulkan::SetLastError(err);
-			Destroy();
-
-			return FALSE;
-		}
+		return VK_SUCCESS;
 	}
 
 	void CVulkanSwapchain::Destroy(void)

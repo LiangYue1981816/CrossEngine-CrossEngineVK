@@ -84,11 +84,8 @@ namespace CrossEngine {
 		static VkResult GetLastError(void);
 
 	public:
-		BOOL Create(HINSTANCE hInstance, HWND hWnd);
+		BOOL Create(HINSTANCE hInstance, HWND hWnd, uint32_t width, uint32_t height);
 		void Destroy(void);
-
-		BOOL CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
-		void DestroySwapchain(void);
 
 	protected:
 		VkResult EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const;
@@ -97,12 +94,14 @@ namespace CrossEngine {
 		VkResult CreateDebugReportCallback(void);
 		VkResult CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd);
 		VkResult CreateDevice(void);
+		VkResult CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 
 	protected:
 		void DestroyInstance(void);
 		void DestroyDebugReportCallback(void);
 		void DestroyPresentationSurface(void);
 		void DestroyDevice(void);
+		void DestroySwapchain(void);
 
 	public:
 		const char* GetCachePath(void) const;

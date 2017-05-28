@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		VkResult Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		void Destroy(void);
 
 	protected:

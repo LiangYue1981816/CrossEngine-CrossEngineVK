@@ -97,7 +97,7 @@ namespace CrossEngine {
 		return vkErrorCode;
 	}
 
-	BOOL CVulkan::Create(HINSTANCE hInstance, HWND hWnd)
+	BOOL CVulkan::Create(HINSTANCE hInstance, HWND hWnd, uint32_t width, uint32_t height)
 	{
 		try {
 			std::vector<const char*> enabledInstanceLayers;
@@ -109,6 +109,7 @@ namespace CrossEngine {
 			CALL_VK_FUNCTION_THROW(CreateDebugReportCallback());
 			CALL_VK_FUNCTION_THROW(CreatePresentationSurface(hInstance, hWnd));
 			CALL_VK_FUNCTION_THROW(CreateDevice());
+			CALL_VK_FUNCTION_THROW(CreateSwapchain(width, height, VK_SURFACE_TRANSFORM_INHERIT_BIT_KHR));
 
 			return TRUE;
 		}
@@ -122,20 +123,11 @@ namespace CrossEngine {
 
 	void CVulkan::Destroy(void)
 	{
+		DestroySwapchain();
 		DestroyDevice();
 		DestroyPresentationSurface();
 		DestroyDebugReportCallback();
 		DestroyInstance();
-	}
-
-	BOOL CVulkan::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
-	{
-		return m_pSwapchain->Create(width, height, transform);
-	}
-
-	void CVulkan::DestroySwapchain(void)
-	{
-		m_pSwapchain->Destroy();
 	}
 
 	VkResult CVulkan::EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const
@@ -296,6 +288,11 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
+	VkResult CVulkan::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
+	{
+		return m_pSwapchain->Create(width, height, transform);
+	}
+
 	void CVulkan::DestroyInstance(void)
 	{
 		if (m_vkInstance) {
@@ -329,6 +326,11 @@ namespace CrossEngine {
 	{
 		m_pComputeDevice->Destroy();
 		m_pGraphicsDevice->Destroy();
+	}
+
+	void CVulkan::DestroySwapchain(void)
+	{
+		m_pSwapchain->Destroy();
 	}
 
 	const char* CVulkan::GetCachePath(void) const
