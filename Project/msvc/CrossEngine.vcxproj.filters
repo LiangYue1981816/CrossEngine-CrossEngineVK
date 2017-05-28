@@ -282,6 +282,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResourceManager.h">
       <Filter>Engine\Header Files\RenderSystem\Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">

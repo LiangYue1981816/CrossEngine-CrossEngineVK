@@ -26,7 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	/*
 	class CROSS_EXPORT CRender
 	{
 	public:
@@ -52,5 +51,5 @@ namespace CrossEngine {
 	protected:
 		static int lastErrorCode;
 	};
-	*/
+
 }

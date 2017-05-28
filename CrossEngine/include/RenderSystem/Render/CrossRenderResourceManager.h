@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CRenderResourceManager
 	{
 		template<class T> friend class CRenderResourcePtr;
@@ -54,5 +54,5 @@ namespace CrossEngine {
 	protected:
 		CRenderDevice *m_pDevice;
 	};
-	*/
+
 }

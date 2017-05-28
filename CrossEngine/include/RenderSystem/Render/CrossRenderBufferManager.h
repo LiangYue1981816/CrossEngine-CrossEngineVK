@@ -26,21 +26,21 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanBufferManager : public CVulkanResourceManager
+	class CROSS_EXPORT CRenderBufferManager : public CRenderResourceManager
 	{
-		friend class CVulkanDevice;
+		friend class CRenderDevice;
 
 
 	protected:
-		CVulkanBufferManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanBufferManager(void);
+		CRenderBufferManager(CRenderDevice *pDevice);
+		virtual ~CRenderBufferManager(void);
 
 
 	public:
-		CVulkanBufferPtr AllocBuffer(void);
-		CVulkanIndexBufferPtr AllocIndexBuffer(void);
-		CVulkanVertexBufferPtr AllocVertexBuffer(void);
-		CVulkanUniformBufferPtr AllocUniformBuffer(void);
+		CRenderBufferPtr AllocBuffer(void);
+		CRenderIndexBufferPtr AllocIndexBuffer(void);
+		CRenderVertexBufferPtr AllocVertexBuffer(void);
+		CRenderUniformBufferPtr AllocUniformBuffer(void);
 
 	public:
 		virtual void DumpLog(const char *szTitle) const;

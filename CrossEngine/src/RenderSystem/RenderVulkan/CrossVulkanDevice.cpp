@@ -322,6 +322,11 @@ namespace CrossEngine {
 		return m_pDescriptorSetManager->AllocDescriptorSet(pool, pSetLayout);
 	}
 
+	CVulkanBufferPtr CVulkanDevice::NewBuffer(void)
+	{
+		return m_pBufferManager->AllocBuffer();
+	}
+
 	CVulkanIndexBufferPtr CVulkanDevice::NewIndexBuffer(void)
 	{
 		return m_pBufferManager->AllocIndexBuffer();

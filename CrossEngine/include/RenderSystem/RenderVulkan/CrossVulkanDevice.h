@@ -133,6 +133,7 @@ namespace CrossEngine {
 		CVulkanCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 		CVulkanDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
 
+		CVulkanBufferPtr NewBuffer(void);
 		CVulkanIndexBufferPtr NewIndexBuffer(void);
 		CVulkanVertexBufferPtr NewVertexBuffer(void);
 		CVulkanUniformBufferPtr NewUniformBuffer(void);

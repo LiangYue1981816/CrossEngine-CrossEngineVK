@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanBuffer : public CVulkanResource
+	class CROSS_EXPORT CRenderBuffer : public CRenderResource
 	{
-		friend class CVulkanBufferManager;
+		friend class CRenderBufferManager;
 
 
 	protected:
-		CVulkanBuffer(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
-		virtual ~CVulkanBuffer(void);
+		CRenderBuffer(CRenderDevice *pDevice, CRenderResourceManager *pResourceManager);
+		virtual ~CRenderBuffer(void);
 
 
 	public:
@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	protected:
 		VkBuffer m_vkBuffer;
-		CVulkanMemory *m_pMemory;
+		CRenderMemory *m_pMemory;
 
 	protected:
 		VkDeviceSize m_bufferSize;
@@ -65,12 +65,12 @@ namespace CrossEngine {
 		VkBufferUsageFlags m_usage;
 	};
 
-	class CROSS_EXPORT CVulkanBufferPtr : public CVulkanResourcePtr<CVulkanBuffer>
+	class CROSS_EXPORT CRenderBufferPtr : public CRenderResourcePtr<CRenderBuffer>
 	{
 	public:
-		CVulkanBufferPtr(void) : CVulkanResourcePtr<CVulkanBuffer>() {}
-		CVulkanBufferPtr(const CVulkanBuffer *p) : CVulkanResourcePtr<CVulkanBuffer>(p) {}
-		CVulkanBufferPtr(const CVulkanBufferPtr &ptr) : CVulkanResourcePtr<CVulkanBuffer>(ptr) {}
+		CRenderBufferPtr(void) : CRenderResourcePtr<CRenderBuffer>() {}
+		CRenderBufferPtr(const CRenderBuffer *p) : CRenderResourcePtr<CRenderBuffer>(p) {}
+		CRenderBufferPtr(const CRenderBufferPtr &ptr) : CRenderResourcePtr<CRenderBuffer>(ptr) {}
 	};
 
 }

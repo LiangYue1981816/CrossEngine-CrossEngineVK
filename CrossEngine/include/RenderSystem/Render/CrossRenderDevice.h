@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CRenderDevice
 	{
 	public:
@@ -108,5 +108,5 @@ namespace CrossEngine {
 	protected:
 		CRender *m_pRender;
 	};
-	*/
+
 }

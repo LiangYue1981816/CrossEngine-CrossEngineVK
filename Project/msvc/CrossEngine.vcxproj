@@ -233,6 +233,8 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanUniformBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRender.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderDevice.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResource.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResourceManager.h" />

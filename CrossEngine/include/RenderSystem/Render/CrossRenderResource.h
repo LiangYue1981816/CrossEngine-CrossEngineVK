@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CRenderResource
 	{
 		friend class CRenderResourceManager;
@@ -67,5 +67,5 @@ namespace CrossEngine {
 			}
 		}
 	};
-	*/
+
 }
