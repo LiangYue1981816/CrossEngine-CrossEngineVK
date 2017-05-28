@@ -246,7 +246,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\GLES\CrossGLES.h">
       <Filter>Engine\Header Files\RenderSystem\GLES</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossGfx.h">
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRender.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
   </ItemGroup>

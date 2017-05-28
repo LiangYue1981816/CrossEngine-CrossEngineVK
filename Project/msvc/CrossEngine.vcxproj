@@ -186,7 +186,7 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossType.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtility.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossGfx.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRender.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\GLES\CrossGLES.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkan.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Vulkan\CrossVulkanAllocator.h" />

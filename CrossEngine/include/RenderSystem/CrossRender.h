@@ -26,6 +26,31 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	
+	/*
+	class CROSS_EXPORT CRender
+	{
+	public:
+		CRender(const char *szCachePath);
+		virtual ~CRender(void);
 
+
+	public:
+		static void SetLastError(int err);
+		static int GetLastError(void);
+
+	public:
+		virtual BOOL Create(HINSTANCE hInstance, HWND hWnd);
+		virtual void Destroy(void);
+
+	public:
+		const char* GetCachePath(void) const;
+
+
+	protected:
+		char m_szCachePath[_MAX_STRING];
+
+	protected:
+		static int vkErrorCode;
+	};
+	*/
 }
