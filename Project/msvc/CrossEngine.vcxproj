@@ -186,6 +186,7 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossType.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtility.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossRenderAPI.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl31.h" />

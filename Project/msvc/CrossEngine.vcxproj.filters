@@ -64,6 +64,9 @@
     <Filter Include="Engine\Header Files\RenderSystem\RenderGLES\GLES3">
       <UniqueIdentifier>{3bcb1458-29f8-4e3a-9316-ce1fc556d8f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\RenderSystem\RenderAPI">
+      <UniqueIdentifier>{c584f00d-3e38-4ed3-9ddf-4add5f2c7203}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -263,6 +266,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossRenderAPI.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
