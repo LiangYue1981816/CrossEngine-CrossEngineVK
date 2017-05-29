@@ -232,12 +232,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanTextureManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanUniformBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRender.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBufferManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderDevice.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResource.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResourceManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResource.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceSystem.h" />
@@ -303,7 +297,6 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanTextureManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanUniformBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Render\CrossRender.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResource.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp" />

@@ -55,17 +55,11 @@
     <Filter Include="Engine\Header Files\RenderSystem\RenderVulkan">
       <UniqueIdentifier>{247a38ca-6a84-4dc1-a408-01c3b3fa28b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Header Files\RenderSystem\Render">
-      <UniqueIdentifier>{87e4944b-582e-4bfb-b11d-0ae3e356bbab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Source Files\RenderSystem\RenderGLES">
       <UniqueIdentifier>{b5cb3f23-bb89-46c2-b932-10d8cac510e8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Source Files\RenderSystem\RenderVulkan">
       <UniqueIdentifier>{d83b3d27-7d9d-48e9-aa98-cb92ce2110d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\RenderSystem\Render">
-      <UniqueIdentifier>{bd6891c9-511b-4814-b72d-4b22458aa044}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Header Files\RenderSystem\RenderGLES\GLES3">
       <UniqueIdentifier>{3bcb1458-29f8-4e3a-9316-ce1fc556d8f2}</UniqueIdentifier>
@@ -131,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossMutex.h">
       <Filter>Engine\Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRender.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\GLES3</Filter>
@@ -273,21 +264,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderDevice.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResource.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderResourceManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\Render\CrossRenderBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\Render</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -409,9 +385,6 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\Render\CrossRender.cpp">
-      <Filter>Engine\Source Files\RenderSystem\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkan.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
