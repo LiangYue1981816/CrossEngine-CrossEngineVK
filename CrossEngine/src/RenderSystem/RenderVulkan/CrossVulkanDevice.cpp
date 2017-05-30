@@ -317,9 +317,9 @@ namespace CrossEngine {
 		return m_pCommandBufferManager->AllocCommandBuffer(pool, level);
 	}
 
-	CVulkanDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
+	CVulkanDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CVulkanPipeline *pPipeline)
 	{
-		return m_pDescriptorSetManager->AllocDescriptorSet(pool, pSetLayout);
+		return m_pDescriptorSetManager->AllocDescriptorSet(pool, pPipeline->GetDescriptorSetLayout(set));
 	}
 
 	CVulkanBufferPtr CVulkanDevice::NewBuffer(void)

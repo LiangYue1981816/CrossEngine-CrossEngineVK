@@ -128,13 +128,11 @@ void DestroyBuffer(void)
 
 void CreateDescriptorSet(void)
 {
-	const CrossEngine::CVulkanDescriptorSetLayout* pDescriptorSetLayout = ptrPipeline->GetDescriptorSetLayout(0);
-
-	ptrDescriptorSetA = pDevice->AllocDescriptorSet(0, pDescriptorSetLayout);
+	ptrDescriptorSetA = pDevice->AllocDescriptorSet(0, 0, ptrPipeline);
 	ptrDescriptorSetA->SetUniformBuffer(0, ptrUniformBufferA);
 	ptrDescriptorSetA->UpdateDescriptorSets();
 
-	ptrDescriptorSetB = pDevice->AllocDescriptorSet(0, pDescriptorSetLayout);
+	ptrDescriptorSetB = pDevice->AllocDescriptorSet(0, 0, ptrPipeline);
 	ptrDescriptorSetB->SetUniformBuffer(0, ptrUniformBufferB);
 	ptrDescriptorSetB->UpdateDescriptorSets();
 }
