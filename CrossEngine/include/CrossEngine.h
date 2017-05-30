@@ -92,6 +92,8 @@ THE SOFTWARE.
 #include "CrossStream.h"
 #include "CrossSharedPtr.h"
 
+#include "CrossGfxAPI.h"
+
 #include "CrossVulkan.h"
 #include "CrossVulkanHelper.h"
 #include "CrossVulkanAllocator.h"

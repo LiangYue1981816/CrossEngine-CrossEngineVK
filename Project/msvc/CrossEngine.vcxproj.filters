@@ -267,7 +267,52 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossRenderAPI.h">
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxAPI.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxCommandBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxDefinition.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxDescriptorSet.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxDevice.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxFrameBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxIndexBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxPipelineCompute.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxPipelineGraphics.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxRenderTexture.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxResource.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxResourceManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxShader.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxTexture.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxUniformBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxVertexBuffer.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
     </ClInclude>
   </ItemGroup>
