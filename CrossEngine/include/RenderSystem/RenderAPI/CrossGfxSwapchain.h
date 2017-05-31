@@ -39,12 +39,12 @@ namespace CrossEngine {
 		}
 
 
-	protected:
-		virtual int Create(HDC hDC, uint32_t width, uint32_t height) = 0;
-		virtual void Destroy(void) = 0;
-
 	public:
-		virtual void SwapBuffers(void) = 0;
+		virtual int Present(void) const = 0;
+		virtual int AcquireNextImage(CGfxFence fence) = 0;
+
+		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
+		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
 	};
 
 }

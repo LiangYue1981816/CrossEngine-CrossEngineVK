@@ -28,7 +28,8 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGfxResourceManager
 	{
-		template<class T> friend class CGfxResourcePtr;
+		template<class T>
+		friend class CGfxResourcePtr;
 
 
 	protected:
@@ -43,14 +44,51 @@ namespace CrossEngine {
 
 
 	protected:
-		virtual BOOL Create(void) = 0;
-		virtual void Destroy(void) = 0;
+		virtual BOOL Create(void)
+		{
+			return TRUE;
+		}
 
-	protected:
-		virtual void FreeResource(CGfxResource *pResource) = 0;
+		virtual void Destroy(void)
+		{
+			for (const auto &itResource : m_pResources) {
+				if (CGfxResource *pResource = itResource.second) {
+					SAFE_DELETE(pResource);
+				}
+			}
 
-	protected:
-		virtual void DumpLog(const char *szTitle) const = 0;
+			m_pResources.clear();
+		}
+
+		virtual void FreeResource(CGfxResource *pResource)
+		{
+			if (pResource) {
+				{
+					mutex_autolock mutex(m_mutex);
+					const auto &itResource = m_pResources.find(pResource);
+					if (itResource != m_pResources.end()) m_pResources.erase(itResource);
+				}
+
+				SAFE_DELETE(pResource);
+			}
+		}
+
+		virtual void DumpLog(const char *szTitle) const
+		{
+			uint32_t count = 0;
+
+			LOGI("%s\n", szTitle);
+			{
+				for (const auto &itResource : m_pResources) {
+					if (const CGfxResource *pResource = itResource.second) {
+						pResource->DumpLog();
+						count++;
+					}
+				}
+			}
+			LOGI("*** %d objects found\n", count);
+			LOGI("\n");
+		}
 
 
 	protected:

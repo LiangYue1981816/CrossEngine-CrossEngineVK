@@ -28,7 +28,9 @@ namespace CrossEngine {
 
 	class CGfxResource
 	{
-		template<class T> friend class CGfxResourcePtr;
+		template<class T>
+		friend class CGfxResourcePtr;
+		friend class CGfxResourceManager;
 
 
 	protected:
@@ -39,8 +41,13 @@ namespace CrossEngine {
 		}
 		virtual ~CGfxResource(void)
 		{
-
+			Destroy();
 		}
+
+
+	public:
+		virtual void Destroy(void) = 0;
+		virtual void DumpLog(void) const = 0;
 
 
 	protected:

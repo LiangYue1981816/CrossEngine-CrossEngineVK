@@ -39,10 +39,6 @@ namespace CrossEngine {
 		}
 
 
-	protected:
-		virtual BOOL Create(void) = 0;
-		virtual void Destroy(void) = 0;
-
 	public:
 		virtual CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, CommandBufferLevel level) = 0;
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineCompute *pPipeline) = 0;
