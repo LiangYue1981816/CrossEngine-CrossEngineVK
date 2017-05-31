@@ -315,6 +315,15 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxVertexBuffer.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxQueue.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxSwapchain.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxInstance.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">

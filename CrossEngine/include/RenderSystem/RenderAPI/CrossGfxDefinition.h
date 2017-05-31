@@ -242,6 +242,11 @@ namespace CrossEngine {
 	} StencilOpState;
 
 
+	class CROSS_EXPORT CGfxInstance;
+	class CROSS_EXPORT CGfxQueue;
+	class CROSS_EXPORT CGfxDevice;
+	class CROSS_EXPORT CGfxSwapchain;
+
 	template<class T>
 	class CROSS_EXPORT CGfxResourcePtr;
 	class CROSS_EXPORT CGfxResource;

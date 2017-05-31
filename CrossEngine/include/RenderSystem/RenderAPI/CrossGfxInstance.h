@@ -22,21 +22,30 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossGfxDefinition.h"
-#include "CrossGfxInstance.h"
-#include "CrossGfxQueue.h"
-#include "CrossGfxDevice.h"
-#include "CrossGfxSwapchain.h"
-#include "CrossGfxResource.h"
-#include "CrossGfxResourceManager.h"
-#include "CrossGfxIndexBuffer.h"
-#include "CrossGfxVertexBuffer.h"
-#include "CrossGfxUniformBuffer.h"
-#include "CrossGfxTexture.h"
-#include "CrossGfxRenderTexture.h"
-#include "CrossGfxShader.h"
-#include "CrossGfxPipelineCompute.h"
-#include "CrossGfxPipelineGraphics.h"
-#include "CrossGfxFrameBuffer.h"
-#include "CrossGfxDescriptorSet.h"
-#include "CrossGfxCommandBuffer.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGfxInstance
+	{
+	protected:
+		CGfxInstance(void)
+		{
+
+		}
+		virtual ~CGfxInstance(void)
+		{
+
+		}
+
+
+	public:
+		virtual BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height) = 0;
+		virtual void Destroy(void) = 0;
+
+	public:
+		virtual CGfxDevice* GetDevice(void) const = 0;
+		virtual CGfxSwapchain* GetSwapchain(void) const = 0;
+	};
+
+}

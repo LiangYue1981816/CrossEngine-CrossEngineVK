@@ -193,12 +193,15 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxDevice.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxFrameBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxIndexBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxInstance.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxPipelineCompute.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxPipelineGraphics.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxQueue.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxRenderTexture.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxResource.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxResourceManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxShader.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxSwapchain.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxTexture.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxUniformBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxVertexBuffer.h" />

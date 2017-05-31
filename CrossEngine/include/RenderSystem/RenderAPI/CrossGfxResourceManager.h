@@ -34,11 +34,11 @@ namespace CrossEngine {
 	protected:
 		CGfxResourceManager(void)
 		{
-
+			pthread_mutex_init(&m_mutex, NULL);
 		}
 		virtual ~CGfxResourceManager(void)
 		{
-
+			pthread_mutex_destroy(&m_mutex);
 		}
 
 
