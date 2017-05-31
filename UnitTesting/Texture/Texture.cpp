@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 
+/*
 CrossEngine::CVulkan *pVulkan = NULL;
 CrossEngine::CVulkanDeviceGraphics *pDevice = NULL;
 CrossEngine::CVulkanSwapchain *pSwapchain = NULL;
@@ -261,4 +262,20 @@ void Render(void)
 		pDevice->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
 	}
 	pSwapchain->Present();
+}
+*/
+
+void Create(HINSTANCE hInstance, HWND hWnd)
+{
+
+}
+
+void Destroy(void)
+{
+
+}
+
+void Render(void)
+{
+
 }

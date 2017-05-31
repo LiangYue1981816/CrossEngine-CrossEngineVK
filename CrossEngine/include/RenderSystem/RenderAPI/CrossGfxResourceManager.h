@@ -53,6 +53,7 @@ namespace CrossEngine {
 		{
 			for (const auto &itResource : m_pResources) {
 				if (CGfxResource *pResource = itResource.second) {
+					pResource->Destroy();
 					SAFE_DELETE(pResource);
 				}
 			}
@@ -69,6 +70,7 @@ namespace CrossEngine {
 					if (itResource != m_pResources.end()) m_pResources.erase(itResource);
 				}
 
+				pResource->Destroy();
 				SAFE_DELETE(pResource);
 			}
 		}

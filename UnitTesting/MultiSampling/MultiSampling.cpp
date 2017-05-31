@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 
+/*
 #define SAMPLE_COUNT VK_SAMPLE_COUNT_4_BIT
 
 CrossEngine::CVulkan *pVulkan = NULL;
@@ -285,4 +286,20 @@ void Render(void)
 		pDevice->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
 	}
 	pSwapchain->Present();
+}
+*/
+
+void Create(HINSTANCE hInstance, HWND hWnd)
+{
+
+}
+
+void Destroy(void)
+{
+
+}
+
+void Render(void)
+{
+
 }
