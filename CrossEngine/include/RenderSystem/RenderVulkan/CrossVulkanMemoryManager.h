@@ -26,25 +26,42 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	class CROSS_EXPORT CVulkanMemoryManager
 	{
+		friend class CVulkanDevice;
+		friend class CVulkanStagingBuffer;
+
+
 	protected:
-		CGfxSwapchain(void)
-		{
+		CVulkanMemoryManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanMemoryManager(void);
 
-		}
-		virtual ~CGfxSwapchain(void)
-		{
 
-		}
+	protected:
+		BOOL Create(void);
+		void Destroy(void);
 
+	protected:
+		uint32_t GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const;
+
+	protected:
+		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
+		void FreeMemory(CVulkanMemory *pMemory);
 
 	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
+		void DumpLog(const char *szTitle) const;
 
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
+
+	protected:
+		static const VkDeviceSize HOST_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
+		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
+
+	protected:
+		pthread_mutex_t m_mutex;
+		std::map<uint32_t, CVulkanMemoryAllocator*> m_pAllocatorListHeads;
+
+	protected:
+		CVulkanDevice *m_pDevice;
 	};
 
 }

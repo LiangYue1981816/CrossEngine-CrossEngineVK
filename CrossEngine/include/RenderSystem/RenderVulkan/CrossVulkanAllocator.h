@@ -26,25 +26,42 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	class CROSS_EXPORT CVulkanAllocator
 	{
+		friend class CVulkanInstance;
+
+
 	protected:
-		CGfxSwapchain(void)
-		{
-
-		}
-		virtual ~CGfxSwapchain(void)
-		{
-
-		}
+		CVulkanAllocator(void);
+		virtual ~CVulkanAllocator(void);
 
 
 	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
+		DWORD GetAllocatedSize(void) const;
+		DWORD GetMaxAllocatedSize(void) const;
 
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
+	public:
+		const VkAllocationCallbacks* GetAllocationCallbacks(void) const;
+
+	protected:
+		void* Alloc(size_t size, MEMTYPE type);
+		void  Free(void *ptr);
+
+	protected:
+		static void* VKAPI_PTR vkAllocationFunction(void *pUserData, size_t size, size_t alignment, VkSystemAllocationScope allocationScope);
+		static void* VKAPI_PTR vkReallocationFunction(void *pUserData, void *pOriginal, size_t size, size_t alignment, VkSystemAllocationScope allocationScope);
+		static void  VKAPI_PTR vkFreeFunction(void *pUserData, void *pPointer);
+		static void  VKAPI_PTR vkInternalAllocationNotification(void *pUserData, size_t size, VkInternalAllocationType allocationType, VkSystemAllocationScope allocationScope);
+		static void  VKAPI_PTR vkInternalFreeNotification(void *pUserData, size_t size, VkInternalAllocationType allocationType, VkSystemAllocationScope allocationScope);
+
+
+	protected:
+		CMemAllocator m_memAllocator;
+		VkAllocationCallbacks m_vkCallback;
+
+	protected:
+		DWORD m_dwAllocatedSize;
+		DWORD m_dwMaxAllocatedSize;
 	};
 
 }

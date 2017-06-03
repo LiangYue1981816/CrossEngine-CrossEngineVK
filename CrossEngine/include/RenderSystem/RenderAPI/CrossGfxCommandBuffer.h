@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGfxCommandBuffer
 	{
+		friend class CGfxCommandBufferPtr;
+
+
 	protected:
 		CGfxCommandBuffer(void)
 		{
@@ -58,6 +61,30 @@ namespace CrossEngine {
 		virtual void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) = 0;
 		virtual void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) = 0;
 		virtual void CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) = 0;
+	};
+
+	class CROSS_EXPORT CGfxCommandBufferPtr : public CSharedPtr<CGfxCommandBuffer>
+	{
+	public:
+		CGfxCommandBufferPtr(void) : CSharedPtr<CGfxCommandBuffer>()
+		{
+
+		}
+		CGfxCommandBufferPtr(const CGfxCommandBuffer *p) : CSharedPtr<CGfxCommandBuffer>(p)
+		{
+
+		}
+		CGfxCommandBufferPtr(const CGfxCommandBufferPtr &ptr) : CSharedPtr<CGfxCommandBuffer>(ptr)
+		{
+
+		}
+
+
+	protected:
+		virtual void FreePointer(void)
+		{
+			SAFE_DELETE(m_pPointer);
+		}
 	};
 
 }

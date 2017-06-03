@@ -1,0 +1,93 @@
+/****************************************************************************
+Copyright (c) 2017 LiangYue.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sub license, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+****************************************************************************/
+
+#pragma once
+#include "CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanInstance : public CGfxInstance
+	{
+	protected:
+		CVulkanInstance(const char *szCachePath);
+		virtual ~CVulkanInstance(void);
+
+
+	public:
+		static void SetLastError(VkResult err);
+		static VkResult GetLastError(void);
+
+	public:
+		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
+		void Destroy(void);
+
+	protected:
+		VkResult EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const;
+		VkResult EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const;
+		VkResult CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions);
+		VkResult CreateDebugReportCallback(void);
+		VkResult CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd);
+		VkResult CreateDevice(void);
+		VkResult CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+
+	protected:
+		void DestroyInstance(void);
+		void DestroyDebugReportCallback(void);
+		void DestroyPresentationSurface(void);
+		void DestroyDevice(void);
+		void DestroySwapchain(void);
+
+	public:
+		VkInstance GetInstance(void) const;
+		VkSurfaceKHR GetSurface(void) const;
+
+	public:
+		CGfxDevice* GetDevice(void) const;
+		CGfxSwapchain* GetSwapchain(void) const;
+		CVulkanAllocator* GetAllocator(void) const;
+
+	public:
+		const char* GetCachePath(void) const;
+
+
+	protected:
+		VkInstance m_vkInstance;
+		VkSurfaceKHR m_vkSurface;
+
+#ifdef _DEBUG
+		VkDebugReportCallbackEXT m_vkDebugReportCallback;
+#endif
+
+	protected:
+		CVulkanDevice *m_pDevice;
+		CVulkanSwapchain *m_pSwapchain;
+		CVulkanAllocator *m_pAllocator;
+
+	protected:
+		char m_szCachePath[_MAX_STRING];
+
+	protected:
+		static VkResult vkErrorCode;
+	};
+
+}

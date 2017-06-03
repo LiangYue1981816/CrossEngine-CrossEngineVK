@@ -204,6 +204,66 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxInstance.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDefinition.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanInstance.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanAPI.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDevice.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanSwapchain.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanQueue.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanAllocator.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanMemory.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanMemoryAllocator.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanMemoryManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanStagingBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanStagingBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanFrameBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanPipelineManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanRenderPassManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanShaderManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanTextureManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -325,6 +385,60 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanAllocator.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDevice.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanInstance.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanQueue.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanSwapchain.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanMemory.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanMemoryAllocator.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanMemoryManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanStagingBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanStagingBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanFrameBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanPipelineManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanRenderPassManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanShaderManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanTextureManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,31 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
-	{
-	protected:
-		CGfxSwapchain(void)
-		{
 
-		}
-		virtual ~CGfxSwapchain(void)
-		{
-
-		}
-
-
-	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
-
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
-	};
 
 }

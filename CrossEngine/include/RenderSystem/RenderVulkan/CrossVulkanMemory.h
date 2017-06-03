@@ -26,25 +26,54 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	class CROSS_EXPORT CVulkanMemory
 	{
+		friend class CVulkanMemoryManager;
+		friend class CVulkanMemoryAllocator;
+
+
 	protected:
-		CGfxSwapchain(void)
-		{
+		CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset);
+		virtual ~CVulkanMemory(void);
 
-		}
-		virtual ~CGfxSwapchain(void)
-		{
 
-		}
-
+	protected:
+		CVulkanMemoryAllocator* GetAllocator(void) const;
 
 	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
+		BOOL IsHostVisible(void) const;
+		BOOL IsHostCoherent(void) const;
+		BOOL IsHostCached(void) const;
 
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
+		VkDeviceSize GetSize(void) const;
+
+		VkResult BindImage(VkImage vkImage) const;
+		VkResult BindBuffer(VkBuffer vkBuffer) const;
+
+		VkResult BeginMapMemory(VkDeviceSize offset, VkDeviceSize size, void **ppAddress) const;
+		VkResult EndMapMemory(void) const;
+		VkResult FlushMappedMemory(VkDeviceSize offset, VkDeviceSize size) const;
+
+
+	protected:
+		VkDeviceMemory m_vkMemory;
+
+	protected:
+		VkFlags m_flags;
+		VkDeviceSize m_size;
+		VkDeviceSize m_offset;
+
+	protected:
+		CVulkanMemoryAllocator *m_pAllocator;
+		CVulkanDevice *m_pDevice;
+
+	protected:
+		BOOL bInUse;
+
+		CVulkanMemory *pNext;
+		CVulkanMemory *pPrev;
+		CVulkanMemory *pFreeNext;
+		CVulkanMemory *pFreePrev;
 	};
 
 }

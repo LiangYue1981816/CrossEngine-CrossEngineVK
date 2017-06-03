@@ -26,25 +26,31 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	class CROSS_EXPORT CVulkanStagingBufferManager
 	{
+		friend class CVulkanDevice;
+
+
 	protected:
-		CGfxSwapchain(void)
-		{
+		CVulkanStagingBufferManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanStagingBufferManager(void);
 
-		}
-		virtual ~CGfxSwapchain(void)
-		{
 
-		}
-
+	protected:
+		BOOL Create(void);
+		void Destroy(void);
 
 	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
+		CVulkanStagingBuffer* AllocBuffer(VkDeviceSize size);
+		void FreeBuffer(CVulkanStagingBuffer *pBuffer);
 
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
+
+	protected:
+		pthread_mutex_t m_mutex;
+		std::map<CVulkanStagingBuffer*, CVulkanStagingBuffer*> m_pBuffers;
+
+	protected:
+		CVulkanDevice *m_pDevice;
 	};
 
 }

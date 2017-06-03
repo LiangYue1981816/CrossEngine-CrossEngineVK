@@ -20,31 +20,57 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	CVulkanQueue::CVulkanQueue(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
+		, m_vkQueue(VK_NULL_HANDLE)
+		, m_queueFamilyIndex(UINT32_MAX)
 	{
-	protected:
-		CGfxSwapchain(void)
-		{
 
-		}
-		virtual ~CGfxSwapchain(void)
-		{
+	}
 
-		}
+	CVulkanQueue::~CVulkanQueue(void)
+	{
 
+	}
 
-	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
+	BOOL CVulkanQueue::Create(uint32_t queueFamilyIndex)
+	{
+		return TRUE;
+	}
 
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
-	};
+	void CVulkanQueue::Destroy(void)
+	{
+
+	}
+
+	VkQueue CVulkanQueue::GetQueue(void) const
+	{
+		return m_vkQueue;
+	}
+
+	uint32_t CVulkanQueue::GetQueueFamilyIndex(void) const
+	{
+		return m_queueFamilyIndex;
+	}
+
+	BOOL CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer) const
+	{
+		return TRUE;
+	}
+
+	BOOL CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	{
+		return TRUE;
+	}
+
+	BOOL CVulkanQueue::WaitIdle(void) const
+	{
+		return TRUE;
+	}
 
 }

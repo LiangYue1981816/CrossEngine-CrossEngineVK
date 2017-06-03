@@ -20,31 +20,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	CVulkanCommandBufferManager::CVulkanCommandBufferManager(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
 	{
-	protected:
-		CGfxSwapchain(void)
-		{
 
-		}
-		virtual ~CGfxSwapchain(void)
-		{
+	}
 
-		}
+	CVulkanCommandBufferManager::~CVulkanCommandBufferManager(void)
+	{
 
+	}
 
-	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
+	BOOL CVulkanCommandBufferManager::Create(void)
+	{
+		return TRUE;
+	}
 
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
-	};
+	void CVulkanCommandBufferManager::Destroy(void)
+	{
+
+	}
 
 }

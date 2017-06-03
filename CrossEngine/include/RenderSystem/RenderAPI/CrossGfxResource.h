@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CGfxResource
+	class CROSS_EXPORT CGfxResource
 	{
 		template<class T>
 		friend class CGfxResourcePtr;
@@ -55,7 +55,7 @@ namespace CrossEngine {
 	};
 
 	template<class T>
-	class CGfxResourcePtr : public CSharedPtr<T>
+	class CROSS_EXPORT CGfxResourcePtr : public CSharedPtr<T>
 	{
 	public:
 		CGfxResourcePtr(void) : CSharedPtr<T>()

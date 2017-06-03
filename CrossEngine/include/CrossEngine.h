@@ -93,6 +93,7 @@ THE SOFTWARE.
 #include "CrossSharedPtr.h"
 
 #include "CrossGfxAPI.h"
+#include "CrossVulkanAPI.h"
 
 #include "CrossResource.h"
 #include "CrossResourceManager.h"

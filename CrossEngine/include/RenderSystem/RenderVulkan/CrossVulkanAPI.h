@@ -22,29 +22,22 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-
-
-namespace CrossEngine {
-
-	class CROSS_EXPORT CGfxSwapchain
-	{
-	protected:
-		CGfxSwapchain(void)
-		{
-
-		}
-		virtual ~CGfxSwapchain(void)
-		{
-
-		}
-
-
-	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
-
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
-	};
-
-}
+#include "CrossVulkanDefinition.h"
+#include "CrossVulkanAllocator.h"
+#include "CrossVulkanInstance.h"
+#include "CrossVulkanQueue.h"
+#include "CrossVulkanDevice.h"
+#include "CrossVulkanSwapchain.h"
+#include "CrossVulkanMemory.h"
+#include "CrossVulkanMemoryAllocator.h"
+#include "CrossVulkanMemoryManager.h"
+#include "CrossVulkanStagingBuffer.h"
+#include "CrossVulkanStagingBufferManager.h"
+#include "CrossVulkanCommandBufferManager.h"
+#include "CrossVulkanDescriptorSetManager.h"
+#include "CrossVulkanBufferManager.h"
+#include "CrossVulkanTextureManager.h"
+#include "CrossVulkanShaderManager.h"
+#include "CrossVulkanPipelineManager.h"
+#include "CrossVulkanRenderPassManager.h"
+#include "CrossVulkanFrameBufferManager.h"

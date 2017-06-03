@@ -20,31 +20,58 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	CVulkanStagingBufferManager::CVulkanStagingBufferManager(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
+		, m_mutex(NULL)
 	{
-	protected:
-		CGfxSwapchain(void)
-		{
+		pthread_mutex_init(&m_mutex, NULL);
+	}
 
+	CVulkanStagingBufferManager::~CVulkanStagingBufferManager(void)
+	{
+		pthread_mutex_destroy(&m_mutex);
+	}
+
+	BOOL CVulkanStagingBufferManager::Create(void)
+	{
+		return TRUE;
+	}
+
+	void CVulkanStagingBufferManager::Destroy(void)
+	{
+		for (const auto &itBuffer : m_pBuffers) {
+			if (CVulkanStagingBuffer *pBuffer = itBuffer.second) {
+				SAFE_DELETE(pBuffer);
+			}
 		}
-		virtual ~CGfxSwapchain(void)
-		{
 
+		m_pBuffers.clear();
+	}
+
+	CVulkanStagingBuffer* CVulkanStagingBufferManager::AllocBuffer(VkDeviceSize size)
+	{
+		CVulkanStagingBuffer *pBuffer = SAFE_NEW CVulkanStagingBuffer(m_pDevice, size);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pBuffers[pBuffer] = pBuffer;
+		}
+		return pBuffer;
+	}
+
+	void CVulkanStagingBufferManager::FreeBuffer(CVulkanStagingBuffer *pBuffer)
+	{
+		{
+			mutex_autolock mutex(m_mutex);
+			const auto &itBuffer = m_pBuffers.find(pBuffer);
+			if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
 		}
 
-
-	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
-
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
-	};
+		SAFE_DELETE(pBuffer);
+	}
 
 }

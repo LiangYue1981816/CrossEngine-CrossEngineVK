@@ -26,49 +26,67 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxDescriptorSet
+	class CROSS_EXPORT CVulkanMemoryAllocator
 	{
-		friend class CGfxDescriptorSetPtr;
+		friend class CVulkanMemory;
+		friend class CVulkanMemoryManager;
 
 
 	protected:
-		CGfxDescriptorSet(void)
-		{
-
-		}
-		virtual ~CGfxDescriptorSet(void)
-		{
-
-		}
-
-
-	public:
-		virtual void SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture) = 0;
-		virtual void SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer) = 0;
-	};
-
-	class CROSS_EXPORT CGfxDescriptorSetPtr : public CSharedPtr<CGfxDescriptorSet>
-	{
-	public:
-		CGfxDescriptorSetPtr(void) : CSharedPtr<CGfxDescriptorSet>()
-		{
-
-		}
-		CGfxDescriptorSetPtr(const CGfxDescriptorSet *p) : CSharedPtr<CGfxDescriptorSet>(p)
-		{
-
-		}
-		CGfxDescriptorSetPtr(const CGfxDescriptorSetPtr &ptr) : CSharedPtr<CGfxDescriptorSet>(ptr)
-		{
-
-		}
+		typedef struct {
+			rb_node node;
+			VkDeviceSize size;
+			CVulkanMemory *pFreeListHead;
+		} mem_node;
 
 
 	protected:
-		virtual void FreePointer(void)
-		{
-			SAFE_DELETE(m_pPointer);
-		}
+		CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkMemoryPropertyFlags memoryPropertyFlags);
+		virtual ~CVulkanMemoryAllocator(void);
+
+
+	protected:
+		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment);
+		void FreeMemory(CVulkanMemory *pMemory);
+
+	protected:
+		void InitNodes(uint32_t numNodes);
+		void InsertMemory(CVulkanMemory *pMemory);
+		void RemoveMemory(CVulkanMemory *pMemory);
+		CVulkanMemory* SearchMemory(VkDeviceSize size) const;
+
+	protected:
+		BOOL IsEmpty(void) const;
+		uint32_t GetMemoryTypeIndex(void) const;
+
+	protected:
+		VkDeviceSize GetFullSize(void) const;
+		VkDeviceSize GetAllocatedSize(void) const;
+		uint32_t GetAllocationCount(void) const;
+
+	protected:
+		void DumpLog(void) const;
+
+
+	protected:
+		VkDeviceMemory m_vkMemory;
+
+	protected:
+		uint32_t m_type;
+		VkFlags m_flags;
+		VkDeviceSize m_size;
+
+	protected:
+		rb_root m_root;
+		mem_node *m_nodes;
+		CVulkanMemory *m_pListHead;
+
+	protected:
+		CVulkanDevice *m_pDevice;
+
+	protected:
+		CVulkanMemoryAllocator *pNext;
+		CVulkanMemoryAllocator *pPrev;
 	};
 
 }

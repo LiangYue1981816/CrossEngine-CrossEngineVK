@@ -286,6 +286,8 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGfxFrameBuffer;
 	class CROSS_EXPORT CGfxDescriptorSet;
 	class CROSS_EXPORT CGfxCommandBuffer;
+	class CROSS_EXPORT CGfxDescriptorSetPtr;
+	class CROSS_EXPORT CGfxCommandBufferPtr;
 
 	typedef CGfxResourcePtr<CGfxIndexBuffer> CGfxIndexBufferPtr;
 	typedef CGfxResourcePtr<CGfxVertexBuffer> CGfxVertexBufferPtr;
@@ -296,8 +298,6 @@ namespace CrossEngine {
 	typedef CGfxResourcePtr<CGfxPipelineCompute> CGfxPipelineComputePtr;
 	typedef CGfxResourcePtr<CGfxPipelineGraphics> CGfxPipelineGraphicsPtr;
 	typedef CGfxResourcePtr<CGfxFrameBuffer> CGfxFrameBufferPtr;
-	typedef CSharedPtr<CGfxDescriptorSet> CGfxDescriptorSetPtr;
-	typedef CSharedPtr<CGfxCommandBuffer> CGfxCommandBufferPtr;
 
 	typedef void* CGfxFence;
 	typedef void* CGfxSemaphore;

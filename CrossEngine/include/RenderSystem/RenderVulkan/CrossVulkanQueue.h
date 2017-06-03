@@ -26,25 +26,36 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxSwapchain
+	class CROSS_EXPORT CVulkanQueue : public CGfxQueue
 	{
+		friend class CVulkanDevice;
+
+
 	protected:
-		CGfxSwapchain(void)
-		{
+		CVulkanQueue(CVulkanDevice *pDevice);
+		virtual ~CVulkanQueue(void);
 
-		}
-		virtual ~CGfxSwapchain(void)
-		{
 
-		}
+	protected:
+		BOOL Create(uint32_t queueFamilyIndex);
+		void Destroy(void);
 
+	protected:
+		VkQueue GetQueue(void) const;
+		uint32_t GetQueueFamilyIndex(void) const;
 
 	public:
-		virtual BOOL Present(void) const = 0;
-		virtual BOOL AcquireNextImage(CGfxFence fence) = 0;
+		BOOL Submit(CGfxCommandBuffer *pCommandBuffer) const;
+		BOOL Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
+		BOOL WaitIdle(void) const;
 
-		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
-		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
+
+	protected:
+		VkQueue m_vkQueue;
+		uint32_t m_queueFamilyIndex;
+
+	protected:
+		CVulkanDevice *m_pDevice;
 	};
 
 }
