@@ -26,38 +26,12 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanQueue : public CGfxQueue
-	{
-		friend class CVulkanDevice;
-		friend class CVulkanStagingBuffer;
-		friend class CVulkanStagingBufferManager;
+	VkResult vkBeginCommandBufferPrimary(VkCommandBuffer vkCommandBuffer, VkCommandBufferUsageFlags flags);
+	VkResult vkBeginCommandBufferSecondary(VkCommandBuffer vkCommandBuffer, VkCommandBufferUsageFlags flags, VkFramebuffer vkFrameBuffer, VkRenderPass vkRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics);
 
+	void vkCmdSetImageLayout(VkCommandBuffer vkCommandBuffer, VkImage vkImage, VkImageLayout oldLayout, VkImageLayout newLayout, const VkImageSubresourceRange &range);
 
-	protected:
-		CVulkanQueue(CVulkanDevice *pDevice);
-		virtual ~CVulkanQueue(void);
-
-
-	protected:
-		BOOL Create(uint32_t queueFamilyIndex);
-		void Destroy(void);
-
-	protected:
-		VkQueue GetQueue(void) const;
-		uint32_t GetQueueFamilyIndex(void) const;
-
-	public:
-		BOOL Submit(CGfxCommandBuffer *pCommandBuffer) const;
-		BOOL Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
-		BOOL WaitIdle(void) const;
-
-
-	protected:
-		VkQueue m_vkQueue;
-		uint32_t m_queueFamilyIndex;
-
-	protected:
-		CVulkanDevice *m_pDevice;
-	};
+	VkResult vkSubmitCommandBuffer(VkQueue vkQueue, VkCommandBuffer vkCommandBuffer, VkFence vkFence);
+	VkResult vkSubmitCommandBuffer(VkQueue vkQueue, VkCommandBuffer vkCommandBuffer, VkFence vkFence, VkSemaphore vkWaitSemaphore, VkPipelineStageFlags waitStageFlags, VkSemaphore vkSignalSemaphore);
 
 }

@@ -22,6 +22,7 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
+#include "CrossVulkanHelper.h"
 #include "CrossVulkanDefinition.h"
 #include "CrossVulkanAllocator.h"
 #include "CrossVulkanInstance.h"
@@ -33,6 +34,7 @@ THE SOFTWARE.
 #include "CrossVulkanMemoryManager.h"
 #include "CrossVulkanStagingBuffer.h"
 #include "CrossVulkanStagingBufferManager.h"
+#include "CrossVulkanCommand.h"
 #include "CrossVulkanCommandBufferManager.h"
 #include "CrossVulkanDescriptorSetManager.h"
 #include "CrossVulkanBufferManager.h"

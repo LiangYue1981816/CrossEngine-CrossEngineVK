@@ -264,6 +264,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanTextureManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommand.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanHelper.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -438,6 +444,12 @@
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanTextureManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommand.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanHelper.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
   </ItemGroup>

@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CVulkanStagingBufferManager::CVulkanStagingBufferManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
+
 		, m_vkCommandPool(VK_NULL_HANDLE)
 		, m_mutex(NULL)
 	{
@@ -76,21 +77,20 @@ namespace CrossEngine {
 
 	CVulkanStagingBuffer* CVulkanStagingBufferManager::AllocBuffer(VkDeviceSize size)
 	{
+		mutex_autolock mutex(m_mutex);
+
 		CVulkanStagingBuffer *pBuffer = SAFE_NEW CVulkanStagingBuffer(m_pDevice, size);
-		{
-			mutex_autolock mutex(m_mutex);
-			m_pBuffers[pBuffer] = pBuffer;
-		}
+		m_pBuffers[pBuffer] = pBuffer;
+
 		return pBuffer;
 	}
 
 	void CVulkanStagingBufferManager::FreeBuffer(CVulkanStagingBuffer *pBuffer)
 	{
-		{
-			mutex_autolock mutex(m_mutex);
-			const auto &itBuffer = m_pBuffers.find(pBuffer);
-			if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
-		}
+		mutex_autolock mutex(m_mutex);
+
+		const auto &itBuffer = m_pBuffers.find(pBuffer);
+		if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
 
 		SAFE_DELETE(pBuffer);
 	}

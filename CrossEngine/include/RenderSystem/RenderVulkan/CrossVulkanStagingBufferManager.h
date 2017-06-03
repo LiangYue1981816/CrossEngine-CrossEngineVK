@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanStagingBufferManager
 	{
 		friend class CVulkanDevice;
+		friend class CVulkanStagingBuffer;
 
 
 	protected:
@@ -40,7 +41,7 @@ namespace CrossEngine {
 		BOOL Create(void);
 		void Destroy(void);
 
-	public:
+	protected:
 		CVulkanStagingBuffer* AllocBuffer(VkDeviceSize size);
 		void FreeBuffer(CVulkanStagingBuffer *pBuffer);
 
