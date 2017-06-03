@@ -240,13 +240,19 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanStagingBufferManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandBufferManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommand.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanHelper.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanBufferManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanFrameBufferManager.h">
@@ -262,12 +268,6 @@
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanTextureManager.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommand.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanHelper.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
   </ItemGroup>
