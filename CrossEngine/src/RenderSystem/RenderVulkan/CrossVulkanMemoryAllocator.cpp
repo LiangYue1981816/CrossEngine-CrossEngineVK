@@ -30,6 +30,7 @@ namespace CrossEngine {
 
 	CVulkanMemoryAllocator::CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkMemoryPropertyFlags memoryPropertyFlags)
 		: m_pDevice(pDevice)
+
 		, m_vkMemory(VK_NULL_HANDLE)
 
 		, m_size(memorySize)
