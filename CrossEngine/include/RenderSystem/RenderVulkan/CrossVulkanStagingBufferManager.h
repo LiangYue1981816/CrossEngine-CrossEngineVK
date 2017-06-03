@@ -46,6 +46,9 @@ namespace CrossEngine {
 
 
 	protected:
+		VkCommandPool m_vkCommandPool;
+
+	protected:
 		pthread_mutex_t m_mutex;
 		std::map<CVulkanStagingBuffer*, CVulkanStagingBuffer*> m_pBuffers;
 

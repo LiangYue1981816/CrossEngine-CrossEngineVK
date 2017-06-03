@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CVulkanStagingBufferManager::CVulkanStagingBufferManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
+		, m_vkCommandPool(VK_NULL_HANDLE)
 		, m_mutex(NULL)
 	{
 		pthread_mutex_init(&m_mutex, NULL);
@@ -39,7 +40,22 @@ namespace CrossEngine {
 
 	BOOL CVulkanStagingBufferManager::Create(void)
 	{
-		return TRUE;
+		try {
+			VkCommandPoolCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
+			createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
+			CALL_VK_FUNCTION_THROW(vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool));
+
+			return TRUE;
+		}
+		catch (VkResult err) {
+			CVulkanInstance::SetLastError(err);
+			Destroy();
+
+			return FALSE;
+		}
 	}
 
 	void CVulkanStagingBufferManager::Destroy(void)
@@ -50,7 +66,12 @@ namespace CrossEngine {
 			}
 		}
 
+		if (m_vkCommandPool) {
+			vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
 		m_pBuffers.clear();
+		m_vkCommandPool = VK_NULL_HANDLE;
 	}
 
 	CVulkanStagingBuffer* CVulkanStagingBufferManager::AllocBuffer(VkDeviceSize size)
