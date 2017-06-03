@@ -79,7 +79,7 @@ namespace CrossEngine {
 	{
 		mutex_autolock mutex(m_mutex);
 
-		CVulkanStagingBuffer *pBuffer = SAFE_NEW CVulkanStagingBuffer(m_pDevice, size);
+		CVulkanStagingBuffer *pBuffer = SAFE_NEW CVulkanStagingBuffer(m_pDevice, m_vkCommandPool, size);
 		m_pBuffers[pBuffer] = pBuffer;
 
 		return pBuffer;

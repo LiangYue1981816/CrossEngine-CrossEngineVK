@@ -25,18 +25,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkDeviceSize size)
+	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkCommandPool vkCommandPool, VkDeviceSize size)
 		: m_pDevice(pDevice)
 
 		, m_pMemory(NULL)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
+		, m_vkCommandPool(vkCommandPool)
 		, m_vkCommandBuffer(VK_NULL_HANDLE)
 	{
 		VkCommandBufferAllocateInfo commandBufferInfo = {};
 		commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 		commandBufferInfo.pNext = NULL;
-		commandBufferInfo.commandPool = m_pDevice->GetStagingBufferManager()->m_vkCommandPool;
+		commandBufferInfo.commandPool = m_vkCommandPool;
 		commandBufferInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		commandBufferInfo.commandBufferCount = 1;
 		vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &m_vkCommandBuffer);
@@ -64,7 +65,7 @@ namespace CrossEngine {
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 
-		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_pDevice->GetStagingBufferManager()->m_vkCommandPool, 1, &m_vkCommandBuffer);
+		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_vkCommandPool, 1, &m_vkCommandBuffer);
 	}
 
 	VkResult CVulkanStagingBuffer::TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const

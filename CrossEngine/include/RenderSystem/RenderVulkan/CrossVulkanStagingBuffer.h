@@ -31,8 +31,8 @@ namespace CrossEngine {
 		friend class CVulkanStagingBufferManager;
 
 
-	public:
-		CVulkanStagingBuffer(CVulkanDevice *pDevice, VkDeviceSize size);
+	protected:
+		CVulkanStagingBuffer(CVulkanDevice *pDevice, VkCommandPool vkCommandPool, VkDeviceSize size);
 		virtual ~CVulkanStagingBuffer(void);
 
 
@@ -49,6 +49,7 @@ namespace CrossEngine {
 		CVulkanMemory *m_pMemory;
 
 	protected:
+		VkCommandPool m_vkCommandPool;
 		VkCommandBuffer m_vkCommandBuffer;
 
 	protected:
