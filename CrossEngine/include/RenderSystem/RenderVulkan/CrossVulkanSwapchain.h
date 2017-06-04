@@ -58,9 +58,23 @@ namespace CrossEngine {
 		CGfxSemaphore GetAcquireSemaphore(void) const;
 		CGfxSemaphore GetRenderDoneSemaphore(void) const;
 
+	public:
+		uint32_t GetImageIndex(void) const;
+		uint32_t GetImageCount(void) const;
+
+	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+		VkFormat GetFormat(void) const;
+
 
 	protected:
 		static const int SWAPCHAIN_IMAGE_COUNT = 3;
+
+	protected:
+		uint32_t m_width;
+		uint32_t m_height;
+		VkFormat m_format;
 
 	protected:
 		uint32_t m_indexImage;
