@@ -44,6 +44,7 @@ namespace CrossEngine {
 
 		}
 
+		virtual void Release(void) = 0;
 
 	public:
 		virtual HANDLE GetHandle(void) = 0;
@@ -77,7 +78,7 @@ namespace CrossEngine {
 		virtual void FreePointer(void)
 		{
 			if (m_pPointer) {
-				((CGfxResource *)m_pPointer)->m_pResourceManager->FreeResource((CGfxResource *)m_pPointer);
+				((CGfxResource *)m_pPointer)->Release();
 			}
 		}
 	};

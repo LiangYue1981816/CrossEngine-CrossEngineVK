@@ -41,6 +41,8 @@ namespace CrossEngine {
 
 		}
 
+		virtual void Release(void) = 0;
+
 
 	public:
 		virtual HANDLE GetHandle(void) const = 0;
@@ -70,7 +72,9 @@ namespace CrossEngine {
 	protected:
 		virtual void FreePointer(void)
 		{
-			SAFE_DELETE(m_pPointer);
+			if (m_pPointer) {
+				m_pPointer->Release();
+			}
 		}
 	};
 

@@ -28,8 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGfxResourceManager
 	{
-		template<class T>
-		friend class CGfxResourcePtr;
+		friend class CGfxResource;
 
 
 	protected:

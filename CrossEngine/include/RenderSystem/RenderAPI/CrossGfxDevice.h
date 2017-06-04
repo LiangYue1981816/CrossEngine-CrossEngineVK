@@ -41,8 +41,8 @@ namespace CrossEngine {
 
 	public:
 		virtual CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, CommandBufferLevel level) = 0;
-		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineCompute *pPipeline) = 0;
-		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphics *pPipeline) = 0;
+		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline) = 0;
+		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
 
 		virtual CGfxIndexBufferPtr NewIndexBuffer(void) = 0;
 		virtual CGfxVertexBufferPtr NewVertexBuffer(void) = 0;
@@ -55,6 +55,7 @@ namespace CrossEngine {
 		virtual CGfxPipelineComputePtr NewPipelineCompute(void) = 0;
 		virtual CGfxPipelineGraphicsPtr NewPipelineGraphics(void) = 0;
 
+		virtual CGfxRenderPassPtr NewRenderPass(void) = 0;
 		virtual CGfxFrameBufferPtr NewFrameBuffer(void) = 0;
 
 	public:

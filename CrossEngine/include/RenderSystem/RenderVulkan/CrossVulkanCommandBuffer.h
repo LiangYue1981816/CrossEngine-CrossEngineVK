@@ -32,11 +32,12 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandBuffer(CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer);
+		CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer);
 		virtual ~CVulkanCommandBuffer(void);
 
 
 	protected:
+		void Release(void);
 		void Clearup(void);
 
 	public:
@@ -59,12 +60,12 @@ namespace CrossEngine {
 		void CmdNextSubpass(VkSubpassContents contents);
 		void CmdEndRenderPass(void);
 
-		void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute);
-		void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics);
-		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType);
-		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset);
+		void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline);
+		void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline);
 		void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout);
 		void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout);
+		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset);
+		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType);
 
 		void CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth);
 		void CmdSetScissor(int x, int y, uint32_t width, uint32_t height);
@@ -80,12 +81,13 @@ namespace CrossEngine {
 		void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance);
 		void CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
 
-		void CmdExecuteCommands(uint32_t commandBufferCount, const CGfxCommandBuffer* pCommandBuffers);
+		void CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer);
 
 
 	protected:
 		VkFence m_vkFence;
 		VkCommandBuffer m_vkCommandBuffer;
+		CVulkanCommandPool *m_pCommandPool;
 
 	protected:
 		CVulkanDevice *m_pDevice;

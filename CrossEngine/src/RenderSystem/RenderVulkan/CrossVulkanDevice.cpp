@@ -283,12 +283,12 @@ namespace CrossEngine {
 		return CGfxCommandBufferPtr(NULL);
 	}
 
-	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineCompute *pPipeline)
+	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)
 	{
 		return CGfxDescriptorSetPtr(NULL);
 	}
 
-	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphics *pPipeline)
+	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
 		return CGfxDescriptorSetPtr(NULL);
 	}
@@ -331,6 +331,11 @@ namespace CrossEngine {
 	CGfxPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(void)
 	{
 		return CGfxPipelineGraphicsPtr(NULL);
+	}
+
+	CGfxRenderPassPtr CVulkanDevice::NewRenderPass(void)
+	{
+		return CGfxRenderPassPtr(NULL);
 	}
 
 	CGfxFrameBufferPtr CVulkanDevice::NewFrameBuffer(void)

@@ -25,11 +25,12 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanCommandBuffer::CVulkanCommandBuffer(CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer)
+	CVulkanCommandBuffer::CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer)
 		: m_pDevice(pDevice)
 
 		, m_vkFence(VK_NULL_HANDLE)
 		, m_vkCommandBuffer(vkCommandBuffer)
+		, m_pCommandPool(pCommandPool)
 	{
 		VkFenceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -42,6 +43,11 @@ namespace CrossEngine {
 	{
 		Reset();
 		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+	}
+
+	void CVulkanCommandBuffer::Release(void)
+	{
+		m_pCommandPool->FreeCommandBuffer(this);
 	}
 
 	void CVulkanCommandBuffer::Clearup(void)
@@ -126,25 +132,14 @@ namespace CrossEngine {
 		vkCmdEndRenderPass(m_vkCommandBuffer);
 	}
 
-	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute)
+	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
-		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipeline)ptrPipelineCompute->GetHandle());
+		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipeline)ptrPipeline->GetHandle());
 	}
 
-	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
+	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipeline)ptrPipelineGraphics->GetHandle());
-	}
-
-	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType)
-	{
-		vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)ptrIndexBuffer->GetHandle(), offset, (VkIndexType)indexType);
-	}
-
-	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)
-	{
-		VkBuffer vkBuffer = (VkBuffer)ptrVertexBuffer->GetHandle();
-		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
+		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipeline)ptrPipeline->GetHandle());
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout)
@@ -159,6 +154,17 @@ namespace CrossEngine {
 		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipelineLayout)layout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
+	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)
+	{
+		VkBuffer vkBuffer = (VkBuffer)ptrVertexBuffer->GetHandle();
+		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
+	}
+
+	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType)
+	{
+		vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)ptrIndexBuffer->GetHandle(), offset, (VkIndexType)indexType);
+	}
+
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
 	{
 		VkViewport viewport = { 0 };
@@ -168,7 +174,6 @@ namespace CrossEngine {
 		viewport.height = height;
 		viewport.minDepth = minDepth;
 		viewport.maxDepth = maxDepth;
-
 		vkCmdSetViewport(m_vkCommandBuffer, 0, 1, &viewport);
 	}
 
@@ -179,7 +184,6 @@ namespace CrossEngine {
 		scissor.offset.y = y;
 		scissor.extent.width = width;
 		scissor.extent.height = height;
-
 		vkCmdSetScissor(m_vkCommandBuffer, 0, 1, &scissor);
 	}
 
@@ -233,13 +237,10 @@ namespace CrossEngine {
 		vkCmdDispatch(m_vkCommandBuffer, groupCountX, groupCountY, groupCountZ);
 	}
 
-	void CVulkanCommandBuffer::CmdExecuteCommands(uint32_t commandBufferCount, const CGfxCommandBuffer* pCommandBuffers)
+	void CVulkanCommandBuffer::CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-		std::vector<VkCommandBuffer> commandBuffers;
-		for (uint32_t index = 0; index < commandBufferCount; index++) {
-			commandBuffers.push_back((VkCommandBuffer)pCommandBuffers[index].GetHandle());
-		}
-		vkCmdExecuteCommands(m_vkCommandBuffer, commandBuffers.size(), commandBuffers.data());
+		VkCommandBuffer vkCommandBuffer = (VkCommandBuffer)ptrCommandBuffer->GetHandle();
+		vkCmdExecuteCommands(m_vkCommandBuffer, 1, &vkCommandBuffer);
 	}
 
 }
