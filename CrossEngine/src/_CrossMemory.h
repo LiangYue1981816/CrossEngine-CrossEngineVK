@@ -26,29 +26,29 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	extern void* _malloc(size_t size);
-	extern void _free(void *ptr);
+	void* _malloc(size_t size);
+	void  _free(void *ptr);
 
 
 	struct STACK_ALLOCATOR;
-	extern STACK_ALLOCATOR* STACK_Create(void);
-	extern void STACK_Destroy(STACK_ALLOCATOR *pStackAllocator);
-	extern void* STACK_Alloc(STACK_ALLOCATOR *pStackAllocator, size_t size);
-	extern BOOL STACK_Free(STACK_ALLOCATOR *pStackAllocator, void *ptr);
-	extern BOOL IsStackMemory(STACK_ALLOCATOR *pStackAllocator, void *pPointer);
+	STACK_ALLOCATOR* STACK_Create(void);
+	void  STACK_Destroy(STACK_ALLOCATOR *pStackAllocator);
+	void* STACK_Alloc(STACK_ALLOCATOR *pStackAllocator, size_t size);
+	BOOL  STACK_Free(STACK_ALLOCATOR *pStackAllocator, void *ptr);
+	BOOL  IsStackMemory(STACK_ALLOCATOR *pStackAllocator, void *pPointer);
 
 
 	struct HEAP_ALLOCATOR;
-	extern HEAP_ALLOCATOR* HEAP_Create(void);
-	extern void HEAP_Destroy(HEAP_ALLOCATOR *pHeapAllocator);
-	extern void* HEAP_Alloc(HEAP_ALLOCATOR *pHeapAllocator, size_t size);
-	extern BOOL HEAP_Free(HEAP_ALLOCATOR *pHeapAllocator, void *pPointer);
+	HEAP_ALLOCATOR* HEAP_Create(void);
+	void  HEAP_Destroy(HEAP_ALLOCATOR *pHeapAllocator);
+	void* HEAP_Alloc(HEAP_ALLOCATOR *pHeapAllocator, size_t size);
+	BOOL  HEAP_Free(HEAP_ALLOCATOR *pHeapAllocator, void *pPointer);
 
 
 	struct POOL_ALLOCATOR;
-	extern POOL_ALLOCATOR* POOL_Create(HEAP_ALLOCATOR *pHeapAllocator);
-	extern void POOL_Destroy(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator);
-	extern void* POOL_Alloc(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator, size_t size);
-	extern BOOL POOL_Free(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator, void *pPointer);
+	POOL_ALLOCATOR* POOL_Create(HEAP_ALLOCATOR *pHeapAllocator);
+	void  POOL_Destroy(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator);
+	void* POOL_Alloc(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator, size_t size);
+	BOOL  POOL_Free(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator, void *pPointer);
 
 }
