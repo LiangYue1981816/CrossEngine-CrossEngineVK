@@ -22,25 +22,34 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossVulkanHelper.h"
-#include "CrossVulkanDefinition.h"
-#include "CrossVulkanAllocator.h"
-#include "CrossVulkanInstance.h"
-#include "CrossVulkanQueue.h"
-#include "CrossVulkanDevice.h"
-#include "CrossVulkanSwapchain.h"
-#include "CrossVulkanMemory.h"
-#include "CrossVulkanMemoryAllocator.h"
-#include "CrossVulkanMemoryManager.h"
-#include "CrossVulkanStagingBuffer.h"
-#include "CrossVulkanStagingBufferManager.h"
-#include "CrossVulkanCommand.h"
-#include "CrossVulkanCommandBuffer.h"
-#include "CrossVulkanCommandBufferManager.h"
-#include "CrossVulkanDescriptorSetManager.h"
-#include "CrossVulkanBufferManager.h"
-#include "CrossVulkanTextureManager.h"
-#include "CrossVulkanShaderManager.h"
-#include "CrossVulkanPipelineManager.h"
-#include "CrossVulkanRenderPassManager.h"
-#include "CrossVulkanFrameBufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanCommandPool
+	{
+		friend class CVulkanCommandBuffer;
+		friend class CVulkanCommandBufferPtr;
+		friend class CVulkanCommandBufferManager;
+
+
+	protected:
+		CVulkanCommandPool(CVulkanDevice *pDevice);
+		virtual ~CVulkanCommandPool(void);
+
+
+	protected:
+		CVulkanCommandBuffer* AllocCommandBuffer(VkCommandBufferLevel level);
+		void FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer);
+
+
+	protected:
+		VkCommandPool m_vkCommandPool;
+		CVulkanCommandBuffer *m_pFreeListHead[VK_COMMAND_BUFFER_LEVEL_RANGE_SIZE];
+		CVulkanCommandBuffer *m_pActiveListHead[VK_COMMAND_BUFFER_LEVEL_RANGE_SIZE];
+
+	protected:
+		CVulkanDevice *m_pDevice;
+	};
+
+}

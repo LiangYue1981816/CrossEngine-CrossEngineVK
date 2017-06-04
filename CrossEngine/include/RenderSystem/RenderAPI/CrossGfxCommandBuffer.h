@@ -42,11 +42,15 @@ namespace CrossEngine {
 		}
 
 	public:
+		virtual HANDLE GetHandle(void) const = 0;
+
+	public:
 		virtual void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute) = 0;
 		virtual void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) = 0;
 		virtual void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType) = 0;
 		virtual void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset) = 0;
-		virtual void CmdBindDescriptorSet(const CGfxDescriptorSetPtr &ptrDescriptorSet) = 0;
+		virtual void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout) = 0;
+		virtual void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout) = 0;
 
 		virtual void CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth) = 0;
 		virtual void CmdSetScissor(int x, int y, uint32_t width, uint32_t height) = 0;
@@ -61,6 +65,8 @@ namespace CrossEngine {
 		virtual void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) = 0;
 		virtual void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) = 0;
 		virtual void CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) = 0;
+
+		virtual void CmdExecuteCommands(uint32_t commandBufferCount, const CGfxCommandBuffer* pCommandBuffers) = 0;
 	};
 
 	class CROSS_EXPORT CGfxCommandBufferPtr : public CSharedPtr<CGfxCommandBuffer>

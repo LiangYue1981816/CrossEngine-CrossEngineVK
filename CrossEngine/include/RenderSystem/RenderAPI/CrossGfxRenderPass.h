@@ -22,25 +22,28 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossVulkanHelper.h"
-#include "CrossVulkanDefinition.h"
-#include "CrossVulkanAllocator.h"
-#include "CrossVulkanInstance.h"
-#include "CrossVulkanQueue.h"
-#include "CrossVulkanDevice.h"
-#include "CrossVulkanSwapchain.h"
-#include "CrossVulkanMemory.h"
-#include "CrossVulkanMemoryAllocator.h"
-#include "CrossVulkanMemoryManager.h"
-#include "CrossVulkanStagingBuffer.h"
-#include "CrossVulkanStagingBufferManager.h"
-#include "CrossVulkanCommand.h"
-#include "CrossVulkanCommandBuffer.h"
-#include "CrossVulkanCommandBufferManager.h"
-#include "CrossVulkanDescriptorSetManager.h"
-#include "CrossVulkanBufferManager.h"
-#include "CrossVulkanTextureManager.h"
-#include "CrossVulkanShaderManager.h"
-#include "CrossVulkanPipelineManager.h"
-#include "CrossVulkanRenderPassManager.h"
-#include "CrossVulkanFrameBufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGfxRenderPass : public CGfxResource
+	{
+	protected:
+		CGfxRenderPass(CGfxResourceManager *pResourceManager)
+			: CGfxResource(pResourceManager)
+		{
+
+		}
+		virtual ~CGfxRenderPass(void)
+		{
+
+		}
+
+
+	public:
+		virtual BOOL Create(void) = 0;
+		virtual void Destroy(void) = 0;
+		virtual void DumpLog(void) const = 0;
+	};
+
+}

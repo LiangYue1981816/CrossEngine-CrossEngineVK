@@ -46,6 +46,7 @@ namespace CrossEngine {
 
 
 	public:
+		virtual HANDLE GetHandle(void) = 0;
 		virtual void Destroy(void) = 0;
 		virtual void DumpLog(void) const = 0;
 

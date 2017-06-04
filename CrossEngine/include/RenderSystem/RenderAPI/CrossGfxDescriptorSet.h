@@ -43,6 +43,9 @@ namespace CrossEngine {
 
 
 	public:
+		virtual HANDLE GetHandle(void) const = 0;
+
+	public:
 		virtual void SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture) = 0;
 		virtual void SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer) = 0;
 	};

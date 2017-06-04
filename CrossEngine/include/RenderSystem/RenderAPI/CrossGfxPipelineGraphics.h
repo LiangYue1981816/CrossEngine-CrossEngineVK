@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxPipelineGraphics : CGfxResource
+	class CROSS_EXPORT CGfxPipelineGraphics : public CGfxResource
 	{
 	protected:
 		CGfxPipelineGraphics(CGfxResourceManager *pResourceManager)

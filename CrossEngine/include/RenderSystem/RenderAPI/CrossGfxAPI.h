@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include "CrossGfxShader.h"
 #include "CrossGfxPipelineCompute.h"
 #include "CrossGfxPipelineGraphics.h"
+#include "CrossGfxRenderPass.h"
 #include "CrossGfxFrameBuffer.h"
 #include "CrossGfxDescriptorSet.h"
 #include "CrossGfxCommandBuffer.h"
