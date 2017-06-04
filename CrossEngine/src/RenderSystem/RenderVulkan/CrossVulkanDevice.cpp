@@ -78,7 +78,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pFrameBufferManager);
 	}
 
-	VkResult CVulkanDevice::Create(void)
+	int CVulkanDevice::Create(void)
 	{
 		return VK_SUCCESS;
 	}
@@ -88,87 +88,87 @@ namespace CrossEngine {
 
 	}
 
-	VkResult CVulkanDevice::EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const
+	int CVulkanDevice::EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const
+	int CVulkanDevice::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CheckPhysicalDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice) const
+	int CVulkanDevice::CheckPhysicalDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice) const
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CheckPhysicalDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const
+	int CVulkanDevice::CheckPhysicalDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
+	int CVulkanDevice::CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
+	int CVulkanDevice::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateQueue(uint32_t queueFamilyIndex)
+	int CVulkanDevice::CreateQueue(uint32_t queueFamilyIndex)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateMemoryManager(void)
+	int CVulkanDevice::CreateMemoryManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateCommandPoolManager(void)
+	int CVulkanDevice::CreateCommandPoolManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateDescriptorSetManager(void)
+	int CVulkanDevice::CreateDescriptorSetManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateStagingBufferManager(void)
+	int CVulkanDevice::CreateStagingBufferManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateBufferManager(void)
+	int CVulkanDevice::CreateBufferManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateTextureManager(void)
+	int CVulkanDevice::CreateTextureManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateShaderManager(void)
+	int CVulkanDevice::CreateShaderManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreatePipelineManager(void)
+	int CVulkanDevice::CreatePipelineManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateRenderPassManager(void)
+	int CVulkanDevice::CreateRenderPassManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateFrameBufferManager(void)
+	int CVulkanDevice::CreateFrameBufferManager(void)
 	{
 		return VK_SUCCESS;
 	}

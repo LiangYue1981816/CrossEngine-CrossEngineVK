@@ -28,13 +28,13 @@ namespace CrossEngine {
 
 	#define CALL_VK_FUNCTION_RETURN(func)   \
 	{                                       \
-		VkResult err = func;                \
+		int err = func;                \
 		if (err != VK_SUCCESS) return err;  \
 	}
 
 	#define CALL_VK_FUNCTION_THROW(func)    \
 	{                                       \
-		VkResult err = func;                \
+		int err = func;                \
 		if (err != VK_SUCCESS) throw err;   \
 	}
 

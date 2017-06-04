@@ -39,7 +39,7 @@ namespace CrossEngine {
 
 	}
 
-	VkResult CVulkanQueue::Create(uint32_t queueFamilyIndex)
+	int CVulkanQueue::Create(uint32_t queueFamilyIndex)
 	{
 		m_queueFamilyIndex = queueFamilyIndex;
 		vkGetDeviceQueue(m_pDevice->GetDevice(), m_queueFamilyIndex, 0, &m_vkQueue);

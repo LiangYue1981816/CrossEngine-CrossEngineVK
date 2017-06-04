@@ -38,30 +38,30 @@ namespace CrossEngine {
 
 
 	protected:
-		VkResult Create(void);
+		int Create(void);
 		void Destroy(void);
 
 	protected:
-		VkResult EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const;
+		int EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const;
 
-		VkResult SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
-		VkResult CheckPhysicalDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice) const;
-		VkResult CheckPhysicalDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const;
-		VkResult CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
+		int SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
+		int CheckPhysicalDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice) const;
+		int CheckPhysicalDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const;
+		int CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
 
-		VkResult CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex);
-		VkResult CreateQueue(uint32_t queueFamilyIndex);
-		VkResult CreateMemoryManager(void);
-		VkResult CreateCommandPoolManager(void);
-		VkResult CreateDescriptorSetManager(void);
-		VkResult CreateStagingBufferManager(void);
+		int CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex);
+		int CreateQueue(uint32_t queueFamilyIndex);
+		int CreateMemoryManager(void);
+		int CreateCommandPoolManager(void);
+		int CreateDescriptorSetManager(void);
+		int CreateStagingBufferManager(void);
 
-		VkResult CreateBufferManager(void);
-		VkResult CreateTextureManager(void);
-		VkResult CreateShaderManager(void);
-		VkResult CreatePipelineManager(void);
-		VkResult CreateRenderPassManager(void);
-		VkResult CreateFrameBufferManager(void);
+		int CreateBufferManager(void);
+		int CreateTextureManager(void);
+		int CreateShaderManager(void);
+		int CreatePipelineManager(void);
+		int CreateRenderPassManager(void);
+		int CreateFrameBufferManager(void);
 
 	protected:
 		void DestroyDevice(void);

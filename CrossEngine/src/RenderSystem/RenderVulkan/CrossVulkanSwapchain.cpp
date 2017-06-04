@@ -107,7 +107,7 @@ namespace CrossEngine {
 
 	}
 
-	VkResult CVulkanSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
+	int CVulkanSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		std::vector<VkPresentModeKHR> modes;
 		std::vector<VkSurfaceFormatKHR> formats;
@@ -128,7 +128,7 @@ namespace CrossEngine {
 		DestroySwapchain();
 	}
 
-	VkResult CVulkanSwapchain::EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const
+	int CVulkanSwapchain::EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const
 	{
 		modes.clear();
 
@@ -142,7 +142,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanSwapchain::EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const
+	int CVulkanSwapchain::EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const
 	{
 		formats.clear();
 
@@ -156,12 +156,12 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanSwapchain::EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const
+	int CVulkanSwapchain::EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const
 	{
 		return vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &capabilities);
 	}
 
-	VkResult CVulkanSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
+	int CVulkanSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
 	{
 		VkExtent2D imageExtent = GetSwapchainExtent(capabilities, width, height);
 		VkImageUsageFlags imageUsage = GetSwapchainUsageFlags(capabilities);
@@ -206,7 +206,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanSwapchain::CreateImagesAndImageViews(void)
+	int CVulkanSwapchain::CreateImagesAndImageViews(void)
 	{
 		uint32_t numImages = 0;
 		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, NULL));

@@ -75,7 +75,7 @@ namespace CrossEngine {
 		return m_size;
 	}
 
-	VkResult CVulkanMemory::BindImage(VkImage vkImage) const
+	int CVulkanMemory::BindImage(VkImage vkImage) const
 	{
 #ifdef _DEBUG
 		VkMemoryRequirements requirements;
@@ -87,7 +87,7 @@ namespace CrossEngine {
 		return vkBindImageMemory(m_pDevice->GetDevice(), vkImage, m_vkMemory, m_offset);
 	}
 
-	VkResult CVulkanMemory::BindBuffer(VkBuffer vkBuffer) const
+	int CVulkanMemory::BindBuffer(VkBuffer vkBuffer) const
 	{
 #ifdef _DEBUG
 		VkMemoryRequirements requirements;
@@ -99,18 +99,18 @@ namespace CrossEngine {
 		return vkBindBufferMemory(m_pDevice->GetDevice(), vkBuffer, m_vkMemory, m_offset);
 	}
 
-	VkResult CVulkanMemory::BeginMapMemory(VkDeviceSize offset, VkDeviceSize size, void **ppAddress) const
+	int CVulkanMemory::BeginMapMemory(VkDeviceSize offset, VkDeviceSize size, void **ppAddress) const
 	{
 		return vkMapMemory(m_pDevice->GetDevice(), m_vkMemory, m_offset + offset, size, 0, ppAddress);
 	}
 
-	VkResult CVulkanMemory::EndMapMemory(void) const
+	int CVulkanMemory::EndMapMemory(void) const
 	{
 		vkUnmapMemory(m_pDevice->GetDevice(), m_vkMemory);
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanMemory::FlushMappedMemory(VkDeviceSize offset, VkDeviceSize size) const
+	int CVulkanMemory::FlushMappedMemory(VkDeviceSize offset, VkDeviceSize size) const
 	{
 		if (IsHostCoherent()) {
 			return VK_SUCCESS;

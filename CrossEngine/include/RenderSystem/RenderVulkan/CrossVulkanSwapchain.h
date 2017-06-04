@@ -37,15 +37,15 @@ namespace CrossEngine {
 
 
 	protected:
-		VkResult Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		int Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		void Destroy(void);
 
 	protected:
-		VkResult EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const;
-		VkResult EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const;
-		VkResult EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const;
-		VkResult CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities);
-		VkResult CreateImagesAndImageViews(void);
+		int EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const;
+		int EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const;
+		int EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const;
+		int CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities);
+		int CreateImagesAndImageViews(void);
 
 	protected:
 		void DestroySwapchain(void);

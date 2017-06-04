@@ -50,7 +50,7 @@ namespace CrossEngine {
 
 			return TRUE;
 		}
-		catch (VkResult err) {
+		catch (int err) {
 			CVulkanInstance::SetLastError(err);
 			Destroy();
 

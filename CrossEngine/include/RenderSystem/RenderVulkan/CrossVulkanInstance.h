@@ -34,21 +34,21 @@ namespace CrossEngine {
 
 
 	public:
-		static void SetLastError(VkResult err);
-		static VkResult GetLastError(void);
+		static void SetLastError(int err);
+		static int GetLastError(void);
 
 	public:
 		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
 		void Destroy(void);
 
 	protected:
-		VkResult EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const;
-		VkResult EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const;
-		VkResult CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions);
-		VkResult CreateDebugReportCallback(void);
-		VkResult CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd);
-		VkResult CreateDevice(void);
-		VkResult CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		int EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const;
+		int EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const;
+		int CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions);
+		int CreateDebugReportCallback(void);
+		int CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd);
+		int CreateDevice(void);
+		int CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 
 	protected:
 		void DestroyInstance(void);
@@ -87,7 +87,7 @@ namespace CrossEngine {
 		char m_szCachePath[_MAX_STRING];
 
 	protected:
-		static VkResult vkErrorCode;
+		static int vkErrorCode;
 	};
 
 }

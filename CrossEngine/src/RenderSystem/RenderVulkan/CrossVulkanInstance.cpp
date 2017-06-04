@@ -52,16 +52,16 @@ namespace CrossEngine {
 	}
 
 
-	VkResult CVulkanInstance::vkErrorCode = VK_SUCCESS;
+	int CVulkanInstance::vkErrorCode = VK_SUCCESS;
 	PFN_vkCreateDebugReportCallbackEXT vkCreateDebugReportCallback = NULL;
 	PFN_vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallback = NULL;
 
-	void CVulkanInstance::SetLastError(VkResult err)
+	void CVulkanInstance::SetLastError(int err)
 	{
 		vkErrorCode = err;
 	}
 
-	VkResult CVulkanInstance::GetLastError(void)
+	int CVulkanInstance::GetLastError(void)
 	{
 		return vkErrorCode;
 	}
@@ -113,7 +113,7 @@ namespace CrossEngine {
 
 			return TRUE;
 		}
-		catch (VkResult err) {
+		catch (int err) {
 			CVulkanInstance::SetLastError(err);
 			Destroy();
 
@@ -130,7 +130,7 @@ namespace CrossEngine {
 		DestroyInstance();
 	}
 
-	VkResult CVulkanInstance::EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const
+	int CVulkanInstance::EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const
 	{
 		enabledInstanceLayers.clear();
 
@@ -154,7 +154,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanInstance::EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const
+	int CVulkanInstance::EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const
 	{
 		enabledInstanceExtensions.clear();
 
@@ -205,7 +205,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanInstance::CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions)
+	int CVulkanInstance::CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions)
 	{
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -228,7 +228,7 @@ namespace CrossEngine {
 		return vkCreateInstance(&createInfo, m_pAllocator->GetAllocationCallbacks(), &m_vkInstance);
 	}
 
-	VkResult CVulkanInstance::CreateDebugReportCallback(void)
+	int CVulkanInstance::CreateDebugReportCallback(void)
 	{
 #ifdef _DEBUG
 		vkCreateDebugReportCallback = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(m_vkInstance, "vkCreateDebugReportCallbackEXT");
@@ -253,7 +253,7 @@ namespace CrossEngine {
 #endif
 	}
 
-	VkResult CVulkanInstance::CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd)
+	int CVulkanInstance::CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd)
 	{
 #ifdef PLATFORM_WINDOWS
 		VkWin32SurfaceCreateInfoKHR surfaceInfo = {};
@@ -275,12 +275,12 @@ namespace CrossEngine {
 #endif
 	}
 
-	VkResult CVulkanInstance::CreateDevice(void)
+	int CVulkanInstance::CreateDevice(void)
 	{
 		return m_pDevice->Create();
 	}
 
-	VkResult CVulkanInstance::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
+	int CVulkanInstance::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		return m_pSwapchain->Create(width, height, transform);
 	}

@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	protected:
-		VkResult Create(uint32_t queueFamilyIndex);
+		int Create(uint32_t queueFamilyIndex);
 		void Destroy(void);
 
 	protected:

@@ -82,17 +82,17 @@ namespace CrossEngine {
 		vkResetFences(m_pDevice->GetDevice(), 1, &m_vkFence);
 	}
 
-	VkResult CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
+	int CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
 	{
 		return vkBeginCommandBufferPrimary(m_vkCommandBuffer, flags);
 	}
 
-	VkResult CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+	int CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
 		return vkBeginCommandBufferSecondary(m_vkCommandBuffer, flags, (VkFramebuffer)ptrFrameBuffer->GetHandle(), (VkRenderPass)ptrRenderPass->GetHandle(), indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics);
 	}
 
-	VkResult CVulkanCommandBuffer::End(void)
+	int CVulkanCommandBuffer::End(void)
 	{
 		return vkEndCommandBuffer(m_vkCommandBuffer);
 	}

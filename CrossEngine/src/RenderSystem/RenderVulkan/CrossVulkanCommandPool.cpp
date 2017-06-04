@@ -60,7 +60,7 @@ namespace CrossEngine {
 		commandBufferInfo.commandBufferCount = 1;
 
 		VkCommandBuffer vkCommandBuffer = VK_NULL_HANDLE;
-		VkResult result = vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
+		int result = vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
 		if (result != VK_SUCCESS) return NULL;
 
 		CVulkanCommandBuffer *pCommandBuffer = SAFE_NEW CVulkanCommandBuffer(this, m_pDevice, vkCommandBuffer);

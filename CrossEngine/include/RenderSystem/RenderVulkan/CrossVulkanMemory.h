@@ -47,12 +47,12 @@ namespace CrossEngine {
 
 		VkDeviceSize GetSize(void) const;
 
-		VkResult BindImage(VkImage vkImage) const;
-		VkResult BindBuffer(VkBuffer vkBuffer) const;
+		int BindImage(VkImage vkImage) const;
+		int BindBuffer(VkBuffer vkBuffer) const;
 
-		VkResult BeginMapMemory(VkDeviceSize offset, VkDeviceSize size, void **ppAddress) const;
-		VkResult EndMapMemory(void) const;
-		VkResult FlushMappedMemory(VkDeviceSize offset, VkDeviceSize size) const;
+		int BeginMapMemory(VkDeviceSize offset, VkDeviceSize size, void **ppAddress) const;
+		int EndMapMemory(void) const;
+		int FlushMappedMemory(VkDeviceSize offset, VkDeviceSize size) const;
 
 
 	protected:
