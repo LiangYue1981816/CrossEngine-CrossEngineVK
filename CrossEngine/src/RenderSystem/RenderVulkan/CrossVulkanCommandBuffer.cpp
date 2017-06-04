@@ -89,22 +89,7 @@ namespace CrossEngine {
 
 	VkResult CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
-		VkCommandBufferInheritanceInfo inheritanceInfo = {};
-		inheritanceInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
-		inheritanceInfo.pNext = NULL;
-		inheritanceInfo.renderPass = (VkRenderPass)ptrRenderPass->GetHandle();
-		inheritanceInfo.subpass = indexSubpass;
-		inheritanceInfo.framebuffer = (VkFramebuffer)ptrFrameBuffer->GetHandle();
-		inheritanceInfo.occlusionQueryEnable = occlusionQueryEnable;
-		inheritanceInfo.queryFlags = queryFlags;
-		inheritanceInfo.pipelineStatistics = pipelineStatistics;
-
-		VkCommandBufferBeginInfo beginInfo = {};
-		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-		beginInfo.pNext = NULL;
-		beginInfo.flags = flags;
-		beginInfo.pInheritanceInfo = &inheritanceInfo;
-		return vkBeginCommandBuffer(m_vkCommandBuffer, &beginInfo);
+		return vkBeginCommandBufferSecondary(m_vkCommandBuffer, flags, (VkFramebuffer)ptrFrameBuffer->GetHandle(), (VkRenderPass)ptrRenderPass->GetHandle(), indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics);
 	}
 
 	VkResult CVulkanCommandBuffer::End(void)
