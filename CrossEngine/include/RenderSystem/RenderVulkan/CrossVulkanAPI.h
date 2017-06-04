@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include "CrossVulkanStagingBuffer.h"
 #include "CrossVulkanStagingBufferManager.h"
 #include "CrossVulkanCommand.h"
+#include "CrossVulkanCommandPool.h"
 #include "CrossVulkanCommandBuffer.h"
 #include "CrossVulkanCommandBufferManager.h"
 #include "CrossVulkanDescriptorSetManager.h"

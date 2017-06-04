@@ -27,13 +27,14 @@ namespace CrossEngine {
 
 	CVulkanCommandBufferManager::CVulkanCommandBufferManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
+		, m_mutex(NULL)
 	{
-
+		pthread_mutex_init(&m_mutex, NULL);
 	}
 
 	CVulkanCommandBufferManager::~CVulkanCommandBufferManager(void)
 	{
-
+		pthread_mutex_destroy(&m_mutex);
 	}
 
 	BOOL CVulkanCommandBufferManager::Create(void)
@@ -43,7 +44,28 @@ namespace CrossEngine {
 
 	void CVulkanCommandBufferManager::Destroy(void)
 	{
+		for (const auto &itCommandPool : m_pCommandPools) {
+			if (CVulkanCommandPool *pCommandPool = itCommandPool.second) {
+				SAFE_DELETE(pCommandPool);
+			}
+		}
 
+		m_pCommandPools.clear();
+	}
+
+	CVulkanCommandPool* CVulkanCommandBufferManager::GetCommandPool(uint32_t pool)
+	{
+		CVulkanCommandPool *pCommandPool = NULL;
+		{
+			mutex_autolock mutex(m_mutex);
+
+			if (m_pCommandPools[pool] == NULL) {
+				m_pCommandPools[pool] = SAFE_NEW CVulkanCommandPool(m_pDevice);
+			}
+
+			pCommandPool = m_pCommandPools[pool];
+		}
+		return pCommandPool;
 	}
 
 }

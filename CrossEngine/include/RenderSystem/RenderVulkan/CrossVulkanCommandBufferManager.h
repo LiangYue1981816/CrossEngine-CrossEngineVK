@@ -40,6 +40,13 @@ namespace CrossEngine {
 		BOOL Create(void);
 		void Destroy(void);
 
+	protected:
+		CVulkanCommandPool* GetCommandPool(uint32_t pool);
+
+
+	protected:
+		pthread_mutex_t m_mutex;
+		std::map<uint32_t, CVulkanCommandPool*> m_pCommandPools;
 
 	protected:
 		CVulkanDevice *m_pDevice;

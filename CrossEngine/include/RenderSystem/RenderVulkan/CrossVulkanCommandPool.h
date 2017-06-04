@@ -45,8 +45,7 @@ namespace CrossEngine {
 
 	protected:
 		VkCommandPool m_vkCommandPool;
-		CVulkanCommandBuffer *m_pFreeListHead[VK_COMMAND_BUFFER_LEVEL_RANGE_SIZE];
-		CVulkanCommandBuffer *m_pActiveListHead[VK_COMMAND_BUFFER_LEVEL_RANGE_SIZE];
+		std::map<CVulkanCommandBuffer*, CVulkanCommandBuffer*> m_pCommandBuffers;
 
 	protected:
 		CVulkanDevice *m_pDevice;

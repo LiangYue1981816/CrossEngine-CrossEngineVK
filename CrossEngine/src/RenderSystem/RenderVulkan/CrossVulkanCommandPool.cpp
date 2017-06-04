@@ -28,9 +28,6 @@ namespace CrossEngine {
 	CVulkanCommandPool::CVulkanCommandPool(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 		, m_vkCommandPool(VK_NULL_HANDLE)
-
-		, m_pFreeListHead{ NULL }
-		, m_pActiveListHead{ NULL }
 	{
 		VkCommandPoolCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -42,81 +39,41 @@ namespace CrossEngine {
 
 	CVulkanCommandPool::~CVulkanCommandPool(void)
 	{
-		for (uint32_t level = 0; level < VK_COMMAND_BUFFER_LEVEL_RANGE_SIZE; level++) {
-			if (CVulkanCommandBuffer *pCommandBuffer = m_pFreeListHead[level]) {
-				CVulkanCommandBuffer *pCommandBufferNext = NULL;
-				do {
-					pCommandBufferNext = pCommandBuffer->pFreeNext;
-					SAFE_DELETE(pCommandBuffer);
-				} while (pCommandBuffer = pCommandBufferNext);
-			}
-
-			if (CVulkanCommandBuffer *pCommandBuffer = m_pActiveListHead[level]) {
-				CVulkanCommandBuffer *pCommandBufferNext = NULL;
-				do {
-					pCommandBufferNext = pCommandBuffer->pActiveNext;
-					SAFE_DELETE(pCommandBuffer);
-				} while (pCommandBuffer = pCommandBufferNext);
+		for (const auto &itCommandBuffer : m_pCommandBuffers) {
+			if (CVulkanCommandBuffer *pCommandBuffer = itCommandBuffer.second) {
+				SAFE_DELETE(pCommandBuffer);
 			}
 		}
 
+		m_pCommandBuffers.clear();
 		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	CVulkanCommandBuffer* CVulkanCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
 	{
-		if (m_pFreeListHead[level] == NULL) {
-			VkCommandBufferAllocateInfo commandBufferInfo = {};
-			commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-			commandBufferInfo.pNext = NULL;
-			commandBufferInfo.commandPool = m_vkCommandPool;
-			commandBufferInfo.level = level;
-			commandBufferInfo.commandBufferCount = 1;
+		VkCommandBufferAllocateInfo commandBufferInfo = {};
+		commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		commandBufferInfo.pNext = NULL;
+		commandBufferInfo.commandPool = m_vkCommandPool;
+		commandBufferInfo.level = level;
+		commandBufferInfo.commandBufferCount = 1;
 
-			VkCommandBuffer vkCommandBuffer = VK_NULL_HANDLE;
-			VkResult result = vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
-			if (result != VK_SUCCESS) return NULL;
+		VkCommandBuffer vkCommandBuffer = VK_NULL_HANDLE;
+		VkResult result = vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &vkCommandBuffer);
+		if (result != VK_SUCCESS) return NULL;
 
-			m_pFreeListHead[level] = SAFE_NEW CVulkanCommandBuffer(this, m_pDevice, vkCommandBuffer, level);
-		}
-
-		CVulkanCommandBuffer  *pCommandBuffer = m_pFreeListHead[level];
-		m_pFreeListHead[level] = pCommandBuffer->pFreeNext;
-
-		pCommandBuffer->pActiveNext = m_pActiveListHead[level];
-		pCommandBuffer->pActivePrev = NULL;
-
-		if (m_pActiveListHead[level]) {
-			m_pActiveListHead[level]->pActivePrev = pCommandBuffer;
-		}
-
-		m_pActiveListHead[level] = pCommandBuffer;
+		CVulkanCommandBuffer *pCommandBuffer = SAFE_NEW CVulkanCommandBuffer(m_pDevice, vkCommandBuffer);
+		m_pCommandBuffers[pCommandBuffer] = pCommandBuffer;
 
 		return pCommandBuffer;
 	}
 
 	void CVulkanCommandPool::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
-		ASSERT(pCommandBuffer->GetCommandPool() == this);
+		const auto &itCommandBuffer = m_pCommandBuffers.find(pCommandBuffer);
+		if (itCommandBuffer != m_pCommandBuffers.end()) m_pCommandBuffers.erase(pCommandBuffer);
 
-		VkCommandBufferLevel level = pCommandBuffer->GetCommandBufferLevel();
-
-		pCommandBuffer->pFreeNext = m_pFreeListHead[level];
-		m_pFreeListHead[level] = pCommandBuffer;
-
-		if (m_pActiveListHead[level] = pCommandBuffer) {
-			m_pActiveListHead[level] = pCommandBuffer->pActiveNext;
-		}
-
-		if (pCommandBuffer->pActivePrev) {
-			pCommandBuffer->pActivePrev->pActiveNext = pCommandBuffer->pActiveNext;
-		}
-
-		if (pCommandBuffer->pActiveNext) {
-			pCommandBuffer->pActiveNext->pActivePrev = pCommandBuffer->pActivePrev;
-		}
-
-		pCommandBuffer->Reset();
+		SAFE_DELETE(pCommandBuffer);
 	}
 
 }

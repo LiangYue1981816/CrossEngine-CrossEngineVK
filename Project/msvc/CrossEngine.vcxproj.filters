@@ -464,5 +464,8 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBuffer.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandPool.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
