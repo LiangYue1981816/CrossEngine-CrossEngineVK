@@ -39,7 +39,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanMemoryManager::Create(void)
 	{
-		return m_pAllocatorListHeads.size() == 0 ? TRUE : FALSE;
+		return TRUE;
 	}
 
 	void CVulkanMemoryManager::Destroy(void)

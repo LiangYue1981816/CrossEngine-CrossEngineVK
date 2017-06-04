@@ -37,6 +37,7 @@ namespace CrossEngine {
 		, m_type(memoryTypeIndex)
 		, m_flags(memoryPropertyFlags)
 
+		, m_root{ NULL }
 		, m_nodes(NULL)
 		, m_pListHead(NULL)
 

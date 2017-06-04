@@ -139,20 +139,6 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CVulkanHelper::vkImageTypeToString(VkImageType type)
-	{
-		static char szString[_MAX_STRING];
-
-		switch (type) {
-		case VK_IMAGE_TYPE_1D: strcpy(szString, "VK_IMAGE_TYPE_1D"); break;
-		case VK_IMAGE_TYPE_2D: strcpy(szString, "VK_IMAGE_TYPE_2D"); break;
-		case VK_IMAGE_TYPE_3D: strcpy(szString, "VK_IMAGE_TYPE_3D"); break;
-		default: strcpy(szString, "unknown"); break;
-		}
-
-		return szString;
-	}
-
 	const char* CVulkanHelper::vkFormatToString(VkFormat format)
 	{
 		static char szString[_MAX_STRING];
@@ -357,18 +343,14 @@ namespace CrossEngine {
 		return szString;
 	}
 
-	const char* CVulkanHelper::vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample)
+	const char* CVulkanHelper::vkImageTypeToString(VkImageType type)
 	{
 		static char szString[_MAX_STRING];
 
-		switch (sample) {
-		case VK_SAMPLE_COUNT_1_BIT: strcpy(szString, "VK_SAMPLE_COUNT_1_BIT"); break;
-		case VK_SAMPLE_COUNT_2_BIT: strcpy(szString, "VK_SAMPLE_COUNT_2_BIT"); break;
-		case VK_SAMPLE_COUNT_4_BIT: strcpy(szString, "VK_SAMPLE_COUNT_4_BIT"); break;
-		case VK_SAMPLE_COUNT_8_BIT: strcpy(szString, "VK_SAMPLE_COUNT_8_BIT"); break;
-		case VK_SAMPLE_COUNT_16_BIT: strcpy(szString, "VK_SAMPLE_COUNT_16_BIT"); break;
-		case VK_SAMPLE_COUNT_32_BIT: strcpy(szString, "VK_SAMPLE_COUNT_32_BIT"); break;
-		case VK_SAMPLE_COUNT_64_BIT: strcpy(szString, "VK_SAMPLE_COUNT_64_BIT"); break;
+		switch (type) {
+		case VK_IMAGE_TYPE_1D: strcpy(szString, "VK_IMAGE_TYPE_1D"); break;
+		case VK_IMAGE_TYPE_2D: strcpy(szString, "VK_IMAGE_TYPE_2D"); break;
+		case VK_IMAGE_TYPE_3D: strcpy(szString, "VK_IMAGE_TYPE_3D"); break;
 		default: strcpy(szString, "unknown"); break;
 		}
 
@@ -388,22 +370,23 @@ namespace CrossEngine {
 		return szString;
 	}
 
-	const char* CVulkanHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage)
+	const char* CVulkanHelper::vkImageLayoutToString(VkImageLayout layout)
 	{
 		static char szString[_MAX_STRING];
-		BOOL or = FALSE;
 
-		szString[0] = 0;
-		if (usage&VK_BUFFER_USAGE_TRANSFER_SRC_BIT) strcat_or(szString, "VK_BUFFER_USAGE_TRANSFER_SRC_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_TRANSFER_DST_BIT) strcat_or(szString, "VK_BUFFER_USAGE_TRANSFER_DST_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_STORAGE_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_STORAGE_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_INDEX_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_INDEX_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_VERTEX_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT", &or);
-		if (or == FALSE) strcpy(szString, "unknown");
+		switch (layout) {
+		case VK_IMAGE_LAYOUT_UNDEFINED: strcpy(szString, "VK_IMAGE_LAYOUT_UNDEFINED"); break;
+		case VK_IMAGE_LAYOUT_GENERAL: strcpy(szString, "VK_IMAGE_LAYOUT_GENERAL"); break;
+		case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL"); break;
+		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL"); break;
+		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL"); break;
+		case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL"); break;
+		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL"); break;
+		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL"); break;
+		case VK_IMAGE_LAYOUT_PREINITIALIZED: strcpy(szString, "VK_IMAGE_LAYOUT_PREINITIALIZED"); break;
+		case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR: strcpy(szString, "VK_IMAGE_LAYOUT_PRESENT_SRC_KHR"); break;
+		default: strcpy(szString, "unknown"); break;
+		}
 
 		return szString;
 	}
@@ -451,6 +434,44 @@ namespace CrossEngine {
 		return szString;
 	}
 
+	const char* CVulkanHelper::vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample)
+	{
+		static char szString[_MAX_STRING];
+
+		switch (sample) {
+		case VK_SAMPLE_COUNT_1_BIT: strcpy(szString, "VK_SAMPLE_COUNT_1_BIT"); break;
+		case VK_SAMPLE_COUNT_2_BIT: strcpy(szString, "VK_SAMPLE_COUNT_2_BIT"); break;
+		case VK_SAMPLE_COUNT_4_BIT: strcpy(szString, "VK_SAMPLE_COUNT_4_BIT"); break;
+		case VK_SAMPLE_COUNT_8_BIT: strcpy(szString, "VK_SAMPLE_COUNT_8_BIT"); break;
+		case VK_SAMPLE_COUNT_16_BIT: strcpy(szString, "VK_SAMPLE_COUNT_16_BIT"); break;
+		case VK_SAMPLE_COUNT_32_BIT: strcpy(szString, "VK_SAMPLE_COUNT_32_BIT"); break;
+		case VK_SAMPLE_COUNT_64_BIT: strcpy(szString, "VK_SAMPLE_COUNT_64_BIT"); break;
+		default: strcpy(szString, "unknown"); break;
+		}
+
+		return szString;
+	}
+
+	const char* CVulkanHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage)
+	{
+		static char szString[_MAX_STRING];
+		BOOL or = FALSE;
+
+		szString[0] = 0;
+		if (usage&VK_BUFFER_USAGE_TRANSFER_SRC_BIT) strcat_or(szString, "VK_BUFFER_USAGE_TRANSFER_SRC_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_TRANSFER_DST_BIT) strcat_or(szString, "VK_BUFFER_USAGE_TRANSFER_DST_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_STORAGE_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_STORAGE_BUFFER_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_INDEX_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_INDEX_BUFFER_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_VERTEX_BUFFER_BIT", &or);
+		if (usage&VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT", &or);
+		if (or == FALSE) strcpy(szString, "unknown");
+
+		return szString;
+	}
+
 	const char* CVulkanHelper::vkAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];
@@ -472,27 +493,6 @@ namespace CrossEngine {
 		switch (storeOp) {
 		case VK_ATTACHMENT_STORE_OP_STORE: strcpy(szString, "VK_ATTACHMENT_STORE_OP_STORE"); break;
 		case VK_ATTACHMENT_STORE_OP_DONT_CARE: strcpy(szString, "VK_ATTACHMENT_STORE_OP_DONT_CARE"); break;
-		default: strcpy(szString, "unknown"); break;
-		}
-
-		return szString;
-	}
-
-	const char* CVulkanHelper::vkImageLayoutToString(VkImageLayout layout)
-	{
-		static char szString[_MAX_STRING];
-
-		switch (layout) {
-		case VK_IMAGE_LAYOUT_UNDEFINED: strcpy(szString, "VK_IMAGE_LAYOUT_UNDEFINED"); break;
-		case VK_IMAGE_LAYOUT_GENERAL: strcpy(szString, "VK_IMAGE_LAYOUT_GENERAL"); break;
-		case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_PREINITIALIZED: strcpy(szString, "VK_IMAGE_LAYOUT_PREINITIALIZED"); break;
-		case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR: strcpy(szString, "VK_IMAGE_LAYOUT_PRESENT_SRC_KHR"); break;
 		default: strcpy(szString, "unknown"); break;
 		}
 

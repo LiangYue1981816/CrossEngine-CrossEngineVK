@@ -62,8 +62,8 @@ namespace CrossEngine {
 
 	CVulkanStagingBuffer::~CVulkanStagingBuffer(void)
 	{
-		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 
 		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_vkCommandPool, 1, &m_vkCommandBuffer);
 	}

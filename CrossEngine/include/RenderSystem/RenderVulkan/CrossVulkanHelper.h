@@ -39,17 +39,17 @@ namespace CrossEngine {
 
 		static VkAccessFlags vkGetAccessMask(VkImageLayout layout);
 
-		static const char* vkImageTypeToString(VkImageType type);
 		static const char* vkFormatToString(VkFormat format);
-		static const char* vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample);
+		static const char* vkImageTypeToString(VkImageType type);
 		static const char* vkImageTilingToString(VkImageTiling tiling);
-		static const char* vkBufferUsageFlagsToString(VkBufferUsageFlags usage);
+		static const char* vkImageLayoutToString(VkImageLayout layout);
 		static const char* vkFilterToString(VkFilter filter);
 		static const char* vkSamplerMipmapModeToString(VkSamplerMipmapMode mode);
 		static const char* vkSamplerAddressModeToString(VkSamplerAddressMode mode);
+		static const char* vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample);
+		static const char* vkBufferUsageFlagsToString(VkBufferUsageFlags usage);
 		static const char* vkAttachmentLoadOpToString(VkAttachmentLoadOp loadOp);
 		static const char* vkAttachmentStoreOpToString(VkAttachmentStoreOp storeOp);
-		static const char* vkImageLayoutToString(VkImageLayout layout);
 		static const char* vkPipelineStageFlagsToString(VkPipelineStageFlags flags);
 		static const char* vkAccessFlagsToString(VkAccessFlags flags);
 		static const char* vkDescriptorTypeToString(VkDescriptorType type);
