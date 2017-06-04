@@ -52,9 +52,9 @@ namespace CrossEngine {
 		VkResult CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex);
 		VkResult CreateQueue(uint32_t queueFamilyIndex);
 		VkResult CreateMemoryManager(void);
-		VkResult CreateStagingBufferManager(void);
-		VkResult CreateCommandBufferManager(void);
+		VkResult CreateCommandPoolManager(void);
 		VkResult CreateDescriptorSetManager(void);
+		VkResult CreateStagingBufferManager(void);
 
 		VkResult CreateBufferManager(void);
 		VkResult CreateTextureManager(void);
@@ -67,9 +67,9 @@ namespace CrossEngine {
 		void DestroyDevice(void);
 		void DestroyQueue(void);
 		void DestroyMemoryManager(void);
-		void DestroyStagingBufferManager(void);
-		void DestroyCommandBufferManager(void);
+		void DestroyCommandPoolManager(void);
 		void DestroyDescriptorSetManager(void);
+		void DestroyStagingBufferManager(void);
 
 		void DestroyBufferManager(void);
 		void DestroyTextureManager(void);
@@ -129,9 +129,9 @@ namespace CrossEngine {
 	protected:
 		CVulkanQueue *m_pQueue;
 		CVulkanMemoryManager *m_pMemoryManager;
-		CVulkanStagingBufferManager *m_pStagingBufferManager;
-		CVulkanCommandBufferManager *m_pCommandBufferManager;
+		CVulkanCommandPoolManager *m_pCommandPoolManager;
 		CVulkanDescriptorSetManager *m_pDescriptorSetManager;
+		CVulkanStagingBufferManager *m_pStagingBufferManager;
 
 	protected:
 		CVulkanBufferManager *m_pBufferManager;

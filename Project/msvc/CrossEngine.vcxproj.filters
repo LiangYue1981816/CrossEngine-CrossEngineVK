@@ -240,9 +240,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanStagingBufferManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
@@ -278,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxRenderPass.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandPoolManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -434,9 +434,6 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanBufferManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBufferManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
@@ -465,6 +462,9 @@
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandPool.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandPoolManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
   </ItemGroup>

@@ -30,7 +30,7 @@ namespace CrossEngine {
 	{
 		friend class CVulkanCommandBuffer;
 		friend class CVulkanCommandBufferPtr;
-		friend class CVulkanCommandBufferManager;
+		friend class CVulkanCommandPoolManager;
 
 
 	protected:

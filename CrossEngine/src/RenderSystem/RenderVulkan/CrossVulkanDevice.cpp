@@ -33,9 +33,9 @@ namespace CrossEngine {
 
 		, m_pQueue(NULL)
 		, m_pMemoryManager(NULL)
-		, m_pStagingBufferManager(NULL)
-		, m_pCommandBufferManager(NULL)
+		, m_pCommandPoolManager(NULL)
 		, m_pDescriptorSetManager(NULL)
+		, m_pStagingBufferManager(NULL)
 
 		, m_pBufferManager(NULL)
 		, m_pTextureManager(NULL)
@@ -50,9 +50,9 @@ namespace CrossEngine {
 
 		m_pQueue = SAFE_NEW CVulkanQueue(this);
 		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
-		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
-		m_pCommandBufferManager = SAFE_NEW CVulkanCommandBufferManager(this);
+		m_pCommandPoolManager = SAFE_NEW CVulkanCommandPoolManager(this);
 		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
+		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
 
 		m_pBufferManager = SAFE_NEW CVulkanBufferManager(this);
 		m_pTextureManager = SAFE_NEW CVulkanTextureManager(this);
@@ -66,9 +66,9 @@ namespace CrossEngine {
 	{
 		SAFE_DELETE(m_pQueue);
 		SAFE_DELETE(m_pMemoryManager);
-		SAFE_DELETE(m_pStagingBufferManager);
-		SAFE_DELETE(m_pCommandBufferManager);
+		SAFE_DELETE(m_pCommandPoolManager);
 		SAFE_DELETE(m_pDescriptorSetManager);
+		SAFE_DELETE(m_pStagingBufferManager);
 
 		SAFE_DELETE(m_pBufferManager);
 		SAFE_DELETE(m_pTextureManager);
@@ -128,17 +128,17 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkResult CVulkanDevice::CreateStagingBufferManager(void)
-	{
-		return VK_SUCCESS;
-	}
-
-	VkResult CVulkanDevice::CreateCommandBufferManager(void)
+	VkResult CVulkanDevice::CreateCommandPoolManager(void)
 	{
 		return VK_SUCCESS;
 	}
 
 	VkResult CVulkanDevice::CreateDescriptorSetManager(void)
+	{
+		return VK_SUCCESS;
+	}
+
+	VkResult CVulkanDevice::CreateStagingBufferManager(void)
 	{
 		return VK_SUCCESS;
 	}
@@ -188,17 +188,17 @@ namespace CrossEngine {
 
 	}
 
-	void CVulkanDevice::DestroyStagingBufferManager(void)
-	{
-
-	}
-
-	void CVulkanDevice::DestroyCommandBufferManager(void)
+	void CVulkanDevice::DestroyCommandPoolManager(void)
 	{
 
 	}
 
 	void CVulkanDevice::DestroyDescriptorSetManager(void)
+	{
+
+	}
+
+	void CVulkanDevice::DestroyStagingBufferManager(void)
 	{
 
 	}

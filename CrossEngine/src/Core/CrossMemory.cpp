@@ -29,6 +29,7 @@ namespace CrossEngine {
 
 	CMemAllocator::CMemAllocator(BOOL bHeap, BOOL bStack, BOOL bMultiThread)
 		: m_mutex(NULL)
+
 		, m_pPoolAllocator(NULL)
 		, m_pHeapAllocator(NULL)
 		, m_pStackAllocator(NULL)

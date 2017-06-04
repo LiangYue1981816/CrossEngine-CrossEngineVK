@@ -151,7 +151,6 @@ namespace CrossEngine {
 	static const CResourcePtr<CResource> ptrResourceNull;
 
 	CResourceManager::CResourceManager(void)
-		: m_mutex(NULL)
 	{
 		pthread_mutex_init(&m_mutex, NULL);
 		Init();

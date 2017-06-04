@@ -20,36 +20,51 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanCommandBufferManager
+	CVulkanCommandPoolManager::CVulkanCommandPoolManager(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
 	{
-		friend class CVulkanDevice;
+		pthread_mutex_init(&m_mutex, NULL);
+	}
 
+	CVulkanCommandPoolManager::~CVulkanCommandPoolManager(void)
+	{
+		pthread_mutex_destroy(&m_mutex);
+	}
 
-	protected:
-		CVulkanCommandBufferManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanCommandBufferManager(void);
+	BOOL CVulkanCommandPoolManager::Create(void)
+	{
+		return TRUE;
+	}
 
+	void CVulkanCommandPoolManager::Destroy(void)
+	{
+		for (const auto &itCommandPool : m_pCommandPools) {
+			if (CVulkanCommandPool *pCommandPool = itCommandPool.second) {
+				SAFE_DELETE(pCommandPool);
+			}
+		}
 
-	protected:
-		BOOL Create(void);
-		void Destroy(void);
+		m_pCommandPools.clear();
+	}
 
-	protected:
-		CVulkanCommandPool* GetCommandPool(uint32_t pool);
+	CVulkanCommandPool* CVulkanCommandPoolManager::GetCommandPool(uint32_t pool)
+	{
+		CVulkanCommandPool *pCommandPool = NULL;
+		{
+			mutex_autolock mutex(m_mutex);
 
+			if (m_pCommandPools[pool] == NULL) {
+				m_pCommandPools[pool] = SAFE_NEW CVulkanCommandPool(m_pDevice);
+			}
 
-	protected:
-		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanCommandPool*> m_pCommandPools;
-
-	protected:
-		CVulkanDevice *m_pDevice;
-	};
+			pCommandPool = m_pCommandPools[pool];
+		}
+		return pCommandPool;
+	}
 
 }

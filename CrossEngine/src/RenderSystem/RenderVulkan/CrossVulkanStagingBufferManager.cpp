@@ -29,7 +29,6 @@ namespace CrossEngine {
 		: m_pDevice(pDevice)
 
 		, m_vkCommandPool(VK_NULL_HANDLE)
-		, m_mutex(NULL)
 	{
 		pthread_mutex_init(&m_mutex, NULL);
 	}
