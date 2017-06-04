@@ -38,24 +38,16 @@ namespace CrossEngine {
 		pthread_mutex_destroy(&m_mutex);
 	}
 
-	BOOL CVulkanStagingBufferManager::Create(void)
+	int CVulkanStagingBufferManager::Create(void)
 	{
-		try {
-			VkCommandPoolCreateInfo createInfo = {};
-			createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-			createInfo.pNext = NULL;
-			createInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
-			createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
-			CALL_VK_FUNCTION_THROW(vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool));
+		VkCommandPoolCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
+		createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
+		CALL_VK_FUNCTION_RETURN(vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool));
 
-			return TRUE;
-		}
-		catch (int err) {
-			CVulkanInstance::SetLastError(err);
-			Destroy();
-
-			return FALSE;
-		}
+		return VK_SUCCESS;
 	}
 
 	void CVulkanStagingBufferManager::Destroy(void)

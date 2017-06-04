@@ -36,9 +36,9 @@ namespace CrossEngine {
 		pthread_mutex_destroy(&m_mutex);
 	}
 
-	BOOL CVulkanMemoryManager::Create(void)
+	int CVulkanMemoryManager::Create(void)
 	{
-		return TRUE;
+		return VK_SUCCESS;
 	}
 
 	void CVulkanMemoryManager::Destroy(void)

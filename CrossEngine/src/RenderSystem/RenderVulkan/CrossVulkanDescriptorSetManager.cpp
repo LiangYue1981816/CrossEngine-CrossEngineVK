@@ -36,9 +36,9 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CVulkanDescriptorSetManager::Create(void)
+	int CVulkanDescriptorSetManager::Create(void)
 	{
-		return TRUE;
+		return VK_SUCCESS;
 	}
 
 	void CVulkanDescriptorSetManager::Destroy(void)
