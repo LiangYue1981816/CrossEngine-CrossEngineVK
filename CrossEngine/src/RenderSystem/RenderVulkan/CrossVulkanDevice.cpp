@@ -81,11 +81,12 @@ namespace CrossEngine {
 	int CVulkanDevice::Create(void)
 	{
 		uint32_t queueFamilyIndex;
+		VkPhysicalDevice vkPhysicalDevice;
 		std::vector<VkPhysicalDevice> devices;
 
 		CALL_VK_FUNCTION_RETURN(EnumeratePhysicalDevices(devices));
-		CALL_VK_FUNCTION_RETURN(SelectPhysicalDevices(devices, m_vkPhysicalDevice, queueFamilyIndex));
-		CALL_VK_FUNCTION_RETURN(CreateDevice(m_vkPhysicalDevice, queueFamilyIndex));
+		CALL_VK_FUNCTION_RETURN(SelectPhysicalDevices(devices, vkPhysicalDevice, queueFamilyIndex));
+		CALL_VK_FUNCTION_RETURN(CreateDevice(vkPhysicalDevice, queueFamilyIndex));
 
 		CALL_VK_FUNCTION_RETURN(CreateQueue(queueFamilyIndex));
 		CALL_VK_FUNCTION_RETURN(CreateMemoryManager());
@@ -144,26 +145,113 @@ namespace CrossEngine {
 
 	int CVulkanDevice::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const
 	{
-		return VK_SUCCESS;
+		uint32_t familyIndex = UINT32_MAX;
+
+		for (uint32_t index = 0; index < devices.size(); index++) {
+			if (CheckPhysicalDeviceCapabilities(devices[index]) != VK_SUCCESS) continue;
+			if (CheckPhysicalDeviceExtensionProperties(devices[index]) != VK_SUCCESS) continue;
+			if (CheckPhysicalDeviceQueueFamilyProperties(devices[index], familyIndex) != VK_SUCCESS) continue;
+
+			vkPhysicalDevice = devices[index];
+			queueFamilyIndex = familyIndex;
+
+			return VK_SUCCESS;
+		}
+
+		return VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	int CVulkanDevice::CheckPhysicalDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice) const
 	{
+		VkPhysicalDeviceFeatures vkPhysicalDeviceFeatures;
+		VkPhysicalDeviceProperties vkPhysicalDeviceProperties;
+
+		vkGetPhysicalDeviceFeatures(vkPhysicalDevice, &vkPhysicalDeviceFeatures);
+		vkGetPhysicalDeviceProperties(vkPhysicalDevice, &vkPhysicalDeviceProperties);
+
+		if (VK_VERSION_MAJOR(vkPhysicalDeviceProperties.apiVersion) < 1) {
+			return VK_ERROR_INITIALIZATION_FAILED;
+		}
+
 		return VK_SUCCESS;
 	}
 
 	int CVulkanDevice::CheckPhysicalDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const
 	{
-		return VK_SUCCESS;
+		uint32_t numExtensions;
+		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, NULL));
+
+		ASSERT(numExtensions > 0);
+		std::vector<VkExtensionProperties> extensions(numExtensions);
+		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, extensions.data()));
+
+		BOOL bSwapchainExtension = FALSE;
+		for (uint32_t index = 0; index < numExtensions; index++) {
+			if (stricmp(extensions[index].extensionName, VK_KHR_SWAPCHAIN_EXTENSION_NAME) == 0) {
+				bSwapchainExtension = TRUE;
+				continue;
+			}
+		}
+
+		return bSwapchainExtension ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	int CVulkanDevice::CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
 	{
-		return VK_SUCCESS;
+		queueFamilyIndex = UINT32_MAX;
+
+		uint32_t numQueueFamilies;
+		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, NULL);
+
+		ASSERT(numQueueFamilies > 0);
+		std::vector<VkQueueFamilyProperties> queueFamilies(numQueueFamilies);
+		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, queueFamilies.data());
+
+		std::vector<VkBool32> surfaceSupports(numQueueFamilies);
+		for (uint32_t index = 0; index < numQueueFamilies; index++) {
+			CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pVulkan->GetSurface(), &surfaceSupports[index]));
+
+			if ((queueFamilies[index].queueCount > 0) && (queueFamilies[index].queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
+				if (queueFamilyIndex == UINT32_MAX && surfaceSupports[index] == TRUE) {
+					queueFamilyIndex = index;
+					return VK_SUCCESS;
+				}
+			}
+		}
+
+		return VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	int CVulkanDevice::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
+		float queuePpriorities[1] = { 0.0f };
+		VkDeviceQueueCreateInfo queueCreateInfo[1] = {};
+		queueCreateInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo[0].pNext = NULL;
+		queueCreateInfo[0].flags = 0;
+		queueCreateInfo[0].queueFamilyIndex = queueFamilyIndex;
+		queueCreateInfo[0].queueCount = 1;
+		queueCreateInfo[0].pQueuePriorities = queuePpriorities;
+
+		const char *szSwapchainExtension = VK_KHR_SWAPCHAIN_EXTENSION_NAME;
+		VkDeviceCreateInfo deviceCreateInfo = {};
+		deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+		deviceCreateInfo.pNext = NULL;
+		deviceCreateInfo.flags = 0;
+		deviceCreateInfo.queueCreateInfoCount = 1;
+		deviceCreateInfo.pQueueCreateInfos = queueCreateInfo;
+		deviceCreateInfo.enabledLayerCount = 0;
+		deviceCreateInfo.ppEnabledLayerNames = NULL;
+		deviceCreateInfo.enabledExtensionCount = 1;
+		deviceCreateInfo.ppEnabledExtensionNames = &szSwapchainExtension;
+		deviceCreateInfo.pEnabledFeatures = NULL;
+		CALL_VK_FUNCTION_RETURN(vkCreateDevice(vkPhysicalDevice, &deviceCreateInfo, m_pVulkan->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice));
+
+		m_vkPhysicalDevice = vkPhysicalDevice;
+		vkGetPhysicalDeviceFeatures(m_vkPhysicalDevice, &m_vkPhysicalDeviceFeatures);
+		vkGetPhysicalDeviceProperties(m_vkPhysicalDevice, &m_vkPhysicalDeviceProperties);
+		vkGetPhysicalDeviceMemoryProperties(m_vkPhysicalDevice, &m_vkPhysicalDeviceMemoryProperties);
+
 		return VK_SUCCESS;
 	}
 
