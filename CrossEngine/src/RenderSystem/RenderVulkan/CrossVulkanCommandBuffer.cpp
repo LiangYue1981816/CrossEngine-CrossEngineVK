@@ -152,7 +152,7 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
 	{
-		VkViewport viewport = { 0 };
+		VkViewport viewport = {};
 		viewport.x = x;
 		viewport.y = y;
 		viewport.width = width;
@@ -164,7 +164,7 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdSetScissor(int x, int y, uint32_t width, uint32_t height)
 	{
-		VkRect2D scissor = { 0 };
+		VkRect2D scissor = {};
 		scissor.offset.x = x;
 		scissor.offset.y = y;
 		scissor.extent.width = width;

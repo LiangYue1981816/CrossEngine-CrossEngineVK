@@ -31,7 +31,7 @@ namespace CrossEngine {
 		, m_dwAllocatedSize(0)
 		, m_dwMaxAllocatedSize(0)
 	{
-		m_vkCallback = { 0 };
+		m_vkCallback = {};
 		m_vkCallback.pUserData = this;
 		m_vkCallback.pfnAllocation = CVulkanAllocator::vkAllocationFunction;
 		m_vkCallback.pfnReallocation = CVulkanAllocator::vkReallocationFunction;
