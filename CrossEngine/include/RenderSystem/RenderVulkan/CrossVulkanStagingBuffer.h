@@ -43,8 +43,16 @@ namespace CrossEngine {
 		int TransferVertexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 		int TransferUniformBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 
+	public:
+		size_t GetBufferSize(void) const;
+		size_t GetMemorySize(void) const;
+
+	public:
+		void DumpLog(void) const;
+
 
 	protected:
+		VkDeviceSize m_size;
 		VkBuffer m_vkBuffer;
 		CVulkanMemory *m_pMemory;
 

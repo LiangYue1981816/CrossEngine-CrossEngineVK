@@ -487,14 +487,19 @@ namespace CrossEngine {
 
 	void CVulkanDevice::DumpLog(void) const
 	{
-		m_pMemoryManager->DumpLog("Device Memory ...");
-		m_pDescriptorSetManager->DumpLog("DescriptorSet ...");
-		m_pBufferManager->DumpLog("Buffer ...");
-		m_pTextureManager->DumpLog("Texture ...");
-		m_pShaderManager->DumpLog("Shader ...");
-		m_pPipelineManager->DumpLog("Pipeline ...");
-		m_pRenderPassManager->DumpLog("RenderPass ...");
-		m_pFrameBufferManager->DumpLog("FrameBuffer ...");
+		LOGI("=================== Vulkan Resource Dump ===================\n");
+		{
+			m_pMemoryManager->DumpLog("Device Memory ...");
+			m_pDescriptorSetManager->DumpLog("DescriptorSet ...");
+			m_pStagingBufferManager->DumpLog("StagingBuffer ...");
+			m_pBufferManager->DumpLog("Buffer ...");
+			m_pTextureManager->DumpLog("Texture ...");
+			m_pShaderManager->DumpLog("Shader ...");
+			m_pPipelineManager->DumpLog("Pipeline ...");
+			m_pRenderPassManager->DumpLog("RenderPass ...");
+			m_pFrameBufferManager->DumpLog("FrameBuffer ...");
+		}
+		LOGI("============================================================\n");
 	}
 
 }

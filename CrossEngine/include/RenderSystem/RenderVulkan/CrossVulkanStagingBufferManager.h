@@ -44,6 +44,9 @@ namespace CrossEngine {
 		CVulkanStagingBuffer* AllocBuffer(VkDeviceSize size);
 		void FreeBuffer(CVulkanStagingBuffer *pBuffer);
 
+	protected:
+		void DumpLog(const char *szTitle) const;
+
 
 	protected:
 		VkCommandPool m_vkCommandPool;

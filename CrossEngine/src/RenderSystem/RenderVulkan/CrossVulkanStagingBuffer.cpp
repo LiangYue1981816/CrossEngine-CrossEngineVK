@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkCommandPool vkCommandPool, VkDeviceSize size)
 		: m_pDevice(pDevice)
 
+		, m_size(size)
 		, m_pMemory(NULL)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
@@ -152,6 +153,23 @@ namespace CrossEngine {
 	int CVulkanStagingBuffer::TransferUniformBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const
 	{
 		return TransferBuffer(vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, VK_ACCESS_UNIFORM_READ_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_TESSELLATION_CONTROL_SHADER_BIT | VK_PIPELINE_STAGE_TESSELLATION_EVALUATION_SHADER_BIT | VK_PIPELINE_STAGE_GEOMETRY_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, size, offset, pBuffer);
+	}
+
+	size_t CVulkanStagingBuffer::GetBufferSize(void) const
+	{
+		return m_size;
+	}
+
+	size_t CVulkanStagingBuffer::GetMemorySize(void) const
+	{
+		return m_pMemory->GetSize();
+	}
+
+	void CVulkanStagingBuffer::DumpLog(void) const
+	{
+		if (m_vkBuffer) {
+			LOGI("\t\tBuffer 0x%x: buffer size = %d memory size = %d\n", m_vkBuffer, GetBufferSize(), GetMemorySize());
+		}
 	}
 
 }

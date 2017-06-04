@@ -40,7 +40,7 @@ namespace CrossEngine {
 		int Create(void);
 		void Destroy(void);
 
-	public:
+	protected:
 		void DumpLog(const char *szTitle) const;
 
 

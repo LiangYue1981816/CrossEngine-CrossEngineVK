@@ -86,4 +86,25 @@ namespace CrossEngine {
 		SAFE_DELETE(pBuffer);
 	}
 
+	void CVulkanStagingBufferManager::DumpLog(const char *szTitle) const
+	{
+		uint32_t count = 0;
+		VkDeviceSize bufferSize = 0;
+		VkDeviceSize memorySize = 0;
+
+		LOGI("%s\n", szTitle);
+		{
+			for (const auto &itBuffer : m_pBuffers) {
+				if (const CVulkanStagingBuffer *pBuffer = (CVulkanStagingBuffer *)itBuffer.second) {
+					pBuffer->DumpLog();
+					bufferSize += pBuffer->GetBufferSize();
+					memorySize += pBuffer->GetMemorySize();
+					count++;
+				}
+			}
+		}
+		LOGI("*** %d objects found, total buffer size %d total memory size %d\n", count, bufferSize, memorySize);
+		LOGI("\n");
+	}
+
 }
