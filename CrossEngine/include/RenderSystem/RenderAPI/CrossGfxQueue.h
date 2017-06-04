@@ -40,6 +40,7 @@ namespace CrossEngine {
 
 
 	public:
+		virtual BOOL Submit(CGfxCommandBuffer *pCommandBuffer) const = 0;
 		virtual BOOL Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const = 0;
 		virtual BOOL WaitIdle(void) const = 0;
 	};
