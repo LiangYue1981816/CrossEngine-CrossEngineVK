@@ -38,7 +38,7 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL Create(void);
+		VkResult Create(void);
 		void Destroy(void);
 
 	protected:

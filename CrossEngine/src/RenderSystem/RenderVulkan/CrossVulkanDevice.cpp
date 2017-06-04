@@ -78,9 +78,9 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pFrameBufferManager);
 	}
 
-	BOOL CVulkanDevice::Create(void)
+	VkResult CVulkanDevice::Create(void)
 	{
-		return TRUE;
+		return VK_SUCCESS;
 	}
 
 	void CVulkanDevice::Destroy(void)

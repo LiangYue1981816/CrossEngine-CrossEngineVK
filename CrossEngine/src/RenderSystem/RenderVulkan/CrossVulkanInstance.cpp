@@ -277,7 +277,7 @@ namespace CrossEngine {
 
 	VkResult CVulkanInstance::CreateDevice(void)
 	{
-		return m_pDevice->Create() ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
+		return m_pDevice->Create();
 	}
 
 	VkResult CVulkanInstance::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
