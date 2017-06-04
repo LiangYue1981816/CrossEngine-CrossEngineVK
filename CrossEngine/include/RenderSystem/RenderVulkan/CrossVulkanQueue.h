@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL Create(uint32_t queueFamilyIndex);
+		VkResult Create(uint32_t queueFamilyIndex);
 		void Destroy(void);
 
 	protected:
@@ -49,9 +49,9 @@ namespace CrossEngine {
 		uint32_t GetQueueFamilyIndex(void) const;
 
 	public:
-		BOOL Submit(CGfxCommandBuffer *pCommandBuffer) const;
-		BOOL Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
-		BOOL WaitIdle(void) const;
+		int Submit(CGfxCommandBuffer *pCommandBuffer) const;
+		int Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
+		int WaitIdle(void) const;
 
 
 	protected:

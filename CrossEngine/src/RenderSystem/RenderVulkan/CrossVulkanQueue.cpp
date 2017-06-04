@@ -39,14 +39,18 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CVulkanQueue::Create(uint32_t queueFamilyIndex)
+	VkResult CVulkanQueue::Create(uint32_t queueFamilyIndex)
 	{
-		return TRUE;
+		m_queueFamilyIndex = queueFamilyIndex;
+		vkGetDeviceQueue(m_pDevice->GetDevice(), m_queueFamilyIndex, 0, &m_vkQueue);
+
+		return VK_SUCCESS;
 	}
 
 	void CVulkanQueue::Destroy(void)
 	{
-
+		m_vkQueue = VK_NULL_HANDLE;
+		m_queueFamilyIndex = UINT32_MAX;
 	}
 
 	VkQueue CVulkanQueue::GetQueue(void) const
@@ -59,19 +63,36 @@ namespace CrossEngine {
 		return m_queueFamilyIndex;
 	}
 
-	BOOL CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer) const
+	int CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer) const
 	{
-		return TRUE;
+		return Submit(pCommandBuffer, VK_NULL_HANDLE, 0, VK_NULL_HANDLE);
 	}
 
-	BOOL CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	int CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
 	{
-		return TRUE;
+		CVulkanCommandBuffer *pVkCommandBuffer = (CVulkanCommandBuffer *)pCommandBuffer;
+		VkSemaphore vkWaitSemaphore = (VkSemaphore)waitSemaphore;
+		VkSemaphore vkSignalSemaphore = (VkSemaphore)signalSemaphore;
+
+		VkFence vkFence = pVkCommandBuffer->GetFence();
+		VkCommandBuffer vkCommandBuffer = (VkCommandBuffer)pVkCommandBuffer->GetHandle();
+
+		VkSubmitInfo submitInfo = {};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.pNext = NULL;
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &vkCommandBuffer;
+		submitInfo.waitSemaphoreCount = vkWaitSemaphore != VK_NULL_HANDLE ? 1 : 0;
+		submitInfo.pWaitSemaphores = vkWaitSemaphore != VK_NULL_HANDLE ? &vkWaitSemaphore : NULL;
+		submitInfo.pWaitDstStageMask = vkWaitSemaphore != VK_NULL_HANDLE ? &waitStageFlags : NULL;
+		submitInfo.signalSemaphoreCount = vkSignalSemaphore != VK_NULL_HANDLE ? 1 : 0;
+		submitInfo.pSignalSemaphores = vkSignalSemaphore != VK_NULL_HANDLE ? &vkSignalSemaphore : NULL;
+		return vkQueueSubmit(m_vkQueue, 1, &submitInfo, vkFence);
 	}
 
-	BOOL CVulkanQueue::WaitIdle(void) const
+	int CVulkanQueue::WaitIdle(void) const
 	{
-		return TRUE;
+		return vkQueueWaitIdle(m_vkQueue);
 	}
 
 }
