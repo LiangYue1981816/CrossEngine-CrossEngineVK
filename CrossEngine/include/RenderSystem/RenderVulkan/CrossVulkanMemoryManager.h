@@ -48,7 +48,7 @@ namespace CrossEngine {
 		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
 		void FreeMemory(CVulkanMemory *pMemory);
 
-	public:
+	protected:
 		void DumpLog(const char *szTitle) const;
 
 

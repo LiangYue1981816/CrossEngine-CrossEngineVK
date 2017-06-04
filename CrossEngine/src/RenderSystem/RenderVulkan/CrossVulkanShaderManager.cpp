@@ -25,6 +25,15 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	CVulkanShaderManager::CVulkanShaderManager(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
+	{
 
+	}
+
+	CVulkanShaderManager::~CVulkanShaderManager(void)
+	{
+
+	}
 
 }
