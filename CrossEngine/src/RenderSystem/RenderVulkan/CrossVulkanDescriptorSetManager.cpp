@@ -46,4 +46,9 @@ namespace CrossEngine {
 
 	}
 
+	void CVulkanDescriptorSetManager::DumpLog(const char *szTitle) const
+	{
+
+	}
+
 }

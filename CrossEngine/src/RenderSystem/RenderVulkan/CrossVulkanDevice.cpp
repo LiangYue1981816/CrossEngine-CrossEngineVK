@@ -80,16 +80,65 @@ namespace CrossEngine {
 
 	int CVulkanDevice::Create(void)
 	{
+		uint32_t queueFamilyIndex;
+		std::vector<VkPhysicalDevice> devices;
+
+		CALL_VK_FUNCTION_RETURN(EnumeratePhysicalDevices(devices));
+		CALL_VK_FUNCTION_RETURN(SelectPhysicalDevices(devices, m_vkPhysicalDevice, queueFamilyIndex));
+		CALL_VK_FUNCTION_RETURN(CreateDevice(m_vkPhysicalDevice, queueFamilyIndex));
+
+		CALL_VK_FUNCTION_RETURN(CreateQueue(queueFamilyIndex));
+		CALL_VK_FUNCTION_RETURN(CreateMemoryManager());
+		CALL_VK_FUNCTION_RETURN(CreateCommandPoolManager());
+		CALL_VK_FUNCTION_RETURN(CreateDescriptorSetManager());
+		CALL_VK_FUNCTION_RETURN(CreateStagingBufferManager());
+
+		CALL_VK_FUNCTION_RETURN(CreateBufferManager());
+		CALL_VK_FUNCTION_RETURN(CreateTextureManager());
+		CALL_VK_FUNCTION_RETURN(CreateShaderManager());
+		CALL_VK_FUNCTION_RETURN(CreatePipelineManager());
+		CALL_VK_FUNCTION_RETURN(CreateRenderPassManager());
+		CALL_VK_FUNCTION_RETURN(CreateFrameBufferManager());
+
+		CVulkanHelper::vkSetupFormat(m_vkPhysicalDevice);
+
 		return VK_SUCCESS;
 	}
 
 	void CVulkanDevice::Destroy(void)
 	{
+		if (m_vkDevice == VK_NULL_HANDLE || m_vkPhysicalDevice == VK_NULL_HANDLE) {
+			return;
+		}
 
+		vkDeviceWaitIdle(m_vkDevice);
+
+		DestroyFrameBufferManager();
+		DestroyRenderPassManager();
+		DestroyPipelineManager();
+		DestroyShaderManager();
+		DestroyTextureManager();
+		DestroyBufferManager();
+
+		DestroyStagingBufferManager();
+		DestroyDescriptorSetManager();
+		DestroyCommandPoolManager();
+		DestroyMemoryManager();
+		DestroyQueue();
+		DestroyDevice();
 	}
 
 	int CVulkanDevice::EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const
 	{
+		devices.clear();
+
+		uint32_t numDevices;
+		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, NULL));
+
+		ASSERT(numDevices > 0);
+		devices.resize(numDevices);
+		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, devices.data()));
+
 		return VK_SUCCESS;
 	}
 
@@ -120,117 +169,122 @@ namespace CrossEngine {
 
 	int CVulkanDevice::CreateQueue(uint32_t queueFamilyIndex)
 	{
-		return VK_SUCCESS;
+		return m_pQueue->Create(queueFamilyIndex);
 	}
 
 	int CVulkanDevice::CreateMemoryManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pMemoryManager->Create();
 	}
 
 	int CVulkanDevice::CreateCommandPoolManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pCommandPoolManager->Create();
 	}
 
 	int CVulkanDevice::CreateDescriptorSetManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pDescriptorSetManager->Create();
 	}
 
 	int CVulkanDevice::CreateStagingBufferManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pStagingBufferManager->Create();
 	}
 
 	int CVulkanDevice::CreateBufferManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pBufferManager->Create();
 	}
 
 	int CVulkanDevice::CreateTextureManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pTextureManager->Create();
 	}
 
 	int CVulkanDevice::CreateShaderManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pShaderManager->Create();
 	}
 
 	int CVulkanDevice::CreatePipelineManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pPipelineManager->Create();
 	}
 
 	int CVulkanDevice::CreateRenderPassManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pRenderPassManager->Create();
 	}
 
 	int CVulkanDevice::CreateFrameBufferManager(void)
 	{
-		return VK_SUCCESS;
+		return m_pFrameBufferManager->Create();
 	}
 
 	void CVulkanDevice::DestroyDevice(void)
 	{
+		if (m_vkDevice && m_vkPhysicalDevice) {
+			vkDestroyDevice(m_vkDevice, m_pVulkan->GetAllocator()->GetAllocationCallbacks());
+		}
 
+		m_vkDevice = VK_NULL_HANDLE;
+		m_vkPhysicalDevice = VK_NULL_HANDLE;
 	}
 
 	void CVulkanDevice::DestroyQueue(void)
 	{
-
+		m_pQueue->Destroy();
 	}
 
 	void CVulkanDevice::DestroyMemoryManager(void)
 	{
-
+		m_pMemoryManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyCommandPoolManager(void)
 	{
-
+		m_pCommandPoolManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyDescriptorSetManager(void)
 	{
-
+		m_pDescriptorSetManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyStagingBufferManager(void)
 	{
-
+		m_pStagingBufferManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyBufferManager(void)
 	{
-
+		m_pBufferManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyTextureManager(void)
 	{
-
+		m_pTextureManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyShaderManager(void)
 	{
-
+		m_pShaderManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyPipelineManager(void)
 	{
-
+		m_pPipelineManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyRenderPassManager(void)
 	{
-
+		m_pRenderPassManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyFrameBufferManager(void)
 	{
-
+		m_pFrameBufferManager->Destroy();
 	}
 
 	CVulkanMemoryManager* CVulkanDevice::GetMemoryManager(void) const
@@ -345,7 +399,14 @@ namespace CrossEngine {
 
 	void CVulkanDevice::DumpLog(void) const
 	{
-
+		m_pMemoryManager->DumpLog("Device Memory ...");
+		m_pDescriptorSetManager->DumpLog("DescriptorSet ...");
+		m_pBufferManager->DumpLog("Buffer ...");
+		m_pTextureManager->DumpLog("Texture ...");
+		m_pShaderManager->DumpLog("Shader ...");
+		m_pPipelineManager->DumpLog("Pipeline ...");
+		m_pRenderPassManager->DumpLog("RenderPass ...");
+		m_pFrameBufferManager->DumpLog("FrameBuffer ...");
 	}
 
 }

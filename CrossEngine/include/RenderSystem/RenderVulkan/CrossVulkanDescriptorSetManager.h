@@ -40,6 +40,9 @@ namespace CrossEngine {
 		int Create(void);
 		void Destroy(void);
 
+	public:
+		void DumpLog(const char *szTitle) const;
+
 
 	protected:
 		CVulkanDevice *m_pDevice;
