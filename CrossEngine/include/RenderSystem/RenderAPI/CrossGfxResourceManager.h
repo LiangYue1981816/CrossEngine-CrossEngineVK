@@ -29,6 +29,9 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGfxResourceManager
 	{
 		friend class CGfxResource;
+		friend class CGfxIndexBuffer;
+		friend class CGfxVertexBuffer;
+		friend class CGfxUniformBuffer;
 
 
 	protected:

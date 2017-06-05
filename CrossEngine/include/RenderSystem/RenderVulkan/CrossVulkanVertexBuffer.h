@@ -28,10 +28,16 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanVertexBuffer : public CGfxVertexBuffer, public CVulkanBuffer
 	{
+		friend class CVulkanBufferManager;
+
+
 	protected:
 		CVulkanVertexBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CVulkanVertexBuffer(void);
 
+
+	public:
+		HANDLE GetHandle(void) const;
 
 	public:
 		BOOL Create(size_t size, const void *pBuffer, BOOL bHost);

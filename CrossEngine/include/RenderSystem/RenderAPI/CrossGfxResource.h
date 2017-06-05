@@ -46,8 +46,11 @@ namespace CrossEngine {
 
 		virtual void Release(void) = 0;
 
+
 	public:
-		virtual HANDLE GetHandle(void) = 0;
+		virtual HANDLE GetHandle(void) const = 0;
+
+	public:
 		virtual void Destroy(void) = 0;
 		virtual void DumpLog(void) const = 0;
 

@@ -38,6 +38,10 @@ namespace CrossEngine {
 		{
 
 		}
+		virtual void Release(void)
+		{
+			m_pResourceManager->FreeResource(this);
+		}
 
 
 	public:

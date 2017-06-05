@@ -37,6 +37,11 @@ namespace CrossEngine {
 
 	}
 
+	HANDLE CVulkanVertexBuffer::GetHandle(void) const
+	{
+		return m_vkBuffer;
+	}
+
 	BOOL CVulkanVertexBuffer::Create(size_t size, const void *pBuffer, BOOL bHost)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, bHost ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
