@@ -70,6 +70,10 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanCommandPool;
 	class CROSS_EXPORT CVulkanCommandPoolManager;
 	class CROSS_EXPORT CVulkanDescriptorSetManager;
+	class CROSS_EXPORT CVulkanBuffer;
+	class CROSS_EXPORT CVulkanIndexBuffer;
+	class CROSS_EXPORT CVulkanVertexBuffer;
+	class CROSS_EXPORT CVulkanUniformBuffer;
 	class CROSS_EXPORT CVulkanBufferManager;
 	class CROSS_EXPORT CVulkanTextureManager;
 	class CROSS_EXPORT CVulkanShaderManager;

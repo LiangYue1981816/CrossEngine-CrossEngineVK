@@ -26,29 +26,23 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxUniformBuffer : public CGfxResource
+	class CROSS_EXPORT CVulkanUniformBuffer : public CGfxUniformBuffer, public CVulkanBuffer
 	{
 	protected:
-		CGfxUniformBuffer(CGfxResourceManager *pResourceManager)
-			: CGfxResource(pResourceManager)
-		{
-
-		}
-		virtual ~CGfxUniformBuffer(void)
-		{
-
-		}
+		CVulkanUniformBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CVulkanUniformBuffer(void);
 
 
 	public:
-		virtual BOOL Create(size_t size, const void *pBuffer, BOOL bHost) = 0;
-		virtual void Destroy(void) = 0;
-		virtual BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) = 0;
-		virtual void DumpLog(void) const = 0;
+		BOOL Create(size_t size, const void *pBuffer, BOOL bHost);
+		void Destroy(void);
+		BOOL UpdateData(size_t offset, size_t size, const void *pBuffer);
+		void DumpLog(void) const;
 
 	public:
-		virtual size_t GetBufferSize(void) const = 0;
-		virtual size_t GetMemorySize(void) const = 0;
+		size_t GetBufferSize(void) const;
+		size_t GetMemorySize(void) const;
+		VkBufferUsageFlags GetUsage(void) const;
 	};
 
 }
