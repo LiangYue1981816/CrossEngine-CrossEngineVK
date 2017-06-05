@@ -26,40 +26,29 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanMemoryManager
+	class CROSS_EXPORT CVulkanBuffer
 	{
-		friend class CVulkanDevice;
-		friend class CVulkanBuffer;
-		friend class CVulkanStagingBuffer;
+	protected:
+		CVulkanBuffer(CVulkanDevice *pDevice);
+		virtual ~CVulkanBuffer(void);
 
 
 	protected:
-		CVulkanMemoryManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanMemoryManager(void);
-
-
-	protected:
-		int Create(void);
+		BOOL Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags);
 		void Destroy(void);
 
 	protected:
-		uint32_t GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const;
-
-	protected:
-		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
-		void FreeMemory(CVulkanMemory *pMemory);
-
-	protected:
-		void DumpLog(const char *szTitle) const;
+		BOOL CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
+		BOOL TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 
 
 	protected:
-		static const VkDeviceSize HOST_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
-		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
+		VkBuffer m_vkBuffer;
+		CVulkanMemory *m_pMemory;
 
 	protected:
-		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanMemoryAllocator*> m_pAllocatorListHeads;
+		VkDeviceSize m_bufferSize;
+		VkBufferUsageFlags m_usage;
 
 	protected:
 		CVulkanDevice *m_pDevice;

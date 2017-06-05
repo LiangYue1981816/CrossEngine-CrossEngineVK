@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanDevice : public CGfxDevice
 	{
 		friend class CVulkanInstance;
+		friend class CVulkanBuffer;
 		friend class CVulkanStagingBuffer;
 
 

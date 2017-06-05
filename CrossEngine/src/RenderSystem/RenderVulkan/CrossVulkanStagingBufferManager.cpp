@@ -78,12 +78,14 @@ namespace CrossEngine {
 
 	void CVulkanStagingBufferManager::FreeBuffer(CVulkanStagingBuffer *pBuffer)
 	{
-		mutex_autolock mutex(m_mutex);
+		if (pBuffer) {
+			mutex_autolock mutex(m_mutex);
 
-		const auto &itBuffer = m_pBuffers.find(pBuffer);
-		if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
+			const auto &itBuffer = m_pBuffers.find(pBuffer);
+			if (itBuffer != m_pBuffers.end()) m_pBuffers.erase(itBuffer);
 
-		SAFE_DELETE(pBuffer);
+			SAFE_DELETE(pBuffer);
+		}
 	}
 
 	void CVulkanStagingBufferManager::DumpLog(const char *szTitle) const

@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanStagingBufferManager
 	{
 		friend class CVulkanDevice;
+		friend class CVulkanBuffer;
 
 
 	protected:

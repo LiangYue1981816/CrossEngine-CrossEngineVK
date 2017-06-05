@@ -214,6 +214,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3platform.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanAllocator.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanAPI.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommand.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandBuffer.h" />
@@ -224,6 +225,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDevice.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanFrameBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanHelper.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanIndexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanInstance.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanMemory.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanMemoryAllocator.h" />
@@ -261,6 +263,7 @@
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\operator_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanAllocator.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanBufferManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommand.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBuffer.cpp" />
@@ -270,6 +273,7 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDevice.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanFrameBufferManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanHelper.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanIndexBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanInstance.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanMemory.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanMemoryAllocator.cpp" />
