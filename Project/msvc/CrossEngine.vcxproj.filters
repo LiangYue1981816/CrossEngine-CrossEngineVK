@@ -79,6 +79,9 @@
     <Filter Include="Engine\Source Files\RenderSystem\RenderVulkan\Resource">
       <UniqueIdentifier>{684b47ff-f182-4013-adc3-20af73bddaf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Source Files\RenderSystem\RenderAPI">
+      <UniqueIdentifier>{1f185c14-053d-4248-ba4a-3885bffa2567}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -502,6 +505,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxResource.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderAPI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

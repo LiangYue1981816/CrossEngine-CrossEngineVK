@@ -264,6 +264,7 @@
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\debug_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\operator_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxResource.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanAllocator.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanBufferManager.cpp" />

@@ -422,7 +422,7 @@ namespace CrossEngine {
 
 	CGfxCommandBufferPtr CVulkanDevice::AllocCommandBuffer(uint32_t pool, CommandBufferLevel level)
 	{
-		return CGfxCommandBufferPtr(NULL);
+		return m_pCommandPoolManager->GetCommandPool(pool)->AllocCommandBuffer((VkCommandBufferLevel)level);
 	}
 
 	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)
@@ -437,17 +437,17 @@ namespace CrossEngine {
 
 	CGfxIndexBufferPtr CVulkanDevice::NewIndexBuffer(void)
 	{
-		return CGfxIndexBufferPtr(NULL);
+		return m_pBufferManager->AllocIndexBuffer();
 	}
 
 	CGfxVertexBufferPtr CVulkanDevice::NewVertexBuffer(void)
 	{
-		return CGfxVertexBufferPtr(NULL);
+		return m_pBufferManager->AllocVertexBuffer();
 	}
 
 	CGfxUniformBufferPtr CVulkanDevice::NewUniformBuffer(void)
 	{
-		return CGfxUniformBufferPtr(NULL);
+		return m_pBufferManager->AllocUniformBuffer();
 	}
 
 	CGfxTexturePtr CVulkanDevice::NewTexture(void)

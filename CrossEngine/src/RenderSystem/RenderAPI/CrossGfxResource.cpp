@@ -20,70 +20,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxResource
+	void CGfxResource::Release(void)
 	{
-		template<class T>
-		friend class CGfxResourcePtr;
-		friend class CGfxResourceManager;
-
-
-	protected:
-		CGfxResource(CGfxResourceManager *pResourceManager)
-			: m_pResourceManager(pResourceManager)
-		{
-
-		}
-		virtual ~CGfxResource(void)
-		{
-
-		}
-
-		virtual void Release(void);
-
-
-	public:
-		virtual HANDLE GetHandle(void) const = 0;
-
-	public:
-		virtual void Destroy(void) = 0;
-		virtual void DumpLog(void) const = 0;
-
-
-	protected:
-		CGfxResourceManager *m_pResourceManager;
-	};
-
-	template<class T>
-	class CROSS_EXPORT CGfxResourcePtr : public CSharedPtr<T>
-	{
-	public:
-		CGfxResourcePtr(void) : CSharedPtr<T>()
-		{
-
-		}
-		CGfxResourcePtr(const T *p) : CSharedPtr<T>(p)
-		{
-
-		}
-		CGfxResourcePtr(const CGfxResourcePtr &ptr) : CSharedPtr<T>(ptr)
-		{
-
-		}
-
-
-	protected:
-		virtual void FreePointer(void)
-		{
-			if (m_pPointer) {
-				((CGfxResource *)m_pPointer)->Release();
-			}
-		}
-	};
+		m_pResourceManager->FreeResource(this);
+	}
 
 }
