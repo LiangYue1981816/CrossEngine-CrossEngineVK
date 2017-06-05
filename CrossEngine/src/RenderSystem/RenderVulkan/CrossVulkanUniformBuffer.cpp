@@ -49,21 +49,34 @@ namespace CrossEngine {
 		CVulkanBuffer::Destroy();
 	}
 
-	BOOL CVulkanUniformBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer)
+	BOOL CVulkanUniformBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
 	{
-		if (m_pMemory->IsHostVisible()) {
-			return CopyData(offset, size, pBuffer);
-		}
-		else {
-			return TransferData(offset, size, pBuffer);
-		}
+		return CVulkanBuffer::UpdateData(offset, size, pBuffer);
 	}
 
 	void CVulkanUniformBuffer::DumpLog(void) const
 	{
 		if (m_vkBuffer) {
-			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
+			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
 		}
+	}
+
+	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size)
+	{
+		if (offset + size > m_bufferSize) {
+			return FALSE;
+		}
+
+		m_vkDescriptorBufferInfos[set][binding].buffer = m_vkBuffer;
+		m_vkDescriptorBufferInfos[set][binding].offset = offset;
+		m_vkDescriptorBufferInfos[set][binding].range = size;
+
+		return TRUE;
+	}
+
+	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
+	{
+		return m_vkDescriptorBufferInfos[set][binding];
 	}
 
 	size_t CVulkanUniformBuffer::GetBufferSize(void) const

@@ -43,7 +43,7 @@ namespace CrossEngine {
 	public:
 		virtual BOOL Create(size_t size, const void *pBuffer, BOOL bHost) = 0;
 		virtual void Destroy(void) = 0;
-		virtual BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) = 0;
+		virtual BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const = 0;
 		virtual void DumpLog(void) const = 0;
 
 	public:

@@ -49,14 +49,9 @@ namespace CrossEngine {
 		CVulkanBuffer::Destroy();
 	}
 
-	BOOL CVulkanIndexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer)
+	BOOL CVulkanIndexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
 	{
-		if (m_pMemory->IsHostVisible()) {
-			return CopyData(offset, size, pBuffer);
-		}
-		else {
-			return TransferData(offset, size, pBuffer);
-		}
+		return CVulkanBuffer::UpdateData(offset, size, pBuffer);
 	}
 
 	void CVulkanIndexBuffer::DumpLog(void) const
