@@ -94,9 +94,4 @@ namespace CrossEngine {
 		return m_pMemory->GetSize();
 	}
 
-	VkBufferUsageFlags CVulkanUniformBuffer::GetUsage(void) const
-	{
-		return m_usage;
-	}
-
 }

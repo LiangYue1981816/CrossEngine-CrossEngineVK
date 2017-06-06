@@ -52,7 +52,6 @@ namespace CrossEngine {
 	public:
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
-		VkBufferUsageFlags GetUsage(void) const;
 
 
 	protected:

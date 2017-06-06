@@ -32,15 +32,16 @@ namespace CrossEngine {
 		, m_vkImage(VK_NULL_HANDLE)
 		, m_vkImageView(VK_NULL_HANDLE)
 
-		, m_type(VK_IMAGE_TYPE_2D)
-		, m_format(VK_FORMAT_R8G8B8A8_UNORM)
 		, m_width(0)
 		, m_height(0)
 		, m_depth(0)
 		, m_mipLevels(0)
 		, m_arrayLayers(0)
-		, m_samples(VK_SAMPLE_COUNT_1_BIT)
+
+		, m_format(VK_FORMAT_R8G8B8A8_UNORM)
+		, m_type(VK_IMAGE_TYPE_2D)
 		, m_tiling(VK_IMAGE_TILING_OPTIMAL)
+		, m_samples(VK_SAMPLE_COUNT_1_BIT)
 	{
 
 	}
@@ -252,6 +253,51 @@ namespace CrossEngine {
 		}
 
 		m_vkImageView = VK_NULL_HANDLE;
+	}
+
+	uint32_t CVulkanImage::GetWidth(void) const
+	{
+		return m_width;
+	}
+
+	uint32_t CVulkanImage::GetHeight(void) const
+	{
+		return m_height;
+	}
+
+	uint32_t CVulkanImage::GetDepth(void) const
+	{
+		return m_depth;
+	}
+
+	uint32_t CVulkanImage::GetMips(void) const
+	{
+		return m_mipLevels;
+	}
+
+	uint32_t CVulkanImage::GetLayers(void) const
+	{
+		return m_arrayLayers;
+	}
+
+	VkFormat CVulkanImage::GetFormat(void) const
+	{
+		return m_format;
+	}
+
+	VkImageType CVulkanImage::GetType(void) const
+	{
+		return m_type;
+	}
+
+	VkImageTiling CVulkanImage::GetTiling(void) const
+	{
+		return m_tiling;
+	}
+
+	VkSampleCountFlagBits CVulkanImage::GetSamples(void) const
+	{
+		return m_samples;
 	}
 
 }

@@ -44,6 +44,18 @@ namespace CrossEngine {
 		void DestroyImage(void);
 		void DestroyImageView(void);
 
+	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+		uint32_t GetDepth(void) const;
+		uint32_t GetMips(void) const;
+		uint32_t GetLayers(void) const;
+
+		VkFormat GetFormat(void) const;
+		VkImageType GetType(void) const;
+		VkImageTiling GetTiling(void) const;
+		VkSampleCountFlagBits GetSamples(void) const;
+
 
 	protected:
 		VkImage m_vkImage;
@@ -51,15 +63,16 @@ namespace CrossEngine {
 		CVulkanMemory *m_pMemory;
 
 	protected:
-		VkImageType m_type;
-		VkFormat m_format;
 		uint32_t m_width;
 		uint32_t m_height;
 		uint32_t m_depth;
 		uint32_t m_mipLevels;
 		uint32_t m_arrayLayers;
-		VkSampleCountFlagBits m_samples;
+
+		VkFormat m_format;
+		VkImageType m_type;
 		VkImageTiling m_tiling;
+		VkSampleCountFlagBits m_samples;
 
 	protected:
 		CVulkanDevice *m_pDevice;

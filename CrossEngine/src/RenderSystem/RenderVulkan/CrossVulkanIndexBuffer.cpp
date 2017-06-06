@@ -76,9 +76,4 @@ namespace CrossEngine {
 		return m_pMemory->GetSize();
 	}
 
-	VkBufferUsageFlags CVulkanIndexBuffer::GetUsage(void) const
-	{
-		return m_usage;
-	}
-
 }

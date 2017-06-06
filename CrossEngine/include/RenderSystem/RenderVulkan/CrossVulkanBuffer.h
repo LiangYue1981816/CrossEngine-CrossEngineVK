@@ -42,6 +42,9 @@ namespace CrossEngine {
 		BOOL CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 		BOOL TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 
+	public:
+		VkBufferUsageFlags GetUsage(void) const;
+
 
 	protected:
 		VkBuffer m_vkBuffer;

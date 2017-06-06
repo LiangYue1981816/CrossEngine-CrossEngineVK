@@ -25,29 +25,50 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-
-	class CROSS_EXPORT CVulkanVertexBuffer : public CGfxVertexBuffer, public CVulkanBuffer
+	/*
+	class CROSS_EXPORT CVulkanTexture : public CGfxTexture, public CVulkanImage
 	{
-		friend class CVulkanBufferManager;
+		friend class CVulkanTextureManager;
 
 
 	protected:
-		CVulkanVertexBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
-		virtual ~CVulkanVertexBuffer(void);
+		CVulkanTexture(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CVulkanTexture(void);
 
 
 	public:
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL Create(size_t size, const void *pBuffer, BOOL bHost);
+		BOOL CreateTexture2D(const gli::texture2d &texture, TextureFilter minFilter, TextureFilter magFilter, SamplerMipmapMode mipmapMode, SamplerAddressMode addressMode);
+		BOOL CreateTexture2DArray(const gli::texture2d_array &texture, TextureFilter minFilter, TextureFilter magFilter, SamplerMipmapMode mipmapMode, SamplerAddressMode addressMode);
+		BOOL CreateTextureCube(const gli::texture_cube &texture, TextureFilter minFilter, TextureFilter magFilter, SamplerMipmapMode mipmapMode, SamplerAddressMode addressMode);
 		void Destroy(void);
-		BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const;
 		void DumpLog(void) const;
 
-	public:
-		size_t GetBufferSize(void) const;
-		size_t GetMemorySize(void) const;
-	};
+	protected:
+		BOOL CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		void DestroySampler(void);
 
+	protected:
+		BOOL TransferTexture2D(const gli::texture2d &texture);
+		BOOL TransferTexture2DArray(const gli::texture2d_array &texture);
+		BOOL TransferTextureCube(const gli::texture_cube &texture);
+
+	public:
+		const VkDescriptorImageInfo& GetDescriptorImageInfo(void) const;
+		size_t GetMemorySize(void) const;
+
+
+	protected:
+		VkFilter m_minFilter;
+		VkFilter m_magFilter;
+		VkSamplerMipmapMode m_mipmapMode;
+		VkSamplerAddressMode m_addressMode;
+
+	protected:
+		VkSampler m_vkSampler;
+		VkDescriptorImageInfo m_vkDescriptorImageInfo;
+	};
+	*/
 }
