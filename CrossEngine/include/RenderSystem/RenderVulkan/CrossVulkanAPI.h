@@ -44,6 +44,7 @@ THE SOFTWARE.
 #include "CrossVulkanVertexBuffer.h"
 #include "CrossVulkanUniformBuffer.h"
 #include "CrossVulkanBufferManager.h"
+#include "CrossVulkanImage.h"
 #include "CrossVulkanTextureManager.h"
 #include "CrossVulkanShaderManager.h"
 #include "CrossVulkanPipelineManager.h"

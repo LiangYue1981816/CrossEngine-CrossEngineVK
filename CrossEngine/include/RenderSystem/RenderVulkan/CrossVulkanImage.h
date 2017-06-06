@@ -26,41 +26,40 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanMemoryManager
+	class CROSS_EXPORT CVulkanImage
 	{
-		friend class CVulkanDevice;
-		friend class CVulkanImage;
-		friend class CVulkanBuffer;
-		friend class CVulkanStagingBuffer;
+	protected:
+		CVulkanImage(CVulkanDevice *pDevice);
+		virtual ~CVulkanImage(void);
 
 
 	protected:
-		CVulkanMemoryManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanMemoryManager(void);
-
+		BOOL Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage);
+		int CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage);
+		int CreateImageView(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t mipLevels);
+		int CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const;
 
 	protected:
-		int Create(void);
 		void Destroy(void);
-
-	protected:
-		uint32_t GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const;
-
-	protected:
-		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
-		void FreeMemory(CVulkanMemory *pMemory);
-
-	protected:
-		void DumpLog(const char *szTitle) const;
+		void DestroyImage(void);
+		void DestroyImageView(void);
 
 
 	protected:
-		static const VkDeviceSize HOST_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
-		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
+		VkImage m_vkImage;
+		VkImageView m_vkImageView;
+		CVulkanMemory *m_pMemory;
 
 	protected:
-		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanMemoryAllocator*> m_pAllocatorListHeads;
+		VkImageType m_type;
+		VkFormat m_format;
+		uint32_t m_width;
+		uint32_t m_height;
+		uint32_t m_depth;
+		uint32_t m_mipLevels;
+		uint32_t m_arrayLayers;
+		VkSampleCountFlagBits m_samples;
+		VkImageTiling m_tiling;
 
 	protected:
 		CVulkanDevice *m_pDevice;
