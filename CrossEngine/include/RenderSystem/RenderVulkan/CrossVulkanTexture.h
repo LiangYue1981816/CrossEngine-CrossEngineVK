@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CVulkanTexture : public CGfxTexture, public CVulkanImage
 	{
 		friend class CVulkanTextureManager;
@@ -70,5 +70,5 @@ namespace CrossEngine {
 		VkSampler m_vkSampler;
 		VkDescriptorImageInfo m_vkDescriptorImageInfo;
 	};
-	*/
+
 }
