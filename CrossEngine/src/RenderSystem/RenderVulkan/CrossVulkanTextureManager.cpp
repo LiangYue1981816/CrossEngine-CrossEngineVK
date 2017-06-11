@@ -36,4 +36,24 @@ namespace CrossEngine {
 
 	}
 
+	CGfxTexturePtr CVulkanTextureManager::AllocTexture(void)
+	{
+		CVulkanTexture *pTexture = SAFE_NEW CVulkanTexture(m_pDevice, this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pTexture] = pTexture;
+		}
+		return CGfxTexturePtr(pTexture);
+	}
+
+	CGfxRenderTexturePtr CVulkanTextureManager::AllocRenderTexture(void)
+	{
+		CVulkanRenderTexture *pRenderTexture = SAFE_NEW CVulkanRenderTexture(m_pDevice, this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pRenderTexture] = pRenderTexture;
+		}
+		return CGfxRenderTexturePtr(pRenderTexture);
+	}
+
 }

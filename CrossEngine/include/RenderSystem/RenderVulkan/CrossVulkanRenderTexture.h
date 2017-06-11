@@ -26,23 +26,27 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanTextureManager : public CGfxResourceManager
+	class CROSS_EXPORT CVulkanRenderTexture : public CGfxRenderTexture, public CVulkanImage
 	{
-		friend class CVulkanDevice;
+		friend class CVulkanTextureManager;
 
 
 	protected:
-		CVulkanTextureManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanTextureManager(void);
+		CVulkanRenderTexture(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CVulkanRenderTexture(void);
 
 
 	public:
-		CGfxTexturePtr AllocTexture(void);
-		CGfxRenderTexturePtr AllocRenderTexture(void);
+		HANDLE GetHandle(void) const;
 
+	public:
+		BOOL CreateColorTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples);
+		BOOL CreateDepthStencilTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples);
+		void Destroy(void);
+		void DumpLog(void) const;
 
-	protected:
-		CVulkanDevice *m_pDevice;
+	public:
+		size_t GetMemorySize(void) const;
 	};
 
 }

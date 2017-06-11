@@ -452,12 +452,12 @@ namespace CrossEngine {
 
 	CGfxTexturePtr CVulkanDevice::NewTexture(void)
 	{
-		return CGfxTexturePtr(NULL);
+		return m_pTextureManager->AllocTexture();
 	}
 
 	CGfxRenderTexturePtr CVulkanDevice::NewRenderTexture(void)
 	{
-		return CGfxRenderTexturePtr(NULL);
+		return m_pTextureManager->AllocRenderTexture();
 	}
 
 	CGfxShaderPtr CVulkanDevice::NewShader(void)
