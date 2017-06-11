@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(void) = 0;
+		virtual BOOL Create(HANDLE renderpass) = 0;
 
 	public:
 		virtual BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture) = 0;

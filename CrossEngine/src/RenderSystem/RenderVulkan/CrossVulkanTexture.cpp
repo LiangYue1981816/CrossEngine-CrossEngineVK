@@ -275,6 +275,31 @@ namespace CrossEngine {
 		return m_vkDescriptorImageInfo;
 	}
 
+	uint32_t CVulkanTexture::GetWidth(void) const
+	{
+		return m_width;
+	}
+
+	uint32_t CVulkanTexture::GetHeight(void) const
+	{
+		return m_height;
+	}
+
+	uint32_t CVulkanTexture::GetDepth(void) const
+	{
+		return m_depth;
+	}
+
+	uint32_t CVulkanTexture::GetMips(void) const
+	{
+		return m_mipLevels;
+	}
+
+	uint32_t CVulkanTexture::GetLayers(void) const
+	{
+		return m_arrayLayers;
+	}
+
 	size_t CVulkanTexture::GetMemorySize(void) const
 	{
 		return m_pMemory->GetSize();

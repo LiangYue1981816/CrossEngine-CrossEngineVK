@@ -59,13 +59,6 @@ namespace CrossEngine {
 		return CVulkanBuffer::UpdateData(offset, size, pBuffer);
 	}
 
-	void CVulkanUniformBuffer::DumpLog(void) const
-	{
-		if (m_vkBuffer) {
-			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
-		}
-	}
-
 	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size)
 	{
 		if (offset + size > m_bufferSize) {
@@ -92,6 +85,13 @@ namespace CrossEngine {
 	size_t CVulkanUniformBuffer::GetMemorySize(void) const
 	{
 		return m_pMemory->GetSize();
+	}
+
+	void CVulkanUniformBuffer::DumpLog(void) const
+	{
+		if (m_vkBuffer) {
+			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
+		}
 	}
 
 }

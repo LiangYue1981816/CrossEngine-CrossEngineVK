@@ -46,6 +46,12 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+		uint32_t GetDepth(void) const;
+		uint32_t GetMips(void) const;
+		uint32_t GetLayers(void) const;
+
 		size_t GetMemorySize(void) const;
 	};
 

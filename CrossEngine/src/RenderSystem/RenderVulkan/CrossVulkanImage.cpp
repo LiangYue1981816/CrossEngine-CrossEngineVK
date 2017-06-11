@@ -255,31 +255,6 @@ namespace CrossEngine {
 		m_vkImageView = VK_NULL_HANDLE;
 	}
 
-	uint32_t CVulkanImage::GetWidth(void) const
-	{
-		return m_width;
-	}
-
-	uint32_t CVulkanImage::GetHeight(void) const
-	{
-		return m_height;
-	}
-
-	uint32_t CVulkanImage::GetDepth(void) const
-	{
-		return m_depth;
-	}
-
-	uint32_t CVulkanImage::GetMips(void) const
-	{
-		return m_mipLevels;
-	}
-
-	uint32_t CVulkanImage::GetLayers(void) const
-	{
-		return m_arrayLayers;
-	}
-
 	VkFormat CVulkanImage::GetFormat(void) const
 	{
 		return m_format;

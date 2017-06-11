@@ -482,7 +482,7 @@ namespace CrossEngine {
 
 	CGfxFrameBufferPtr CVulkanDevice::NewFrameBuffer(void)
 	{
-		return CGfxFrameBufferPtr(NULL);
+		return m_pFrameBufferManager->AllocFrameBuffer();
 	}
 
 	void CVulkanDevice::DumpLog(void) const

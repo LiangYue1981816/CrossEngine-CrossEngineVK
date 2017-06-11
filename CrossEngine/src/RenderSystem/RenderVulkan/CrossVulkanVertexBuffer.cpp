@@ -59,13 +59,6 @@ namespace CrossEngine {
 		return CVulkanBuffer::UpdateData(offset, size, pBuffer);
 	}
 
-	void CVulkanVertexBuffer::DumpLog(void) const
-	{
-		if (m_vkBuffer) {
-			LOGI("\t\tVertexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
-		}
-	}
-
 	size_t CVulkanVertexBuffer::GetBufferSize(void) const
 	{
 		return m_bufferSize;
@@ -74,6 +67,13 @@ namespace CrossEngine {
 	size_t CVulkanVertexBuffer::GetMemorySize(void) const
 	{
 		return m_pMemory->GetSize();
+	}
+
+	void CVulkanVertexBuffer::DumpLog(void) const
+	{
+		if (m_vkBuffer) {
+			LOGI("\t\tVertexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
+		}
 	}
 
 }

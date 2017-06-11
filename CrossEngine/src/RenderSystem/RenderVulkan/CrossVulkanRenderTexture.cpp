@@ -81,6 +81,36 @@ namespace CrossEngine {
 		CVulkanImage::Destroy();
 	}
 
+	uint32_t CVulkanRenderTexture::GetWidth(void) const
+	{
+		return m_width;
+	}
+
+	uint32_t CVulkanRenderTexture::GetHeight(void) const
+	{
+		return m_height;
+	}
+
+	uint32_t CVulkanRenderTexture::GetDepth(void) const
+	{
+		return m_depth;
+	}
+
+	uint32_t CVulkanRenderTexture::GetMips(void) const
+	{
+		return m_mipLevels;
+	}
+
+	uint32_t CVulkanRenderTexture::GetLayers(void) const
+	{
+		return m_arrayLayers;
+	}
+
+	size_t CVulkanRenderTexture::GetMemorySize(void) const
+	{
+		return m_pMemory->GetSize();
+	}
+
 	void CVulkanRenderTexture::DumpLog(void) const
 	{
 		if (m_vkImage) {
@@ -94,11 +124,6 @@ namespace CrossEngine {
 				CVulkanHelper::vkSampleCountFlagBitsToString(m_samples),
 				CVulkanHelper::vkImageTilingToString(m_tiling));
 		}
-	}
-
-	size_t CVulkanRenderTexture::GetMemorySize(void) const
-	{
-		return m_pMemory->GetSize();
 	}
 
 }

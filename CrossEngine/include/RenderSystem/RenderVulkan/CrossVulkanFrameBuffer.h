@@ -22,34 +22,52 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossVulkanHelper.h"
-#include "CrossVulkanDefinition.h"
-#include "CrossVulkanAllocator.h"
-#include "CrossVulkanInstance.h"
-#include "CrossVulkanQueue.h"
-#include "CrossVulkanDevice.h"
-#include "CrossVulkanSwapchain.h"
-#include "CrossVulkanMemory.h"
-#include "CrossVulkanMemoryAllocator.h"
-#include "CrossVulkanMemoryManager.h"
-#include "CrossVulkanStagingBuffer.h"
-#include "CrossVulkanStagingBufferManager.h"
-#include "CrossVulkanCommand.h"
-#include "CrossVulkanCommandBuffer.h"
-#include "CrossVulkanCommandPool.h"
-#include "CrossVulkanCommandPoolManager.h"
-#include "CrossVulkanDescriptorSetManager.h"
-#include "CrossVulkanBuffer.h"
-#include "CrossVulkanIndexBuffer.h"
-#include "CrossVulkanVertexBuffer.h"
-#include "CrossVulkanUniformBuffer.h"
-#include "CrossVulkanBufferManager.h"
-#include "CrossVulkanImage.h"
-#include "CrossVulkanTexture.h"
-#include "CrossVulkanRenderTexture.h"
-#include "CrossVulkanTextureManager.h"
-#include "CrossVulkanShaderManager.h"
-#include "CrossVulkanPipelineManager.h"
-#include "CrossVulkanRenderPassManager.h"
-#include "CrossVulkanFrameBuffer.h"
-#include "CrossVulkanFrameBufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanFrameBuffer : public CGfxFrameBuffer
+	{
+		friend class CVulkanFrameBufferManager;
+
+
+	protected:
+		CVulkanFrameBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CVulkanFrameBuffer(void);
+
+
+	public:
+		HANDLE GetHandle(void) const;
+
+	public:
+		BOOL Create(HANDLE renderpass);
+		void Destroy(void);
+		void DumpLog(void) const;
+
+	protected:
+		uint32_t CreateAttachments(std::vector<VkImageView> &attachments);
+
+	public:
+		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView);
+		BOOL SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView);
+		BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
+		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
+
+	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+
+
+	protected:
+		uint32_t m_width;
+		uint32_t m_height;
+		VkFramebuffer m_vkFrameBuffer;
+
+	protected:
+		std::map<uint32_t, VkAttachmentInformation> m_attachments;
+
+	protected:
+		CVulkanDevice *m_pDevice;
+	};
+
+}

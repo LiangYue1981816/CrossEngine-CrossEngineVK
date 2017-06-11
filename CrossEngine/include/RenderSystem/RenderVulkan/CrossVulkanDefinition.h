@@ -56,6 +56,13 @@ namespace CrossEngine {
 		if (err != TRUE) throw err;         \
 	}
 
+	
+	typedef struct {
+		VkImageView vkImageView;
+		CGfxRenderTexturePtr ptrRenderTexture;
+	} VkAttachmentInformation;
+
+
 	class CROSS_EXPORT CVulkanAllocator;
 	class CROSS_EXPORT CVulkanInstance;
 	class CROSS_EXPORT CVulkanQueue;
@@ -82,6 +89,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanShaderManager;
 	class CROSS_EXPORT CVulkanPipelineManager;
 	class CROSS_EXPORT CVulkanRenderPassManager;
+	class CROSS_EXPORT CVulkanFrameBuffer;
 	class CROSS_EXPORT CVulkanFrameBufferManager;
 
 }
