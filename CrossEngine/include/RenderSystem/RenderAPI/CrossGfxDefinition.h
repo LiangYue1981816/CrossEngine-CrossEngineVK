@@ -278,6 +278,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGfxIndexBuffer;
 	class CROSS_EXPORT CGfxVertexBuffer;
 	class CROSS_EXPORT CGfxUniformBuffer;
+	class CROSS_EXPORT CGfxImage;
 	class CROSS_EXPORT CGfxTexture;
 	class CROSS_EXPORT CGfxRenderTexture;
 	class CROSS_EXPORT CGfxShader;

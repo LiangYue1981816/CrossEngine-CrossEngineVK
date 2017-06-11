@@ -26,26 +26,22 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxFrameBuffer : public CGfxResource
+	class CROSS_EXPORT CGfxImage : public CGfxResource
 	{
 	protected:
-		CGfxFrameBuffer(CGfxResourceManager *pResourceManager)
+		CGfxImage(CGfxResourceManager *pResourceManager)
 			: CGfxResource(pResourceManager)
 		{
 
 		}
-		virtual ~CGfxFrameBuffer(void)
+		virtual ~CGfxImage(void)
 		{
 
 		}
 
 
 	public:
-		virtual BOOL Create(void) = 0;
-
-	public:
-		virtual BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture) = 0;
-		virtual BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture) = 0;
+		virtual size_t GetMemorySize(void) const = 0;
 	};
 
 }

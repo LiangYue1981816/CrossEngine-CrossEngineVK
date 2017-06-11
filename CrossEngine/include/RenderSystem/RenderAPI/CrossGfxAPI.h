@@ -33,6 +33,7 @@ THE SOFTWARE.
 #include "CrossGfxIndexBuffer.h"
 #include "CrossGfxVertexBuffer.h"
 #include "CrossGfxUniformBuffer.h"
+#include "CrossGfxImage.h"
 #include "CrossGfxTexture.h"
 #include "CrossGfxRenderTexture.h"
 #include "CrossGfxShader.h"

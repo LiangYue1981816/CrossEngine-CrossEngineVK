@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxRenderTexture : public CGfxResource
+	class CROSS_EXPORT CGfxRenderTexture : public CGfxImage
 	{
 	protected:
 		CGfxRenderTexture(CGfxResourceManager *pResourceManager)
-			: CGfxResource(pResourceManager)
+			: CGfxImage(pResourceManager)
 		{
 
 		}
@@ -43,11 +43,6 @@ namespace CrossEngine {
 	public:
 		virtual BOOL CreateColorTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples) = 0;
 		virtual BOOL CreateDepthStencilTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples) = 0;
-		virtual void Destroy(void) = 0;
-		virtual void DumpLog(void) const = 0;
-
-	public:
-		virtual size_t GetMemorySize(void) const = 0;
 	};
 
 }

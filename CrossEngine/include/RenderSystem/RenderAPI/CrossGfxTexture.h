@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxTexture : public CGfxResource
+	class CROSS_EXPORT CGfxTexture : public CGfxImage
 	{
 	protected:
 		CGfxTexture(CGfxResourceManager *pResourceManager)
-			: CGfxResource(pResourceManager)
+			: CGfxImage(pResourceManager)
 		{
 
 		}
@@ -44,11 +44,6 @@ namespace CrossEngine {
 		virtual BOOL CreateTexture2D(const gli::texture2d &texture, TextureFilter minFilter, TextureFilter magFilter, SamplerMipmapMode mipmapMode, SamplerAddressMode addressMode) = 0;
 		virtual BOOL CreateTexture2DArray(const gli::texture2d_array &texture, TextureFilter minFilter, TextureFilter magFilter, SamplerMipmapMode mipmapMode, SamplerAddressMode addressMode) = 0;
 		virtual BOOL CreateTextureCube(const gli::texture_cube &texture, TextureFilter minFilter, TextureFilter magFilter, SamplerMipmapMode mipmapMode, SamplerAddressMode addressMode) = 0;
-		virtual void Destroy(void) = 0;
-		virtual void DumpLog(void) const = 0;
-
-	public:
-		virtual size_t GetMemorySize(void) const = 0;
 	};
 
 }

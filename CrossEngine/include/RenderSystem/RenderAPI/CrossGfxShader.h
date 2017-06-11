@@ -42,8 +42,6 @@ namespace CrossEngine {
 
 	public:
 		virtual BOOL Create(const char *szSource, size_t length, ShaderStageFlagBits flags) = 0;
-		virtual void Destroy(void) = 0;
-		virtual void DumpLog(void) const = 0;
 	};
 
 }
