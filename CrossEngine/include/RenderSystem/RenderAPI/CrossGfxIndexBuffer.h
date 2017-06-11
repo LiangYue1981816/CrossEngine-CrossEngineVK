@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxIndexBuffer : public CGfxResource
+	class CROSS_EXPORT CGfxIndexBuffer : public CGfxBuffer
 	{
 	protected:
 		CGfxIndexBuffer(CGfxResourceManager *pResourceManager)
-			: CGfxResource(pResourceManager)
+			: CGfxBuffer(pResourceManager)
 		{
 
 		}
@@ -38,17 +38,6 @@ namespace CrossEngine {
 		{
 
 		}
-
-
-	public:
-		virtual BOOL Create(size_t size, const void *pBuffer, BOOL bHost) = 0;
-		virtual void Destroy(void) = 0;
-		virtual BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const = 0;
-		virtual void DumpLog(void) const = 0;
-
-	public:
-		virtual size_t GetBufferSize(void) const = 0;
-		virtual size_t GetMemorySize(void) const = 0;
 	};
 
 }

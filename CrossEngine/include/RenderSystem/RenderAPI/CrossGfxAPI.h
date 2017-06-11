@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "CrossGfxSwapchain.h"
 #include "CrossGfxResource.h"
 #include "CrossGfxResourceManager.h"
+#include "CrossGfxBuffer.h"
 #include "CrossGfxIndexBuffer.h"
 #include "CrossGfxVertexBuffer.h"
 #include "CrossGfxUniformBuffer.h"

@@ -315,6 +315,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanRenderTexture.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
