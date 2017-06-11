@@ -20,37 +20,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CVulkanShaderManager::CVulkanShaderManager(CVulkanDevice *pDevice)
-		: m_pDevice(pDevice)
+	class CROSS_EXPORT CVulkanShader : public CGfxShader
 	{
-		m_options.SetWarningsAsErrors();
-		m_options.SetSourceLanguage(shaderc_source_language_glsl);
-		m_options.SetForcedVersionProfile(310, shaderc_profile_es);
-	}
+		friend class CVulkanShaderManager;
 
-	CVulkanShaderManager::~CVulkanShaderManager(void)
-	{
 
-	}
+	protected:
+		CVulkanShader(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CVulkanShader(void);
 
-	CGfxShaderPtr CVulkanShaderManager::AllocShader(void)
-	{
-		CVulkanShader *pShader = SAFE_NEW CVulkanShader(m_pDevice, this);
-		{
-			mutex_autolock mutex(m_mutex);
-			m_pResources[pShader] = pShader;
-		}
-		return CGfxShaderPtr(pShader);
-	}
 
-	const shaderc::CompileOptions& CVulkanShaderManager::GetCompileOptions(void) const
-	{
-		return m_options;
-	}
+	public:
+		HANDLE GetHandle(void) const;
+		const spirv::module_type& GetMoudleType(void) const;
+
+	public:
+		BOOL Create(const char *szSource, size_t length, ShaderStageFlagBits flags);
+		BOOL Create(const uint32_t *words, size_t numWords);
+		void Destroy(void);
+		void DumpLog(void) const;
+
+	protected:
+		shaderc::CompileOptions CreateCompileOptions(void);
+
+	public:
+		void AddMacroDefinition(const char *szName, const char *szValue);
+		void DelMacroDefinition(const char *szName);
+		void ClearMacroDefinitions(void);
+
+
+	protected:
+		spirv::module_type m_moduleType;
+		VkShaderModule m_vkShaderModule;
+		std::map<std::string, std::string> m_strMacroDefinitions;
+
+	protected:
+		CVulkanDevice *m_pDevice;
+	};
 
 }

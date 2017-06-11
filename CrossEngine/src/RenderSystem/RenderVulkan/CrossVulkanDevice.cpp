@@ -462,7 +462,7 @@ namespace CrossEngine {
 
 	CGfxShaderPtr CVulkanDevice::NewShader(void)
 	{
-		return CGfxShaderPtr(NULL);
+		return m_pShaderManager->AllocShader();
 	}
 
 	CGfxPipelineComputePtr CVulkanDevice::NewPipelineCompute(void)

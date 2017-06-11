@@ -36,6 +36,14 @@ namespace CrossEngine {
 		virtual ~CVulkanShaderManager(void);
 
 
+	public:
+		CGfxShaderPtr AllocShader(void);
+		const shaderc::CompileOptions& GetCompileOptions(void) const;
+
+
+	protected:
+		shaderc::CompileOptions m_options;
+
 	protected:
 		CVulkanDevice *m_pDevice;
 	};
