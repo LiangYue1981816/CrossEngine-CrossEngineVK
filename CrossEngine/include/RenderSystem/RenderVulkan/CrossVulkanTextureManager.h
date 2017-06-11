@@ -40,6 +40,9 @@ namespace CrossEngine {
 		CGfxTexturePtr AllocTexture(void);
 		CGfxRenderTexturePtr AllocRenderTexture(void);
 
+	public:
+		void DumpLog(const char *szTitle) const;
+
 
 	protected:
 		CVulkanDevice *m_pDevice;

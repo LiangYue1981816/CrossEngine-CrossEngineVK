@@ -66,4 +66,25 @@ namespace CrossEngine {
 		return CGfxUniformBufferPtr(pBuffer);
 	}
 
+	void CVulkanBufferManager::DumpLog(const char *szTitle) const
+	{
+		uint32_t count = 0;
+		VkDeviceSize bufferSize = 0;
+		VkDeviceSize memorySize = 0;
+
+		LOGI("%s\n", szTitle);
+		{
+			for (const auto &itResource : m_pResources) {
+				if (const CGfxBuffer *pResource = (CGfxBuffer *)itResource.second) {
+					pResource->DumpLog();
+					bufferSize += pResource->GetBufferSize();
+					memorySize += pResource->GetMemorySize();
+					count++;
+				}
+			}
+		}
+		LOGI("*** %d objects found, total buffer size %d total memory size %d\n", count, bufferSize, memorySize);
+		LOGI("\n");
+	}
+
 }

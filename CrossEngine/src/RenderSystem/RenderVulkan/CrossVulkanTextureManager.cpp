@@ -56,4 +56,23 @@ namespace CrossEngine {
 		return CGfxRenderTexturePtr(pRenderTexture);
 	}
 
+	void CVulkanTextureManager::DumpLog(const char *szTitle) const
+	{
+		uint32_t count = 0;
+		VkDeviceSize size = 0;
+
+		LOGI("%s\n", szTitle);
+		{
+			for (const auto &itResource : m_pResources) {
+				if (const CGfxImage *pResource = (CGfxImage *)itResource.second) {
+					pResource->DumpLog();
+					size += pResource->GetMemorySize();
+					count++;
+				}
+			}
+		}
+		LOGI("*** %d objects found, total size %d\n", count, size);
+		LOGI("\n");
+	}
+
 }

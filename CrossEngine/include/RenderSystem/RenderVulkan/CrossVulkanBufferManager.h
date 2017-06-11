@@ -41,6 +41,9 @@ namespace CrossEngine {
 		CGfxVertexBufferPtr AllocVertexBuffer(void);
 		CGfxUniformBufferPtr AllocUniformBuffer(void);
 
+	public:
+		void DumpLog(const char *szTitle) const;
+
 
 	protected:
 		CVulkanDevice *m_pDevice;
