@@ -36,6 +36,10 @@ namespace CrossEngine {
 		virtual ~CVulkanRenderPassManager(void);
 
 
+	public:
+		CGfxRenderPassPtr AllocRenderPass(void);
+
+
 	protected:
 		CVulkanDevice *m_pDevice;
 	};

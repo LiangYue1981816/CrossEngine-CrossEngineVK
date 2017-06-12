@@ -46,6 +46,10 @@ namespace CrossEngine {
 	public:
 		virtual BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture) = 0;
 		virtual BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture) = 0;
+
+	public:
+		virtual uint32_t GetWidth(void) const = 0;
+		virtual uint32_t GetHeight(void) const = 0;
 	};
 
 }

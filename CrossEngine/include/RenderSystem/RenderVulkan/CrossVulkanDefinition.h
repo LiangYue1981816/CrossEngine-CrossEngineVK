@@ -62,6 +62,14 @@ namespace CrossEngine {
 		CGfxRenderTexturePtr ptrRenderTexture;
 	} VkAttachmentInformation;
 
+	typedef struct {
+		std::map<uint32_t, VkImageLayout> inputAttachments;
+		std::map<uint32_t, VkImageLayout> colorAttachments;
+		std::map<uint32_t, VkImageLayout> resolveAttachments;
+		std::map<uint32_t, uint32_t> preserveAttachments;
+		VkAttachmentReference depthStencilAttachment;
+	} VkSubpassInformation;
+
 
 	class CROSS_EXPORT CVulkanAllocator;
 	class CROSS_EXPORT CVulkanInstance;
@@ -89,6 +97,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanShader;
 	class CROSS_EXPORT CVulkanShaderManager;
 	class CROSS_EXPORT CVulkanPipelineManager;
+	class CROSS_EXPORT CVulkanRenderPass;
 	class CROSS_EXPORT CVulkanRenderPassManager;
 	class CROSS_EXPORT CVulkanFrameBuffer;
 	class CROSS_EXPORT CVulkanFrameBufferManager;

@@ -477,7 +477,7 @@ namespace CrossEngine {
 
 	CGfxRenderPassPtr CVulkanDevice::NewRenderPass(void)
 	{
-		return CGfxRenderPassPtr(NULL);
+		return m_pRenderPassManager->AllocRenderPass();
 	}
 
 	CGfxFrameBufferPtr CVulkanDevice::NewFrameBuffer(void)
