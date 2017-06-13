@@ -160,7 +160,6 @@ namespace CrossEngine {
 		m_subpasses.clear();
 		m_dependencies.clear();
 		m_attachmentClearValues.clear();
-
 		m_vkRenderPass = VK_NULL_HANDLE;
 	}
 

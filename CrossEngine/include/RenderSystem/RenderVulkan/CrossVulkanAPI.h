@@ -50,6 +50,7 @@ THE SOFTWARE.
 #include "CrossVulkanTextureManager.h"
 #include "CrossVulkanShader.h"
 #include "CrossVulkanShaderManager.h"
+#include "CrossVulkanPipeline.h"
 #include "CrossVulkanPipelineManager.h"
 #include "CrossVulkanRenderPass.h"
 #include "CrossVulkanRenderPassManager.h"
