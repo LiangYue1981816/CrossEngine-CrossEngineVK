@@ -26,34 +26,23 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanPipelineManager : public CGfxResourceManager
+	class CROSS_EXPORT CVulkanPipelineCompute : public CGfxPipelineCompute, public CVulkanPipeline
 	{
-		friend class CVulkanDevice;
-		friend class CVulkanPipelineCompute;
+		friend class CVulkanPipelineManager;
 
 
 	protected:
-		CVulkanPipelineManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanPipelineManager(void);
+		CVulkanPipelineCompute(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CVulkanPipelineCompute(void);
 
 
-	protected:
-		BOOL Create(void);
+	public:
+		HANDLE GetHandle(void) const;
+
+	public:
+		BOOL Create(const CGfxShaderPtr &ptrShader);
 		void Destroy(void);
-
-	protected:
-		CGfxPipelineComputePtr AllocPipelineCompute(void);
-		CGfxPipelineGraphicsPtr AllocPipelineGraphics(void);
-
-	protected:
-		VkPipelineCache GetPipelineCache(void) const;
-
-
-	protected:
-		VkPipelineCache m_vkPipelineCache;
-
-	protected:
-		CVulkanDevice *m_pDevice;
+		void DumpLog(void) const;
 	};
 
 }

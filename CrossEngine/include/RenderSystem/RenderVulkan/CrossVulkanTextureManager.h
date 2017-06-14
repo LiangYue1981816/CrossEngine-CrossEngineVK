@@ -36,11 +36,11 @@ namespace CrossEngine {
 		virtual ~CVulkanTextureManager(void);
 
 
-	public:
+	protected:
 		CGfxTexturePtr AllocTexture(void);
 		CGfxRenderTexturePtr AllocRenderTexture(void);
 
-	public:
+	protected:
 		void DumpLog(const char *szTitle) const;
 
 

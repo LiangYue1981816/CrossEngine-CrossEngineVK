@@ -467,12 +467,12 @@ namespace CrossEngine {
 
 	CGfxPipelineComputePtr CVulkanDevice::NewPipelineCompute(void)
 	{
-		return CGfxPipelineComputePtr(NULL);
+		return m_pPipelineManager->AllocPipelineCompute();
 	}
 
 	CGfxPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(void)
 	{
-		return CGfxPipelineGraphicsPtr(NULL);
+		return m_pPipelineManager->AllocPipelineGraphics();
 	}
 
 	CGfxRenderPassPtr CVulkanDevice::NewRenderPass(void)

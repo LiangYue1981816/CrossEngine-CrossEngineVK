@@ -333,6 +333,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanPipeline.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanPipelineCompute.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -555,6 +558,9 @@
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanPipeline.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanPipelineCompute.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Resource</Filter>
     </ClCompile>
   </ItemGroup>

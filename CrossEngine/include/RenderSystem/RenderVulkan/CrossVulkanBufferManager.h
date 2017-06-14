@@ -36,12 +36,12 @@ namespace CrossEngine {
 		virtual ~CVulkanBufferManager(void);
 
 
-	public:
+	protected:
 		CGfxIndexBufferPtr AllocIndexBuffer(void);
 		CGfxVertexBufferPtr AllocVertexBuffer(void);
 		CGfxUniformBufferPtr AllocUniformBuffer(void);
 
-	public:
+	protected:
 		void DumpLog(const char *szTitle) const;
 
 

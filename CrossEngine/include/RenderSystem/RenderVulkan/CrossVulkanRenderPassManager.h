@@ -36,7 +36,7 @@ namespace CrossEngine {
 		virtual ~CVulkanRenderPassManager(void);
 
 
-	public:
+	protected:
 		CGfxRenderPassPtr AllocRenderPass(void);
 
 

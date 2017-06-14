@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CVulkanPipelineManager::CVulkanPipelineManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
+		, m_vkPipelineCache(VK_NULL_HANDLE)
 	{
 
 	}
@@ -34,6 +35,58 @@ namespace CrossEngine {
 	CVulkanPipelineManager::~CVulkanPipelineManager(void)
 	{
 
+	}
+
+	BOOL CVulkanPipelineManager::Create(void)
+	{
+		try {
+			VkPipelineCacheCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+			createInfo.pNext = NULL;
+			createInfo.flags = 0;
+			createInfo.initialDataSize = 0;
+			createInfo.pInitialData = NULL;
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
+
+			return CGfxResourceManager::Create();
+		}
+		catch (VkResult err) {
+			CVulkanInstance::SetLastError(err);
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	void CVulkanPipelineManager::Destroy(void)
+	{
+		CGfxResourceManager::Destroy();
+
+		if (m_vkPipelineCache) {
+			vkDestroyPipelineCache(m_pDevice->GetDevice(), m_vkPipelineCache, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkPipelineCache = VK_NULL_HANDLE;
+	}
+
+	CGfxPipelineComputePtr CVulkanPipelineManager::AllocPipelineCompute(void)
+	{
+		CVulkanPipelineCompute *pPipelineCompute = SAFE_NEW CVulkanPipelineCompute(m_pDevice, this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pPipelineCompute] = pPipelineCompute;
+		}
+		return CGfxPipelineComputePtr(pPipelineCompute);
+	}
+
+	CGfxPipelineGraphicsPtr CVulkanPipelineManager::AllocPipelineGraphics(void)
+	{
+		return CGfxPipelineGraphicsPtr(NULL);
+	}
+
+	VkPipelineCache CVulkanPipelineManager::GetPipelineCache(void) const
+	{
+		return m_vkPipelineCache;
 	}
 
 }

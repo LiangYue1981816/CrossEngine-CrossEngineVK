@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanShaderManager : public CGfxResourceManager
 	{
 		friend class CVulkanDevice;
+		friend class CVulkanShader;
 
 
 	protected:
@@ -36,7 +37,7 @@ namespace CrossEngine {
 		virtual ~CVulkanShaderManager(void);
 
 
-	public:
+	protected:
 		CGfxShaderPtr AllocShader(void);
 		const shaderc::CompileOptions& GetCompileOptions(void) const;
 

@@ -46,9 +46,9 @@ namespace CrossEngine {
 
 
 	protected:
-		virtual int Create(void)
+		virtual BOOL Create(void)
 		{
-			return NO_ERROR;
+			return TRUE;
 		}
 
 		virtual void Destroy(void)

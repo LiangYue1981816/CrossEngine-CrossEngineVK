@@ -36,7 +36,7 @@ namespace CrossEngine {
 		virtual ~CVulkanFrameBufferManager(void);
 
 
-	public:
+	protected:
 		CGfxFrameBufferPtr AllocFrameBuffer(void);
 
 
