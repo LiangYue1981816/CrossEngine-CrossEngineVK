@@ -72,6 +72,7 @@ THE SOFTWARE.
 #include <assert.h>
 #include <rbtree.h>
 #include <pthread.h>
+#include <event.h>
 #include <semaphore.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -91,6 +92,7 @@ THE SOFTWARE.
 #include "CrossLog.h"
 #include "CrossStream.h"
 #include "CrossSharedPtr.h"
+#include "CrossTaskGraph.h"
 
 #include "CrossGfxAPI.h"
 #include "CrossVulkanAPI.h"

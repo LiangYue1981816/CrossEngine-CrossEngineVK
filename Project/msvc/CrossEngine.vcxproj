@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;WIN32;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -116,7 +116,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;__LP64__;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -138,7 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;WIN32;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -161,7 +161,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;__LP64__;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -183,6 +183,7 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossMutex.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossSharedPtr.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossStream.h" />
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossTaskGraph.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossType.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtility.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h" />
@@ -259,6 +260,7 @@
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\static_assert.h" />
     <ClInclude Include="..\..\CrossEngine\src\_CrossEngine.h" />
     <ClInclude Include="..\..\CrossEngine\src\_CrossMemory.h" />
+    <ClInclude Include="..\..\Dependencies\event\event.h" />
     <ClInclude Include="..\..\Dependencies\rbtree\rbtree.h" />
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +272,7 @@
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemoryStack.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemorySystem.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossStream.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossTaskGraph.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossUtility.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\debug_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\operator_new.cpp" />
@@ -312,6 +315,7 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResource.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp" />
+    <ClCompile Include="..\..\Dependencies\event\event.cpp" />
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp" />
     <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp" />
     <ClCompile Include="..\..\Dependencies\zlib\adler32.c" />

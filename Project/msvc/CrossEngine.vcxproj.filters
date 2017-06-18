@@ -82,6 +82,9 @@
     <Filter Include="Engine\Source Files\RenderSystem\RenderAPI">
       <UniqueIdentifier>{1f185c14-053d-4248-ba4a-3885bffa2567}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\event">
+      <UniqueIdentifier>{6cbbed3b-7c01-40b7-89c4-5a000587246b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -336,6 +339,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanPipelineCompute.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossTaskGraph.h">
+      <Filter>Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\event\event.h">
+      <Filter>Dependencies\event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -562,6 +571,12 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanPipelineCompute.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossTaskGraph.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\event\event.cpp">
+      <Filter>Dependencies\event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
