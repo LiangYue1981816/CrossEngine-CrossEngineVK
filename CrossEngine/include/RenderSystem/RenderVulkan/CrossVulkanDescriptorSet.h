@@ -26,28 +26,39 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanDescriptorSetManager
+	class CROSS_EXPORT CVulkanDescriptorSet : public CGfxDescriptorSet
 	{
-		friend class CVulkanDevice;
+		friend class CVulkanDescriptorPool;
+		friend class CVulkanDescriptorSetManager;
 
 
 	protected:
-		CVulkanDescriptorSetManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanDescriptorSetManager(void);
+		CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, uint32_t set, const uint32_t *typesUsedCount);
+		virtual ~CVulkanDescriptorSet(void);
+		virtual void Release(void);
 
-
-	protected:
-		int Create(void);
-		void Destroy(void);
-		void DumpLog(const char *szTitle) const;
 
 	public:
-		CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
+		HANDLE GetHandle(void) const;
+
+	public:
+		void SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture);
+		void SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer);
+		void UpdateDescriptorSets(void) const;
+
+	public:
+		const uint32_t* GetTypesUsedCount(void) const;
 
 
 	protected:
-		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanDescriptorPool*> m_pDescriptorPoolListHeads;
+		VkDescriptorSet m_vkDescriptorSet;
+		CVulkanDescriptorPool *m_pDescriptorPool;
+
+	protected:
+		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+		uint32_t m_set;
+		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
+		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
 
 	protected:
 		CVulkanDevice *m_pDevice;

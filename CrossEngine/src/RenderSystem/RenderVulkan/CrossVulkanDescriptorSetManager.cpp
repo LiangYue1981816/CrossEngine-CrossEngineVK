@@ -28,12 +28,12 @@ namespace CrossEngine {
 	CVulkanDescriptorSetManager::CVulkanDescriptorSetManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
-
+		pthread_mutex_init(&m_mutex, NULL);
 	}
 
 	CVulkanDescriptorSetManager::~CVulkanDescriptorSetManager(void)
 	{
-
+		pthread_mutex_destroy(&m_mutex);
 	}
 
 	int CVulkanDescriptorSetManager::Create(void)
@@ -43,12 +43,55 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorSetManager::Destroy(void)
 	{
+		for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {
+			if (CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+				CVulkanDescriptorPool *pDescriptorPoolNext = NULL;
+				do {
+					pDescriptorPoolNext = pDescriptorPool->pNext;
+					SAFE_DELETE(pDescriptorPool);
+				} while (pDescriptorPool = pDescriptorPoolNext);
+			}
+		}
 
+		m_pDescriptorPoolListHeads.clear();
+	}
+
+	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
+	{
+		mutex_autolock mutex(m_mutex);
+
+		do {
+			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
+				if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(pSetLayout)) {
+					return CGfxDescriptorSetPtr(pDescriptorSet);
+				}
+			}
+
+			CVulkanDescriptorPool *pDescriptorPool = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
+
+			pDescriptorPool->pNext = m_pDescriptorPoolListHeads[pool];
+			m_pDescriptorPoolListHeads[pool] = pDescriptorPool;
+		} while (TRUE);
 	}
 
 	void CVulkanDescriptorSetManager::DumpLog(const char *szTitle) const
 	{
+		uint32_t count = 0;
 
+		LOGI("%s\n", szTitle);
+		{
+			for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {
+				if (CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+					do {
+						LOGI("\tPool = %d\n", itDescriptorPool.first);
+						pDescriptorPool->DumpLog();
+						count += pDescriptorPool->GetDescriptorSetCount();
+					} while (pDescriptorPool = pDescriptorPool->pNext);
+				}
+			}
+		}
+		LOGI("*** %d objects found\n", count);
+		LOGI("\n");
 	}
 
 }

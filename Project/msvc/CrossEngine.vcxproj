@@ -224,6 +224,8 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandPool.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandPoolManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDefinition.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorPool.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSet.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDevice.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanFrameBuffer.h" />
@@ -287,6 +289,8 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandPool.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandPoolManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorPool.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorSet.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDevice.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanFrameBuffer.cpp" />

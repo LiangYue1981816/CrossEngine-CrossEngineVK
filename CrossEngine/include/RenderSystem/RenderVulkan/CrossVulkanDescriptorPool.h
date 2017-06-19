@@ -25,32 +25,44 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-
-	class CROSS_EXPORT CVulkanDescriptorSetManager
+	
+	class CROSS_EXPORT CVulkanDescriptorPool
 	{
-		friend class CVulkanDevice;
+		friend class CVulkanDescriptorSet;
+		friend class CVulkanDescriptorSetManager;
 
 
 	protected:
-		CVulkanDescriptorSetManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanDescriptorSetManager(void);
+		CVulkanDescriptorPool(CVulkanDevice *pDevice);
+		virtual ~CVulkanDescriptorPool(void);
 
 
 	protected:
-		int Create(void);
-		void Destroy(void);
-		void DumpLog(const char *szTitle) const;
+		CVulkanDescriptorSet* AllocDescriptorSet(const CVulkanDescriptorSetLayout *pSetLayout);
+		void FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet);
 
-	public:
-		CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
+	protected:
+		uint32_t GetDescriptorSetCount(void) const;
+
+	protected:
+		void DumpLog(void) const;
 
 
 	protected:
-		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanDescriptorPool*> m_pDescriptorPoolListHeads;
+		VkDescriptorPool m_vkDescriptorPool;
+		std::map<CVulkanDescriptorSet*, CVulkanDescriptorSet*> m_pDescriptorSets;
+
+	protected:
+		uint32_t m_numDescriptorSets;
+		uint32_t m_maxDescriptorSets;
+		uint32_t m_numAllocatedTypes[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+		uint32_t m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
 	protected:
 		CVulkanDevice *m_pDevice;
+
+	protected:
+		CVulkanDescriptorPool *pNext;
 	};
 
 }
