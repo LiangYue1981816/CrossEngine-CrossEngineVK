@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(void) = 0;
+		virtual BOOL Create(HANDLE renderpass) = 0;
 
 	public:
 		virtual BOOL SetVertexShader(const CGfxShaderPtr &ptrShader) = 0;

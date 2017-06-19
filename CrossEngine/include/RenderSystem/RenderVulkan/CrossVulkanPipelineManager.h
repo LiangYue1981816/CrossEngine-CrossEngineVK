@@ -30,6 +30,7 @@ namespace CrossEngine {
 	{
 		friend class CVulkanDevice;
 		friend class CVulkanPipelineCompute;
+		friend class CVulkanPipelineGraphics;
 
 
 	protected:

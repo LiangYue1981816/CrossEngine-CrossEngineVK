@@ -345,6 +345,9 @@
     <ClInclude Include="..\..\Dependencies\event\event.h">
       <Filter>Dependencies\event</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanPipelineGraphics.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -577,6 +580,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Dependencies\event\event.cpp">
       <Filter>Dependencies\event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanPipelineGraphics.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxDevice.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderAPI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
