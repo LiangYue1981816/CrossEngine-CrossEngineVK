@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanInstance : public CGfxInstance
 	{
-	protected:
+	public:
 		CVulkanInstance(const char *szCachePath);
 		virtual ~CVulkanInstance(void);
 

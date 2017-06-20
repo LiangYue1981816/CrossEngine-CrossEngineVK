@@ -289,7 +289,7 @@ void Render(void)
 }
 */
 
-void Create(HINSTANCE hInstance, HWND hWnd)
+void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 {
 
 }

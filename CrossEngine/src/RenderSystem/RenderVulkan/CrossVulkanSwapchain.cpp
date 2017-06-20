@@ -305,14 +305,19 @@ namespace CrossEngine {
 		return m_vkRenderDoneSemaphores[m_indexImage];
 	}
 
+	uint32_t CVulkanSwapchain::GetImageCount(void) const
+	{
+		return SWAPCHAIN_IMAGE_COUNT;
+	}
+
 	uint32_t CVulkanSwapchain::GetImageIndex(void) const
 	{
 		return m_indexImage;
 	}
 
-	uint32_t CVulkanSwapchain::GetImageCount(void) const
+	VkImageView CVulkanSwapchain::GetImageView(int indexImage) const
 	{
-		return SWAPCHAIN_IMAGE_COUNT;
+		return m_vkImageViews[indexImage];
 	}
 
 	uint32_t CVulkanSwapchain::GetWidth(void) const

@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGfxInstance
 	{
-	protected:
+	public:
 		CGfxInstance(void)
 		{
 

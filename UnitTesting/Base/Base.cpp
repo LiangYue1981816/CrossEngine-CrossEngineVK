@@ -31,7 +31,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TEST));
 
-	Create(hInstance, hWnd);
+	Create(hInstance, hWnd, GetDC(hWnd));
 	SetTimer(hWnd, 0, 1000 / 30, NULL);
 
 	while (GetMessage(&msg, nullptr, 0, 0))

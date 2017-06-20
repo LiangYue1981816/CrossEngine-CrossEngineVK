@@ -270,14 +270,108 @@ void Render(void)
 }
 */
 
-void Create(HINSTANCE hInstance, HWND hWnd)
-{
+CrossEngine::CGfxInstance *pGfxInstance = NULL;
+CrossEngine::CGfxDevice *pDevice = NULL;
+CrossEngine::CGfxSwapchain *pSwapchain = NULL;
 
+CrossEngine::CGfxShaderPtr ptrShaderVertex;
+CrossEngine::CGfxShaderPtr ptrShaderFragment;
+CrossEngine::CGfxPipelineGraphicsPtr ptrPipeline;
+
+CrossEngine::CGfxIndexBufferPtr ptrIndexBuffer;
+CrossEngine::CGfxVertexBufferPtr ptrVertexBuffer;
+CrossEngine::CGfxUniformBufferPtr ptrUniformBufferA;
+CrossEngine::CGfxUniformBufferPtr ptrUniformBufferB;
+CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSetA;
+CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSetB;
+
+CrossEngine::CGfxRenderTexturePtr ptrDepthTexture;
+CrossEngine::CGfxRenderPassPtr ptrRenderPass;
+CrossEngine::CGfxFrameBufferPtr ptrFrameBuffers[3];
+
+CrossEngine::CGfxCommandBufferPtr ptrCommandBuffers[3];
+
+
+void CreateRenderPass(void)
+{
+	ptrRenderPass = pDevice->NewRenderPass();
+	CrossEngine::CVulkanRenderPass *pVulkanRenderPass = (CrossEngine::CVulkanRenderPass *)((CrossEngine::CGfxRenderPass *)ptrRenderPass);
+
+	pVulkanRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 0.0f, 0.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
+	pVulkanRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 1.0f, 0 }, VK_SAMPLE_COUNT_1_BIT);
+	pVulkanRenderPass->SetSubpassOutputColorReference(0, 0);
+	pVulkanRenderPass->SetSubpassOutputDepthStencilReference(0, 1);
+	pVulkanRenderPass->Create();
+}
+
+void CreateFrameBuffer(void)
+{
+	ptrDepthTexture = pDevice->NewRenderTexture();
+	CrossEngine::CVulkanSwapchain *pVulkanSwapchain = (CrossEngine::CVulkanSwapchain *)((CrossEngine::CGfxSwapchain *)pSwapchain);
+	CrossEngine::CVulkanRenderTexture *pVulkanDepthTexture = (CrossEngine::CVulkanRenderTexture *)((CrossEngine::CGfxRenderTexture *)ptrDepthTexture);
+
+	pVulkanDepthTexture->CreateDepthStencilTarget(CrossEngine::TEXTURE_FORMAT_D24_UNORM_S8_UINT, pVulkanSwapchain->GetWidth(), pVulkanSwapchain->GetHeight(), CrossEngine::SAMPLE_COUNT_1_BIT);
+
+	for (int indexView = 0; indexView < (int)pVulkanSwapchain->GetImageCount(); indexView++) {
+		ptrFrameBuffers[indexView] = pDevice->NewFrameBuffer();
+		CrossEngine::CVulkanFrameBuffer *pVulkanFrameBuffer = (CrossEngine::CVulkanFrameBuffer *)((CrossEngine::CGfxFrameBuffer *)ptrFrameBuffers[indexView]);
+
+		pVulkanFrameBuffer->SetPresentAttachment(0, pVulkanSwapchain->GetWidth(), pVulkanSwapchain->GetHeight(), pVulkanSwapchain->GetImageView(indexView));
+		pVulkanFrameBuffer->SetDepthStencilAttachment(1, ptrDepthTexture);
+		pVulkanFrameBuffer->Create(ptrRenderPass->GetHandle());
+	}
+}
+
+void DestroyRenderPass(void)
+{
+	ptrRenderPass.Release();
+}
+
+void DestroyFrameBuffer(void)
+{
+	CrossEngine::CVulkanSwapchain *pVulkanSwapchain = (CrossEngine::CVulkanSwapchain *)((CrossEngine::CGfxSwapchain *)pSwapchain);
+
+	ptrDepthTexture.Release();
+
+	for (int indexView = 0; indexView < (int)pVulkanSwapchain->GetImageCount(); indexView++) {
+		ptrFrameBuffers[indexView].Release();
+	}
+}
+
+void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
+{
+	RECT rcView;
+	GetClientRect(hWnd, &rcView);
+
+	char szCurrentPath[_MAX_PATH];
+	GetCurrentDirectory(sizeof(szCurrentPath), szCurrentPath);
+
+	char szCachePath[_MAX_PATH];
+	sprintf(szCachePath, "%s/Cache", szCurrentPath);
+	mkdir(szCachePath);
+
+	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance(szCachePath);
+	pGfxInstance->Create(hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top);
+	pDevice = pGfxInstance->GetDevice();
+	pSwapchain = pGfxInstance->GetSwapchain();
+
+	CreateRenderPass();
+	CreateFrameBuffer();
 }
 
 void Destroy(void)
 {
+	if (pGfxInstance) {
+		((CrossEngine::CVulkanDevice *)pDevice)->GetQueue()->WaitIdle();
 
+		DestroyRenderPass();
+		DestroyFrameBuffer();
+
+		pDevice->DumpLog();
+		pGfxInstance->Destroy();
+
+		SAFE_DELETE(pGfxInstance);
+	}
 }
 
 void Render(void)
