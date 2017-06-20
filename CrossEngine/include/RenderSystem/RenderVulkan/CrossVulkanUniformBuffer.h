@@ -40,18 +40,18 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL Create(size_t size, const void *pBuffer, BOOL bHost);
+		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic);
 		void Destroy(void);
 		BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const;
 		void DumpLog(void) const;
 
 	public:
-		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size);
-		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding);
-
-	public:
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
+
+	public:
+		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size);
+		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding);
 
 
 	protected:

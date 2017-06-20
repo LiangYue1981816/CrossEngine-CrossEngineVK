@@ -42,9 +42,9 @@ namespace CrossEngine {
 		return m_vkBuffer;
 	}
 
-	BOOL CVulkanUniformBuffer::Create(size_t size, const void *pBuffer, BOOL bHost)
+	BOOL CVulkanUniformBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)
 	{
-		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, bHost ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
+		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, bDynamic ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
 		CALL_BOOL_FUNCTION_RETURN(UpdateData(0, size, pBuffer));
 		return TRUE;
 	}
@@ -57,6 +57,16 @@ namespace CrossEngine {
 	BOOL CVulkanUniformBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
 	{
 		return CVulkanBuffer::UpdateData(offset, size, pBuffer);
+	}
+
+	size_t CVulkanUniformBuffer::GetBufferSize(void) const
+	{
+		return m_bufferSize;
+	}
+
+	size_t CVulkanUniformBuffer::GetMemorySize(void) const
+	{
+		return m_pMemory->GetSize();
 	}
 
 	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size)
@@ -75,16 +85,6 @@ namespace CrossEngine {
 	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
 	{
 		return m_vkDescriptorBufferInfos[set][binding];
-	}
-
-	size_t CVulkanUniformBuffer::GetBufferSize(void) const
-	{
-		return m_bufferSize;
-	}
-
-	size_t CVulkanUniformBuffer::GetMemorySize(void) const
-	{
-		return m_pMemory->GetSize();
 	}
 
 	void CVulkanUniformBuffer::DumpLog(void) const

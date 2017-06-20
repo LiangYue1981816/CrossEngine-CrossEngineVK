@@ -40,7 +40,7 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL Create(size_t size, const void *pBuffer, BOOL bHost);
+		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic);
 		void Destroy(void);
 		BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const;
 		void DumpLog(void) const;
