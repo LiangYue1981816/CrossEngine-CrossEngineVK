@@ -69,7 +69,7 @@ namespace CrossEngine {
 		return m_pMemory->GetSize();
 	}
 
-	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size)
+	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
 	{
 		if (offset + size > m_bufferSize) {
 			return FALSE;

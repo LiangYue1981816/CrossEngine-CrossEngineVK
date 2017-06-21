@@ -50,7 +50,7 @@ namespace CrossEngine {
 		size_t GetMemorySize(void) const;
 
 	public:
-		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, VkDeviceSize offset, VkDeviceSize size);
+		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size);
 		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding);
 
 
