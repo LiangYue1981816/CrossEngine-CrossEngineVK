@@ -38,6 +38,10 @@ namespace CrossEngine {
 		{
 
 		}
+
+
+	public:
+		virtual BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size) = 0;
 	};
 
 }
