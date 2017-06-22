@@ -52,7 +52,47 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::Clearup(void)
 	{
+		m_ptrRenderPass.Release();
+		m_ptrFrameBuffer.Release();
+		m_ptrPipelineCompute.Release();
+		m_ptrPipelineGraphics.Release();
 
+		for (auto &itTexture : m_ptrTextures) {
+			CGfxTexturePtr &ptrTexture = itTexture.second;
+			ptrTexture.Release();
+		}
+
+		for (auto &itIndexBuffer : m_ptrIndexBuffers) {
+			CGfxIndexBufferPtr &ptrIndexBuffer = itIndexBuffer.second;
+			ptrIndexBuffer.Release();
+		}
+
+		for (auto &itVertexBuffer : m_ptrVertexBuffers) {
+			CGfxVertexBufferPtr &ptrVertexBuffer = itVertexBuffer.second;
+			ptrVertexBuffer.Release();
+		}
+
+		for (auto &itUniformBuffer : m_ptrUniformBuffers) {
+			CGfxUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
+			ptrUniformBuffer.Release();
+		}
+
+		for (auto &itDescriptorSet : m_ptrDescriptorSets) {
+			CGfxDescriptorSetPtr &ptrDescriptorSet = itDescriptorSet.second;
+			ptrDescriptorSet.Release();
+		}
+
+		for (auto &itCommandBuffer : m_ptrCommandBuffers) {
+			CGfxCommandBufferPtr &ptrCommandBuffer = itCommandBuffer.second;
+			ptrCommandBuffer.Release();
+		}
+
+		m_ptrTextures.clear();
+		m_ptrIndexBuffers.clear();
+		m_ptrVertexBuffers.clear();
+		m_ptrUniformBuffers.clear();
+		m_ptrDescriptorSets.clear();
+		m_ptrCommandBuffers.clear();
 	}
 
 	HANDLE CVulkanCommandBuffer::GetHandle(void) const
@@ -87,9 +127,9 @@ namespace CrossEngine {
 		return vkBeginCommandBufferPrimary(m_vkCommandBuffer, flags);
 	}
 
-	int CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+	int CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
-		return vkBeginCommandBufferSecondary(m_vkCommandBuffer, flags, (VkFramebuffer)ptrFrameBuffer->GetHandle(), (VkRenderPass)ptrRenderPass->GetHandle(), indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics);
+		return vkBeginCommandBufferSecondary(m_vkCommandBuffer, flags, (VkFramebuffer)m_ptrFrameBuffer->GetHandle(), (VkRenderPass)m_ptrRenderPass->GetHandle(), indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics);
 	}
 
 	int CVulkanCommandBuffer::End(void)
@@ -105,6 +145,9 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents)
 	{
+		m_ptrRenderPass = ptrRenderPass;
+		m_ptrFrameBuffer = ptrFrameBuffer;
+
 		std::vector<VkClearValue> clearValues = ((CVulkanRenderPass *)((CGfxRenderPass *)ptrRenderPass))->GetClearValues();
 		VkRenderPassBeginInfo renderPassBeginInfo = {};
 		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -129,34 +172,43 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
+		m_ptrPipelineCompute = ptrPipeline;
 		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipeline)ptrPipeline->GetHandle());
 	}
 
 	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
+		m_ptrPipelineGraphics = ptrPipeline;
 		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipeline)ptrPipeline->GetHandle());
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout)
 	{
+		m_ptrDescriptorSets[ptrDescriptorSet->GetHandle()] = ptrDescriptorSet;
+
 		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
 		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipelineLayout)layout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout)
 	{
+		m_ptrDescriptorSets[ptrDescriptorSet->GetHandle()] = ptrDescriptorSet;
+
 		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
 		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipelineLayout)layout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
 	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)
 	{
+		m_ptrVertexBuffers[ptrVertexBuffer->GetHandle()] = ptrVertexBuffer;
+
 		VkBuffer vkBuffer = (VkBuffer)ptrVertexBuffer->GetHandle();
 		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
 	}
 
 	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType)
 	{
+		m_ptrIndexBuffers[ptrIndexBuffer->GetHandle()] = ptrIndexBuffer;
 		vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)ptrIndexBuffer->GetHandle(), offset, (VkIndexType)indexType);
 	}
 
@@ -234,6 +286,8 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
+		m_ptrCommandBuffers[ptrCommandBuffer->GetHandle()] = ptrCommandBuffer;
+
 		VkCommandBuffer vkCommandBuffer = (VkCommandBuffer)ptrCommandBuffer->GetHandle();
 		vkCmdExecuteCommands(m_vkCommandBuffer, 1, &vkCommandBuffer);
 	}
