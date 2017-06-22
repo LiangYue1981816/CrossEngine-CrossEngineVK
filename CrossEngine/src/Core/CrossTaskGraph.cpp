@@ -98,6 +98,11 @@ namespace CrossEngine {
 		pthread_mutex_destroy(&m_mutexTaskList);
 	}
 
+	int CTaskGraph::GetThreadCount(void) const
+	{
+		return m_numThreads;
+	}
+
 	void CTaskGraph::Task(CTask *pTask, void *pParams, event_t *pEventSignal, event_t *pEventWait)
 	{
 		pTask->SetTaskParams(pParams);
