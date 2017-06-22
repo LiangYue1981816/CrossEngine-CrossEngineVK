@@ -72,13 +72,11 @@ namespace CrossEngine {
 		VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
 		VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
 
-		if (oldLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR)
-		{
+		if (oldLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR) {
 			srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 			dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 		}
-		else if (newLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR)
-		{
+		else if (newLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR) {
 			srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 			dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
 		}

@@ -35,8 +35,10 @@ namespace CrossEngine {
 	protected:
 		CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, uint32_t set, const uint32_t *typesUsedCount);
 		virtual ~CVulkanDescriptorSet(void);
-		virtual void Release(void);
 
+
+	protected:
+		void Release(void);
 
 	public:
 		HANDLE GetHandle(void) const;
