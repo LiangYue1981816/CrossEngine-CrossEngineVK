@@ -57,16 +57,15 @@ namespace CrossEngine {
 		VkMemoryRequirements requirements;
 		vkGetBufferMemoryRequirements(m_pDevice->GetDevice(), m_vkBuffer, &requirements);
 		m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-//		m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT); // More memory required
 		m_pMemory->BindBuffer(m_vkBuffer);
 	}
 
 	CVulkanStagingBuffer::~CVulkanStagingBuffer(void)
 	{
+		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_vkCommandPool, 1, &m_vkCommandBuffer);
+
 		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
-
-		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_vkCommandPool, 1, &m_vkCommandBuffer);
 	}
 
 	int CVulkanStagingBuffer::TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const
