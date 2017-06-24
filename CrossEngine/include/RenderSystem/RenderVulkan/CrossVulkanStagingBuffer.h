@@ -28,6 +28,8 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanStagingBuffer
 	{
+		friend class CVulkanBuffer;
+		friend class CVulkanTexture;
 		friend class CVulkanStagingBufferManager;
 
 
@@ -36,18 +38,18 @@ namespace CrossEngine {
 		virtual ~CVulkanStagingBuffer(void);
 
 
-	public:
+	protected:
 		int TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const;
 		int TransferBuffer(VkBuffer vkBuffer, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 		int TransferIndexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 		int TransferVertexBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 		int TransferUniformBuffer(VkBuffer vkBuffer, VkDeviceSize size, VkDeviceSize offset, const void *pBuffer) const;
 
-	public:
+	protected:
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
 
-	public:
+	protected:
 		void DumpLog(void) const;
 
 
