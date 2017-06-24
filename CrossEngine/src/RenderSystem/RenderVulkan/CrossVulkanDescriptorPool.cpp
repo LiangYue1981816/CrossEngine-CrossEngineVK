@@ -113,9 +113,6 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
-		const auto &itDescriptor = m_pDescriptorSets.find(pDescriptorSet);
-		if (itDescriptor != m_pDescriptorSets.end()) m_pDescriptorSets.erase(itDescriptor);
-
 		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)pDescriptorSet->GetHandle();
 		vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
 
@@ -124,6 +121,7 @@ namespace CrossEngine {
 			m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
 		}
 
+		m_pDescriptorSets.erase(pDescriptorSet);
 		SAFE_DELETE(pDescriptorSet);
 	}
 

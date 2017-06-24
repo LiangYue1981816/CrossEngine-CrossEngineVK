@@ -71,12 +71,8 @@ namespace CrossEngine {
 
 	void CVulkanCommandPool::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
-		if (pCommandBuffer) {
-			const auto &itCommandBuffer = m_pCommandBuffers.find(pCommandBuffer);
-			if (itCommandBuffer != m_pCommandBuffers.end()) m_pCommandBuffers.erase(pCommandBuffer);
-
-			SAFE_DELETE(pCommandBuffer);
-		}
+		m_pCommandBuffers.erase(pCommandBuffer);
+		SAFE_DELETE(pCommandBuffer);
 	}
 
 }

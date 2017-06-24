@@ -181,8 +181,7 @@ namespace CrossEngine {
 
 	void CVulkanShader::DelMacroDefinition(const char *szName)
 	{
-		const auto &itMacroDefinition = m_strMacroDefinitions.find(szName);
-		if (itMacroDefinition != m_strMacroDefinitions.end()) m_strMacroDefinitions.erase(itMacroDefinition);
+		m_strMacroDefinitions.erase(szName);
 	}
 
 	void CVulkanShader::ClearMacroDefinitions(void)

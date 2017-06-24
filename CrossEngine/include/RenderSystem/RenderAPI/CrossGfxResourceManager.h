@@ -62,16 +62,11 @@ namespace CrossEngine {
 
 		virtual void FreeResource(CGfxResource *pResource)
 		{
-			if (pResource) {
-				{
-					mutex_autolock mutex(m_mutex);
-					const auto &itResource = m_pResources.find(pResource);
-					if (itResource != m_pResources.end()) m_pResources.erase(itResource);
-				}
+			pResource->Destroy();
 
-				pResource->Destroy();
-				SAFE_DELETE(pResource);
-			}
+			mutex_autolock mutex(m_mutex);
+			m_pResources.erase(pResource);
+			SAFE_DELETE(pResource);
 		}
 
 		virtual void DumpLog(const char *szTitle) const
