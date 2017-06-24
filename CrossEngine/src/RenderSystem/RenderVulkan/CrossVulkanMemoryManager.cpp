@@ -62,6 +62,7 @@ namespace CrossEngine {
 			if ((memoryTypeBits & 1) == 1 && (m_pDevice->GetPhysicalDeviceMemoryProperties().memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
 				return index;
 			}
+
 			memoryTypeBits >>= 1;
 		}
 

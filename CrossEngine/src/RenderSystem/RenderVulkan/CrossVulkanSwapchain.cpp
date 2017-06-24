@@ -71,7 +71,7 @@ namespace CrossEngine {
 	static VkSurfaceFormatKHR GetSwapchainFormat(const std::vector<VkSurfaceFormatKHR> &formats)
 	{
 		if ((formats.size() == 1) && (formats[0].format == VK_FORMAT_UNDEFINED)) {
-			return{ VK_FORMAT_B8G8R8A8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR };
+			return { VK_FORMAT_B8G8R8A8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR };
 		}
 
 		for (uint32_t index = 0; index < formats.size(); index++) {
@@ -134,8 +134,8 @@ namespace CrossEngine {
 
 		uint32_t numModes;
 		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numModes, NULL));
+		if (numModes == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numModes > 0);
 		modes.resize(numModes);
 		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numModes, modes.data()));
 
@@ -148,8 +148,8 @@ namespace CrossEngine {
 
 		uint32_t numFormats;
 		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numFormats, NULL));
+		if (numFormats == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numFormats > 0);
 		formats.resize(numFormats);
 		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numFormats, formats.data()));
 
@@ -210,8 +210,8 @@ namespace CrossEngine {
 	{
 		uint32_t numImages = 0;
 		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, NULL));
+		if (numImages != SWAPCHAIN_IMAGE_COUNT) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numImages == SWAPCHAIN_IMAGE_COUNT);
 		CALL_VK_FUNCTION_RETURN(vkGetSwapchainImagesKHR(m_pDevice->GetDevice(), m_vkSwapchain, &numImages, m_vkImages));
 
 		VkImageViewCreateInfo createInfo = {};

@@ -27,7 +27,6 @@ namespace CrossEngine {
 
 	CVulkanStagingBufferManager::CVulkanStagingBufferManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_vkCommandPool(VK_NULL_HANDLE)
 	{
 		pthread_mutex_init(&m_mutex, NULL);
