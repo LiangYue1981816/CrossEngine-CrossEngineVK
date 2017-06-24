@@ -136,8 +136,8 @@ namespace CrossEngine {
 
 		uint32_t numLayers;
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceLayerProperties(&numLayers, NULL));
+		if (numLayers == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numLayers > 0);
 		std::vector<VkLayerProperties> layers(numLayers);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceLayerProperties(&numLayers, layers.data()));
 
@@ -160,8 +160,8 @@ namespace CrossEngine {
 
 		uint32_t numExtensions;
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceExtensionProperties(NULL, &numExtensions, NULL));
+		if (numExtensions == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numExtensions > 0);
 		std::vector<VkExtensionProperties> extensions(numExtensions);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceExtensionProperties(NULL, &numExtensions, extensions.data()));
 
