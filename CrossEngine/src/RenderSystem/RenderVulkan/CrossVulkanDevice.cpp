@@ -43,11 +43,11 @@ namespace CrossEngine {
 		, m_pPipelineManager(NULL)
 		, m_pRenderPassManager(NULL)
 		, m_pFrameBufferManager(NULL)
-	{
-		m_vkPhysicalDeviceFeatures = {};
-		m_vkPhysicalDeviceProperties = {};
-		m_vkPhysicalDeviceMemoryProperties = {};
 
+		, m_vkPhysicalDeviceFeatures{}
+		, m_vkPhysicalDeviceProperties{}
+		, m_vkPhysicalDeviceMemoryProperties{}
+	{
 		m_pQueue = SAFE_NEW CVulkanQueue(this);
 		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
 		m_pCommandPoolManager = SAFE_NEW CVulkanCommandPoolManager(this);
