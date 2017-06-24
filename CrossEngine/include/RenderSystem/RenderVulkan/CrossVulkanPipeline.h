@@ -93,48 +93,4 @@ namespace CrossEngine {
 		CVulkanDevice *m_pDevice;
 	};
 
-
-	/*
-	class CROSS_EXPORT CVulkanPipeline : public CVulkanResource
-	{
-	protected:
-		CVulkanPipeline(CVulkanDevice *pDevice, CVulkanResourceManager *pResourceManager);
-		virtual ~CVulkanPipeline(void);
-
-
-	public:
-		virtual void Destroy(void);
-		virtual void DumpLog(void) const;
-
-	protected:
-		BOOL CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts);
-		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
-
-		void DestroyDescriptorSetLayouts(void);
-		void DestroyShaderStages(void);
-
-	public:
-		VkPipeline GetPipeline(void) const;
-		VkPipelineLayout GetPipelineLayout(void) const;
-		const CVulkanDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
-
-
-	protected:
-		VkPipeline m_vkPipeline;
-		VkPipelineLayout m_vkPipelineLayout;
-		std::map<uint32_t, CVulkanDescriptorSetLayout*> m_pDescriptorSetLayouts;
-
-	protected:
-		std::map<VkShaderStageFlagBits, CVulkanShaderPtr> m_ptrShaders;
-		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
-	};
-
-	class CROSS_EXPORT CVulkanPipelinePtr : public CVulkanResourcePtr<CVulkanPipeline>
-	{
-	public:
-		CVulkanPipelinePtr(void) : CVulkanResourcePtr<CVulkanPipeline>() {}
-		CVulkanPipelinePtr(const CVulkanPipeline *p) : CVulkanResourcePtr<CVulkanPipeline>(p) {}
-		CVulkanPipelinePtr(const CVulkanPipelinePtr &ptr) : CVulkanResourcePtr<CVulkanPipeline>(ptr) {}
-	};
-	*/
 }

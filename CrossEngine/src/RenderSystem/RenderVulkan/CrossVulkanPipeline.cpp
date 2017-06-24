@@ -167,8 +167,8 @@ namespace CrossEngine {
 		layouts.clear();
 
 		for (const auto &itShader : m_ptrShaders) {
-			const CGfxShaderPtr &ptrShader = itShader.second;
-			const spirv::module_type &module = ((CVulkanShader *)((CGfxShader *)ptrShader))->GetMoudleType();
+			const VkShaderStageFlags shaderStageFlags = itShader.first;
+			const spirv::module_type &module = ((CVulkanShader *)((CGfxShader *)itShader.second))->GetMoudleType();
 
 			for (const auto &variable : module.variables) {
 				if (variable.second.storage_class != SpvStorageClassUniform &&
@@ -178,7 +178,6 @@ namespace CrossEngine {
 
 				uint32_t set = variable.second.descriptor_set;
 				uint32_t binding = variable.second.binding;
-				VkShaderStageFlags shaderStageFlags = itShader.first;
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
 					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
