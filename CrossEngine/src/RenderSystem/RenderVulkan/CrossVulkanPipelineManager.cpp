@@ -37,25 +37,17 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CVulkanPipelineManager::Create(void)
+	int CVulkanPipelineManager::Create(void)
 	{
-		try {
-			VkPipelineCacheCreateInfo createInfo = {};
-			createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-			createInfo.pNext = NULL;
-			createInfo.flags = 0;
-			createInfo.initialDataSize = 0;
-			createInfo.pInitialData = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
+		VkPipelineCacheCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = 0;
+		createInfo.initialDataSize = 0;
+		createInfo.pInitialData = NULL;
+		CALL_VK_FUNCTION_RETURN(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
 
-			return CGfxResourceManager::Create();
-		}
-		catch (VkResult err) {
-			CVulkanInstance::SetLastError(err);
-			Destroy();
-
-			return FALSE;
-		}
+		return CGfxResourceManager::Create();
 	}
 
 	void CVulkanPipelineManager::Destroy(void)

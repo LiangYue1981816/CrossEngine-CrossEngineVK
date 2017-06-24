@@ -39,7 +39,7 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL Create(void);
+		int Create(void);
 		void Destroy(void);
 
 	protected:
