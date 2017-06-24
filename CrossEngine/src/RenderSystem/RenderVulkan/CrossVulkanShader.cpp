@@ -88,7 +88,6 @@ namespace CrossEngine {
 	CVulkanShader::CVulkanShader(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxShader(pResourceManager)
 		, m_pDevice(pDevice)
-
 		, m_vkShaderModule(VK_NULL_HANDLE)
 	{
 

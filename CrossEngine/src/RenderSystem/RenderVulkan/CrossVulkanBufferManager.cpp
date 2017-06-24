@@ -38,32 +38,32 @@ namespace CrossEngine {
 
 	CGfxIndexBufferPtr CVulkanBufferManager::AllocIndexBuffer(void)
 	{
-		CVulkanIndexBuffer *pBuffer = SAFE_NEW CVulkanIndexBuffer(m_pDevice, this);
+		CVulkanIndexBuffer *pIndexBuffer = SAFE_NEW CVulkanIndexBuffer(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
-			m_pResources[pBuffer] = pBuffer;
+			m_pResources[pIndexBuffer] = pIndexBuffer;
 		}
-		return CGfxIndexBufferPtr(pBuffer);
+		return CGfxIndexBufferPtr(pIndexBuffer);
 	}
 
 	CGfxVertexBufferPtr CVulkanBufferManager::AllocVertexBuffer(void)
 	{
-		CVulkanVertexBuffer *pBuffer = SAFE_NEW CVulkanVertexBuffer(m_pDevice, this);
+		CVulkanVertexBuffer *pVertexBuffer = SAFE_NEW CVulkanVertexBuffer(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
-			m_pResources[pBuffer] = pBuffer;
+			m_pResources[pVertexBuffer] = pVertexBuffer;
 		}
-		return CGfxVertexBufferPtr(pBuffer);
+		return CGfxVertexBufferPtr(pVertexBuffer);
 	}
 
 	CGfxUniformBufferPtr CVulkanBufferManager::AllocUniformBuffer(void)
 	{
-		CVulkanUniformBuffer *pBuffer = SAFE_NEW CVulkanUniformBuffer(m_pDevice, this);
+		CVulkanUniformBuffer *pUniformBuffer = SAFE_NEW CVulkanUniformBuffer(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
-			m_pResources[pBuffer] = pBuffer;
+			m_pResources[pUniformBuffer] = pUniformBuffer;
 		}
-		return CGfxUniformBufferPtr(pBuffer);
+		return CGfxUniformBufferPtr(pUniformBuffer);
 	}
 
 	void CVulkanBufferManager::DumpLog(const char *szTitle) const

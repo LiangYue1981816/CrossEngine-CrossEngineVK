@@ -28,10 +28,10 @@ namespace CrossEngine {
 	CVulkanFrameBuffer::CVulkanFrameBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxFrameBuffer(pResourceManager)
 		, m_pDevice(pDevice)
+		, m_vkFrameBuffer(VK_NULL_HANDLE)
 
 		, m_width(0)
 		, m_height(0)
-		, m_vkFrameBuffer(VK_NULL_HANDLE)
 	{
 
 	}

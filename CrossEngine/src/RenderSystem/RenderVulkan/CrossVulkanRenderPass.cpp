@@ -28,7 +28,6 @@ namespace CrossEngine {
 	CVulkanRenderPass::CVulkanRenderPass(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxRenderPass(pResourceManager)
 		, m_pDevice(pDevice)
-
 		, m_vkRenderPass(VK_NULL_HANDLE)
 	{
 
