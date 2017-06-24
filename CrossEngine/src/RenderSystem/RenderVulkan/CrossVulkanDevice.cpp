@@ -135,8 +135,8 @@ namespace CrossEngine {
 
 		uint32_t numDevices;
 		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, NULL));
+		if (numDevices == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numDevices > 0);
 		devices.resize(numDevices);
 		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, devices.data()));
 
@@ -152,8 +152,8 @@ namespace CrossEngine {
 			if (CheckPhysicalDeviceExtensionProperties(devices[index]) != VK_SUCCESS) continue;
 			if (CheckPhysicalDeviceQueueFamilyProperties(devices[index], familyIndex) != VK_SUCCESS) continue;
 
-			vkPhysicalDevice = devices[index];
 			queueFamilyIndex = familyIndex;
+			vkPhysicalDevice = devices[index];
 
 			return VK_SUCCESS;
 		}
@@ -180,8 +180,8 @@ namespace CrossEngine {
 	{
 		uint32_t numExtensions;
 		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, NULL));
+		if (numExtensions == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numExtensions > 0);
 		std::vector<VkExtensionProperties> extensions(numExtensions);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, extensions.data()));
 
@@ -202,8 +202,8 @@ namespace CrossEngine {
 
 		uint32_t numQueueFamilies;
 		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, NULL);
+		if (numQueueFamilies == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		ASSERT(numQueueFamilies > 0);
 		std::vector<VkQueueFamilyProperties> queueFamilies(numQueueFamilies);
 		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, queueFamilies.data());
 
@@ -229,8 +229,8 @@ namespace CrossEngine {
 		queueCreateInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 		queueCreateInfo[0].pNext = NULL;
 		queueCreateInfo[0].flags = 0;
-		queueCreateInfo[0].queueFamilyIndex = queueFamilyIndex;
 		queueCreateInfo[0].queueCount = 1;
+		queueCreateInfo[0].queueFamilyIndex = queueFamilyIndex;
 		queueCreateInfo[0].pQueuePriorities = queuePpriorities;
 
 		const char *szSwapchainExtension = VK_KHR_SWAPCHAIN_EXTENSION_NAME;
