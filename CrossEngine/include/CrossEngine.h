@@ -95,6 +95,7 @@ THE SOFTWARE.
 #include "CrossTaskGraph.h"
 
 #include "CrossGfxAPI.h"
+#include "CrossGLES3API.h"
 #include "CrossVulkanAPI.h"
 
 #include "CrossResource.h"

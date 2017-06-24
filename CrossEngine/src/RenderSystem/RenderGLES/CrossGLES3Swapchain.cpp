@@ -20,12 +20,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	
+	CGLES3Swapchain::CGLES3Swapchain(void)
+	{
+
+	}
+
+	CGLES3Swapchain::~CGLES3Swapchain(void)
+	{
+
+	}
+
+	BOOL CGLES3Swapchain::Present(void) const
+	{
+		return TRUE;
+	}
+
+	BOOL CGLES3Swapchain::AcquireNextImage(CGfxFence fence)
+	{
+		return TRUE;
+	}
+
+	CGfxSemaphore CGLES3Swapchain::GetAcquireSemaphore(void) const
+	{
+		return NULL;
+	}
+
+	CGfxSemaphore CGLES3Swapchain::GetRenderDoneSemaphore(void) const
+	{
+		return NULL;
+	}
 
 }
