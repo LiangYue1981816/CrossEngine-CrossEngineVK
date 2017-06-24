@@ -72,6 +72,7 @@ namespace CrossEngine {
 	protected:
 		BOOL CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts);
 		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
+		void Destroy(void);
 		void DestroyDescriptorSetLayouts(void);
 		void DestroyShaderStages(void);
 

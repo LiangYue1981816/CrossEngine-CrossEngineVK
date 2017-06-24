@@ -125,36 +125,42 @@ namespace CrossEngine {
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].stage = VK_SHADER_STAGE_VERTEX_BIT;
+		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pName = "main";
 
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].stage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pName = "main";
 
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].stage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pName = "main";
 
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].stage = VK_SHADER_STAGE_GEOMETRY_BIT;
+		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pName = "main";
 
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pName = "main";
 
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT] = {};
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].pNext = NULL;
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].flags = 0;
 		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].stage = VK_SHADER_STAGE_COMPUTE_BIT;
+		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].pName = "main";
 	}
 
 	CVulkanPipeline::~CVulkanPipeline(void)
@@ -216,6 +222,23 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	void CVulkanPipeline::Destroy(void)
+	{
+		if (m_vkPipeline) {
+			vkDestroyPipeline(m_pDevice->GetDevice(), m_vkPipeline, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		if (m_vkPipelineLayout) {
+			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		DestroyDescriptorSetLayouts();
+		DestroyShaderStages();
+
+		m_vkPipeline = VK_NULL_HANDLE;
+		m_vkPipelineLayout = VK_NULL_HANDLE;
+	}
+
 	void CVulkanPipeline::DestroyDescriptorSetLayouts(void)
 	{
 		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
@@ -230,30 +253,18 @@ namespace CrossEngine {
 
 	void CVulkanPipeline::DestroyShaderStages(void)
 	{
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = VK_NULL_HANDLE;
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pName = NULL;
-
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = VK_NULL_HANDLE;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pName = NULL;
-
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = VK_NULL_HANDLE;
-		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pName = NULL;
-
-		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = VK_NULL_HANDLE;
-		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pName = NULL;
-
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = VK_NULL_HANDLE;
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pName = NULL;
-
-		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].module = VK_NULL_HANDLE;
-		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].pName = NULL;
-
 		for (auto &itShader : m_ptrShaders) {
 			CGfxShaderPtr &ptrShader = itShader.second;
 			ptrShader.Release();
 		}
 
 		m_ptrShaders.clear();
+		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = VK_NULL_HANDLE;
+		m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].module = VK_NULL_HANDLE;
 	}
 
 	VkPipelineLayout CVulkanPipeline::GetPipelineLayout(void) const

@@ -35,8 +35,6 @@ namespace CrossEngine {
 		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CVulkanPipelineGraphics(void);
 
-		void SetDefault(void);
-
 
 	public:
 		HANDLE GetHandle(void) const;
@@ -51,6 +49,7 @@ namespace CrossEngine {
 		BOOL CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments);
 
 	public:
+		void SetDefault(void);
 		BOOL SetVertexShader(const CGfxShaderPtr &ptrShader);
 		BOOL SetTessellationControlShader(const CGfxShaderPtr &ptrShader);
 		BOOL SetTessellationEvaluationShader(const CGfxShaderPtr &ptrShader);

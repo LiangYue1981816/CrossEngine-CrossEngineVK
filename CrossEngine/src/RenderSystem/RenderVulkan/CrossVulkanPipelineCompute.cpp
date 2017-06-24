@@ -88,19 +88,7 @@ namespace CrossEngine {
 
 	void CVulkanPipelineCompute::Destroy(void)
 	{
-		if (m_vkPipeline) {
-			vkDestroyPipeline(m_pDevice->GetDevice(), m_vkPipeline, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		if (m_vkPipelineLayout) {
-			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		DestroyDescriptorSetLayouts();
-		DestroyShaderStages();
-
-		m_vkPipeline = VK_NULL_HANDLE;
-		m_vkPipelineLayout = VK_NULL_HANDLE;
+		CVulkanPipeline::Destroy();
 	}
 
 	void CVulkanPipelineCompute::DumpLog(void) const

@@ -73,12 +73,18 @@ namespace CrossEngine {
 		m_colorBlendState.pNext = NULL;
 		m_colorBlendState.flags = 0;
 
-		static VkDynamicState dynamicStates[] = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR, VK_DYNAMIC_STATE_DEPTH_BOUNDS, VK_DYNAMIC_STATE_STENCIL_REFERENCE };
+		static VkDynamicState dynamicStates[] = {
+			VK_DYNAMIC_STATE_VIEWPORT,
+			VK_DYNAMIC_STATE_SCISSOR,
+			VK_DYNAMIC_STATE_DEPTH_BIAS,
+			VK_DYNAMIC_STATE_DEPTH_BOUNDS,
+			VK_DYNAMIC_STATE_STENCIL_REFERENCE
+		};
 		m_dynamicState = {};
 		m_dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 		m_dynamicState.pNext = NULL;
 		m_dynamicState.flags = 0;
-		m_dynamicState.dynamicStateCount = 4;
+		m_dynamicState.dynamicStateCount = 5;
 		m_dynamicState.pDynamicStates = dynamicStates;
 
 		SetDefault();
@@ -87,37 +93,6 @@ namespace CrossEngine {
 	CVulkanPipelineGraphics::~CVulkanPipelineGraphics(void)
 	{
 
-	}
-
-	void CVulkanPipelineGraphics::SetDefault(void)
-	{
-		StencilOpState front = {};
-		StencilOpState back = {};
-		back.failOp = front.failOp = STENCIL_OP_KEEP;
-		back.passOp = front.passOp = STENCIL_OP_KEEP;
-		back.compareOp = front.compareOp = COMPARE_OP_ALWAYS;
-
-		m_vertexFormat = 0;
-		m_colorBlendAttachmentStates.clear();
-
-		SetPrimitiveTopology(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
-		SetTessellationPatchControlPoints(0);
-		SetPolygonMode(POLYGON_MODE_FILL);
-		SetCullMode(CULL_MODE_BACK_BIT);
-		SetFrontFace(FRONT_FACE_COUNTER_CLOCKWISE);
-		SetDepthClamp(FALSE);
-		SetDepthBias(FALSE, 0.0f, 0.0f, 0.0f);
-		SetRasterizerDiscard(FALSE);
-		SetSampleCounts(SAMPLE_COUNT_1_BIT);
-		SetSampleShading(FALSE, 0.0f);
-		SetSampleMask(NULL);
-		SetSampleAlphaToCoverage(FALSE);
-		SetSampleAlphaToOne(FALSE);
-		SetDepthTest(TRUE, TRUE, COMPARE_OP_LESS);
-		SetDepthBoundsTest(FALSE, 0.0f, 1.0f);
-		SetStencilTest(FALSE, front, back);
-		SetColorBlendLogic(FALSE, LOGIC_OP_CLEAR);
-		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	HANDLE CVulkanPipelineGraphics::GetHandle(void) const
@@ -245,30 +220,45 @@ namespace CrossEngine {
 
 	void CVulkanPipelineGraphics::Destroy(void)
 	{
-		if (m_vkPipeline) {
-			vkDestroyPipeline(m_pDevice->GetDevice(), m_vkPipeline, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		if (m_vkPipelineLayout) {
-			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		DestroyDescriptorSetLayouts();
-		DestroyShaderStages();
-
-		m_vkPipeline = VK_NULL_HANDLE;
-		m_vkPipelineLayout = VK_NULL_HANDLE;
-
+		CVulkanPipeline::Destroy();
 		SetDefault();
+	}
+
+	void CVulkanPipelineGraphics::SetDefault(void)
+	{
+		StencilOpState front = {};
+		StencilOpState back = {};
+		back.failOp = front.failOp = STENCIL_OP_KEEP;
+		back.passOp = front.passOp = STENCIL_OP_KEEP;
+		back.compareOp = front.compareOp = COMPARE_OP_ALWAYS;
+
+		m_vertexFormat = 0;
+		m_colorBlendAttachmentStates.clear();
+
+		SetPrimitiveTopology(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
+		SetTessellationPatchControlPoints(0);
+		SetPolygonMode(POLYGON_MODE_FILL);
+		SetCullMode(CULL_MODE_BACK_BIT);
+		SetFrontFace(FRONT_FACE_COUNTER_CLOCKWISE);
+		SetDepthClamp(FALSE);
+		SetDepthBias(FALSE, 0.0f, 0.0f, 0.0f);
+		SetRasterizerDiscard(FALSE);
+		SetSampleCounts(SAMPLE_COUNT_1_BIT);
+		SetSampleShading(FALSE, 0.0f);
+		SetSampleMask(NULL);
+		SetSampleAlphaToCoverage(FALSE);
+		SetSampleAlphaToOne(FALSE);
+		SetDepthTest(TRUE, TRUE, COMPARE_OP_LESS);
+		SetDepthBoundsTest(FALSE, 0.0f, 1.0f);
+		SetStencilTest(FALSE, front, back);
+		SetColorBlendLogic(FALSE, LOGIC_OP_CLEAR);
+		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	BOOL CVulkanPipelineGraphics::SetVertexShader(const CGfxShaderPtr &ptrShader)
 	{
 		m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT] = ptrShader;
-
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = (VkShaderModule)ptrShader->GetHandle();
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pName = "main";
-		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].pSpecializationInfo = NULL;
 
 		return TRUE;
 	}
@@ -277,10 +267,7 @@ namespace CrossEngine {
 	{
 		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
 			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = ptrShader;
-
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = (VkShaderModule)ptrShader->GetHandle();
-			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pName = "main";
-			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].pSpecializationInfo = NULL;
 		}
 
 		return TRUE;
@@ -290,10 +277,7 @@ namespace CrossEngine {
 	{
 		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
 			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = ptrShader;
-
 			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module = (VkShaderModule)ptrShader->GetHandle();
-			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pName = "main";
-			m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].pSpecializationInfo = NULL;
 		}
 
 		return TRUE;
@@ -303,10 +287,7 @@ namespace CrossEngine {
 	{
 		if (m_pDevice->GetPhysicalDeviceFeatures().geometryShader) {
 			m_ptrShaders[VK_SHADER_STAGE_GEOMETRY_BIT] = ptrShader;
-
 			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].module = (VkShaderModule)ptrShader->GetHandle();
-			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pName = "main";
-			m_shaderStages[VK_SHADER_STAGE_GEOMETRY_BIT].pSpecializationInfo = NULL;
 		}
 
 		return TRUE;
@@ -315,10 +296,7 @@ namespace CrossEngine {
 	BOOL CVulkanPipelineGraphics::SetFragmentShader(const CGfxShaderPtr &ptrShader)
 	{
 		m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT] = ptrShader;
-
 		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].module = (VkShaderModule)ptrShader->GetHandle();
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pName = "main";
-		m_shaderStages[VK_SHADER_STAGE_FRAGMENT_BIT].pSpecializationInfo = NULL;
 
 		return TRUE;
 	}
@@ -333,7 +311,13 @@ namespace CrossEngine {
 
 	BOOL CVulkanPipelineGraphics::SetTessellationPatchControlPoints(uint32_t patchControlPoints)
 	{
-		m_tessellationState.patchControlPoints = patchControlPoints;
+		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
+			if (patchControlPoints > m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize) {
+				patchControlPoints = m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize;
+			}
+
+			m_tessellationState.patchControlPoints = patchControlPoints;
+		}
 
 		return TRUE;
 	}
@@ -361,11 +345,9 @@ namespace CrossEngine {
 
 	BOOL CVulkanPipelineGraphics::SetDepthClamp(BOOL depthClampEnable)
 	{
-		if (depthClampEnable) {
-			depthClampEnable = m_pDevice->GetPhysicalDeviceFeatures().depthClamp;
+		if (m_pDevice->GetPhysicalDeviceFeatures().depthClamp) {
+			m_rasterizationState.depthClampEnable = depthClampEnable;
 		}
-
-		m_rasterizationState.depthClampEnable = depthClampEnable;
 
 		return TRUE;
 	}
@@ -396,12 +378,10 @@ namespace CrossEngine {
 
 	BOOL CVulkanPipelineGraphics::SetSampleShading(BOOL sampleShadingEnable, float minSampleShading)
 	{
-		if (sampleShadingEnable) {
-			sampleShadingEnable = m_pDevice->GetPhysicalDeviceFeatures().sampleRateShading;
+		if (m_pDevice->GetPhysicalDeviceFeatures().sampleRateShading) {
+			m_multiSampleState.sampleShadingEnable = sampleShadingEnable;
+			m_multiSampleState.minSampleShading = minSampleShading;
 		}
-
-		m_multiSampleState.sampleShadingEnable = sampleShadingEnable;
-		m_multiSampleState.minSampleShading = minSampleShading;
 
 		return TRUE;
 	}
@@ -422,7 +402,9 @@ namespace CrossEngine {
 
 	BOOL CVulkanPipelineGraphics::SetSampleAlphaToOne(BOOL alphaToOneEnable)
 	{
-		m_multiSampleState.alphaToOneEnable = alphaToOneEnable;
+		if (m_pDevice->GetPhysicalDeviceFeatures().alphaToOne) {
+			m_multiSampleState.alphaToOneEnable = alphaToOneEnable;
+		}
 
 		return TRUE;
 	}
@@ -438,13 +420,11 @@ namespace CrossEngine {
 
 	BOOL CVulkanPipelineGraphics::SetDepthBoundsTest(BOOL depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds)
 	{
-		if (depthBoundsTestEnable) {
-			depthBoundsTestEnable = m_pDevice->GetPhysicalDeviceFeatures().depthBounds;
+		if (m_pDevice->GetPhysicalDeviceFeatures().depthBounds) {
+			m_depthStencilState.depthBoundsTestEnable = depthBoundsTestEnable;
+			m_depthStencilState.minDepthBounds = minDepthBounds;
+			m_depthStencilState.maxDepthBounds = maxDepthBounds;
 		}
-
-		m_depthStencilState.depthBoundsTestEnable = depthBoundsTestEnable;
-		m_depthStencilState.minDepthBounds = minDepthBounds;
-		m_depthStencilState.maxDepthBounds = maxDepthBounds;
 
 		return TRUE;
 	}
@@ -497,7 +477,9 @@ namespace CrossEngine {
 
 	void CVulkanPipelineGraphics::DumpLog(void) const
 	{
-
+		if (m_vkPipeline) {
+			LOGI("\t\tPipelineGraphics 0x%x\n", m_vkPipeline);
+		}
 	}
 
 }
