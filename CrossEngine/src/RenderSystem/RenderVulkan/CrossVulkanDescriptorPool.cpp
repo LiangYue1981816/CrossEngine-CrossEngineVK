@@ -73,6 +73,7 @@ namespace CrossEngine {
 			}
 		}
 
+		m_pDescriptorSets.clear();
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
 	}
 

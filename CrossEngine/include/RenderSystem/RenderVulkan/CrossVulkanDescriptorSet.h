@@ -57,8 +57,9 @@ namespace CrossEngine {
 		CVulkanDescriptorPool *m_pDescriptorPool;
 
 	protected:
-		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 		uint32_t m_set;
+		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+
 		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
 

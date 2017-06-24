@@ -27,7 +27,6 @@ namespace CrossEngine {
 
 	CVulkanCommandPool::CVulkanCommandPool(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_vkCommandPool(VK_NULL_HANDLE)
 	{
 		VkCommandPoolCreateInfo createInfo = {};

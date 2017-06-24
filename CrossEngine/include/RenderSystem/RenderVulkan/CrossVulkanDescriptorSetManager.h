@@ -41,7 +41,7 @@ namespace CrossEngine {
 		void Destroy(void);
 		void DumpLog(const char *szTitle) const;
 
-	public:
+	protected:
 		CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout);
 
 
