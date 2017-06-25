@@ -42,6 +42,23 @@ namespace CrossEngine {
 
 	public:
 		virtual BOOL Create(void) = 0;
+
+	public:
+		virtual BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples) = 0;
+		virtual BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) = 0;
+		virtual BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) = 0;
+
+		virtual BOOL SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout) = 0;
+		virtual BOOL SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass) = 0;
+
+	public:
+		virtual uint32_t GetSubpassCount(void) const = 0;
+		virtual std::vector<VkClearValue> GetClearValues(void) const = 0;
 	};
 
 }
