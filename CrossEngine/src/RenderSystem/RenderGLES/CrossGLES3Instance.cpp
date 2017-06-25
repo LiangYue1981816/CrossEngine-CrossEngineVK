@@ -27,13 +27,17 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3Instance::CGLES3Instance(void)
+		: m_pDevice(NULL)
+		, m_pSwapchain(NULL)
 	{
-
+		m_pDevice = SAFE_NEW CGLES3Device(this);
+		m_pSwapchain = SAFE_NEW CGLES3Swapchain(m_pDevice);
 	}
 
 	CGLES3Instance::~CGLES3Instance(void)
 	{
-
+		SAFE_DELETE(m_pDevice);
+		SAFE_DELETE(m_pSwapchain);
 	}
 
 	BOOL CGLES3Instance::Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height)
@@ -71,22 +75,53 @@ namespace CrossEngine {
 		glewInit();
 #endif
 
-		return TRUE;
+		try {
+			CALL_GL_FUNCTION_THROW(CreateDevice());
+			CALL_GL_FUNCTION_THROW(CreateSwapchain(hDC, width, height));
+
+			return TRUE;
+		}
+		catch (int) {
+			Destroy();
+
+			return FALSE;
+		}
+	}
+
+	int CGLES3Instance::CreateDevice(void)
+	{
+		return m_pDevice->Create();
+	}
+
+	int CGLES3Instance::CreateSwapchain(HDC hDC, uint32_t width, uint32_t height)
+	{
+		return m_pSwapchain->Create(hDC, width, height);
 	}
 
 	void CGLES3Instance::Destroy(void)
 	{
+		DestroySwapchain();
+		DestroyDevice();
+	}
 
+	void CGLES3Instance::DestroyDevice(void)
+	{
+		m_pDevice->Destroy();
+	}
+
+	void CGLES3Instance::DestroySwapchain(void)
+	{
+		m_pSwapchain->Destroy();
 	}
 
 	CGfxDevice* CGLES3Instance::GetDevice(void) const
 	{
-		return NULL;
+		return m_pDevice;
 	}
 
 	CGfxSwapchain* CGLES3Instance::GetSwapchain(void) const
 	{
-		return NULL;
+		return m_pSwapchain;
 	}
 
 }

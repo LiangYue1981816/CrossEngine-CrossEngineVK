@@ -25,7 +25,13 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3Swapchain::CGLES3Swapchain(void)
+	CGLES3Swapchain::CGLES3Swapchain(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
+
+		, m_hDC(NULL)
+		, m_width(0)
+		, m_height(0)
+		, m_indexImage(0)
 	{
 
 	}
@@ -35,13 +41,33 @@ namespace CrossEngine {
 
 	}
 
+	int CGLES3Swapchain::Create(HDC hDC, uint32_t width, uint32_t height)
+	{
+		m_hDC = hDC;
+		m_width = width;
+		m_height = height;
+
+		return NO_ERROR;
+	}
+
+	void CGLES3Swapchain::Destroy(void)
+	{
+
+	}
+
 	BOOL CGLES3Swapchain::Present(void) const
 	{
+#ifdef PLATFORM_WINDOWS
+
+		::SwapBuffers(m_hDC);
+#endif
+
 		return TRUE;
 	}
 
 	BOOL CGLES3Swapchain::AcquireNextImage(CGfxFence fence)
 	{
+		m_indexImage = 1 - m_indexImage;
 		return TRUE;
 	}
 
@@ -53,6 +79,31 @@ namespace CrossEngine {
 	CGfxSemaphore CGLES3Swapchain::GetRenderDoneSemaphore(void) const
 	{
 		return NULL;
+	}
+
+	uint32_t CGLES3Swapchain::GetImageCount(void) const
+	{
+		return SWAPCHAIN_IMAGE_COUNT;
+	}
+
+	uint32_t CGLES3Swapchain::GetImageIndex(void) const
+	{
+		return m_indexImage;
+	}
+
+	HANDLE CGLES3Swapchain::GetImageHandle(int indexImage) const
+	{
+		return NULL;
+	}
+
+	uint32_t CGLES3Swapchain::GetWidth(void) const
+	{
+		return m_width;
+	}
+
+	uint32_t CGLES3Swapchain::GetHeight(void) const
+	{
+		return m_height;
 	}
 
 }

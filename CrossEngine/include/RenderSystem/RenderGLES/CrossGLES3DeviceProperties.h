@@ -38,8 +38,6 @@ namespace CrossEngine {
 
 	protected:
 		void Init(void);
-
-	public:
 		const VkPhysicalDeviceProperties& GetPhysicalDeviceProperties(void) const;
 
 

@@ -28,10 +28,17 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3Swapchain : public CGfxSwapchain
 	{
+		friend class CGLES3Instance;
+
+
 	protected:
-		CGLES3Swapchain(void);
+		CGLES3Swapchain(CGLES3Device *pDevice);
 		virtual ~CGLES3Swapchain(void);
 
+
+	protected:
+		int Create(HDC hDC, uint32_t width, uint32_t height);
+		void Destroy(void);
 
 	public:
 		BOOL Present(void) const;
@@ -39,6 +46,32 @@ namespace CrossEngine {
 
 		CGfxSemaphore GetAcquireSemaphore(void) const;
 		CGfxSemaphore GetRenderDoneSemaphore(void) const;
+
+	public:
+		uint32_t GetImageCount(void) const;
+		uint32_t GetImageIndex(void) const;
+		HANDLE GetImageHandle(int indexImage) const;
+
+	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+
+
+	protected:
+		static const int SWAPCHAIN_IMAGE_COUNT = 2;
+
+	protected:
+		HDC m_hDC;
+
+	protected:
+		uint32_t m_width;
+		uint32_t m_height;
+
+	protected:
+		uint32_t m_indexImage;
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

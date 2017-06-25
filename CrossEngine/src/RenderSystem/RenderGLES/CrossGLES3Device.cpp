@@ -25,7 +25,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3Device::CGLES3Device(void)
+	CGLES3Device::CGLES3Device(CGLES3Instance *pInstance)
+		: m_pInstance(pInstance)
+
+		, m_pQueue(NULL)
 	{
 
 	}
@@ -33,6 +36,163 @@ namespace CrossEngine {
 	CGLES3Device::~CGLES3Device(void)
 	{
 
+	}
+
+	int CGLES3Device::Create(void)
+	{
+		m_features.Init();
+		m_properties.Init();
+
+		CALL_GL_FUNCTION_RETURN(CreateDevice());
+		CALL_GL_FUNCTION_RETURN(CreateQueue());
+		CALL_GL_FUNCTION_RETURN(CreateCommandManager());
+		CALL_GL_FUNCTION_RETURN(CreateDescriptorSetManager());
+
+		CALL_GL_FUNCTION_RETURN(CreateBufferManager());
+		CALL_GL_FUNCTION_RETURN(CreateTextureManager());
+		CALL_GL_FUNCTION_RETURN(CreateShaderManager());
+		CALL_GL_FUNCTION_RETURN(CreatePipelineManager());
+		CALL_GL_FUNCTION_RETURN(CreateRenderPassManager());
+		CALL_GL_FUNCTION_RETURN(CreateFrameBufferManager());
+
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateDevice(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateQueue(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateCommandManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateDescriptorSetManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateBufferManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateTextureManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateShaderManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreatePipelineManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateRenderPassManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Device::CreateFrameBufferManager(void)
+	{
+		return NO_ERROR;
+	}
+
+	void CGLES3Device::Destroy(void)
+	{
+		glFinish();
+
+		DestroyFrameBufferManager();
+		DestroyRenderPassManager();
+		DestroyPipelineManager();
+		DestroyShaderManager();
+		DestroyTextureManager();
+		DestroyBufferManager();
+
+		DestroyDescriptorSetManager();
+		DestroyCommandManager();
+		DestroyQueue();
+		DestroyDevice();
+	}
+
+	void CGLES3Device::DestroyDevice(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyQueue(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyCommandManager(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyDescriptorSetManager(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyBufferManager(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyTextureManager(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyShaderManager(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyPipelineManager(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyRenderPassManager(void)
+	{
+
+	}
+
+	void CGLES3Device::DestroyFrameBufferManager(void)
+	{
+
+	}
+
+	CGLES3Queue* CGLES3Device::GetQueue(void) const
+	{
+		return m_pQueue;
+	}
+
+	CGLES3Instance* CGLES3Device::GetInstance(void) const
+	{
+		return m_pInstance;
+	}
+
+	const VkPhysicalDeviceFeatures& CGLES3Device::GetPhysicalDeviceFeatures(void) const
+	{
+		return m_features.GetPhysicalDeviceFeatures();
+	}
+
+	const VkPhysicalDeviceProperties& CGLES3Device::GetPhysicalDeviceProperties(void) const
+	{
+		return m_properties.GetPhysicalDeviceProperties();
 	}
 
 	CGfxCommandBufferPtr CGLES3Device::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)

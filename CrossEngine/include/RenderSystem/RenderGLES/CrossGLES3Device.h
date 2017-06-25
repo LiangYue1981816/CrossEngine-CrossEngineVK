@@ -28,10 +28,51 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3Device : public CGfxDevice
 	{
+		friend class CGLES3Instance;
+
+
 	protected:
-		CGLES3Device(void);
+		CGLES3Device(CGLES3Instance *pInstance);
 		virtual ~CGLES3Device(void);
 
+
+	protected:
+		int Create(void);
+		void Destroy(void);
+
+	protected:
+		int CreateDevice(void);
+		int CreateQueue(void);
+		int CreateCommandManager(void);
+		int CreateDescriptorSetManager(void);
+
+		int CreateBufferManager(void);
+		int CreateTextureManager(void);
+		int CreateShaderManager(void);
+		int CreatePipelineManager(void);
+		int CreateRenderPassManager(void);
+		int CreateFrameBufferManager(void);
+
+	protected:
+		void DestroyDevice(void);
+		void DestroyQueue(void);
+		void DestroyCommandManager(void);
+		void DestroyDescriptorSetManager(void);
+
+		void DestroyBufferManager(void);
+		void DestroyTextureManager(void);
+		void DestroyShaderManager(void);
+		void DestroyPipelineManager(void);
+		void DestroyRenderPassManager(void);
+		void DestroyFrameBufferManager(void);
+
+	public:
+		CGLES3Queue* GetQueue(void) const;
+		CGLES3Instance* GetInstance(void) const;
+
+	public:
+		const VkPhysicalDeviceFeatures& GetPhysicalDeviceFeatures(void) const;
+		const VkPhysicalDeviceProperties& GetPhysicalDeviceProperties(void) const;
 
 	public:
 		CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
@@ -54,6 +95,17 @@ namespace CrossEngine {
 
 	public:
 		void DumpLog(void) const;
+
+
+	protected:
+		CGLES3DeviceFeatures m_features;
+		CGLES3DeviceProperties m_properties;
+
+	protected:
+		CGLES3Queue *m_pQueue;
+
+	protected:
+		CGLES3Instance *m_pInstance;
 	};
 
 }
