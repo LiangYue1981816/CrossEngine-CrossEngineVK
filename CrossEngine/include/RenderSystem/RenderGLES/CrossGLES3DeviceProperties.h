@@ -40,7 +40,11 @@ namespace CrossEngine {
 		void Init(void);
 
 	public:
-		void DumpLog(void) const;
+		const VkPhysicalDeviceProperties& GetPhysicalDeviceProperties(void) const;
+
+
+	protected:
+		VkPhysicalDeviceProperties m_properties;
 	};
 
 }

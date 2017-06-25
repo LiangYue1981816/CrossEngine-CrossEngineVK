@@ -27,6 +27,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3DeviceProperties::CGLES3DeviceProperties(void)
+		: m_properties{}
 	{
 
 	}
@@ -41,9 +42,9 @@ namespace CrossEngine {
 
 	}
 
-	void CGLES3DeviceProperties::DumpLog(void) const
+	const VkPhysicalDeviceProperties& CGLES3DeviceProperties::GetPhysicalDeviceProperties(void) const
 	{
-
+		return m_properties;
 	}
 
 }
