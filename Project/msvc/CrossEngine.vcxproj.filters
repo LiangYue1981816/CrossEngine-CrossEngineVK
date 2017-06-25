@@ -97,6 +97,9 @@
     <Filter Include="Engine\Source Files\RenderSystem\RenderGLES\Resource">
       <UniqueIdentifier>{907882ab-3128-43f4-8d8d-3c30d044c953}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\glew">
+      <UniqueIdentifier>{dc1b15cf-eb42-4f37-84e5-2a0bf9e20604}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -631,6 +634,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Swapchain.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\glew\glew.c">
+      <Filter>Dependencies\glew</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

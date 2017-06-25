@@ -21,7 +21,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
-#include "gl3.h"
+#include "gl31.h"
 #include "CrossEngine.h"
 #include "CrossGLES3Instance.h"
 #include "CrossGLES3Device.h"

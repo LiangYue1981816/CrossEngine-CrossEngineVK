@@ -97,7 +97,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;WIN32;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -106,7 +106,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib32;$(VULKAN_SDK)/Lib32/Debug;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -117,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;__LP64__;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -126,7 +126,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib;$(VULKAN_SDK)/Lib/Debug;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,7 +139,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;WIN32;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -149,7 +149,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib32;$(VULKAN_SDK)/Lib32/Release;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,7 +162,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;__LP64__;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-reflection;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/RenderSystem/Vulkan;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -172,7 +172,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib;$(VULKAN_SDK)/Lib/Release;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -330,6 +330,7 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp" />
     <ClCompile Include="..\..\Dependencies\event\event.cpp" />
+    <ClCompile Include="..\..\Dependencies\glew\glew.c" />
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp" />
     <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp" />
     <ClCompile Include="..\..\Dependencies\zlib\adler32.c" />
