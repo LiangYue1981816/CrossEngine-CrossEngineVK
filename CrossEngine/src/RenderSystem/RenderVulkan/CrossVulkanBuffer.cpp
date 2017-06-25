@@ -90,12 +90,16 @@ namespace CrossEngine {
 
 	BOOL CVulkanBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
 	{
-		if (m_pMemory->IsHostVisible()) {
-			return CopyData(offset, size, pBuffer);
+		if (pBuffer) {
+			if (m_pMemory->IsHostVisible()) {
+				return CopyData(offset, size, pBuffer);
+			}
+			else {
+				return TransferData(offset, size, pBuffer);
+			}
 		}
-		else {
-			return TransferData(offset, size, pBuffer);
-		}
+		
+		return TRUE;
 	}
 
 	BOOL CVulkanBuffer::CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
