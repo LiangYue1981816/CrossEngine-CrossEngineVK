@@ -45,6 +45,15 @@ namespace CrossEngine {
 
 		virtual CGfxSemaphore GetAcquireSemaphore(void) const = 0;
 		virtual CGfxSemaphore GetRenderDoneSemaphore(void) const = 0;
+
+	public:
+		virtual uint32_t GetImageCount(void) const = 0;
+		virtual uint32_t GetImageIndex(void) const = 0;
+		virtual HANDLE GetImageHandle(int indexImage) const = 0;
+
+	public:
+		virtual uint32_t GetWidth(void) const = 0;
+		virtual uint32_t GetHeight(void) const = 0;
 	};
 
 }

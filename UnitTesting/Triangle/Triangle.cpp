@@ -38,18 +38,13 @@ void CreateRenderPass(void)
 void CreateFrameBuffer(void)
 {
 	ptrDepthTexture = pDevice->NewRenderTexture();
-	CrossEngine::CVulkanSwapchain *pVulkanSwapchain = (CrossEngine::CVulkanSwapchain *)((CrossEngine::CGfxSwapchain *)pSwapchain);
-	CrossEngine::CVulkanRenderTexture *pVulkanDepthTexture = (CrossEngine::CVulkanRenderTexture *)((CrossEngine::CGfxRenderTexture *)ptrDepthTexture);
+	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight(), VK_SAMPLE_COUNT_1_BIT);
 
-	pVulkanDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pVulkanSwapchain->GetWidth(), pVulkanSwapchain->GetHeight(), VK_SAMPLE_COUNT_1_BIT);
-
-	for (int indexView = 0; indexView < (int)pVulkanSwapchain->GetImageCount(); indexView++) {
+	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView] = pDevice->NewFrameBuffer();
-		CrossEngine::CVulkanFrameBuffer *pVulkanFrameBuffer = (CrossEngine::CVulkanFrameBuffer *)((CrossEngine::CGfxFrameBuffer *)ptrFrameBuffers[indexView]);
-
-		pVulkanFrameBuffer->SetPresentAttachment(0, pVulkanSwapchain->GetWidth(), pVulkanSwapchain->GetHeight(), pVulkanSwapchain->GetImageView(indexView));
-		pVulkanFrameBuffer->SetDepthStencilAttachment(1, ptrDepthTexture);
-		pVulkanFrameBuffer->Create(ptrRenderPass->GetHandle());
+		ptrFrameBuffers[indexView]->SetPresentAttachment(0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), (VkImageView)pSwapchain->GetImageHandle(indexView));
+		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(1, ptrDepthTexture);
+		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetHandle());
 	}
 }
 

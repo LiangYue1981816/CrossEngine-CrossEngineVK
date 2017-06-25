@@ -61,7 +61,7 @@ namespace CrossEngine {
 	public:
 		uint32_t GetImageCount(void) const;
 		uint32_t GetImageIndex(void) const;
-		VkImageView GetImageView(int indexImage) const;
+		HANDLE GetImageHandle(int indexImage) const;
 
 	public:
 		uint32_t GetWidth(void) const;

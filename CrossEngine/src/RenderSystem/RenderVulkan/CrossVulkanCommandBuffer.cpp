@@ -182,20 +182,20 @@ namespace CrossEngine {
 		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipeline)ptrPipeline->GetHandle());
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
 	{
 		m_ptrDescriptorSets[ptrDescriptorSet->GetHandle()] = ptrDescriptorSet;
 
 		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
-		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipelineLayout)layout, 0, 1, &vkDescriptorSet, 0, NULL);
+		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipelineLayout)hLayout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
 	{
 		m_ptrDescriptorSets[ptrDescriptorSet->GetHandle()] = ptrDescriptorSet;
 
 		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
-		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipelineLayout)layout, 0, 1, &vkDescriptorSet, 0, NULL);
+		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipelineLayout)hLayout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
 	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)

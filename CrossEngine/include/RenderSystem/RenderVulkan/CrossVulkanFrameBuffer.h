@@ -40,7 +40,7 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL Create(HANDLE renderpass);
+		BOOL Create(HANDLE hRenderPass);
 		void Destroy(void);
 		void DumpLog(void) const;
 
@@ -49,7 +49,7 @@ namespace CrossEngine {
 
 	public:
 		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView);
-		BOOL SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView);
+		BOOL SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView);
 		BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
 		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
 

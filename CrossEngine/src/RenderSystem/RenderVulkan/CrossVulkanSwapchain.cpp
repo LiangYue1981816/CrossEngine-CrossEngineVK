@@ -315,7 +315,7 @@ namespace CrossEngine {
 		return m_indexImage;
 	}
 
-	VkImageView CVulkanSwapchain::GetImageView(int indexImage) const
+	HANDLE CVulkanSwapchain::GetImageHandle(int indexImage) const
 	{
 		return m_vkImageViews[indexImage];
 	}

@@ -40,7 +40,7 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL Create(HANDLE renderpass);
+		BOOL Create(HANDLE hRenderPass);
 		void Destroy(void);
 		void DumpLog(void) const;
 

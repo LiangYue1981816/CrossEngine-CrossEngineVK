@@ -46,7 +46,7 @@ namespace CrossEngine {
 		return m_vkFrameBuffer;
 	}
 
-	BOOL CVulkanFrameBuffer::Create(HANDLE renderpass)
+	BOOL CVulkanFrameBuffer::Create(HANDLE hRenderPass)
 	{
 		try {
 			std::vector<VkImageView> attachments;
@@ -56,7 +56,7 @@ namespace CrossEngine {
 			createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;
-			createInfo.renderPass = (VkRenderPass)renderpass;
+			createInfo.renderPass = (VkRenderPass)hRenderPass;
 			createInfo.attachmentCount = numAttachment;
 			createInfo.pAttachments = attachments.data();
 			createInfo.width = m_width;
@@ -122,10 +122,10 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, VkImageView vkImageView)
+	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
 		m_attachments[indexAttachment].ptrRenderTexture.Release();
-		return SetAttachment(indexAttachment, width, height, vkImageView);
+		return SetAttachment(indexAttachment, width, height, (VkImageView)hImageView);
 	}
 
 	BOOL CVulkanFrameBuffer::SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)

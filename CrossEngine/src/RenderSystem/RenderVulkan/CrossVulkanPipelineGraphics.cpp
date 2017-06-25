@@ -100,7 +100,7 @@ namespace CrossEngine {
 		return m_vkPipeline;
 	}
 
-	BOOL CVulkanPipelineGraphics::Create(HANDLE renderpass)
+	BOOL CVulkanPipelineGraphics::Create(HANDLE hRenderPass)
 	{
 		try {
 			std::vector<VkDescriptorSetLayout> layouts;
@@ -140,7 +140,7 @@ namespace CrossEngine {
 			pipelineCreateInfo.pColorBlendState = &m_colorBlendState;
 			pipelineCreateInfo.pDynamicState = &m_dynamicState;
 			pipelineCreateInfo.layout = m_vkPipelineLayout;
-			pipelineCreateInfo.renderPass = (VkRenderPass)renderpass;
+			pipelineCreateInfo.renderPass = (VkRenderPass)hRenderPass;
 			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineIndex = 0;
