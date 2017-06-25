@@ -41,8 +41,8 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL CreateColorTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples) = 0;
-		virtual BOOL CreateDepthStencilTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples) = 0;
+		virtual BOOL CreateColorTarget(Format format, uint32_t width, uint32_t height, SampleCountFlagBits samples) = 0;
+		virtual BOOL CreateDepthStencilTarget(Format format, uint32_t width, uint32_t height, SampleCountFlagBits samples) = 0;
 	};
 
 }

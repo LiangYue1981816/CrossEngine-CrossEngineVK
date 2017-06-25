@@ -183,7 +183,7 @@ namespace CrossEngine {
 					VkVertexInputAttributeDescription inputAttributeDescription;
 					inputAttributeDescription.binding = 0;
 					inputAttributeDescription.location = variable.second.location;
-					inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
+					inputAttributeDescription.format = (VkFormat)m_pDevice->GetVertexAttributeFormat(attribute);
 					inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
 					inputAttributeDescriptions.push_back(inputAttributeDescription);
 				}

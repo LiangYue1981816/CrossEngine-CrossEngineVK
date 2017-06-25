@@ -40,8 +40,8 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL CreateColorTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples);
-		BOOL CreateDepthStencilTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples);
+		BOOL CreateColorTarget(Format format, uint32_t width, uint32_t height, SampleCountFlagBits samples);
+		BOOL CreateDepthStencilTarget(Format format, uint32_t width, uint32_t height, SampleCountFlagBits samples);
 		void Destroy(void);
 		void DumpLog(void) const;
 

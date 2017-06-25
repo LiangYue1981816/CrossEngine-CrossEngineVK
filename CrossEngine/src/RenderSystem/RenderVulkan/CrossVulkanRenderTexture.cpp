@@ -42,7 +42,7 @@ namespace CrossEngine {
 		return m_vkImageView;
 	}
 
-	BOOL CVulkanRenderTexture::CreateColorTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples)
+	BOOL CVulkanRenderTexture::CreateColorTarget(Format format, uint32_t width, uint32_t height, SampleCountFlagBits samples)
 	{
 		if (CVulkanHelper::vkIsFormatDepthOnly((VkFormat)format)) {
 			return FALSE;
@@ -59,7 +59,7 @@ namespace CrossEngine {
 		return Create(VK_IMAGE_VIEW_TYPE_2D, (VkFormat)format, VK_IMAGE_ASPECT_COLOR_BIT, width, height, 1, 1, 1, (VkSampleCountFlagBits)samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
 	}
 
-	BOOL CVulkanRenderTexture::CreateDepthStencilTarget(TextureFormat format, uint32_t width, uint32_t height, SampleCountFlagBits samples)
+	BOOL CVulkanRenderTexture::CreateDepthStencilTarget(Format format, uint32_t width, uint32_t height, SampleCountFlagBits samples)
 	{
 		if (CVulkanHelper::vkIsFormatDepthOnly((VkFormat)format)) {
 			return Create(VK_IMAGE_VIEW_TYPE_2D, (VkFormat)format, VK_IMAGE_ASPECT_DEPTH_BIT, width, height, 1, 1, 1, (VkSampleCountFlagBits)samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
