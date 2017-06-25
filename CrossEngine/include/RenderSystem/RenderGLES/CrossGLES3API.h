@@ -23,6 +23,9 @@ THE SOFTWARE.
 #pragma once
 #include "gl31.h"
 #include "CrossEngine.h"
+#include "CrossGLES3Definition.h"
 #include "CrossGLES3Instance.h"
 #include "CrossGLES3Device.h"
+#include "CrossGLES3DeviceFeatures.h"
+#include "CrossGLES3DeviceProperties.h"
 #include "CrossGLES3Swapchain.h"

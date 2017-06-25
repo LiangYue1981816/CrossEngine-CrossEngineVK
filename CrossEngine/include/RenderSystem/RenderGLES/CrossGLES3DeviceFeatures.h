@@ -26,10 +26,21 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3Instance;
-	class CROSS_EXPORT CGLES3Device;
-	class CROSS_EXPORT CGLES3DeviceFeatures;
-	class CROSS_EXPORT CGLES3DeviceProperties;
-	class CROSS_EXPORT CGLES3Swapchain;
+	class CROSS_EXPORT CGLES3DeviceFeatures
+	{
+		friend class CGLES3Device;
+
+
+	protected:
+		CGLES3DeviceFeatures(void);
+		virtual ~CGLES3DeviceFeatures(void);
+
+
+	protected:
+		void Init(void);
+
+	public:
+		void DumpLog(void) const;
+	};
 
 }
