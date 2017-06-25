@@ -71,7 +71,7 @@ namespace CrossEngine {
 
 	}
 
-	void CGLES3CommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType)
+	void CGLES3CommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType indexType)
 	{
 
 	}
@@ -106,17 +106,17 @@ namespace CrossEngine {
 
 	}
 
-	void CGLES3CommandBuffer::CmdSetStencilCompareMask(StencilFaceFlags faceMask, uint32_t compareMask)
+	void CGLES3CommandBuffer::CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask)
 	{
 
 	}
 
-	void CGLES3CommandBuffer::CmdSetStencilWriteMask(StencilFaceFlags faceMask, uint32_t writeMask)
+	void CGLES3CommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
 	{
 
 	}
 
-	void CGLES3CommandBuffer::CmdSetStencilReference(StencilFaceFlags faceMask, uint32_t reference)
+	void CGLES3CommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference)
 	{
 
 	}

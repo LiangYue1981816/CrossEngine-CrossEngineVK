@@ -68,7 +68,7 @@ namespace CrossEngine {
 		return Submit(pCommandBuffer, VK_NULL_HANDLE, 0, VK_NULL_HANDLE);
 	}
 
-	int CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	int CVulkanQueue::Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
 	{
 		CVulkanCommandBuffer *pVkCommandBuffer = (CVulkanCommandBuffer *)pCommandBuffer;
 		pVkCommandBuffer->FenceWait(UINT32_MAX);

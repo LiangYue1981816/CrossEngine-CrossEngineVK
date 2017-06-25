@@ -183,7 +183,7 @@ namespace CrossEngine {
 					VkVertexInputAttributeDescription inputAttributeDescription;
 					inputAttributeDescription.binding = 0;
 					inputAttributeDescription.location = variable.second.location;
-					inputAttributeDescription.format = (VkFormat)m_pDevice->GetVertexAttributeFormat(attribute);
+					inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
 					inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
 					inputAttributeDescriptions.push_back(inputAttributeDescription);
 				}
@@ -226,32 +226,32 @@ namespace CrossEngine {
 
 	void CVulkanPipelineGraphics::SetDefault(void)
 	{
-		StencilOpState front = {};
-		StencilOpState back = {};
-		back.failOp = front.failOp = STENCIL_OP_KEEP;
-		back.passOp = front.passOp = STENCIL_OP_KEEP;
-		back.compareOp = front.compareOp = COMPARE_OP_ALWAYS;
+		VkStencilOpState front = {};
+		VkStencilOpState back = {};
+		back.failOp = front.failOp = VK_STENCIL_OP_KEEP;
+		back.passOp = front.passOp = VK_STENCIL_OP_KEEP;
+		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
 		m_colorBlendAttachmentStates.clear();
 
-		SetPrimitiveTopology(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
+		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
 		SetTessellationPatchControlPoints(0);
-		SetPolygonMode(POLYGON_MODE_FILL);
-		SetCullMode(CULL_MODE_BACK_BIT);
-		SetFrontFace(FRONT_FACE_COUNTER_CLOCKWISE);
+		SetPolygonMode(VK_POLYGON_MODE_FILL);
+		SetCullMode(VK_CULL_MODE_BACK_BIT);
+		SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 		SetDepthClamp(FALSE);
 		SetDepthBias(FALSE, 0.0f, 0.0f, 0.0f);
 		SetRasterizerDiscard(FALSE);
-		SetSampleCounts(SAMPLE_COUNT_1_BIT);
+		SetSampleCounts(VK_SAMPLE_COUNT_1_BIT);
 		SetSampleShading(FALSE, 0.0f);
 		SetSampleMask(NULL);
 		SetSampleAlphaToCoverage(FALSE);
 		SetSampleAlphaToOne(FALSE);
-		SetDepthTest(TRUE, TRUE, COMPARE_OP_LESS);
+		SetDepthTest(TRUE, TRUE, VK_COMPARE_OP_LESS);
 		SetDepthBoundsTest(FALSE, 0.0f, 1.0f);
 		SetStencilTest(FALSE, front, back);
-		SetColorBlendLogic(FALSE, LOGIC_OP_CLEAR);
+		SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
@@ -301,9 +301,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetPrimitiveTopology(PrimitiveTopology topology, BOOL primitiveRestartEnable)
+	BOOL CVulkanPipelineGraphics::SetPrimitiveTopology(VkPrimitiveTopology topology, BOOL primitiveRestartEnable)
 	{
-		m_inputAssemblyState.topology = (VkPrimitiveTopology)topology;
+		m_inputAssemblyState.topology = topology;
 		m_inputAssemblyState.primitiveRestartEnable = primitiveRestartEnable;
 
 		return TRUE;
@@ -322,23 +322,23 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetPolygonMode(PolygonMode polygonMode)
+	BOOL CVulkanPipelineGraphics::SetPolygonMode(VkPolygonMode polygonMode)
 	{
-		m_rasterizationState.polygonMode = (VkPolygonMode)polygonMode;
+		m_rasterizationState.polygonMode = polygonMode;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetCullMode(CullModeFlags cullMode)
+	BOOL CVulkanPipelineGraphics::SetCullMode(VkCullModeFlags cullMode)
 	{
-		m_rasterizationState.cullMode = (VkCullModeFlags)cullMode;
+		m_rasterizationState.cullMode = cullMode;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetFrontFace(FrontFace frontFace)
+	BOOL CVulkanPipelineGraphics::SetFrontFace(VkFrontFace frontFace)
 	{
-		m_rasterizationState.frontFace = (VkFrontFace)frontFace;
+		m_rasterizationState.frontFace = frontFace;
 
 		return TRUE;
 	}
@@ -369,9 +369,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetSampleCounts(SampleCountFlagBits rasterizationSamples)
+	BOOL CVulkanPipelineGraphics::SetSampleCounts(VkSampleCountFlagBits rasterizationSamples)
 	{
-		m_multiSampleState.rasterizationSamples = (VkSampleCountFlagBits)rasterizationSamples;
+		m_multiSampleState.rasterizationSamples = rasterizationSamples;
 
 		return TRUE;
 	}
@@ -409,11 +409,11 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, CompareOp depthCompareOp)
+	BOOL CVulkanPipelineGraphics::SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, VkCompareOp depthCompareOp)
 	{
 		m_depthStencilState.depthTestEnable = depthTestEnable;
 		m_depthStencilState.depthWriteEnable = depthWriteEnable;
-		m_depthStencilState.depthCompareOp = (VkCompareOp)depthCompareOp;
+		m_depthStencilState.depthCompareOp = depthCompareOp;
 
 		return TRUE;
 	}
@@ -429,19 +429,19 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetStencilTest(BOOL stencilTestEnable, StencilOpState front, StencilOpState back)
+	BOOL CVulkanPipelineGraphics::SetStencilTest(BOOL stencilTestEnable, VkStencilOpState front, VkStencilOpState back)
 	{
 		m_depthStencilState.stencilTestEnable = stencilTestEnable;
-		m_depthStencilState.front = *(VkStencilOpState*)&front;
-		m_depthStencilState.back = *(VkStencilOpState*)&back;
+		m_depthStencilState.front = front;
+		m_depthStencilState.back = back;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetColorBlendLogic(BOOL logicOpEnable, LogicOp logicOp)
+	BOOL CVulkanPipelineGraphics::SetColorBlendLogic(BOOL logicOpEnable, VkLogicOp logicOp)
 	{
 		m_colorBlendState.logicOpEnable = logicOpEnable;
-		m_colorBlendState.logicOp = (VkLogicOp)logicOp;
+		m_colorBlendState.logicOp = logicOp;
 
 		return TRUE;
 	}
@@ -456,15 +456,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, BlendFactor srcColorBlendFactor, BlendFactor dstColorBlendFactor, BlendOp colorBlendOp, BlendFactor srcAlphaBlendFactor, BlendFactor dstAlphaBlendFactor, BlendOp alphaBlendOp, ColorComponentFlags colorWriteMask)
+	BOOL CVulkanPipelineGraphics::SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
 	{
 		m_colorBlendAttachmentStates[attachment].blendEnable = blendEnable;
-		m_colorBlendAttachmentStates[attachment].srcColorBlendFactor = (VkBlendFactor)srcColorBlendFactor;
-		m_colorBlendAttachmentStates[attachment].dstColorBlendFactor = (VkBlendFactor)dstColorBlendFactor;
-		m_colorBlendAttachmentStates[attachment].colorBlendOp = (VkBlendOp)colorBlendOp;
-		m_colorBlendAttachmentStates[attachment].srcAlphaBlendFactor = (VkBlendFactor)srcAlphaBlendFactor;
-		m_colorBlendAttachmentStates[attachment].dstAlphaBlendFactor = (VkBlendFactor)dstAlphaBlendFactor;
-		m_colorBlendAttachmentStates[attachment].alphaBlendOp = (VkBlendOp)alphaBlendOp;
+		m_colorBlendAttachmentStates[attachment].srcColorBlendFactor = srcColorBlendFactor;
+		m_colorBlendAttachmentStates[attachment].dstColorBlendFactor = dstColorBlendFactor;
+		m_colorBlendAttachmentStates[attachment].colorBlendOp = colorBlendOp;
+		m_colorBlendAttachmentStates[attachment].srcAlphaBlendFactor = srcAlphaBlendFactor;
+		m_colorBlendAttachmentStates[attachment].dstAlphaBlendFactor = dstAlphaBlendFactor;
+		m_colorBlendAttachmentStates[attachment].alphaBlendOp = alphaBlendOp;
 		m_colorBlendAttachmentStates[attachment].colorWriteMask = colorWriteMask;
 
 		return TRUE;

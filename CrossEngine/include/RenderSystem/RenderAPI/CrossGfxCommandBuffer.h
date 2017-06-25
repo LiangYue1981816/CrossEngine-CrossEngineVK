@@ -53,7 +53,7 @@ namespace CrossEngine {
 		virtual void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout) = 0;
 		virtual void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE layout) = 0;
 		virtual void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset) = 0;
-		virtual void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType) = 0;
+		virtual void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType indexType) = 0;
 
 		virtual void CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth) = 0;
 		virtual void CmdSetScissor(int x, int y, uint32_t width, uint32_t height) = 0;
@@ -61,9 +61,9 @@ namespace CrossEngine {
 		virtual void CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor) = 0;
 		virtual void CmdSetBlendConstants(const float blendConstants[4]) = 0;
 		virtual void CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds) = 0;
-		virtual void CmdSetStencilCompareMask(StencilFaceFlags faceMask, uint32_t compareMask) = 0;
-		virtual void CmdSetStencilWriteMask(StencilFaceFlags faceMask, uint32_t writeMask) = 0;
-		virtual void CmdSetStencilReference(StencilFaceFlags faceMask, uint32_t reference) = 0;
+		virtual void CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask) = 0;
+		virtual void CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask) = 0;
+		virtual void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference) = 0;
 
 		virtual void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) = 0;
 		virtual void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) = 0;

@@ -56,15 +56,15 @@ namespace CrossEngine {
 		return HashValue((BYTE *)words.data(), sizeof(uint32_t) * words.size()) == dwHashValue ? TRUE : FALSE;
 	}
 
-	static shaderc_shader_kind GetShaderKind(ShaderStageFlagBits flags)
+	static shaderc_shader_kind GetShaderKind(VkShaderStageFlagBits flags)
 	{
 		switch (flags) {
-		case SHADER_STAGE_VERTEX_BIT: return shaderc_glsl_default_vertex_shader;
-		case SHADER_STAGE_TESSELLATION_CONTROL_BIT: return shaderc_glsl_default_tess_control_shader;
-		case SHADER_STAGE_TESSELLATION_EVALUATION_BIT: return shaderc_glsl_default_tess_evaluation_shader;
-		case SHADER_STAGE_GEOMETRY_BIT: return shaderc_glsl_default_geometry_shader;
-		case SHADER_STAGE_FRAGMENT_BIT: return shaderc_glsl_default_fragment_shader;
-		case SHADER_STAGE_COMPUTE_BIT: return shaderc_glsl_default_compute_shader;
+		case VK_SHADER_STAGE_VERTEX_BIT: return shaderc_glsl_default_vertex_shader;
+		case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT: return shaderc_glsl_default_tess_control_shader;
+		case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: return shaderc_glsl_default_tess_evaluation_shader;
+		case VK_SHADER_STAGE_GEOMETRY_BIT: return shaderc_glsl_default_geometry_shader;
+		case VK_SHADER_STAGE_FRAGMENT_BIT: return shaderc_glsl_default_fragment_shader;
+		case VK_SHADER_STAGE_COMPUTE_BIT: return shaderc_glsl_default_compute_shader;
 		}
 
 		return shaderc_glsl_infer_from_source;
@@ -108,7 +108,7 @@ namespace CrossEngine {
 		return m_moduleType;
 	}
 
-	BOOL CVulkanShader::Create(const char *szSource, size_t length, ShaderStageFlagBits flags)
+	BOOL CVulkanShader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		char szFileName[_MAX_STRING];
 		sprintf(szFileName, "%s/%x", m_pDevice->GetVulkan()->GetCachePath(), HashValue(szSource));

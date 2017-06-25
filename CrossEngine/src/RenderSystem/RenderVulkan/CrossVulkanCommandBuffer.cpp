@@ -206,10 +206,10 @@ namespace CrossEngine {
 		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
 	}
 
-	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, IndexType indexType)
+	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType indexType)
 	{
 		m_ptrIndexBuffers[ptrIndexBuffer->GetHandle()] = ptrIndexBuffer;
-		vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)ptrIndexBuffer->GetHandle(), offset, (VkIndexType)indexType);
+		vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)ptrIndexBuffer->GetHandle(), offset, indexType);
 	}
 
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
@@ -254,17 +254,17 @@ namespace CrossEngine {
 		vkCmdSetDepthBounds(m_vkCommandBuffer, minDepthBounds, maxDepthBounds);
 	}
 
-	void CVulkanCommandBuffer::CmdSetStencilCompareMask(StencilFaceFlags faceMask, uint32_t compareMask)
+	void CVulkanCommandBuffer::CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask)
 	{
 		vkCmdSetStencilCompareMask(m_vkCommandBuffer, faceMask, compareMask);
 	}
 
-	void CVulkanCommandBuffer::CmdSetStencilWriteMask(StencilFaceFlags faceMask, uint32_t writeMask)
+	void CVulkanCommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
 	{
 		vkCmdSetStencilWriteMask(m_vkCommandBuffer, faceMask, writeMask);
 	}
 
-	void CVulkanCommandBuffer::CmdSetStencilReference(StencilFaceFlags faceMask, uint32_t reference)
+	void CVulkanCommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference)
 	{
 		vkCmdSetStencilReference(m_vkCommandBuffer, faceMask, reference);
 	}

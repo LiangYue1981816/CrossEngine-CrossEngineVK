@@ -35,7 +35,7 @@ namespace CrossEngine {
 
 	public:
 		int Submit(CGfxCommandBuffer *pCommandBuffer) const;
-		int Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
+		int Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
 		int WaitIdle(void) const;
 	};
 

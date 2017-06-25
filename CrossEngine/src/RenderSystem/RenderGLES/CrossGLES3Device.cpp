@@ -35,7 +35,7 @@ namespace CrossEngine {
 
 	}
 
-	CGfxCommandBufferPtr CGLES3Device::AllocCommandBuffer(uint32_t pool, CommandBufferLevel level)
+	CGfxCommandBufferPtr CGLES3Device::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
 		return CGfxCommandBufferPtr(NULL);
 	}

@@ -55,25 +55,25 @@ namespace CrossEngine {
 		BOOL SetTessellationEvaluationShader(const CGfxShaderPtr &ptrShader);
 		BOOL SetGeometryShader(const CGfxShaderPtr &ptrShader);
 		BOOL SetFragmentShader(const CGfxShaderPtr &ptrShader);
-		BOOL SetPrimitiveTopology(PrimitiveTopology topology, BOOL primitiveRestartEnable = FALSE);
+		BOOL SetPrimitiveTopology(VkPrimitiveTopology topology, BOOL primitiveRestartEnable = FALSE);
 		BOOL SetTessellationPatchControlPoints(uint32_t patchControlPoints);
-		BOOL SetPolygonMode(PolygonMode polygonMode);
-		BOOL SetCullMode(CullModeFlags cullMode);
-		BOOL SetFrontFace(FrontFace frontFace);
+		BOOL SetPolygonMode(VkPolygonMode polygonMode);
+		BOOL SetCullMode(VkCullModeFlags cullMode);
+		BOOL SetFrontFace(VkFrontFace frontFace);
 		BOOL SetDepthClamp(BOOL depthClampEnable);
 		BOOL SetDepthBias(BOOL depthBiasEnable, float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor);
 		BOOL SetRasterizerDiscard(BOOL rasterizerDiscardEnable);
-		BOOL SetSampleCounts(SampleCountFlagBits rasterizationSamples);
+		BOOL SetSampleCounts(VkSampleCountFlagBits rasterizationSamples);
 		BOOL SetSampleShading(BOOL sampleShadingEnable, float minSampleShading);
 		BOOL SetSampleMask(const uint32_t* pMask);
 		BOOL SetSampleAlphaToCoverage(BOOL alphaToCoverageEnable);
 		BOOL SetSampleAlphaToOne(BOOL alphaToOneEnable);
-		BOOL SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, CompareOp depthCompareOp);
+		BOOL SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, VkCompareOp depthCompareOp);
 		BOOL SetDepthBoundsTest(BOOL depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds);
-		BOOL SetStencilTest(BOOL stencilTestEnable, StencilOpState front, StencilOpState back);
-		BOOL SetColorBlendLogic(BOOL logicOpEnable, LogicOp logicOp);
+		BOOL SetStencilTest(BOOL stencilTestEnable, VkStencilOpState front, VkStencilOpState back);
+		BOOL SetColorBlendLogic(BOOL logicOpEnable, VkLogicOp logicOp);
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
-		BOOL SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, BlendFactor srcColorBlendFactor, BlendFactor dstColorBlendFactor, BlendOp colorBlendOp, BlendFactor srcAlphaBlendFactor, BlendFactor dstAlphaBlendFactor, BlendOp alphaBlendOp, ColorComponentFlags colorWriteMask);
+		BOOL SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
 
 	public:
 		uint32_t GetVertexFormat(void) const;

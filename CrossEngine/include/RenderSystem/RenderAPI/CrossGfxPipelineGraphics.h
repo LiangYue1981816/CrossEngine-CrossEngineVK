@@ -49,25 +49,25 @@ namespace CrossEngine {
 		virtual BOOL SetTessellationEvaluationShader(const CGfxShaderPtr &ptrShader) = 0;
 		virtual BOOL SetGeometryShader(const CGfxShaderPtr &ptrShader) = 0;
 		virtual BOOL SetFragmentShader(const CGfxShaderPtr &ptrShader) = 0;
-		virtual BOOL SetPrimitiveTopology(PrimitiveTopology topology, BOOL primitiveRestartEnable = FALSE) = 0;
+		virtual BOOL SetPrimitiveTopology(VkPrimitiveTopology topology, BOOL primitiveRestartEnable = FALSE) = 0;
 		virtual BOOL SetTessellationPatchControlPoints(uint32_t patchControlPoints) = 0;
-		virtual BOOL SetPolygonMode(PolygonMode polygonMode) = 0;
-		virtual BOOL SetCullMode(CullModeFlags cullMode) = 0;
-		virtual BOOL SetFrontFace(FrontFace frontFace) = 0;
+		virtual BOOL SetPolygonMode(VkPolygonMode polygonMode) = 0;
+		virtual BOOL SetCullMode(VkCullModeFlags cullMode) = 0;
+		virtual BOOL SetFrontFace(VkFrontFace frontFace) = 0;
 		virtual BOOL SetDepthClamp(BOOL depthClampEnable) = 0;
 		virtual BOOL SetDepthBias(BOOL depthBiasEnable, float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor) = 0;
 		virtual BOOL SetRasterizerDiscard(BOOL rasterizerDiscardEnable) = 0;
-		virtual BOOL SetSampleCounts(SampleCountFlagBits rasterizationSamples) = 0;
+		virtual BOOL SetSampleCounts(VkSampleCountFlagBits rasterizationSamples) = 0;
 		virtual BOOL SetSampleShading(BOOL sampleShadingEnable, float minSampleShading) = 0;
 		virtual BOOL SetSampleMask(const uint32_t* pMask) = 0;
 		virtual BOOL SetSampleAlphaToCoverage(BOOL alphaToCoverageEnable) = 0;
 		virtual BOOL SetSampleAlphaToOne(BOOL alphaToOneEnable) = 0;
-		virtual BOOL SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, CompareOp depthCompareOp) = 0;
+		virtual BOOL SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, VkCompareOp depthCompareOp) = 0;
 		virtual BOOL SetDepthBoundsTest(BOOL depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds) = 0;
-		virtual BOOL SetStencilTest(BOOL stencilTestEnable, StencilOpState front, StencilOpState back) = 0;
-		virtual BOOL SetColorBlendLogic(BOOL logicOpEnable, LogicOp logicOp) = 0;
+		virtual BOOL SetStencilTest(BOOL stencilTestEnable, VkStencilOpState front, VkStencilOpState back) = 0;
+		virtual BOOL SetColorBlendLogic(BOOL logicOpEnable, VkLogicOp logicOp) = 0;
 		virtual BOOL SetColorBlendConstants(float r, float g, float b, float a) = 0;
-		virtual BOOL SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, BlendFactor srcColorBlendFactor, BlendFactor dstColorBlendFactor, BlendOp colorBlendOp, BlendFactor srcAlphaBlendFactor, BlendFactor dstAlphaBlendFactor, BlendOp alphaBlendOp, ColorComponentFlags colorWriteMask) = 0;
+		virtual BOOL SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask) = 0;
 
 	public:
 		virtual uint32_t GetVertexFormat(void) const = 0;

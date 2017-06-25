@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 
 	public:
-		CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, CommandBufferLevel level);
+		CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 		CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline);
 		CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline);
 

@@ -43,10 +43,10 @@ namespace CrossEngine {
 		uint32_t GetVertexSize(uint32_t format) const;
 		uint32_t GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const;
 		uint32_t GetVertexAttributeFlag(const char *szName) const;
-		Format GetVertexAttributeFormat(uint32_t attribute) const;
+		VkFormat GetVertexAttributeFormat(uint32_t attribute) const;
 
 	public:
-		virtual CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, CommandBufferLevel level) = 0;
+		virtual CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level) = 0;
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline) = 0;
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
 
