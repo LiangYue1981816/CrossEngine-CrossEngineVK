@@ -112,35 +112,32 @@ void CreateDescriptorSet(void)
 
 void CreateCommandBuffer(void)
 {
-	CrossEngine::CVulkanSwapchain *pVkSwapchain = (CrossEngine::CVulkanSwapchain *)pSwapchain;
 	CrossEngine::CVulkanPipelineGraphics *pVkPipeline = (CrossEngine::CVulkanPipelineGraphics *)((CrossEngine::CGfxPipelineGraphics *)ptrPipeline);
 
-	for (int indexView = 0; indexView < (int)pVkSwapchain->GetImageCount(); indexView++) {
+	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView] = pDevice->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-
-		CrossEngine::CVulkanCommandBuffer *pVkCommandBuffer = (CrossEngine::CVulkanCommandBuffer *)((CrossEngine::CGfxCommandBuffer *)ptrCommandBuffers[indexView]);
-		pVkCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
-			pVkCommandBuffer->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
+			ptrCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
-				pVkCommandBuffer->CmdSetViewport(0, 0, pVkSwapchain->GetWidth(), pVkSwapchain->GetHeight(), 0.0f, 1.0f);
-				pVkCommandBuffer->CmdSetScissor(0, 0, pVkSwapchain->GetWidth(), pVkSwapchain->GetHeight());
+				ptrCommandBuffers[indexView]->CmdSetViewport(0, 0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), 0.0f, 1.0f);
+				ptrCommandBuffers[indexView]->CmdSetScissor(0, 0, pSwapchain->GetWidth(), pSwapchain->GetHeight());
 
-				pVkCommandBuffer->CmdBindPipelineGraphics(ptrPipeline);
+				ptrCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
 				{
-					pVkCommandBuffer->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
-					pVkCommandBuffer->CmdBindVertexBuffer(ptrVertexBuffer, 0);
+					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
 
-					pVkCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetA, pVkPipeline->GetPipelineLayout());
-					pVkCommandBuffer->CmdDrawIndexed(3, 1, 0, 0, 1);
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetA, pVkPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 
-					pVkCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetB, pVkPipeline->GetPipelineLayout());
-					pVkCommandBuffer->CmdDrawIndexed(3, 1, 0, 0, 1);
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetB, pVkPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 				}
 			}
-			pVkCommandBuffer->CmdEndRenderPass();
+			ptrCommandBuffers[indexView]->CmdEndRenderPass();
 		}
-		pVkCommandBuffer->End();
+		ptrCommandBuffers[indexView]->End();
 	}
 }
 
@@ -183,9 +180,7 @@ void DestroyDescriptorSet(void)
 
 void DestroyCommandBuffer(void)
 {
-	CrossEngine::CVulkanSwapchain *pVkSwapchain = (CrossEngine::CVulkanSwapchain *)pSwapchain;
-
-	for (int indexView = 0; indexView < (int)pVkSwapchain->GetImageCount(); indexView++) {
+	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView].Release();
 	}
 }

@@ -48,6 +48,16 @@ namespace CrossEngine {
 		virtual HANDLE GetHandle(void) const = 0;
 
 	public:
+		virtual int BeginPrimary(VkCommandBufferUsageFlags flags) = 0;
+		virtual int BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0) = 0;
+		virtual int End(void) = 0;
+
+	public:
+		virtual void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents) = 0;
+		virtual void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents) = 0;
+		virtual void CmdNextSubpass(VkSubpassContents contents) = 0;
+		virtual void CmdEndRenderPass(void) = 0;
+
 		virtual void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline) = 0;
 		virtual void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
 		virtual void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout) = 0;
