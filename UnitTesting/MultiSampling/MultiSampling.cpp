@@ -1,34 +1,33 @@
 #include "stdafx.h"
 
 
-/*
 #define SAMPLE_COUNT VK_SAMPLE_COUNT_4_BIT
 
-CrossEngine::CVulkan *pVulkan = NULL;
-CrossEngine::CVulkanDeviceGraphics *pDevice = NULL;
-CrossEngine::CVulkanSwapchain *pSwapchain = NULL;
+CrossEngine::CGfxInstance *pGfxInstance = NULL;
+CrossEngine::CGfxDevice *pDevice = NULL;
+CrossEngine::CGfxSwapchain *pSwapchain = NULL;
 
-CrossEngine::CVulkanShaderPtr ptrShaderVertex;
-CrossEngine::CVulkanShaderPtr ptrShaderFragment;
-CrossEngine::CVulkanPipelineGraphicsPtr ptrPipeline;
+CrossEngine::CGfxShaderPtr ptrShaderVertex;
+CrossEngine::CGfxShaderPtr ptrShaderFragment;
+CrossEngine::CGfxPipelineGraphicsPtr ptrPipeline;
 
-CrossEngine::CVulkanTexturePtr ptrTexture;
-CrossEngine::CVulkanIndexBufferPtr ptrIndexBuffer;
-CrossEngine::CVulkanVertexBufferPtr ptrVertexBuffer;
-CrossEngine::CVulkanUniformBufferPtr ptrUniformBuffer;
-CrossEngine::CVulkanDescriptorSetPtr ptrDescriptorSet;
+CrossEngine::CGfxTexturePtr ptrTexture;
+CrossEngine::CGfxIndexBufferPtr ptrIndexBuffer;
+CrossEngine::CGfxVertexBufferPtr ptrVertexBuffer;
+CrossEngine::CGfxUniformBufferPtr ptrUniformBuffer;
+CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSet;
 
 int indexPresentAttachment = 0;
 int indexDepthAttachment = 1;
 int indexColorAttachmentMSAA = 2;
 int indexDepthAttachmentMSAA = 3;
-CrossEngine::CVulkanRenderTexturePtr ptrColorTextureMSAA;
-CrossEngine::CVulkanRenderTexturePtr ptrDepthTextureMSAA;
-CrossEngine::CVulkanRenderTexturePtr ptrDepthTexture;
-CrossEngine::CVulkanRenderPassPtr ptrRenderPass;
-CrossEngine::CVulkanFrameBufferPtr ptrFrameBuffers[3];
+CrossEngine::CGfxRenderTexturePtr ptrColorTextureMSAA;
+CrossEngine::CGfxRenderTexturePtr ptrDepthTextureMSAA;
+CrossEngine::CGfxRenderTexturePtr ptrDepthTexture;
+CrossEngine::CGfxRenderPassPtr ptrRenderPass;
+CrossEngine::CGfxFrameBufferPtr ptrFrameBuffers[3];
 
-CrossEngine::CVulkanCommandBufferPtr ptrCommandBuffers[3];
+CrossEngine::CGfxCommandBufferPtr ptrCommandBuffers[3];
 
 
 void CreateRenderPass(void)
@@ -59,15 +58,15 @@ void CreateFrameBuffer(void)
 	ptrDepthTextureMSAA->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight(), SAMPLE_COUNT);
 
 	ptrDepthTexture = pDevice->NewRenderTexture();
-	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight());
+	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight(),VK_SAMPLE_COUNT_1_BIT);
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView] = pDevice->NewFrameBuffer();
-		ptrFrameBuffers[indexView]->SetPresentAttachment(indexPresentAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageView(indexView));
+		ptrFrameBuffers[indexView]->SetPresentAttachment(indexPresentAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageHandle(indexView));
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachment, ptrDepthTexture);
 		ptrFrameBuffers[indexView]->SetColorAttachment(indexColorAttachmentMSAA, ptrColorTextureMSAA);
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachmentMSAA, ptrDepthTextureMSAA);
-		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetRenderPass());
+		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetHandle());
 	}
 }
 
@@ -88,11 +87,11 @@ void CreatePipeline(void)
 
 	LoadShader("../Data/Shader/texture.vert", szSourceCode, sizeof(szSourceCode));
 	ptrShaderVertex = pDevice->NewShader();
-	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_vertex_shader);
+	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_VERTEX_BIT);
 
 	LoadShader("../Data/Shader/texture.frag", szSourceCode, sizeof(szSourceCode));
 	ptrShaderFragment = pDevice->NewShader();
-	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), shaderc_glsl_fragment_shader);
+	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_FRAGMENT_BIT);
 
 	ptrPipeline = pDevice->NewPipelineGraphics();
 	ptrPipeline->SetVertexShader(ptrShaderVertex);
@@ -103,7 +102,7 @@ void CreatePipeline(void)
 	ptrPipeline->SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
 	ptrPipeline->SetSampleCounts(SAMPLE_COUNT);
 //	ptrPipeline->SetSampleShading(VK_TRUE, 0.25f);
-	ptrPipeline->Create(ptrRenderPass->GetRenderPass());
+	ptrPipeline->Create(ptrRenderPass->GetHandle());
 }
 
 void DestroyPipeline(void)
@@ -139,15 +138,15 @@ void CreateBuffer(void)
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	ptrVertexBuffer = pDevice->NewVertexBuffer();
-	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data());
+	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
 	ptrIndexBuffer = pDevice->NewIndexBuffer();
-	ptrIndexBuffer->Create(indexBufferSize, indexBuffer.data());
+	ptrIndexBuffer->Create(indexBufferSize, indexBuffer.data(), FALSE);
 
 	ptrUniformBuffer = pDevice->NewUniformBuffer();
-	ptrUniformBuffer->Create(sizeof(glm::mat4), NULL);
+	ptrUniformBuffer->Create(sizeof(glm::mat4), NULL, TRUE);
 	ptrUniformBuffer->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 }
 
@@ -173,34 +172,23 @@ void DestroyDescriptorSet(void)
 
 void CreateCommandBuffer(void)
 {
+	CrossEngine::CVulkanPipelineGraphics *pGfxInstancePipeline = (CrossEngine::CVulkanPipelineGraphics *)((CrossEngine::CGfxPipelineGraphics *)ptrPipeline);
+
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView] = pDevice->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
 			ptrCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
-				VkViewport viewport = {};
-				viewport.x = 0;
-				viewport.y = 0;
-				viewport.width = pSwapchain->GetWidth();
-				viewport.height = pSwapchain->GetHeight();
-				viewport.minDepth = 0.0f;
-				viewport.maxDepth = 1.0f;
-				ptrCommandBuffers[indexView]->CmdSetViewport(0, 1, &viewport);
-
-				VkRect2D scissor = {};
-				scissor.offset.x = 0;
-				scissor.offset.y = 0;
-				scissor.extent.width = pSwapchain->GetWidth();
-				scissor.extent.height = pSwapchain->GetHeight();
-				ptrCommandBuffers[indexView]->CmdSetScissor(0, 1, &scissor);
+				ptrCommandBuffers[indexView]->CmdSetViewport(0, 0, pSwapchain->GetWidth(), pSwapchain->GetHeight(), 0.0f, 1.0f);
+				ptrCommandBuffers[indexView]->CmdSetScissor(0, 0, pSwapchain->GetWidth(), pSwapchain->GetHeight());
 
 				ptrCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
 				{
 					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
 					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
 
-					ptrCommandBuffers[indexView]->CmdBindDescriptorSet(ptrDescriptorSet, VK_PIPELINE_BIND_POINT_GRAPHICS, ptrPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSet, pGfxInstancePipeline->GetPipelineLayout());
 					ptrCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 1);
 				}
 			}
@@ -217,7 +205,7 @@ void DestroyCommandBuffer(void)
 	}
 }
 
-void Create(HINSTANCE hInstance, HWND hWnd)
+void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 {
 	RECT rcView;
 	GetClientRect(hWnd, &rcView);
@@ -229,10 +217,10 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 	sprintf(szCachePath, "%s/Cache", szCurPath);
 	mkdir(szCachePath);
 
-	pVulkan = SAFE_NEW CrossEngine::CVulkan(szCachePath);
-	pVulkan->Create(hInstance, hWnd, rcView.right - rcView.left, rcView.bottom - rcView.top);
-	pDevice = pVulkan->GetGraphicsDevice();
-	pSwapchain = pVulkan->GetSwapchain();
+	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance(szCachePath);
+	pGfxInstance->Create(hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top);
+	pDevice = pGfxInstance->GetDevice();
+	pSwapchain = pGfxInstance->GetSwapchain();
 
 	CreateRenderPass();
 	CreateFrameBuffer();
@@ -247,8 +235,8 @@ void Create(HINSTANCE hInstance, HWND hWnd)
 
 void Destroy(void)
 {
-	if (pVulkan) {
-		pDevice->GetQueue()->WaitIdle();
+	if (pGfxInstance) {
+		((CrossEngine::CVulkanDevice *)pDevice)->GetQueue()->WaitIdle();
 
 		DestroyRenderPass();
 		DestroyFrameBuffer();
@@ -260,9 +248,9 @@ void Destroy(void)
 		DestroyDescriptorSet();
 
 		pDevice->DumpLog();
-		pVulkan->Destroy();
+		pGfxInstance->Destroy();
 
-		SAFE_DELETE(pVulkan);
+		SAFE_DELETE(pGfxInstance);
 	}
 }
 
@@ -283,23 +271,7 @@ void Render(void)
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
-		pDevice->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
+		((CrossEngine::CVulkanDevice *)pDevice)->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
 	}
 	pSwapchain->Present();
-}
-*/
-
-void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
-{
-
-}
-
-void Destroy(void)
-{
-
-}
-
-void Render(void)
-{
-
 }
