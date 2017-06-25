@@ -26,6 +26,54 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	#define CALL_GL_FUNCTION_RETURN(func)   \
+	{                                       \
+		int err = func;                     \
+		if (err != NO_ERROR) return err;    \
+	}
+
+	#define CALL_GL_FUNCTION_RETURN_BOOL(func) \
+	{                                       \
+		int err = func;                     \
+		if (err != NO_ERROR) return FALSE;  \
+	}
+
+	#define CALL_GL_FUNCTION_THROW(func)    \
+	{                                       \
+		int err = func;                     \
+		if (err != NO_ERROR) throw err;     \
+	}
+
+	#define CALL_VK_FUNCTION_RETURN(func)   \
+	{                                       \
+		int err = func;                     \
+		if (err != VK_SUCCESS) return err;  \
+	}
+
+	#define CALL_VK_FUNCTION_RETURN_BOOL(func) \
+	{                                       \
+		int err = func;                     \
+		if (err != VK_SUCCESS) return FALSE;\
+	}
+
+	#define CALL_VK_FUNCTION_THROW(func)    \
+	{                                       \
+		int err = func;                     \
+		if (err != VK_SUCCESS) throw err;   \
+	}
+
+	#define CALL_BOOL_FUNCTION_RETURN(func) \
+	{                                       \
+		BOOL err = (BOOL)func;              \
+		if (err != TRUE) return err;        \
+	}
+
+	#define CALL_BOOL_FUNCTION_THROW(func)  \
+	{                                       \
+		BOOL err = (BOOL)func;              \
+		if (err != TRUE) throw err;         \
+	}
+
 	class CROSS_EXPORT CGfxInstance;
 	class CROSS_EXPORT CGfxQueue;
 	class CROSS_EXPORT CGfxDevice;
