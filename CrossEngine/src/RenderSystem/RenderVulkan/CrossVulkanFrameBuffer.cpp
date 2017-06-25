@@ -62,7 +62,7 @@ namespace CrossEngine {
 			createInfo.width = m_width;
 			createInfo.height = m_height;
 			createInfo.layers = 1;
-			CALL_VK_FUNCTION_THROW(vkCreateFramebuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkFrameBuffer));
+			CALL_VK_FUNCTION_THROW(vkCreateFramebuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkFrameBuffer));
 
 			return TRUE;
 		}
@@ -92,7 +92,7 @@ namespace CrossEngine {
 	void CVulkanFrameBuffer::Destroy(void)
 	{
 		if (m_vkFrameBuffer) {
-			vkDestroyFramebuffer(m_pDevice->GetDevice(), m_vkFrameBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyFramebuffer(m_pDevice->GetDevice(), m_vkFrameBuffer, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		for (auto &itAttachment : m_attachments) {

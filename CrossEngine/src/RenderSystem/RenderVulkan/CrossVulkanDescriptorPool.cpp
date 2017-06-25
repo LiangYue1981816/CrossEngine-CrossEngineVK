@@ -62,7 +62,7 @@ namespace CrossEngine {
 		createInfo.maxSets = m_maxDescriptorSets;
 		createInfo.poolSizeCount = 7;
 		createInfo.pPoolSizes = poolSizes;
-		vkCreateDescriptorPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorPool);
+		vkCreateDescriptorPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorPool);
 	}
 
 	CVulkanDescriptorPool::~CVulkanDescriptorPool(void)
@@ -74,7 +74,7 @@ namespace CrossEngine {
 		}
 
 		m_pDescriptorSets.clear();
-		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(const CVulkanDescriptorSetLayout *pSetLayout)

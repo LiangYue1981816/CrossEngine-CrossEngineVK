@@ -170,7 +170,7 @@ namespace CrossEngine {
 		}
 
 		CALL_VK_FUNCTION_RETURN(CheckParameters(createInfo.imageType, createInfo.format, createInfo.extent.width, createInfo.extent.height, createInfo.extent.depth, createInfo.mipLevels, createInfo.arrayLayers, createInfo.samples, createInfo.tiling, createInfo.usage));
-		CALL_VK_FUNCTION_RETURN(vkCreateImage(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImage));
+		CALL_VK_FUNCTION_RETURN(vkCreateImage(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkImage));
 
 		VkMemoryPropertyFlags memoryPropertyFlags;
 		memoryPropertyFlags = createInfo.tiling == VK_IMAGE_TILING_LINEAR ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
@@ -208,7 +208,7 @@ namespace CrossEngine {
 		createInfo.subresourceRange.levelCount = mipLevels;
 		createInfo.subresourceRange.baseArrayLayer = 0;
 		createInfo.subresourceRange.layerCount = viewType == VK_IMAGE_VIEW_TYPE_CUBE ? 6 : 1;
-		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
+		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
 	}
 
 	int CVulkanImage::CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const
@@ -235,7 +235,7 @@ namespace CrossEngine {
 	void CVulkanImage::DestroyImage(void)
 	{
 		if (m_vkImage) {
-			vkDestroyImage(m_pDevice->GetDevice(), m_vkImage, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyImage(m_pDevice->GetDevice(), m_vkImage, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_pMemory) {
@@ -249,7 +249,7 @@ namespace CrossEngine {
 	void CVulkanImage::DestroyImageView(void)
 	{
 		if (m_vkImageView) {
-			vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageView, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageView, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkImageView = VK_NULL_HANDLE;

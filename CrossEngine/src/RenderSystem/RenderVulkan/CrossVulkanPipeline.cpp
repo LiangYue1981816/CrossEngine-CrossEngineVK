@@ -52,7 +52,7 @@ namespace CrossEngine {
 			createInfo.flags = 0;
 			createInfo.bindingCount = bindings.size();
 			createInfo.pBindings = bindings.data();
-			CALL_VK_FUNCTION_THROW(vkCreateDescriptorSetLayout(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorSetLayout));
+			CALL_VK_FUNCTION_THROW(vkCreateDescriptorSetLayout(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorSetLayout));
 
 			return TRUE;
 		}
@@ -78,7 +78,7 @@ namespace CrossEngine {
 	void CVulkanDescriptorSetLayout::Destroy(void)
 	{
 		if (m_vkDescriptorSetLayout) {
-			vkDestroyDescriptorSetLayout(m_pDevice->GetDevice(), m_vkDescriptorSetLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyDescriptorSetLayout(m_pDevice->GetDevice(), m_vkDescriptorSetLayout, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_bindings.clear();
@@ -225,11 +225,11 @@ namespace CrossEngine {
 	void CVulkanPipeline::Destroy(void)
 	{
 		if (m_vkPipeline) {
-			vkDestroyPipeline(m_pDevice->GetDevice(), m_vkPipeline, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyPipeline(m_pDevice->GetDevice(), m_vkPipeline, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_vkPipelineLayout) {
-			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		DestroyDescriptorSetLayouts();

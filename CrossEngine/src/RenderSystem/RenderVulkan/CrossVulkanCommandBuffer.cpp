@@ -36,13 +36,13 @@ namespace CrossEngine {
 		createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-		vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence);
+		vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence);
 	}
 
 	CVulkanCommandBuffer::~CVulkanCommandBuffer(void)
 	{
 		Reset();
-		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	void CVulkanCommandBuffer::Release(void)

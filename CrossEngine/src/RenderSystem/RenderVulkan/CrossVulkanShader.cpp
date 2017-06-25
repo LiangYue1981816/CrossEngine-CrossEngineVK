@@ -111,7 +111,7 @@ namespace CrossEngine {
 	BOOL CVulkanShader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		char szFileName[_MAX_STRING];
-		sprintf(szFileName, "%s/%x", m_pDevice->GetVulkan()->GetCachePath(), HashValue(szSource));
+		sprintf(szFileName, "%s/%x", m_pDevice->GetInstance()->GetCachePath(), HashValue(szSource));
 
 		std::vector<uint32_t> words;
 		if (LoadShaderBinary(szFileName, words) == FALSE) {
@@ -134,7 +134,7 @@ namespace CrossEngine {
 			createInfo.flags = 0;
 			createInfo.codeSize = numWords * 4;
 			createInfo.pCode = words;
-			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
+			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
 			m_moduleType = spirv::parse(words, numWords);
 
@@ -167,7 +167,7 @@ namespace CrossEngine {
 	void CVulkanShader::Destroy(void)
 	{
 		if (m_vkShaderModule) {
-			vkDestroyShaderModule(m_pDevice->GetDevice(), m_vkShaderModule, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyShaderModule(m_pDevice->GetDevice(), m_vkShaderModule, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkShaderModule = VK_NULL_HANDLE;

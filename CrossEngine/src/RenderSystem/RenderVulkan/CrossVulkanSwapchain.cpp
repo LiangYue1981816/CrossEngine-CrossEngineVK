@@ -133,11 +133,11 @@ namespace CrossEngine {
 		modes.clear();
 
 		uint32_t numModes;
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numModes, NULL));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetInstance()->GetSurface(), &numModes, NULL));
 		if (numModes == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
 		modes.resize(numModes);
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numModes, modes.data()));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfacePresentModesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetInstance()->GetSurface(), &numModes, modes.data()));
 
 		return VK_SUCCESS;
 	}
@@ -147,18 +147,18 @@ namespace CrossEngine {
 		formats.clear();
 
 		uint32_t numFormats;
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numFormats, NULL));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetInstance()->GetSurface(), &numFormats, NULL));
 		if (numFormats == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
 		formats.resize(numFormats);
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &numFormats, formats.data()));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceFormatsKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetInstance()->GetSurface(), &numFormats, formats.data()));
 
 		return VK_SUCCESS;
 	}
 
 	int CVulkanSwapchain::EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const
 	{
-		return vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetVulkan()->GetSurface(), &capabilities);
+		return vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_pDevice->GetPhysicalDevice(), m_pDevice->GetInstance()->GetSurface(), &capabilities);
 	}
 
 	int CVulkanSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
@@ -173,7 +173,7 @@ namespace CrossEngine {
 		swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 		swapchainInfo.pNext = NULL;
 		swapchainInfo.flags = 0;
-		swapchainInfo.surface = m_pDevice->GetVulkan()->GetSurface();
+		swapchainInfo.surface = m_pDevice->GetInstance()->GetSurface();
 		swapchainInfo.minImageCount = SWAPCHAIN_IMAGE_COUNT;
 		swapchainInfo.imageFormat = imageFormat.format;
 		swapchainInfo.imageColorSpace = imageFormat.colorSpace;
@@ -188,16 +188,16 @@ namespace CrossEngine {
 		swapchainInfo.presentMode = presentMode;
 		swapchainInfo.clipped = TRUE;
 		swapchainInfo.oldSwapchain = VK_NULL_HANDLE;
-		CALL_VK_FUNCTION_RETURN(vkCreateSwapchainKHR(m_pDevice->GetDevice(), &swapchainInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkSwapchain));
+		CALL_VK_FUNCTION_RETURN(vkCreateSwapchainKHR(m_pDevice->GetDevice(), &swapchainInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkSwapchain));
 
 		VkSemaphoreCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;
-		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkAcquireSemaphore));
-		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[0]));
-		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[1]));
-		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[2]));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkAcquireSemaphore));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[0]));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[1]));
+		CALL_VK_FUNCTION_RETURN(vkCreateSemaphore(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderDoneSemaphores[2]));
 
 		m_width = width;
 		m_height = height;
@@ -224,13 +224,13 @@ namespace CrossEngine {
 		createInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
 
 		createInfo.image = m_vkImages[0];
-		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[0]));
+		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[0]));
 
 		createInfo.image = m_vkImages[1];
-		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[1]));
+		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[1]));
 
 		createInfo.image = m_vkImages[2];
-		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[2]));
+		CALL_VK_FUNCTION_RETURN(vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageViews[2]));
 
 		return VK_SUCCESS;
 	}
@@ -238,23 +238,23 @@ namespace CrossEngine {
 	void CVulkanSwapchain::DestroySwapchain(void)
 	{
 		if (m_vkSwapchain) {
-			vkDestroySwapchainKHR(m_pDevice->GetDevice(), m_vkSwapchain, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySwapchainKHR(m_pDevice->GetDevice(), m_vkSwapchain, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_vkAcquireSemaphore) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_vkRenderDoneSemaphores[0]) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[0], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[0], m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_vkRenderDoneSemaphores[1]) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[1], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[1], m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_vkRenderDoneSemaphores[2]) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[2], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[2], m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkSwapchain = VK_NULL_HANDLE;
@@ -266,9 +266,9 @@ namespace CrossEngine {
 
 	void CVulkanSwapchain::DestroyImagesAndImageViews(void)
 	{
-		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[0], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[1], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
-		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[2], m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[0], m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[1], m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyImageView(m_pDevice->GetDevice(), m_vkImageViews[2], m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 
 		m_vkImageViews[0] = VK_NULL_HANDLE;
 		m_vkImageViews[1] = VK_NULL_HANDLE;

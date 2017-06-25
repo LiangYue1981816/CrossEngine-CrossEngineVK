@@ -44,7 +44,7 @@ namespace CrossEngine {
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
 		createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
-		CALL_VK_FUNCTION_RETURN(vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool));
+		CALL_VK_FUNCTION_RETURN(vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool));
 
 		return VK_SUCCESS;
 	}
@@ -58,7 +58,7 @@ namespace CrossEngine {
 		}
 
 		if (m_vkCommandPool) {
-			vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_pBuffers.clear();

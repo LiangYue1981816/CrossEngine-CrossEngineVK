@@ -54,7 +54,7 @@ namespace CrossEngine {
 			createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			createInfo.queueFamilyIndexCount = 0;
 			createInfo.pQueueFamilyIndices = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer));
+			CALL_VK_FUNCTION_THROW(vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer));
 
 			VkMemoryRequirements requirements;
 			vkGetBufferMemoryRequirements(m_pDevice->GetDevice(), m_vkBuffer, &requirements);
@@ -77,7 +77,7 @@ namespace CrossEngine {
 	void CVulkanBuffer::Destroy(void)
 	{
 		if (m_vkBuffer) {
-			vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		if (m_pMemory) {

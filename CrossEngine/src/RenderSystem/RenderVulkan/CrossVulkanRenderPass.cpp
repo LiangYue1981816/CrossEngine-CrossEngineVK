@@ -70,7 +70,7 @@ namespace CrossEngine {
 			createInfo.pAttachments = attachments.data();
 			createInfo.pSubpasses = subpasses.data();
 			createInfo.pDependencies = dependencies.data();
-			CALL_VK_FUNCTION_THROW(vkCreateRenderPass(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderPass));
+			CALL_VK_FUNCTION_THROW(vkCreateRenderPass(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkRenderPass));
 
 			return TRUE;
 		}
@@ -152,7 +152,7 @@ namespace CrossEngine {
 	void CVulkanRenderPass::Destroy(void)
 	{
 		if (m_vkRenderPass) {
-			vkDestroyRenderPass(m_pDevice->GetDevice(), m_vkRenderPass, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyRenderPass(m_pDevice->GetDevice(), m_vkRenderPass, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_attachments.clear();

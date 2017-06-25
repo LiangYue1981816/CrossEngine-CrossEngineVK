@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDevice::CVulkanDevice(CVulkanInstance *pVulkan)
-		: m_pVulkan(pVulkan)
+	CVulkanDevice::CVulkanDevice(CVulkanInstance *pInstance)
+		: m_pInstance(pInstance)
 
 		, m_vkDevice(VK_NULL_HANDLE)
 		, m_vkPhysicalDevice(VK_NULL_HANDLE)
@@ -134,11 +134,11 @@ namespace CrossEngine {
 		devices.clear();
 
 		uint32_t numDevices;
-		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, NULL));
+		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pInstance->GetInstance(), &numDevices, NULL));
 		if (numDevices == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
 		devices.resize(numDevices);
-		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pVulkan->GetInstance(), &numDevices, devices.data()));
+		CALL_VK_FUNCTION_RETURN(vkEnumeratePhysicalDevices(m_pInstance->GetInstance(), &numDevices, devices.data()));
 
 		return VK_SUCCESS;
 	}
@@ -209,7 +209,7 @@ namespace CrossEngine {
 
 		std::vector<VkBool32> surfaceSupports(numQueueFamilies);
 		for (uint32_t index = 0; index < numQueueFamilies; index++) {
-			CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pVulkan->GetSurface(), &surfaceSupports[index]));
+			CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pInstance->GetSurface(), &surfaceSupports[index]));
 
 			if ((queueFamilies[index].queueCount > 0) && (queueFamilies[index].queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
 				if (queueFamilyIndex == UINT32_MAX && surfaceSupports[index] == TRUE) {
@@ -245,7 +245,7 @@ namespace CrossEngine {
 		deviceCreateInfo.enabledExtensionCount = 1;
 		deviceCreateInfo.ppEnabledExtensionNames = &szSwapchainExtension;
 		deviceCreateInfo.pEnabledFeatures = NULL;
-		CALL_VK_FUNCTION_RETURN(vkCreateDevice(vkPhysicalDevice, &deviceCreateInfo, m_pVulkan->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice));
+		CALL_VK_FUNCTION_RETURN(vkCreateDevice(vkPhysicalDevice, &deviceCreateInfo, m_pInstance->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice));
 
 		m_vkPhysicalDevice = vkPhysicalDevice;
 		vkGetPhysicalDeviceFeatures(m_vkPhysicalDevice, &m_vkPhysicalDeviceFeatures);
@@ -313,7 +313,7 @@ namespace CrossEngine {
 	void CVulkanDevice::DestroyDevice(void)
 	{
 		if (m_vkDevice && m_vkPhysicalDevice) {
-			vkDestroyDevice(m_vkDevice, m_pVulkan->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyDevice(m_vkDevice, m_pInstance->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkDevice = VK_NULL_HANDLE;
@@ -390,9 +390,9 @@ namespace CrossEngine {
 		return m_pQueue;
 	}
 
-	CVulkanInstance* CVulkanDevice::GetVulkan(void) const
+	CVulkanInstance* CVulkanDevice::GetInstance(void) const
 	{
-		return m_pVulkan;
+		return m_pInstance;
 	}
 
 	VkDevice CVulkanDevice::GetDevice(void) const

@@ -34,7 +34,7 @@ namespace CrossEngine {
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 		createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
-		vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
+		vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
 	}
 
 	CVulkanCommandPool::~CVulkanCommandPool(void)
@@ -46,7 +46,7 @@ namespace CrossEngine {
 		}
 
 		m_pCommandBuffers.clear();
-		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	CVulkanCommandBuffer* CVulkanCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)

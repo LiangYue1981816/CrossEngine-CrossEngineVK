@@ -129,7 +129,7 @@ namespace CrossEngine {
 			createInfo.maxLod = 0.0f;
 			createInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
 			createInfo.unnormalizedCoordinates = VK_FALSE;
-			CALL_VK_FUNCTION_THROW(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
+			CALL_VK_FUNCTION_THROW(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
 
 			m_minFilter = minFilter;
 			m_magFilter = magFilter;
@@ -149,7 +149,7 @@ namespace CrossEngine {
 	void CVulkanTexture::DestroySampler(void)
 	{
 		if (m_vkSampler) {
-			vkDestroySampler(m_pDevice->GetDevice(), m_vkSampler, m_pDevice->GetVulkan()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroySampler(m_pDevice->GetDevice(), m_vkSampler, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkSampler = VK_NULL_HANDLE;

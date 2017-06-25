@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanDevice(CVulkanInstance *pVulkan);
+		CVulkanDevice(CVulkanInstance *pInstance);
 		virtual ~CVulkanDevice(void);
 
 
@@ -87,7 +87,7 @@ namespace CrossEngine {
 
 	public:
 		CVulkanQueue* GetQueue(void) const;
-		CVulkanInstance* GetVulkan(void) const;
+		CVulkanInstance* GetInstance(void) const;
 
 	public:
 		VkDevice GetDevice(void) const;
@@ -146,7 +146,7 @@ namespace CrossEngine {
 		CVulkanFrameBufferManager *m_pFrameBufferManager;
 
 	protected:
-		CVulkanInstance *m_pVulkan;
+		CVulkanInstance *m_pInstance;
 	};
 
 }
