@@ -20,14 +20,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "gl31.h"
-#include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
+#include "_CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	CGLES3Queue::CGLES3Queue(void)
+	{
+
+	}
+
+	CGLES3Queue::~CGLES3Queue(void)
+	{
+
+	}
+
+	int CGLES3Queue::Submit(CGfxCommandBuffer *pCommandBuffer) const
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Queue::Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3Queue::WaitIdle(void) const
+	{
+		return NO_ERROR;
+	}
+
+}

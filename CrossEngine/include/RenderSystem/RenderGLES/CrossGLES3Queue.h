@@ -21,13 +21,22 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
-#include "gl31.h"
 #include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGLES3Queue : public CGfxQueue
+	{
+	protected:
+		CGLES3Queue(void);
+		virtual ~CGLES3Queue(void);
+
+
+	public:
+		int Submit(CGfxCommandBuffer *pCommandBuffer) const;
+		int Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, PipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
+		int WaitIdle(void) const;
+	};
+
+}

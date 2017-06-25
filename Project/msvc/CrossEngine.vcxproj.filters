@@ -387,6 +387,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3CommandBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Queue.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -648,6 +654,12 @@
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Queue.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
     </ClCompile>
   </ItemGroup>

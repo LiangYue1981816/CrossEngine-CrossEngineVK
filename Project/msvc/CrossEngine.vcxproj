@@ -210,11 +210,13 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxUniformBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxVertexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3API.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3CommandBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Definition.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Device.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceFeatures.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Instance.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Queue.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Swapchain.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl31.h" />
@@ -288,10 +290,12 @@
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxDevice.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxResource.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Device.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DeviceFeatures.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Instance.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Queue.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Swapchain.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanAllocator.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanBuffer.cpp" />
