@@ -1,3 +1,5 @@
+#ifdef PLATFORM_WINDOWS
+
 #ifndef __gl3platform_h_
 #define __gl3platform_h_
 
@@ -20,11 +22,13 @@
 #include <KHR/khrplatform.h>
 
 #ifndef GL_APICALL
-#define GL_APICALL  KHRONOS_APICALL
+#define GL_APICALL  WINGDIAPI
 #endif
 
 #ifndef GL_APIENTRY
-#define GL_APIENTRY KHRONOS_APIENTRY
+#define GL_APIENTRY APIENTRY
 #endif
 
 #endif /* __gl3platform_h_ */
+
+#endif

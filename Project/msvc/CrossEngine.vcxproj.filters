@@ -162,19 +162,10 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossMutex.h">
       <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core\GLES3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3ext.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core\GLES3</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3platform.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core\GLES3</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl31.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core\GLES3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl32.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core\GLES3</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxAPI.h">

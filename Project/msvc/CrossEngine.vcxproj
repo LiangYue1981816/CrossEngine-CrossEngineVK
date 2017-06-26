@@ -224,10 +224,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Swapchain.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3UniformBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3VertexBuffer.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl31.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl32.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3ext.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl3platform.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanAllocator.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanAPI.h" />
