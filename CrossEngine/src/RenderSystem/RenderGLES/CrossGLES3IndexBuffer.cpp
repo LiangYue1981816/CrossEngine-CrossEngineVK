@@ -20,20 +20,57 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "gl31.h"
-#include "CrossEngine.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
+#include "_CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	CGLES3IndexBuffer::CGLES3IndexBuffer(CGfxResourceManager *pResourceManager)
+		: CGfxIndexBuffer(pResourceManager)
+	{
+
+	}
+
+	CGLES3IndexBuffer::~CGLES3IndexBuffer(void)
+	{
+
+	}
+
+	HANDLE CGLES3IndexBuffer::GetHandle(void) const
+	{
+		return (HANDLE)m_buffer;
+	}
+
+	BOOL CGLES3IndexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)
+	{
+		return CGLES3Buffer::Create(GL_ELEMENT_ARRAY_BUFFER, size, pBuffer, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+	}
+
+	void CGLES3IndexBuffer::Destroy(void)
+	{
+		CGLES3Buffer::Destroy();
+	}
+
+	BOOL CGLES3IndexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
+	{
+		return CGLES3Buffer::UpdateData(GL_ELEMENT_ARRAY_BUFFER, offset, size, pBuffer);
+	}
+
+	size_t CGLES3IndexBuffer::GetBufferSize(void) const
+	{
+		return m_size;
+	}
+
+	size_t CGLES3IndexBuffer::GetMemorySize(void) const
+	{
+		return m_size;
+	}
+
+	void CGLES3IndexBuffer::DumpLog(void) const
+	{
+		if (m_buffer) {
+			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, m_size, m_size, CGLES3Helper::glUsageToString(m_usage));
+		}
+	}
+
+}

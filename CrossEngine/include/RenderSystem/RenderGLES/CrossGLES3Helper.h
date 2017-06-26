@@ -21,19 +21,15 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
-#include "gl31.h"
 #include "CrossEngine.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGLES3Helper
+	{
+	public:
+		static const char* glUsageToString(GLenum usage);
+	};
+
+}

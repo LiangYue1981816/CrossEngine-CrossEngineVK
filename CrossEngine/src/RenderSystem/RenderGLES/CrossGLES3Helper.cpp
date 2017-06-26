@@ -20,20 +20,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "gl31.h"
-#include "CrossEngine.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
+#include "_CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	const char* CGLES3Helper::glUsageToString(GLenum usage)
+	{
+		static char szString[_MAX_STRING];
+
+		switch (usage) {
+		case GL_STREAM_DRAW: strcpy(szString, "GL_STREAM_DRAW"); break;
+		case GL_STREAM_READ: strcpy(szString, "GL_STREAM_READ"); break;
+		case GL_STREAM_COPY: strcpy(szString, "GL_STREAM_COPY"); break;
+		case GL_STATIC_DRAW: strcpy(szString, "GL_STATIC_DRAW"); break;
+		case GL_STATIC_READ: strcpy(szString, "GL_STATIC_READ"); break;
+		case GL_STATIC_COPY: strcpy(szString, "GL_STATIC_COPY"); break;
+		case GL_DYNAMIC_DRAW: strcpy(szString, "GL_DYNAMIC_DRAW"); break;
+		case GL_DYNAMIC_READ: strcpy(szString, "GL_DYNAMIC_READ"); break;
+		case GL_DYNAMIC_COPY: strcpy(szString, "GL_DYNAMIC_COPY"); break;
+		default: strcpy(szString, "unknown"); break;
+		}
+
+		return szString;
+	}
+
+}

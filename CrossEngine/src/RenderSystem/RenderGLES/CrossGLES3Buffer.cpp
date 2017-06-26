@@ -20,20 +20,54 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "gl31.h"
-#include "CrossEngine.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
+#include "_CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	CGLES3Buffer::CGLES3Buffer(void)
+		: m_usage(GL_STATIC_DRAW)
+		, m_size(0)
+		, m_buffer(0)
+	{
+
+	}
+
+	CGLES3Buffer::~CGLES3Buffer(void)
+	{
+
+	}
+
+	BOOL CGLES3Buffer::Create(GLenum target, size_t size, const void *pBuffer, GLenum usage)
+	{
+		m_size = size;
+		m_usage = usage;
+
+		glGenBuffers(1, &m_buffer);
+		glBindBuffer(target, m_buffer);
+		glBufferData(target, size, pBuffer, m_usage);
+		glBindBuffer(target, 0);
+
+		return TRUE;
+	}
+
+	void CGLES3Buffer::Destroy(void)
+	{
+		if (m_buffer) {
+			glDeleteBuffers(1, &m_buffer);
+		}
+
+		m_size = 0;
+		m_buffer = 0;
+	}
+
+	BOOL CGLES3Buffer::UpdateData(GLenum target, size_t offset, size_t size, const void *pBuffer) const
+	{
+		glBindBuffer(target, m_buffer);
+		glBufferSubData(target, offset, size, pBuffer);
+		glBindBuffer(target, 0);
+
+		return TRUE;
+	}
+
+}

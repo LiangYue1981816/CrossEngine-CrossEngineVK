@@ -366,9 +366,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSet.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3API.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Device.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
     </ClInclude>
@@ -376,9 +373,6 @@
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Swapchain.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Definition.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceFeatures.h">
@@ -392,6 +386,30 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Queue.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3IndexBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3UniformBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3VertexBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3BufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Helper.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3API.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Definition.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Buffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -661,6 +679,24 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Queue.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3BufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3IndexBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3UniformBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3VertexBuffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Helper.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Buffer.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

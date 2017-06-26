@@ -21,19 +21,36 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
-#include "gl31.h"
 #include "CrossEngine.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGLES3UniformBuffer : public CGfxUniformBuffer, public CGLES3Buffer
+	{
+		friend class CGLES3BufferManager;
+
+
+	protected:
+		CGLES3UniformBuffer(CGfxResourceManager *pResourceManager);
+		virtual ~CGLES3UniformBuffer(void);
+
+
+	public:
+		HANDLE GetHandle(void) const;
+
+	public:
+		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic);
+		void Destroy(void);
+		BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const;
+		void DumpLog(void) const;
+
+	public:
+		size_t GetBufferSize(void) const;
+		size_t GetMemorySize(void) const;
+
+	public:
+		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size);
+	};
+
+}
