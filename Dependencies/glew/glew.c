@@ -30,6 +30,8 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifdef PLATFORM_WINDOWS
+
 #include <glew.h>
 
 #if defined(GLEW_OSMESA)
@@ -23950,3 +23952,5 @@ GLboolean eglewIsSupported (const char* name)
 }
 
 #endif /* _WIN32 */
+
+#endif
