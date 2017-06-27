@@ -21,22 +21,36 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
-#include "gl31.h"
 #include "CrossEngine.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
-#include "CrossGLES3Image.h"
-#include "CrossGLES3Texture.h"
-#include "CrossGLES3RenderTexture.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGLES3Image
+	{
+	protected:
+		CGLES3Image(void);
+		virtual ~CGLES3Image(void);
+
+
+	public:
+		int CreateImage(GLenum target, GLenum format, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers);
+
+
+	protected:
+		GLsizei m_width;
+		GLsizei m_height;
+		GLsizei m_depth;
+
+		GLint m_internalFormat;
+		GLint m_mipLevels;
+		GLint m_arrayLayers;
+
+		GLenum m_target;
+		GLenum m_format;
+
+	protected:
+		GLuint m_texture;
+	};
+
+}
