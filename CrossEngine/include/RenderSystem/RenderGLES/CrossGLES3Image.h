@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	/*
 	class CROSS_EXPORT CGLES3Image
 	{
 	protected:
@@ -33,8 +34,13 @@ namespace CrossEngine {
 		virtual ~CGLES3Image(void);
 
 
-	public:
+	protected:
 		int CreateImage(GLenum target, GLenum format, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers);
+		void Destroy(void);
+
+	public:
+		GLenum GetTarget(void) const;
+		GLenum GetFormat(void) const;
 
 
 	protected:
@@ -52,5 +58,6 @@ namespace CrossEngine {
 	protected:
 		GLuint m_texture;
 	};
+	*/
 
 }
