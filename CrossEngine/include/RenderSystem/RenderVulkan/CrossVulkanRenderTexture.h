@@ -49,6 +49,7 @@ namespace CrossEngine {
 		uint32_t GetWidth(void) const;
 		uint32_t GetHeight(void) const;
 		uint32_t GetDepth(void) const;
+		uint32_t GetSamples(void) const;
 
 	public:
 		size_t GetMemorySize(void) const;

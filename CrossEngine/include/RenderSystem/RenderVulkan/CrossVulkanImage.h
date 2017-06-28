@@ -34,27 +34,33 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage);
+		BOOL Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		int CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage);
 		int CreateImageView(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t mipLevels);
+		int CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		int CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const;
 
 	protected:
 		void Destroy(void);
 		void DestroyImage(void);
 		void DestroyImageView(void);
+		void DestroySampler(void);
 
 	public:
+		const VkDescriptorImageInfo& GetDescriptorImageInfo(void) const;
+
 		VkFormat GetFormat(void) const;
 		VkImageType GetType(void) const;
-		VkImageTiling GetTiling(void) const;
-		VkSampleCountFlagBits GetSamples(void) const;
 
+
+	protected:
+		CVulkanMemory *m_pMemory;
 
 	protected:
 		VkImage m_vkImage;
 		VkImageView m_vkImageView;
-		CVulkanMemory *m_pMemory;
+		VkSampler m_vkSampler;
+		VkDescriptorImageInfo m_vkDescriptorImageInfo;
 
 	protected:
 		uint32_t m_width;
@@ -67,6 +73,12 @@ namespace CrossEngine {
 		VkImageType m_type;
 		VkImageTiling m_tiling;
 		VkSampleCountFlagBits m_samples;
+
+	protected:
+		VkFilter m_minFilter;
+		VkFilter m_magFilter;
+		VkSamplerMipmapMode m_mipmapMode;
+		VkSamplerAddressMode m_addressMode;
 
 	protected:
 		CVulkanDevice *m_pDevice;

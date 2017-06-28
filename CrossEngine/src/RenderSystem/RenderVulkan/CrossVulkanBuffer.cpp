@@ -29,10 +29,11 @@ namespace CrossEngine {
 		: m_pDevice(pDevice)
 
 		, m_pMemory(NULL)
+
+		, m_size(0)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
 		, m_usage(0)
-		, m_bufferSize(0)
 	{
 
 	}
@@ -61,8 +62,8 @@ namespace CrossEngine {
 			m_pMemory = m_pDevice->GetMemoryManager()->AllocMemory(requirements.size, requirements.alignment, requirements.memoryTypeBits, memoryPropertyFlags);
 			m_pMemory->BindBuffer(m_vkBuffer);
 
+			m_size = size;
 			m_usage = usage;
-			m_bufferSize = size;
 
 			return TRUE;
 		}

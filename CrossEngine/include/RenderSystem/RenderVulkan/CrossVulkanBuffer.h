@@ -47,11 +47,13 @@ namespace CrossEngine {
 
 
 	protected:
-		VkBuffer m_vkBuffer;
 		CVulkanMemory *m_pMemory;
 
 	protected:
-		VkDeviceSize m_bufferSize;
+		VkDeviceSize m_size;
+		VkBuffer m_vkBuffer;
+
+	protected:
 		VkBufferUsageFlags m_usage;
 
 	protected:

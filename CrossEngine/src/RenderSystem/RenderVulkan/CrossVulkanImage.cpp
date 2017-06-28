@@ -29,8 +29,11 @@ namespace CrossEngine {
 		: m_pDevice(pDevice)
 
 		, m_pMemory(NULL)
+
 		, m_vkImage(VK_NULL_HANDLE)
 		, m_vkImageView(VK_NULL_HANDLE)
+		, m_vkSampler(VK_NULL_HANDLE)
+		, m_vkDescriptorImageInfo{}
 
 		, m_width(0)
 		, m_height(0)
@@ -42,6 +45,11 @@ namespace CrossEngine {
 		, m_type(VK_IMAGE_TYPE_2D)
 		, m_tiling(VK_IMAGE_TILING_OPTIMAL)
 		, m_samples(VK_SAMPLE_COUNT_1_BIT)
+
+		, m_minFilter(VK_FILTER_NEAREST)
+		, m_magFilter(VK_FILTER_NEAREST)
+		, m_mipmapMode(VK_SAMPLER_MIPMAP_MODE_NEAREST)
+		, m_addressMode(VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE)
 	{
 
 	}
@@ -51,11 +59,16 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CVulkanImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
+	BOOL CVulkanImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		try {
 			CALL_VK_FUNCTION_THROW(CreateImage(viewType, format, width, height, depth, mipLevels, arrayLayers, samples, tiling, usage));
 			CALL_VK_FUNCTION_THROW(CreateImageView(viewType, format, aspectMask, mipLevels));
+			CALL_VK_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
+
+			m_vkDescriptorImageInfo.sampler = m_vkSampler;
+			m_vkDescriptorImageInfo.imageView = m_vkImageView;
+			m_vkDescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
 			return TRUE;
 		}
@@ -211,6 +224,37 @@ namespace CrossEngine {
 		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
 	}
 
+	int CVulkanImage::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		VkSamplerCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+		createInfo.pNext = NULL;
+		createInfo.flags = 0;
+		createInfo.magFilter = magFilter;
+		createInfo.minFilter = minFilter;
+		createInfo.mipmapMode = mipmapMode;
+		createInfo.addressModeU = addressMode;
+		createInfo.addressModeV = addressMode;
+		createInfo.addressModeW = addressMode;
+		createInfo.mipLodBias = 0.0f;
+		createInfo.anisotropyEnable = VK_FALSE;
+		createInfo.maxAnisotropy = 1.0f;
+		createInfo.compareEnable = VK_FALSE;
+		createInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+		createInfo.minLod = 0.0f;
+		createInfo.maxLod = 0.0f;
+		createInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
+		createInfo.unnormalizedCoordinates = VK_FALSE;
+		CALL_VK_FUNCTION_RETURN(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
+
+		m_minFilter = minFilter;
+		m_magFilter = magFilter;
+		m_mipmapMode = mipmapMode;
+		m_addressMode = addressMode;
+
+		return VK_SUCCESS;
+	}
+
 	int CVulkanImage::CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const
 	{
 		VkImageFormatProperties formatProperties;
@@ -230,6 +274,7 @@ namespace CrossEngine {
 	{
 		DestroyImageView();
 		DestroyImage();
+		DestroySampler();
 	}
 
 	void CVulkanImage::DestroyImage(void)
@@ -255,6 +300,20 @@ namespace CrossEngine {
 		m_vkImageView = VK_NULL_HANDLE;
 	}
 
+	void CVulkanImage::DestroySampler(void)
+	{
+		if (m_vkSampler) {
+			vkDestroySampler(m_pDevice->GetDevice(), m_vkSampler, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+		}
+
+		m_vkSampler = VK_NULL_HANDLE;
+	}
+
+	const VkDescriptorImageInfo& CVulkanImage::GetDescriptorImageInfo(void) const
+	{
+		return m_vkDescriptorImageInfo;
+	}
+
 	VkFormat CVulkanImage::GetFormat(void) const
 	{
 		return m_format;
@@ -263,16 +322,6 @@ namespace CrossEngine {
 	VkImageType CVulkanImage::GetType(void) const
 	{
 		return m_type;
-	}
-
-	VkImageTiling CVulkanImage::GetTiling(void) const
-	{
-		return m_tiling;
-	}
-
-	VkSampleCountFlagBits CVulkanImage::GetSamples(void) const
-	{
-		return m_samples;
 	}
 
 }

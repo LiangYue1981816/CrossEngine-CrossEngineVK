@@ -61,7 +61,7 @@ namespace CrossEngine {
 
 	size_t CVulkanUniformBuffer::GetBufferSize(void) const
 	{
-		return m_bufferSize;
+		return m_size;
 	}
 
 	size_t CVulkanUniformBuffer::GetMemorySize(void) const
@@ -71,7 +71,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
 	{
-		if (offset + size > m_bufferSize) {
+		if (offset + size > m_size) {
 			return FALSE;
 		}
 
@@ -90,7 +90,7 @@ namespace CrossEngine {
 	void CVulkanUniformBuffer::DumpLog(void) const
 	{
 		if (m_vkBuffer) {
-			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_bufferSize, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
+			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_size, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
 		}
 	}
 

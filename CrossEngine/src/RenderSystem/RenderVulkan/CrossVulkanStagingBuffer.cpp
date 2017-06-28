@@ -28,8 +28,9 @@ namespace CrossEngine {
 	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkCommandPool vkCommandPool, VkDeviceSize size)
 		: m_pDevice(pDevice)
 
-		, m_size(size)
 		, m_pMemory(NULL)
+
+		, m_size(size)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
 		, m_vkCommandPool(vkCommandPool)
