@@ -44,8 +44,6 @@ namespace CrossEngine {
 		virtual uint32_t GetWidth(void) const = 0;
 		virtual uint32_t GetHeight(void) const = 0;
 		virtual uint32_t GetDepth(void) const = 0;
-		virtual uint32_t GetMips(void) const = 0;
-		virtual uint32_t GetLayers(void) const = 0;
 
 	public:
 		virtual size_t GetMemorySize(void) const = 0;

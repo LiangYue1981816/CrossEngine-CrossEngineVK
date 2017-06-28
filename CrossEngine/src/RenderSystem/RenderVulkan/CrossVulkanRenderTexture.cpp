@@ -96,16 +96,6 @@ namespace CrossEngine {
 		return m_depth;
 	}
 
-	uint32_t CVulkanRenderTexture::GetMips(void) const
-	{
-		return m_mipLevels;
-	}
-
-	uint32_t CVulkanRenderTexture::GetLayers(void) const
-	{
-		return m_arrayLayers;
-	}
-
 	size_t CVulkanRenderTexture::GetMemorySize(void) const
 	{
 		return m_pMemory->GetSize();
