@@ -20,43 +20,65 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3Image
+	CGLES3Image::CGLES3Image(void)
+		: m_texture(0)
+		, m_sampler(0)
+
+		, m_width(0)
+		, m_height(0)
+		, m_depth(0)
+		, m_mipLevels(0)
+		, m_arrayLayers(0)
+
+		, m_target(GL_TEXTURE_2D)
+		, m_format(GL_RGBA)
+		, m_internalFormat(GL_RGBA)
 	{
-	protected:
-		CGLES3Image(void);
-		virtual ~CGLES3Image(void);
 
+	}
 
-	protected:
-		int CreateImage(GLenum target, GLenum format, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers, GLsizei samples);
-		int CreateSampler(GLenum minFilter, GLenum maxFilter, GLenum addressMode);
-		void Destroy(void);
+	CGLES3Image::~CGLES3Image(void)
+	{
 
-	public:
-		GLenum GetTarget(void) const;
-		GLenum GetFormat(void) const;
+	}
 
+	int CGLES3Image::CreateImage(GLenum target, GLenum format, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers, GLsizei samples)
+	{
+		return NO_ERROR;
+	}
 
-	protected:
-		GLsizei m_width;
-		GLsizei m_height;
-		GLsizei m_depth;
-		GLint m_mipLevels;
-		GLint m_arrayLayers;
+	int CGLES3Image::CreateSampler(GLenum minFilter, GLenum maxFilter, GLenum addressMode)
+	{
+		return NO_ERROR;
+	}
 
-		GLenum m_target;
-		GLenum m_format;
-		GLenum m_internalFormat;
+	void CGLES3Image::Destroy(void)
+	{
+		if (m_texture) {
+			glDeleteTextures(1, &m_texture);
+		}
 
-	protected:
-		GLuint m_texture;
-		GLuint m_sampler;
-	};
+		if (m_sampler) {
+			glDeleteSamplers(1, &m_sampler);
+		}
+
+		m_texture = 0;
+		m_sampler = 0;
+	}
+
+	GLenum CGLES3Image::GetTarget(void) const
+	{
+		return m_target;
+	}
+
+	GLenum CGLES3Image::GetFormat(void) const
+	{
+		return m_format;
+	}
 
 }
