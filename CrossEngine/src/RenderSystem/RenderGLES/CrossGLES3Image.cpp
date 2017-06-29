@@ -43,6 +43,8 @@ namespace CrossEngine {
 		, m_target(GL_TEXTURE_2D)
 		, m_format(GL_RGBA)
 		, m_internalFormat(GL_RGBA)
+
+		, m_size(0)
 	{
 
 	}

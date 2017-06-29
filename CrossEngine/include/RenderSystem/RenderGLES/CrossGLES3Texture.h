@@ -26,8 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	/*
-	class CROSS_EXPORT CGLES3Texture : public CGfxTexture
+	class CROSS_EXPORT CGLES3Texture : public CGfxTexture, public CGLES3Image
 	{
 	protected:
 		CGLES3Texture(CGfxResourceManager *pResourceManager);
@@ -38,7 +37,15 @@ namespace CrossEngine {
 		BOOL CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		BOOL CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		BOOL CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+
+	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+		uint32_t GetDepth(void) const;
+		uint32_t GetSamples(void) const;
+
+	public:
+		size_t GetMemorySize(void) const;
 	};
-	*/
 
 }

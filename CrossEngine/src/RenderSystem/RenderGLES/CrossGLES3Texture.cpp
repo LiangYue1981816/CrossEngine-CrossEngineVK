@@ -20,50 +20,60 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3Image
+	CGLES3Texture::CGLES3Texture(CGfxResourceManager *pResourceManager)
+		: CGfxTexture(pResourceManager)
 	{
-	protected:
-		CGLES3Image(void);
-		virtual ~CGLES3Image(void);
 
+	}
 
-	protected:
-		int CreateImage(GLenum target, GLenum format, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers, GLsizei samples);
-		int CreateSampler(GLenum minFilter, GLenum magFilter, GLenum addressMode);
-		void Destroy(void);
+	CGLES3Texture::~CGLES3Texture(void)
+	{
 
-	public:
-		GLenum GetTarget(void) const;
-		GLenum GetFormat(void) const;
+	}
 
+	BOOL CGLES3Texture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		return TRUE;
+	}
 
-	protected:
-		GLint m_width;
-		GLint m_height;
-		GLint m_depth;
-		GLint m_mipLevels;
-		GLint m_arrayLayers;
-		GLint m_samples;
+	BOOL CGLES3Texture::CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		return TRUE;
+	}
 
-		GLenum m_minFilter;
-		GLenum m_magFilter;
-		GLenum m_addressMode;
+	BOOL CGLES3Texture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		return TRUE;
+	}
 
-		GLenum m_target;
-		GLenum m_format;
-		GLenum m_internalFormat;
+	uint32_t CGLES3Texture::GetWidth(void) const
+	{
+		return m_width;
+	}
 
-		GLuint m_size;
+	uint32_t CGLES3Texture::GetHeight(void) const
+	{
+		return m_height;
+	}
 
-	protected:
-		GLuint m_texture;
-		GLuint m_sampler;
-	};
+	uint32_t CGLES3Texture::GetDepth(void) const
+	{
+		return m_depth;
+	}
+
+	uint32_t CGLES3Texture::GetSamples(void) const
+	{
+		return m_samples;
+	}
+
+	size_t CGLES3Texture::GetMemorySize(void) const
+	{
+		return m_size;
+	}
 
 }
