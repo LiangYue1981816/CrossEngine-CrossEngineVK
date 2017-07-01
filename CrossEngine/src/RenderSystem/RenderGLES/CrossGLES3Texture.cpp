@@ -38,16 +38,34 @@ namespace CrossEngine {
 
 	BOOL CGLES3Texture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
+		gli::gl GL(gli::gl::PROFILE_ES30);
+		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
+
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
+		CALL_BOOL_FUNCTION_RETURN(TransferTexture2D(texture, format));
+
 		return TRUE;
 	}
 
 	BOOL CGLES3Texture::CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
+		gli::gl GL(gli::gl::PROFILE_ES30);
+		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
+
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D_ARRAY, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), texture.layers(), 1, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
+		CALL_BOOL_FUNCTION_RETURN(TransferTexture2DArray(texture, format));
+
 		return TRUE;
 	}
 
 	BOOL CGLES3Texture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
+		gli::gl GL(gli::gl::PROFILE_ES30);
+		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
+
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_CUBE_MAP, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
+		CALL_BOOL_FUNCTION_RETURN(TransferTextureCube(texture, format));
+
 		return TRUE;
 	}
 
@@ -56,18 +74,57 @@ namespace CrossEngine {
 		CGLES3Image::Destroy();
 	}
 
-	BOOL CGLES3Texture::TransferTexture2D(const gli::texture2d &texture)
+	BOOL CGLES3Texture::TransferTexture2D(const gli::texture2d &texture, const gli::gl::format &format)
 	{
+		for (int layer = 0; layer < texture.layers(); layer++) {
+			for (int face = 0; face < texture.faces(); face++) {
+				for (int level = 0; level < texture.levels(); level++) {
+					if (gli::is_compressed(texture.format())) {
+						glCompressedTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
+					}
+					else {
+						glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
+					}
+				}
+			}
+		}
+
 		return TRUE;
 	}
 
-	BOOL CGLES3Texture::TransferTexture2DArray(const gli::texture2d_array &texture)
+	BOOL CGLES3Texture::TransferTexture2DArray(const gli::texture2d_array &texture, const gli::gl::format &format)
 	{
+		for (int layer = 0; layer < texture.layers(); layer++) {
+			for (int face = 0; face < texture.faces(); face++) {
+				for (int level = 0; level < texture.levels(); level++) {
+					if (gli::is_compressed(texture.format())) {
+						glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.Internal, texture.size(level), texture.data(layer, face, level));
+					}
+					else {
+						glTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.External, format.Type, texture.data(layer, face, level));
+					}
+				}
+			}
+		}
+
 		return TRUE;
 	}
 
-	BOOL CGLES3Texture::TransferTextureCube(const gli::texture_cube &texture)
+	BOOL CGLES3Texture::TransferTextureCube(const gli::texture_cube &texture, const gli::gl::format &format)
 	{
+		for (int layer = 0; layer < texture.layers(); layer++) {
+			for (int face = 0; face < texture.faces(); face++) {
+				for (int level = 0; level < texture.levels(); level++) {
+					if (gli::is_compressed(texture.format())) {
+						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
+					}
+					else {
+						glTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
+					}
+				}
+			}
+		}
+
 		return TRUE;
 	}
 
