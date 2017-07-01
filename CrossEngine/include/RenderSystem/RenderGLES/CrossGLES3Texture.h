@@ -37,6 +37,13 @@ namespace CrossEngine {
 		BOOL CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		BOOL CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		BOOL CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		void Destroy(void);
+		void DumpLog(void) const;
+
+	protected:
+		BOOL TransferTexture2D(const gli::texture2d &texture);
+		BOOL TransferTexture2DArray(const gli::texture2d_array &texture);
+		BOOL TransferTextureCube(const gli::texture_cube &texture);
 
 	public:
 		uint32_t GetWidth(void) const;

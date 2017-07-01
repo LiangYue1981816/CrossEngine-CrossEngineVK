@@ -51,6 +51,26 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	void CGLES3Texture::Destroy(void)
+	{
+		CGLES3Image::Destroy();
+	}
+
+	BOOL CGLES3Texture::TransferTexture2D(const gli::texture2d &texture)
+	{
+		return TRUE;
+	}
+
+	BOOL CGLES3Texture::TransferTexture2DArray(const gli::texture2d_array &texture)
+	{
+		return TRUE;
+	}
+
+	BOOL CGLES3Texture::TransferTextureCube(const gli::texture_cube &texture)
+	{
+		return TRUE;
+	}
+
 	uint32_t CGLES3Texture::GetWidth(void) const
 	{
 		return m_width;
@@ -74,6 +94,11 @@ namespace CrossEngine {
 	size_t CGLES3Texture::GetMemorySize(void) const
 	{
 		return m_size;
+	}
+
+	void CGLES3Texture::DumpLog(void) const
+	{
+
 	}
 
 }
