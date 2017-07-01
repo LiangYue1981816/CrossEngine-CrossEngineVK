@@ -25,24 +25,24 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	const char* CGLES3Helper::glUsageToString(GLenum usage)
-	{
-		static char szString[_MAX_STRING];
+	typedef struct {
+		GLuint param;
+		GLchar name[64];
+	} EnumString;
 
-		switch (usage) {
-		case GL_STREAM_DRAW: strcpy(szString, "GL_STREAM_DRAW"); break;
-		case GL_STREAM_READ: strcpy(szString, "GL_STREAM_READ"); break;
-		case GL_STREAM_COPY: strcpy(szString, "GL_STREAM_COPY"); break;
-		case GL_STATIC_DRAW: strcpy(szString, "GL_STATIC_DRAW"); break;
-		case GL_STATIC_READ: strcpy(szString, "GL_STATIC_READ"); break;
-		case GL_STATIC_COPY: strcpy(szString, "GL_STATIC_COPY"); break;
-		case GL_DYNAMIC_DRAW: strcpy(szString, "GL_DYNAMIC_DRAW"); break;
-		case GL_DYNAMIC_READ: strcpy(szString, "GL_DYNAMIC_READ"); break;
-		case GL_DYNAMIC_COPY: strcpy(szString, "GL_DYNAMIC_COPY"); break;
-		default: strcpy(szString, "unknown"); break;
+	static const EnumString enumStrings[] = {
+		#include "CrossStringGLES3.h"
+	};
+
+	const char* CGLES3Helper::glEnumToString(GLenum param)
+	{
+		for (GLint indexEnum = 0; indexEnum < sizeof(enumStrings) / sizeof(EnumString); indexEnum++) {
+			if (enumStrings[indexEnum].param == param) {
+				return enumStrings[indexEnum].name;
+			}
 		}
 
-		return szString;
+		return "unknown";
 	}
 
 }

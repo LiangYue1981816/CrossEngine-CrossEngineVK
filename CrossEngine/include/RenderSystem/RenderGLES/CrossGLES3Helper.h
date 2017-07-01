@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Helper
 	{
 	public:
-		static const char* glUsageToString(GLenum usage);
+		static const char* glEnumToString(GLenum param);
 	};
 
 }

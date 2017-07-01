@@ -34,6 +34,7 @@ namespace CrossEngine {
 
 
 	protected:
+		BOOL Create(GLenum target, GLenum format, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers, GLsizei samples, GLenum minFilter, GLenum magFilter, GLenum addressMode);
 		int CreateImage(GLenum target, GLenum format, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers, GLsizei samples);
 		int CreateSampler(GLenum minFilter, GLenum magFilter, GLenum addressMode);
 		void Destroy(void);

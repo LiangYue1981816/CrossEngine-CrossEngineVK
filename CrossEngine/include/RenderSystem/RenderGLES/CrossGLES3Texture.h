@@ -41,9 +41,9 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	protected:
-		BOOL TransferTexture2D(const gli::texture2d &texture);
-		BOOL TransferTexture2DArray(const gli::texture2d_array &texture);
-		BOOL TransferTextureCube(const gli::texture_cube &texture);
+		BOOL TransferTexture2D(const gli::texture2d &texture, const gli::gl::format &format);
+		BOOL TransferTexture2DArray(const gli::texture2d_array &texture, const gli::gl::format &format);
+		BOOL TransferTextureCube(const gli::texture_cube &texture, const gli::gl::format &format);
 
 	public:
 		uint32_t GetWidth(void) const;

@@ -69,7 +69,7 @@ namespace CrossEngine {
 	void CGLES3IndexBuffer::DumpLog(void) const
 	{
 		if (m_buffer) {
-			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, m_size, m_size, CGLES3Helper::glUsageToString(m_usage));
+			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, m_size, m_size, CGLES3Helper::glEnumToString(m_usage));
 		}
 	}
 
