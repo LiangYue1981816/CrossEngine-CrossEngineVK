@@ -56,18 +56,18 @@ namespace CrossEngine {
 		return "unknown";
 	}
 
-	GLboolean CGLES3Helper::glTranslateFormat(VkFormat format, GLenum &internalFormat, GLenum &externalFormat, GLenum &type)
+	GLenum CGLES3Helper::glTranslateFormat(VkFormat format, GLenum &internalFormat, GLenum &externalFormat, GLenum &type)
 	{
 		for (GLint index = 0; index < sizeof(formats) / sizeof(Format); index++) {
 			if (formats[index].format == format) {
 				internalFormat = formats[index].internalFormat;
 				externalFormat = formats[index].externalFormat;
 				type = formats[index].type;
-				return GL_TRUE;
+				return GL_NO_ERROR;
 			}
 		}
 
-		return GL_FALSE;
+		return GL_INVALID_ENUM;
 	}
 
 	GLenum CGLES3Helper::glTranslateMagFilter(VkFilter magFilter)
