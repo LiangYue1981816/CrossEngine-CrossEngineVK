@@ -30,6 +30,7 @@ namespace CrossEngine {
 	{
 	public:
 		static const char* glEnumToString(GLenum param);
+		static GLboolean glTranslateFormat(VkFormat format, GLenum &internalFormat, GLenum &externalFormat, GLenum &type);
 	};
 
 }
