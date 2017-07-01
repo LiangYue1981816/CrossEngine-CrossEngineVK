@@ -155,7 +155,19 @@ namespace CrossEngine {
 
 	void CGLES3Texture::DumpLog(void) const
 	{
-
+		if (m_texture) {
+			LOGI("\t\tTexture 0x%x: sampler = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %s min filter = %s mag filter = %s address mode = %s\n",
+				m_texture,
+				m_sampler,
+				m_size,
+				CGLES3Helper::glEnumToString(m_target),
+				CGLES3Helper::glEnumToString(m_format),
+				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
+				m_samples,
+				CGLES3Helper::glEnumToString(m_minFilter),
+				CGLES3Helper::glEnumToString(m_magFilter),
+				CGLES3Helper::glEnumToString(m_addressMode));
+		}
 	}
 
 }

@@ -27,7 +27,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	/*
-	class CROSS_EXPORT CGLES3RenderTexture : public CGfxImage
+	class CROSS_EXPORT CGLES3RenderTexture : public CGfxRenderTexture, public CGLES3Image
 	{
 	protected:
 		CGLES3RenderTexture(CGfxResourceManager *pResourceManager);
@@ -39,5 +39,4 @@ namespace CrossEngine {
 		BOOL CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples);
 	};
 	*/
-
 }
