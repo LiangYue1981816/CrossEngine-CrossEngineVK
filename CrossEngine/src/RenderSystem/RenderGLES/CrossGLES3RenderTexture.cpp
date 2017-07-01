@@ -26,7 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3RenderTexture::CGLES3RenderTexture(CGfxResourceManager *pResourceManager)
-		: CGfxTexture(pResourceManager)
+		: CGfxRenderTexture(pResourceManager)
 	{
 
 	}
@@ -43,6 +43,26 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples)
 	{
+		/*
+		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
+			return FALSE;
+		}
+
+		if (CVulkanHelper::vkIsFormatStencilOnly(format)) {
+			return FALSE;
+		}
+
+		if (CVulkanHelper::vkIsFormatDepthStencil(format)) {
+			return FALSE;
+		}
+
+		GLenum type;
+		GLenum internalFormat;
+		GLenum externalFormat;
+
+		CALL_GL_FUNCTION_RETURN_BOOL(CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type));
+		CALL_GL_FUNCTION_RETURN_BOOL(Create(GL_TEXTURE_2D, externalFormat, internalFormat, width, height, 1, 1, 1, samples, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
+		*/
 		return TRUE;
 	}
 

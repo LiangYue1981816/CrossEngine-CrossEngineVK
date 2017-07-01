@@ -57,12 +57,12 @@ namespace CrossEngine {
 	BOOL CGLES3Image::Create(GLenum target, GLenum format, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers, GLsizei samples, GLenum minFilter, GLenum magFilter, GLenum addressMode)
 	{
 		try {
-			CALL_VK_FUNCTION_THROW(CreateImage(target, format, internalFormat, width, height, depth, mipLevels, arrayLayers, samples));
-			CALL_VK_FUNCTION_THROW(CreateSampler(minFilter, magFilter, addressMode));
+			CALL_GL_FUNCTION_THROW(CreateImage(target, format, internalFormat, width, height, depth, mipLevels, arrayLayers, samples));
+			CALL_GL_FUNCTION_THROW(CreateSampler(minFilter, magFilter, addressMode));
 
 			return TRUE;
 		}
-		catch (VkResult err) {
+		catch (int) {
 			Destroy();
 
 			return FALSE;
