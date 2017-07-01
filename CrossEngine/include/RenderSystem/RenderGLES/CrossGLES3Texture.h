@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3Texture : public CGfxTexture, public CGLES3Image
 	{
+		friend class CGLES3TextureManager;
+
+
 	protected:
 		CGLES3Texture(CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3Texture(void);

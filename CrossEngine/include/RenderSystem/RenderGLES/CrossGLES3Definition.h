@@ -26,6 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	typedef struct {
+		GLuint texture;
+		CGfxRenderTexturePtr ptrRenderTexture;
+	} GLAttachmentInformation;
+
 	class CROSS_EXPORT CGLES3Instance;
 	class CROSS_EXPORT CGLES3Queue;
 	class CROSS_EXPORT CGLES3Device;
@@ -38,5 +43,10 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3VertexBuffer;
 	class CROSS_EXPORT CGLES3UniformBuffer;
 	class CROSS_EXPORT CGLES3BufferManager;
+	class CROSS_EXPORT CGLES3Image;
+	class CROSS_EXPORT CGLES3Texture;
+	class CROSS_EXPORT CGLES3RenderTexture;
+	class CROSS_EXPORT CGLES3TextureManager;
+	class CROSS_EXPORT CGLES3FrameBuffer;
 
 }

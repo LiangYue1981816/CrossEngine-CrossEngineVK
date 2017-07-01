@@ -40,3 +40,5 @@ THE SOFTWARE.
 #include "CrossGLES3Image.h"
 #include "CrossGLES3Texture.h"
 #include "CrossGLES3RenderTexture.h"
+#include "CrossGLES3TextureManager.h"
+#include "CrossGLES3FrameBuffer.h"

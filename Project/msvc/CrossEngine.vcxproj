@@ -217,6 +217,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Device.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceFeatures.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3FrameBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Helper.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Image.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3IndexBuffer.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3RenderTexture.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Swapchain.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Texture.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3TextureManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3UniformBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3VertexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\GLES3\gl31.h" />
@@ -302,6 +304,7 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Device.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DeviceFeatures.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3FrameBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Helper.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Image.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3IndexBuffer.cpp" />
@@ -310,6 +313,7 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3RenderTexture.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Swapchain.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Texture.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3TextureManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3UniformBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3VertexBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanAllocator.cpp" />

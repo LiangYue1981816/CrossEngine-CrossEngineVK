@@ -26,33 +26,39 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3RenderTexture : public CGfxRenderTexture, public CGLES3Image
+	class CROSS_EXPORT CGLES3FrameBuffer : public CGfxFrameBuffer
 	{
-		friend class CGLES3TextureManager;
-
-
 	protected:
-		CGLES3RenderTexture(CGfxResourceManager *pResourceManager);
-		virtual ~CGLES3RenderTexture(void);
+		CGLES3FrameBuffer(CGfxResourceManager *pResourceManager);
+		virtual ~CGLES3FrameBuffer(void);
 
 
 	public:
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		BOOL CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		BOOL Create(HANDLE hRenderPass);
 		void Destroy(void);
 		void DumpLog(void) const;
 
 	public:
-		uint32_t GetWidth(void) const;
-		uint32_t GetHeight(void) const;
-		uint32_t GetDepth(void) const;
-		uint32_t GetSamples(void) const;
+		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView);
+		BOOL SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView);
+		BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
+		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
 
 	public:
-		size_t GetMemorySize(void) const;
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+
+
+	protected:
+		uint32_t m_width;
+		uint32_t m_height;
+		std::map<uint32_t, GLAttachmentInformation> m_attachments;
+
+	protected:
+		GLuint m_framebuffer;
 	};
 
 }

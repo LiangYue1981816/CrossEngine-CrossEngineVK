@@ -44,6 +44,7 @@ namespace CrossEngine {
 		virtual BOOL Create(HANDLE hRenderPass) = 0;
 
 	public:
+		virtual BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView) = 0;
 		virtual BOOL SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView) = 0;
 		virtual BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture) = 0;
 		virtual BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture) = 0;

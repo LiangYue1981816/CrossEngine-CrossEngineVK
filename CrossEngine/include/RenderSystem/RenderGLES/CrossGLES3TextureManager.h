@@ -26,33 +26,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3RenderTexture : public CGfxRenderTexture, public CGLES3Image
+	class CROSS_EXPORT CGLES3TextureManager : public CGfxResourceManager
 	{
-		friend class CGLES3TextureManager;
+	protected:
+		CGLES3TextureManager(void);
+		virtual ~CGLES3TextureManager(void);
 
 
 	protected:
-		CGLES3RenderTexture(CGfxResourceManager *pResourceManager);
-		virtual ~CGLES3RenderTexture(void);
+		CGfxTexturePtr AllocTexture(void);
+		CGfxRenderTexturePtr AllocRenderTexture(void);
 
-
-	public:
-		HANDLE GetHandle(void) const;
-
-	public:
-		BOOL CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		BOOL CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		void Destroy(void);
-		void DumpLog(void) const;
-
-	public:
-		uint32_t GetWidth(void) const;
-		uint32_t GetHeight(void) const;
-		uint32_t GetDepth(void) const;
-		uint32_t GetSamples(void) const;
-
-	public:
-		size_t GetMemorySize(void) const;
+	protected:
+		void DumpLog(const char *szTitle) const;
 	};
 
 }

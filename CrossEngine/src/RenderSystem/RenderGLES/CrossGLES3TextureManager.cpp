@@ -20,39 +20,58 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3RenderTexture : public CGfxRenderTexture, public CGLES3Image
+	CGLES3TextureManager::CGLES3TextureManager(void)
 	{
-		friend class CGLES3TextureManager;
 
+	}
 
-	protected:
-		CGLES3RenderTexture(CGfxResourceManager *pResourceManager);
-		virtual ~CGLES3RenderTexture(void);
+	CGLES3TextureManager::~CGLES3TextureManager(void)
+	{
 
+	}
 
-	public:
-		HANDLE GetHandle(void) const;
+	CGfxTexturePtr CGLES3TextureManager::AllocTexture(void)
+	{
+		CGLES3Texture *pTexture = SAFE_NEW CGLES3Texture(this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pTexture] = pTexture;
+		}
+		return CGfxTexturePtr(pTexture);
+	}
 
-	public:
-		BOOL CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		BOOL CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		void Destroy(void);
-		void DumpLog(void) const;
+	CGfxRenderTexturePtr CGLES3TextureManager::AllocRenderTexture(void)
+	{
+		CGLES3RenderTexture *pRenderTexture = SAFE_NEW CGLES3RenderTexture(this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pRenderTexture] = pRenderTexture;
+		}
+		return CGfxRenderTexturePtr(pRenderTexture);
+	}
 
-	public:
-		uint32_t GetWidth(void) const;
-		uint32_t GetHeight(void) const;
-		uint32_t GetDepth(void) const;
-		uint32_t GetSamples(void) const;
+	void CGLES3TextureManager::DumpLog(const char *szTitle) const
+	{
+		uint32_t count = 0;
+		VkDeviceSize size = 0;
 
-	public:
-		size_t GetMemorySize(void) const;
-	};
+		LOGI("%s\n", szTitle);
+		{
+			for (const auto &itResource : m_pResources) {
+				if (const CGfxImage *pResource = (CGfxImage *)itResource.second) {
+					pResource->DumpLog();
+					size += pResource->GetMemorySize();
+					count++;
+				}
+			}
+		}
+		LOGI("*** %d objects found, total size %d\n", count, size);
+		LOGI("\n");
+	}
 
 }
