@@ -36,6 +36,11 @@ namespace CrossEngine {
 
 	}
 
+	HANDLE CGLES3Texture::GetHandle(void) const
+	{
+		return (HANDLE)m_texture;
+	}
+
 	BOOL CGLES3Texture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		gli::gl GL(gli::gl::PROFILE_ES30);
@@ -43,6 +48,8 @@ namespace CrossEngine {
 
 		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
 		CALL_BOOL_FUNCTION_RETURN(TransferTexture2D(texture, format));
+
+		m_size = texture.size();
 
 		return TRUE;
 	}
@@ -55,6 +62,8 @@ namespace CrossEngine {
 		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D_ARRAY, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), texture.layers(), 1, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
 		CALL_BOOL_FUNCTION_RETURN(TransferTexture2DArray(texture, format));
 
+		m_size = texture.size();
+
 		return TRUE;
 	}
 
@@ -65,6 +74,8 @@ namespace CrossEngine {
 
 		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_CUBE_MAP, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
 		CALL_BOOL_FUNCTION_RETURN(TransferTextureCube(texture, format));
+
+		m_size = texture.size();
 
 		return TRUE;
 	}

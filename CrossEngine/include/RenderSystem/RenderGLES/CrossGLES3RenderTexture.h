@@ -26,7 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	/*
 	class CROSS_EXPORT CGLES3RenderTexture : public CGfxRenderTexture, public CGLES3Image
 	{
 	protected:
@@ -35,8 +34,22 @@ namespace CrossEngine {
 
 
 	public:
+		HANDLE GetHandle(void) const;
+
+	public:
 		BOOL CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples);
 		BOOL CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples);
+		void Destroy(void);
+		void DumpLog(void) const;
+
+	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+		uint32_t GetDepth(void) const;
+		uint32_t GetSamples(void) const;
+
+	public:
+		size_t GetMemorySize(void) const;
 	};
-	*/
+
 }

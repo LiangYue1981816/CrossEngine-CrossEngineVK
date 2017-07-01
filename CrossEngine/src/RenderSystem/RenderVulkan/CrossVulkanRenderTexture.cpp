@@ -109,15 +109,20 @@ namespace CrossEngine {
 	void CVulkanRenderTexture::DumpLog(void) const
 	{
 		if (m_vkImage) {
-			LOGI("\t\tRenderTexture 0x%x: view = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %s tiling = %s\n",
+			LOGI("\t\tRenderTexture 0x%x: view = 0x%x sampler = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %s tiling = %s min filter = %s mag filter = %s mipmap mode = %s address mode = %s\n",
 				m_vkImage,
 				m_vkImageView,
+				m_vkSampler,
 				m_pMemory->GetSize(),
 				CVulkanHelper::vkImageTypeToString(m_type),
 				CVulkanHelper::vkFormatToString(m_format),
 				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
 				CVulkanHelper::vkSampleCountFlagBitsToString(m_samples),
-				CVulkanHelper::vkImageTilingToString(m_tiling));
+				CVulkanHelper::vkImageTilingToString(m_tiling),
+				CVulkanHelper::vkFilterToString(m_minFilter),
+				CVulkanHelper::vkFilterToString(m_magFilter),
+				CVulkanHelper::vkSamplerMipmapModeToString(m_mipmapMode),
+				CVulkanHelper::vkSamplerAddressModeToString(m_addressMode));
 		}
 	}
 
