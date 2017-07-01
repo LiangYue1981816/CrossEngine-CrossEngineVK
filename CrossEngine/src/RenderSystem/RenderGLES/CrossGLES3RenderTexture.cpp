@@ -41,18 +41,9 @@ namespace CrossEngine {
 		return (HANDLE)m_texture;
 	}
 
-	BOOL CGLES3RenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples)
+	BOOL CGLES3RenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		/*
-		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
-			return FALSE;
-		}
-
-		if (CVulkanHelper::vkIsFormatStencilOnly(format)) {
-			return FALSE;
-		}
-
-		if (CVulkanHelper::vkIsFormatDepthStencil(format)) {
+		if (CVulkanHelper::vkIsFormatDepthOnly(format) || CVulkanHelper::vkIsFormatStencilOnly(format) || CVulkanHelper::vkIsFormatDepthStencil(format)) {
 			return FALSE;
 		}
 
@@ -61,13 +52,24 @@ namespace CrossEngine {
 		GLenum externalFormat;
 
 		CALL_GL_FUNCTION_RETURN_BOOL(CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type));
-		CALL_GL_FUNCTION_RETURN_BOOL(Create(GL_TEXTURE_2D, externalFormat, internalFormat, width, height, 1, 1, 1, samples, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT));
-		*/
+		CALL_GL_FUNCTION_RETURN_BOOL(Create(GL_TEXTURE_2D, externalFormat, internalFormat, width, height, 1, 1, 1, samples, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples)
+	BOOL CGLES3RenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
+		if (CVulkanHelper::vkIsFormatDepthOnly(format) == FALSE && CVulkanHelper::vkIsFormatStencilOnly(format) == FALSE && CVulkanHelper::vkIsFormatDepthStencil(format)) {
+			return FALSE;
+		}
+
+		GLenum type;
+		GLenum internalFormat;
+		GLenum externalFormat;
+
+		CALL_GL_FUNCTION_RETURN_BOOL(CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type));
+		CALL_GL_FUNCTION_RETURN_BOOL(Create(GL_TEXTURE_2D, externalFormat, internalFormat, width, height, 1, 1, 1, samples, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+
 		return TRUE;
 	}
 

@@ -26,7 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	typedef struct {
-		GLuint param;
+		GLuint64 param;
 		GLchar name[64];
 	} String;
 
@@ -68,6 +68,47 @@ namespace CrossEngine {
 		}
 
 		return GL_FALSE;
+	}
+
+	GLenum CGLES3Helper::glTranslateMagFilter(VkFilter magFilter)
+	{
+		switch (magFilter) {
+		case VK_FILTER_NEAREST: return GL_NEAREST;
+		case VK_FILTER_LINEAR: return GL_LINEAR;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
+	GLenum CGLES3Helper::glTranslateMinFilter(VkFilter minFilter, VkSamplerMipmapMode mipmapMode)
+	{
+		switch (minFilter) {
+		case VK_FILTER_NEAREST:
+			switch (mipmapMode) {
+			case VK_SAMPLER_MIPMAP_MODE_NEAREST: return GL_NEAREST_MIPMAP_NEAREST;
+			case VK_SAMPLER_MIPMAP_MODE_LINEAR: return GL_NEAREST_MIPMAP_LINEAR;
+			default: return GL_INVALID_ENUM;
+			}
+			break;
+		case VK_FILTER_LINEAR:
+			switch (mipmapMode) {
+			case VK_SAMPLER_MIPMAP_MODE_NEAREST: return GL_LINEAR_MIPMAP_NEAREST;
+			case VK_SAMPLER_MIPMAP_MODE_LINEAR: return GL_LINEAR_MIPMAP_LINEAR;
+			default: return GL_INVALID_ENUM;
+			}
+			break;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
+	GLenum CGLES3Helper::glTranslateAddressMode(VkSamplerAddressMode addressMode)
+	{
+		switch (addressMode) {
+		case VK_SAMPLER_ADDRESS_MODE_REPEAT: return GL_REPEAT;
+		case VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT: return GL_MIRRORED_REPEAT;
+		case VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE: return GL_CLAMP_TO_EDGE;
+//		case VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER: return GL_CLAMP_TO_BORDER;
+		default: return GL_INVALID_ENUM;
+		}
 	}
 
 }
