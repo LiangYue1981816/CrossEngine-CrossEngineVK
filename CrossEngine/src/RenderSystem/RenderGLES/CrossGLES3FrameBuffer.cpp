@@ -52,7 +52,22 @@ namespace CrossEngine {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
 		{
 			for (const auto &itAttachment : m_attachments) {
+				if (CGLES3Helper::glIsFormatDepthOnly(itAttachment.second.format)) {
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, itAttachment.second.texture, 0);
+					continue;
+				}
 
+				if (CGLES3Helper::glIsFormatStencilOnly(itAttachment.second.format)) {
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, itAttachment.second.texture, 0);
+					continue;
+				}
+
+				if (CGLES3Helper::glIsFormatDepthStencil(itAttachment.second.format)) {
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, itAttachment.second.texture, 0);
+					continue;
+				}
+
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + itAttachment.first, GL_TEXTURE_2D, itAttachment.second.texture, 0);
 			}
 
 			glReadBuffer(GL_NONE);
