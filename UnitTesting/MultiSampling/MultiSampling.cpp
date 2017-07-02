@@ -62,7 +62,7 @@ void CreateFrameBuffer(void)
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView] = pDevice->NewFrameBuffer();
-		ptrFrameBuffers[indexView]->SetPresentAttachment(indexPresentAttachment, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageHandle(indexView));
+		ptrFrameBuffers[indexView]->SetPresentAttachment(indexPresentAttachment, VK_FORMAT_B8G8R8A8_UNORM, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageHandle(indexView));
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachment, ptrDepthTexture);
 		ptrFrameBuffers[indexView]->SetColorAttachment(indexColorAttachmentMSAA, ptrColorTextureMSAA);
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachmentMSAA, ptrDepthTextureMSAA);

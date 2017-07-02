@@ -27,6 +27,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	typedef struct {
+		GLenum format;
 		GLuint texture;
 		CGfxRenderTexturePtr ptrRenderTexture;
 	} GLAttachmentInformation;

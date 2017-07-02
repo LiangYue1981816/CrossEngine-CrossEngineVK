@@ -122,7 +122,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView)
+	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
 		m_attachments[indexAttachment].ptrRenderTexture.Release();
 		return SetAttachment(indexAttachment, width, height, hImageView);

@@ -27,6 +27,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	typedef struct {
+		VkFormat foramt;
 		VkImageView vkImageView;
 		CGfxRenderTexturePtr ptrRenderTexture;
 	} VkAttachmentInformation;
