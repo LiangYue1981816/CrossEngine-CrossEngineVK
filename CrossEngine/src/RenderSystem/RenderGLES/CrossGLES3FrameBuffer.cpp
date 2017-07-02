@@ -58,6 +58,10 @@ namespace CrossEngine {
 
 	BOOL CGLES3FrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+			return FALSE;
+		}
+
 		if (m_width == 0) m_width = width;
 		if (m_height == 0) m_height = height;
 		if (m_width != width || m_height != height) return FALSE;
