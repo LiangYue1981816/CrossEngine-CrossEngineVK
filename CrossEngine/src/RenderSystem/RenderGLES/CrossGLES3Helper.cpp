@@ -56,6 +56,21 @@ namespace CrossEngine {
 		return "unknown";
 	}
 
+	GLboolean CGLES3Helper::glIsFormatDepthOnly(GLenum format)
+	{
+		return format == GL_DEPTH_COMPONENT ? GL_TRUE : GL_FALSE;
+	}
+
+	GLboolean CGLES3Helper::glIsFormatStencilOnly(GLenum format)
+	{
+		return format == GL_STENCIL_INDEX ? GL_TRUE : GL_FALSE;
+	}
+
+	GLboolean CGLES3Helper::glIsFormatDepthStencil(GLenum format)
+	{
+		return format == GL_DEPTH_STENCIL ? GL_TRUE : GL_FALSE;
+	}
+
 	GLenum CGLES3Helper::glTranslateFormat(VkFormat format, GLenum &internalFormat, GLenum &externalFormat, GLenum &type)
 	{
 		for (GLint index = 0; index < sizeof(formats) / sizeof(Format); index++) {

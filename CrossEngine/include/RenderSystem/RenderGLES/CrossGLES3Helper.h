@@ -30,6 +30,11 @@ namespace CrossEngine {
 	{
 	public:
 		static const char* glEnumToString(GLenum param);
+
+		static GLboolean glIsFormatDepthOnly(GLenum format);
+		static GLboolean glIsFormatStencilOnly(GLenum format);
+		static GLboolean glIsFormatDepthStencil(GLenum format);
+
 		static GLenum glTranslateFormat(VkFormat format, GLenum &internalFormat, GLenum &externalFormat, GLenum &type);
 		static GLenum glTranslateMagFilter(VkFilter magFilter);
 		static GLenum glTranslateMinFilter(VkFilter minFilter, VkSamplerMipmapMode mipmapMode);
