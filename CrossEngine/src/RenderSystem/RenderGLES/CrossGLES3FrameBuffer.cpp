@@ -49,6 +49,16 @@ namespace CrossEngine {
 	BOOL CGLES3FrameBuffer::Create(HANDLE hRenderPass)
 	{
 		glGenFramebuffers(1, &m_framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
+		{
+			for (const auto &itAttachment : m_attachments) {
+
+			}
+
+			glReadBuffer(GL_NONE);
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 		return TRUE;
 	}
 
