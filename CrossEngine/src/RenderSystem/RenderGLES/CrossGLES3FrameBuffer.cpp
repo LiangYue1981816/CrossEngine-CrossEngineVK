@@ -99,6 +99,11 @@ namespace CrossEngine {
 		return m_height;
 	}
 
+	GLuint CGLES3FrameBuffer::GetRenderTexture(uint32_t indexAttachment)
+	{
+		return m_attachments[indexAttachment].texture;
+	}
+
 	void CGLES3FrameBuffer::DumpLog(void) const
 	{
 		if (m_framebuffer) {
