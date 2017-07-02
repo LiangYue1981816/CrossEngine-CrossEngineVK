@@ -30,12 +30,12 @@ namespace CrossEngine {
 	{
 	public:
 		static void vkSetupFormat(VkPhysicalDevice vkPhysicalDevice);
-		static BOOL vkIsFormatSupported(VkFormat format);
 		static const VkComponentMapping& vkGetFormatComponentMapping(VkFormat format);
 
-		static BOOL vkIsFormatDepthOnly(VkFormat format);
-		static BOOL vkIsFormatStencilOnly(VkFormat format);
-		static BOOL vkIsFormatDepthStencil(VkFormat format);
+		static VkBool32 vkIsFormatSupported(VkFormat format);
+		static VkBool32 vkIsFormatDepthOnly(VkFormat format);
+		static VkBool32 vkIsFormatStencilOnly(VkFormat format);
+		static VkBool32 vkIsFormatDepthStencil(VkFormat format);
 
 		static VkAccessFlags vkGetAccessMask(VkImageLayout layout);
 

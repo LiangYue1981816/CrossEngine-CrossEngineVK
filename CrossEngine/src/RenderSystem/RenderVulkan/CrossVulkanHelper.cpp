@@ -88,40 +88,40 @@ namespace CrossEngine {
 		vkFormatComponentMapping[VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK] = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
 	}
 
-	BOOL CVulkanHelper::vkIsFormatSupported(VkFormat format)
-	{
-		return vkFormatProperties[format].bufferFeatures || vkFormatProperties[format].linearTilingFeatures || vkFormatProperties[format].optimalTilingFeatures ? TRUE : FALSE;
-	}
-
 	const VkComponentMapping& CVulkanHelper::vkGetFormatComponentMapping(VkFormat format)
 	{
 		return vkFormatComponentMapping[format];
 	}
 
-	BOOL CVulkanHelper::vkIsFormatDepthOnly(VkFormat format)
+	VkBool32 CVulkanHelper::vkIsFormatSupported(VkFormat format)
+	{
+		return vkFormatProperties[format].bufferFeatures || vkFormatProperties[format].linearTilingFeatures || vkFormatProperties[format].optimalTilingFeatures ? VK_TRUE : VK_FALSE;
+	}
+
+	VkBool32 CVulkanHelper::vkIsFormatDepthOnly(VkFormat format)
 	{
 		switch (format) {
-		case VK_FORMAT_D16_UNORM: return TRUE;
-		case VK_FORMAT_D32_SFLOAT: return TRUE;
-		default: return FALSE;
+		case VK_FORMAT_D16_UNORM: return VK_TRUE;
+		case VK_FORMAT_D32_SFLOAT: return VK_TRUE;
+		default: return VK_FALSE;
 		}
 	}
 
-	BOOL CVulkanHelper::vkIsFormatStencilOnly(VkFormat format)
+	VkBool32 CVulkanHelper::vkIsFormatStencilOnly(VkFormat format)
 	{
 		switch (format) {
-		case VK_FORMAT_S8_UINT: return TRUE;
-		default: return FALSE;
+		case VK_FORMAT_S8_UINT: return VK_TRUE;
+		default: return VK_FALSE;
 		}
 	}
 
-	BOOL CVulkanHelper::vkIsFormatDepthStencil(VkFormat format)
+	VkBool32 CVulkanHelper::vkIsFormatDepthStencil(VkFormat format)
 	{
 		switch (format) {
-		case VK_FORMAT_D16_UNORM_S8_UINT: return TRUE;
-		case VK_FORMAT_D24_UNORM_S8_UINT: return TRUE;
-		case VK_FORMAT_D32_SFLOAT_S8_UINT: return TRUE;
-		default: return FALSE;
+		case VK_FORMAT_D16_UNORM_S8_UINT: return VK_TRUE;
+		case VK_FORMAT_D24_UNORM_S8_UINT: return VK_TRUE;
+		case VK_FORMAT_D32_SFLOAT_S8_UINT: return VK_TRUE;
+		default: return VK_FALSE;
 		}
 	}
 
