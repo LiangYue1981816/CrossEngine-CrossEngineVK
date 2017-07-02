@@ -42,7 +42,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	public:
-		BOOL SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView);
+		BOOL SetAttachment(uint32_t indexAttachment, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView);
 		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView);
 		BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
 		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);

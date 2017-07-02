@@ -107,7 +107,7 @@ namespace CrossEngine {
 		m_attachments.clear();
 	}
 
-	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView)
+	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
 		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
 			return FALSE;
@@ -117,6 +117,7 @@ namespace CrossEngine {
 		if (m_height == 0) m_height = height;
 		if (m_width != width || m_height != height) return FALSE;
 
+		m_attachments[indexAttachment].foramt = format;
 		m_attachments[indexAttachment].vkImageView = (VkImageView)hImageView;
 
 		return TRUE;
@@ -125,19 +126,19 @@ namespace CrossEngine {
 	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
 		m_attachments[indexAttachment].ptrRenderTexture.Release();
-		return SetAttachment(indexAttachment, width, height, hImageView);
+		return SetAttachment(indexAttachment, format, width, height, hImageView);
 	}
 
 	BOOL CVulkanFrameBuffer::SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
 		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		return SetAttachment(indexAttachment, ((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
 	}
 
 	BOOL CVulkanFrameBuffer::SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
 		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		return SetAttachment(indexAttachment, ((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
 	}
 
 	uint32_t CVulkanFrameBuffer::GetWidth(void) const
@@ -155,9 +156,7 @@ namespace CrossEngine {
 		if (m_vkFrameBuffer) {
 			LOGI("\t\tFrameBuffer 0x%x: width = %d height = %d\n", m_vkFrameBuffer, m_width, m_height);
 			for (const auto &itAttachment : m_attachments) {
-				if (const VkImageView vkImageView = itAttachment.second.vkImageView) {
-					LOGI("\t\t\tAttachment %d: view = 0x%x\n", itAttachment.first, vkImageView);
-				}
+				LOGI("\t\t\tAttachment %d: view = 0x%x format = %s\n", itAttachment.first, itAttachment.second.vkImageView, CVulkanHelper::vkFormatToString(itAttachment.second.foramt));
 			}
 		}
 	}
