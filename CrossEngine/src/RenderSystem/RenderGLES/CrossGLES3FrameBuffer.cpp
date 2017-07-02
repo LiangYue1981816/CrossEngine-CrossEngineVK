@@ -48,12 +48,13 @@ namespace CrossEngine {
 
 	BOOL CGLES3FrameBuffer::Create(HANDLE hRenderPass)
 	{
+		glGenFramebuffers(1, &m_framebuffer);
 		return TRUE;
 	}
 
 	void CGLES3FrameBuffer::Destroy(void)
 	{
-
+		glDeleteFramebuffers(1, &m_framebuffer);
 	}
 
 	BOOL CGLES3FrameBuffer::SetAttachment(uint32_t indexAttachment, uint32_t width, uint32_t height, HANDLE hImageView)
