@@ -46,6 +46,46 @@ namespace CrossEngine {
 		return (HANDLE)m_framebuffer;
 	}
 
+	static BOOL CheckFramebufferStatus(GLuint fbo)
+	{
+		GLenum status;
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		{
+			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			switch (status)
+			{
+			case GL_FRAMEBUFFER_COMPLETE:
+				break;
+
+			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+				LOGE("[ERROR] Framebuffer incomplete: Attachment is NOT complete.\n");
+				break;
+
+			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+				LOGE("[ERROR] Framebuffer incomplete: No image is attached to FBO.\n");
+				break;
+
+			case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+				LOGE("[ERROR] Framebuffer incomplete: Attached images have different dimensions.\n");
+				break;
+
+			case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+				LOGE("[ERROR] Framebuffer incomplete: Multisample.\n");
+				break;
+
+			case GL_FRAMEBUFFER_UNSUPPORTED:
+				LOGE("[ERROR] Framebuffer incomplete: Unsupported by FBO implementation.\n");
+				break;
+
+			default:
+				LOGE("[ERROR] Framebuffer incomplete: Unknown error.\n");
+				break;
+			}
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		return status == GL_FRAMEBUFFER_COMPLETE ? TRUE : FALSE;
+	}
+
 	BOOL CGLES3FrameBuffer::Create(HANDLE hRenderPass)
 	{
 		glGenFramebuffers(1, &m_framebuffer);
@@ -74,7 +114,7 @@ namespace CrossEngine {
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-		return TRUE;
+		return CheckFramebufferStatus(m_framebuffer);
 	}
 
 	void CGLES3FrameBuffer::Destroy(void)
