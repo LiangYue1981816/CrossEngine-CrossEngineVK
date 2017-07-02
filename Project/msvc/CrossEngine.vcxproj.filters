@@ -411,11 +411,11 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Texture.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3TextureManager.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3FrameBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3TextureManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

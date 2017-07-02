@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3FrameBuffer : public CGfxFrameBuffer
 	{
 	protected:
-		CGLES3FrameBuffer(CGfxResourceManager *pResourceManager);
+		CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3FrameBuffer(void);
 
 
@@ -59,6 +59,9 @@ namespace CrossEngine {
 
 	protected:
 		GLuint m_framebuffer;
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

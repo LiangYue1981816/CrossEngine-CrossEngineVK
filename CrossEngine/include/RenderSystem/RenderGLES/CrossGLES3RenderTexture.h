@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3RenderTexture(CGfxResourceManager *pResourceManager);
+		CGLES3RenderTexture(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3RenderTexture(void);
 
 
@@ -53,6 +53,10 @@ namespace CrossEngine {
 
 	public:
 		size_t GetMemorySize(void) const;
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

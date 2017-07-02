@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3FrameBuffer::CGLES3FrameBuffer(CGfxResourceManager *pResourceManager)
+	CGLES3FrameBuffer::CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxFrameBuffer(pResourceManager)
+		, m_pDevice(pDevice)
 		, m_framebuffer(0)
 
 		, m_width(0)

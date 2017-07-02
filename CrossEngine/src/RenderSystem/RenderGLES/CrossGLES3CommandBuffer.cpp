@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3CommandBuffer::CGLES3CommandBuffer(void)
+	CGLES3CommandBuffer::CGLES3CommandBuffer(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
 	{
 
 	}

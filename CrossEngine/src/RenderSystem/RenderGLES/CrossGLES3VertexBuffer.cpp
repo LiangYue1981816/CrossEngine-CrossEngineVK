@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3VertexBuffer::CGLES3VertexBuffer(CGfxResourceManager *pResourceManager)
+	CGLES3VertexBuffer::CGLES3VertexBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxVertexBuffer(pResourceManager)
+		, m_pDevice(pDevice)
 	{
 
 	}

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3IndexBuffer(CGfxResourceManager *pResourceManager);
+		CGLES3IndexBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3IndexBuffer(void);
 
 
@@ -48,6 +48,10 @@ namespace CrossEngine {
 	public:
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Queue : public CGfxQueue
 	{
 	protected:
-		CGLES3Queue(void);
+		CGLES3Queue(CGLES3Device *pDevice);
 		virtual ~CGLES3Queue(void);
 
 
@@ -37,6 +37,10 @@ namespace CrossEngine {
 		int Submit(CGfxCommandBuffer *pCommandBuffer) const;
 		int Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
 		int WaitIdle(void) const;
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

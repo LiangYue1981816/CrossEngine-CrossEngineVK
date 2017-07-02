@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3Queue::CGLES3Queue(void)
+	CGLES3Queue::CGLES3Queue(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
 	{
 
 	}

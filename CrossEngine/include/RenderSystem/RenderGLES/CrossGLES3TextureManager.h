@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3TextureManager : public CGfxResourceManager
 	{
 	protected:
-		CGLES3TextureManager(void);
+		CGLES3TextureManager(CGLES3Device *pDevice);
 		virtual ~CGLES3TextureManager(void);
 
 
@@ -39,6 +39,10 @@ namespace CrossEngine {
 
 	protected:
 		void DumpLog(const char *szTitle) const;
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

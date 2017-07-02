@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3BufferManager::CGLES3BufferManager(void)
+	CGLES3BufferManager::CGLES3BufferManager(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
 	{
 
 	}
@@ -37,7 +38,7 @@ namespace CrossEngine {
 
 	CGfxIndexBufferPtr CGLES3BufferManager::AllocIndexBuffer(void)
 	{
-		CGLES3IndexBuffer *pIndexBuffer = SAFE_NEW CGLES3IndexBuffer(this);
+		CGLES3IndexBuffer *pIndexBuffer = SAFE_NEW CGLES3IndexBuffer(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pIndexBuffer] = pIndexBuffer;
@@ -47,7 +48,7 @@ namespace CrossEngine {
 
 	CGfxVertexBufferPtr CGLES3BufferManager::AllocVertexBuffer(void)
 	{
-		CGLES3VertexBuffer *pVertexBuffer = SAFE_NEW CGLES3VertexBuffer(this);
+		CGLES3VertexBuffer *pVertexBuffer = SAFE_NEW CGLES3VertexBuffer(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pVertexBuffer] = pVertexBuffer;
@@ -57,7 +58,7 @@ namespace CrossEngine {
 
 	CGfxUniformBufferPtr CGLES3BufferManager::AllocUniformBuffer(void)
 	{
-		CGLES3UniformBuffer *pUniformBuffer = SAFE_NEW CGLES3UniformBuffer(this);
+		CGLES3UniformBuffer *pUniformBuffer = SAFE_NEW CGLES3UniformBuffer(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pUniformBuffer] = pUniformBuffer;

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3UniformBuffer(CGfxResourceManager *pResourceManager);
+		CGLES3UniformBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3UniformBuffer(void);
 
 
@@ -51,6 +51,10 @@ namespace CrossEngine {
 
 	public:
 		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size);
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

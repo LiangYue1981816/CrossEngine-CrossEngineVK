@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3TextureManager::CGLES3TextureManager(void)
+	CGLES3TextureManager::CGLES3TextureManager(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
 	{
 
 	}
@@ -37,7 +38,7 @@ namespace CrossEngine {
 
 	CGfxTexturePtr CGLES3TextureManager::AllocTexture(void)
 	{
-		CGLES3Texture *pTexture = SAFE_NEW CGLES3Texture(this);
+		CGLES3Texture *pTexture = SAFE_NEW CGLES3Texture(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pTexture] = pTexture;
@@ -47,7 +48,7 @@ namespace CrossEngine {
 
 	CGfxRenderTexturePtr CGLES3TextureManager::AllocRenderTexture(void)
 	{
-		CGLES3RenderTexture *pRenderTexture = SAFE_NEW CGLES3RenderTexture(this);
+		CGLES3RenderTexture *pRenderTexture = SAFE_NEW CGLES3RenderTexture(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pRenderTexture] = pRenderTexture;

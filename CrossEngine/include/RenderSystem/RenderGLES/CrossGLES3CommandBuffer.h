@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3CommandBuffer : public CGfxCommandBuffer
 	{
 	protected:
-		CGLES3CommandBuffer(void);
+		CGLES3CommandBuffer(CGLES3Device *pDevice);
 		virtual ~CGLES3CommandBuffer(void);
 
 
@@ -63,6 +63,10 @@ namespace CrossEngine {
 		void CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
 
 		void CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer);
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

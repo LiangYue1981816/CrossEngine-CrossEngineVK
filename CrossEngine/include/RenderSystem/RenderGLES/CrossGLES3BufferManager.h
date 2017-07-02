@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3BufferManager(void);
+		CGLES3BufferManager(CGLES3Device *pDevice);
 		virtual ~CGLES3BufferManager(void);
 
 
@@ -43,6 +43,10 @@ namespace CrossEngine {
 
 	protected:
 		void DumpLog(const char *szTitle) const;
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }
