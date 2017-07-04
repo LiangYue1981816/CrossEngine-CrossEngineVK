@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3RenderPass : public CGfxRenderPass
 	{
+		friend class CGLES3RenderPassManager;
+
+
 	protected:
 		CGLES3RenderPass(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3RenderPass(void);
