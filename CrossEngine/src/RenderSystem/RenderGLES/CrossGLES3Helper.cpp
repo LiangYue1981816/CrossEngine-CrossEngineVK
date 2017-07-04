@@ -25,12 +25,12 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef struct {
+	typedef struct String {
 		GLuint64 param;
 		GLchar name[64];
 	} String;
 
-	typedef struct {
+	typedef struct Format {
 		VkFormat format;
 		GLenum internalFormat;
 		GLenum externalFormat;

@@ -26,13 +26,13 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef struct {
+	typedef struct VkAttachmentInformation {
 		VkFormat foramt;
 		VkImageView vkImageView;
 		CGfxRenderTexturePtr ptrRenderTexture;
 	} VkAttachmentInformation;
 
-	typedef struct {
+	typedef struct VkSubpassInformation {
 		std::map<uint32_t, VkImageLayout> inputAttachments;
 		std::map<uint32_t, VkImageLayout> colorAttachments;
 		std::map<uint32_t, VkImageLayout> resolveAttachments;

@@ -20,52 +20,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3FrameBuffer : public CGfxFrameBuffer
+	CGLES3FrameBufferManager::CGLES3FrameBufferManager(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
 	{
-		friend class CGLES3FrameBufferManager;
 
+	}
 
-	protected:
-		CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
-		virtual ~CGLES3FrameBuffer(void);
+	CGLES3FrameBufferManager::~CGLES3FrameBufferManager(void)
+	{
 
+	}
 
-	public:
-		HANDLE GetHandle(void) const;
-
-	public:
-		BOOL Create(HANDLE hRenderPass);
-		void Destroy(void);
-		void DumpLog(void) const;
-
-	public:
-		BOOL SetAttachment(uint32_t indexAttachment, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView);
-		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView);
-		BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
-		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
-
-	public:
-		uint32_t GetWidth(void) const;
-		uint32_t GetHeight(void) const;
-		GLuint GetRenderTexture(uint32_t indexAttachment);
-
-
-	protected:
-		uint32_t m_width;
-		uint32_t m_height;
-		std::map<uint32_t, GLAttachmentInformation> m_attachments;
-
-	protected:
-		GLuint m_framebuffer;
-
-	protected:
-		CGLES3Device *m_pDevice;
-	};
+	CGfxFrameBufferPtr CGLES3FrameBufferManager::AllocFrameBuffer(void)
+	{
+		CGLES3FrameBuffer *pFrameBuffer = SAFE_NEW CGLES3FrameBuffer(m_pDevice, this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pFrameBuffer] = pFrameBuffer;
+		}
+		return CGfxFrameBufferPtr(pFrameBuffer);
+	}
 
 }

@@ -26,43 +26,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3FrameBuffer : public CGfxFrameBuffer
+	class CROSS_EXPORT CGLES3FrameBufferManager : public CGfxResourceManager
 	{
-		friend class CGLES3FrameBufferManager;
+		friend class CGLES3Device;
 
 
 	protected:
-		CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
-		virtual ~CGLES3FrameBuffer(void);
-
-
-	public:
-		HANDLE GetHandle(void) const;
-
-	public:
-		BOOL Create(HANDLE hRenderPass);
-		void Destroy(void);
-		void DumpLog(void) const;
-
-	public:
-		BOOL SetAttachment(uint32_t indexAttachment, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView);
-		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView);
-		BOOL SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
-		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture);
-
-	public:
-		uint32_t GetWidth(void) const;
-		uint32_t GetHeight(void) const;
-		GLuint GetRenderTexture(uint32_t indexAttachment);
+		CGLES3FrameBufferManager(CGLES3Device *pDevice);
+		virtual ~CGLES3FrameBufferManager(void);
 
 
 	protected:
-		uint32_t m_width;
-		uint32_t m_height;
-		std::map<uint32_t, GLAttachmentInformation> m_attachments;
+		CGfxFrameBufferPtr AllocFrameBuffer(void);
 
-	protected:
-		GLuint m_framebuffer;
 
 	protected:
 		CGLES3Device *m_pDevice;

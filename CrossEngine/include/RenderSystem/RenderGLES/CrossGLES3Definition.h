@@ -26,11 +26,46 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef struct {
+	typedef struct GLAttachmentInformation {
 		GLenum format;
 		GLuint texture;
 		CGfxRenderTexturePtr ptrRenderTexture;
 	} GLAttachmentInformation;
+
+	typedef enum GLAttachmentLoadOp {
+		GL_ATTACHMENT_LOAD_OP_LOAD = 0,
+		GL_ATTACHMENT_LOAD_OP_CLEAR = 1,
+		GL_ATTACHMENT_LOAD_OP_DONT_CARE = 2
+	} GLAttachmentLoadOp;
+
+	typedef struct GLAttachmentDescription {
+		GLAttachmentLoadOp loadOp;
+		GLAttachmentLoadOp storeOp;
+		GLAttachmentLoadOp stencilLoadOp;
+		GLAttachmentLoadOp stencilStoreOp;
+	} GLAttachmentDescription;
+
+	typedef struct GLSubpassInformation {
+		std::map<uint32_t, uint32_t> inputAttachments;
+		std::map<uint32_t, uint32_t> colorAttachments;
+		uint32_t depthStencilAttachment;
+	} GLSubpassInformation;
+
+	typedef union GLClearColorValue {
+		float float32[4];
+		int32_t int32[4];
+		uint32_t uint32[4];
+	} GLClearColorValue;
+
+	typedef struct GLClearDepthStencilValue {
+		float depth;
+		uint32_t stencil;
+	} GLClearDepthStencilValue;
+
+	typedef union GLClearValue {
+		GLClearColorValue color;
+		GLClearDepthStencilValue depthStencil;
+	} GLClearValue;
 
 	class CROSS_EXPORT CGLES3Instance;
 	class CROSS_EXPORT CGLES3Queue;
@@ -49,5 +84,6 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3RenderTexture;
 	class CROSS_EXPORT CGLES3TextureManager;
 	class CROSS_EXPORT CGLES3FrameBuffer;
+	class CROSS_EXPORT CGLES3FrameBufferManager;
 
 }

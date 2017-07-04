@@ -41,4 +41,6 @@ THE SOFTWARE.
 #include "CrossGLES3Texture.h"
 #include "CrossGLES3RenderTexture.h"
 #include "CrossGLES3TextureManager.h"
+#include "CrossGLES3RenderPass.h"
 #include "CrossGLES3FrameBuffer.h"
+#include "CrossGLES3FrameBufferManager.h"

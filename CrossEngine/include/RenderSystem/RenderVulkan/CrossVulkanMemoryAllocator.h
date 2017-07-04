@@ -33,7 +33,7 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct {
+		typedef struct mem_node {
 			rb_node node;
 			VkDeviceSize size;
 			CVulkanMemory *pFreeListHead;
