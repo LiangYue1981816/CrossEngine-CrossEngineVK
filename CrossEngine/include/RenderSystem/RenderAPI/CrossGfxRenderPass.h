@@ -58,7 +58,6 @@ namespace CrossEngine {
 
 	public:
 		virtual uint32_t GetSubpassCount(void) const = 0;
-		virtual std::vector<VkClearValue> GetClearValues(void) const = 0;
 	};
 
 }

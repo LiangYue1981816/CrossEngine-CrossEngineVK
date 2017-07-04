@@ -38,11 +38,16 @@ namespace CrossEngine {
 		GL_ATTACHMENT_LOAD_OP_DONT_CARE = 2
 	} GLAttachmentLoadOp;
 
+	typedef enum GLAttachmentStoreOp {
+		GL_ATTACHMENT_STORE_OP_STORE = 0,
+		GL_ATTACHMENT_STORE_OP_DONT_CARE = 1,
+	} GLAttachmentStoreOp;
+
 	typedef struct GLAttachmentDescription {
 		GLAttachmentLoadOp loadOp;
-		GLAttachmentLoadOp storeOp;
+		GLAttachmentStoreOp storeOp;
 		GLAttachmentLoadOp stencilLoadOp;
-		GLAttachmentLoadOp stencilStoreOp;
+		GLAttachmentStoreOp stencilStoreOp;
 	} GLAttachmentDescription;
 
 	typedef struct GLSubpassInformation {
@@ -63,8 +68,9 @@ namespace CrossEngine {
 	} GLClearDepthStencilValue;
 
 	typedef union GLClearValue {
-		GLClearColorValue color;
-		GLClearDepthStencilValue depthStencil;
+		float color[4];
+		float depth;
+		uint32_t stencil;
 	} GLClearValue;
 
 	class CROSS_EXPORT CGLES3Instance;
@@ -83,6 +89,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Texture;
 	class CROSS_EXPORT CGLES3RenderTexture;
 	class CROSS_EXPORT CGLES3TextureManager;
+	class CROSS_EXPORT CGLES3RenderPass;
 	class CROSS_EXPORT CGLES3FrameBuffer;
 	class CROSS_EXPORT CGLES3FrameBufferManager;
 

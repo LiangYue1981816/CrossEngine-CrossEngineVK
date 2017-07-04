@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CGLES3RenderPass : public CGfxRenderPass
 	{
 	protected:
@@ -56,7 +56,9 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetSubpassCount(void) const;
-		std::vector<GLClearValue> GetClearValues(void) const;
+		const GLSubpassInformation* GetSubpass(uint32_t indexSubpass) const;
+		const GLAttachmentDescription* GetAttachment(uint32_t indexAttachment) const;
+		const GLClearValue* GetAttachmentClearValue(uint32_t indexAttachment) const;
 
 
 	protected:
@@ -67,5 +69,5 @@ namespace CrossEngine {
 	protected:
 		CGLES3Device *m_pDevice;
 	};
-	*/
+
 }

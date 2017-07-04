@@ -1,0 +1,203 @@
+/****************************************************************************
+Copyright (c) 2017 LiangYue.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sub license, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+****************************************************************************/
+
+#include "_CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	CGLES3RenderPass::CGLES3RenderPass(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
+		: CGfxRenderPass(pResourceManager)
+		, m_pDevice(pDevice)
+	{
+
+	}
+
+	CGLES3RenderPass::~CGLES3RenderPass(void)
+	{
+
+	}
+
+	HANDLE CGLES3RenderPass::GetHandle(void) const
+	{
+		ASSERT(FALSE);
+		return 0;
+	}
+
+	BOOL CGLES3RenderPass::Create(void)
+	{
+		return TRUE;
+	}
+
+	void CGLES3RenderPass::Destroy(void)
+	{
+		m_attachments.clear();
+		m_attachmentClearValues.clear();
+		m_subpasses.clear();
+	}
+
+	BOOL CGLES3RenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
+	{
+		m_attachments[indexAttachment].loadOp = (GLAttachmentLoadOp)loadOp;
+		m_attachments[indexAttachment].storeOp = (GLAttachmentStoreOp)storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = GL_ATTACHMENT_LOAD_OP_DONT_CARE;
+		m_attachments[indexAttachment].stencilStoreOp = GL_ATTACHMENT_STORE_OP_DONT_CARE;
+
+		m_attachmentClearValues[indexAttachment].color[0] = clearValue.color.float32[0];
+		m_attachmentClearValues[indexAttachment].color[1] = clearValue.color.float32[1];
+		m_attachmentClearValues[indexAttachment].color[2] = clearValue.color.float32[2];
+		m_attachmentClearValues[indexAttachment].color[3] = clearValue.color.float32[3];
+		m_attachmentClearValues[indexAttachment].depth = clearValue.depthStencil.depth;
+		m_attachmentClearValues[indexAttachment].stencil = clearValue.depthStencil.stencil;
+
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
+	{
+		m_attachments[indexAttachment].loadOp = (GLAttachmentLoadOp)loadOp;
+		m_attachments[indexAttachment].storeOp = (GLAttachmentStoreOp)storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = GL_ATTACHMENT_LOAD_OP_DONT_CARE;
+		m_attachments[indexAttachment].stencilStoreOp = GL_ATTACHMENT_STORE_OP_DONT_CARE;
+
+		m_attachmentClearValues[indexAttachment].color[0] = clearValue.color.float32[0];
+		m_attachmentClearValues[indexAttachment].color[1] = clearValue.color.float32[1];
+		m_attachmentClearValues[indexAttachment].color[2] = clearValue.color.float32[2];
+		m_attachmentClearValues[indexAttachment].color[3] = clearValue.color.float32[3];
+		m_attachmentClearValues[indexAttachment].depth = clearValue.depthStencil.depth;
+		m_attachmentClearValues[indexAttachment].stencil = clearValue.depthStencil.stencil;
+
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
+	{
+		m_attachments[indexAttachment].loadOp = (GLAttachmentLoadOp)loadOp;
+		m_attachments[indexAttachment].storeOp = (GLAttachmentStoreOp)storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = (GLAttachmentLoadOp)stencilLoadOp;
+		m_attachments[indexAttachment].stencilStoreOp = (GLAttachmentStoreOp)stencilStoreOp;
+
+		m_attachmentClearValues[indexAttachment].color[0] = clearValue.color.float32[0];
+		m_attachmentClearValues[indexAttachment].color[1] = clearValue.color.float32[1];
+		m_attachmentClearValues[indexAttachment].color[2] = clearValue.color.float32[2];
+		m_attachmentClearValues[indexAttachment].color[3] = clearValue.color.float32[3];
+		m_attachmentClearValues[indexAttachment].depth = clearValue.depthStencil.depth;
+		m_attachmentClearValues[indexAttachment].stencil = clearValue.depthStencil.stencil;
+
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	{
+		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	{
+		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	{
+		m_subpasses[indexSubpass].colorAttachments[indexSubpass] = indexAttachment;
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	{
+		m_subpasses[indexSubpass].depthStencilAttachment = indexAttachment;
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
+	{
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	{
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass)
+	{
+		return TRUE;
+	}
+
+	uint32_t CGLES3RenderPass::GetSubpassCount(void) const
+	{
+		return m_subpasses.size();
+	}
+
+	const GLSubpassInformation* CGLES3RenderPass::GetSubpass(uint32_t indexSubpass) const
+	{
+		const auto &itSubpass = m_subpasses.find(indexSubpass);
+		return itSubpass != m_subpasses.end() ? &itSubpass->second : NULL;
+	}
+
+	const GLAttachmentDescription* CGLES3RenderPass::GetAttachment(uint32_t indexAttachment) const
+	{
+		const auto &itAttachment = m_attachments.find(indexAttachment);
+		return itAttachment != m_attachments.end() ? &itAttachment->second : NULL;
+	}
+
+	const GLClearValue* CGLES3RenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
+	{
+		const auto &itAttachmentClearValue = m_attachmentClearValues.find(indexAttachment);
+		return itAttachmentClearValue != m_attachmentClearValues.end() ? &itAttachmentClearValue->second : NULL;
+	}
+
+	void CGLES3RenderPass::DumpLog(void) const
+	{
+		LOGI("\t\tRenderPass\n");
+
+		LOGI("\t\t\tAttachments:\n");
+		for (const auto &itAttachment : m_attachments) {
+			LOGI("\t\t\t\tAttachment %d: loadOp = %s storeOp = %s stencilLoadOp = %s stencilStoreOp = %s\n",
+				itAttachment.first,
+				CGLES3Helper::glAttachmentLoadOpToString(itAttachment.second.loadOp),
+				CGLES3Helper::glAttachmentStoreOpToString(itAttachment.second.storeOp),
+				CGLES3Helper::glAttachmentLoadOpToString(itAttachment.second.stencilLoadOp),
+				CGLES3Helper::glAttachmentStoreOpToString(itAttachment.second.stencilStoreOp));
+		}
+
+		LOGI("\t\t\tSubpasses:\n");
+		for (const auto &itSubpass : m_subpasses) {
+			LOGI("\t\t\t\tSubpass %d:\n", itSubpass.first);
+
+			LOGI("\t\t\t\t\tInputAttachments:\n");
+			for (const auto &itAttachment : itSubpass.second.inputAttachments) {
+				LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d\n", itAttachment.first);
+			}
+
+			LOGI("\t\t\t\t\tColorAttachments:\n");
+			for (const auto &itAttachment : itSubpass.second.colorAttachments) {
+				LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d\n", itAttachment.first);
+			}
+
+			LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d\n", itSubpass.second.depthStencilAttachment);
+		}
+	}
+
+}
