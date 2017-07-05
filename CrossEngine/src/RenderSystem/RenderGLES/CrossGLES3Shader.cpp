@@ -118,7 +118,7 @@ namespace CrossEngine {
 		return m_moduleType;
 	}
 
-	BOOL CGLES3Shader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
+	BOOL CGLES3Shader::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		char szFileName[_MAX_STRING];
 		sprintf(szFileName, "%s/%x", m_pDevice->GetInstance()->GetCachePath(), HashValue(szSource));
@@ -132,18 +132,27 @@ namespace CrossEngine {
 			SaveShaderBinary(szFileName, words);
 		}
 
-		GLint compiled = 0;
+		return TRUE;
+	}
+
+	BOOL CGLES3Shader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
+	{
+		char szFileName[_MAX_STRING];
+		sprintf(szFileName, "%s/%x", m_pDevice->GetInstance()->GetCachePath(), HashValue(szSource));
+
+		std::vector<uint32_t> words;
+		Precompile(szSource, length, flags);
+		LoadShaderBinary(szFileName, words);
+		m_moduleType = spirv::parse(words.data(), words.size());
+
+		GLint compiled = GL_FALSE;
 		GLenum shaderType = glGetShaderKind(flags);
 
 		m_shader = glCreateShader(shaderType);
 		glShaderSource(m_shader, 1, &szSource, NULL);
 		glCompileShader(m_shader);
 		glGetShaderiv(m_shader, GL_COMPILE_STATUS, &compiled);
-		if (compiled != GL_TRUE) return FALSE;
-
-		m_moduleType = spirv::parse(words.data(), words.size());
-
-		return TRUE;
+		return compiled;
 	}
 
 	void CGLES3Shader::Destroy(void)

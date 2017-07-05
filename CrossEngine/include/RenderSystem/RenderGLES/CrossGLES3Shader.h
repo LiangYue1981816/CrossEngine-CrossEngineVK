@@ -41,6 +41,7 @@ namespace CrossEngine {
 		const spirv::module_type& GetMoudleType(void) const;
 
 	public:
+		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags);
 		BOOL Create(const char *szSource, size_t length, VkShaderStageFlagBits flags);
 		void Destroy(void);
 		void DumpLog(void) const;
