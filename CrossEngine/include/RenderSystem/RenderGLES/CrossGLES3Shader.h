@@ -26,39 +26,32 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3Instance : public CGfxInstance
+	class CROSS_EXPORT CGLES3Shader : public CGfxShader
 	{
-	public:
-		CGLES3Instance(const char *szCachePath);
-		virtual ~CGLES3Instance(void);
+		friend class CGLES3ShaderManager;
+
+
+	protected:
+		CGLES3Shader(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CGLES3Shader(void);
 
 
 	public:
-		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
+		HANDLE GetHandle(void) const;
+		const spirv::module_type& GetMoudleType(void) const;
+
+	public:
+		BOOL Create(const char *szSource, size_t length, VkShaderStageFlagBits flags);
 		void Destroy(void);
+		void DumpLog(void) const;
+
 
 	protected:
-		int CreateDevice(void);
-		int CreateSwapchain(HDC hDC, uint32_t width, uint32_t height);
-
-	protected:
-		void DestroyDevice(void);
-		void DestroySwapchain(void);
-
-	public:
-		CGfxDevice* GetDevice(void) const;
-		CGfxSwapchain* GetSwapchain(void) const;
-
-	public:
-		const char* GetCachePath(void) const;
-
+		GLuint m_shader;
+		spirv::module_type m_moduleType;
 
 	protected:
 		CGLES3Device *m_pDevice;
-		CGLES3Swapchain *m_pSwapchain;
-
-	protected:
-		char m_szCachePath[_MAX_STRING];
 	};
 
 }

@@ -426,6 +426,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3RenderPassManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Shader.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3ShaderManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -735,6 +741,12 @@
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3RenderPassManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Shader.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3ShaderManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClCompile>
   </ItemGroup>

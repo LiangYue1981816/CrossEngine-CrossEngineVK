@@ -45,6 +45,7 @@ namespace CrossEngine {
 
 	public:
 		void AddMacroDefinition(const char *szName);
+		void AddMacroDefinition(const char *szName, const char *szValue);
 
 
 	protected:

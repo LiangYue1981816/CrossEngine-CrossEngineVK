@@ -26,39 +26,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3Instance : public CGfxInstance
+	class CROSS_EXPORT CGLES3ShaderManager : public CGfxResourceManager
 	{
-	public:
-		CGLES3Instance(const char *szCachePath);
-		virtual ~CGLES3Instance(void);
+		friend class CGLES3Device;
+		friend class CGLES3Shader;
 
-
-	public:
-		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
-		void Destroy(void);
 
 	protected:
-		int CreateDevice(void);
-		int CreateSwapchain(HDC hDC, uint32_t width, uint32_t height);
+		CGLES3ShaderManager(CGLES3Device *pDevice);
+		virtual ~CGLES3ShaderManager(void);
+
 
 	protected:
-		void DestroyDevice(void);
-		void DestroySwapchain(void);
+		CGfxShaderPtr AllocShader(void);
+
+		const shaderc::Compiler& GetCompiler(void) const;
+		const shaderc::CompileOptions& GetCompileOptions(void) const;
 
 	public:
-		CGfxDevice* GetDevice(void) const;
-		CGfxSwapchain* GetSwapchain(void) const;
+		void AddMacroDefinition(const char *szName);
+		void AddMacroDefinition(const char *szName, const char *szValue);
 
-	public:
-		const char* GetCachePath(void) const;
 
+	protected:
+		shaderc::Compiler m_compiler;
+		shaderc::CompileOptions m_options;
 
 	protected:
 		CGLES3Device *m_pDevice;
-		CGLES3Swapchain *m_pSwapchain;
-
-	protected:
-		char m_szCachePath[_MAX_STRING];
 	};
 
 }

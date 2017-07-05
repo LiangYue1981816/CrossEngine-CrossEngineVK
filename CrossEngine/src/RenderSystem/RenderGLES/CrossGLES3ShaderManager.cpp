@@ -20,45 +20,52 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3Instance : public CGfxInstance
+	CGLES3ShaderManager::CGLES3ShaderManager(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
 	{
-	public:
-		CGLES3Instance(const char *szCachePath);
-		virtual ~CGLES3Instance(void);
+		m_options.SetWarningsAsErrors();
+		m_options.SetSourceLanguage(shaderc_source_language_glsl);
+		m_options.SetForcedVersionProfile(310, shaderc_profile_es);
+	}
 
+	CGLES3ShaderManager::~CGLES3ShaderManager(void)
+	{
 
-	public:
-		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
-		void Destroy(void);
+	}
 
-	protected:
-		int CreateDevice(void);
-		int CreateSwapchain(HDC hDC, uint32_t width, uint32_t height);
+	CGfxShaderPtr CGLES3ShaderManager::AllocShader(void)
+	{
+		CGLES3Shader *pShader = SAFE_NEW CGLES3Shader(m_pDevice, this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pShader] = pShader;
+		}
+		return CGfxShaderPtr(pShader);
+	}
 
-	protected:
-		void DestroyDevice(void);
-		void DestroySwapchain(void);
+	const shaderc::Compiler& CGLES3ShaderManager::GetCompiler(void) const
+	{
+		return m_compiler;
+	}
 
-	public:
-		CGfxDevice* GetDevice(void) const;
-		CGfxSwapchain* GetSwapchain(void) const;
+	const shaderc::CompileOptions& CGLES3ShaderManager::GetCompileOptions(void) const
+	{
+		return m_options;
+	}
 
-	public:
-		const char* GetCachePath(void) const;
+	void CGLES3ShaderManager::AddMacroDefinition(const char *szName)
+	{
+		m_options.AddMacroDefinition(szName);
+	}
 
-
-	protected:
-		CGLES3Device *m_pDevice;
-		CGLES3Swapchain *m_pSwapchain;
-
-	protected:
-		char m_szCachePath[_MAX_STRING];
-	};
+	void CGLES3ShaderManager::AddMacroDefinition(const char *szName, const char *szValue)
+	{
+		m_options.AddMacroDefinition(szName, szValue);
+	}
 
 }
