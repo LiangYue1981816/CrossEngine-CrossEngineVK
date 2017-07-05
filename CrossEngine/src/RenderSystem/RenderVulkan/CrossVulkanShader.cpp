@@ -70,9 +70,8 @@ namespace CrossEngine {
 		return shaderc_glsl_infer_from_source;
 	}
 
-	static BOOL CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::CompileOptions &options, std::vector<uint32_t> &words)
+	static BOOL CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::Compiler &compiler, const shaderc::CompileOptions &options, std::vector<uint32_t> &words)
 	{
-		shaderc::Compiler compiler;
 		shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, length, kind, "SPIR-V Compiler", options);
 
 		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
@@ -115,7 +114,7 @@ namespace CrossEngine {
 
 		std::vector<uint32_t> words;
 		if (LoadShaderBinary(szFileName, words) == FALSE) {
-			if (CompileShader(szSource, length, GetShaderKind(flags), CreateCompileOptions(), words) == FALSE) {
+			if (CompileShader(szSource, length, GetShaderKind(flags), ((CVulkanShaderManager *)m_pResourceManager)->GetCompiler(), CreateCompileOptions(), words) == FALSE) {
 				return FALSE;
 			}
 

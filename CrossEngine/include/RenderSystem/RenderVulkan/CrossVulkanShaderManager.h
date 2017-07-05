@@ -39,10 +39,13 @@ namespace CrossEngine {
 
 	protected:
 		CGfxShaderPtr AllocShader(void);
+
+		const shaderc::Compiler& GetCompiler(void) const;
 		const shaderc::CompileOptions& GetCompileOptions(void) const;
 
 
 	protected:
+		shaderc::Compiler m_compiler;
 		shaderc::CompileOptions m_options;
 
 	protected:

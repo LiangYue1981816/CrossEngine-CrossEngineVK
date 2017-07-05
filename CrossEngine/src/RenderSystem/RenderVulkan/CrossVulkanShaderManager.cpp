@@ -48,6 +48,11 @@ namespace CrossEngine {
 		return CGfxShaderPtr(pShader);
 	}
 
+	const shaderc::Compiler& CVulkanShaderManager::GetCompiler(void) const
+	{
+		return m_compiler;
+	}
+
 	const shaderc::CompileOptions& CVulkanShaderManager::GetCompileOptions(void) const
 	{
 		return m_options;
