@@ -114,7 +114,7 @@ namespace CrossEngine {
 
 		std::vector<uint32_t> words;
 		if (LoadShaderBinary(szFileName, words) == FALSE) {
-			if (CompileShader(szSource, length, GetShaderKind(flags), ((CVulkanShaderManager *)m_pResourceManager)->GetCompiler(), CreateCompileOptions(), words) == FALSE) {
+			if (CompileShader(szSource, length, GetShaderKind(flags), ((CVulkanShaderManager *)m_pResourceManager)->GetCompiler(), ((CVulkanShaderManager *)m_pResourceManager)->GetCompileOptions(), words) == FALSE) {
 				return FALSE;
 			}
 
@@ -147,22 +147,6 @@ namespace CrossEngine {
 		}
 	}
 
-	shaderc::CompileOptions CVulkanShader::CreateCompileOptions(void)
-	{
-		shaderc::CompileOptions options(((CVulkanShaderManager *)m_pResourceManager)->GetCompileOptions());
-
-		for (const auto &itMacroDefinition : m_strMacroDefinitions) {
-			if (itMacroDefinition.second.empty()) {
-				options.AddMacroDefinition(itMacroDefinition.first.c_str());
-			}
-			else {
-				options.AddMacroDefinition(itMacroDefinition.first.c_str(), itMacroDefinition.second.c_str());
-			}
-		}
-
-		return options;
-	}
-
 	void CVulkanShader::Destroy(void)
 	{
 		if (m_vkShaderModule) {
@@ -170,21 +154,6 @@ namespace CrossEngine {
 		}
 
 		m_vkShaderModule = VK_NULL_HANDLE;
-	}
-
-	void CVulkanShader::AddMacroDefinition(const char *szName, const char *szValue)
-	{
-		m_strMacroDefinitions[szName] = szValue;
-	}
-
-	void CVulkanShader::DelMacroDefinition(const char *szName)
-	{
-		m_strMacroDefinitions.erase(szName);
-	}
-
-	void CVulkanShader::ClearMacroDefinitions(void)
-	{
-		m_strMacroDefinitions.clear();
 	}
 
 	void CVulkanShader::DumpLog(void) const

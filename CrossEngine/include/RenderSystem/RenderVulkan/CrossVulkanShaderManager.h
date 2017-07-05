@@ -43,6 +43,9 @@ namespace CrossEngine {
 		const shaderc::Compiler& GetCompiler(void) const;
 		const shaderc::CompileOptions& GetCompileOptions(void) const;
 
+	public:
+		void AddMacroDefinition(const char *szName);
+
 
 	protected:
 		shaderc::Compiler m_compiler;

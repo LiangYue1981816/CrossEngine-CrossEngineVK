@@ -46,19 +46,10 @@ namespace CrossEngine {
 		void Destroy(void);
 		void DumpLog(void) const;
 
-	protected:
-		shaderc::CompileOptions CreateCompileOptions(void);
-
-	public:
-		void AddMacroDefinition(const char *szName, const char *szValue);
-		void DelMacroDefinition(const char *szName);
-		void ClearMacroDefinitions(void);
-
 
 	protected:
 		VkShaderModule m_vkShaderModule;
 		spirv::module_type m_moduleType;
-		std::map<std::string, std::string> m_strMacroDefinitions;
 
 	protected:
 		CVulkanDevice *m_pDevice;

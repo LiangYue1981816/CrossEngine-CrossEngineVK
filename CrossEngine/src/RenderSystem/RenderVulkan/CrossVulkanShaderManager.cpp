@@ -58,4 +58,9 @@ namespace CrossEngine {
 		return m_options;
 	}
 
+	void CVulkanShaderManager::AddMacroDefinition(const char *szName)
+	{
+		m_options.AddMacroDefinition(szName);
+	}
+
 }
