@@ -145,11 +145,17 @@ namespace CrossEngine {
 		LoadShaderBinary(szFileName, words);
 		m_moduleType = spirv::parse(words.data(), words.size());
 
+		std::vector<const char*> szSources;
+		const std::vector<std::string>& strMacroDefinitions = ((CGLES3ShaderManager *)m_pResourceManager)->GetMacroDefinitions();
+		for (const auto &itMacroDefinition : strMacroDefinitions) {
+			szSources.push_back(itMacroDefinition.c_str());
+		}
+		szSources.push_back(szSource);
+
 		GLint compiled = GL_FALSE;
 		GLenum shaderType = glGetShaderKind(flags);
-
 		m_shader = glCreateShader(shaderType);
-		glShaderSource(m_shader, 1, &szSource, NULL);
+		glShaderSource(m_shader, szSources.size(), szSources.data(), NULL);
 		glCompileShader(m_shader);
 		glGetShaderiv(m_shader, GL_COMPILE_STATUS, &compiled);
 		return compiled;

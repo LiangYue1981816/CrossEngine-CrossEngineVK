@@ -63,7 +63,7 @@ namespace CrossEngine {
 		m_options.AddMacroDefinition(szName);
 
 		char szMacroDefinition[_MAX_STRING];
-		sprintf(szMacroDefinition, "#define %s\n", szName);
+		sprintf(szMacroDefinition, "#define %s", szName);
 		m_strMacroDefinitions.push_back(szMacroDefinition);
 	}
 
@@ -72,7 +72,7 @@ namespace CrossEngine {
 		m_options.AddMacroDefinition(szName, szValue);
 
 		char szMacroDefinition[_MAX_STRING];
-		sprintf(szMacroDefinition, "#define %s %s\n", szName, szValue);
+		sprintf(szMacroDefinition, "#define %s %s", szName, szValue);
 		m_strMacroDefinitions.push_back(szMacroDefinition);
 	}
 
