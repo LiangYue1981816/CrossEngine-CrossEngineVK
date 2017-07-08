@@ -46,11 +46,13 @@ namespace CrossEngine {
 	public:
 		void AddMacroDefinition(const char *szName);
 		void AddMacroDefinition(const char *szName, const char *szValue);
+		const std::vector<std::string>& GetMacroDefinitions(void) const;
 
 
 	protected:
 		shaderc::Compiler m_compiler;
 		shaderc::CompileOptions m_options;
+		std::vector<std::string> m_strMacroDefinitions;
 
 	protected:
 		CGLES3Device *m_pDevice;

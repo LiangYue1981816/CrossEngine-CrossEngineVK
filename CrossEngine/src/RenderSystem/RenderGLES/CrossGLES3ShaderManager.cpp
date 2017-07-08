@@ -61,11 +61,24 @@ namespace CrossEngine {
 	void CGLES3ShaderManager::AddMacroDefinition(const char *szName)
 	{
 		m_options.AddMacroDefinition(szName);
+
+		char szMacroDefinition[_MAX_STRING];
+		sprintf(szMacroDefinition, "#define %s\n", szName);
+		m_strMacroDefinitions.push_back(szMacroDefinition);
 	}
 
 	void CGLES3ShaderManager::AddMacroDefinition(const char *szName, const char *szValue)
 	{
 		m_options.AddMacroDefinition(szName, szValue);
+
+		char szMacroDefinition[_MAX_STRING];
+		sprintf(szMacroDefinition, "#define %s %s\n", szName, szValue);
+		m_strMacroDefinitions.push_back(szMacroDefinition);
+	}
+
+	const std::vector<std::string>& CGLES3ShaderManager::GetMacroDefinitions(void) const
+	{
+		return m_strMacroDefinitions;
 	}
 
 }
