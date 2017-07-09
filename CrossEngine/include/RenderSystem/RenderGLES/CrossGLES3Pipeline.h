@@ -21,30 +21,56 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
-#include "gl31.h"
 #include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
-#include "CrossGLES3Image.h"
-#include "CrossGLES3Texture.h"
-#include "CrossGLES3RenderTexture.h"
-#include "CrossGLES3TextureManager.h"
-#include "CrossGLES3Shader.h"
-#include "CrossGLES3ShaderManager.h"
-#include "CrossGLES3Pipeline.h"
-#include "CrossGLES3RenderPass.h"
-#include "CrossGLES3RenderPassManager.h"
-#include "CrossGLES3FrameBuffer.h"
-#include "CrossGLES3FrameBufferManager.h"
+
+
+namespace CrossEngine {
+	/*
+	class CROSS_EXPORT CGLES3DescriptorSetLayout
+	{
+		friend class CGLES3Pipeline;
+
+
+	protected:
+		CGLES3DescriptorSetLayout(uint32_t set);
+		virtual ~CGLES3DescriptorSetLayout(void);
+
+
+	protected:
+		BOOL SetBinding(GLuint program, uint32_t binding, const char *szName);
+
+	public:
+		uint32_t GetSet(void) const;
+		const std::map<uint32_t, uint32_t>& GetBindings(void) const;
+
+
+	protected:
+		uint32_t m_set;
+		std::map<uint32_t, uint32_t> m_bindings;
+	};
+
+	class CROSS_EXPORT CGLES3Pipeline
+	{
+	protected:
+		CGLES3Pipeline(CGLES3Device *pDevice);
+		virtual ~CGLES3Pipeline(void);
+
+
+	protected:
+		BOOL CreateDescriptorSetLayouts(void);
+		void DestroyDescriptorSetLayouts(void);
+
+	public:
+		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
+
+
+	protected:
+		GLuint m_program;
+		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
+		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
+
+	protected:
+		CGLES3Device *m_pDevice;
+	};
+	*/
+}

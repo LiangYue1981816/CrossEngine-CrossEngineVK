@@ -91,6 +91,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3TextureManager;
 	class CROSS_EXPORT CGLES3Shader;
 	class CROSS_EXPORT CGLES3ShaderManager;
+	class CROSS_EXPORT CGLES3Pipeline;
 	class CROSS_EXPORT CGLES3RenderPass;
 	class CROSS_EXPORT CGLES3RenderPassManager;
 	class CROSS_EXPORT CGLES3FrameBuffer;
