@@ -31,9 +31,6 @@
     <Filter Include="Dependencies\rbtree">
       <UniqueIdentifier>{3978cd0f-be01-46a5-ae00-5fa3bdaf39c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dependencies\spirv-reflection">
-      <UniqueIdentifier>{3a64550c-e4cc-42da-bf93-e3fce538344d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Header Files\Core">
       <UniqueIdentifier>{6ebe1e9d-d2a2-4e04-8b05-18eb7bdc9b74}</UniqueIdentifier>
     </Filter>
@@ -508,9 +505,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp">
       <Filter>Dependencies\rbtree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp">
-      <Filter>Dependencies\spirv-reflection</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\debug_new.cpp">
       <Filter>Engine\Source Files\Core\nvwa</Filter>

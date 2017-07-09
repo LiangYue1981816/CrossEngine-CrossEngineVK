@@ -374,7 +374,6 @@
     <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_cross.cpp" />
     <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_glsl.cpp" />
     <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_msl.cpp" />
-    <ClCompile Include="..\..\Dependencies\spirv-reflection\analyzer.cpp" />
     <ClCompile Include="..\..\Dependencies\zlib\adler32.c" />
     <ClCompile Include="..\..\Dependencies\zlib\compress.c" />
     <ClCompile Include="..\..\Dependencies\zlib\crc32.c" />
