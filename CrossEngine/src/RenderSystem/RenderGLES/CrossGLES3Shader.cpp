@@ -98,6 +98,7 @@ namespace CrossEngine {
 	CGLES3Shader::CGLES3Shader(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxShader(pResourceManager)
 		, m_pDevice(pDevice)
+		, m_pShaderCompiler(NULL)
 		, m_shader(0)
 	{
 
@@ -113,9 +114,9 @@ namespace CrossEngine {
 		return (HANDLE)m_shader;
 	}
 
-	const spirv::module_type& CGLES3Shader::GetMoudleType(void) const
+	const spirv_cross::Compiler* CGLES3Shader::GetShaderCompiler(void) const
 	{
-		return m_moduleType;
+		return m_pShaderCompiler;
 	}
 
 	BOOL CGLES3Shader::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags)
@@ -143,26 +144,41 @@ namespace CrossEngine {
 		std::vector<uint32_t> words;
 		Precompile(szSource, length, flags);
 		LoadShaderBinary(szFileName, words);
-		m_moduleType = spirv::parse(words.data(), words.size());
 
-		std::vector<const char*> szSources;
+		return Create(words.data(), words.size(), flags);
+	}
+
+	BOOL CGLES3Shader::Create(const uint32_t *words, size_t numWords, VkShaderStageFlagBits flags)
+	{
+		m_pShaderCompiler = SAFE_NEW spirv_cross::CompilerGLSL(words, numWords);
+
+		spirv_cross::CompilerGLSL::Options options;
+		options.version = 310;
+		options.es = true;
+		((spirv_cross::CompilerGLSL *)m_pShaderCompiler)->set_options(options);
+
 		const std::vector<std::string>& strMacroDefinitions = ((CGLES3ShaderManager *)m_pResourceManager)->GetMacroDefinitions();
 		for (const auto &itMacroDefinition : strMacroDefinitions) {
-			szSources.push_back(itMacroDefinition.c_str());
+			((spirv_cross::CompilerGLSL *)m_pShaderCompiler)->add_header_line(itMacroDefinition);
 		}
-		szSources.push_back(szSource);
+
+		const std::string strSource = m_pShaderCompiler->compile();
+		const char *szSource = strSource.c_str();
 
 		GLint compiled = GL_FALSE;
 		GLenum shaderType = glGetShaderKind(flags);
 		m_shader = glCreateShader(shaderType);
-		glShaderSource(m_shader, szSources.size(), szSources.data(), NULL);
+		glShaderSource(m_shader, 1, &szSource, NULL);
 		glCompileShader(m_shader);
 		glGetShaderiv(m_shader, GL_COMPILE_STATUS, &compiled);
+
 		return compiled;
 	}
 
 	void CGLES3Shader::Destroy(void)
 	{
+		SAFE_DELETE(m_pShaderCompiler);
+
 		if (m_shader) {
 			glDeleteShader(m_shader);
 		}

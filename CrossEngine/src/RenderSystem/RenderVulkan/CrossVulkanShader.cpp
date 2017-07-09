@@ -87,6 +87,7 @@ namespace CrossEngine {
 	CVulkanShader::CVulkanShader(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxShader(pResourceManager)
 		, m_pDevice(pDevice)
+		, m_pShaderCompiler(NULL)
 		, m_vkShaderModule(VK_NULL_HANDLE)
 	{
 
@@ -102,9 +103,9 @@ namespace CrossEngine {
 		return m_vkShaderModule;
 	}
 
-	const spirv::module_type& CVulkanShader::GetMoudleType(void) const
+	const spirv_cross::Compiler* CVulkanShader::GetShaderCompiler(void) const
 	{
-		return m_moduleType;
+		return m_pShaderCompiler;
 	}
 
 	BOOL CVulkanShader::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags)
@@ -147,7 +148,7 @@ namespace CrossEngine {
 			createInfo.pCode = words;
 			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
-			m_moduleType = spirv::parse(words, numWords);
+			m_pShaderCompiler = SAFE_NEW spirv_cross::Compiler(words, numWords);
 
 			return TRUE;
 		}
@@ -161,6 +162,8 @@ namespace CrossEngine {
 
 	void CVulkanShader::Destroy(void)
 	{
+		SAFE_DELETE(m_pShaderCompiler);
+
 		if (m_vkShaderModule) {
 			vkDestroyShaderModule(m_pDevice->GetDevice(), m_vkShaderModule, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
 		}

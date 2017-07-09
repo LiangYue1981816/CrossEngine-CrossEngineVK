@@ -174,26 +174,33 @@ namespace CrossEngine {
 
 		for (const auto &itShader : m_ptrShaders) {
 			const VkShaderStageFlags shaderStageFlags = itShader.first;
-			const spirv::module_type &module = ((CVulkanShader *)((CGfxShader *)itShader.second))->GetMoudleType();
+			const spirv_cross::Compiler *pShaderCompiler = itShader.second->GetShaderCompiler();
+			const spirv_cross::ShaderResources shaderResources = pShaderCompiler->get_shader_resources();
 
-			for (const auto &variable : module.variables) {
-				if (variable.second.storage_class != SpvStorageClassUniform &&
-					variable.second.storage_class != SpvStorageClassUniformConstant) {
-					continue;
-				}
-
-				uint32_t set = variable.second.descriptor_set;
-				uint32_t binding = variable.second.binding;
+			for (const auto &itUniform : shaderResources.uniform_buffers) {
+				const uint32_t set = pShaderCompiler->get_decoration(itUniform.id, spv::DecorationDescriptorSet);
+				const uint32_t binding = pShaderCompiler->get_decoration(itUniform.id, spv::DecorationBinding);
+				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itUniform.type_id);
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
 					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
 				}
 
-				if (variable.second.storage_class == SpvStorageClassUniform) {
+				if (type.basetype == spirv_cross::SPIRType::Struct) {
 					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
 				}
+			}
 
-				if (variable.second.storage_class == SpvStorageClassUniformConstant) {
+			for (const auto &itSampledImage : shaderResources.sampled_images) {
+				const uint32_t set = pShaderCompiler->get_decoration(itSampledImage.id, spv::DecorationDescriptorSet);
+				const uint32_t binding = pShaderCompiler->get_decoration(itSampledImage.id, spv::DecorationBinding);
+				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSampledImage.type_id);
+
+				if (m_pDescriptorSetLayouts[set] == NULL) {
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
+				}
+
+				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
 					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
 				}
 			}

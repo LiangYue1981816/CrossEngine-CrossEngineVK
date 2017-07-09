@@ -41,6 +41,9 @@ namespace CrossEngine {
 
 
 	public:
+		virtual const spirv_cross::Compiler* GetShaderCompiler(void) const = 0;
+
+	public:
 		virtual BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags) = 0;
 		virtual BOOL Create(const char *szSource, size_t length, VkShaderStageFlagBits flags) = 0;
 	};

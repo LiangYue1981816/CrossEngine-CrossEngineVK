@@ -80,7 +80,11 @@ THE SOFTWARE.
 #include <zzip/zzip.h>
 #include <vulkan/vulkan.h>
 #include <shaderc/shaderc.hpp>
-#include <reflection/analyzer.h>
+#include <spirv_cfg.hpp>
+#include <spirv_cpp.hpp>
+#include <spirv_msl.hpp>
+#include <spirv_glsl.hpp>
+#include <spirv_cross.hpp>
 
 
 #include "CrossType.h"

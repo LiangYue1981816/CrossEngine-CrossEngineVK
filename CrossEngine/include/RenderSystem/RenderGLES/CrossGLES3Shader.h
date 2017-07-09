@@ -38,18 +38,19 @@ namespace CrossEngine {
 
 	public:
 		HANDLE GetHandle(void) const;
-		const spirv::module_type& GetMoudleType(void) const;
+		const spirv_cross::Compiler* GetShaderCompiler(void) const;
 
 	public:
 		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags);
 		BOOL Create(const char *szSource, size_t length, VkShaderStageFlagBits flags);
+		BOOL Create(const uint32_t *words, size_t numWords, VkShaderStageFlagBits flags);
 		void Destroy(void);
 		void DumpLog(void) const;
 
 
 	protected:
 		GLuint m_shader;
-		spirv::module_type m_moduleType;
+		spirv_cross::Compiler *m_pShaderCompiler;
 
 	protected:
 		CGLES3Device *m_pDevice;

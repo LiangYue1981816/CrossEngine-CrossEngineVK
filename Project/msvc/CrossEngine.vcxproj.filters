@@ -100,6 +100,9 @@
     <Filter Include="Dependencies\glew">
       <UniqueIdentifier>{dc1b15cf-eb42-4f37-84e5-2a0bf9e20604}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\spirv-cross">
+      <UniqueIdentifier>{faa1e337-e1fd-4642-9cb5-6a63be4bf763}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -748,6 +751,21 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3ShaderManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_cfg.cpp">
+      <Filter>Dependencies\spirv-cross</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_cpp.cpp">
+      <Filter>Dependencies\spirv-cross</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_cross.cpp">
+      <Filter>Dependencies\spirv-cross</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_glsl.cpp">
+      <Filter>Dependencies\spirv-cross</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\spirv-cross\spirv_msl.cpp">
+      <Filter>Dependencies\spirv-cross</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

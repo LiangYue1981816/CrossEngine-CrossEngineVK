@@ -167,26 +167,23 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		const spirv::module_type& moudle = ((CVulkanShader *)((CGfxShader *)m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]))->GetMoudleType();
+		const spirv_cross::Compiler *pShaderCompiler = m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetShaderCompiler();
+		const spirv_cross::ShaderResources shaderResources = pShaderCompiler->get_shader_resources();
 
-		for (const auto &variable : moudle.variables) {
-			if (variable.second.storage_class == SpvStorageClassInput) {
-				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
-					m_vertexFormat |= attribute;
-				}
+		for (const auto &itInput : shaderResources.stage_inputs) {
+			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(pShaderCompiler->get_name(itInput.id).c_str())) {
+				m_vertexFormat |= attribute;
 			}
 		}
 
-		for (const auto &variable : moudle.variables) {
-			if (variable.second.storage_class == SpvStorageClassInput) {
-				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(variable.second.name.c_str())) {
-					VkVertexInputAttributeDescription inputAttributeDescription;
-					inputAttributeDescription.binding = 0;
-					inputAttributeDescription.location = variable.second.location;
-					inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
-					inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
-					inputAttributeDescriptions.push_back(inputAttributeDescription);
-				}
+		for (const auto &itInput : shaderResources.stage_inputs) {
+			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(pShaderCompiler->get_name(itInput.id).c_str())) {
+				VkVertexInputAttributeDescription inputAttributeDescription;
+				inputAttributeDescription.binding = 0;
+				inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
+				inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
+				inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
+				inputAttributeDescriptions.push_back(inputAttributeDescription);
 			}
 		}
 
