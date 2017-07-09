@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CGLES3DescriptorSetLayout
 	{
 		friend class CGLES3Pipeline;
@@ -52,7 +52,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Pipeline
 	{
 	protected:
-		CGLES3Pipeline(CGLES3Device *pDevice);
+		CGLES3Pipeline(void);
 		virtual ~CGLES3Pipeline(void);
 
 
@@ -68,9 +68,6 @@ namespace CrossEngine {
 		GLuint m_program;
 		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
 		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
-
-	protected:
-		CGLES3Device *m_pDevice;
 	};
-	*/
+
 }
