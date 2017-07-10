@@ -29,7 +29,45 @@ namespace CrossEngine {
 		: CGfxPipelineGraphics(pResourceManager)
 		, m_vertexFormat(0)
 	{
+		m_inputAssemblyState = {};
+		m_inputAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+		m_inputAssemblyState.pNext = NULL;
+		m_inputAssemblyState.flags = 0;
 
+		m_tessellationState = {};
+		m_tessellationState.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
+		m_tessellationState.pNext = NULL;
+		m_tessellationState.flags = 0;
+
+		m_viewportState = {};
+		m_viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+		m_viewportState.pNext = NULL;
+		m_viewportState.flags = 0;
+		m_viewportState.viewportCount = 1;
+		m_viewportState.scissorCount = 1;
+
+		m_rasterizationState = {};
+		m_rasterizationState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+		m_rasterizationState.pNext = NULL;
+		m_rasterizationState.flags = 0;
+		m_rasterizationState.lineWidth = 1.0f;
+
+		m_multiSampleState = {};
+		m_multiSampleState.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+		m_multiSampleState.pNext = NULL;
+		m_multiSampleState.flags = 0;
+
+		m_depthStencilState = {};
+		m_depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+		m_depthStencilState.pNext = NULL;
+		m_depthStencilState.flags = 0;
+
+		m_colorBlendState = {};
+		m_colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+		m_colorBlendState.pNext = NULL;
+		m_colorBlendState.flags = 0;
+
+		SetDefault();
 	}
 
 	CGLES3PipelineGraphics::~CGLES3PipelineGraphics(void)
@@ -44,141 +82,290 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::Create(HANDLE hRenderPass)
 	{
+		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull() ||
+			m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT].IsNull()) {
+			return FALSE;
+		}
+
+		m_program = glCreateProgram();
+		glAttachShader(m_program, (GLuint)m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetHandle());
+		glAttachShader(m_program, (GLuint)m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT]->GetHandle());
+		glLinkProgram(m_program);
+
+		GLint linked = GL_FALSE;
+		glGetProgramiv(m_program, GL_LINK_STATUS, &linked);
+		if (linked == GL_FALSE) return FALSE;
+
+		CreateDescriptorSetLayouts();
+		CreateVertexInputAttributeDescriptions();
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::CreateVertexInputAttributeDescriptions(void)
 	{
+		m_vertexFormat = 0;
+
+		const spirv_cross::Compiler *pShaderCompiler = m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetShaderCompiler();
+		const spirv_cross::ShaderResources shaderResources = pShaderCompiler->get_shader_resources();
+
+		for (const auto &itInput : shaderResources.stage_inputs) {
+			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(pShaderCompiler->get_name(itInput.id).c_str())) {
+				m_vertexFormat |= attribute;
+			}
+		}
+
+		for (const auto &itInput : shaderResources.stage_inputs) {
+			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(pShaderCompiler->get_name(itInput.id).c_str())) {
+				const std::string &name = pShaderCompiler->get_name(itInput.id);
+				VkVertexInputAttributeDescription inputAttributeDescription;
+				inputAttributeDescription.binding = 0;
+				inputAttributeDescription.location = glGetAttribLocation(m_program, name.c_str());
+				inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
+				inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
+				m_vertexInputAttributeDescriptions[attribute] = inputAttributeDescription;
+			}
+		}
+
 		return TRUE;
 	}
 
 	void CGLES3PipelineGraphics::Destroy(void)
 	{
-
+		DestroyDescriptorSetLayouts();
+		glDeleteProgram(m_program);
+		m_program = 0;
 	}
 
 	void CGLES3PipelineGraphics::SetDefault(void)
 	{
+		VkStencilOpState front = {};
+		VkStencilOpState back = {};
+		back.failOp = front.failOp = VK_STENCIL_OP_KEEP;
+		back.passOp = front.passOp = VK_STENCIL_OP_KEEP;
+		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
+		m_vertexFormat = 0;
+		m_colorBlendAttachmentStates.clear();
+
+		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
+		SetTessellationPatchControlPoints(0);
+		SetPolygonMode(VK_POLYGON_MODE_FILL);
+		SetCullMode(VK_CULL_MODE_BACK_BIT);
+		SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
+		SetDepthClamp(FALSE);
+		SetDepthBias(FALSE, 0.0f, 0.0f, 0.0f);
+		SetRasterizerDiscard(FALSE);
+		SetSampleCounts(VK_SAMPLE_COUNT_1_BIT);
+		SetSampleShading(FALSE, 0.0f);
+		SetSampleMask(NULL);
+		SetSampleAlphaToCoverage(FALSE);
+		SetSampleAlphaToOne(FALSE);
+		SetDepthTest(TRUE, TRUE, VK_COMPARE_OP_LESS);
+		SetDepthBoundsTest(FALSE, 0.0f, 1.0f);
+		SetStencilTest(FALSE, front, back);
+		SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
+		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	BOOL CGLES3PipelineGraphics::SetVertexShader(const CGfxShaderPtr &ptrShader)
 	{
+		m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT] = ptrShader;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetTessellationControlShader(const CGfxShaderPtr &ptrShader)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
+			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = ptrShader;
+		}
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetTessellationEvaluationShader(const CGfxShaderPtr &ptrShader)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
+			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = ptrShader;
+		}
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetGeometryShader(const CGfxShaderPtr &ptrShader)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().geometryShader) {
+			m_ptrShaders[VK_SHADER_STAGE_GEOMETRY_BIT] = ptrShader;
+		}
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetFragmentShader(const CGfxShaderPtr &ptrShader)
 	{
+		m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT] = ptrShader;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetPrimitiveTopology(VkPrimitiveTopology topology, BOOL primitiveRestartEnable)
 	{
+		m_inputAssemblyState.topology = topology;
+		m_inputAssemblyState.primitiveRestartEnable = primitiveRestartEnable;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetTessellationPatchControlPoints(uint32_t patchControlPoints)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
+			if (patchControlPoints > m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize) {
+				patchControlPoints = m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize;
+			}
+
+			m_tessellationState.patchControlPoints = patchControlPoints;
+		}
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetPolygonMode(VkPolygonMode polygonMode)
 	{
+		m_rasterizationState.polygonMode = polygonMode;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetCullMode(VkCullModeFlags cullMode)
 	{
+		m_rasterizationState.cullMode = cullMode;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetFrontFace(VkFrontFace frontFace)
 	{
+		m_rasterizationState.frontFace = frontFace;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetDepthClamp(BOOL depthClampEnable)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().depthClamp) {
+			m_rasterizationState.depthClampEnable = depthClampEnable;
+		}
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetDepthBias(BOOL depthBiasEnable, float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor)
 	{
+		m_rasterizationState.depthBiasEnable = depthBiasEnable;
+		m_rasterizationState.depthBiasConstantFactor = depthBiasConstantFactor;
+		m_rasterizationState.depthBiasClamp = depthBiasClamp;
+		m_rasterizationState.depthBiasSlopeFactor = depthBiasSlopeFactor;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetRasterizerDiscard(BOOL rasterizerDiscardEnable)
 	{
+		m_rasterizationState.rasterizerDiscardEnable = rasterizerDiscardEnable;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetSampleCounts(VkSampleCountFlagBits rasterizationSamples)
 	{
+		m_multiSampleState.rasterizationSamples = rasterizationSamples;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetSampleShading(BOOL sampleShadingEnable, float minSampleShading)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().sampleRateShading) {
+			m_multiSampleState.sampleShadingEnable = sampleShadingEnable;
+			m_multiSampleState.minSampleShading = minSampleShading;
+		}
+
 		return TRUE;
 	}
 
-	BOOL CGLES3PipelineGraphics::SetSampleMask(const uint32_t* pMask)
+	BOOL CGLES3PipelineGraphics::SetSampleMask(const VkSampleMask* pMask)
 	{
+		m_multiSampleState.pSampleMask = pMask;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetSampleAlphaToCoverage(BOOL alphaToCoverageEnable)
 	{
+		m_multiSampleState.alphaToCoverageEnable = alphaToCoverageEnable;
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetSampleAlphaToOne(BOOL alphaToOneEnable)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().alphaToOne) {
+			m_multiSampleState.alphaToOneEnable = alphaToOneEnable;
+		}
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, VkCompareOp depthCompareOp)
 	{
+		m_depthStencilState.depthTestEnable = depthTestEnable;
+		m_depthStencilState.depthWriteEnable = depthWriteEnable;
+		m_depthStencilState.depthCompareOp = depthCompareOp;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetDepthBoundsTest(BOOL depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds)
 	{
+		if (m_pDevice->GetPhysicalDeviceFeatures().depthBounds) {
+			m_depthStencilState.depthBoundsTestEnable = depthBoundsTestEnable;
+			m_depthStencilState.minDepthBounds = minDepthBounds;
+			m_depthStencilState.maxDepthBounds = maxDepthBounds;
+		}
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetStencilTest(BOOL stencilTestEnable, VkStencilOpState front, VkStencilOpState back)
 	{
+		m_depthStencilState.stencilTestEnable = stencilTestEnable;
+		m_depthStencilState.front = front;
+		m_depthStencilState.back = back;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetColorBlendLogic(BOOL logicOpEnable, VkLogicOp logicOp)
 	{
+		m_colorBlendState.logicOpEnable = logicOpEnable;
+		m_colorBlendState.logicOp = logicOp;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetColorBlendConstants(float r, float g, float b, float a)
 	{
+		m_colorBlendState.blendConstants[0] = r;
+		m_colorBlendState.blendConstants[1] = g;
+		m_colorBlendState.blendConstants[2] = b;
+		m_colorBlendState.blendConstants[3] = a;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
 	{
+		m_colorBlendAttachmentStates[attachment].blendEnable = blendEnable;
+		m_colorBlendAttachmentStates[attachment].srcColorBlendFactor = srcColorBlendFactor;
+		m_colorBlendAttachmentStates[attachment].dstColorBlendFactor = dstColorBlendFactor;
+		m_colorBlendAttachmentStates[attachment].colorBlendOp = colorBlendOp;
+		m_colorBlendAttachmentStates[attachment].srcAlphaBlendFactor = srcAlphaBlendFactor;
+		m_colorBlendAttachmentStates[attachment].dstAlphaBlendFactor = dstAlphaBlendFactor;
+		m_colorBlendAttachmentStates[attachment].alphaBlendOp = alphaBlendOp;
+		m_colorBlendAttachmentStates[attachment].colorWriteMask = colorWriteMask;
+
 		return TRUE;
 	}
 
@@ -189,7 +376,9 @@ namespace CrossEngine {
 
 	void CGLES3PipelineGraphics::DumpLog(void) const
 	{
-
+		if (m_program) {
+			LOGI("\t\tPipelineGraphics 0x%x\n", m_program);
+		}
 	}
 
 }

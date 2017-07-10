@@ -322,21 +322,18 @@ namespace CrossEngine {
 	BOOL CVulkanPipelineGraphics::SetPolygonMode(VkPolygonMode polygonMode)
 	{
 		m_rasterizationState.polygonMode = polygonMode;
-
 		return TRUE;
 	}
 
 	BOOL CVulkanPipelineGraphics::SetCullMode(VkCullModeFlags cullMode)
 	{
 		m_rasterizationState.cullMode = cullMode;
-
 		return TRUE;
 	}
 
 	BOOL CVulkanPipelineGraphics::SetFrontFace(VkFrontFace frontFace)
 	{
 		m_rasterizationState.frontFace = frontFace;
-
 		return TRUE;
 	}
 
@@ -362,14 +359,12 @@ namespace CrossEngine {
 	BOOL CVulkanPipelineGraphics::SetRasterizerDiscard(BOOL rasterizerDiscardEnable)
 	{
 		m_rasterizationState.rasterizerDiscardEnable = rasterizerDiscardEnable;
-
 		return TRUE;
 	}
 
 	BOOL CVulkanPipelineGraphics::SetSampleCounts(VkSampleCountFlagBits rasterizationSamples)
 	{
 		m_multiSampleState.rasterizationSamples = rasterizationSamples;
-
 		return TRUE;
 	}
 
@@ -383,17 +378,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetSampleMask(const uint32_t* pMask)
+	BOOL CVulkanPipelineGraphics::SetSampleMask(const VkSampleMask* pMask)
 	{
-		m_multiSampleState.pSampleMask = (const VkSampleMask*)pMask;
-
+		m_multiSampleState.pSampleMask = pMask;
 		return TRUE;
 	}
 
 	BOOL CVulkanPipelineGraphics::SetSampleAlphaToCoverage(BOOL alphaToCoverageEnable)
 	{
 		m_multiSampleState.alphaToCoverageEnable = alphaToCoverageEnable;
-
 		return TRUE;
 	}
 

@@ -59,7 +59,7 @@ namespace CrossEngine {
 		virtual BOOL SetRasterizerDiscard(BOOL rasterizerDiscardEnable) = 0;
 		virtual BOOL SetSampleCounts(VkSampleCountFlagBits rasterizationSamples) = 0;
 		virtual BOOL SetSampleShading(BOOL sampleShadingEnable, float minSampleShading) = 0;
-		virtual BOOL SetSampleMask(const uint32_t* pMask) = 0;
+		virtual BOOL SetSampleMask(const VkSampleMask* pMask) = 0;
 		virtual BOOL SetSampleAlphaToCoverage(BOOL alphaToCoverageEnable) = 0;
 		virtual BOOL SetSampleAlphaToOne(BOOL alphaToOneEnable) = 0;
 		virtual BOOL SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, VkCompareOp depthCompareOp) = 0;

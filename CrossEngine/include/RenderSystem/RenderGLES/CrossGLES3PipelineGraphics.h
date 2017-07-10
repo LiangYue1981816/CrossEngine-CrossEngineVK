@@ -61,7 +61,7 @@ namespace CrossEngine {
 		BOOL SetRasterizerDiscard(BOOL rasterizerDiscardEnable);
 		BOOL SetSampleCounts(VkSampleCountFlagBits rasterizationSamples);
 		BOOL SetSampleShading(BOOL sampleShadingEnable, float minSampleShading);
-		BOOL SetSampleMask(const uint32_t* pMask);
+		BOOL SetSampleMask(const VkSampleMask* pMask);
 		BOOL SetSampleAlphaToCoverage(BOOL alphaToCoverageEnable);
 		BOOL SetSampleAlphaToOne(BOOL alphaToOneEnable);
 		BOOL SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, VkCompareOp depthCompareOp);
@@ -86,7 +86,7 @@ namespace CrossEngine {
 		VkPipelineMultisampleStateCreateInfo m_multiSampleState;
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
-		std::vector<VkVertexInputAttributeDescription> m_vertexInputAttributeDescriptions;
+		std::map<uint32_t, VkVertexInputAttributeDescription> m_vertexInputAttributeDescriptions;
 		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
 
 	protected:
