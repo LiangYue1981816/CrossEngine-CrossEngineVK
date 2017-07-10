@@ -44,6 +44,7 @@ THE SOFTWARE.
 #include "CrossGLES3Shader.h"
 #include "CrossGLES3ShaderManager.h"
 #include "CrossGLES3Pipeline.h"
+#include "CrossGLES3PipelineGraphics.h"
 #include "CrossGLES3RenderPass.h"
 #include "CrossGLES3RenderPassManager.h"
 #include "CrossGLES3FrameBuffer.h"
