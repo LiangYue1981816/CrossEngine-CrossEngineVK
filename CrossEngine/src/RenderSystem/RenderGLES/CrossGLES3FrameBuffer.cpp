@@ -120,6 +120,7 @@ namespace CrossEngine {
 	void CGLES3FrameBuffer::Destroy(void)
 	{
 		glDeleteFramebuffers(1, &m_framebuffer);
+		m_framebuffer = 0;
 	}
 
 	BOOL CGLES3FrameBuffer::SetAttachment(uint32_t indexAttachment, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView)

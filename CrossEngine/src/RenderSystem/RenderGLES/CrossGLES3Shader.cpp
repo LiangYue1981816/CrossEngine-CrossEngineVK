@@ -99,7 +99,7 @@ namespace CrossEngine {
 		: CGfxShader(pResourceManager)
 		, m_pDevice(pDevice)
 		, m_pShaderCompiler(NULL)
-		, m_shader(0)
+		, m_program(0)
 	{
 
 	}
@@ -111,7 +111,7 @@ namespace CrossEngine {
 
 	HANDLE CGLES3Shader::GetHandle(void) const
 	{
-		return (HANDLE)m_shader;
+		return (HANDLE)m_program;
 	}
 
 	const spirv_cross::Compiler* CGLES3Shader::GetShaderCompiler(void) const
@@ -165,31 +165,21 @@ namespace CrossEngine {
 		const std::string strSource = m_pShaderCompiler->compile();
 		const char *szSource = strSource.c_str();
 
-		GLint compiled = GL_FALSE;
-		GLenum shaderType = glGetShaderKind(flags);
-		m_shader = glCreateShader(shaderType);
-		glShaderSource(m_shader, 1, &szSource, NULL);
-		glCompileShader(m_shader);
-		glGetShaderiv(m_shader, GL_COMPILE_STATUS, &compiled);
-
-		return compiled;
+		m_program = glCreateShaderProgramv(glGetShaderKind(flags), 1, &szSource);
+		return m_program != 0 ? TRUE : FALSE;
 	}
 
 	void CGLES3Shader::Destroy(void)
 	{
 		SAFE_DELETE(m_pShaderCompiler);
-
-		if (m_shader) {
-			glDeleteShader(m_shader);
-		}
-
-		m_shader = 0;
+		glDeleteProgram(m_program);
+		m_program = 0;
 	}
 
 	void CGLES3Shader::DumpLog(void) const
 	{
-		if (m_shader) {
-			LOGI("\t\tShader 0x%x\n", m_shader);
+		if (m_program) {
+			LOGI("\t\tShader 0x%x\n", m_program);
 		}
 	}
 

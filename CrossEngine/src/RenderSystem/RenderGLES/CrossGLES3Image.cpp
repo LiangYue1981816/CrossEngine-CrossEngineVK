@@ -127,14 +127,8 @@ namespace CrossEngine {
 
 	void CGLES3Image::Destroy(void)
 	{
-		if (m_texture) {
-			glDeleteTextures(1, &m_texture);
-		}
-
-		if (m_sampler) {
-			glDeleteSamplers(1, &m_sampler);
-		}
-
+		glDeleteTextures(1, &m_texture);
+		glDeleteSamplers(1, &m_sampler);
 		m_texture = 0;
 		m_sampler = 0;
 	}

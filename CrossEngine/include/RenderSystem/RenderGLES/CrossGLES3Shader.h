@@ -49,7 +49,7 @@ namespace CrossEngine {
 
 
 	protected:
-		GLuint m_shader;
+		GLuint m_program;
 		spirv_cross::Compiler *m_pShaderCompiler;
 
 	protected:
