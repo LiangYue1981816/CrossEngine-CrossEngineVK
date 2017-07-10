@@ -20,57 +20,58 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3DescriptorSetLayout
+	CGLES3PipelineCompute::CGLES3PipelineCompute(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
+		: CGLES3Pipeline(pDevice)
+		, CGfxPipelineCompute(pResourceManager)
 	{
-		friend class CGLES3Pipeline;
 
+	}
 
-	protected:
-		CGLES3DescriptorSetLayout(uint32_t set);
-		virtual ~CGLES3DescriptorSetLayout(void);
-
-
-	protected:
-		BOOL SetBinding(GLuint program, uint32_t binding, const char *szName);
-
-	public:
-		uint32_t GetSet(void) const;
-		const std::map<uint32_t, uint32_t>& GetBindings(void) const;
-
-
-	protected:
-		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_bindings;
-	};
-
-	class CROSS_EXPORT CGLES3Pipeline
+	CGLES3PipelineCompute::~CGLES3PipelineCompute(void)
 	{
-	protected:
-		CGLES3Pipeline(CGLES3Device *pDevice);
-		virtual ~CGLES3Pipeline(void);
 
+	}
 
-	protected:
-		BOOL CreateDescriptorSetLayouts(void);
-		void DestroyDescriptorSetLayouts(void);
+	HANDLE CGLES3PipelineCompute::GetHandle(void) const
+	{
+		return (HANDLE)m_pipeline;
+	}
 
-	public:
-		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
+	BOOL CGLES3PipelineCompute::Create(const CGfxShaderPtr &ptrShader)
+	{
+		if (ptrShader.IsNull()) {
+			return FALSE;
+		}
 
+		m_ptrShaders[VK_SHADER_STAGE_COMPUTE_BIT] = ptrShader;
 
-	protected:
-		GLuint m_pipeline;
-		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
+		glGenProgramPipelines(1, &m_pipeline);
+		glBindProgramPipeline(m_pipeline);
+		{
+			glUseProgramStages(m_pipeline, GL_COMPUTE_SHADER_BIT, (GLuint)m_ptrShaders[VK_SHADER_STAGE_COMPUTE_BIT]->GetHandle());
+		}
+		glBindProgramPipeline(0);
 
-	protected:
-		CGLES3Device *m_pDevice;
-	};
+		return CreateDescriptorSetLayouts();
+	}
+
+	void CGLES3PipelineCompute::Destroy(void)
+	{
+		DestroyDescriptorSetLayouts();
+		glDeleteProgramPipelines(1, &m_pipeline);
+		m_pipeline = 0;
+	}
+
+	void CGLES3PipelineCompute::DumpLog(void) const
+	{
+		if (m_pipeline) {
+			LOGI("\t\tPipelineCompute 0x%x\n", m_pipeline);
+		}
+	}
 
 }

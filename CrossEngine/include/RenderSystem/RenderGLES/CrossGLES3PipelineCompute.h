@@ -26,51 +26,23 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3DescriptorSetLayout
+	class CROSS_EXPORT CGLES3PipelineCompute : public CGfxPipelineCompute, public CGLES3Pipeline
 	{
-		friend class CGLES3Pipeline;
+		friend class CGLES3PipelineManager;
 
 
 	protected:
-		CGLES3DescriptorSetLayout(uint32_t set);
-		virtual ~CGLES3DescriptorSetLayout(void);
+		CGLES3PipelineCompute(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CGLES3PipelineCompute(void);
 
-
-	protected:
-		BOOL SetBinding(GLuint program, uint32_t binding, const char *szName);
 
 	public:
-		uint32_t GetSet(void) const;
-		const std::map<uint32_t, uint32_t>& GetBindings(void) const;
-
-
-	protected:
-		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_bindings;
-	};
-
-	class CROSS_EXPORT CGLES3Pipeline
-	{
-	protected:
-		CGLES3Pipeline(CGLES3Device *pDevice);
-		virtual ~CGLES3Pipeline(void);
-
-
-	protected:
-		BOOL CreateDescriptorSetLayouts(void);
-		void DestroyDescriptorSetLayouts(void);
+		HANDLE GetHandle(void) const;
 
 	public:
-		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
-
-
-	protected:
-		GLuint m_pipeline;
-		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
-
-	protected:
-		CGLES3Device *m_pDevice;
+		BOOL Create(const CGfxShaderPtr &ptrShader);
+		void Destroy(void);
+		void DumpLog(void) const;
 	};
 
 }

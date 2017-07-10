@@ -58,8 +58,9 @@ namespace CrossEngine {
 	}
 
 
-	CGLES3Pipeline::CGLES3Pipeline(void)
-		: m_pipeline(0)
+	CGLES3Pipeline::CGLES3Pipeline(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
+		, m_pipeline(0)
 	{
 
 	}

@@ -20,57 +20,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3DescriptorSetLayout
+	CGLES3PipelineManager::CGLES3PipelineManager(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
 	{
-		friend class CGLES3Pipeline;
 
+	}
 
-	protected:
-		CGLES3DescriptorSetLayout(uint32_t set);
-		virtual ~CGLES3DescriptorSetLayout(void);
-
-
-	protected:
-		BOOL SetBinding(GLuint program, uint32_t binding, const char *szName);
-
-	public:
-		uint32_t GetSet(void) const;
-		const std::map<uint32_t, uint32_t>& GetBindings(void) const;
-
-
-	protected:
-		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_bindings;
-	};
-
-	class CROSS_EXPORT CGLES3Pipeline
+	CGLES3PipelineManager::~CGLES3PipelineManager(void)
 	{
-	protected:
-		CGLES3Pipeline(CGLES3Device *pDevice);
-		virtual ~CGLES3Pipeline(void);
 
+	}
 
-	protected:
-		BOOL CreateDescriptorSetLayouts(void);
-		void DestroyDescriptorSetLayouts(void);
+	CGfxPipelineComputePtr CGLES3PipelineManager::AllocPipelineCompute(void)
+	{
+		CGLES3PipelineCompute *pPipelineCompute = SAFE_NEW CGLES3PipelineCompute(m_pDevice, this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pPipelineCompute] = pPipelineCompute;
+		}
+		return CGfxPipelineComputePtr(pPipelineCompute);
+	}
 
-	public:
-		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
-
-
-	protected:
-		GLuint m_pipeline;
-		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
-
-	protected:
-		CGLES3Device *m_pDevice;
-	};
+	CGfxPipelineGraphicsPtr CGLES3PipelineManager::AllocPipelineGraphics(void)
+	{
+		CGLES3PipelineGraphics *pPipelineGraphics = SAFE_NEW CGLES3PipelineGraphics(m_pDevice, this);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pPipelineGraphics] = pPipelineGraphics;
+		}
+		return CGfxPipelineGraphicsPtr(pPipelineGraphics);
+	}
 
 }

@@ -26,48 +26,22 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3DescriptorSetLayout
+	class CROSS_EXPORT CGLES3PipelineManager : public CGfxResourceManager
 	{
-		friend class CGLES3Pipeline;
+		friend class CGLES3Device;
+		friend class CGLES3PipelineCompute;
+		friend class CGLES3PipelineGraphics;
 
 
 	protected:
-		CGLES3DescriptorSetLayout(uint32_t set);
-		virtual ~CGLES3DescriptorSetLayout(void);
+		CGLES3PipelineManager(CGLES3Device *pDevice);
+		virtual ~CGLES3PipelineManager(void);
 
 
 	protected:
-		BOOL SetBinding(GLuint program, uint32_t binding, const char *szName);
+		CGfxPipelineComputePtr AllocPipelineCompute(void);
+		CGfxPipelineGraphicsPtr AllocPipelineGraphics(void);
 
-	public:
-		uint32_t GetSet(void) const;
-		const std::map<uint32_t, uint32_t>& GetBindings(void) const;
-
-
-	protected:
-		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_bindings;
-	};
-
-	class CROSS_EXPORT CGLES3Pipeline
-	{
-	protected:
-		CGLES3Pipeline(CGLES3Device *pDevice);
-		virtual ~CGLES3Pipeline(void);
-
-
-	protected:
-		BOOL CreateDescriptorSetLayouts(void);
-		void DestroyDescriptorSetLayouts(void);
-
-	public:
-		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
-
-
-	protected:
-		GLuint m_pipeline;
-		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
 
 	protected:
 		CGLES3Device *m_pDevice;

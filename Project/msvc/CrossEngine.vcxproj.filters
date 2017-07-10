@@ -438,6 +438,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3PipelineGraphics.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3PipelineCompute.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3PipelineManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -771,6 +777,12 @@
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3PipelineGraphics.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3PipelineCompute.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3PipelineManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Resource</Filter>
     </ClCompile>
   </ItemGroup>

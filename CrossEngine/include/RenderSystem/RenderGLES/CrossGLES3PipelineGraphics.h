@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3PipelineGraphics : public CGfxPipelineGraphics, public CGLES3Pipeline
 	{
+		friend class CGLES3PipelineManager;
+
+
 	protected:
 		CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3PipelineGraphics(void);
@@ -88,9 +91,6 @@ namespace CrossEngine {
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
 		std::map<uint32_t, VkVertexInputAttributeDescription> m_vertexInputAttributeDescriptions;
 		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
-
-	protected:
-		CGLES3Device *m_pDevice;
 	};
 
 }
