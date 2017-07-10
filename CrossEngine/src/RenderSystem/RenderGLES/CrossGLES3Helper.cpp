@@ -126,27 +126,27 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CGLES3Helper::glAttachmentLoadOpToString(GLAttachmentLoadOp loadOp)
+	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];
 
 		switch (loadOp) {
-		case GL_ATTACHMENT_LOAD_OP_LOAD: strcpy(szString, "GL_ATTACHMENT_LOAD_OP_LOAD"); break;
-		case GL_ATTACHMENT_LOAD_OP_CLEAR: strcpy(szString, "GL_ATTACHMENT_LOAD_OP_CLEAR"); break;
-		case GL_ATTACHMENT_LOAD_OP_DONT_CARE: strcpy(szString, "GL_ATTACHMENT_LOAD_OP_DONT_CARE"); break;
+		case VK_ATTACHMENT_LOAD_OP_LOAD: strcpy(szString, "ATTACHMENT_LOAD_OP_LOAD"); break;
+		case VK_ATTACHMENT_LOAD_OP_CLEAR: strcpy(szString, "ATTACHMENT_LOAD_OP_CLEAR"); break;
+		case VK_ATTACHMENT_LOAD_OP_DONT_CARE: strcpy(szString, "ATTACHMENT_LOAD_OP_DONT_CARE"); break;
 		default: strcpy(szString, "unknown"); break;
 		}
 
 		return szString;
 	}
 
-	const char* CGLES3Helper::glAttachmentStoreOpToString(GLAttachmentStoreOp storeOp)
+	const char* CGLES3Helper::glAttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
 	{
 		static char szString[_MAX_STRING];
 
 		switch (storeOp) {
-		case GL_ATTACHMENT_STORE_OP_STORE: strcpy(szString, "GL_ATTACHMENT_STORE_OP_STORE"); break;
-		case GL_ATTACHMENT_STORE_OP_DONT_CARE: strcpy(szString, "GL_ATTACHMENT_STORE_OP_DONT_CARE"); break;
+		case VK_ATTACHMENT_STORE_OP_STORE: strcpy(szString, "ATTACHMENT_STORE_OP_STORE"); break;
+		case VK_ATTACHMENT_STORE_OP_DONT_CARE: strcpy(szString, "ATTACHMENT_STORE_OP_DONT_CARE"); break;
 		default: strcpy(szString, "unknown"); break;
 		}
 

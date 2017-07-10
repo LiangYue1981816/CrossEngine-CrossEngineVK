@@ -40,8 +40,8 @@ namespace CrossEngine {
 		static GLenum glTranslateMinFilter(VkFilter minFilter, VkSamplerMipmapMode mipmapMode);
 		static GLenum glTranslateAddressMode(VkSamplerAddressMode addressMode);
 
-		static const char* glAttachmentLoadOpToString(GLAttachmentLoadOp loadOp);
-		static const char* glAttachmentStoreOpToString(GLAttachmentStoreOp storeOp);
+		static const char* glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp);
+		static const char* glAttachmentStoreOpToString(VkAttachmentStoreOp storeOp);
 	};
 
 }

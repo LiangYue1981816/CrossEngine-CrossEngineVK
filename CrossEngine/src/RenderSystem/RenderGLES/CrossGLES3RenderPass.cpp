@@ -57,51 +57,33 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
-		m_attachments[indexAttachment].loadOp = (GLAttachmentLoadOp)loadOp;
-		m_attachments[indexAttachment].storeOp = (GLAttachmentStoreOp)storeOp;
-		m_attachments[indexAttachment].stencilLoadOp = GL_ATTACHMENT_LOAD_OP_DONT_CARE;
-		m_attachments[indexAttachment].stencilStoreOp = GL_ATTACHMENT_STORE_OP_DONT_CARE;
-
-		m_attachmentClearValues[indexAttachment].color[0] = clearValue.color.float32[0];
-		m_attachmentClearValues[indexAttachment].color[1] = clearValue.color.float32[1];
-		m_attachmentClearValues[indexAttachment].color[2] = clearValue.color.float32[2];
-		m_attachmentClearValues[indexAttachment].color[3] = clearValue.color.float32[3];
-		m_attachmentClearValues[indexAttachment].depth = clearValue.depthStencil.depth;
-		m_attachmentClearValues[indexAttachment].stencil = clearValue.depthStencil.stencil;
+		m_attachments[indexAttachment].loadOp = loadOp;
+		m_attachments[indexAttachment].storeOp = storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
 
 	BOOL CGLES3RenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		m_attachments[indexAttachment].loadOp = (GLAttachmentLoadOp)loadOp;
-		m_attachments[indexAttachment].storeOp = (GLAttachmentStoreOp)storeOp;
-		m_attachments[indexAttachment].stencilLoadOp = GL_ATTACHMENT_LOAD_OP_DONT_CARE;
-		m_attachments[indexAttachment].stencilStoreOp = GL_ATTACHMENT_STORE_OP_DONT_CARE;
-
-		m_attachmentClearValues[indexAttachment].color[0] = clearValue.color.float32[0];
-		m_attachmentClearValues[indexAttachment].color[1] = clearValue.color.float32[1];
-		m_attachmentClearValues[indexAttachment].color[2] = clearValue.color.float32[2];
-		m_attachmentClearValues[indexAttachment].color[3] = clearValue.color.float32[3];
-		m_attachmentClearValues[indexAttachment].depth = clearValue.depthStencil.depth;
-		m_attachmentClearValues[indexAttachment].stencil = clearValue.depthStencil.stencil;
+		m_attachments[indexAttachment].loadOp = loadOp;
+		m_attachments[indexAttachment].storeOp = storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
 
 	BOOL CGLES3RenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		m_attachments[indexAttachment].loadOp = (GLAttachmentLoadOp)loadOp;
-		m_attachments[indexAttachment].storeOp = (GLAttachmentStoreOp)storeOp;
-		m_attachments[indexAttachment].stencilLoadOp = (GLAttachmentLoadOp)stencilLoadOp;
-		m_attachments[indexAttachment].stencilStoreOp = (GLAttachmentStoreOp)stencilStoreOp;
-
-		m_attachmentClearValues[indexAttachment].color[0] = clearValue.color.float32[0];
-		m_attachmentClearValues[indexAttachment].color[1] = clearValue.color.float32[1];
-		m_attachmentClearValues[indexAttachment].color[2] = clearValue.color.float32[2];
-		m_attachmentClearValues[indexAttachment].color[3] = clearValue.color.float32[3];
-		m_attachmentClearValues[indexAttachment].depth = clearValue.depthStencil.depth;
-		m_attachmentClearValues[indexAttachment].stencil = clearValue.depthStencil.stencil;
+		m_attachments[indexAttachment].loadOp = loadOp;
+		m_attachments[indexAttachment].storeOp = storeOp;
+		m_attachments[indexAttachment].stencilLoadOp = stencilLoadOp;
+		m_attachments[indexAttachment].stencilStoreOp = stencilStoreOp;
+		m_attachmentClearValues[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -156,13 +138,13 @@ namespace CrossEngine {
 		return itSubpass != m_subpasses.end() ? &itSubpass->second : NULL;
 	}
 
-	const GLAttachmentDescription* CGLES3RenderPass::GetAttachment(uint32_t indexAttachment) const
+	const VkAttachmentDescription* CGLES3RenderPass::GetAttachment(uint32_t indexAttachment) const
 	{
 		const auto &itAttachment = m_attachments.find(indexAttachment);
 		return itAttachment != m_attachments.end() ? &itAttachment->second : NULL;
 	}
 
-	const GLClearValue* CGLES3RenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
+	const VkClearValue* CGLES3RenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
 	{
 		const auto &itAttachmentClearValue = m_attachmentClearValues.find(indexAttachment);
 		return itAttachmentClearValue != m_attachmentClearValues.end() ? &itAttachmentClearValue->second : NULL;

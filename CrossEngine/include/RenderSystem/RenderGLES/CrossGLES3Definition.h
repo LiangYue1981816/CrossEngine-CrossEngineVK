@@ -32,46 +32,12 @@ namespace CrossEngine {
 		CGfxRenderTexturePtr ptrRenderTexture;
 	} GLAttachmentInformation;
 
-	typedef enum GLAttachmentLoadOp {
-		GL_ATTACHMENT_LOAD_OP_LOAD = 0,
-		GL_ATTACHMENT_LOAD_OP_CLEAR = 1,
-		GL_ATTACHMENT_LOAD_OP_DONT_CARE = 2
-	} GLAttachmentLoadOp;
-
-	typedef enum GLAttachmentStoreOp {
-		GL_ATTACHMENT_STORE_OP_STORE = 0,
-		GL_ATTACHMENT_STORE_OP_DONT_CARE = 1,
-	} GLAttachmentStoreOp;
-
-	typedef struct GLAttachmentDescription {
-		GLAttachmentLoadOp loadOp;
-		GLAttachmentStoreOp storeOp;
-		GLAttachmentLoadOp stencilLoadOp;
-		GLAttachmentStoreOp stencilStoreOp;
-	} GLAttachmentDescription;
-
 	typedef struct GLSubpassInformation {
 		std::map<uint32_t, uint32_t> inputAttachments;
 		std::map<uint32_t, uint32_t> colorAttachments;
 		uint32_t depthStencilAttachment;
 	} GLSubpassInformation;
 
-	typedef union GLClearColorValue {
-		float float32[4];
-		int32_t int32[4];
-		uint32_t uint32[4];
-	} GLClearColorValue;
-
-	typedef struct GLClearDepthStencilValue {
-		float depth;
-		uint32_t stencil;
-	} GLClearDepthStencilValue;
-
-	typedef union GLClearValue {
-		float color[4];
-		float depth;
-		uint32_t stencil;
-	} GLClearValue;
 
 	class CROSS_EXPORT CGLES3Instance;
 	class CROSS_EXPORT CGLES3Queue;
