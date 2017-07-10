@@ -65,7 +65,7 @@ namespace CrossEngine {
 
 
 	protected:
-		GLuint m_program;
+		GLuint m_pipeline;
 		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
 		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
 	};

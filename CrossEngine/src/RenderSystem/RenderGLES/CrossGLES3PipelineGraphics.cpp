@@ -77,7 +77,7 @@ namespace CrossEngine {
 
 	HANDLE CGLES3PipelineGraphics::GetHandle(void) const
 	{
-		return (HANDLE)m_program;
+		return (HANDLE)m_pipeline;
 	}
 
 	BOOL CGLES3PipelineGraphics::Create(HANDLE hRenderPass)
@@ -87,14 +87,13 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_program = glCreateProgram();
-		glAttachShader(m_program, (GLuint)m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetHandle());
-		glAttachShader(m_program, (GLuint)m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT]->GetHandle());
-		glLinkProgram(m_program);
-
-		GLint linked = GL_FALSE;
-		glGetProgramiv(m_program, GL_LINK_STATUS, &linked);
-		if (linked == GL_FALSE) return FALSE;
+		glGenProgramPipelines(1, &m_pipeline);
+		glBindProgramPipeline(m_pipeline);
+		{
+			glUseProgramStages(m_pipeline, GL_VERTEX_SHADER_BIT, (GLuint)m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetHandle());
+			glUseProgramStages(m_pipeline, GL_FRAGMENT_SHADER_BIT, (GLuint)m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT]->GetHandle());
+		}
+		glBindProgramPipeline(0);
 
 		CreateDescriptorSetLayouts();
 		CreateVertexInputAttributeDescriptions();
@@ -120,7 +119,7 @@ namespace CrossEngine {
 				const std::string &name = pShaderCompiler->get_name(itInput.id);
 				VkVertexInputAttributeDescription inputAttributeDescription;
 				inputAttributeDescription.binding = 0;
-				inputAttributeDescription.location = glGetAttribLocation(m_program, name.c_str());
+				inputAttributeDescription.location = glGetAttribLocation((GLuint)m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetHandle(), name.c_str());
 				inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
 				inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
 				m_vertexInputAttributeDescriptions[attribute] = inputAttributeDescription;
@@ -133,8 +132,8 @@ namespace CrossEngine {
 	void CGLES3PipelineGraphics::Destroy(void)
 	{
 		DestroyDescriptorSetLayouts();
-		glDeleteProgram(m_program);
-		m_program = 0;
+		glDeleteProgramPipelines(1, &m_pipeline);
+		m_pipeline = 0;
 	}
 
 	void CGLES3PipelineGraphics::SetDefault(void)
@@ -376,8 +375,8 @@ namespace CrossEngine {
 
 	void CGLES3PipelineGraphics::DumpLog(void) const
 	{
-		if (m_program) {
-			LOGI("\t\tPipelineGraphics 0x%x\n", m_program);
+		if (m_pipeline) {
+			LOGI("\t\tPipelineGraphics 0x%x\n", m_pipeline);
 		}
 	}
 

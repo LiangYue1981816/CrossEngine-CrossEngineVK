@@ -59,7 +59,7 @@ namespace CrossEngine {
 
 
 	CGLES3Pipeline::CGLES3Pipeline(void)
-		: m_program(0)
+		: m_pipeline(0)
 	{
 
 	}
@@ -87,7 +87,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_pDescriptorSetLayouts[set]->SetBinding(m_program, binding, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
 				}
 			}
 
@@ -102,7 +102,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
-					m_pDescriptorSetLayouts[set]->SetBinding(m_program, binding, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
 				}
 			}
 		}
