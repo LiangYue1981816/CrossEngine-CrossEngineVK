@@ -20,53 +20,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
-
-	CGLES3DescriptorSetManager::CGLES3DescriptorSetManager(CGLES3Device *pDevice)
-		: m_pDevice(pDevice)
+	/*
+	class CROSS_EXPORT CGLES3CommandBufferManager
 	{
-		pthread_mutex_init(&m_mutex, NULL);
-	}
+		friend class CGLES3Device;
 
-	CGLES3DescriptorSetManager::~CGLES3DescriptorSetManager(void)
-	{
-		pthread_mutex_destroy(&m_mutex);
-	}
 
-	int CGLES3DescriptorSetManager::Create(void)
-	{
-		return NO_ERROR;
-	}
+	protected:
+		CGLES3CommandBufferManager(CGLES3Device *pDevice);
+		virtual ~CGLES3CommandBufferManager(void);
 
-	void CGLES3DescriptorSetManager::Destroy(void)
-	{
-		for (const auto &itDescriptorSet : m_pDescriptorSets) {
-			if (CGLES3DescriptorSet *pDescriptorSet = itDescriptorSet.second) {
-				SAFE_DELETE(pDescriptorSet);
-			}
-		}
 
-		m_pDescriptorSets.clear();
-	}
+	protected:
+		int Create(void);
+		void Destroy(void);
 
-	CGfxDescriptorSetPtr CGLES3DescriptorSetManager::AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout)
-	{
-		CGLES3DescriptorSet *pDescriptorSet = SAFE_NEW CGLES3DescriptorSet(m_pDevice, pSetLayout->GetSet());
-		{
-			mutex_autolock mutex(m_mutex);
-			m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
-		}
-		return CGfxDescriptorSetPtr(pDescriptorSet);
-	}
 
-	void CGLES3DescriptorSetManager::DumpLog(const char *szTitle) const
-	{
-		LOGI("%s\n", szTitle);
-		LOGI("*** %d objects found\n", m_pDescriptorSets.size());
-		LOGI("\n");
-	}
+	protected:
+		pthread_mutex_t m_mutex;
+		std::map<uint32_t, CGLES3CommandBuffer*> m_pCommandBuffers;
 
+	protected:
+		CGLES3Device *m_pDevice;
+	};
+	*/
 }

@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include "CrossGLES3Device.h"
 #include "CrossGLES3Swapchain.h"
 #include "CrossGLES3CommandBuffer.h"
+#include "CrossGLES3CommandBufferManager.h"
 #include "CrossGLES3DescriptorSet.h"
 #include "CrossGLES3DescriptorSetManager.h"
 #include "CrossGLES3Buffer.h"

@@ -47,7 +47,7 @@ namespace CrossEngine {
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<CGLES3DescriptorSet*, CGLES3DescriptorSet*> m_pResources;
+		std::map<CGLES3DescriptorSet*, CGLES3DescriptorSet*> m_pDescriptorSets;
 
 	protected:
 		CGLES3Device *m_pDevice;

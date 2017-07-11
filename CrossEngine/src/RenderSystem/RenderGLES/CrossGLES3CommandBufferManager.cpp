@@ -25,48 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3DescriptorSetManager::CGLES3DescriptorSetManager(CGLES3Device *pDevice)
-		: m_pDevice(pDevice)
-	{
-		pthread_mutex_init(&m_mutex, NULL);
-	}
-
-	CGLES3DescriptorSetManager::~CGLES3DescriptorSetManager(void)
-	{
-		pthread_mutex_destroy(&m_mutex);
-	}
-
-	int CGLES3DescriptorSetManager::Create(void)
-	{
-		return NO_ERROR;
-	}
-
-	void CGLES3DescriptorSetManager::Destroy(void)
-	{
-		for (const auto &itDescriptorSet : m_pDescriptorSets) {
-			if (CGLES3DescriptorSet *pDescriptorSet = itDescriptorSet.second) {
-				SAFE_DELETE(pDescriptorSet);
-			}
-		}
-
-		m_pDescriptorSets.clear();
-	}
-
-	CGfxDescriptorSetPtr CGLES3DescriptorSetManager::AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout)
-	{
-		CGLES3DescriptorSet *pDescriptorSet = SAFE_NEW CGLES3DescriptorSet(m_pDevice, pSetLayout->GetSet());
-		{
-			mutex_autolock mutex(m_mutex);
-			m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
-		}
-		return CGfxDescriptorSetPtr(pDescriptorSet);
-	}
-
-	void CGLES3DescriptorSetManager::DumpLog(const char *szTitle) const
-	{
-		LOGI("%s\n", szTitle);
-		LOGI("*** %d objects found\n", m_pDescriptorSets.size());
-		LOGI("\n");
-	}
+	
 
 }
