@@ -20,36 +20,47 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "gl31.h"
-#include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3DescriptorSet.h"
-#include "CrossGLES3DescriptorSetManager.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
-#include "CrossGLES3Image.h"
-#include "CrossGLES3Texture.h"
-#include "CrossGLES3RenderTexture.h"
-#include "CrossGLES3TextureManager.h"
-#include "CrossGLES3Shader.h"
-#include "CrossGLES3ShaderManager.h"
-#include "CrossGLES3Pipeline.h"
-#include "CrossGLES3PipelineCompute.h"
-#include "CrossGLES3PipelineGraphics.h"
-#include "CrossGLES3PipelineManager.h"
-#include "CrossGLES3RenderPass.h"
-#include "CrossGLES3RenderPassManager.h"
-#include "CrossGLES3FrameBuffer.h"
-#include "CrossGLES3FrameBufferManager.h"
+#include "_CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	CGLES3DescriptorSet::CGLES3DescriptorSet(CGLES3Device *pDevice, uint32_t set)
+		: m_pDevice(pDevice)
+		, m_set(set)
+	{
+
+	}
+
+	CGLES3DescriptorSet::~CGLES3DescriptorSet(void)
+	{
+
+	}
+
+	void CGLES3DescriptorSet::Release(void)
+	{
+
+	}
+
+	HANDLE CGLES3DescriptorSet::GetHandle(void) const
+	{
+		ASSERT(FALSE);
+		return INVALID_HANDLE_VALUE;
+	}
+
+	void CGLES3DescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
+	{
+		m_ptrTextures[binding] = ptrTexture;
+	}
+
+	void CGLES3DescriptorSet::SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer)
+	{
+		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
+	}
+
+	void CGLES3DescriptorSet::UpdateDescriptorSets(void) const
+	{
+
+	}
+
+}

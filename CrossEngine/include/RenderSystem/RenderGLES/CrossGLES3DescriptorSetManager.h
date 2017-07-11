@@ -21,35 +21,24 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
-#include "gl31.h"
 #include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3DescriptorSet.h"
-#include "CrossGLES3DescriptorSetManager.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
-#include "CrossGLES3Image.h"
-#include "CrossGLES3Texture.h"
-#include "CrossGLES3RenderTexture.h"
-#include "CrossGLES3TextureManager.h"
-#include "CrossGLES3Shader.h"
-#include "CrossGLES3ShaderManager.h"
-#include "CrossGLES3Pipeline.h"
-#include "CrossGLES3PipelineCompute.h"
-#include "CrossGLES3PipelineGraphics.h"
-#include "CrossGLES3PipelineManager.h"
-#include "CrossGLES3RenderPass.h"
-#include "CrossGLES3RenderPassManager.h"
-#include "CrossGLES3FrameBuffer.h"
-#include "CrossGLES3FrameBufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGLES3DescriptorSetManager : public CGfxResourceManager
+	{
+	protected:
+		CGLES3DescriptorSetManager(CGLES3Device *pDevice);
+		virtual ~CGLES3DescriptorSetManager(void);
+
+
+	protected:
+		CGfxDescriptorSetPtr AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout);
+
+
+	protected:
+		CGLES3Device *m_pDevice;
+	};
+
+}

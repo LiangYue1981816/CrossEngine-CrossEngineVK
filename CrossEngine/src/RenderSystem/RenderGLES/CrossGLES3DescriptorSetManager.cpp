@@ -20,36 +20,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "gl31.h"
-#include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3DescriptorSet.h"
-#include "CrossGLES3DescriptorSetManager.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
-#include "CrossGLES3Image.h"
-#include "CrossGLES3Texture.h"
-#include "CrossGLES3RenderTexture.h"
-#include "CrossGLES3TextureManager.h"
-#include "CrossGLES3Shader.h"
-#include "CrossGLES3ShaderManager.h"
-#include "CrossGLES3Pipeline.h"
-#include "CrossGLES3PipelineCompute.h"
-#include "CrossGLES3PipelineGraphics.h"
-#include "CrossGLES3PipelineManager.h"
-#include "CrossGLES3RenderPass.h"
-#include "CrossGLES3RenderPassManager.h"
-#include "CrossGLES3FrameBuffer.h"
-#include "CrossGLES3FrameBufferManager.h"
+#include "_CrossEngine.h"
+
+
+namespace CrossEngine {
+
+	CGLES3DescriptorSetManager::CGLES3DescriptorSetManager(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
+	{
+
+	}
+
+	CGLES3DescriptorSetManager::~CGLES3DescriptorSetManager(void)
+	{
+
+	}
+
+	CGfxDescriptorSetPtr CGLES3DescriptorSetManager::AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout)
+	{
+		CGLES3DescriptorSet *pDescriptorSet = SAFE_NEW CGLES3DescriptorSet(m_pDevice, pSetLayout->GetSet());
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pDescriptorSet] = pDescriptorSet;
+		}
+		return CGfxDescriptorSetPtr(pDescriptorSet);
+	}
+
+}

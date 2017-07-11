@@ -44,7 +44,7 @@ namespace CrossEngine {
 	HANDLE CGLES3CommandBuffer::GetHandle(void) const
 	{
 		ASSERT(FALSE);
-		return NULL;
+		return INVALID_HANDLE_VALUE;
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)

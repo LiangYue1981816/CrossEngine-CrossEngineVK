@@ -46,6 +46,9 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3DeviceProperties;
 	class CROSS_EXPORT CGLES3Swapchain;
 	class CROSS_EXPORT CGLES3CommandBuffer;
+	class CROSS_EXPORT CGLES3DescriptorSet;
+	class CROSS_EXPORT CGLES3DescriptorSetLayout;
+	class CROSS_EXPORT CGLES3DescriptorSetManager;
 	class CROSS_EXPORT CGLES3Buffer;
 	class CROSS_EXPORT CGLES3IndexBuffer;
 	class CROSS_EXPORT CGLES3VertexBuffer;

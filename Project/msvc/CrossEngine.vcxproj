@@ -214,6 +214,8 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3BufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3CommandBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Definition.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DescriptorSet.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DescriptorSetManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Device.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceFeatures.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.h" />
@@ -310,6 +312,8 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Buffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3BufferManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DescriptorSet.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DescriptorSetManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Device.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DeviceFeatures.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DeviceProperties.cpp" />
