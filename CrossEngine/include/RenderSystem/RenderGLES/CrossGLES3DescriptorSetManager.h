@@ -26,16 +26,28 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3DescriptorSetManager : public CGfxResourceManager
+	class CROSS_EXPORT CGLES3DescriptorSetManager
 	{
+		friend class CGLES3Device;
+
+
 	protected:
 		CGLES3DescriptorSetManager(CGLES3Device *pDevice);
 		virtual ~CGLES3DescriptorSetManager(void);
 
 
 	protected:
+		int Create(void);
+		void Destroy(void);
+		void DumpLog(const char *szTitle) const;
+
+	protected:
 		CGfxDescriptorSetPtr AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout);
 
+
+	protected:
+		pthread_mutex_t m_mutex;
+		std::map<CGLES3DescriptorSet*, CGLES3DescriptorSet*> m_pResources;
 
 	protected:
 		CGLES3Device *m_pDevice;

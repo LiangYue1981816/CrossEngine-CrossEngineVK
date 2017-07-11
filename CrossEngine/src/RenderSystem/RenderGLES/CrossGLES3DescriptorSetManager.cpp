@@ -28,12 +28,28 @@ namespace CrossEngine {
 	CGLES3DescriptorSetManager::CGLES3DescriptorSetManager(CGLES3Device *pDevice)
 		: m_pDevice(pDevice)
 	{
-
+		pthread_mutex_init(&m_mutex, NULL);
 	}
 
 	CGLES3DescriptorSetManager::~CGLES3DescriptorSetManager(void)
 	{
+		pthread_mutex_destroy(&m_mutex);
+	}
 
+	int CGLES3DescriptorSetManager::Create(void)
+	{
+		return NO_ERROR;
+	}
+
+	void CGLES3DescriptorSetManager::Destroy(void)
+	{
+		for (const auto &itResource : m_pResources) {
+			if (CGLES3DescriptorSet *pResource = itResource.second) {
+				SAFE_DELETE(pResource);
+			}
+		}
+
+		m_pResources.clear();
 	}
 
 	CGfxDescriptorSetPtr CGLES3DescriptorSetManager::AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout)
@@ -44,6 +60,13 @@ namespace CrossEngine {
 			m_pResources[pDescriptorSet] = pDescriptorSet;
 		}
 		return CGfxDescriptorSetPtr(pDescriptorSet);
+	}
+
+	void CGLES3DescriptorSetManager::DumpLog(const char *szTitle) const
+	{
+		LOGI("%s\n", szTitle);
+		LOGI("*** %d objects found\n", m_pResources.size());
+		LOGI("\n");
 	}
 
 }
