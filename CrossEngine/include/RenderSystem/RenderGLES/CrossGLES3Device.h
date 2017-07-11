@@ -103,6 +103,16 @@ namespace CrossEngine {
 
 	protected:
 		CGLES3Queue *m_pQueue;
+		CGLES3CommandBufferManager *m_pCommandBufferManager;
+		CGLES3DescriptorSetManager *m_pDescriptorSetManager;
+
+	protected:
+		CGLES3BufferManager *m_pBufferManager;
+		CGLES3TextureManager *m_pTextureManager;
+		CGLES3ShaderManager *m_pShaderManager;
+		CGLES3PipelineManager *m_pPipelineManager;
+		CGLES3RenderPassManager *m_pRenderPassManager;
+		CGLES3FrameBufferManager *m_pFrameBufferManager;
 
 	protected:
 		CGLES3Instance *m_pInstance;

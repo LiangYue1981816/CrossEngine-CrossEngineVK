@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3Queue : public CGfxQueue
 	{
+		friend class CGLES3Device;
+
+
 	protected:
 		CGLES3Queue(CGLES3Device *pDevice);
 		virtual ~CGLES3Queue(void);
