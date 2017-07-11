@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CGLES3CommandBufferManager
 	{
 		friend class CGLES3Device;
@@ -40,13 +40,17 @@ namespace CrossEngine {
 		int Create(void);
 		void Destroy(void);
 
+	protected:
+		CGfxCommandBufferPtr AllocCommandBuffer(void);
+		void FreeCommandBuffer(CGLES3CommandBuffer *pCommandBuffer);
+
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CGLES3CommandBuffer*> m_pCommandBuffers;
+		std::map<CGLES3CommandBuffer*, CGLES3CommandBuffer*> m_pCommandBuffers;
 
 	protected:
 		CGLES3Device *m_pDevice;
 	};
-	*/
+
 }

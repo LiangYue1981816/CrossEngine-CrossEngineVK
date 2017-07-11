@@ -47,6 +47,41 @@ namespace CrossEngine {
 		return INVALID_HANDLE_VALUE;
 	}
 
+	int CGLES3CommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3CommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+	{
+		return NO_ERROR;
+	}
+
+	int CGLES3CommandBuffer::End(void)
+	{
+		return NO_ERROR;
+	}
+
+	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
+	{
+
+	}
+
+	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents)
+	{
+
+	}
+
+	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
+	{
+
+	}
+
+	void CGLES3CommandBuffer::CmdEndRenderPass(void)
+	{
+
+	}
+
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
 

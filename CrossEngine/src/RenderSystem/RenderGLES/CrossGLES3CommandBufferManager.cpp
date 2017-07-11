@@ -25,6 +25,48 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	
+	CGLES3CommandBufferManager::CGLES3CommandBufferManager(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
+	{
+		pthread_mutex_init(&m_mutex, NULL);
+	}
+
+	CGLES3CommandBufferManager::~CGLES3CommandBufferManager(void)
+	{
+		pthread_mutex_destroy(&m_mutex);
+	}
+
+	int CGLES3CommandBufferManager::Create(void)
+	{
+		return NO_ERROR;
+	}
+
+	void CGLES3CommandBufferManager::Destroy(void)
+	{
+		for (const auto &itCommandBuffer : m_pCommandBuffers) {
+			if (CGLES3CommandBuffer *pCommandBuffer = itCommandBuffer.second) {
+				SAFE_DELETE(pCommandBuffer);
+			}
+		}
+
+		m_pCommandBuffers.clear();
+	}
+
+	CGfxCommandBufferPtr CGLES3CommandBufferManager::AllocCommandBuffer(void)
+	{
+		CGLES3CommandBuffer *pCommandBuffer = SAFE_NEW CGLES3CommandBuffer(m_pDevice);
+		{
+			mutex_autolock mutex(m_mutex);
+			m_pCommandBuffers[pCommandBuffer] = pCommandBuffer;
+		}
+		return CGfxCommandBufferPtr(pCommandBuffer);
+	}
+
+	void CGLES3CommandBufferManager::FreeCommandBuffer(CGLES3CommandBuffer *pCommandBuffer)
+	{
+		mutex_autolock mutex(m_mutex);
+		m_pCommandBuffers.erase(pCommandBuffer);
+		SAFE_DELETE(pCommandBuffer);
+	}
 
 }

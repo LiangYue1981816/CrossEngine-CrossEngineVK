@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3CommandBuffer : public CGfxCommandBuffer
 	{
+		friend class CGLES3CommandBufferManager;
+
+
 	protected:
 		CGLES3CommandBuffer(CGLES3Device *pDevice);
 		virtual ~CGLES3CommandBuffer(void);
@@ -41,6 +44,16 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
+		int BeginPrimary(VkCommandBufferUsageFlags flags);
+		int BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
+		int End(void);
+
+	public:
+		void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents);
+		void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents);
+		void CmdNextSubpass(VkSubpassContents contents);
+		void CmdEndRenderPass(void);
+
 		void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline);
 		void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline);
 		void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout);
