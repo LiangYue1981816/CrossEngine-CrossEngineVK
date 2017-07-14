@@ -93,7 +93,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itBuffer : m_pBuffers) {
-				if (const CVulkanStagingBuffer *pBuffer = (CVulkanStagingBuffer *)itBuffer.second) {
+				if (const CVulkanStagingBuffer *pBuffer = itBuffer.second) {
 					pBuffer->DumpLog();
 					bufferSize += pBuffer->GetBufferSize();
 					memorySize += pBuffer->GetMemorySize();

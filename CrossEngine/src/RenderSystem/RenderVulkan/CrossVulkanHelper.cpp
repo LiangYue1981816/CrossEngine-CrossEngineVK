@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static char* strcat_or(char *dst, char *src, BOOL * or);
+	static char* strcat_or(char *dst, char *src, BOOL *or);
 
 	VkFormatProperties CVulkanHelper::vkFormatProperties[VK_FORMAT_RANGE_SIZE];
 	VkComponentMapping CVulkanHelper::vkFormatComponentMapping[VK_FORMAT_RANGE_SIZE];
