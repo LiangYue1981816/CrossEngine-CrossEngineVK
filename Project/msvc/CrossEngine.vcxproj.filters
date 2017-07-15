@@ -100,6 +100,9 @@
     <Filter Include="Dependencies\spirv-cross">
       <UniqueIdentifier>{faa1e337-e1fd-4642-9cb5-6a63be4bf763}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Source Files\RenderSystem\RenderGLES\Core\Command">
+      <UniqueIdentifier>{1b8f936b-0367-4507-a5a2-cee8b5a10074}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -452,6 +455,12 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3CommandBufferManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Command.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindFramebuffer.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

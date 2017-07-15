@@ -21,6 +21,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "_CrossEngine.h"
+#include "CrossGLES3CommandBindFramebuffer.h"
 
 
 namespace CrossEngine {
