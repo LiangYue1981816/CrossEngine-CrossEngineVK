@@ -40,13 +40,6 @@ namespace CrossEngine {
 		m_tessellationState.pNext = NULL;
 		m_tessellationState.flags = 0;
 
-		m_viewportState = {};
-		m_viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-		m_viewportState.pNext = NULL;
-		m_viewportState.flags = 0;
-		m_viewportState.viewportCount = 1;
-		m_viewportState.scissorCount = 1;
-
 		m_rasterizationState = {};
 		m_rasterizationState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 		m_rasterizationState.pNext = NULL;
@@ -366,6 +359,46 @@ namespace CrossEngine {
 		m_colorBlendAttachmentStates[attachment].colorWriteMask = colorWriteMask;
 
 		return TRUE;
+	}
+
+	const VkPipelineInputAssemblyStateCreateInfo& CGLES3PipelineGraphics::GetInputAssemblyState(void) const
+	{
+		return m_inputAssemblyState;
+	}
+
+	const VkPipelineTessellationStateCreateInfo& CGLES3PipelineGraphics::GetTessellationState(void) const
+	{
+		return m_tessellationState;
+	}
+
+	const VkPipelineRasterizationStateCreateInfo& CGLES3PipelineGraphics::GetRasterizationState(void) const
+	{
+		return m_rasterizationState;
+	}
+
+	const VkPipelineMultisampleStateCreateInfo& CGLES3PipelineGraphics::GetMultisampleState(void) const
+	{
+		return m_multiSampleState;
+	}
+
+	const VkPipelineDepthStencilStateCreateInfo& CGLES3PipelineGraphics::GetDepthStencilState(void) const
+	{
+		return m_depthStencilState;
+	}
+
+	const VkPipelineColorBlendStateCreateInfo& CGLES3PipelineGraphics::GetColorBlendState(void) const
+	{
+		return m_colorBlendState;
+	}
+
+	const std::map<uint32_t, VkVertexInputAttributeDescription>& CGLES3PipelineGraphics::GetInputAttributeDescriptions(void) const
+	{
+		return m_vertexInputAttributeDescriptions;
+	}
+
+	const std::map<uint32_t, VkPipelineColorBlendAttachmentState>& CGLES3PipelineGraphics::GetColorBlendAttachments(void) const
+	{
+		return m_colorBlendAttachmentStates;
 	}
 
 	uint32_t CGLES3PipelineGraphics::GetVertexFormat(void) const

@@ -74,6 +74,15 @@ namespace CrossEngine {
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
 		BOOL SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
 
+		const VkPipelineInputAssemblyStateCreateInfo& GetInputAssemblyState(void) const;
+		const VkPipelineTessellationStateCreateInfo& GetTessellationState(void) const;
+		const VkPipelineRasterizationStateCreateInfo& GetRasterizationState(void) const;
+		const VkPipelineMultisampleStateCreateInfo& GetMultisampleState(void) const;
+		const VkPipelineDepthStencilStateCreateInfo& GetDepthStencilState(void) const;
+		const VkPipelineColorBlendStateCreateInfo& GetColorBlendState(void) const;
+		const std::map<uint32_t, VkVertexInputAttributeDescription>& GetInputAttributeDescriptions(void) const;
+		const std::map<uint32_t, VkPipelineColorBlendAttachmentState>& GetColorBlendAttachments(void) const;
+
 	public:
 		uint32_t GetVertexFormat(void) const;
 
@@ -84,7 +93,6 @@ namespace CrossEngine {
 	protected:
 		VkPipelineInputAssemblyStateCreateInfo m_inputAssemblyState;
 		VkPipelineTessellationStateCreateInfo m_tessellationState;
-		VkPipelineViewportStateCreateInfo m_viewportState;
 		VkPipelineRasterizationStateCreateInfo m_rasterizationState;
 		VkPipelineMultisampleStateCreateInfo m_multiSampleState;
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
