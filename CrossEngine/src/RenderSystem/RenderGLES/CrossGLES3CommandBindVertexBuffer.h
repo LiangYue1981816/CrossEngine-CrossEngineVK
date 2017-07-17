@@ -38,7 +38,7 @@ namespace CrossEngine {
 		}
 		virtual ~CGLES3CommandBindVertexBuffer(void)
 		{
-
+			m_ptrVertexBuffer.Release();
 		}
 
 

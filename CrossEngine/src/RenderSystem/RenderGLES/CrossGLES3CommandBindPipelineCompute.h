@@ -26,36 +26,38 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandBindFrameBuffer : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandBindPipelineCompute : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandBindFrameBuffer(CGfxFrameBufferPtr &ptrFrameBuffer)
+		CGLES3CommandBindPipelineCompute(CGfxPipelineComputePtr &ptrPipelineCompute)
 		{
-			m_ptrFrameBuffer = ptrFrameBuffer;
+			m_ptrPipelineCompute = ptrPipelineCompute;
 		}
-		virtual ~CGLES3CommandBindFrameBuffer(void)
+		virtual ~CGLES3CommandBindPipelineCompute(void)
 		{
-			m_ptrFrameBuffer.Release();
+			m_ptrPipelineCompute.Release();
 		}
 
 
 	protected:
 		virtual void Execute(void)
 		{
-			if (m_ptrFrameBuffer.IsNull()) {
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			if (m_ptrPipelineCompute.IsNull()) {
+				glUseProgram(0);
+				glBindProgramPipeline(0);
 			}
 			else {
-				glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)m_ptrFrameBuffer->GetHandle());
+				glUseProgram(0);
+				glBindProgramPipeline((GLuint)m_ptrPipelineCompute->GetHandle());
 			}
 		}
 
 
 	protected:
-		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxPipelineComputePtr m_ptrPipelineCompute;
 	};
 
 }
