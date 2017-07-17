@@ -291,6 +291,8 @@
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\fast_mutex.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\static_assert.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindFramebuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindIndexBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindVertexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\src\_CrossEngine.h" />
     <ClInclude Include="..\..\CrossEngine\src\_CrossMemory.h" />
     <ClInclude Include="..\..\Dependencies\event\event.h" />

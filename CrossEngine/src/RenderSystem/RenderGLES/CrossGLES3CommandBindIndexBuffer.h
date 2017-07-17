@@ -26,17 +26,17 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandBindFrameBuffer : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandBindIndexBuffer : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandBindFrameBuffer(CGfxFrameBufferPtr &ptrFrameBuffer)
+		CGLES3CommandBindIndexBuffer(CGfxIndexBufferPtr &ptrIndexBuffer)
 		{
-			m_ptrFrameBuffer = ptrFrameBuffer;
+			m_ptrIndexBuffer = ptrIndexBuffer;
 		}
-		virtual ~CGLES3CommandBindFrameBuffer(void)
+		virtual ~CGLES3CommandBindIndexBuffer(void)
 		{
 
 		}
@@ -45,17 +45,17 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-			if (m_ptrFrameBuffer.IsNull()) {
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			if (m_ptrIndexBuffer.IsNull()) {
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
 			else {
-				glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)m_ptrFrameBuffer->GetHandle());
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)m_ptrIndexBuffer->GetHandle());
 			}
 		}
 
 
 	protected:
-		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxIndexBufferPtr m_ptrIndexBuffer;
 	};
 
 }

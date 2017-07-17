@@ -462,6 +462,12 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindFramebuffer.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindIndexBuffer.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindVertexBuffer.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
