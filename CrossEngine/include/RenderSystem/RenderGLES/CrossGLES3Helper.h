@@ -39,6 +39,8 @@ namespace CrossEngine {
 		static GLenum glTranslateMagFilter(VkFilter magFilter);
 		static GLenum glTranslateMinFilter(VkFilter minFilter, VkSamplerMipmapMode mipmapMode);
 		static GLenum glTranslateAddressMode(VkSamplerAddressMode addressMode);
+		static GLenum glTranslateStencilOp(VkStencilOp op);
+		static GLenum glTranslateCompareOp(VkCompareOp op);
 
 		static const char* glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp);
 		static const char* glAttachmentStoreOpToString(VkAttachmentStoreOp storeOp);

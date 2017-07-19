@@ -126,6 +126,36 @@ namespace CrossEngine {
 		}
 	}
 
+	GLenum CGLES3Helper::glTranslateStencilOp(VkStencilOp op)
+	{
+		switch (op) {
+		case VK_STENCIL_OP_KEEP: return GL_KEEP;
+		case VK_STENCIL_OP_ZERO: return GL_ZERO;
+		case VK_STENCIL_OP_REPLACE: return GL_REPLACE;
+		case VK_STENCIL_OP_INCREMENT_AND_CLAMP: return GL_INCR;
+		case VK_STENCIL_OP_DECREMENT_AND_CLAMP: return GL_DECR;
+		case VK_STENCIL_OP_INVERT: return GL_INVERT;
+		case VK_STENCIL_OP_INCREMENT_AND_WRAP: return GL_INCR_WRAP;
+		case VK_STENCIL_OP_DECREMENT_AND_WRAP: return GL_DECR_WRAP;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
+	GLenum CGLES3Helper::glTranslateCompareOp(VkCompareOp op)
+	{
+		switch (op) {
+		case VK_COMPARE_OP_NEVER: return GL_NEVER;
+		case VK_COMPARE_OP_LESS: return GL_LESS;
+		case VK_COMPARE_OP_EQUAL: return GL_EQUAL;
+		case VK_COMPARE_OP_LESS_OR_EQUAL: return GL_LEQUAL;
+		case VK_COMPARE_OP_GREATER: return GL_GREATER;
+		case VK_COMPARE_OP_NOT_EQUAL: return GL_NOTEQUAL;
+		case VK_COMPARE_OP_GREATER_OR_EQUAL: return GL_GEQUAL;
+		case VK_COMPARE_OP_ALWAYS: return GL_ALWAYS;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
 	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];
