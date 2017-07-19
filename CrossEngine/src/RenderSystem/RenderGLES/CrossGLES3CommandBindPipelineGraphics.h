@@ -61,6 +61,7 @@ namespace CrossEngine {
 
 				SetDepthClamp(rasterizationState);
 				SetRasterizerDiscard(rasterizationState);
+				SetPolygonMode(rasterizationState);
 				SetCullMode(rasterizationState);
 				SetFrontFace(rasterizationState);
 				SetPolygonOffset(rasterizationState);
@@ -97,6 +98,11 @@ namespace CrossEngine {
 			else {
 				glDisable(GL_RASTERIZER_DISCARD);
 			}
+		}
+
+		void SetPolygonMode(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		{
+			// Not support
 		}
 
 		void SetCullMode(const VkPipelineRasterizationStateCreateInfo& rasterizationState)

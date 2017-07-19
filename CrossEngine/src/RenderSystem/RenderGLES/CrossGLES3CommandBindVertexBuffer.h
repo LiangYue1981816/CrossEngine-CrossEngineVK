@@ -32,13 +32,15 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindVertexBuffer(CGfxVertexBufferPtr &ptrVertexBuffer)
+		CGLES3CommandBindVertexBuffer(CGfxVertexBufferPtr &ptrVertexBuffer, CGfxPipelineGraphicsPtr& ptrPipelineGraphics)
 		{
 			m_ptrVertexBuffer = ptrVertexBuffer;
+			m_ptrPipelineGraphics = ptrPipelineGraphics;
 		}
 		virtual ~CGLES3CommandBindVertexBuffer(void)
 		{
 			m_ptrVertexBuffer.Release();
+			m_ptrPipelineGraphics.Release();
 		}
 
 
@@ -50,12 +52,20 @@ namespace CrossEngine {
 			}
 			else {
 				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)m_ptrVertexBuffer->GetHandle());
+
+				CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+				const std::map<uint32_t, VkVertexInputAttributeDescription>& vertexInputAttributeDescriptions = pPipeline->GetInputAttributeDescriptions();
+
+				for (const auto &itVertexInputAttributeDescription : vertexInputAttributeDescriptions) {
+
+				}
 			}
 		}
 
 
 	protected:
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
+		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 	};
 
 }
