@@ -41,6 +41,10 @@ namespace CrossEngine {
 		static GLenum glTranslateAddressMode(VkSamplerAddressMode addressMode);
 		static GLenum glTranslateStencilOp(VkStencilOp op);
 		static GLenum glTranslateCompareOp(VkCompareOp op);
+		static GLenum glTranslateBlendOp(VkBlendOp op);
+		static GLenum glTranslateBlendFactor(VkBlendFactor factor);
+		static GLenum glTranslateCullMode(VkCullModeFlags cullMode);
+		static GLenum glTranslateFrontFace(VkFrontFace frontFace);
 
 		static const char* glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp);
 		static const char* glAttachmentStoreOpToString(VkAttachmentStoreOp storeOp);

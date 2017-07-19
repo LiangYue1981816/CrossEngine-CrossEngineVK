@@ -156,6 +156,63 @@ namespace CrossEngine {
 		}
 	}
 
+	GLenum CGLES3Helper::glTranslateBlendOp(VkBlendOp op)
+	{
+		switch (op) {
+		case VK_BLEND_OP_ADD: return GL_FUNC_ADD;
+		case VK_BLEND_OP_SUBTRACT: return GL_FUNC_SUBTRACT;
+		case VK_BLEND_OP_REVERSE_SUBTRACT: return GL_FUNC_REVERSE_SUBTRACT;
+		case VK_BLEND_OP_MIN: return GL_MIN;
+		case VK_BLEND_OP_MAX: return GL_MAX;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
+	GLenum CGLES3Helper::glTranslateBlendFactor(VkBlendFactor factor)
+	{
+		switch (factor) {
+		case VK_BLEND_FACTOR_ZERO: return GL_ZERO;
+		case VK_BLEND_FACTOR_ONE: return GL_ONE;
+		case VK_BLEND_FACTOR_SRC_COLOR: return GL_SRC_COLOR;
+		case VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR: return GL_ONE_MINUS_SRC_COLOR;
+		case VK_BLEND_FACTOR_DST_COLOR: return GL_DST_COLOR;
+		case VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR: return GL_ONE_MINUS_DST_COLOR;
+		case VK_BLEND_FACTOR_SRC_ALPHA: return GL_SRC_ALPHA;
+		case VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA: return GL_ONE_MINUS_SRC_ALPHA;
+		case VK_BLEND_FACTOR_DST_ALPHA: return GL_DST_ALPHA;
+		case VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA: return GL_ONE_MINUS_DST_ALPHA;
+		case VK_BLEND_FACTOR_CONSTANT_COLOR: return GL_CONSTANT_COLOR;
+		case VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_COLOR: return GL_ONE_MINUS_CONSTANT_COLOR;
+		case VK_BLEND_FACTOR_CONSTANT_ALPHA: return GL_CONSTANT_ALPHA;
+		case VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_ALPHA: return GL_ONE_MINUS_CONSTANT_ALPHA;
+		case VK_BLEND_FACTOR_SRC_ALPHA_SATURATE: return GL_SRC_ALPHA_SATURATE;
+		//case VK_BLEND_FACTOR_SRC1_COLOR:
+		//case VK_BLEND_FACTOR_ONE_MINUS_SRC1_COLOR:
+		//case VK_BLEND_FACTOR_SRC1_ALPHA:
+		//case VK_BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA:
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
+	GLenum CGLES3Helper::glTranslateCullMode(VkCullModeFlags cullMode)
+	{
+		switch (cullMode) {
+		case VK_CULL_MODE_FRONT_BIT: return GL_FRONT;
+		case VK_CULL_MODE_BACK_BIT: return GL_BACK;
+		case VK_CULL_MODE_FRONT_AND_BACK: return GL_FRONT_AND_BACK;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
+	GLenum CGLES3Helper::glTranslateFrontFace(VkFrontFace frontFace)
+	{
+		switch (frontFace) {
+		case VK_FRONT_FACE_COUNTER_CLOCKWISE: return GL_CCW;
+		case VK_FRONT_FACE_CLOCKWISE: return GL_CW;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
 	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];
