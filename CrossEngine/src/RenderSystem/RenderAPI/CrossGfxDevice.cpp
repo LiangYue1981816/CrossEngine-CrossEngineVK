@@ -86,6 +86,17 @@ namespace CrossEngine {
 		return 0;
 	}
 
+	uint32_t CGfxDevice::GetVertexAttributeSize(uint32_t attribute) const
+	{
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+			if (attribute == vertexAttributes[indexAttribute].flag) {
+				return vertexAttributes[indexAttribute].size;
+			}
+		}
+
+		return 0;
+	}
+
 	VkFormat CGfxDevice::GetVertexAttributeFormat(uint32_t attribute) const
 	{
 		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
