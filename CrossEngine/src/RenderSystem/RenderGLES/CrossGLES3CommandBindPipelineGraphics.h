@@ -53,7 +53,7 @@ namespace CrossEngine {
 				glUseProgram(0);
 				glBindProgramPipeline((GLuint)m_ptrPipelineGraphics->GetHandle());
 
-				CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+				const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
 				const VkPipelineRasterizationStateCreateInfo& rasterizationState = pPipeline->GetRasterizationState();
 				const VkPipelineMultisampleStateCreateInfo& multisampleState = pPipeline->GetMultisampleState();
 				const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();

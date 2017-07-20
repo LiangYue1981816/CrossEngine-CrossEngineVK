@@ -48,16 +48,27 @@ namespace CrossEngine {
 		virtual void Execute(void)
 		{
 			if (m_ptrVertexBuffer.IsNull()) {
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindVertexBuffer(0, 0, 0, 0);
 			}
 			else {
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)m_ptrVertexBuffer->GetHandle());
-
-				CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+				const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+				const CGLES3Device *pDevice = pPipeline->GetDevice();
 				const std::map<uint32_t, VkVertexInputAttributeDescription>& vertexInputAttributeDescriptions = pPipeline->GetInputAttributeDescriptions();
 
-				for (const auto &itVertexInputAttributeDescription : vertexInputAttributeDescriptions) {
+				GLuint bindingindex = 0;
+				GLuint stride = pDevice->GetVertexSize(pPipeline->GetVertexFormat());
+				glBindVertexBuffer(bindingindex, (GLuint)m_ptrVertexBuffer->GetHandle(), 0, stride);
 
+				for (const auto &itVertexInputAttributeDescription : vertexInputAttributeDescriptions) {
+					GLuint attribute = itVertexInputAttributeDescription.first;
+					GLuint attribindex = itVertexInputAttributeDescription.second.location;
+
+					GLenum type = GL_FLOAT;
+					GLuint size = pDevice->GetVertexAttributeSize(attribute) / sizeof(float);
+					GLuint offset = pDevice->GetVertexAttributeOffset(pPipeline->GetVertexFormat(), attribute);
+
+					glVertexAttribBinding(attribindex, bindingindex);
+					glVertexAttribFormat(attribindex, size, type, GL_FALSE, offset);
 				}
 			}
 		}

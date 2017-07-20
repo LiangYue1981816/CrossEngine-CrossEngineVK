@@ -38,6 +38,7 @@ namespace CrossEngine {
 
 	public:
 		HANDLE GetHandle(void) const;
+		const CGLES3Device* GetDevice(void) const;
 
 	public:
 		BOOL Create(HANDLE hRenderPass);

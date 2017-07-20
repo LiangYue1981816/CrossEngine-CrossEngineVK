@@ -74,6 +74,11 @@ namespace CrossEngine {
 		return (HANDLE)m_pipeline;
 	}
 
+	const CGLES3Device* CGLES3PipelineGraphics::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	BOOL CGLES3PipelineGraphics::Create(HANDLE hRenderPass)
 	{
 		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull() ||
