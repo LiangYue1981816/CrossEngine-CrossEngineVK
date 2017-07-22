@@ -143,4 +143,9 @@ namespace CrossEngine {
 		return m_format;
 	}
 
+	GLuint CGLES3Image::GetSampler(void) const
+	{
+		return m_sampler;
+	}
+
 }

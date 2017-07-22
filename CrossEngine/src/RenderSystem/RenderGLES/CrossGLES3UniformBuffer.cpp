@@ -69,7 +69,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3UniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
 	{
-		if (offset + size > m_size) {
+		if (offset + size > (size_t)m_size) {
 			return FALSE;
 		}
 
@@ -80,7 +80,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
+	const VkDescriptorBufferInfo& CGLES3UniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
 	{
 		return m_vkDescriptorBufferInfos[set][binding];
 	}

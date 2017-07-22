@@ -36,15 +36,28 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CGLES3DescriptorSetLayout::SetBinding(GLuint program, uint32_t binding, const char *szName)
+	BOOL CGLES3DescriptorSetLayout::SetUniformBlockBinding(GLuint program, uint32_t binding, const char *szName)
+	{
+		GLuint location = glGetUniformBlockIndex(program, szName);
+
+		if (location != GL_INVALID_INDEX) {
+			m_uniformBlockBindings[program][binding] = location;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	BOOL CGLES3DescriptorSetLayout::SetSampledImageBinding(GLuint program, uint32_t binding, const char *szName)
 	{
 		GLint location = glGetUniformLocation(program, szName);
 
 		if (location >= 0) {
-			m_bindings[binding] = location;
+			m_sampledImageBindings[program][binding] = location;
+			return TRUE;
 		}
 
-		return location >= 0 ? TRUE : FALSE;
+		return FALSE;
 	}
 
 	uint32_t CGLES3DescriptorSetLayout::GetSet(void) const
@@ -52,9 +65,14 @@ namespace CrossEngine {
 		return m_set;
 	}
 
-	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetBindings(void) const
+	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(void) const
 	{
-		return m_bindings;
+		return m_uniformBlockBindings;
+	}
+
+	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetSampledImageBindings(void) const
+	{
+		return m_sampledImageBindings;
 	}
 
 
@@ -88,7 +106,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_pDescriptorSetLayouts[set]->SetBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetUniformBlockBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
 				}
 			}
 
@@ -103,7 +121,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
-					m_pDescriptorSetLayouts[set]->SetBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetSampledImageBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
 				}
 			}
 		}

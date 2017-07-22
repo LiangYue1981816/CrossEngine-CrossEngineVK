@@ -42,6 +42,7 @@ namespace CrossEngine {
 	public:
 		GLenum GetTarget(void) const;
 		GLenum GetFormat(void) const;
+		GLuint GetSampler(void) const;
 
 
 	protected:

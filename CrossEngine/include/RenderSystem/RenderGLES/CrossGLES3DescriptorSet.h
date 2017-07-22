@@ -43,16 +43,22 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		void SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture);
+		void SetTexture(uint32_t binding, uint32_t unit, const CGfxTexturePtr &ptrTexture);
 		void SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer);
 		void UpdateDescriptorSets(void) const;
 
 	public:
 		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(void) const;
 
+		const uint32_t GetTextureUnit(uint32_t binding) const;
+		const CGfxTexturePtr GetTexture(uint32_t binding) const;
+		const CGfxUniformBufferPtr GetUniformBuffer(uint32_t binding) const;
+
 
 	protected:
 		CGLES3DescriptorSetLayout *m_pDescriptorSetLayout;
+
+		std::map<uint32_t, uint32_t> m_units;
 		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
 

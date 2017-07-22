@@ -48,8 +48,9 @@ namespace CrossEngine {
 		return INVALID_HANDLE_VALUE;
 	}
 
-	void CGLES3DescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
+	void CGLES3DescriptorSet::SetTexture(uint32_t binding, uint32_t unit, const CGfxTexturePtr &ptrTexture)
 	{
+		m_units[binding] = unit;
 		m_ptrTextures[binding] = ptrTexture;
 	}
 
@@ -66,6 +67,24 @@ namespace CrossEngine {
 	const CGLES3DescriptorSetLayout* CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
 	{
 		return m_pDescriptorSetLayout;
+	}
+
+	const uint32_t CGLES3DescriptorSet::GetTextureUnit(uint32_t binding) const
+	{
+		const auto &itUnit = m_units.find(binding);
+		return itUnit != m_units.end() ? itUnit->second : 0;
+	}
+
+	const CGfxTexturePtr CGLES3DescriptorSet::GetTexture(uint32_t binding) const
+	{
+		const auto &itTexture = m_ptrTextures.find(binding);
+		return itTexture != m_ptrTextures.end() ? itTexture->second : CGfxTexturePtr(NULL);
+	}
+
+	const CGfxUniformBufferPtr CGLES3DescriptorSet::GetUniformBuffer(uint32_t binding) const
+	{
+		const auto &itUniformBuffer = m_ptrUniformBuffers.find(binding);
+		return itUniformBuffer != m_ptrUniformBuffers.end() ? itUniformBuffer->second : CGfxUniformBufferPtr(NULL);
 	}
 
 }

@@ -37,16 +37,19 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL SetBinding(GLuint program, uint32_t binding, const char *szName);
+		BOOL SetUniformBlockBinding(GLuint program, uint32_t binding, const char *szName);
+		BOOL SetSampledImageBinding(GLuint program, uint32_t binding, const char *szName);
 
 	public:
 		uint32_t GetSet(void) const;
-		const std::map<uint32_t, uint32_t>& GetBindings(void) const;
+		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetUniformBlockBindings(void) const;
+		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetSampledImageBindings(void) const;
 
 
 	protected:
 		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_bindings;
+		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_uniformBlockBindings;
+		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_sampledImageBindings;
 	};
 
 	class CROSS_EXPORT CGLES3Pipeline
