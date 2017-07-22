@@ -137,7 +137,7 @@ void CreateDescriptorSet(void)
 {
 	ptrDescriptorSet = pDevice->AllocDescriptorSet(0, 0, ptrPipeline);
 	ptrDescriptorSet->SetUniformBuffer(0, ptrUniformBuffer);
-	ptrDescriptorSet->SetTexture(1, ptrTexture);
+	ptrDescriptorSet->SetTexture(1, 0, ptrTexture);
 	ptrDescriptorSet->UpdateDescriptorSets();
 }
 
