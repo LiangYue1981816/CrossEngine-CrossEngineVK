@@ -51,7 +51,11 @@ namespace CrossEngine {
 
 	public:
 		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size);
+		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding);
 
+
+	protected:
+		std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>> m_vkDescriptorBufferInfos;
 
 	protected:
 		CGLES3Device *m_pDevice;

@@ -69,8 +69,20 @@ namespace CrossEngine {
 
 	BOOL CGLES3UniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
 	{
-		glBindBufferRange(GL_UNIFORM_BUFFER, binding, m_buffer, offset, size);
+		if (offset + size > m_size) {
+			return FALSE;
+		}
+
+		m_vkDescriptorBufferInfos[set][binding].buffer = VK_NULL_HANDLE;
+		m_vkDescriptorBufferInfos[set][binding].offset = offset;
+		m_vkDescriptorBufferInfos[set][binding].range = size;
+
 		return TRUE;
+	}
+
+	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
+	{
+		return m_vkDescriptorBufferInfos[set][binding];
 	}
 
 	void CGLES3UniformBuffer::DumpLog(void) const
