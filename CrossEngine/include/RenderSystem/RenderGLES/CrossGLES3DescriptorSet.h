@@ -47,6 +47,9 @@ namespace CrossEngine {
 		void SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer);
 		void UpdateDescriptorSets(void) const;
 
+	public:
+		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(void) const;
+
 
 	protected:
 		CGLES3DescriptorSetLayout *m_pDescriptorSetLayout;

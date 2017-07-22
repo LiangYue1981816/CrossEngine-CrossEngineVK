@@ -49,7 +49,8 @@ namespace CrossEngine {
 
 			}
 			else {
-
+				const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet);
+				const CGLES3DescriptorSetLayout *pDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
 			}
 		}
 
