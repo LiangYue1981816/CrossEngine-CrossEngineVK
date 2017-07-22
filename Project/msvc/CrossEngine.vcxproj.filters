@@ -474,6 +474,9 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindPipelineGraphics.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindDescriptorSet.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">

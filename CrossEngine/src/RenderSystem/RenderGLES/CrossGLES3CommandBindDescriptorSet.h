@@ -20,47 +20,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CGLES3DescriptorSet::CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetLayout *pDescriptorSetLayout)
-		: m_pDevice(pDevice)
-		, m_pDescriptorSetLayout(pDescriptorSetLayout)
+	class CROSS_EXPORT CGLES3CommandBindDescriptorSet : public CGLES3CommandBase
 	{
+		friend class CGLES3CommandBuffer;
 
-	}
 
-	CGLES3DescriptorSet::~CGLES3DescriptorSet(void)
-	{
+	protected:
+		CGLES3CommandBindDescriptorSet(CGfxDescriptorSetPtr &ptrDescriptorSet)
+		{
+			m_ptrDescriptorSet = ptrDescriptorSet;
+		}
+		virtual ~CGLES3CommandBindDescriptorSet(void)
+		{
+			m_ptrDescriptorSet.Release();
+		}
 
-	}
 
-	void CGLES3DescriptorSet::Release(void)
-	{
+	protected:
+		virtual void Execute(void)
+		{
+			if (m_ptrDescriptorSet.IsNull()) {
 
-	}
+			}
+			else {
 
-	HANDLE CGLES3DescriptorSet::GetHandle(void) const
-	{
-		ASSERT(FALSE);
-		return INVALID_HANDLE_VALUE;
-	}
+			}
+		}
 
-	void CGLES3DescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
-	{
-		m_ptrTextures[binding] = ptrTexture;
-	}
 
-	void CGLES3DescriptorSet::SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer)
-	{
-		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
-	}
-
-	void CGLES3DescriptorSet::UpdateDescriptorSets(void) const
-	{
-
-	}
+	protected:
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+	};
 
 }
