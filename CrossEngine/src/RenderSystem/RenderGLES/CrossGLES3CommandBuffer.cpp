@@ -34,9 +34,12 @@ THE SOFTWARE.
 #include "CrossGLES3CommandSetDepthBias.h"
 #include "CrossGLES3CommandSetDepthBounds.h"
 #include "CrossGLES3CommandSetBlendConstants.h"
-#include "CrossGLES3CommandSetStencilCompareMask.h"
 #include "CrossGLES3CommandSetStencilReference.h"
 #include "CrossGLES3CommandSetStencilWriteMask.h"
+
+#include "CrossGLES3CommandDraw.h"
+#include "CrossGLES3CommandDrawIndexed.h"
+#include "CrossGLES3CommandDispatch.h"
 
 
 namespace CrossEngine {

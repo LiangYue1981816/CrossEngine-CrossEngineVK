@@ -492,9 +492,6 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetScissor.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetStencilCompareMask.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetStencilReference.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
     </ClInclude>
@@ -502,6 +499,15 @@
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetViewport.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandDispatch.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandDraw.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandDrawIndexed.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Command</Filter>
     </ClInclude>
   </ItemGroup>

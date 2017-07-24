@@ -33,6 +33,7 @@ namespace CrossEngine {
 
 	protected:
 		CGLES3CommandSetLineWidth(float lineWidth)
+			: m_lineWidth(lineWidth)
 		{
 
 		}

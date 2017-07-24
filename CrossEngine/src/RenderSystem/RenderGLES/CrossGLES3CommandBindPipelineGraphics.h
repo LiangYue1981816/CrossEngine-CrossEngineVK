@@ -54,10 +54,13 @@ namespace CrossEngine {
 				glBindProgramPipeline((GLuint)m_ptrPipelineGraphics->GetHandle());
 
 				const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+				const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
 				const VkPipelineRasterizationStateCreateInfo& rasterizationState = pPipeline->GetRasterizationState();
 				const VkPipelineMultisampleStateCreateInfo& multisampleState = pPipeline->GetMultisampleState();
 				const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
 				const VkPipelineColorBlendStateCreateInfo& colorBlendState = pPipeline->GetColorBlendState();
+
+				SetPrimitiveRestartEnable(inputAssemblyState);
 
 				SetDepthClamp(rasterizationState);
 				SetRasterizerDiscard(rasterizationState);
@@ -86,6 +89,13 @@ namespace CrossEngine {
 			}
 		}
 
+		void SetPrimitiveRestartEnable(const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState)
+		{
+			if (inputAssemblyState.primitiveRestartEnable) {
+				glEnable(GL_PRIMITIVE_RESTART_FIXED_INDEX);
+			}
+		}
+
 		void SetDepthClamp(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
 		{
 			// Not support
@@ -95,9 +105,6 @@ namespace CrossEngine {
 		{
 			if (rasterizationState.rasterizerDiscardEnable) {
 				glEnable(GL_RASTERIZER_DISCARD);
-			}
-			else {
-				glDisable(GL_RASTERIZER_DISCARD);
 			}
 		}
 
@@ -110,11 +117,9 @@ namespace CrossEngine {
 		{
 			if (rasterizationState.cullMode != VK_CULL_MODE_NONE) {
 				glEnable(GL_CULL_FACE);
-				glCullFace(CGLES3Helper::glTranslateCullMode(rasterizationState.cullMode));
 			}
-			else {
-				glDisable(GL_CULL_FACE);
-			}
+
+			glCullFace(CGLES3Helper::glTranslateCullMode(rasterizationState.cullMode));
 		}
 
 		void SetFrontFace(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
@@ -126,11 +131,9 @@ namespace CrossEngine {
 		{
 			if (rasterizationState.depthBiasEnable) {
 				glEnable(GL_POLYGON_OFFSET_FILL);
-				glPolygonOffset(rasterizationState.depthBiasSlopeFactor, rasterizationState.depthBiasConstantFactor);
 			}
-			else {
-				glDisable(GL_POLYGON_OFFSET_FILL);
-			}
+
+			glPolygonOffset(rasterizationState.depthBiasSlopeFactor, rasterizationState.depthBiasConstantFactor);
 		}
 
 		void SetLineWidth(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
@@ -143,19 +146,11 @@ namespace CrossEngine {
 			if (depthStencilState.depthTestEnable) {
 				glEnable(GL_DEPTH_TEST);
 			}
-			else {
-				glDisable(GL_DEPTH_TEST);
-			}
 		}
 
 		void SetDepthWrite(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
 		{
-			if (depthStencilState.depthWriteEnable) {
-				glDepthMask(GL_TRUE);
-			}
-			else {
-				glDepthMask(GL_FALSE);
-			}
+			glDepthMask(depthStencilState.depthWriteEnable ? GL_TRUE : GL_FALSE);
 		}
 
 		void SetDepthFunc(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
@@ -172,9 +167,6 @@ namespace CrossEngine {
 		{
 			if (depthStencilState.stencilTestEnable) {
 				glEnable(GL_STENCIL_TEST);
-			}
-			else {
-				glDisable(GL_STENCIL_TEST);
 			}
 		}
 
@@ -227,16 +219,10 @@ namespace CrossEngine {
 				if (colorBlendState.pAttachments[0].blendEnable) {
 					glEnablei(GL_BLEND, indexAttachment);
 				}
-				else {
-					glDisablei(GL_BLEND, indexAttachment);
-				}
 			}
 			/*/
 			if (colorBlendState.pAttachments[0].blendEnable) {
 				glEnable(GL_BLEND);
-			}
-			else {
-				glDisable(GL_BLEND);
 			}
 			//*/
 		}

@@ -26,19 +26,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandSetDepthBias : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandDispatch : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandSetDepthBias(float depthBiasConstantFactor, float depthBiasSlopeFactor)
-			: m_depthBiasConstantFactor(depthBiasConstantFactor)
-			, m_depthBiasSlopeFactor(depthBiasSlopeFactor)
+		CGLES3CommandDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
+			: m_groupCountX(groupCountX)
+			, m_groupCountY(groupCountY)
+			, m_groupCountZ(groupCountZ)
 		{
 
 		}
-		virtual ~CGLES3CommandSetDepthBias(void)
+		virtual ~CGLES3CommandDispatch(void)
 		{
 
 		}
@@ -47,13 +48,14 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-			glPolygonOffset(m_depthBiasSlopeFactor, m_depthBiasConstantFactor);
+
 		}
 
 
 	protected:
-		float m_depthBiasConstantFactor;
-		float m_depthBiasSlopeFactor;
+		uint32_t m_groupCountX;
+		uint32_t m_groupCountY;
+		uint32_t m_groupCountZ;
 	};
 
 }

@@ -32,7 +32,11 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetBlendConstants(void)
+		CGLES3CommandSetBlendConstants(float red, float green, float blue, float alpha)
+			: m_red(red)
+			, m_green(green)
+			, m_blue(blue)
+			, m_alpha(alpha)
 		{
 
 		}
@@ -45,11 +49,15 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			glBlendColor(m_red, m_green, m_blue, m_alpha);
 		}
 
 
 	protected:
+		float m_red;
+		float m_green;
+		float m_blue;
+		float m_alpha;
 	};
 
 }

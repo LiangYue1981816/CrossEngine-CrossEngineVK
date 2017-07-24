@@ -26,19 +26,22 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandSetStencilCompareMask : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandDraw : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask)
-			: m_faceMask(faceMask)
-			, m_compareMask(compareMask)
+		CGLES3CommandDraw(VkPrimitiveTopology topology, uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
+			: m_topology(topology)
+			, m_vertexCount(vertexCount)
+			, m_instanceCount(instanceCount)
+			, m_firstVertex(firstVertex)
+			, m_firstInstance(firstInstance)
 		{
 
 		}
-		virtual ~CGLES3CommandSetStencilCompareMask(void)
+		virtual ~CGLES3CommandDraw(void)
 		{
 
 		}
@@ -52,8 +55,11 @@ namespace CrossEngine {
 
 
 	protected:
-		VkStencilFaceFlags m_faceMask;
-		uint32_t m_compareMask;
+		VkPrimitiveTopology m_topology;
+		uint32_t m_vertexCount;
+		uint32_t m_instanceCount;
+		uint32_t m_firstVertex;
+		uint32_t m_firstInstance;
 	};
 
 }

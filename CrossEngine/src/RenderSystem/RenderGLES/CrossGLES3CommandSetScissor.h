@@ -32,9 +32,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetScissor(GLboolean bEnable, GLint x, GLint y, GLsizei width, GLsizei height)
-			: m_bEnable(bEnable)
-			, m_x(x)
+		CGLES3CommandSetScissor(GLint x, GLint y, GLsizei width, GLsizei height)
+			: m_x(x)
 			, m_y(y)
 			, m_width(width)
 			, m_height(height)
@@ -50,18 +49,12 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-			if (m_bEnable) {
-				glEnable(GL_SCISSOR_TEST);
-				glScissor(m_x, m_y, m_width, m_height);
-			}
-			else {
-				glDisable(GL_SCISSOR_TEST);
-			}
+			glEnable(GL_SCISSOR_TEST);
+			glScissor(m_x, m_y, m_width, m_height);
 		}
 
 
 	protected:
-		GLboolean m_bEnable;
 		GLint m_x;
 		GLint m_y;
 		GLsizei m_width;

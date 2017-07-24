@@ -26,19 +26,23 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandSetDepthBias : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandDrawIndexed : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandSetDepthBias(float depthBiasConstantFactor, float depthBiasSlopeFactor)
-			: m_depthBiasConstantFactor(depthBiasConstantFactor)
-			, m_depthBiasSlopeFactor(depthBiasSlopeFactor)
+		CGLES3CommandDrawIndexed(VkPrimitiveTopology topology, uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
+			: m_topology(topology)
+			, m_indexCount(indexCount)
+			, m_instanceCount(instanceCount)
+			, m_firstIndex(firstIndex)
+			, m_vertexOffset(vertexOffset)
+			, m_firstInstance(firstInstance)
 		{
 
 		}
-		virtual ~CGLES3CommandSetDepthBias(void)
+		virtual ~CGLES3CommandDrawIndexed(void)
 		{
 
 		}
@@ -47,13 +51,17 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-			glPolygonOffset(m_depthBiasSlopeFactor, m_depthBiasConstantFactor);
+
 		}
 
 
 	protected:
-		float m_depthBiasConstantFactor;
-		float m_depthBiasSlopeFactor;
+		VkPrimitiveTopology m_topology;
+		uint32_t m_indexCount;
+		uint32_t m_instanceCount;
+		uint32_t m_firstIndex;
+		int32_t m_vertexOffset;
+		uint32_t m_firstInstance;
 	};
 
 }
