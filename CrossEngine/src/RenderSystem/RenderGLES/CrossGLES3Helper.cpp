@@ -223,6 +223,24 @@ namespace CrossEngine {
 		}
 	}
 
+	GLenum CGLES3Helper::glTranslatePrimitiveTopology(VkPrimitiveTopology topology)
+	{
+		switch (topology) {
+		case VK_PRIMITIVE_TOPOLOGY_POINT_LIST: return GL_POINTS;
+		case VK_PRIMITIVE_TOPOLOGY_LINE_LIST: return GL_LINES;
+		case VK_PRIMITIVE_TOPOLOGY_LINE_STRIP: return GL_LINE_STRIP;
+		case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST: return GL_TRIANGLES;
+		case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP: return GL_TRIANGLE_STRIP;
+		case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN: return GL_TRIANGLE_FAN;
+		//case VK_PRIMITIVE_TOPOLOGY_LINE_LIST_WITH_ADJACENCY:
+		//case VK_PRIMITIVE_TOPOLOGY_LINE_STRIP_WITH_ADJACENCY:
+		//case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST_WITH_ADJACENCY:
+		//case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP_WITH_ADJACENCY:
+		//case VK_PRIMITIVE_TOPOLOGY_PATCH_LIST:
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
 	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];

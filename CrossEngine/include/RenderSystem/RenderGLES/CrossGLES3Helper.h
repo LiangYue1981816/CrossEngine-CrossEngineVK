@@ -46,6 +46,7 @@ namespace CrossEngine {
 		static GLenum glTranslateCullMode(VkCullModeFlags cullMode);
 		static GLenum glTranslateFrontFace(VkFrontFace frontFace);
 		static GLenum glTranslateStencilFace(VkStencilFaceFlags stencilFace);
+		static GLenum glTranslatePrimitiveTopology(VkPrimitiveTopology topology);
 
 		static const char* glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp);
 		static const char* glAttachmentStoreOpToString(VkAttachmentStoreOp storeOp);

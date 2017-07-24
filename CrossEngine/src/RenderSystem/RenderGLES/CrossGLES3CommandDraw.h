@@ -50,7 +50,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			glDrawArrays(CGLES3Helper::glTranslatePrimitiveTopology(m_topology), m_firstVertex, m_vertexCount);
 		}
 
 

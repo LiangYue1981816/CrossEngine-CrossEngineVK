@@ -51,7 +51,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			glDrawElements(CGLES3Helper::glTranslatePrimitiveTopology(m_topology), m_indexCount, GL_UNSIGNED_SHORT, NULL);
 		}
 
 
