@@ -26,6 +26,17 @@ THE SOFTWARE.
 #include "CrossGLES3CommandBindVertexBuffer.h"
 #include "CrossGLES3CommandBindPipelineCompute.h"
 #include "CrossGLES3CommandBindPipelineGraphics.h"
+#include "CrossGLES3CommandBindDescriptorSet.h"
+
+#include "CrossGLES3CommandSetViewport.h"
+#include "CrossGLES3CommandSetScissor.h"
+#include "CrossGLES3CommandSetLineWidth.h"
+#include "CrossGLES3CommandSetDepthBias.h"
+#include "CrossGLES3CommandSetDepthBounds.h"
+#include "CrossGLES3CommandSetBlendConstants.h"
+#include "CrossGLES3CommandSetStencilCompareMask.h"
+#include "CrossGLES3CommandSetStencilReference.h"
+#include "CrossGLES3CommandSetStencilWriteMask.h"
 
 
 namespace CrossEngine {

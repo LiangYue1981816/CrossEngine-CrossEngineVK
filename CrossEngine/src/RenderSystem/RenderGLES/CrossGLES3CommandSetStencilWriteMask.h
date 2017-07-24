@@ -32,7 +32,9 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetStencilWriteMask(void)
+		CGLES3CommandSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
+			: m_faceMask(faceMask)
+			, m_writeMask(writeMask)
 		{
 
 		}
@@ -45,11 +47,13 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			glStencilMaskSeparate(CGLES3Helper::glTranslateStencilFace(m_faceMask), m_writeMask);
 		}
 
 
 	protected:
+		VkStencilFaceFlags m_faceMask;
+		uint32_t m_writeMask;
 	};
 
 }

@@ -32,7 +32,9 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetStencilReference(void)
+		CGLES3CommandSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference)
+			: m_faceMask(faceMask)
+			, m_reference(reference)
 		{
 
 		}
@@ -50,6 +52,8 @@ namespace CrossEngine {
 
 
 	protected:
+		VkStencilFaceFlags m_faceMask;
+		uint32_t m_reference;
 	};
 
 }

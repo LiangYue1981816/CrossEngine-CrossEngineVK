@@ -32,7 +32,9 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetDepthBounds(void)
+		CGLES3CommandSetDepthBounds(float minDepthBounds, float maxDepthBounds)
+			: m_minDepthBounds(minDepthBounds)
+			, m_maxDepthBounds(maxDepthBounds)
 		{
 
 		}
@@ -45,11 +47,13 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			// Not support!
 		}
 
 
 	protected:
+		float m_minDepthBounds;
+		float m_maxDepthBounds;
 	};
 
 }

@@ -213,6 +213,16 @@ namespace CrossEngine {
 		}
 	}
 
+	GLenum CGLES3Helper::glTranslateStencilFace(VkStencilFaceFlags stencilFace)
+	{
+		switch (stencilFace) {
+		case VK_STENCIL_FACE_FRONT_BIT: return GL_FRONT;
+		case VK_STENCIL_FACE_BACK_BIT: return GL_BACK;
+		case VK_STENCIL_FRONT_AND_BACK: return GL_FRONT_AND_BACK;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
 	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];

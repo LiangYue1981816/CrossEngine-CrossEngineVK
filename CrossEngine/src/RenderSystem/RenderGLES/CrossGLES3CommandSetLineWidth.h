@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetLineWidth(void)
+		CGLES3CommandSetLineWidth(float lineWidth)
 		{
 
 		}
@@ -45,11 +45,12 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			glLineWidth(m_lineWidth);
 		}
 
 
 	protected:
+		float m_lineWidth;
 	};
 
 }

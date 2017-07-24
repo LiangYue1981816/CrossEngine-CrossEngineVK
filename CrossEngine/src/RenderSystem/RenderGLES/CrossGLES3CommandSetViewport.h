@@ -32,7 +32,11 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetViewport(void)
+		CGLES3CommandSetViewport(GLint x, GLint y, GLsizei width, GLsizei height)
+			: m_x(x)
+			, m_y(y)
+			, m_width(width)
+			, m_height(height)
 		{
 
 		}
@@ -45,11 +49,15 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			glViewport(m_x, m_y, m_width, m_height);
 		}
 
 
 	protected:
+		GLint m_x;
+		GLint m_y;
+		GLsizei m_width;
+		GLsizei m_height;
 	};
 
 }

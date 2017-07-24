@@ -79,6 +79,7 @@ namespace CrossEngine {
 
 				SetLogicOp(colorBlendState);
 				SetBlendEnable(colorBlendState);
+				SetBlendColor(colorBlendState);
 				SetBlendEquationSeparate(colorBlendState);
 				SetBlendFuncSeparate(colorBlendState);
 				SetColorMask(colorBlendState);
@@ -238,6 +239,11 @@ namespace CrossEngine {
 				glDisable(GL_BLEND);
 			}
 			//*/
+		}
+
+		void SetBlendColor(const VkPipelineColorBlendStateCreateInfo& colorBlendState)
+		{
+			glBlendColor(colorBlendState.blendConstants[0], colorBlendState.blendConstants[1], colorBlendState.blendConstants[2], colorBlendState.blendConstants[3]);
 		}
 
 		void SetBlendEquationSeparate(const VkPipelineColorBlendStateCreateInfo& colorBlendState)

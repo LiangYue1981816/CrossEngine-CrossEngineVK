@@ -32,7 +32,9 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetStencilCompareMask(void)
+		CGLES3CommandSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask)
+			: m_faceMask(faceMask)
+			, m_compareMask(compareMask)
 		{
 
 		}
@@ -50,6 +52,8 @@ namespace CrossEngine {
 
 
 	protected:
+		VkStencilFaceFlags m_faceMask;
+		uint32_t m_compareMask;
 	};
 
 }

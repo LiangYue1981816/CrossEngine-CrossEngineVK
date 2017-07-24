@@ -32,7 +32,10 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetDepthBias(void)
+		CGLES3CommandSetDepthBias(GLboolean bDepthBiasEnable, float depthBiasConstantFactor, float depthBiasSlopeFactor)
+			: m_bDepthBiasEnable(bDepthBiasEnable)
+			, m_depthBiasConstantFactor(depthBiasConstantFactor)
+			, m_depthBiasSlopeFactor(depthBiasSlopeFactor)
 		{
 
 		}
@@ -45,11 +48,20 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void)
 		{
-
+			if (m_bDepthBiasEnable) {
+				glEnable(GL_POLYGON_OFFSET_FILL);
+				glPolygonOffset(m_depthBiasSlopeFactor, m_depthBiasConstantFactor);
+			}
+			else {
+				glDisable(GL_POLYGON_OFFSET_FILL);
+			}
 		}
 
 
 	protected:
+		GLboolean m_bDepthBiasEnable;
+		float m_depthBiasConstantFactor;
+		float m_depthBiasSlopeFactor;
 	};
 
 }
