@@ -73,9 +73,8 @@ namespace CrossEngine {
 		void CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor);
 		void CmdSetBlendConstants(const float blendConstants[4]);
 		void CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds);
-		void CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask);
 		void CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask);
-		void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference);
+		void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask);
 
 		void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
 		void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance);

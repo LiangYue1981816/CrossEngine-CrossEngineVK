@@ -254,19 +254,15 @@ namespace CrossEngine {
 		vkCmdSetDepthBounds(m_vkCommandBuffer, minDepthBounds, maxDepthBounds);
 	}
 
-	void CVulkanCommandBuffer::CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask)
-	{
-		vkCmdSetStencilCompareMask(m_vkCommandBuffer, faceMask, compareMask);
-	}
-
 	void CVulkanCommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
 	{
 		vkCmdSetStencilWriteMask(m_vkCommandBuffer, faceMask, writeMask);
 	}
 
-	void CVulkanCommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference)
+	void CVulkanCommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask)
 	{
 		vkCmdSetStencilReference(m_vkCommandBuffer, faceMask, reference);
+		vkCmdSetStencilCompareMask(m_vkCommandBuffer, faceMask, compareMask);
 	}
 
 	void CVulkanCommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
