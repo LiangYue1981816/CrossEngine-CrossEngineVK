@@ -78,6 +78,9 @@ namespace CrossEngine {
 
 
 	protected:
+		std::vector<CGLES3CommandBase*> m_pCommands;
+
+	protected:
 		CGLES3Device *m_pDevice;
 	};
 
