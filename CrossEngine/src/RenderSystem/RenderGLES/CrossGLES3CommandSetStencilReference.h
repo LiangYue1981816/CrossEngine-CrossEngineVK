@@ -48,7 +48,7 @@ namespace CrossEngine {
 
 
 	protected:
-		virtual void Execute(void)
+		virtual void Execute(void) const
 		{
 			switch (CGLES3Helper::glTranslateStencilFace(m_faceMask)) {
 			case GL_FRONT:

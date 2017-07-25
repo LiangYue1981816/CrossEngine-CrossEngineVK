@@ -65,6 +65,22 @@ namespace CrossEngine {
 		return INVALID_HANDLE_VALUE;
 	}
 
+	void CGLES3CommandBuffer::ClearCommands(void)
+	{
+		for (auto &itCommand : m_pCommands) {
+			SAFE_DELETE(itCommand);
+		}
+
+		m_pCommands.clear();
+	}
+
+	void CGLES3CommandBuffer::Execute(void) const
+	{
+		for (const auto &itCommand : m_pCommands) {
+			itCommand->Execute();
+		}
+	}
+
 	int CGLES3CommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
 	{
 		return NO_ERROR;

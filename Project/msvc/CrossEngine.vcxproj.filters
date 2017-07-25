@@ -510,6 +510,9 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandDrawIndexed.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandExecuteCommandBuffer.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">

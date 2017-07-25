@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 
 	protected:
-		virtual void Execute(void)
+		virtual void Execute(void) const
 		{
 
 		}
