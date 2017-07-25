@@ -60,8 +60,9 @@ namespace CrossEngine {
 				const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
 				const VkPipelineColorBlendStateCreateInfo& colorBlendState = pPipeline->GetColorBlendState();
 
-				SetPrimitiveRestartEnable(inputAssemblyState);
+				InitStates();
 
+				SetPrimitiveRestartEnable(inputAssemblyState);
 				SetDepthClamp(rasterizationState);
 				SetRasterizerDiscard(rasterizationState);
 				SetPolygonMode(rasterizationState);
@@ -69,17 +70,14 @@ namespace CrossEngine {
 				SetFrontFace(rasterizationState);
 				SetPolygonOffset(rasterizationState);
 				SetLineWidth(rasterizationState);
-
 				SetDepthTest(depthStencilState);
 				SetDepthWrite(depthStencilState);
 				SetDepthFunc(depthStencilState);
 				SetDepthBoundTest(depthStencilState);
-
 				SetStencilTest(depthStencilState);
 				SetStencilFunc(depthStencilState);
 				SetStencilOp(depthStencilState);
 				SetStencilMask(depthStencilState);
-
 				SetLogicOp(colorBlendState);
 				SetBlendEnable(colorBlendState);
 				SetBlendColor(colorBlendState);
@@ -89,31 +87,43 @@ namespace CrossEngine {
 			}
 		}
 
-		void SetPrimitiveRestartEnable(const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState)
+		void InitStates(void) const
+		{
+			glDisable(GL_PRIMITIVE_RESTART_FIXED_INDEX);
+			glDisable(GL_RASTERIZER_DISCARD);
+			glDisable(GL_CULL_FACE);
+			glDisable(GL_POLYGON_OFFSET_FILL);
+			glDisable(GL_DEPTH_TEST);
+			glDisable(GL_STENCIL_TEST);
+			glDisable(GL_BLEND);
+			glDisable(GL_SCISSOR_TEST);
+		}
+
+		void SetPrimitiveRestartEnable(const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState) const
 		{
 			if (inputAssemblyState.primitiveRestartEnable) {
 				glEnable(GL_PRIMITIVE_RESTART_FIXED_INDEX);
 			}
 		}
 
-		void SetDepthClamp(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		void SetDepthClamp(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			// Not support
 		}
 
-		void SetRasterizerDiscard(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		void SetRasterizerDiscard(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			if (rasterizationState.rasterizerDiscardEnable) {
 				glEnable(GL_RASTERIZER_DISCARD);
 			}
 		}
 
-		void SetPolygonMode(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		void SetPolygonMode(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			// Not support
 		}
 
-		void SetCullMode(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		void SetCullMode(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			if (rasterizationState.cullMode != VK_CULL_MODE_NONE) {
 				glEnable(GL_CULL_FACE);
@@ -122,12 +132,12 @@ namespace CrossEngine {
 			glCullFace(CGLES3Helper::glTranslateCullMode(rasterizationState.cullMode));
 		}
 
-		void SetFrontFace(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		void SetFrontFace(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			glFrontFace(CGLES3Helper::glTranslateFrontFace(rasterizationState.frontFace));
 		}
 
-		void SetPolygonOffset(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		void SetPolygonOffset(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			if (rasterizationState.depthBiasEnable) {
 				glEnable(GL_POLYGON_OFFSET_FILL);
@@ -136,41 +146,41 @@ namespace CrossEngine {
 			glPolygonOffset(rasterizationState.depthBiasSlopeFactor, rasterizationState.depthBiasConstantFactor);
 		}
 
-		void SetLineWidth(const VkPipelineRasterizationStateCreateInfo& rasterizationState)
+		void SetLineWidth(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			glLineWidth(rasterizationState.lineWidth);
 		}
 
-		void SetDepthTest(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetDepthTest(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			if (depthStencilState.depthTestEnable) {
 				glEnable(GL_DEPTH_TEST);
 			}
 		}
 
-		void SetDepthWrite(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetDepthWrite(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			glDepthMask(depthStencilState.depthWriteEnable ? GL_TRUE : GL_FALSE);
 		}
 
-		void SetDepthFunc(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetDepthFunc(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			glDepthFunc(CGLES3Helper::glTranslateCompareOp(depthStencilState.depthCompareOp));
 		}
 
-		void SetDepthBoundTest(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetDepthBoundTest(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			// Not support
 		}
 
-		void SetStencilTest(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetStencilTest(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			if (depthStencilState.stencilTestEnable) {
 				glEnable(GL_STENCIL_TEST);
 			}
 		}
 
-		void SetStencilFunc(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetStencilFunc(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			glStencilFuncSeparate(
 				GL_FRONT, 
@@ -185,7 +195,7 @@ namespace CrossEngine {
 				depthStencilState.back.compareMask);
 		}
 
-		void SetStencilOp(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetStencilOp(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			glStencilOpSeparate(
 				GL_FRONT, 
@@ -200,18 +210,18 @@ namespace CrossEngine {
 				CGLES3Helper::glTranslateStencilOp(depthStencilState.back.passOp));
 		}
 
-		void SetStencilMask(const VkPipelineDepthStencilStateCreateInfo& depthStencilState)
+		void SetStencilMask(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			glStencilMaskSeparate(GL_FRONT, depthStencilState.front.writeMask);
 			glStencilMaskSeparate(GL_BACK, depthStencilState.back.writeMask);
 		}
 
-		void SetLogicOp(const VkPipelineColorBlendStateCreateInfo& colorBlendState)
+		void SetLogicOp(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
 			// Not support
 		}
 
-		void SetBlendEnable(const VkPipelineColorBlendStateCreateInfo& colorBlendState)
+		void SetBlendEnable(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
 			// Not support for different draw buffer
 			/*
@@ -227,12 +237,12 @@ namespace CrossEngine {
 			//*/
 		}
 
-		void SetBlendColor(const VkPipelineColorBlendStateCreateInfo& colorBlendState)
+		void SetBlendColor(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
 			glBlendColor(colorBlendState.blendConstants[0], colorBlendState.blendConstants[1], colorBlendState.blendConstants[2], colorBlendState.blendConstants[3]);
 		}
 
-		void SetBlendEquationSeparate(const VkPipelineColorBlendStateCreateInfo& colorBlendState)
+		void SetBlendEquationSeparate(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
 			// Not support for different draw buffer
 			/*
@@ -249,7 +259,7 @@ namespace CrossEngine {
 			//*/
 		}
 
-		void SetBlendFuncSeparate(const VkPipelineColorBlendStateCreateInfo& colorBlendState)
+		void SetBlendFuncSeparate(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
 			// Not support for different draw buffer
 			/*
@@ -270,7 +280,7 @@ namespace CrossEngine {
 			//*/
 		}
 
-		void SetColorMask(const VkPipelineColorBlendStateCreateInfo& colorBlendState)
+		void SetColorMask(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
 			// Not support for different draw buffer
 			/*
