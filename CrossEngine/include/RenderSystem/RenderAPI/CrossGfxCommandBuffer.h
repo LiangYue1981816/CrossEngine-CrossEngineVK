@@ -48,6 +48,9 @@ namespace CrossEngine {
 		virtual HANDLE GetHandle(void) const = 0;
 
 	public:
+		virtual void Reset(void) = 0;
+
+	public:
 		virtual int BeginPrimary(VkCommandBufferUsageFlags flags) = 0;
 		virtual int BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0) = 0;
 		virtual int End(void) = 0;

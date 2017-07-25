@@ -38,13 +38,15 @@ namespace CrossEngine {
 
 	protected:
 		void Release(void);
+		void Clearup(void);
+		void ClearCommands(void);
 
 
 	public:
 		HANDLE GetHandle(void) const;
 
 	public:
-		void ClearCommands(void);
+		void Reset(void);
 		void Execute(void) const;
 
 	public:
@@ -80,6 +82,19 @@ namespace CrossEngine {
 
 		void CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer);
 
+
+	protected:
+		CGfxRenderPassPtr m_ptrRenderPass;
+		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxPipelineComputePtr m_ptrPipelineCompute;
+		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
+
+		std::map<HANDLE, CGfxTexturePtr> m_ptrTextures;
+		std::map<HANDLE, CGfxIndexBufferPtr> m_ptrIndexBuffers;
+		std::map<HANDLE, CGfxVertexBufferPtr> m_ptrVertexBuffers;
+		std::map<HANDLE, CGfxUniformBufferPtr> m_ptrUniformBuffers;
+		std::map<HANDLE, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
+		std::map<HANDLE, CGfxCommandBufferPtr> m_ptrCommandBuffers;
 
 	protected:
 		std::vector<CGLES3CommandBase*> m_pCommands;
