@@ -59,37 +59,70 @@ namespace CrossEngine {
 				glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
 				glReadBuffer(GL_NONE);
 
-				SetRenderColorTexture(pFrameBuffer, pPass);
-				SetRenderDepthStencilTexture(pFrameBuffer, pPass);
+				SetRenderColorTexture(pFrameBuffer, pRenderPass, pPass);
+				SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, pPass);
 				CheckFramebufferStatus();
 			}
 		}
 
-		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const GLSubpassInformation* pPass) const
+		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, const GLSubpassInformation* pPass) const
 		{
+			std::vector<GLenum> drawBuffers;
+
 			for (const auto &itColorAttachment : pPass->colorAttachments) {
+				GLenum drawbuffer = GL_DRAW_BUFFER0 + itColorAttachment.first;
+				GLenum attachment = GL_COLOR_ATTACHMENT0 + itColorAttachment.first;
 				GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + itColorAttachment.first, GL_TEXTURE_2D, texture, 0);
+
+				const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
+				const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachment(itColorAttachment.first);
+
+				drawBuffers.push_back(attachment);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, texture, 0);
+
+				if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+					glClearBufferfv(GL_COLOR, drawbuffer, pClearValue->color.float32);
+				}
 			}
+
+			glDrawBuffers(drawBuffers.size(), drawBuffers.data());
 		}
 
-		void SetRenderDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const GLSubpassInformation* pPass) const
+		void SetRenderDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, const GLSubpassInformation* pPass) const
 		{
 			GLuint texture = pFrameBuffer->GetRenderTexture(pPass->depthStencilAttachment);
 			GLenum format = pFrameBuffer->GetRenderTextureFormat(pPass->depthStencilAttachment);
 
+			const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(pPass->depthStencilAttachment);
+			const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachment(pPass->depthStencilAttachment);
+
 			if (CGLES3Helper::glIsFormatDepthOnly(format)) {
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+
+				if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+					glClearBufferfv(GL_DEPTH, 0, (const GLfloat *)&pClearValue->depthStencil.depth);
+				}
+
 				return;
 			}
 
 			if (CGLES3Helper::glIsFormatStencilOnly(format)) {
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+
+				if (pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+					glClearBufferiv(GL_STENCIL, 0, (const GLint *)&pClearValue->depthStencil.stencil);
+				}
+
 				return;
 			}
 
 			if (CGLES3Helper::glIsFormatDepthStencil(format)) {
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+
+				if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR || pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+					glClearBufferfi(GL_DEPTH_STENCIL, 0, pClearValue->depthStencil.depth, pClearValue->depthStencil.stencil);
+				}
+
 				return;
 			}
 		}
