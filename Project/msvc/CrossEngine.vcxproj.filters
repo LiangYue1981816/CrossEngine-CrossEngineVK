@@ -459,9 +459,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Command.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindFramebuffer.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindIndexBuffer.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
     </ClInclude>

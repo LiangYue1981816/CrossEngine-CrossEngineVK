@@ -26,19 +26,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandSetPass : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandBindPass : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandSetPass(CGfxFrameBufferPtr &ptrFrameBuffer, CGfxRenderPassPtr &ptrRenderPass, int indexPass)
+		CGLES3CommandBindPass(CGfxFrameBufferPtr &ptrFrameBuffer, CGfxRenderPassPtr &ptrRenderPass, int indexPass)
 			: m_indexPass(indexPass)
 		{
 			m_ptrFrameBuffer = ptrFrameBuffer;
 			m_ptrRenderPass = ptrRenderPass;
 		}
-		virtual ~CGLES3CommandSetPass(void)
+		virtual ~CGLES3CommandBindPass(void)
 		{
 			m_ptrFrameBuffer.Release();
 			m_ptrRenderPass.Release();
@@ -48,34 +48,50 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
-			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
-			const GLSubpassInformation* pPass = pRenderPass->GetSubpass(m_indexPass);
+			if (m_ptrFrameBuffer.IsNull() || m_ptrRenderPass.IsNull()) {
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
+			else {
+				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
+				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
+				const GLSubpassInformation* pPass = pRenderPass->GetSubpass(m_indexPass);
 
+				glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
+				glReadBuffer(GL_NONE);
+
+				SetRenderColorTexture(pFrameBuffer, pPass);
+				SetRenderDepthStencilTexture(pFrameBuffer, pPass);
+				CheckFramebufferStatus();
+			}
+		}
+
+		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const GLSubpassInformation* pPass) const
+		{
 			for (const auto &itColorAttachment : pPass->colorAttachments) {
 				GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first);
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + itColorAttachment.first, GL_TEXTURE_2D, texture, 0);
 			}
+		}
 
-			{
-				GLuint texture = pFrameBuffer->GetRenderTexture(pPass->depthStencilAttachment);
-				GLenum format = pFrameBuffer->GetRenderTextureFormat(pPass->depthStencilAttachment);
+		void SetRenderDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const GLSubpassInformation* pPass) const
+		{
+			GLuint texture = pFrameBuffer->GetRenderTexture(pPass->depthStencilAttachment);
+			GLenum format = pFrameBuffer->GetRenderTextureFormat(pPass->depthStencilAttachment);
 
-				if (CGLES3Helper::glIsFormatDepthOnly(format)) {
-					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
-				}
-
-				if (CGLES3Helper::glIsFormatStencilOnly(format)) {
-					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
-				}
-
-				if (CGLES3Helper::glIsFormatDepthStencil(format)) {
-					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
-				}
+			if (CGLES3Helper::glIsFormatDepthOnly(format)) {
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+				return;
 			}
 
-			glReadBuffer(GL_NONE);
-			CheckFramebufferStatus();
+			if (CGLES3Helper::glIsFormatStencilOnly(format)) {
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+				return;
+			}
+
+			if (CGLES3Helper::glIsFormatDepthStencil(format)) {
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+				return;
+			}
 		}
 
 		BOOL CheckFramebufferStatus(void) const
