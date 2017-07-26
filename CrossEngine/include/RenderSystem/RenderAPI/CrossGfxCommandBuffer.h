@@ -57,7 +57,6 @@ namespace CrossEngine {
 
 	public:
 		virtual void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents) = 0;
-		virtual void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents) = 0;
 		virtual void CmdNextSubpass(VkSubpassContents contents) = 0;
 		virtual void CmdEndRenderPass(void) = 0;
 

@@ -152,11 +152,6 @@ namespace CrossEngine {
 
 	}
 
-	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkRect2D renderArea, VkSubpassContents contents)
-	{
-
-	}
-
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
 
