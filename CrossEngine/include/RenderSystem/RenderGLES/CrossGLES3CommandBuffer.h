@@ -89,6 +89,7 @@ namespace CrossEngine {
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 
 	protected:
+		uint32_t m_indexPass;
 		uint32_t m_indexOffset;
 		VkIndexType m_indexType;
 		std::vector<CGLES3CommandBase*> m_pCommands;

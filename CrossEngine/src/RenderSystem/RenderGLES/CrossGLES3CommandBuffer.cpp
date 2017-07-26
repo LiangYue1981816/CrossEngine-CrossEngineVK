@@ -45,6 +45,10 @@ namespace CrossEngine {
 
 	CGLES3CommandBuffer::CGLES3CommandBuffer(CGLES3Device *pDevice)
 		: m_pDevice(pDevice)
+
+		, m_indexPass(0)
+		, m_indexOffset(0)
+		, m_indexType(VK_INDEX_TYPE_UINT16)
 	{
 
 	}
@@ -84,6 +88,10 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::Reset(void)
 	{
+		m_indexPass = 0;
+		m_indexOffset = 0;
+		m_indexType = VK_INDEX_TYPE_UINT16;
+
 		Clearup();
 		ClearCommands();
 	}
@@ -112,27 +120,34 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
 	{
+		m_ptrFrameBuffer = ptrFrameBuffer;
+		m_ptrRenderPass = ptrRenderPass;
 
+		m_indexPass = 0;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
-
+		m_indexPass++;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdEndRenderPass(void)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(CGfxFrameBufferPtr(NULL), CGfxRenderPassPtr(NULL), -1));
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
-
+		m_ptrPipelineCompute = ptrPipeline;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineCompute(m_ptrPipelineCompute));
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-
+		m_ptrPipelineGraphics = ptrPipeline;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(m_ptrPipelineGraphics));
 	}
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
