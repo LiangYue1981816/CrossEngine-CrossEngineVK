@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "CrossGLES3CommandBindPipelineCompute.h"
 #include "CrossGLES3CommandBindPipelineGraphics.h"
 #include "CrossGLES3CommandBindDescriptorSet.h"
+#include "CrossGLES3CommandSetPass.h"
 #include "CrossGLES3CommandSetViewport.h"
 #include "CrossGLES3CommandSetScissor.h"
 #include "CrossGLES3CommandSetLineWidth.h"
