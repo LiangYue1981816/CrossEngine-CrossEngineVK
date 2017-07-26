@@ -32,13 +32,11 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandDrawIndexed(VkPrimitiveTopology topology, uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
+		CGLES3CommandDrawIndexed(VkPrimitiveTopology topology, VkIndexType indexType, uint32_t indexCount, uint32_t indexOffset)
 			: m_topology(topology)
+			, m_indexType(indexType)
 			, m_indexCount(indexCount)
-			, m_instanceCount(instanceCount)
-			, m_firstIndex(firstIndex)
-			, m_vertexOffset(vertexOffset)
-			, m_firstInstance(firstInstance)
+			, m_indexOffset(indexOffset)
 		{
 
 		}
@@ -51,17 +49,15 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glDrawElements(CGLES3Helper::glTranslatePrimitiveTopology(m_topology), m_indexCount, GL_UNSIGNED_SHORT, NULL);
+			glDrawElements(CGLES3Helper::glTranslatePrimitiveTopology(m_topology), m_indexCount, CGLES3Helper::glTranslateIndexType(m_indexType), (const void *)m_indexOffset);
 		}
 
 
 	protected:
 		VkPrimitiveTopology m_topology;
+		VkIndexType m_indexType;
 		uint32_t m_indexCount;
-		uint32_t m_instanceCount;
-		uint32_t m_firstIndex;
-		int32_t m_vertexOffset;
-		uint32_t m_firstInstance;
+		uint32_t m_indexOffset;
 	};
 
 }

@@ -65,43 +65,6 @@ namespace CrossEngine {
 		m_ptrFrameBuffer.Release();
 		m_ptrPipelineCompute.Release();
 		m_ptrPipelineGraphics.Release();
-
-		for (auto &itTexture : m_ptrTextures) {
-			CGfxTexturePtr &ptrTexture = itTexture.second;
-			ptrTexture.Release();
-		}
-
-		for (auto &itIndexBuffer : m_ptrIndexBuffers) {
-			CGfxIndexBufferPtr &ptrIndexBuffer = itIndexBuffer.second;
-			ptrIndexBuffer.Release();
-		}
-
-		for (auto &itVertexBuffer : m_ptrVertexBuffers) {
-			CGfxVertexBufferPtr &ptrVertexBuffer = itVertexBuffer.second;
-			ptrVertexBuffer.Release();
-		}
-
-		for (auto &itUniformBuffer : m_ptrUniformBuffers) {
-			CGfxUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
-			ptrUniformBuffer.Release();
-		}
-
-		for (auto &itDescriptorSet : m_ptrDescriptorSets) {
-			CGfxDescriptorSetPtr &ptrDescriptorSet = itDescriptorSet.second;
-			ptrDescriptorSet.Release();
-		}
-
-		for (auto &itCommandBuffer : m_ptrCommandBuffers) {
-			CGfxCommandBufferPtr &ptrCommandBuffer = itCommandBuffer.second;
-			ptrCommandBuffer.Release();
-		}
-
-		m_ptrTextures.clear();
-		m_ptrIndexBuffers.clear();
-		m_ptrVertexBuffers.clear();
-		m_ptrUniformBuffers.clear();
-		m_ptrDescriptorSets.clear();
-		m_ptrCommandBuffers.clear();
 	}
 
 	void CGLES3CommandBuffer::ClearCommands(void)

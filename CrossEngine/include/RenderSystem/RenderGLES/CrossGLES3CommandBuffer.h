@@ -88,14 +88,9 @@ namespace CrossEngine {
 		CGfxPipelineComputePtr m_ptrPipelineCompute;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 
-		std::map<HANDLE, CGfxTexturePtr> m_ptrTextures;
-		std::map<HANDLE, CGfxIndexBufferPtr> m_ptrIndexBuffers;
-		std::map<HANDLE, CGfxVertexBufferPtr> m_ptrVertexBuffers;
-		std::map<HANDLE, CGfxUniformBufferPtr> m_ptrUniformBuffers;
-		std::map<HANDLE, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
-		std::map<HANDLE, CGfxCommandBufferPtr> m_ptrCommandBuffers;
-
 	protected:
+		uint32_t m_indexOffset;
+		VkIndexType m_indexType;
 		std::vector<CGLES3CommandBase*> m_pCommands;
 
 	protected:

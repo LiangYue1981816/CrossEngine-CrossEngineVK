@@ -32,7 +32,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindVertexBuffer(CGfxVertexBufferPtr &ptrVertexBuffer, CGfxPipelineGraphicsPtr& ptrPipelineGraphics)
+		CGLES3CommandBindVertexBuffer(CGfxVertexBufferPtr &ptrVertexBuffer, CGfxPipelineGraphicsPtr& ptrPipelineGraphics, size_t offset)
+			: m_offset(offset)
 		{
 			m_ptrVertexBuffer = ptrVertexBuffer;
 			m_ptrPipelineGraphics = ptrPipelineGraphics;
@@ -57,7 +58,7 @@ namespace CrossEngine {
 
 				GLuint bindingindex = 0;
 				GLuint stride = pDevice->GetVertexSize(pPipeline->GetVertexFormat());
-				glBindVertexBuffer(bindingindex, (GLuint)m_ptrVertexBuffer->GetHandle(), 0, stride);
+				glBindVertexBuffer(bindingindex, (GLuint)m_ptrVertexBuffer->GetHandle(), m_offset, stride);
 
 				for (const auto &itVertexInputAttributeDescription : vertexInputAttributeDescriptions) {
 					GLuint attribute = itVertexInputAttributeDescription.first;
@@ -75,6 +76,7 @@ namespace CrossEngine {
 
 
 	protected:
+		size_t m_offset;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 	};

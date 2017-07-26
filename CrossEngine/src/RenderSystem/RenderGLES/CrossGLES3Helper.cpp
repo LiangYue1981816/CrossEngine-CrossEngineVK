@@ -241,6 +241,15 @@ namespace CrossEngine {
 		}
 	}
 
+	GLenum CGLES3Helper::glTranslateIndexType(VkIndexType type)
+	{
+		switch (type) {
+		case VK_INDEX_TYPE_UINT16: return GL_UNSIGNED_SHORT;
+		case VK_INDEX_TYPE_UINT32: return GL_UNSIGNED_INT;
+		default: return GL_INVALID_ENUM;
+		}
+	}
+
 	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];
