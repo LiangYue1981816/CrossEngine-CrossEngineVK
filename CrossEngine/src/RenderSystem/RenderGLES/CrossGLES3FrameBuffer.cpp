@@ -89,6 +89,9 @@ namespace CrossEngine {
 	BOOL CGLES3FrameBuffer::Create(HANDLE hRenderPass)
 	{
 		glGenFramebuffers(1, &m_framebuffer);
+		return TRUE;
+
+		/*
 		glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
 		{
 			for (const auto &itAttachment : m_attachments) {
@@ -115,6 +118,7 @@ namespace CrossEngine {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		return CheckFramebufferStatus(m_framebuffer);
+		*/
 	}
 
 	void CGLES3FrameBuffer::Destroy(void)
@@ -172,9 +176,16 @@ namespace CrossEngine {
 		return m_height;
 	}
 
-	GLuint CGLES3FrameBuffer::GetRenderTexture(uint32_t indexAttachment)
+	GLuint CGLES3FrameBuffer::GetRenderTexture(uint32_t indexAttachment) const
 	{
-		return m_attachments[indexAttachment].texture;
+		const auto &itAttachment = m_attachments.find(indexAttachment);
+		return itAttachment != m_attachments.end() ? itAttachment->second.texture : 0;
+	}
+
+	GLenum CGLES3FrameBuffer::GetRenderTextureFormat(uint32_t indexAttachment) const
+	{
+		const auto &itAttachment = m_attachments.find(indexAttachment);
+		return itAttachment != m_attachments.end() ? itAttachment->second.format : GL_INVALID_ENUM;
 	}
 
 	void CGLES3FrameBuffer::DumpLog(void) const

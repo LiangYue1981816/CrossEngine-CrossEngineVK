@@ -53,7 +53,9 @@ namespace CrossEngine {
 	public:
 		uint32_t GetWidth(void) const;
 		uint32_t GetHeight(void) const;
-		GLuint GetRenderTexture(uint32_t indexAttachment);
+
+		GLuint GetRenderTexture(uint32_t indexAttachment) const;
+		GLenum GetRenderTextureFormat(uint32_t indexAttachment) const;
 
 
 	protected:
