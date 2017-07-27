@@ -40,8 +40,8 @@ namespace CrossEngine {
 
 
 	public:
-		virtual int Submit(CGfxCommandBuffer *pCommandBuffer) const = 0;
-		virtual int Submit(CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const = 0;
+		virtual int Submit(const CGfxCommandBuffer *pCommandBuffer) const = 0;
+		virtual int Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const = 0;
 		virtual int WaitIdle(void) const = 0;
 	};
 
