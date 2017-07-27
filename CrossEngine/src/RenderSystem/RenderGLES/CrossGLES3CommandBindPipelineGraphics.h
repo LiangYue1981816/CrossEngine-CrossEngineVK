@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindPipelineGraphics(CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
+		CGLES3CommandBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 		{
 			m_ptrPipelineGraphics = ptrPipelineGraphics;
 		}

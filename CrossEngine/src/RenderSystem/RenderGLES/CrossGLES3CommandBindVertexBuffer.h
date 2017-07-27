@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindVertexBuffer(CGfxVertexBufferPtr &ptrVertexBuffer, CGfxPipelineGraphicsPtr& ptrPipelineGraphics, size_t offset)
+		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, const CGfxPipelineGraphicsPtr& ptrPipelineGraphics, size_t offset)
 			: m_offset(offset)
 		{
 			m_ptrVertexBuffer = ptrVertexBuffer;

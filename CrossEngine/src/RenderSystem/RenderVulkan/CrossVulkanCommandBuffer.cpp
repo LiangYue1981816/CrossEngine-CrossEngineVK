@@ -201,10 +201,10 @@ namespace CrossEngine {
 		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
 	}
 
-	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType indexType)
+	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type)
 	{
 		m_ptrIndexBuffers[ptrIndexBuffer->GetHandle()] = ptrIndexBuffer;
-		vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)ptrIndexBuffer->GetHandle(), offset, indexType);
+		vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)ptrIndexBuffer->GetHandle(), offset, type);
 	}
 
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)

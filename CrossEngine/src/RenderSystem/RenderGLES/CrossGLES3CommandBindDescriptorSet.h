@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindDescriptorSet(CGfxDescriptorSetPtr &ptrDescriptorSet)
+		CGLES3CommandBindDescriptorSet(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 		{
 			m_ptrDescriptorSet = ptrDescriptorSet;
 		}

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandExecuteCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
+		CGLES3CommandExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer)
 		{
 			m_ptrCommandBuffer = ptrCommandBuffer;
 		}

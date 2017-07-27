@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include "CrossGLES3CommandSetLineWidth.h"
 #include "CrossGLES3CommandSetDepthBias.h"
 #include "CrossGLES3CommandSetDepthBounds.h"
+#include "CrossGLES3CommandSetDepthRange.h"
 #include "CrossGLES3CommandSetBlendConstants.h"
 #include "CrossGLES3CommandSetStencilReference.h"
 #include "CrossGLES3CommandSetStencilWriteMask.h"
@@ -152,82 +153,94 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSet(ptrDescriptorSet));
 	}
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSet(ptrDescriptorSet));
 	}
 
 	void CGLES3CommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindVertexBuffer(ptrVertexBuffer, m_ptrPipelineGraphics, offset));
 	}
 
-	void CGLES3CommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType indexType)
+	void CGLES3CommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type)
 	{
-
+		m_indexType = type;
+		m_indexOffset = offset;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindIndexBuffer(ptrIndexBuffer));
 	}
 
 	void CGLES3CommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetViewport(x, y, width, height));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthRange(minDepth, maxDepth));
 	}
 
 	void CGLES3CommandBuffer::CmdSetScissor(int x, int y, uint32_t width, uint32_t height)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetScissor(x, y, width, height));
 	}
 
 	void CGLES3CommandBuffer::CmdSetLineWidth(float lineWidth)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetLineWidth(lineWidth));
 	}
 
 	void CGLES3CommandBuffer::CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthBias(depthBiasConstantFactor, depthBiasSlopeFactor));
 	}
 
 	void CGLES3CommandBuffer::CmdSetBlendConstants(const float blendConstants[4])
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetBlendConstants(blendConstants[0], blendConstants[1], blendConstants[2], blendConstants[2]));
 	}
 
 	void CGLES3CommandBuffer::CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthBounds(minDepthBounds, maxDepthBounds));
 	}
 
 	void CGLES3CommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetStencilWriteMask(faceMask, writeMask));
 	}
 
 	void CGLES3CommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask)
 	{
+		const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+		const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
 
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetStencilReference(faceMask, depthStencilState.front.compareOp, depthStencilState.back.compareOp, reference, compareMask));
 	}
 
 	void CGLES3CommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
+		const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
 
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandDraw(inputAssemblyState.topology, vertexCount, instanceCount, firstVertex, firstInstance));
 	}
 
 	void CGLES3CommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
 	{
+		const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
 
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandDrawIndexed(inputAssemblyState.topology, m_indexType, indexCount, m_indexOffset));
 	}
 
 	void CGLES3CommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandDispatch(groupCountX, groupCountY, groupCountZ));
 	}
 
 	void CGLES3CommandBuffer::CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandExecuteCommandBuffer(ptrCommandBuffer));
 	}
 
 }

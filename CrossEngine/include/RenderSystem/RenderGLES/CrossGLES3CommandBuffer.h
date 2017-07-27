@@ -64,7 +64,7 @@ namespace CrossEngine {
 		void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout);
 		void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout);
 		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset);
-		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType indexType);
+		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type);
 
 		void CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth);
 		void CmdSetScissor(int x, int y, uint32_t width, uint32_t height);

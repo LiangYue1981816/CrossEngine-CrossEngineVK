@@ -26,36 +26,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandBindIndexBuffer : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandSetDepthRange : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer)
+		CGLES3CommandSetDepthRange(float minDepth, float maxDepth)
+			: m_minDepth(minDepth)
+			, m_maxDepth(maxDepth)
 		{
-			m_ptrIndexBuffer = ptrIndexBuffer;
+
 		}
-		virtual ~CGLES3CommandBindIndexBuffer(void)
+		virtual ~CGLES3CommandSetDepthRange(void)
 		{
-			m_ptrIndexBuffer.Release();
+
 		}
 
 
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrIndexBuffer.IsNull()) {
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			}
-			else {
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)m_ptrIndexBuffer->GetHandle());
-			}
+			glDepthRangef(m_minDepth, m_maxDepth);
 		}
 
 
 	protected:
-		CGfxIndexBufferPtr m_ptrIndexBuffer;
+		float m_minDepth;
+		float m_maxDepth;
 	};
 
 }

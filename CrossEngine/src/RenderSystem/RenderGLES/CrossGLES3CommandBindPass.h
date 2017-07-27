@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindPass(CGfxFrameBufferPtr &ptrFrameBuffer, CGfxRenderPassPtr &ptrRenderPass, int indexPass)
+		CGLES3CommandBindPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, int indexPass)
 			: m_indexPass(indexPass)
 		{
 			m_ptrFrameBuffer = ptrFrameBuffer;

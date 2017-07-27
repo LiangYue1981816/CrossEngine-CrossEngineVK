@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindPipelineCompute(CGfxPipelineComputePtr &ptrPipelineCompute)
+		CGLES3CommandBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute)
 		{
 			m_ptrPipelineCompute = ptrPipelineCompute;
 		}
