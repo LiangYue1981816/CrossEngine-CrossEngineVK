@@ -146,7 +146,7 @@ namespace CrossEngine {
 			createInfo.flags = 0;
 			createInfo.codeSize = numWords * 4;
 			createInfo.pCode = words;
-			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
+			CALL_VK_FUNCTION_THROW(vkCreateShaderModule(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkShaderModule));
 
 			m_pShaderCompiler = SAFE_NEW spirv_cross::Compiler(words, numWords);
 
@@ -165,7 +165,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pShaderCompiler);
 
 		if (m_vkShaderModule) {
-			vkDestroyShaderModule(m_pDevice->GetDevice(), m_vkShaderModule, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyShaderModule(m_pDevice->GetDevice(), m_vkShaderModule, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkShaderModule = VK_NULL_HANDLE;

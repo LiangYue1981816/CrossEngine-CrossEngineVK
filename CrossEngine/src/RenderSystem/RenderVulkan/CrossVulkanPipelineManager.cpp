@@ -45,7 +45,7 @@ namespace CrossEngine {
 		createInfo.flags = 0;
 		createInfo.initialDataSize = 0;
 		createInfo.pInitialData = NULL;
-		CALL_VK_FUNCTION_RETURN(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
+		CALL_VK_FUNCTION_RETURN(vkCreatePipelineCache(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineCache));
 
 		return CGfxResourceManager::Create();
 	}
@@ -55,7 +55,7 @@ namespace CrossEngine {
 		CGfxResourceManager::Destroy();
 
 		if (m_vkPipelineCache) {
-			vkDestroyPipelineCache(m_pDevice->GetDevice(), m_vkPipelineCache, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+			vkDestroyPipelineCache(m_pDevice->GetDevice(), m_vkPipelineCache, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
 
 		m_vkPipelineCache = VK_NULL_HANDLE;

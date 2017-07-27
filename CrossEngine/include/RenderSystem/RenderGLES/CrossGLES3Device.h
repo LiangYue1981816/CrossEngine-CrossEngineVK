@@ -67,8 +67,8 @@ namespace CrossEngine {
 		void DestroyFrameBufferManager(void);
 
 	public:
-		CGLES3Queue* GetQueue(void) const;
-		CGLES3Instance* GetInstance(void) const;
+		CGfxQueue* GetQueue(void) const;
+		CGfxInstance* GetInstance(void) const;
 
 	public:
 		const VkPhysicalDeviceFeatures& GetPhysicalDeviceFeatures(void) const;

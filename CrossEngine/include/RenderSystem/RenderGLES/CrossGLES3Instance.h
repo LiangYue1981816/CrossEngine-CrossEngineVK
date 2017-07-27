@@ -49,16 +49,10 @@ namespace CrossEngine {
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
 
-	public:
-		const char* GetCachePath(void) const;
-
 
 	protected:
 		CGLES3Device *m_pDevice;
 		CGLES3Swapchain *m_pSwapchain;
-
-	protected:
-		char m_szCachePath[_MAX_STRING];
 	};
 
 }

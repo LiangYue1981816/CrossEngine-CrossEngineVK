@@ -50,6 +50,7 @@ namespace CrossEngine {
 
 	int CGLES3Queue::WaitIdle(void) const
 	{
+		glFinish();
 		return NO_ERROR;
 	}
 

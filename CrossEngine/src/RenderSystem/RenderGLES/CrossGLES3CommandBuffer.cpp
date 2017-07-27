@@ -151,12 +151,12 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(m_ptrPipelineGraphics));
 	}
 
-	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
+	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
 	{
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSet(ptrDescriptorSet));
 	}
 
-	void CGLES3CommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
+	void CGLES3CommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSet(ptrDescriptorSet));
 	}

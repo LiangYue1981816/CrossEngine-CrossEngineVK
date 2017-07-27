@@ -26,8 +26,6 @@ CrossEngine::CGfxCommandBufferPtr ptrCommandBuffers[3];
 void CreateRenderPass(void)
 {
 	ptrRenderPass = pDevice->NewRenderPass();
-	CrossEngine::CVulkanRenderPass *pVulkanRenderPass = (CrossEngine::CVulkanRenderPass *)((CrossEngine::CGfxRenderPass *)ptrRenderPass);
-
 	ptrRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 0.0f, 0.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
 	ptrRenderPass->SetDepthStencilAttachment(1, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 1.0f, 0 }, VK_SAMPLE_COUNT_1_BIT);
 	ptrRenderPass->SetSubpassOutputColorReference(0, 0);
@@ -112,8 +110,6 @@ void CreateDescriptorSet(void)
 
 void CreateCommandBuffer(void)
 {
-	CrossEngine::CVulkanPipelineGraphics *pVulkanPipeline = (CrossEngine::CVulkanPipelineGraphics *)((CrossEngine::CGfxPipelineGraphics *)ptrPipeline);
-
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView] = pDevice->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
@@ -128,10 +124,10 @@ void CreateCommandBuffer(void)
 					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
 					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
 
-					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetA, pVulkanPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetA, ptrPipeline);
 					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 
-					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetB, pVulkanPipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetB, ptrPipeline);
 					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
 				}
 			}
@@ -148,11 +144,9 @@ void DestroyRenderPass(void)
 
 void DestroyFrameBuffer(void)
 {
-	CrossEngine::CVulkanSwapchain *pVulkanSwapchain = (CrossEngine::CVulkanSwapchain *)((CrossEngine::CGfxSwapchain *)pSwapchain);
-
 	ptrDepthTexture.Release();
 
-	for (int indexView = 0; indexView < (int)pVulkanSwapchain->GetImageCount(); indexView++) {
+	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView].Release();
 	}
 }
@@ -213,7 +207,7 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 void Destroy(void)
 {
 	if (pGfxInstance) {
-		((CrossEngine::CVulkanDevice *)pDevice)->GetQueue()->WaitIdle();
+		pDevice->GetQueue()->WaitIdle();
 
 		DestroyRenderPass();
 		DestroyFrameBuffer();
@@ -236,12 +230,10 @@ void Render(void)
 		return;
 	}
 
-	CrossEngine::CVulkanSwapchain *pVulkanSwapchain = (CrossEngine::CVulkanSwapchain *)((CrossEngine::CGfxSwapchain *)pSwapchain);
-
 	static float angle = 0.0f; angle += 0.05f;
 	static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
-	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * pVulkanSwapchain->GetWidth() / pVulkanSwapchain->GetHeight(), 0.1f, 100.0f);
+	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * pSwapchain->GetWidth() / pSwapchain->GetHeight(), 0.1f, 100.0f);
 	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	{
 		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -254,9 +246,9 @@ void Render(void)
 		ptrUniformBufferB->UpdateData(0, sizeof(glm::mat4), &mtxViewModelProjection);
 	}
 
-	pVulkanSwapchain->AcquireNextImage(VK_NULL_HANDLE);
+	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
-		((CrossEngine::CVulkanDevice *)pDevice)->GetQueue()->Submit(ptrCommandBuffers[pVulkanSwapchain->GetImageIndex()], pVulkanSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pVulkanSwapchain->GetRenderDoneSemaphore());
+		pDevice->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
 	}
-	pVulkanSwapchain->Present();
+	pSwapchain->Present();
 }

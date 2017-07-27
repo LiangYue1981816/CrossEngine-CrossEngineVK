@@ -172,8 +172,6 @@ void DestroyDescriptorSet(void)
 
 void CreateCommandBuffer(void)
 {
-	CrossEngine::CVulkanPipelineGraphics *pGfxInstancePipeline = (CrossEngine::CVulkanPipelineGraphics *)((CrossEngine::CGfxPipelineGraphics *)ptrPipeline);
-
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView] = pDevice->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
@@ -188,7 +186,7 @@ void CreateCommandBuffer(void)
 					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
 					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
 
-					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSet, pGfxInstancePipeline->GetPipelineLayout());
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSet, ptrPipeline);
 					ptrCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 1);
 				}
 			}
@@ -236,7 +234,7 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 void Destroy(void)
 {
 	if (pGfxInstance) {
-		((CrossEngine::CVulkanDevice *)pDevice)->GetQueue()->WaitIdle();
+		pDevice->GetQueue()->WaitIdle();
 
 		DestroyRenderPass();
 		DestroyFrameBuffer();
@@ -271,7 +269,7 @@ void Render(void)
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
-		((CrossEngine::CVulkanDevice *)pDevice)->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
+		pDevice->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
 	}
 	pSwapchain->Present();
 }

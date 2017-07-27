@@ -122,7 +122,7 @@ namespace CrossEngine {
 			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
 			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
 			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
 
 			VkGraphicsPipelineCreateInfo pipelineCreateInfo = {};
 			pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -144,7 +144,7 @@ namespace CrossEngine {
 			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pResourceManager)->GetPipelineCache(), 1, &pipelineCreateInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pResourceManager)->GetPipelineCache(), 1, &pipelineCreateInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}

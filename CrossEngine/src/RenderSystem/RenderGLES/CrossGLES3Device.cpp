@@ -202,12 +202,12 @@ namespace CrossEngine {
 		m_pFrameBufferManager->Destroy();
 	}
 
-	CGLES3Queue* CGLES3Device::GetQueue(void) const
+	CGfxQueue* CGLES3Device::GetQueue(void) const
 	{
 		return m_pQueue;
 	}
 
-	CGLES3Instance* CGLES3Device::GetInstance(void) const
+	CGfxInstance* CGLES3Device::GetInstance(void) const
 	{
 		return m_pInstance;
 	}

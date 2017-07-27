@@ -66,9 +66,6 @@ namespace CrossEngine {
 		CGfxSwapchain* GetSwapchain(void) const;
 		CVulkanAllocator* GetAllocator(void) const;
 
-	public:
-		const char* GetCachePath(void) const;
-
 
 	protected:
 		VkInstance m_vkInstance;
@@ -82,9 +79,6 @@ namespace CrossEngine {
 		CVulkanDevice *m_pDevice;
 		CVulkanSwapchain *m_pSwapchain;
 		CVulkanAllocator *m_pAllocator;
-
-	protected:
-		char m_szCachePath[_MAX_STRING];
 
 	protected:
 		static int vkErrorCode;

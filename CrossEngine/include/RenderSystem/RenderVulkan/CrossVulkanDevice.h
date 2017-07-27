@@ -86,8 +86,8 @@ namespace CrossEngine {
 		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
 
 	public:
-		CVulkanQueue* GetQueue(void) const;
-		CVulkanInstance* GetInstance(void) const;
+		CGfxQueue* GetQueue(void) const;
+		CGfxInstance* GetInstance(void) const;
 
 	public:
 		VkDevice GetDevice(void) const;

@@ -27,15 +27,10 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3Instance::CGLES3Instance(const char *szCachePath)
-		: m_pDevice(NULL)
+		: CGfxInstance(szCachePath)
+		, m_pDevice(NULL)
 		, m_pSwapchain(NULL)
-
-		, m_szCachePath{ 0 }
 	{
-		if (szCachePath) {
-			strcpy(m_szCachePath, szCachePath);
-		}
-
 		m_pDevice = SAFE_NEW CGLES3Device(this);
 		m_pSwapchain = SAFE_NEW CGLES3Swapchain(m_pDevice);
 	}
@@ -128,11 +123,6 @@ namespace CrossEngine {
 	CGfxSwapchain* CGLES3Instance::GetSwapchain(void) const
 	{
 		return m_pSwapchain;
-	}
-
-	const char* CGLES3Instance::GetCachePath(void) const
-	{
-		return m_szCachePath;
 	}
 
 }

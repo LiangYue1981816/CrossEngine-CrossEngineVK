@@ -58,7 +58,7 @@ namespace CrossEngine {
 			pipelineLayoutCreateInfo.pSetLayouts = layouts.data();
 			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
 			pipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
+			CALL_VK_FUNCTION_THROW(vkCreatePipelineLayout(m_pDevice->GetDevice(), &pipelineLayoutCreateInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkPipelineLayout));
 
 			VkComputePipelineCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
@@ -74,7 +74,7 @@ namespace CrossEngine {
 			createInfo.layout = m_vkPipelineLayout;
 			createInfo.basePipelineHandle = VK_NULL_HANDLE;
 			createInfo.basePipelineIndex = 0;
-			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pResourceManager)->GetPipelineCache(), 1, &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
+			CALL_VK_FUNCTION_THROW(vkCreateComputePipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pResourceManager)->GetPipelineCache(), 1, &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));
 
 			return TRUE;
 		}

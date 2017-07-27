@@ -36,13 +36,13 @@ namespace CrossEngine {
 		createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-		vkCreateFence(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkFence);
+		vkCreateFence(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkFence);
 	}
 
 	CVulkanCommandBuffer::~CVulkanCommandBuffer(void)
 	{
 		Reset();
-		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	void CVulkanCommandBuffer::Release(void)
@@ -177,20 +177,22 @@ namespace CrossEngine {
 		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipeline)ptrPipeline->GetHandle());
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
 	{
 		m_ptrDescriptorSets[ptrDescriptorSet->GetHandle()] = ptrDescriptorSet;
 
 		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
-		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipelineLayout)hLayout, 0, 1, &vkDescriptorSet, 0, NULL);
+		VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineCompute *)((CGfxPipelineCompute *)ptrPipeline))->GetPipelineLayout();
+		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, HANDLE hLayout)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
 		m_ptrDescriptorSets[ptrDescriptorSet->GetHandle()] = ptrDescriptorSet;
 
 		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
-		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipelineLayout)hLayout, 0, 1, &vkDescriptorSet, 0, NULL);
+		VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetPipelineLayout();
+		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, NULL);
 	}
 
 	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)

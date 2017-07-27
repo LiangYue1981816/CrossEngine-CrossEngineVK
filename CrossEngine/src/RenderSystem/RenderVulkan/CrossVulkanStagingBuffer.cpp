@@ -53,7 +53,7 @@ namespace CrossEngine {
 		createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		createInfo.queueFamilyIndexCount = 0;
 		createInfo.pQueueFamilyIndices = NULL;
-		vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer);
+		vkCreateBuffer(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkBuffer);
 
 		VkMemoryRequirements requirements;
 		vkGetBufferMemoryRequirements(m_pDevice->GetDevice(), m_vkBuffer, &requirements);
@@ -65,7 +65,7 @@ namespace CrossEngine {
 	{
 		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_vkCommandPool, 1, &m_vkCommandBuffer);
 
-		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyBuffer(m_pDevice->GetDevice(), m_vkBuffer, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 	}
 
@@ -95,8 +95,8 @@ namespace CrossEngine {
 		}
 		CALL_VK_FUNCTION_RETURN(vkEndCommandBuffer(m_vkCommandBuffer));
 
-		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(m_pDevice->GetQueue()->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
-		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(m_pDevice->GetQueue()->GetQueue()));
+		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
+		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue()));
 
 		return VK_SUCCESS;
 	}
@@ -134,8 +134,8 @@ namespace CrossEngine {
 		}
 		CALL_VK_FUNCTION_RETURN(vkEndCommandBuffer(m_vkCommandBuffer));
 
-		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(m_pDevice->GetQueue()->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
-		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(m_pDevice->GetQueue()->GetQueue()));
+		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
+		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue()));
 
 		return VK_SUCCESS;
 	}

@@ -48,7 +48,7 @@ namespace CrossEngine {
 		allocInfo.pNext = NULL;
 		allocInfo.allocationSize = m_size;
 		allocInfo.memoryTypeIndex = m_type;
-		vkAllocateMemory(m_pDevice->GetDevice(), &allocInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkMemory);
+		vkAllocateMemory(m_pDevice->GetDevice(), &allocInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkMemory);
 
 		m_nodes = SAFE_NEW mem_node[m_size / UNIT_SIZE];
 		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, m_size, 0);
@@ -66,7 +66,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pListHead);
 		SAFE_DELETE_ARRAY(m_nodes);
 
-		vkFreeMemory(m_pDevice->GetDevice(), m_vkMemory, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+		vkFreeMemory(m_pDevice->GetDevice(), m_vkMemory, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	CVulkanMemory* CVulkanMemoryAllocator::AllocMemory(VkDeviceSize size, VkDeviceSize alignment)

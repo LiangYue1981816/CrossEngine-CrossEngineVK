@@ -68,23 +68,18 @@ namespace CrossEngine {
 
 
 	CVulkanInstance::CVulkanInstance(const char *szCachePath)
-		: m_vkInstance(VK_NULL_HANDLE)
+		: CGfxInstance(szCachePath)
+		, m_vkInstance(VK_NULL_HANDLE)
 		, m_vkSurface(VK_NULL_HANDLE)
 
 		, m_pDevice(NULL)
 		, m_pSwapchain(NULL)
 		, m_pAllocator(NULL)
 
-		, m_szCachePath{ 0 }
-
 #ifdef _DEBUG
 		, m_vkDebugReportCallback(VK_NULL_HANDLE)
 #endif
 	{
-		if (szCachePath) {
-			strcpy(m_szCachePath, szCachePath);
-		}
-
 		m_pDevice = SAFE_NEW CVulkanDevice(this);
 		m_pSwapchain = SAFE_NEW CVulkanSwapchain(m_pDevice);
 		m_pAllocator = SAFE_NEW CVulkanAllocator;
@@ -347,11 +342,6 @@ namespace CrossEngine {
 	CVulkanAllocator* CVulkanInstance::GetAllocator(void) const
 	{
 		return m_pAllocator;
-	}
-
-	const char* CVulkanInstance::GetCachePath(void) const
-	{
-		return m_szCachePath;
 	}
 
 }

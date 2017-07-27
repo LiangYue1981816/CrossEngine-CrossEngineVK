@@ -29,9 +29,9 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGfxInstance
 	{
 	public:
-		CGfxInstance(void)
+		CGfxInstance(const char *szCachePath)
 		{
-
+			strcpy(m_szCachePath, szCachePath);
 		}
 		virtual ~CGfxInstance(void)
 		{
@@ -46,6 +46,16 @@ namespace CrossEngine {
 	public:
 		virtual CGfxDevice* GetDevice(void) const = 0;
 		virtual CGfxSwapchain* GetSwapchain(void) const = 0;
+
+	public:
+		const char* GetCachePath(void) const
+		{
+			return m_szCachePath;
+		}
+
+
+	protected:
+		char m_szCachePath[_MAX_STRING];
 	};
 
 }

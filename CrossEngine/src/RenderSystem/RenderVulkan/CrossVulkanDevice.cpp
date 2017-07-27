@@ -385,12 +385,12 @@ namespace CrossEngine {
 		return m_pStagingBufferManager;
 	}
 
-	CVulkanQueue* CVulkanDevice::GetQueue(void) const
+	CGfxQueue* CVulkanDevice::GetQueue(void) const
 	{
 		return m_pQueue;
 	}
 
-	CVulkanInstance* CVulkanDevice::GetInstance(void) const
+	CGfxInstance* CVulkanDevice::GetInstance(void) const
 	{
 		return m_pInstance;
 	}

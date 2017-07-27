@@ -33,8 +33,8 @@ namespace CrossEngine {
 		createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-		createInfo.queueFamilyIndex = m_pDevice->GetQueue()->GetQueueFamilyIndex();
-		vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
+		createInfo.queueFamilyIndex = ((CVulkanQueue *)m_pDevice->GetQueue())->GetQueueFamilyIndex();
+		vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
 	}
 
 	CVulkanCommandPool::~CVulkanCommandPool(void)
@@ -46,7 +46,7 @@ namespace CrossEngine {
 		}
 
 		m_pCommandBuffers.clear();
-		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, m_pDevice->GetInstance()->GetAllocator()->GetAllocationCallbacks());
+		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
 	CGfxCommandBufferPtr CVulkanCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
