@@ -64,6 +64,8 @@ namespace CrossEngine {
 	public:
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
+
+	public:
 		CVulkanAllocator* GetAllocator(void) const;
 
 
