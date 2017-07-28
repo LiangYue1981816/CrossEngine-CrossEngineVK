@@ -39,7 +39,6 @@ namespace CrossEngine {
 
 	HANDLE CGLES3RenderPass::GetHandle(void) const
 	{
-		ASSERT(FALSE);
 		return INVALID_HANDLE_VALUE;
 	}
 
