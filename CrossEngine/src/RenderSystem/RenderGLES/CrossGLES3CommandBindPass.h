@@ -58,11 +58,11 @@ namespace CrossEngine {
 
 				if (IsValid(pFrameBuffer, pPass)) {
 					glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
+					{
+						SetRenderColorTexture(pFrameBuffer, pRenderPass, pPass);
+						SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, pPass);
+					}
 					glReadBuffer(GL_NONE);
-
-					SetRenderColorTexture(pFrameBuffer, pRenderPass, pPass);
-					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, pPass);
-
 					CheckFramebufferStatus();
 				}
 			}
