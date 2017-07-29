@@ -212,14 +212,9 @@ namespace CrossEngine {
 		return m_pInstance;
 	}
 
-	const VkPhysicalDeviceFeatures& CGLES3Device::GetPhysicalDeviceFeatures(void) const
+	const GLPhysicalDeviceLimits& CGLES3Device::GetPhysicalDeviceLimits(void) const
 	{
-		return m_features.GetPhysicalDeviceFeatures();
-	}
-
-	const VkPhysicalDeviceProperties& CGLES3Device::GetPhysicalDeviceProperties(void) const
-	{
-		return m_properties.GetPhysicalDeviceProperties();
+		return m_properties.GetPhysicalDeviceLimits();
 	}
 
 	CGfxCommandBufferPtr CGLES3Device::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)

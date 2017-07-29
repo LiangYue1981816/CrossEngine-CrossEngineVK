@@ -71,8 +71,7 @@ namespace CrossEngine {
 		CGfxInstance* GetInstance(void) const;
 
 	public:
-		const VkPhysicalDeviceFeatures& GetPhysicalDeviceFeatures(void) const;
-		const VkPhysicalDeviceProperties& GetPhysicalDeviceProperties(void) const;
+		const GLPhysicalDeviceLimits& GetPhysicalDeviceLimits(void) const;
 
 	public:
 		CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
