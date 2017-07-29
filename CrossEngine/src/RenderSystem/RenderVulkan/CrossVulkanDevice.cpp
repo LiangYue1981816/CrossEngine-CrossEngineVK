@@ -405,14 +405,14 @@ namespace CrossEngine {
 		return m_vkPhysicalDevice;
 	}
 
+	const VkPhysicalDeviceLimits& CVulkanDevice::GetPhysicalDeviceLimits(void) const
+	{
+		return m_vkPhysicalDeviceProperties.limits;
+	}
+
 	const VkPhysicalDeviceFeatures& CVulkanDevice::GetPhysicalDeviceFeatures(void) const
 	{
 		return m_vkPhysicalDeviceFeatures;
-	}
-
-	const VkPhysicalDeviceProperties& CVulkanDevice::GetPhysicalDeviceProperties(void) const
-	{
-		return m_vkPhysicalDeviceProperties;
 	}
 
 	const VkPhysicalDeviceMemoryProperties& CVulkanDevice::GetPhysicalDeviceMemoryProperties(void) const

@@ -164,7 +164,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -185,7 +185,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -206,7 +206,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -227,7 +227,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -238,7 +238,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -249,7 +249,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -260,7 +260,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -272,7 +272,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 
@@ -283,7 +283,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 

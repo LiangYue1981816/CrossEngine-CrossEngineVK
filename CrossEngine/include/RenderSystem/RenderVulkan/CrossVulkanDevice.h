@@ -94,8 +94,8 @@ namespace CrossEngine {
 		VkPhysicalDevice GetPhysicalDevice(void) const;
 
 	public:
+		const VkPhysicalDeviceLimits& GetPhysicalDeviceLimits(void) const;
 		const VkPhysicalDeviceFeatures& GetPhysicalDeviceFeatures(void) const;
-		const VkPhysicalDeviceProperties& GetPhysicalDeviceProperties(void) const;
 		const VkPhysicalDeviceMemoryProperties& GetPhysicalDeviceMemoryProperties(void) const;
 
 	public:

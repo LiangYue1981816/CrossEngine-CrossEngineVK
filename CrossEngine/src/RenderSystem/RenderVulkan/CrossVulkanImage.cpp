@@ -108,7 +108,7 @@ namespace CrossEngine {
 		switch (viewType) {
 		case VK_IMAGE_VIEW_TYPE_1D:
 		case VK_IMAGE_VIEW_TYPE_1D_ARRAY:
-			if (width > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimension1D) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension1D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_1D;
@@ -120,7 +120,7 @@ namespace CrossEngine {
 
 		case VK_IMAGE_VIEW_TYPE_2D:
 		case VK_IMAGE_VIEW_TYPE_2D_ARRAY:
-			if (width > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimension2D || height > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimension2D) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -132,7 +132,7 @@ namespace CrossEngine {
 
 		case VK_IMAGE_VIEW_TYPE_CUBE:
 		case VK_IMAGE_VIEW_TYPE_CUBE_ARRAY:
-			if (width > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimensionCube || height > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimensionCube) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			if (width != height) {
@@ -147,7 +147,7 @@ namespace CrossEngine {
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_3D:
-			if (width > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimension3D || height > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimension3D || depth > m_pDevice->GetPhysicalDeviceProperties().limits.maxImageDimension3D) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D || depth > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_3D;
@@ -159,7 +159,7 @@ namespace CrossEngine {
 		}
 
 		if (createInfo.usage & VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT) {
-			if (width > m_pDevice->GetPhysicalDeviceProperties().limits.maxFramebufferWidth || height > m_pDevice->GetPhysicalDeviceProperties().limits.maxFramebufferHeight) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxFramebufferWidth || height > m_pDevice->GetPhysicalDeviceLimits().maxFramebufferHeight) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 

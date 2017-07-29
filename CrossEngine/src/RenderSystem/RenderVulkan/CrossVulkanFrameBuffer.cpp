@@ -79,7 +79,7 @@ namespace CrossEngine {
 		uint32_t numAttachment = 0;
 
 		attachments.clear();
-		attachments.resize(m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments);
+		attachments.resize(m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments);
 
 		for (const auto &itAttachment : m_attachments) {
 			numAttachment = max(numAttachment, itAttachment.first + 1);
@@ -109,7 +109,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceProperties().limits.maxColorAttachments) {
+		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;
 		}
 

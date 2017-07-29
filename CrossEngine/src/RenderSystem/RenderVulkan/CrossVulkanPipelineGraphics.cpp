@@ -309,8 +309,8 @@ namespace CrossEngine {
 	BOOL CVulkanPipelineGraphics::SetTessellationPatchControlPoints(uint32_t patchControlPoints)
 	{
 		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
-			if (patchControlPoints > m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize) {
-				patchControlPoints = m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize;
+			if (patchControlPoints > m_pDevice->GetPhysicalDeviceLimits().maxTessellationPatchSize) {
+				patchControlPoints = m_pDevice->GetPhysicalDeviceLimits().maxTessellationPatchSize;
 			}
 
 			m_tessellationState.patchControlPoints = patchControlPoints;
