@@ -480,9 +480,6 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetDepthBias.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetDepthBounds.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetLineWidth.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
     </ClInclude>

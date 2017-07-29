@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include "CrossGLES3CommandSetScissor.h"
 #include "CrossGLES3CommandSetLineWidth.h"
 #include "CrossGLES3CommandSetDepthBias.h"
-#include "CrossGLES3CommandSetDepthBounds.h"
 #include "CrossGLES3CommandSetDepthRange.h"
 #include "CrossGLES3CommandSetBlendConstants.h"
 #include "CrossGLES3CommandSetStencilReference.h"
@@ -201,7 +200,7 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthBounds(minDepthBounds, maxDepthBounds));
+
 	}
 
 	void CGLES3CommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)

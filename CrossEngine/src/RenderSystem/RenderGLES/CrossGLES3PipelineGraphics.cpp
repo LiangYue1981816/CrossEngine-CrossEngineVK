@@ -173,28 +173,16 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::SetTessellationControlShader(const CGfxShaderPtr &ptrShader)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
-			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT] = ptrShader;
-		}
-
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetTessellationEvaluationShader(const CGfxShaderPtr &ptrShader)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
-			m_ptrShaders[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT] = ptrShader;
-		}
-
 		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetGeometryShader(const CGfxShaderPtr &ptrShader)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().geometryShader) {
-			m_ptrShaders[VK_SHADER_STAGE_GEOMETRY_BIT] = ptrShader;
-		}
-
 		return TRUE;
 	}
 
@@ -214,14 +202,6 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::SetTessellationPatchControlPoints(uint32_t patchControlPoints)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().tessellationShader) {
-			if (patchControlPoints > m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize) {
-				patchControlPoints = m_pDevice->GetPhysicalDeviceProperties().limits.maxTessellationPatchSize;
-			}
-
-			m_tessellationState.patchControlPoints = patchControlPoints;
-		}
-
 		return TRUE;
 	}
 
@@ -245,10 +225,6 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::SetDepthClamp(BOOL depthClampEnable)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().depthClamp) {
-			m_rasterizationState.depthClampEnable = depthClampEnable;
-		}
-
 		return TRUE;
 	}
 
@@ -276,11 +252,6 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::SetSampleShading(BOOL sampleShadingEnable, float minSampleShading)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().sampleRateShading) {
-			m_multiSampleState.sampleShadingEnable = sampleShadingEnable;
-			m_multiSampleState.minSampleShading = minSampleShading;
-		}
-
 		return TRUE;
 	}
 
@@ -298,10 +269,6 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::SetSampleAlphaToOne(BOOL alphaToOneEnable)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().alphaToOne) {
-			m_multiSampleState.alphaToOneEnable = alphaToOneEnable;
-		}
-
 		return TRUE;
 	}
 
@@ -316,12 +283,6 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::SetDepthBoundsTest(BOOL depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds)
 	{
-		if (m_pDevice->GetPhysicalDeviceFeatures().depthBounds) {
-			m_depthStencilState.depthBoundsTestEnable = depthBoundsTestEnable;
-			m_depthStencilState.minDepthBounds = minDepthBounds;
-			m_depthStencilState.maxDepthBounds = maxDepthBounds;
-		}
-
 		return TRUE;
 	}
 
