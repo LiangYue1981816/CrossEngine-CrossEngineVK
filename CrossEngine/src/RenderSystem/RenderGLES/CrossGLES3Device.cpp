@@ -67,7 +67,6 @@ namespace CrossEngine {
 
 	int CGLES3Device::Create(void)
 	{
-		m_features.Init();
 		m_properties.Init();
 
 		CALL_GL_FUNCTION_RETURN(CreateDevice());

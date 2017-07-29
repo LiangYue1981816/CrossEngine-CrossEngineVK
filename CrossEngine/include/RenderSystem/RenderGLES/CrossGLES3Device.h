@@ -97,7 +97,6 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3DeviceFeatures m_features;
 		CGLES3DeviceProperties m_properties;
 
 	protected:

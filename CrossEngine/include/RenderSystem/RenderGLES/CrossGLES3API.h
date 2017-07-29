@@ -27,7 +27,6 @@ THE SOFTWARE.
 #include "CrossGLES3Helper.h"
 #include "CrossGLES3Instance.h"
 #include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceFeatures.h"
 #include "CrossGLES3DeviceProperties.h"
 #include "CrossGLES3Device.h"
 #include "CrossGLES3Swapchain.h"
