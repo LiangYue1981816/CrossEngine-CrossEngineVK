@@ -205,15 +205,17 @@ namespace CrossEngine {
 
 		void SetBlendEnable(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
-			/*
-			for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
-				if (colorBlendState.pAttachments[0].blendEnable) {
-					glEnablei(GL_BLEND, indexAttachment);
+			if (colorBlendState.pAttachments) {
+				/*
+				for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
+					if (colorBlendState.pAttachments[indexAttachment].blendEnable) {
+						glEnablei(GL_BLEND, indexAttachment);
+					}
 				}
-			}
-			*/
-			if (colorBlendState.pAttachments[0].blendEnable) {
-				glEnable(GL_BLEND);
+				*/
+				if (colorBlendState.pAttachments[0].blendEnable) {
+					glEnable(GL_BLEND);
+				}
 			}
 		}
 
@@ -224,55 +226,61 @@ namespace CrossEngine {
 
 		void SetBlendEquationSeparate(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
-			/*
-			for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
-				glBlendEquationSeparatei(
-					indexAttachment,
+			if (colorBlendState.pAttachments) {
+				/*
+				for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
+					glBlendEquationSeparatei(
+						indexAttachment,
+						CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments[0].colorBlendOp),
+						CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments[0].alphaBlendOp));
+				}
+				*/
+				glBlendEquationSeparate(
 					CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments[0].colorBlendOp),
 					CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments[0].alphaBlendOp));
 			}
-			*/
-			glBlendEquationSeparate(
-				CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments[0].colorBlendOp),
-				CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments[0].alphaBlendOp));
 		}
 
 		void SetBlendFuncSeparate(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
-			/*
-			for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
-				glBlendFuncSeparatei(
-					indexAttachment,
+			if (colorBlendState.pAttachments) {
+				/*
+				for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
+					glBlendFuncSeparatei(
+						indexAttachment,
+						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].srcColorBlendFactor),
+						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].dstColorBlendFactor),
+						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].srcAlphaBlendFactor),
+						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].dstAlphaBlendFactor));
+				}
+				*/
+				glBlendFuncSeparate(
 					CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].srcColorBlendFactor),
 					CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].dstColorBlendFactor),
 					CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].srcAlphaBlendFactor),
 					CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].dstAlphaBlendFactor));
 			}
-			*/
-			glBlendFuncSeparate(
-				CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].srcColorBlendFactor),
-				CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].dstColorBlendFactor),
-				CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].srcAlphaBlendFactor),
-				CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments[0].dstAlphaBlendFactor));
 		}
 
 		void SetColorMask(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
-			/*
-			for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
-				glColorMaski(
-					indexAttachment,
+			if (colorBlendState.pAttachments) {
+				/*
+				for (int indexAttachment = 0; indexAttachment < colorBlendState.attachmentCount; indexAttachment++) {
+					glColorMaski(
+						indexAttachment,
+						colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_R_BIT ? GL_TRUE : GL_FALSE,
+						colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_G_BIT ? GL_TRUE : GL_FALSE,
+						colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_B_BIT ? GL_TRUE : GL_FALSE,
+						colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_A_BIT ? GL_TRUE : GL_FALSE);
+				}
+				*/
+				glColorMask(
 					colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_R_BIT ? GL_TRUE : GL_FALSE,
 					colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_G_BIT ? GL_TRUE : GL_FALSE,
 					colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_B_BIT ? GL_TRUE : GL_FALSE,
 					colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_A_BIT ? GL_TRUE : GL_FALSE);
 			}
-			*/
-			glColorMask(
-				colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_R_BIT ? GL_TRUE : GL_FALSE,
-				colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_G_BIT ? GL_TRUE : GL_FALSE,
-				colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_B_BIT ? GL_TRUE : GL_FALSE,
-				colorBlendState.pAttachments[0].colorWriteMask & VK_COLOR_COMPONENT_A_BIT ? GL_TRUE : GL_FALSE);
 		}
 
 

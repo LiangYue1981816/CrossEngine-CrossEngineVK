@@ -102,8 +102,6 @@ namespace CrossEngine {
 
 #endif
 		}
-
-		ASSERT(FALSE);
 	}
 
 	CROSS_EXPORT void WriteLogE(const char *szFileName, int nLineNumber, const char *szFormat, ...)
