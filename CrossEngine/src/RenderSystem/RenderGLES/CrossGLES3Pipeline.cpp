@@ -98,7 +98,6 @@ namespace CrossEngine {
 			for (const auto &itUniform : shaderResources.uniform_buffers) {
 				const uint32_t set = pShaderCompiler->get_decoration(itUniform.id, spv::DecorationDescriptorSet);
 				const uint32_t binding = pShaderCompiler->get_decoration(itUniform.id, spv::DecorationBinding);
-				const std::string name = pShaderCompiler->get_name(itUniform.id);
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itUniform.type_id);
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
@@ -106,7 +105,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_pDescriptorSetLayouts[set]->SetUniformBlockBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetUniformBlockBinding((GLuint)itShader.second->GetHandle(), binding, itUniform.name.c_str());
 				}
 			}
 
