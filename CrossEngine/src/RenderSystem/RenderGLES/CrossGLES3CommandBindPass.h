@@ -56,16 +56,27 @@ namespace CrossEngine {
 				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 				const GLSubpassInformation* pPass = pRenderPass->GetSubpass(m_indexPass);
 
-				glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
-				glReadBuffer(GL_NONE);
+				if (IsValid(pFrameBuffer, pPass)) {
+					glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
+					glReadBuffer(GL_NONE);
 
-				SetRenderColorTexture(pFrameBuffer, pRenderPass, pPass);
-				SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, pPass);
+					SetRenderColorTexture(pFrameBuffer, pRenderPass, pPass);
+					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, pPass);
 
-				if (CheckFramebufferStatus() == FALSE) {
-					glBindFramebuffer(GL_FRAMEBUFFER, 0);
+					CheckFramebufferStatus();
 				}
 			}
+		}
+
+		BOOL IsValid(const CGLES3FrameBuffer *pFrameBuffer, const GLSubpassInformation* pPass) const
+		{
+			for (const auto &itColorAttachment : pPass->colorAttachments) {
+				if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
+					return TRUE;
+				}
+			}
+
+			return FALSE;
 		}
 
 		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, const GLSubpassInformation* pPass) const
@@ -140,27 +151,27 @@ namespace CrossEngine {
 				break;
 
 			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-				LOGW("[ERROR] Framebuffer incomplete: Attachment is NOT complete.\n");
+				LOGE("[ERROR] Framebuffer incomplete: Attachment is NOT complete.\n");
 				break;
 
 			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-				LOGW("[ERROR] Framebuffer incomplete: No image is attached to FBO.\n");
+				LOGE("[ERROR] Framebuffer incomplete: No image is attached to FBO.\n");
 				break;
 
 			case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-				LOGW("[ERROR] Framebuffer incomplete: Attached images have different dimensions.\n");
+				LOGE("[ERROR] Framebuffer incomplete: Attached images have different dimensions.\n");
 				break;
 
 			case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
-				LOGW("[ERROR] Framebuffer incomplete: Multisample.\n");
+				LOGE("[ERROR] Framebuffer incomplete: Multisample.\n");
 				break;
 
 			case GL_FRAMEBUFFER_UNSUPPORTED:
-				LOGW("[ERROR] Framebuffer incomplete: Unsupported by FBO implementation.\n");
+				LOGE("[ERROR] Framebuffer incomplete: Unsupported by FBO implementation.\n");
 				break;
 
 			default:
-				LOGW("[ERROR] Framebuffer incomplete: Unknown error.\n");
+				LOGE("[ERROR] Framebuffer incomplete: Unknown error.\n");
 				break;
 			}
 
