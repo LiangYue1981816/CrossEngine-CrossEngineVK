@@ -41,6 +41,11 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pSwapchain);
 	}
 
+	int CGLES3Instance::GetLastError(void)
+	{
+		return glGetError();
+	}
+
 	BOOL CGLES3Instance::Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height)
 	{
 #ifdef PLATFORM_WINDOWS

@@ -34,6 +34,9 @@ namespace CrossEngine {
 
 
 	public:
+		static int GetLastError(void);
+
+	public:
 		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
 		void Destroy(void);
 
