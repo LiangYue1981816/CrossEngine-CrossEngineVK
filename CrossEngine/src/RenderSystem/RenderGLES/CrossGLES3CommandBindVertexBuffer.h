@@ -56,6 +56,7 @@ namespace CrossEngine {
 				const CGLES3Device *pDevice = pPipeline->GetDevice();
 				const std::map<uint32_t, VkVertexInputAttributeDescription>& vertexInputAttributeDescriptions = pPipeline->GetInputAttributeDescriptions();
 
+				/*
 				GLuint bindingindex = 0;
 				GLuint stride = pDevice->GetVertexSize(pPipeline->GetVertexFormat());
 				glBindVertexBuffer(bindingindex, (GLuint)m_ptrVertexBuffer->GetHandle(), m_offset, stride);
@@ -70,6 +71,22 @@ namespace CrossEngine {
 
 					glVertexAttribBinding(attribindex, bindingindex);
 					glVertexAttribFormat(attribindex, size, type, GL_FALSE, offset);
+				}
+				*/
+
+				GLuint stride = pDevice->GetVertexSize(pPipeline->GetVertexFormat());
+				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)m_ptrVertexBuffer->GetHandle());
+
+				for (const auto &itVertexInputAttributeDescription : vertexInputAttributeDescriptions) {
+					GLuint attribute = itVertexInputAttributeDescription.first;
+					GLuint attribindex = itVertexInputAttributeDescription.second.location;
+
+					GLenum type = GL_FLOAT;
+					GLuint size = pDevice->GetVertexAttributeSize(attribute) / sizeof(float);
+					GLuint offset = pDevice->GetVertexAttributeOffset(pPipeline->GetVertexFormat(), attribute);
+
+					glEnableVertexAttribArray(attribindex);
+					glVertexAttribPointer(attribindex, size, type, GL_FALSE, stride, (const void *)offset);
 				}
 			}
 		}
