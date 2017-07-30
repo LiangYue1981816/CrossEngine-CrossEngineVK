@@ -165,6 +165,25 @@ namespace CrossEngine {
 		const std::string strSource = m_pShaderCompiler->compile();
 		const char *szSource = strSource.c_str();
 
+#ifdef _DEBUG
+		switch (flags) {
+		case VK_SHADER_STAGE_VERTEX_BIT:
+			LOGI("Vertex Shader:\n");
+			LOGI("%s\n", szSource);
+			break;
+
+		case VK_SHADER_STAGE_FRAGMENT_BIT:
+			LOGI("Fragment Shader:\n");
+			LOGI("%s\n", szSource);
+			break;
+
+		case VK_SHADER_STAGE_COMPUTE_BIT:
+			LOGI("Compute Shader:\n");
+			LOGI("%s\n", szSource);
+			break;
+		}
+#endif
+
 		m_program = glCreateShaderProgramv(glGetShaderKind(flags), 1, &szSource);
 		return m_program != 0 ? TRUE : FALSE;
 	}
