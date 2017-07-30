@@ -43,8 +43,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3CommandBuffer::CGLES3CommandBuffer(CGLES3Device *pDevice)
+	CGLES3CommandBuffer::CGLES3CommandBuffer(CGLES3Device *pDevice, CGLES3CommandBufferManager *pCommandBufferManager)
 		: m_pDevice(pDevice)
+		, m_pCommandBufferManager(pCommandBufferManager)
 
 		, m_indexPass(0)
 		, m_indexOffset(0)
@@ -60,7 +61,7 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::Release(void)
 	{
-
+		m_pCommandBufferManager->FreeCommandBuffer(this);
 	}
 
 	void CGLES3CommandBuffer::Clearup(void)

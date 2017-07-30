@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3CommandBufferManager
 	{
 		friend class CGLES3Device;
+		friend class CGLES3CommandBuffer;
 
 
 	protected:

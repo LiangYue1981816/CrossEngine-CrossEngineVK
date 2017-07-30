@@ -54,7 +54,7 @@ namespace CrossEngine {
 
 	CGfxCommandBufferPtr CGLES3CommandBufferManager::AllocCommandBuffer(void)
 	{
-		CGLES3CommandBuffer *pCommandBuffer = SAFE_NEW CGLES3CommandBuffer(m_pDevice);
+		CGLES3CommandBuffer *pCommandBuffer = SAFE_NEW CGLES3CommandBuffer(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pCommandBuffers[pCommandBuffer] = pCommandBuffer;
