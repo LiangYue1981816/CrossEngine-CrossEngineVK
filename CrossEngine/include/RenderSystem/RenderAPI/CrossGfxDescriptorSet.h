@@ -68,6 +68,10 @@ namespace CrossEngine {
 		{
 
 		}
+		virtual ~CGfxDescriptorSetPtr(void)
+		{
+			Release();
+		}
 
 
 	protected:

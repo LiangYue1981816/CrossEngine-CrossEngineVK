@@ -95,6 +95,10 @@ namespace CrossEngine {
 		{
 
 		}
+		virtual ~CResourcePtr(void)
+		{
+			Release();
+		}
 
 
 	protected:

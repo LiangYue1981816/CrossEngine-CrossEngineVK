@@ -98,6 +98,10 @@ namespace CrossEngine {
 		{
 
 		}
+		virtual ~CGfxCommandBufferPtr(void)
+		{
+			Release();
+		}
 
 
 	protected:
