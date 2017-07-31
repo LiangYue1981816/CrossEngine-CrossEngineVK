@@ -36,6 +36,11 @@ namespace CrossEngine {
 		Free();
 	}
 
+	void CResource::Release(void)
+	{
+		m_pResourceManager->DestroyResource(this);
+	}
+
 	void CResource::Init(void)
 	{
 		m_stream.Init();

@@ -32,12 +32,16 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CResource
 	{
+		template<class T>
+		friend class CResourcePtr;
 		friend class CResourceManager;
 
 
 	protected:
 		CResource(CResourceManager *pResourceManager);
 		virtual ~CResource(void);
+
+		virtual void Release(void);
 
 
 	public:
@@ -105,7 +109,7 @@ namespace CrossEngine {
 		virtual void FreePointer(void)
 		{
 			if (m_pPointer) {
-				((CResource *)m_pPointer)->GetResourceManager()->DestroyResource((CResource *)m_pPointer);
+				((CResource *)m_pPointer)->Release();
 			}
 		}
 	};
