@@ -74,7 +74,6 @@ namespace CrossEngine {
 	{
 		SAFE_FREE(m_szName);
 		SAFE_FREE(m_szFileName);
-		m_ptrResource.Release();
 	}
 
 	BOOL CResourceHandle::IsWaste(void) const
