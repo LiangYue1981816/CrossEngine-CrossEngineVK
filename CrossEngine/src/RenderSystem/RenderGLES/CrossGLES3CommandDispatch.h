@@ -39,10 +39,6 @@ namespace CrossEngine {
 		{
 
 		}
-		virtual ~CGLES3CommandDispatch(void)
-		{
-
-		}
 
 
 	protected:

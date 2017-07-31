@@ -40,10 +40,6 @@ namespace CrossEngine {
 		{
 
 		}
-		virtual ~CGLES3CommandSetViewport(void)
-		{
-
-		}
 
 
 	protected:

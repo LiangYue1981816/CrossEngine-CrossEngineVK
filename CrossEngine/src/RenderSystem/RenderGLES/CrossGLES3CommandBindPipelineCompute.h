@@ -36,10 +36,6 @@ namespace CrossEngine {
 		{
 			m_ptrPipelineCompute = ptrPipelineCompute;
 		}
-		virtual ~CGLES3CommandBindPipelineCompute(void)
-		{
-			m_ptrPipelineCompute.Release();
-		}
 
 
 	protected:

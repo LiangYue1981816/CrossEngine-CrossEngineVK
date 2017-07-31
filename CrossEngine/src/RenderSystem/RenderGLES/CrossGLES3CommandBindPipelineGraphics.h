@@ -36,10 +36,6 @@ namespace CrossEngine {
 		{
 			m_ptrPipelineGraphics = ptrPipelineGraphics;
 		}
-		virtual ~CGLES3CommandBindPipelineGraphics(void)
-		{
-			m_ptrPipelineGraphics.Release();
-		}
 
 
 	protected:

@@ -260,11 +260,6 @@ namespace CrossEngine {
 
 	void CVulkanPipeline::DestroyShaderStages(void)
 	{
-		for (auto &itShader : m_ptrShaders) {
-			CGfxShaderPtr &ptrShader = itShader.second;
-			ptrShader.Release();
-		}
-
 		m_ptrShaders.clear();
 		m_shaderStages[VK_SHADER_STAGE_VERTEX_BIT].module = VK_NULL_HANDLE;
 		m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module = VK_NULL_HANDLE;

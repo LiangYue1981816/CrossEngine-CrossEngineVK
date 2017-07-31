@@ -36,10 +36,6 @@ namespace CrossEngine {
 		{
 			m_ptrCommandBuffer = ptrCommandBuffer;
 		}
-		virtual ~CGLES3CommandExecuteCommandBuffer(void)
-		{
-			m_ptrCommandBuffer.Release();
-		}
 
 
 	protected:

@@ -39,16 +39,6 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSet::~CVulkanDescriptorSet(void)
 	{
-		for (auto &itTexture : m_ptrTextures) {
-			CGfxTexturePtr &ptrTexture = itTexture.second;
-			ptrTexture.Release();
-		}
-
-		for (auto &itUniformBuffer : m_ptrUniformBuffers) {
-			CGfxUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
-			ptrUniformBuffer.Release();
-		}
-
 		m_ptrTextures.clear();
 		m_ptrUniformBuffers.clear();
 	}

@@ -38,10 +38,6 @@ namespace CrossEngine {
 		{
 
 		}
-		virtual ~CGLES3CommandSetStencilWriteMask(void)
-		{
-
-		}
 
 
 	protected:

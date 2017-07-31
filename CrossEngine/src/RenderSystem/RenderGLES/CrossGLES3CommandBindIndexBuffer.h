@@ -36,10 +36,6 @@ namespace CrossEngine {
 		{
 			m_ptrIndexBuffer = ptrIndexBuffer;
 		}
-		virtual ~CGLES3CommandBindIndexBuffer(void)
-		{
-			m_ptrIndexBuffer.Release();
-		}
 
 
 	protected:

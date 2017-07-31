@@ -95,15 +95,9 @@ namespace CrossEngine {
 			vkDestroyFramebuffer(m_pDevice->GetDevice(), m_vkFrameBuffer, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
 
-		for (auto &itAttachment : m_attachments) {
-			CGfxRenderTexturePtr &ptrRenderTexture = itAttachment.second.ptrRenderTexture;
-			ptrRenderTexture.Release();
-		}
-
 		m_width = 0;
 		m_height = 0;
 		m_vkFrameBuffer = VK_NULL_HANDLE;
-
 		m_attachments.clear();
 	}
 

@@ -38,11 +38,6 @@ namespace CrossEngine {
 			m_ptrFrameBuffer = ptrFrameBuffer;
 			m_ptrRenderPass = ptrRenderPass;
 		}
-		virtual ~CGLES3CommandBindPass(void)
-		{
-			m_ptrFrameBuffer.Release();
-			m_ptrRenderPass.Release();
-		}
 
 
 	protected:

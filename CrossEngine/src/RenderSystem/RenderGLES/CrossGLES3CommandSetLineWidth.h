@@ -37,10 +37,6 @@ namespace CrossEngine {
 		{
 
 		}
-		virtual ~CGLES3CommandSetLineWidth(void)
-		{
-
-		}
 
 
 	protected:

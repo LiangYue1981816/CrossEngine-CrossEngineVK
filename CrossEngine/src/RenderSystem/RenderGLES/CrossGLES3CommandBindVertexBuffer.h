@@ -38,11 +38,6 @@ namespace CrossEngine {
 			m_ptrVertexBuffer = ptrVertexBuffer;
 			m_ptrPipelineGraphics = ptrPipelineGraphics;
 		}
-		virtual ~CGLES3CommandBindVertexBuffer(void)
-		{
-			m_ptrVertexBuffer.Release();
-			m_ptrPipelineGraphics.Release();
-		}
 
 
 	protected:

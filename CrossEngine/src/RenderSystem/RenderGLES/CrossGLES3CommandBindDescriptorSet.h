@@ -36,10 +36,6 @@ namespace CrossEngine {
 		{
 			m_ptrDescriptorSet = ptrDescriptorSet;
 		}
-		virtual ~CGLES3CommandBindDescriptorSet(void)
-		{
-			m_ptrDescriptorSet.Release();
-		}
 
 
 	protected:

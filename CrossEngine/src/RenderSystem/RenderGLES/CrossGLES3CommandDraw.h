@@ -41,10 +41,6 @@ namespace CrossEngine {
 		{
 
 		}
-		virtual ~CGLES3CommandDraw(void)
-		{
-
-		}
 
 
 	protected:
