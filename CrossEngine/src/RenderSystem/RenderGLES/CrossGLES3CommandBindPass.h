@@ -51,27 +51,14 @@ namespace CrossEngine {
 				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 				const GLSubpassInformation* pPass = pRenderPass->GetSubpass(m_indexPass);
 
-				if (IsValid(pFrameBuffer, pPass)) {
-					glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
-					{
-						SetRenderColorTexture(pFrameBuffer, pRenderPass, pPass);
-						SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, pPass);
-					}
-					glReadBuffer(GL_NONE);
-					CheckFramebufferStatus();
+				glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
+				{
+					SetRenderColorTexture(pFrameBuffer, pRenderPass, pPass);
+					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, pPass);
 				}
+				glReadBuffer(GL_NONE);
+				CheckFramebufferStatus();
 			}
-		}
-
-		BOOL IsValid(const CGLES3FrameBuffer *pFrameBuffer, const GLSubpassInformation* pPass) const
-		{
-			for (const auto &itColorAttachment : pPass->colorAttachments) {
-				if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
-					return TRUE;
-				}
-			}
-
-			return FALSE;
 		}
 
 		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, const GLSubpassInformation* pPass) const
