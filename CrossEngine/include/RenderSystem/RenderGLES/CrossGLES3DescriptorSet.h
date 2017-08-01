@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetLayout *pDescriptorSetLayout);
+		CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetManager *pDescriptorSetManager, CGLES3DescriptorSetLayout *pDescriptorSetLayout);
 		virtual ~CGLES3DescriptorSet(void);
 
 
@@ -61,6 +61,9 @@ namespace CrossEngine {
 		std::map<uint32_t, uint32_t> m_units;
 		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
+
+	protected:
+		CGLES3DescriptorSetManager *m_pDescriptorSetManager;
 
 	protected:
 		CGLES3Device *m_pDevice;

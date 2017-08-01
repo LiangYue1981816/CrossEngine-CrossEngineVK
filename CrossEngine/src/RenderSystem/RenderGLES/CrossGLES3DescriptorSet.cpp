@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3DescriptorSet::CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetLayout *pDescriptorSetLayout)
+	CGLES3DescriptorSet::CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetManager *pDescriptorSetManager, CGLES3DescriptorSetLayout *pDescriptorSetLayout)
 		: m_pDevice(pDevice)
+		, m_pDescriptorSetManager(pDescriptorSetManager)
 		, m_pDescriptorSetLayout(pDescriptorSetLayout)
 	{
 
@@ -39,7 +40,7 @@ namespace CrossEngine {
 
 	void CGLES3DescriptorSet::Release(void)
 	{
-
+		m_pDescriptorSetManager->FreeDescriptorSet(this);
 	}
 
 	HANDLE CGLES3DescriptorSet::GetHandle(void) const

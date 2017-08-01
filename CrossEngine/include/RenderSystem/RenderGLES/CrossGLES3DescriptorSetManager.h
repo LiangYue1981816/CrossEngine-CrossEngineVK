@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3DescriptorSetManager
 	{
 		friend class CGLES3Device;
+		friend class CGLES3DescriptorSet;
 
 
 	protected:
@@ -43,6 +44,7 @@ namespace CrossEngine {
 
 	protected:
 		CGfxDescriptorSetPtr AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout);
+		void FreeDescriptorSet(CGLES3DescriptorSet *pDescriptorSet);
 
 
 	protected:
