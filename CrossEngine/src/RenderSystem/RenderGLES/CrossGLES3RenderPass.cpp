@@ -106,7 +106,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		m_subpasses[indexSubpass].colorAttachments[indexSubpass] = indexAttachment;
+		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = indexAttachment;
 		return TRUE;
 	}
 
