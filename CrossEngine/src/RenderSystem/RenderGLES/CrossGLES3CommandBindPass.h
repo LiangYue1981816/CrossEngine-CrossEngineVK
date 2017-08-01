@@ -64,6 +64,7 @@ namespace CrossEngine {
 					glReadBuffer(GL_NONE);
 					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
 					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
+
 					CheckFramebufferStatus();
 				}
 			}
