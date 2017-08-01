@@ -42,6 +42,11 @@ namespace CrossEngine {
 		return INVALID_HANDLE_VALUE;
 	}
 
+	const CGLES3Device* CGLES3RenderPass::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	BOOL CGLES3RenderPass::Create(void)
 	{
 		return TRUE;
