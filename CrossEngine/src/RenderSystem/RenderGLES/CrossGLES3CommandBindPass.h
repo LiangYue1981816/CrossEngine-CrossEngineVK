@@ -50,25 +50,45 @@ namespace CrossEngine {
 				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 				const CGLES3Device *pDevice = pRenderPass->GetDevice();
+				const GLuint framebuffer = IsValidFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandle() : 0;
 
-				glBindFramebuffer(GL_FRAMEBUFFER, (GLuint)pFrameBuffer->GetHandle());
+				glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 				{
 					std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
 					std::vector<GLenum> discardBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS + 1);
 
-					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, drawBuffers, discardBuffers);
-					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, discardBuffers);
+					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
+					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
 
 					glReadBuffer(GL_NONE);
 					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
 					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
 
-					CheckFramebufferStatus(pFrameBuffer);
+					CheckFramebufferStatus(framebuffer);
 				}
 			}
 		}
 
-		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const
+		BOOL IsValidFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		{
+			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
+				if (pSubPass->colorAttachments.size()) {
+					for (const auto &itColorAttachment : pSubPass->colorAttachments) {
+						if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
+							return TRUE;
+						}
+					}
+
+					return FALSE;
+				}
+
+				return pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment) != 0 ? TRUE : FALSE;
+			}
+
+			return FALSE;
+		}
+
+		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
@@ -78,12 +98,12 @@ namespace CrossEngine {
 					const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
 					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachment(itColorAttachment.first);
 
-					if (pFrameBuffer->GetHandle()) {
+					if (framebuffer != 0) {
 						glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, texture, 0);
 					}
 
 					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							glClearBufferfv(GL_COLOR, itColorAttachment.first, pClearValue->color.float32);
 						}
 						else {
@@ -93,7 +113,7 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							discardBuffers[itColorAttachment.first] = attachment;
 						}
 						else {
@@ -106,7 +126,7 @@ namespace CrossEngine {
 			}
 		}
 
-		void SetRenderDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, std::vector<GLenum> &discardBuffers) const
+		void SetRenderDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				GLuint texture = pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment);
@@ -116,12 +136,12 @@ namespace CrossEngine {
 				const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachment(pSubPass->depthStencilAttachment);
 
 				if (CGLES3Helper::glIsFormatDepthOnly(format)) {
-					if (pFrameBuffer->GetHandle()) {
+					if (framebuffer != 0) {
 						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
 					}
 
 					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							glClearBufferfv(GL_DEPTH, 0, (const GLfloat *)&pClearValue->depthStencil.depth);
 						}
 						else {
@@ -131,7 +151,7 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_ATTACHMENT;
 						}
 						else {
@@ -143,12 +163,12 @@ namespace CrossEngine {
 				}
 
 				if (CGLES3Helper::glIsFormatStencilOnly(format)) {
-					if (pFrameBuffer->GetHandle()) {
+					if (framebuffer != 0) {
 						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
 					}
 
 					if (pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							glClearBufferiv(GL_STENCIL, 0, (const GLint *)&pClearValue->depthStencil.stencil);
 						}
 						else {
@@ -158,7 +178,7 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							discardBuffers[pSubPass->depthStencilAttachment] = GL_STENCIL_ATTACHMENT;
 						}
 						else {
@@ -170,12 +190,12 @@ namespace CrossEngine {
 				}
 
 				if (CGLES3Helper::glIsFormatDepthStencil(format)) {
-					if (pFrameBuffer->GetHandle()) {
+					if (framebuffer != 0) {
 						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
 					}
 
 					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR || pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							glClearBufferfi(GL_DEPTH_STENCIL, 0, pClearValue->depthStencil.depth, pClearValue->depthStencil.stencil);
 						}
 						else {
@@ -186,7 +206,7 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE && pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						if (pFrameBuffer->GetHandle()) {
+						if (framebuffer != 0) {
 							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_STENCIL_ATTACHMENT;
 						}
 						else {
@@ -199,41 +219,45 @@ namespace CrossEngine {
 			}
 		}
 
-		BOOL CheckFramebufferStatus(const CGLES3FrameBuffer *pFrameBuffer) const
+		BOOL CheckFramebufferStatus(GLuint framebuffer) const
 		{
-			GLenum status = pFrameBuffer->GetHandle() ? glCheckFramebufferStatus(GL_FRAMEBUFFER) : GL_FRAMEBUFFER_COMPLETE;
+			if (framebuffer != 0) {
+				GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
-			switch (status)
-			{
-			case GL_FRAMEBUFFER_COMPLETE:
-				break;
+				switch (status)
+				{
+				case GL_FRAMEBUFFER_COMPLETE:
+					break;
 
-			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-				LOGE("[ERROR] Framebuffer incomplete: Attachment is NOT complete.\n");
-				break;
+				case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+					LOGE("[ERROR] Framebuffer incomplete: Attachment is NOT complete.\n");
+					break;
 
-			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-				LOGE("[ERROR] Framebuffer incomplete: No image is attached to FBO.\n");
-				break;
+				case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+					LOGE("[ERROR] Framebuffer incomplete: No image is attached to FBO.\n");
+					break;
 
-			case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-				LOGE("[ERROR] Framebuffer incomplete: Attached images have different dimensions.\n");
-				break;
+				case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+					LOGE("[ERROR] Framebuffer incomplete: Attached images have different dimensions.\n");
+					break;
 
-			case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
-				LOGE("[ERROR] Framebuffer incomplete: Multisample.\n");
-				break;
+				case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+					LOGE("[ERROR] Framebuffer incomplete: Multisample.\n");
+					break;
 
-			case GL_FRAMEBUFFER_UNSUPPORTED:
-				LOGE("[ERROR] Framebuffer incomplete: Unsupported by FBO implementation.\n");
-				break;
+				case GL_FRAMEBUFFER_UNSUPPORTED:
+					LOGE("[ERROR] Framebuffer incomplete: Unsupported by FBO implementation.\n");
+					break;
 
-			default:
-				LOGE("[ERROR] Framebuffer incomplete: Unknown error.\n");
-				break;
+				default:
+					LOGE("[ERROR] Framebuffer incomplete: Unknown error.\n");
+					break;
+				}
+
+				return status == GL_FRAMEBUFFER_COMPLETE ? TRUE : FALSE;
 			}
 
-			return status == GL_FRAMEBUFFER_COMPLETE ? TRUE : FALSE;
+			return TRUE;
 		}
 
 
