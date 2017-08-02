@@ -88,54 +88,66 @@ namespace CrossEngine {
 
 	BOOL CGLES3Texture::TransferTexture2D(const gli::texture2d &texture, const gli::gl::format &format)
 	{
-		for (int layer = 0; layer < texture.layers(); layer++) {
-			for (int face = 0; face < texture.faces(); face++) {
-				for (int level = 0; level < texture.levels(); level++) {
-					if (gli::is_compressed(texture.format())) {
-						glCompressedTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
-					}
-					else {
-						glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
+		glBindTexture(m_target, m_texture);
+		{
+			for (int layer = 0; layer < texture.layers(); layer++) {
+				for (int face = 0; face < texture.faces(); face++) {
+					for (int level = 0; level < texture.levels(); level++) {
+						if (gli::is_compressed(texture.format())) {
+							glCompressedTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
+						}
+						else {
+							glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
+						}
 					}
 				}
 			}
 		}
+		glBindTexture(m_target, 0);
 
 		return TRUE;
 	}
 
 	BOOL CGLES3Texture::TransferTexture2DArray(const gli::texture2d_array &texture, const gli::gl::format &format)
 	{
-		for (int layer = 0; layer < texture.layers(); layer++) {
-			for (int face = 0; face < texture.faces(); face++) {
-				for (int level = 0; level < texture.levels(); level++) {
-					if (gli::is_compressed(texture.format())) {
-						glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.Internal, texture.size(level), texture.data(layer, face, level));
-					}
-					else {
-						glTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.External, format.Type, texture.data(layer, face, level));
+		glBindTexture(m_target, m_texture);
+		{
+			for (int layer = 0; layer < texture.layers(); layer++) {
+				for (int face = 0; face < texture.faces(); face++) {
+					for (int level = 0; level < texture.levels(); level++) {
+						if (gli::is_compressed(texture.format())) {
+							glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.Internal, texture.size(level), texture.data(layer, face, level));
+						}
+						else {
+							glTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.External, format.Type, texture.data(layer, face, level));
+						}
 					}
 				}
 			}
 		}
+		glBindTexture(m_target, 0);
 
 		return TRUE;
 	}
 
 	BOOL CGLES3Texture::TransferTextureCube(const gli::texture_cube &texture, const gli::gl::format &format)
 	{
-		for (int layer = 0; layer < texture.layers(); layer++) {
-			for (int face = 0; face < texture.faces(); face++) {
-				for (int level = 0; level < texture.levels(); level++) {
-					if (gli::is_compressed(texture.format())) {
-						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
-					}
-					else {
-						glTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
+		glBindTexture(m_target, m_texture);
+		{
+			for (int layer = 0; layer < texture.layers(); layer++) {
+				for (int face = 0; face < texture.faces(); face++) {
+					for (int level = 0; level < texture.levels(); level++) {
+						if (gli::is_compressed(texture.format())) {
+							glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
+						}
+						else {
+							glTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
+						}
 					}
 				}
 			}
 		}
+		glBindTexture(m_target, 0);
 
 		return TRUE;
 	}
