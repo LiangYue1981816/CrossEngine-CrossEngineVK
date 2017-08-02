@@ -48,24 +48,24 @@ namespace CrossEngine {
 		return FALSE;
 	}
 
-	BOOL CGLES3DescriptorSetLayout::SetImageBinding(GLuint program, uint32_t binding, const char *szName)
-	{
-		GLint location = glGetUniformLocation(program, szName);
-
-		if (location >= 0) {
-			m_imageBindings[program][binding] = location;
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
 	BOOL CGLES3DescriptorSetLayout::SetSampledImageBinding(GLuint program, uint32_t binding, const char *szName)
 	{
 		GLint location = glGetUniformLocation(program, szName);
 
 		if (location >= 0) {
 			m_sampledImageBindings[program][binding] = location;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	BOOL CGLES3DescriptorSetLayout::SetSubpassInputBinding(GLuint program, uint32_t binding, const char *szName)
+	{
+		GLint location = glGetUniformLocation(program, szName);
+
+		if (location >= 0) {
+			m_subpassInputBindings[program][binding] = location;
 			return TRUE;
 		}
 
@@ -82,14 +82,14 @@ namespace CrossEngine {
 		return m_uniformBlockBindings;
 	}
 
-	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetImageBindings(void) const
-	{
-		return m_imageBindings;
-	}
-
 	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetSampledImageBindings(void) const
 	{
 		return m_sampledImageBindings;
+	}
+
+	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetSubpassInputBindings(void) const
+	{
+		return m_subpassInputBindings;
 	}
 
 
@@ -152,7 +152,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Image) {
-					m_pDescriptorSetLayouts[set]->SetImageBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetSubpassInputBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
 				}
 			}
 		}
