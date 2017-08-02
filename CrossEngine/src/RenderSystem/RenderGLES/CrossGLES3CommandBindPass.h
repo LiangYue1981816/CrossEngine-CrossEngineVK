@@ -93,7 +93,12 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						discardBuffers[itColorAttachment.first] = attachment;
+						if (pFrameBuffer->GetHandle()) {
+							discardBuffers[itColorAttachment.first] = attachment;
+						}
+						else {
+							discardBuffers[itColorAttachment.first] = GL_COLOR;
+						}
 					}
 
 					drawBuffers[itColorAttachment.first] = attachment;
@@ -126,7 +131,12 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_ATTACHMENT;
+						if (pFrameBuffer->GetHandle()) {
+							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_ATTACHMENT;
+						}
+						else {
+							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH;
+						}
 					}
 
 					return;
@@ -148,7 +158,12 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						discardBuffers[pSubPass->depthStencilAttachment] = GL_STENCIL_ATTACHMENT;
+						if (pFrameBuffer->GetHandle()) {
+							discardBuffers[pSubPass->depthStencilAttachment] = GL_STENCIL_ATTACHMENT;
+						}
+						else {
+							discardBuffers[pSubPass->depthStencilAttachment] = GL_STENCIL;
+						}
 					}
 
 					return;
@@ -171,7 +186,12 @@ namespace CrossEngine {
 					}
 
 					if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE && pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-						discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_STENCIL_ATTACHMENT;
+						if (pFrameBuffer->GetHandle()) {
+							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_STENCIL_ATTACHMENT;
+						}
+						else {
+							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_STENCIL;
+						}
 					}
 
 					return;
