@@ -228,8 +228,6 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 	CreateBuffer();
 	CreateDescriptorSet();
 	CreateCommandBuffer();
-
-	pDevice->DumpLog();
 }
 
 void Destroy(void)
