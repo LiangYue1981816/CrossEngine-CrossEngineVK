@@ -53,7 +53,7 @@ namespace CrossEngine {
 		GLenum externalFormat;
 
 		CALL_GL_FUNCTION_RETURN_BOOL(CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type));
-		CALL_GL_FUNCTION_RETURN_BOOL(Create(GL_TEXTURE_2D, externalFormat, internalFormat, width, height, 1, 1, 1, samples, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+		CALL_GL_FUNCTION_RETURN_BOOL(Create(samples == VK_SAMPLE_COUNT_1_BIT ? GL_TEXTURE_2D : GL_TEXTURE_2D_MULTISAMPLE, externalFormat, internalFormat, width, height, 1, 1, 1, samples, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
 
 		return TRUE;
 	}
@@ -69,7 +69,7 @@ namespace CrossEngine {
 		GLenum externalFormat;
 
 		CALL_GL_FUNCTION_RETURN_BOOL(CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type));
-		CALL_GL_FUNCTION_RETURN_BOOL(Create(GL_TEXTURE_2D, externalFormat, internalFormat, width, height, 1, 1, 1, samples, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+		CALL_GL_FUNCTION_RETURN_BOOL(Create(samples == VK_SAMPLE_COUNT_1_BIT ? GL_TEXTURE_2D : GL_TEXTURE_2D_MULTISAMPLE, externalFormat, internalFormat, width, height, 1, 1, 1, samples, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
 
 		return TRUE;
 	}

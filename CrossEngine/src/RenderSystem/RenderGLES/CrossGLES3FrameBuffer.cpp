@@ -59,7 +59,7 @@ namespace CrossEngine {
 		m_attachments.clear();
 	}
 
-	BOOL CGLES3FrameBuffer::SetAttachment(uint32_t indexAttachment, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView)
+	BOOL CGLES3FrameBuffer::SetAttachment(uint32_t indexAttachment, GLenum target, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
 		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
 			return FALSE;
@@ -69,6 +69,7 @@ namespace CrossEngine {
 		if (m_height == 0) m_height = height;
 		if (m_width != width || m_height != height) return FALSE;
 
+		m_attachments[indexAttachment].target = target;
 		m_attachments[indexAttachment].format = format;
 		m_attachments[indexAttachment].texture = (GLuint)hImageView;
 
@@ -83,19 +84,19 @@ namespace CrossEngine {
 		CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type);
 
 		m_attachments[indexAttachment].ptrRenderTexture.Release();
-		return SetAttachment(indexAttachment, externalFormat, width, height, hImageView);
+		return SetAttachment(indexAttachment, GL_TEXTURE_2D, externalFormat, width, height, hImageView);
 	}
 
 	BOOL CGLES3FrameBuffer::SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
 		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		return SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetTarget(), ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
 	}
 
 	BOOL CGLES3FrameBuffer::SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
 		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		return SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetTarget(), ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
 	}
 
 	uint32_t CGLES3FrameBuffer::GetWidth(void) const
@@ -112,6 +113,12 @@ namespace CrossEngine {
 	{
 		const auto &itAttachment = m_attachments.find(indexAttachment);
 		return itAttachment != m_attachments.end() ? itAttachment->second.texture : 0;
+	}
+
+	GLenum CGLES3FrameBuffer::GetRenderTextureTarget(uint32_t indexAttachment) const
+	{
+		const auto &itAttachment = m_attachments.find(indexAttachment);
+		return itAttachment != m_attachments.end() ? itAttachment->second.target : GL_INVALID_ENUM;
 	}
 
 	GLenum CGLES3FrameBuffer::GetRenderTextureFormat(uint32_t indexAttachment) const
