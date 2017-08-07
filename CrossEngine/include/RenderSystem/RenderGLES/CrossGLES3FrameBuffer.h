@@ -44,6 +44,9 @@ namespace CrossEngine {
 		void Destroy(void);
 		void DumpLog(void) const;
 
+	protected:
+		BOOL CompatibilityCheck(const CGLES3RenderPass *pRenderPass) const;
+
 	public:
 		BOOL SetAttachment(uint32_t indexAttachment, GLenum target, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView);
 		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView);

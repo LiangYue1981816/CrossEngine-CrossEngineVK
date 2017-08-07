@@ -61,8 +61,10 @@ namespace CrossEngine {
 	public:
 		uint32_t GetSubpassCount(void) const;
 		const GLSubpassInformation* GetSubpass(uint32_t indexSubpass) const;
-		const VkAttachmentDescription* GetAttachment(uint32_t indexAttachment) const;
+
 		const VkClearValue* GetAttachmentClearValue(uint32_t indexAttachment) const;
+		const VkAttachmentDescription* GetAttachmentDescription(uint32_t indexAttachment) const;
+		const std::map<uint32_t, VkAttachmentDescription>& GetAttachmentDescriptions(void) const;
 
 
 	protected:

@@ -97,7 +97,7 @@ namespace CrossEngine {
 					GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first);
 
 					const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
-					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachment(itColorAttachment.first);
+					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itColorAttachment.first);
 
 					if (framebuffer != 0) {
 						glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, texture, 0);
@@ -135,7 +135,7 @@ namespace CrossEngine {
 				GLuint texture = pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment);
 
 				const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(pSubPass->depthStencilAttachment);
-				const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachment(pSubPass->depthStencilAttachment);
+				const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(pSubPass->depthStencilAttachment);
 
 				if (CGLES3Helper::glIsFormatDepthOnly(format)) {
 					if (framebuffer != 0) {

@@ -61,6 +61,8 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
+		m_attachments[indexAttachment].format = format;
+		m_attachments[indexAttachment].samples = samples;
 		m_attachments[indexAttachment].loadOp = loadOp;
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -72,6 +74,8 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
+		m_attachments[indexAttachment].format = format;
+		m_attachments[indexAttachment].samples = samples;
 		m_attachments[indexAttachment].loadOp = loadOp;
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -83,6 +87,8 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
+		m_attachments[indexAttachment].format = format;
+		m_attachments[indexAttachment].samples = samples;
 		m_attachments[indexAttachment].loadOp = loadOp;
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = stencilLoadOp;
@@ -142,16 +148,21 @@ namespace CrossEngine {
 		return itSubpass != m_subpasses.end() ? &itSubpass->second : NULL;
 	}
 
-	const VkAttachmentDescription* CGLES3RenderPass::GetAttachment(uint32_t indexAttachment) const
+	const VkClearValue* CGLES3RenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
+	{
+		const auto &itAttachmentClearValue = m_attachmentClearValues.find(indexAttachment);
+		return itAttachmentClearValue != m_attachmentClearValues.end() ? &itAttachmentClearValue->second : NULL;
+	}
+
+	const VkAttachmentDescription* CGLES3RenderPass::GetAttachmentDescription(uint32_t indexAttachment) const
 	{
 		const auto &itAttachment = m_attachments.find(indexAttachment);
 		return itAttachment != m_attachments.end() ? &itAttachment->second : NULL;
 	}
 
-	const VkClearValue* CGLES3RenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
+	const std::map<uint32_t, VkAttachmentDescription>& CGLES3RenderPass::GetAttachmentDescriptions(void) const
 	{
-		const auto &itAttachmentClearValue = m_attachmentClearValues.find(indexAttachment);
-		return itAttachmentClearValue != m_attachmentClearValues.end() ? &itAttachmentClearValue->second : NULL;
+		return m_attachments;
 	}
 
 	void CGLES3RenderPass::DumpLog(void) const
