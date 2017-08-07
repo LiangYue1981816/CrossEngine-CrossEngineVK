@@ -39,7 +39,7 @@ namespace CrossEngine {
 
 	HANDLE CGLES3RenderPass::GetHandle(void) const
 	{
-		return INVALID_HANDLE_VALUE;
+		return (HANDLE)this;
 	}
 
 	const CGLES3Device* CGLES3RenderPass::GetDevice(void) const

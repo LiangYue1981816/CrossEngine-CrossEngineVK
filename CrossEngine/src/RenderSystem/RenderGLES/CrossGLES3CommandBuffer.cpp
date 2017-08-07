@@ -83,8 +83,7 @@ namespace CrossEngine {
 
 	HANDLE CGLES3CommandBuffer::GetHandle(void) const
 	{
-		ASSERT(FALSE);
-		return INVALID_HANDLE_VALUE;
+		return (HANDLE)this;
 	}
 
 	void CGLES3CommandBuffer::Reset(void)

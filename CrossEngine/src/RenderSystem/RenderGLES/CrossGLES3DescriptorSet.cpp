@@ -45,8 +45,7 @@ namespace CrossEngine {
 
 	HANDLE CGLES3DescriptorSet::GetHandle(void) const
 	{
-		ASSERT(FALSE);
-		return INVALID_HANDLE_VALUE;
+		return (HANDLE)this;
 	}
 
 	void CGLES3DescriptorSet::SetTexture(uint32_t binding, uint32_t unit, const CGfxTexturePtr &ptrTexture)
