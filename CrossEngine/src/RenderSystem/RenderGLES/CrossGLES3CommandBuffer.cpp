@@ -147,7 +147,7 @@ namespace CrossEngine {
 	void CGLES3CommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
 		m_ptrPipelineGraphics = ptrPipeline;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(m_ptrPipelineGraphics));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(m_ptrPipelineGraphics, m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
