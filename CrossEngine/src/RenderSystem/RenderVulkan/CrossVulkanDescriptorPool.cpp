@@ -83,7 +83,7 @@ namespace CrossEngine {
 			return NULL;
 		}
 
-		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
+		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
 			if (m_numAllocatedTypes[index] + pSetLayout->GetTypesUsedCount()[index] > m_maxAllocatedTypes[index]) {
 				return NULL;
 			}
@@ -105,7 +105,7 @@ namespace CrossEngine {
 		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
 
 		m_numDescriptorSets++;
-		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
+		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
 			m_numAllocatedTypes[index] += pDescriptorSet->GetTypesUsedCount()[index];
 		}
 
@@ -118,7 +118,7 @@ namespace CrossEngine {
 		vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
 
 		m_numDescriptorSets--;
-		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
+		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
 			m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
 		}
 
@@ -134,7 +134,7 @@ namespace CrossEngine {
 	void CVulkanDescriptorPool::DumpLog(void) const
 	{
 		LOGI("\t\tDescriptorSet = %d/%d\n", m_numDescriptorSets, m_maxDescriptorSets);
-		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
+		for (uint32_t index = 0; index < VK_DESCRIPTOR_TYPE_RANGE_SIZE; index++) {
 			LOGI("\t\t\t%s = %d/%d\n", CVulkanHelper::vkDescriptorTypeToString((VkDescriptorType)index), m_numAllocatedTypes[index], m_maxAllocatedTypes[index]);
 		}
 	}
