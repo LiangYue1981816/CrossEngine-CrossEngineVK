@@ -129,7 +129,6 @@ namespace CrossEngine {
 			for (const auto &itSampledImage : shaderResources.sampled_images) {
 				const uint32_t set = pShaderCompiler->get_decoration(itSampledImage.id, spv::DecorationDescriptorSet);
 				const uint32_t binding = pShaderCompiler->get_decoration(itSampledImage.id, spv::DecorationBinding);
-				const std::string name = pShaderCompiler->get_name(itSampledImage.id);
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSampledImage.type_id);
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
@@ -137,14 +136,13 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
-					m_pDescriptorSetLayouts[set]->SetSampledImageBinding((GLuint)itShader.second->GetHandle(), binding, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetSampledImageBinding((GLuint)itShader.second->GetHandle(), binding, itSampledImage.name.c_str());
 				}
 			}
 
 			for (const auto &itSubpassInput : shaderResources.subpass_inputs) {
 				const uint32_t set = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationDescriptorSet);
 				const uint32_t attachment = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationInputAttachmentIndex);
-				const std::string name = pShaderCompiler->get_name(itSubpassInput.id);
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSubpassInput.type_id);
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
@@ -152,7 +150,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Image) {
-					m_pDescriptorSetLayouts[set]->SetSubpassInputAttachment((GLuint)itShader.second->GetHandle(), attachment, name.c_str());
+					m_pDescriptorSetLayouts[set]->SetSubpassInputAttachment((GLuint)itShader.second->GetHandle(), attachment, itSubpassInput.name.c_str());
 				}
 			}
 		}
