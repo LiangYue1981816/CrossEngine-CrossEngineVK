@@ -39,20 +39,20 @@ namespace CrossEngine {
 	protected:
 		BOOL SetUniformBlockBinding(GLuint program, uint32_t binding, const char *szName);
 		BOOL SetSampledImageBinding(GLuint program, uint32_t binding, const char *szName);
-		BOOL SetSubpassInputBinding(GLuint program, uint32_t binding, const char *szName);
+		BOOL SetSubpassInputAttachment(GLuint program, uint32_t attachment, const char *szName);
 
 	public:
 		uint32_t GetSet(void) const;
 		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetUniformBlockBindings(void) const;
 		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetSampledImageBindings(void) const;
-		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetSubpassInputBindings(void) const;
+		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetSubpassInputAttachments(void) const;
 
 
 	protected:
 		uint32_t m_set;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_uniformBlockBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_sampledImageBindings;
-		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_subpassInputBindings;
+		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_subpassInputAttachments;
 	};
 
 	class CROSS_EXPORT CGLES3Pipeline
