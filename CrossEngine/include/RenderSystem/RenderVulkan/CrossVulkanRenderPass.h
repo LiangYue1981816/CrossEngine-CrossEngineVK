@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 	protected:
 		BOOL CreateAttachments(std::vector<VkAttachmentDescription> &attachments);
-		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment);
+		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment);
 		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
 
 	public:
@@ -54,8 +54,6 @@ namespace CrossEngine {
 		BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
-		BOOL SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment);
-		BOOL SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment);
 		BOOL SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment);
 		BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment);
 		BOOL SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout);

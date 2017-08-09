@@ -32,12 +32,9 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, int indexPass)
-			: m_indexPass(indexPass)
+		CGLES3CommandBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 		{
 			m_ptrPipelineGraphics = ptrPipelineGraphics;
-			m_ptrFrameBuffer = ptrFrameBuffer;
-			m_ptrRenderPass = ptrRenderPass;
 		}
 
 
@@ -80,11 +77,6 @@ namespace CrossEngine {
 				SetBlendEquationSeparate(colorBlendState);
 				SetBlendFuncSeparate(colorBlendState);
 				SetColorMask(colorBlendState);
-
-				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
-				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
-
-				SetInputAttachments(pPipeline, pFrameBuffer, pRenderPass, m_indexPass);
 			}
 		}
 
@@ -287,22 +279,9 @@ namespace CrossEngine {
 			}
 		}
 
-		void SetInputAttachments(const CGLES3PipelineGraphics *pPipeline, const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
-		{
-			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				for (const auto &itInputAttachment : pSubPass->inputAttachments) {
-					GLenum target = pFrameBuffer->GetRenderTextureTarget(itInputAttachment.first);
-					GLuint texture = pFrameBuffer->GetRenderTexture(itInputAttachment.first);
-				}
-			}
-		}
-
 
 	protected:
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
-		CGfxFrameBufferPtr m_ptrFrameBuffer;
-		CGfxRenderPassPtr m_ptrRenderPass;
-		int m_indexPass;
 	};
 
 }

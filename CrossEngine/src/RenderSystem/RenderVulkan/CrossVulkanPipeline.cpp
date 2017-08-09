@@ -204,21 +204,6 @@ namespace CrossEngine {
 					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
 				}
 			}
-
-			for (const auto &itSubpassInput : shaderResources.subpass_inputs) {
-				const uint32_t set = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationDescriptorSet);
-				const uint32_t binding = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationBinding);
-				const std::string name = pShaderCompiler->get_name(itSubpassInput.id);
-				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSubpassInput.type_id);
-
-				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
-				}
-
-				if (type.basetype == spirv_cross::SPIRType::Image) {
-					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, shaderStageFlags);
-				}
-			}
 		}
 
 		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {

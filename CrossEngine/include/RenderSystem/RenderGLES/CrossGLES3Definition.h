@@ -34,7 +34,6 @@ namespace CrossEngine {
 	} GLAttachmentInformation;
 
 	typedef struct GLSubpassInformation {
-		std::map<uint32_t, uint32_t> inputAttachments;
 		std::map<uint32_t, uint32_t> colorAttachments;
 		uint32_t depthStencilAttachment;
 	} GLSubpassInformation;

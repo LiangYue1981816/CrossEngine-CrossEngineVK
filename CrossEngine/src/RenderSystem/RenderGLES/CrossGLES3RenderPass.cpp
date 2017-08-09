@@ -98,18 +98,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
-	{
-		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
-		return TRUE;
-	}
-
-	BOOL CGLES3RenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
-	{
-		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
-		return TRUE;
-	}
-
 	BOOL CGLES3RenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
 		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = indexAttachment;
@@ -182,11 +170,6 @@ namespace CrossEngine {
 		LOGI("\t\t\tSubpasses:\n");
 		for (const auto &itSubpass : m_subpasses) {
 			LOGI("\t\t\t\tSubpass %d:\n", itSubpass.first);
-
-			LOGI("\t\t\t\t\tInputAttachments:\n");
-			for (const auto &itAttachment : itSubpass.second.inputAttachments) {
-				LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d\n", itAttachment.first);
-			}
 
 			LOGI("\t\t\t\t\tColorAttachments:\n");
 			for (const auto &itAttachment : itSubpass.second.colorAttachments) {
