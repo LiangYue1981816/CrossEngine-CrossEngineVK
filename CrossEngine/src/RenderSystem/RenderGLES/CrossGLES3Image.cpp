@@ -84,6 +84,7 @@ namespace CrossEngine {
 
 		switch (m_target) {
 		case GL_TEXTURE_2D:
+		case GL_TEXTURE_2D_MULTISAMPLE:
 		case GL_TEXTURE_CUBE_MAP:
 			if (m_samples > 1) {
 				glGenTextures(1, &m_texture);
