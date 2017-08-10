@@ -18,12 +18,10 @@ CrossEngine::CGfxUniformBufferPtr ptrUniformBuffer;
 CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSet;
 
 int indexPresentAttachment = 0;
-int indexDepthAttachment = 1;
-int indexColorAttachmentMSAA = 2;
-int indexDepthAttachmentMSAA = 3;
+int indexColorAttachmentMSAA = 1;
+int indexDepthAttachmentMSAA = 2;
 CrossEngine::CGfxRenderTexturePtr ptrColorTextureMSAA;
 CrossEngine::CGfxRenderTexturePtr ptrDepthTextureMSAA;
-CrossEngine::CGfxRenderTexturePtr ptrDepthTexture;
 CrossEngine::CGfxRenderPassPtr ptrRenderPass;
 CrossEngine::CGfxFrameBufferPtr ptrFrameBuffers[3];
 
@@ -34,11 +32,9 @@ void CreateRenderPass(void)
 {
 	ptrRenderPass = pDevice->NewRenderPass();
 	ptrRenderPass->SetPresentAttachment(indexPresentAttachment, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, {0.0f, 0.0f, 0.0f, 1.0f}, VK_SAMPLE_COUNT_1_BIT);
-	ptrRenderPass->SetDepthStencilAttachment(indexDepthAttachment, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 1.0f, 0 }, VK_SAMPLE_COUNT_1_BIT);
 	ptrRenderPass->SetColorAttachment(indexColorAttachmentMSAA, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 0.0f, 0.0f, 0.0f, 1.0f }, SAMPLE_COUNT);
 	ptrRenderPass->SetDepthStencilAttachment(indexDepthAttachmentMSAA, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 1.0f, 0 }, SAMPLE_COUNT);
 	ptrRenderPass->SetSubpassResolveAttachment(0, indexPresentAttachment, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
-	ptrRenderPass->SetSubpassResolveAttachment(0, indexDepthAttachment, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 	ptrRenderPass->SetSubpassOutputColorReference(0, indexColorAttachmentMSAA);
 	ptrRenderPass->SetSubpassOutputDepthStencilReference(0, indexDepthAttachmentMSAA);
 	ptrRenderPass->Create();
@@ -57,13 +53,9 @@ void CreateFrameBuffer(void)
 	ptrDepthTextureMSAA = pDevice->NewRenderTexture();
 	ptrDepthTextureMSAA->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight(), SAMPLE_COUNT, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_NEAREST, VK_SAMPLER_ADDRESS_MODE_REPEAT);
 
-	ptrDepthTexture = pDevice->NewRenderTexture();
-	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, pSwapchain->GetWidth(), pSwapchain->GetHeight(),VK_SAMPLE_COUNT_1_BIT, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_NEAREST, VK_SAMPLER_ADDRESS_MODE_REPEAT);
-
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView] = pDevice->NewFrameBuffer();
 		ptrFrameBuffers[indexView]->SetPresentAttachment(indexPresentAttachment, VK_FORMAT_B8G8R8A8_UNORM, pSwapchain->GetWidth(), pSwapchain->GetHeight(), pSwapchain->GetImageHandle(indexView));
-		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachment, ptrDepthTexture);
 		ptrFrameBuffers[indexView]->SetColorAttachment(indexColorAttachmentMSAA, ptrColorTextureMSAA);
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(indexDepthAttachmentMSAA, ptrDepthTextureMSAA);
 		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetHandle());
@@ -74,7 +66,6 @@ void DestroyFrameBuffer(void)
 {
 	ptrColorTextureMSAA.Release();
 	ptrDepthTextureMSAA.Release();
-	ptrDepthTexture.Release();
 
 	for (int indexView = 0; indexView < (int)pSwapchain->GetImageCount(); indexView++) {
 		ptrFrameBuffers[indexView].Release();
@@ -215,8 +206,8 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 	sprintf(szCachePath, "%s/Cache", szCurPath);
 	mkdir(szCachePath);
 
-	pGfxInstance = SAFE_NEW CrossEngine::CGLES3Instance(szCachePath);
-//	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance(szCachePath);
+//	pGfxInstance = SAFE_NEW CrossEngine::CGLES3Instance(szCachePath);
+	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance(szCachePath);
 	pGfxInstance->Create(hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top);
 	pDevice = pGfxInstance->GetDevice();
 	pSwapchain = pGfxInstance->GetSwapchain();
