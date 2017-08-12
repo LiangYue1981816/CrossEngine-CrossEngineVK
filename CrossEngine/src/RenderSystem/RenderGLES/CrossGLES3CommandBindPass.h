@@ -43,7 +43,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrFrameBuffer.IsNull() || m_ptrRenderPass.IsNull()) {
+			if (m_ptrFrameBuffer.IsNull() || m_ptrRenderPass.IsNull() || m_indexPass == -1) {
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 			else {
