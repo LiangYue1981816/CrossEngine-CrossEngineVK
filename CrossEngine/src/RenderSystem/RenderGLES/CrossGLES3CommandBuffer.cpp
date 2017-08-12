@@ -135,7 +135,8 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdEndRenderPass(void)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(CGfxFrameBufferPtr(NULL), CGfxRenderPassPtr(NULL), -1));
+		m_indexPass = -1;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
