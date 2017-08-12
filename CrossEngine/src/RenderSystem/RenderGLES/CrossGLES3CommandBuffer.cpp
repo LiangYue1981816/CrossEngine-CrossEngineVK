@@ -81,6 +81,11 @@ namespace CrossEngine {
 		m_pCommands.clear();
 	}
 
+	CGLES3Device* CGLES3CommandBuffer::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3CommandBuffer::GetHandle(void) const
 	{
 		return (HANDLE)this;

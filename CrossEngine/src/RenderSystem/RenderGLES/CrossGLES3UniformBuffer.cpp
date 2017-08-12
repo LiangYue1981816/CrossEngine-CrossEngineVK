@@ -37,6 +37,11 @@ namespace CrossEngine {
 
 	}
 
+	CGLES3Device* CGLES3UniformBuffer::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3UniformBuffer::GetHandle(void) const
 	{
 		return (HANDLE)m_buffer;

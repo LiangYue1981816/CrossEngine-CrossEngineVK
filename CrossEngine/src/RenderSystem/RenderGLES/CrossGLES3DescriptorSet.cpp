@@ -43,6 +43,11 @@ namespace CrossEngine {
 		m_pDescriptorSetManager->FreeDescriptorSet(this);
 	}
 
+	CGLES3Device* CGLES3DescriptorSet::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3DescriptorSet::GetHandle(void) const
 	{
 		return (HANDLE)this;

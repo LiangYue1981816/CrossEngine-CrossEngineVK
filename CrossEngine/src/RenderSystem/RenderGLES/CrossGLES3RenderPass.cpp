@@ -37,14 +37,14 @@ namespace CrossEngine {
 
 	}
 
+	CGLES3Device* CGLES3RenderPass::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3RenderPass::GetHandle(void) const
 	{
 		return (HANDLE)this;
-	}
-
-	const CGLES3Device* CGLES3RenderPass::GetDevice(void) const
-	{
-		return m_pDevice;
 	}
 
 	BOOL CGLES3RenderPass::Create(void)

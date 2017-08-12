@@ -65,6 +65,11 @@ namespace CrossEngine {
 		m_ptrCommandBuffers.clear();
 	}
 
+	CVulkanDevice* CVulkanCommandBuffer::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanCommandBuffer::GetHandle(void) const
 	{
 		return m_vkCommandBuffer;

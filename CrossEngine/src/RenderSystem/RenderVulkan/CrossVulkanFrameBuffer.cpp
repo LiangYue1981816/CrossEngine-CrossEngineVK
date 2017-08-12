@@ -41,6 +41,11 @@ namespace CrossEngine {
 
 	}
 
+	CVulkanDevice* CVulkanFrameBuffer::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanFrameBuffer::GetHandle(void) const
 	{
 		return m_vkFrameBuffer;

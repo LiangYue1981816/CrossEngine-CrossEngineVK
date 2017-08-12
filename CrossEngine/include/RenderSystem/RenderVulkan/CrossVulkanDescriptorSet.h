@@ -41,6 +41,7 @@ namespace CrossEngine {
 		void Release(void);
 
 	public:
+		CVulkanDevice* GetDevice(void) const;
 		HANDLE GetHandle(void) const;
 
 	public:

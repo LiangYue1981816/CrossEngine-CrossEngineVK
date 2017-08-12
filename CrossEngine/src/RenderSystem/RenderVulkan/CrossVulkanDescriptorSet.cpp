@@ -48,6 +48,11 @@ namespace CrossEngine {
 		m_pDescriptorPool->FreeDescriptorSet(this);
 	}
 
+	CVulkanDevice* CVulkanDescriptorSet::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanDescriptorSet::GetHandle(void) const
 	{
 		return m_vkDescriptorSet;

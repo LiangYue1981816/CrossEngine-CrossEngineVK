@@ -38,6 +38,11 @@ namespace CrossEngine {
 
 	}
 
+	CVulkanDevice* CVulkanRenderPass::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanRenderPass::GetHandle(void) const
 	{
 		return m_vkRenderPass;

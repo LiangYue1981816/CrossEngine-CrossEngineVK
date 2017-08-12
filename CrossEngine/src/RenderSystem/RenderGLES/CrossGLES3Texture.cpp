@@ -37,6 +37,11 @@ namespace CrossEngine {
 
 	}
 
+	CGLES3Device* CGLES3Texture::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3Texture::GetHandle(void) const
 	{
 		return (HANDLE)m_texture;

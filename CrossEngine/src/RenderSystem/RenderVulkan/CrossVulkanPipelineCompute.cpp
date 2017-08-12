@@ -37,6 +37,11 @@ namespace CrossEngine {
 
 	}
 
+	CVulkanDevice* CVulkanPipelineCompute::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanPipelineCompute::GetHandle(void) const
 	{
 		return m_vkPipeline;

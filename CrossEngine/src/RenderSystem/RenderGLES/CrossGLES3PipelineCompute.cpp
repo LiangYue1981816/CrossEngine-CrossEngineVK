@@ -37,6 +37,11 @@ namespace CrossEngine {
 
 	}
 
+	CGLES3Device* CGLES3PipelineCompute::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3PipelineCompute::GetHandle(void) const
 	{
 		return (HANDLE)m_pipeline;

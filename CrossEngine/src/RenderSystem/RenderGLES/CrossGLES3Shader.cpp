@@ -109,6 +109,11 @@ namespace CrossEngine {
 
 	}
 
+	CGLES3Device* CGLES3Shader::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3Shader::GetHandle(void) const
 	{
 		return (HANDLE)m_program;

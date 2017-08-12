@@ -41,6 +41,7 @@ namespace CrossEngine {
 		void Clearup(void);
 
 	public:
+		CVulkanDevice* GetDevice(void) const;
 		HANDLE GetHandle(void) const;
 		VkFence GetFence(void) const;
 

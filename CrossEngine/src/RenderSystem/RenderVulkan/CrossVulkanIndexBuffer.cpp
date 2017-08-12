@@ -37,6 +37,11 @@ namespace CrossEngine {
 
 	}
 
+	CVulkanDevice* CVulkanIndexBuffer::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanIndexBuffer::GetHandle(void) const
 	{
 		return m_vkBuffer;

@@ -37,6 +37,7 @@ namespace CrossEngine {
 
 
 	public:
+		CVulkanDevice* GetDevice(void) const;
 		HANDLE GetHandle(void) const;
 		const spirv_cross::Compiler* GetShaderCompiler(void) const;
 

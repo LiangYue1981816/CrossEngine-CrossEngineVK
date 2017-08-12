@@ -37,6 +37,11 @@ namespace CrossEngine {
 
 	}
 
+	CVulkanDevice* CVulkanTexture::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanTexture::GetHandle(void) const
 	{
 		return m_vkImageView;

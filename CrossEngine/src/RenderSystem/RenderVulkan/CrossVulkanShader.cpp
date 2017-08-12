@@ -98,6 +98,11 @@ namespace CrossEngine {
 
 	}
 
+	CVulkanDevice* CVulkanShader::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CVulkanShader::GetHandle(void) const
 	{
 		return m_vkShaderModule;

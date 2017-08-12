@@ -69,14 +69,14 @@ namespace CrossEngine {
 
 	}
 
+	CGLES3Device* CGLES3PipelineGraphics::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
 	HANDLE CGLES3PipelineGraphics::GetHandle(void) const
 	{
 		return (HANDLE)m_pipeline;
-	}
-
-	const CGLES3Device* CGLES3PipelineGraphics::GetDevice(void) const
-	{
-		return m_pDevice;
 	}
 
 	BOOL CGLES3PipelineGraphics::Create(HANDLE hRenderPass)
