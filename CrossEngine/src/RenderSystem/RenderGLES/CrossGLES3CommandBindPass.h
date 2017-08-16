@@ -51,7 +51,7 @@ namespace CrossEngine {
 				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 				const CGLES3Device *pDevice = pRenderPass->GetDevice();
 
-				if (IsValidFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
+				if (IsNeedFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
 					const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandleMSAA() ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
 
 					glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -75,7 +75,7 @@ namespace CrossEngine {
 			}
 		}
 
-		BOOL IsValidFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		BOOL IsNeedFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				if (pSubPass->colorAttachments.size()) {
