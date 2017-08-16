@@ -47,7 +47,9 @@ namespace CrossEngine {
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 			else {
-
+				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
+				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
+				const CGLES3Device *pDevice = pRenderPass->GetDevice();
 			}
 		}
 
