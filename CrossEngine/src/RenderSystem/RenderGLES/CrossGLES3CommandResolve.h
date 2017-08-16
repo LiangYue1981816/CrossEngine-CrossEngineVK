@@ -69,11 +69,9 @@ namespace CrossEngine {
 							CheckFramebufferStatus(framebuffer);
 						}
 
-						glBindFramebuffer(GL_FRAMEBUFFER, 0);
 						glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
 					}
 					else {
-						glBindFramebuffer(GL_FRAMEBUFFER, 0);
 						glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 					}
 
