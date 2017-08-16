@@ -112,6 +112,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
+		m_subpasses[indexSubpass].resolveAttachments[indexAttachment] = imageLayout;
 		return TRUE;
 	}
 
