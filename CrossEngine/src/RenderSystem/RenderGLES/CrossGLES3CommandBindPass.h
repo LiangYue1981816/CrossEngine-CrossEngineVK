@@ -53,7 +53,6 @@ namespace CrossEngine {
 
 				if (IsNeedFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
 					const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandleMSAA() ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
-
 					glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 					{
 						std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
