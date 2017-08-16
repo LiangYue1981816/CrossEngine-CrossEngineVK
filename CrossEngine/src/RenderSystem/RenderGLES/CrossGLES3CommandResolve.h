@@ -79,12 +79,14 @@ namespace CrossEngine {
 
 					const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
 					glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
-
-					glBlitFramebuffer(
-						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
-						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
-						GL_COLOR_BUFFER_BIT,
-						GL_LINEAR);
+					{
+						glBlitFramebuffer(
+							0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
+							0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
+							GL_COLOR_BUFFER_BIT,
+							GL_LINEAR);
+					}
+					glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 				}
 			}
 		}
@@ -101,11 +103,9 @@ namespace CrossEngine {
 		BOOL IsNeedFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				if (pSubPass->resolveAttachments.size()) {
-					for (const auto &itResolveAttachment : pSubPass->resolveAttachments) {
-						if (itResolveAttachment.second != VK_IMAGE_LAYOUT_PRESENT_SRC_KHR) {
-							return TRUE;
-						}
+				for (const auto &itResolveAttachment : pSubPass->resolveAttachments) {
+					if (pFrameBuffer->GetRenderTexture(itResolveAttachment.first) != 0) {
+						return TRUE;
 					}
 				}
 			}

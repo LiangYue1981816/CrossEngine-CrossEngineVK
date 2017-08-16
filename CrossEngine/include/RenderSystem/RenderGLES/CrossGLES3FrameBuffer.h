@@ -48,7 +48,6 @@ namespace CrossEngine {
 
 	protected:
 		BOOL CompatibilityCheck(const CGLES3RenderPass *pRenderPass) const;
-		BOOL IsNeedMSAA(void) const;
 
 	public:
 		BOOL SetAttachment(uint32_t indexAttachment, GLenum target, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView);

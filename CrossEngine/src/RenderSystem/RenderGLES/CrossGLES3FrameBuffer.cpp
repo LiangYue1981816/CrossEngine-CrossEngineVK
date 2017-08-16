@@ -61,11 +61,7 @@ namespace CrossEngine {
 	{
 		if (CompatibilityCheck((const CGLES3RenderPass *)hRenderPass)) {
 			glGenFramebuffers(1, &m_framebuffer);
-
-			if (IsNeedMSAA()) {
-				glGenFramebuffers(1, &m_framebufferMSAA);
-			}
-
+			glGenFramebuffers(1, &m_framebufferMSAA);
 			return TRUE;
 		}
 
@@ -93,17 +89,6 @@ namespace CrossEngine {
 		}
 
 		return TRUE;
-	}
-
-	BOOL CGLES3FrameBuffer::IsNeedMSAA(void) const
-	{
-		for (const auto &itAttachment : m_attachments) {
-			if (itAttachment.second.target == GL_TEXTURE_2D_MULTISAMPLE) {
-				return TRUE;
-			}
-		}
-
-		return FALSE;
 	}
 
 	void CGLES3FrameBuffer::Destroy(void)

@@ -52,7 +52,7 @@ namespace CrossEngine {
 				const CGLES3Device *pDevice = pRenderPass->GetDevice();
 
 				if (IsNeedFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
-					const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandleMSAA() ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
+					const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
 					glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 					{
 						std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
@@ -77,17 +77,32 @@ namespace CrossEngine {
 		BOOL IsNeedFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				if (pSubPass->colorAttachments.size()) {
-					for (const auto &itColorAttachment : pSubPass->colorAttachments) {
-						if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
-							return TRUE;
-						}
+				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
+					if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
+						return TRUE;
 					}
-
-					return FALSE;
 				}
 
-				return pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment) != 0 ? TRUE : FALSE;
+				if (pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment) != 0) {
+					return TRUE;
+				}
+			}
+
+			return FALSE;
+		}
+
+		BOOL IsNeedMSAA(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		{
+			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
+				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
+					if (pFrameBuffer->GetRenderTextureTarget(itColorAttachment.first) == GL_TEXTURE_2D_MULTISAMPLE) {
+						return TRUE;
+					}
+				}
+
+				if (pFrameBuffer->GetRenderTextureTarget(pSubPass->depthStencilAttachment) == GL_TEXTURE_2D_MULTISAMPLE) {
+					return TRUE;
+				}
 			}
 
 			return FALSE;
