@@ -50,7 +50,7 @@ namespace CrossEngine {
 				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 				const CGLES3Device *pDevice = pRenderPass->GetDevice();
-				const GLuint framebuffer = IsValidFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandle() : 0;
+				const GLuint framebuffer = IsValidFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass) ? ((GLuint)pFrameBuffer->GetHandleMSAA() ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle()) : 0;
 
 				glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 				{
