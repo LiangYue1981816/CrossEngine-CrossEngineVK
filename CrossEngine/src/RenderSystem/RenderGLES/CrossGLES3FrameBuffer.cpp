@@ -29,6 +29,7 @@ namespace CrossEngine {
 		: CGfxFrameBuffer(pResourceManager)
 		, m_pDevice(pDevice)
 		, m_framebuffer(0)
+		, m_framebufferMSAA(0)
 
 		, m_width(0)
 		, m_height(0)
@@ -49,6 +50,11 @@ namespace CrossEngine {
 	HANDLE CGLES3FrameBuffer::GetHandle(void) const
 	{
 		return (HANDLE)m_framebuffer;
+	}
+
+	HANDLE CGLES3FrameBuffer::GetHandleMSAA(void) const
+	{
+		return (HANDLE)m_framebufferMSAA;
 	}
 
 	BOOL CGLES3FrameBuffer::Create(HANDLE hRenderPass)
@@ -87,7 +93,10 @@ namespace CrossEngine {
 	void CGLES3FrameBuffer::Destroy(void)
 	{
 		glDeleteFramebuffers(1, &m_framebuffer);
+		glDeleteFramebuffers(1, &m_framebufferMSAA);
+
 		m_framebuffer = 0;
+		m_framebufferMSAA = 0;
 		m_attachments.clear();
 	}
 

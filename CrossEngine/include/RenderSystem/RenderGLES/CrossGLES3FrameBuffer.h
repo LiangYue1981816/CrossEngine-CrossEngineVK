@@ -39,6 +39,7 @@ namespace CrossEngine {
 	public:
 		CGLES3Device* GetDevice(void) const;
 		HANDLE GetHandle(void) const;
+		HANDLE GetHandleMSAA(void) const;
 
 	public:
 		BOOL Create(HANDLE hRenderPass);
@@ -70,6 +71,7 @@ namespace CrossEngine {
 
 	protected:
 		GLuint m_framebuffer;
+		GLuint m_framebufferMSAA;
 
 	protected:
 		CGLES3Device *m_pDevice;
