@@ -61,6 +61,11 @@ namespace CrossEngine {
 	{
 		if (CompatibilityCheck((const CGLES3RenderPass *)hRenderPass)) {
 			glGenFramebuffers(1, &m_framebuffer);
+
+			if (IsNeedMSAA()) {
+				glGenFramebuffers(1, &m_framebufferMSAA);
+			}
+
 			return TRUE;
 		}
 
@@ -88,6 +93,17 @@ namespace CrossEngine {
 		}
 
 		return TRUE;
+	}
+
+	BOOL CGLES3FrameBuffer::IsNeedMSAA(void) const
+	{
+		for (const auto &itAttachment : m_attachments) {
+			if (itAttachment.second.target == GL_TEXTURE_2D_MULTISAMPLE) {
+				return TRUE;
+			}
+		}
+
+		return FALSE;
 	}
 
 	void CGLES3FrameBuffer::Destroy(void)
@@ -171,7 +187,7 @@ namespace CrossEngine {
 	void CGLES3FrameBuffer::DumpLog(void) const
 	{
 		if (m_framebuffer) {
-			LOGI("\t\tFrameBuffer 0x%x: width = %d height = %d\n", m_framebuffer, m_width, m_height);
+			LOGI("\t\tFrameBuffer 0x%x (MSAA 0x%x): width = %d height = %d\n", m_framebuffer, m_framebufferMSAA, m_width, m_height);
 			for (const auto &itAttachment : m_attachments) {
 				LOGI("\t\t\tAttachment %d: texture = 0x%x format = %s\n", itAttachment.first, itAttachment.second.texture, CGLES3Helper::glEnumToString(itAttachment.second.format));
 			}
