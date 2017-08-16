@@ -50,21 +50,27 @@ namespace CrossEngine {
 				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 				const CGLES3Device *pDevice = pRenderPass->GetDevice();
-				const GLuint framebuffer = IsValidFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass) ? ((GLuint)pFrameBuffer->GetHandleMSAA() ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle()) : 0;
 
-				glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-				{
-					std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
-					std::vector<GLenum> discardBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS + 1);
+				if (IsValidFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
+					const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandleMSAA() ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
 
-					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
-					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
+					glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+					{
+						std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
+						std::vector<GLenum> discardBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS + 1);
 
-					glReadBuffer(GL_NONE);
-					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
-					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
+						SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
+						SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
 
-					CheckFramebufferStatus(framebuffer);
+						glReadBuffer(GL_NONE);
+						glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+						glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
+
+						CheckFramebufferStatus(framebuffer);
+					}
+				}
+				else {
+					glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				}
 			}
 		}
