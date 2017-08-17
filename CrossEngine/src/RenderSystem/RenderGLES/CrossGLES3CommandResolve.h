@@ -43,10 +43,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrFrameBuffer.IsNull() || m_ptrRenderPass.IsNull()) {
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			}
-			else {
+			if (m_ptrFrameBuffer.IsNull() == FALSE && m_ptrRenderPass.IsNull() == FALSE) {
 				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 				const CGLES3Device *pDevice = pRenderPass->GetDevice();
@@ -76,6 +73,7 @@ namespace CrossEngine {
 					}
 
 					const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
+					glBindFramebuffer(GL_FRAMEBUFFER, framebufferMSAA);
 					glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
 					{
 						glBlitFramebuffer(
