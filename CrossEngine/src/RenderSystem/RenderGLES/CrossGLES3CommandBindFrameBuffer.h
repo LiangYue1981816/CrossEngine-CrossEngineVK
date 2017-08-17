@@ -26,13 +26,13 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandBindPass : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandBindFrameBuffer : public CGLES3CommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandBindPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, int indexPass)
+		CGLES3CommandBindFrameBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, int indexPass)
 			: m_indexPass(indexPass)
 		{
 			m_ptrFrameBuffer = ptrFrameBuffer;
@@ -66,18 +66,26 @@ namespace CrossEngine {
 			}
 			else {
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				{
+					SetPresentColorTexture(pFrameBuffer, pRenderPass, m_indexPass);
+					SetPresentDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass);
+				}
 			}
 		}
 
 		BOOL IsNeedFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
-					if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
-						return TRUE;
+				if (pSubPass->colorAttachments.size()) {
+					for (const auto &itColorAttachment : pSubPass->colorAttachments) {
+						if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
+							return TRUE;
+						}
 					}
-				}
 
+					return FALSE;
+				}
+				
 				if (pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment) != 0) {
 					return TRUE;
 				}
@@ -101,6 +109,64 @@ namespace CrossEngine {
 			}
 
 			return FALSE;
+		}
+
+		void SetPresentColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		{
+			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
+				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
+					GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first);
+
+					const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
+					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itColorAttachment.first);
+
+					if (texture == 0) {
+						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+							glClearColor(pClearValue->color.float32[0], pClearValue->color.float32[1], pClearValue->color.float32[2], pClearValue->color.float32[3]);
+							glClear(GL_COLOR_BUFFER_BIT);
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		void SetPresentDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		{
+			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
+				GLenum format = pFrameBuffer->GetRenderTextureFormat(pSubPass->depthStencilAttachment);
+
+				const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(pSubPass->depthStencilAttachment);
+				const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(pSubPass->depthStencilAttachment);
+
+				if (CGLES3Helper::glIsFormatDepthOnly(format)) {
+					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+						glClearDepthf(pClearValue->depthStencil.depth);
+						glClear(GL_DEPTH_BUFFER_BIT);
+					}
+
+					return;
+				}
+
+				if (CGLES3Helper::glIsFormatStencilOnly(format)) {
+					if (pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+						glClearStencil(pClearValue->depthStencil.stencil);
+						glClear(GL_STENCIL_BUFFER_BIT);
+					}
+
+					return;
+				}
+
+				if (CGLES3Helper::glIsFormatDepthStencil(format)) {
+					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR || pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+						glClearDepthf(pClearValue->depthStencil.depth);
+						glClearStencil(pClearValue->depthStencil.stencil);
+						glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+					}
+
+					return;
+				}
+			}
 		}
 
 		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const

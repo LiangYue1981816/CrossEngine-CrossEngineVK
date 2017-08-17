@@ -21,7 +21,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "_CrossEngine.h"
-#include "CrossGLES3CommandBindPass.h"
+#include "CrossGLES3CommandBindFrameBuffer.h"
 #include "CrossGLES3CommandBindPipelineCompute.h"
 #include "CrossGLES3CommandBindPipelineGraphics.h"
 #include "CrossGLES3CommandBindIndexBuffer.h"
@@ -130,21 +130,21 @@ namespace CrossEngine {
 		m_ptrRenderPass = ptrRenderPass;
 
 		m_indexPass = 0;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_indexPass++;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdEndRenderPass(void)
 	{
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_indexPass = -1;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPass(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
