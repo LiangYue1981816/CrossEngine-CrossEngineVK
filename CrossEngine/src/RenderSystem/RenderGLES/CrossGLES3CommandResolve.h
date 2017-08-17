@@ -43,48 +43,46 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrFrameBuffer.IsNull() == FALSE && m_ptrRenderPass.IsNull() == FALSE) {
-				const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
-				const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
-				const CGLES3Device *pDevice = pRenderPass->GetDevice();
+			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
+			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
+			const CGLES3Device *pDevice = pRenderPass->GetDevice();
 
-				if (IsNeedResolve(pFrameBuffer, pRenderPass, m_indexPass)) {
-					if (IsNeedFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
-						const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandle();
-						glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-						{
-							std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
-							std::vector<GLenum> discardBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS + 1);
-
-							SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
-							SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
-
-							glReadBuffer(GL_NONE);
-							glDrawBuffers(drawBuffers.size(), drawBuffers.data());
-							glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
-
-							CheckFramebufferStatus(framebuffer);
-						}
-
-						glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-					}
-					else {
-						glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-					}
-
-					const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
-					glBindFramebuffer(GL_FRAMEBUFFER, framebufferMSAA);
-					glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
+			if (IsNeedResolve(pFrameBuffer, pRenderPass, m_indexPass)) {
+				if (IsNeedFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
+					const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandle();
+					glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 					{
-						glBlitFramebuffer(
-							0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
-							0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
-							GL_COLOR_BUFFER_BIT,
-							GL_LINEAR);
+						std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
+						std::vector<GLenum> discardBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS + 1);
+
+						SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
+						SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
+
+						glReadBuffer(GL_NONE);
+						glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+						glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
+
+						CheckFramebufferStatus(framebuffer);
 					}
-					glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+
+					glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+				}
+				else {
 					glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 				}
+
+				const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
+				glBindFramebuffer(GL_FRAMEBUFFER, framebufferMSAA);
+				glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
+				{
+					glBlitFramebuffer(
+						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
+						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
+						GL_COLOR_BUFFER_BIT,
+						GL_LINEAR);
+				}
+				glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 			}
 		}
 
