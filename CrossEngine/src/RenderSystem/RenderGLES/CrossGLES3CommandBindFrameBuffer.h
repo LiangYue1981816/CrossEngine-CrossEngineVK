@@ -45,14 +45,13 @@ namespace CrossEngine {
 		{
 			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
-			const CGLES3Device *pDevice = pRenderPass->GetDevice();
 
 			if (IsNeedFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
 				const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
 				glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 				{
-					std::vector<GLenum> drawBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS);
-					std::vector<GLenum> discardBuffers(pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS + 1);
+					std::vector<GLenum> drawBuffers;
+					std::vector<GLenum> discardBuffers;
 
 					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
 					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
@@ -124,8 +123,9 @@ namespace CrossEngine {
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearColor(pClearValue->color.float32[0], pClearValue->color.float32[1], pClearValue->color.float32[2], pClearValue->color.float32[3]);
 							glClear(GL_COLOR_BUFFER_BIT);
-							return;
 						}
+
+						return;
 					}
 				}
 			}
@@ -173,7 +173,8 @@ namespace CrossEngine {
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
-					GLenum attachment = GL_COLOR_ATTACHMENT0 + itColorAttachment.first;
+					GLuint indexAttachment = drawBuffers.size();
+					GLenum attachment = GL_COLOR_ATTACHMENT0 + indexAttachment;
 					GLenum target = pFrameBuffer->GetRenderTextureTarget(itColorAttachment.first);
 					GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first);
 
@@ -184,14 +185,14 @@ namespace CrossEngine {
 
 					if (texture != 0) {
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
-							glClearBufferfv(GL_COLOR, itColorAttachment.first, pClearValue->color.float32);
+							glClearBufferfv(GL_COLOR, indexAttachment, pClearValue->color.float32);
 						}
 
 						if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers[itColorAttachment.first] = attachment;
+							discardBuffers.push_back(attachment);
 						}
 
-						drawBuffers[itColorAttachment.first] = attachment;
+						drawBuffers.push_back(attachment);
 					}
 				}
 			}
@@ -216,7 +217,7 @@ namespace CrossEngine {
 						}
 
 						if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_ATTACHMENT;
+							discardBuffers.push_back(GL_DEPTH_ATTACHMENT);
 						}
 					}
 
@@ -232,7 +233,7 @@ namespace CrossEngine {
 						}
 
 						if (pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers[pSubPass->depthStencilAttachment] = GL_STENCIL_ATTACHMENT;
+							discardBuffers.push_back(GL_STENCIL_ATTACHMENT);
 						}
 					}
 
@@ -248,7 +249,7 @@ namespace CrossEngine {
 						}
 
 						if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE && pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers[pSubPass->depthStencilAttachment] = GL_DEPTH_STENCIL_ATTACHMENT;
+							discardBuffers.push_back(GL_DEPTH_STENCIL_ATTACHMENT);
 						}
 					}
 
