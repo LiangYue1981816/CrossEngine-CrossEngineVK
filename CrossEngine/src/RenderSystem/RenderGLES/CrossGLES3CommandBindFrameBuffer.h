@@ -78,23 +78,23 @@ namespace CrossEngine {
 
 		BOOL IsNeedFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
-		if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-			if (pSubPass->colorAttachments.size()) {
-				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
-					if (pFrameBuffer->GetRenderTexture(itColorAttachment.first)) {
-						return TRUE;
+			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
+				if (pSubPass->colorAttachments.size()) {
+					for (const auto &itColorAttachment : pSubPass->colorAttachments) {
+						if (pFrameBuffer->GetRenderTexture(itColorAttachment.first)) {
+							return TRUE;
+						}
 					}
+
+					return FALSE;
 				}
 
-				return FALSE;
+				if (pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment)) {
+					return TRUE;
+				}
 			}
 
-			if (pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment)) {
-				return TRUE;
-			}
-		}
-
-		return FALSE;
+			return FALSE;
 		}
 
 		BOOL IsNeedMSAA(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
