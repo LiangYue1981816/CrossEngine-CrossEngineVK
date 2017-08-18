@@ -66,31 +66,35 @@ namespace CrossEngine {
 			else {
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				{
-					SetPresentColorTexture(pFrameBuffer, pRenderPass, m_indexPass);
-					SetPresentDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass);
+					GLbitfield maskColor = SetPresentColorTexture(pFrameBuffer, pRenderPass, m_indexPass);
+					GLbitfield maskDepthStencil = SetPresentDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass);
+
+					if (maskColor || maskDepthStencil) {
+						glClear(maskColor | maskDepthStencil);
+					}
 				}
 			}
 		}
 
 		BOOL IsNeedFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
-			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				if (pSubPass->colorAttachments.size()) {
-					for (const auto &itColorAttachment : pSubPass->colorAttachments) {
-						if (pFrameBuffer->GetRenderTexture(itColorAttachment.first) != 0) {
-							return TRUE;
-						}
+		if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
+			if (pSubPass->colorAttachments.size()) {
+				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
+					if (pFrameBuffer->GetRenderTexture(itColorAttachment.first)) {
+						return TRUE;
 					}
+				}
 
-					return FALSE;
-				}
-				
-				if (pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment) != 0) {
-					return TRUE;
-				}
+				return FALSE;
 			}
 
-			return FALSE;
+			if (pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment)) {
+				return TRUE;
+			}
+		}
+
+		return FALSE;
 		}
 
 		BOOL IsNeedMSAA(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
@@ -110,29 +114,33 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		void SetPresentColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		GLbitfield SetPresentColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
+			GLbitfield mask = 0;
+
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
-					GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first);
+					if (pFrameBuffer->GetRenderTexture(itColorAttachment.first)) {
+						continue;
+					}
 
 					const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
 					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itColorAttachment.first);
 
-					if (texture == 0) {
-						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
-							glClearColor(pClearValue->color.float32[0], pClearValue->color.float32[1], pClearValue->color.float32[2], pClearValue->color.float32[3]);
-							glClear(GL_COLOR_BUFFER_BIT);
-						}
-
-						return;
+					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
+						glClearColor(pClearValue->color.float32[0], pClearValue->color.float32[1], pClearValue->color.float32[2], pClearValue->color.float32[3]);
+						mask = GL_COLOR_BUFFER_BIT;
 					}
 				}
 			}
+
+			return mask;
 		}
 
-		void SetPresentDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		GLbitfield SetPresentDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
 		{
+			GLbitfield mask = 0;
+
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				GLenum format = pFrameBuffer->GetRenderTextureFormat(pSubPass->depthStencilAttachment);
 
@@ -142,48 +150,43 @@ namespace CrossEngine {
 				if (CGLES3Helper::glIsFormatDepthOnly(format)) {
 					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 						glClearDepthf(pClearValue->depthStencil.depth);
-						glClear(GL_DEPTH_BUFFER_BIT);
+						mask = GL_DEPTH_BUFFER_BIT;
 					}
-
-					return;
 				}
 
 				if (CGLES3Helper::glIsFormatStencilOnly(format)) {
 					if (pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 						glClearStencil(pClearValue->depthStencil.stencil);
-						glClear(GL_STENCIL_BUFFER_BIT);
+						mask = GL_STENCIL_BUFFER_BIT;
 					}
-
-					return;
 				}
 
 				if (CGLES3Helper::glIsFormatDepthStencil(format)) {
 					if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR || pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 						glClearDepthf(pClearValue->depthStencil.depth);
 						glClearStencil(pClearValue->depthStencil.stencil);
-						glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+						mask = GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
 					}
-
-					return;
 				}
 			}
+
+			return mask;
 		}
 
 		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				for (const auto &itColorAttachment : pSubPass->colorAttachments) {
-					GLuint indexAttachment = drawBuffers.size();
-					GLenum attachment = GL_COLOR_ATTACHMENT0 + indexAttachment;
-					GLenum target = pFrameBuffer->GetRenderTextureTarget(itColorAttachment.first);
-					GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first);
+					if (GLuint texture = pFrameBuffer->GetRenderTexture(itColorAttachment.first)) {
+						GLuint indexAttachment = drawBuffers.size();
+						GLenum attachment = GL_COLOR_ATTACHMENT0 + indexAttachment;
+						GLenum target = pFrameBuffer->GetRenderTextureTarget(itColorAttachment.first);
 
-					const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
-					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itColorAttachment.first);
+						const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
+						const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itColorAttachment.first);
 
-					glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, texture, 0);
+						glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, texture, 0);
 
-					if (texture != 0) {
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferfv(GL_COLOR, indexAttachment, pClearValue->color.float32);
 						}
@@ -201,17 +204,16 @@ namespace CrossEngine {
 		void SetRenderDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				GLenum target = pFrameBuffer->GetRenderTextureTarget(pSubPass->depthStencilAttachment);
-				GLenum format = pFrameBuffer->GetRenderTextureFormat(pSubPass->depthStencilAttachment);
-				GLuint texture = pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment);
+				if (GLuint texture = pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment)) {
+					GLenum target = pFrameBuffer->GetRenderTextureTarget(pSubPass->depthStencilAttachment);
+					GLenum format = pFrameBuffer->GetRenderTextureFormat(pSubPass->depthStencilAttachment);
 
-				const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(pSubPass->depthStencilAttachment);
-				const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(pSubPass->depthStencilAttachment);
+					const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(pSubPass->depthStencilAttachment);
+					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(pSubPass->depthStencilAttachment);
 
-				if (CGLES3Helper::glIsFormatDepthOnly(format)) {
-					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, target, texture, 0);
+					if (CGLES3Helper::glIsFormatDepthOnly(format)) {
+						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, target, texture, 0);
 
-					if (texture != 0) {
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferfv(GL_DEPTH, 0, (const GLfloat *)&pClearValue->depthStencil.depth);
 						}
@@ -221,13 +223,9 @@ namespace CrossEngine {
 						}
 					}
 
-					return;
-				}
+					if (CGLES3Helper::glIsFormatStencilOnly(format)) {
+						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, target, texture, 0);
 
-				if (CGLES3Helper::glIsFormatStencilOnly(format)) {
-					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, target, texture, 0);
-
-					if (texture != 0) {
 						if (pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferiv(GL_STENCIL, 0, (const GLint *)&pClearValue->depthStencil.stencil);
 						}
@@ -237,13 +235,9 @@ namespace CrossEngine {
 						}
 					}
 
-					return;
-				}
+					if (CGLES3Helper::glIsFormatDepthStencil(format)) {
+						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, target, texture, 0);
 
-				if (CGLES3Helper::glIsFormatDepthStencil(format)) {
-					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, target, texture, 0);
-
-					if (texture != 0) {
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR || pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferfi(GL_DEPTH_STENCIL, 0, pClearValue->depthStencil.depth, pClearValue->depthStencil.stencil);
 						}
@@ -252,8 +246,6 @@ namespace CrossEngine {
 							discardBuffers.push_back(GL_DEPTH_STENCIL_ATTACHMENT);
 						}
 					}
-
-					return;
 				}
 			}
 		}
