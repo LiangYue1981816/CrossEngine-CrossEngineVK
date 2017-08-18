@@ -247,7 +247,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
+	BOOL CVulkanRenderPass::SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
 		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
 			return FALSE;

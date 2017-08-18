@@ -36,7 +36,7 @@ void CreateRenderPass(void)
 	ptrRenderPass->SetDepthStencilAttachment(indexDepthAttachmentMSAA, VK_FORMAT_D24_UNORM_S8_UINT, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 1.0f, 0 }, SAMPLE_COUNT);
 	ptrRenderPass->SetSubpassOutputColorReference(0, indexColorAttachmentMSAA);
 	ptrRenderPass->SetSubpassOutputDepthStencilReference(0, indexDepthAttachmentMSAA);
-	ptrRenderPass->SetSubpassResolveAttachment(0, indexPresentAttachment, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+	ptrRenderPass->SetSubpassResolveColorReference(0, indexPresentAttachment, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 	ptrRenderPass->Create();
 }
 

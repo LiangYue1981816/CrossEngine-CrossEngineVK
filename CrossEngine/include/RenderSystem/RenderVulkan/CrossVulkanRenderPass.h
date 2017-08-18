@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 		BOOL SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment);
 		BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment);
-		BOOL SetSubpassResolveAttachment(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout);
+		BOOL SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout);
 		BOOL SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment);
 		BOOL SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass);
 
