@@ -72,7 +72,6 @@ namespace CrossEngine {
 				}
 
 				const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
-				glBindFramebuffer(GL_FRAMEBUFFER, framebufferMSAA);
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
 				{
 					glBlitFramebuffer(
