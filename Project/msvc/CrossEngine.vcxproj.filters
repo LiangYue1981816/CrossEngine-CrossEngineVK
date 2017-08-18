@@ -513,6 +513,9 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindFrameBuffer.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Extent.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -858,6 +861,9 @@
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3DescriptorSetManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Extent.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
     </ClCompile>
   </ItemGroup>
