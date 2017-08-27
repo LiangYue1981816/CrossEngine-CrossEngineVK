@@ -49,6 +49,7 @@ void CreateFrameBuffer(void)
 void CreatePipeline(void)
 {
 	static char szSourceCode[1024 * 1024];
+	pDevice->SetShaderCachePath("../Data/ShaderCache/");
 
 	LoadShader("../Data/Shader/triangle.vert", szSourceCode, sizeof(szSourceCode));
 	ptrShaderVertex = pDevice->NewShader();
@@ -191,8 +192,8 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 	sprintf(szCachePath, "%s/Cache", szCurrentPath);
 	mkdir(szCachePath);
 
-	pGfxInstance = SAFE_NEW CrossEngine::CGLES3Instance(szCachePath);
-//	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance(szCachePath);
+	pGfxInstance = SAFE_NEW CrossEngine::CGLES3Instance;
+//	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance;
 	pGfxInstance->Create(hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top);
 	pDevice = pGfxInstance->GetDevice();
 	pSwapchain = pGfxInstance->GetSwapchain();
@@ -208,7 +209,7 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 void Destroy(void)
 {
 	if (pGfxInstance) {
-		pDevice->GetQueue()->WaitIdle();
+		pDevice->WaitIdle();
 
 		DestroyRenderPass();
 		DestroyFrameBuffer();
@@ -249,7 +250,7 @@ void Render(void)
 
 	pSwapchain->AcquireNextImage(VK_NULL_HANDLE);
 	{
-		pDevice->GetQueue()->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
+		pDevice->Submit(ptrCommandBuffers[pSwapchain->GetImageIndex()], pSwapchain->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, pSwapchain->GetRenderDoneSemaphore());
 	}
 	pSwapchain->Present();
 }
