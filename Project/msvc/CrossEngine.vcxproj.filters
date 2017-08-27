@@ -103,6 +103,12 @@
     <Filter Include="Engine\Source Files\RenderSystem\RenderGLES\Core\Commands">
       <UniqueIdentifier>{1b8f936b-0367-4507-a5a2-cee8b5a10074}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Source Files\RenderSystem\glslc">
+      <UniqueIdentifier>{41a61cc5-efc9-4c70-9529-f8d11b48bf9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\RenderSystem\glslc">
+      <UniqueIdentifier>{4b4554b8-1cd7-4e18-ada1-f3c64fd4981f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -516,6 +522,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Extent.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.h">
+      <Filter>Engine\Header Files\RenderSystem\glslc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -865,6 +874,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Extent.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.cc">
+      <Filter>Engine\Source Files\RenderSystem\glslc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
