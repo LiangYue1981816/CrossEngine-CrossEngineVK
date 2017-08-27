@@ -80,6 +80,7 @@ namespace CrossEngine {
 		uint32_t GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const;
 		uint32_t GetVertexAttributeFlag(const char *szName) const;
 		uint32_t GetVertexAttributeSize(uint32_t attribute) const;
+		uint32_t GetVertexAttributeLocation(uint32_t attribute) const;
 		VkFormat GetVertexAttributeFormat(uint32_t attribute) const;
 
 	protected:

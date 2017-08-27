@@ -28,25 +28,26 @@ namespace CrossEngine {
 	struct VERTEX_ATTRIBUTE {
 		uint32_t flag;
 		uint32_t size;
+		uint32_t location;
 		VkFormat format;
 		const char *name;
 	};
 
 	static const VERTEX_ATTRIBUTE vertexAttributes[VERTEX_ATTRIBUTE_COUNT] = {
-		{ VERTEX_ATTRIBUTE_FLAG_POSITION,    12, VK_FORMAT_R32G32B32_SFLOAT, "inPosition"  },
-		{ VERTEX_ATTRIBUTE_FLAG_NORMAL,      12, VK_FORMAT_R32G32B32_SFLOAT, "inNormal"    },
-		{ VERTEX_ATTRIBUTE_FLAG_BINORMAL,    12, VK_FORMAT_R32G32B32_SFLOAT, "inBinormal"  },
-		{ VERTEX_ATTRIBUTE_FLAG_COLOR,       12, VK_FORMAT_R32G32B32_SFLOAT, "inColor"     },
-		{ VERTEX_ATTRIBUTE_FLAG_SKIN_INDEX,  8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinIndex" },
-		{ VERTEX_ATTRIBUTE_FLAG_SKIN_WEIGHT, 8,  VK_FORMAT_R32G32_SFLOAT,    "inSkinWeight"},
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD0,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord0" },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD1,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord1" },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD2,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord2" },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD3,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord3" },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD4,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord4" },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD5,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord5" },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD6,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord6" },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD7,   8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord7" },
+		{ VERTEX_ATTRIBUTE_FLAG_POSITION,    12, 0,  VK_FORMAT_R32G32B32_SFLOAT, "inPosition"  },
+		{ VERTEX_ATTRIBUTE_FLAG_NORMAL,      12, 1,  VK_FORMAT_R32G32B32_SFLOAT, "inNormal"    },
+		{ VERTEX_ATTRIBUTE_FLAG_BINORMAL,    12, 2,  VK_FORMAT_R32G32B32_SFLOAT, "inBinormal"  },
+		{ VERTEX_ATTRIBUTE_FLAG_COLOR,       12, 3,  VK_FORMAT_R32G32B32_SFLOAT, "inColor"     },
+		{ VERTEX_ATTRIBUTE_FLAG_SKIN_INDEX,  8,  4,  VK_FORMAT_R32G32_SFLOAT,    "inSkinIndex" },
+		{ VERTEX_ATTRIBUTE_FLAG_SKIN_WEIGHT, 8,  5,  VK_FORMAT_R32G32_SFLOAT,    "inSkinWeight"},
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD0,   8,  6,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord0" },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD1,   8,  7,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord1" },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD2,   8,  8,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord2" },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD3,   8,  9,  VK_FORMAT_R32G32_SFLOAT,    "inTexcoord3" },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD4,   8,  10, VK_FORMAT_R32G32_SFLOAT,    "inTexcoord4" },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD5,   8,  11, VK_FORMAT_R32G32_SFLOAT,    "inTexcoord5" },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD6,   8,  12, VK_FORMAT_R32G32_SFLOAT,    "inTexcoord6" },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD7,   8,  13, VK_FORMAT_R32G32_SFLOAT,    "inTexcoord7" },
 	};
 
 
@@ -95,6 +96,17 @@ namespace CrossEngine {
 		}
 
 		return 0;
+	}
+
+	uint32_t CGfxDevice::GetVertexAttributeLocation(uint32_t attribute) const
+	{
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+			if (attribute == vertexAttributes[indexAttribute].flag) {
+				return vertexAttributes[indexAttribute].location;
+			}
+		}
+
+		return -1;
 	}
 
 	VkFormat CGfxDevice::GetVertexAttributeFormat(uint32_t attribute) const
