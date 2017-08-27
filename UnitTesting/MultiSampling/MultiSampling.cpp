@@ -75,7 +75,9 @@ void DestroyFrameBuffer(void)
 void CreatePipeline(void)
 {
 	static char szSourceCode[1024 * 1024];
+
 	pDevice->SetShaderCachePath("../Data/ShaderCache/");
+	pDevice->AddShaderIncludePath("../Data/Shader/");
 
 	LoadShader("../Data/Shader/texture.vert", szSourceCode, sizeof(szSourceCode));
 	ptrShaderVertex = pDevice->NewShader();
