@@ -27,7 +27,9 @@ namespace CrossEngine {
 
 	CVulkanShaderManager::CVulkanShaderManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
+		, m_fileIncluder(new glslc::FileIncluder(&m_fileFinder))
 	{
+		m_options.SetIncluder(std::move(m_fileIncluder));
 		m_options.SetWarningsAsErrors();
 		m_options.SetSourceLanguage(shaderc_source_language_glsl);
 		m_options.SetForcedVersionProfile(310, shaderc_profile_es);
@@ -56,6 +58,11 @@ namespace CrossEngine {
 	const shaderc::CompileOptions& CVulkanShaderManager::GetCompileOptions(void) const
 	{
 		return m_options;
+	}
+
+	void CGLES3ShaderManager::AddIncludePath(const char *szPath)
+	{
+		m_fileFinder.search_path().push_back(szPath);
 	}
 
 	void CVulkanShaderManager::AddMacroDefinition(const char *szName)

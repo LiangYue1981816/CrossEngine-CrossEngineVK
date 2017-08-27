@@ -44,11 +44,15 @@ namespace CrossEngine {
 		const shaderc::CompileOptions& GetCompileOptions(void) const;
 
 	public:
+		void AddIncludePath(const char *szPath);
 		void AddMacroDefinition(const char *szName);
 		void AddMacroDefinition(const char *szName, const char *szValue);
 
 
 	protected:
+		shaderc_util::FileFinder m_fileFinder;
+		std::unique_ptr<glslc::FileIncluder> m_fileIncluder;
+
 		shaderc::Compiler m_compiler;
 		shaderc::CompileOptions m_options;
 

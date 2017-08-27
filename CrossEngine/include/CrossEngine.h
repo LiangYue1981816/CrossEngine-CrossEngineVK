@@ -80,6 +80,7 @@ THE SOFTWARE.
 #include <zzip/zzip.h>
 #include <vulkan/vulkan.h>
 #include <shaderc/shaderc.hpp>
+#include <glslc/file_includer.h>
 #include <spirv_cfg.hpp>
 #include <spirv_cpp.hpp>
 #include <spirv_msl.hpp>
