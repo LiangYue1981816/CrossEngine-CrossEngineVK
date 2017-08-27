@@ -60,7 +60,7 @@ namespace CrossEngine {
 		return m_options;
 	}
 
-	void CGLES3ShaderManager::AddIncludePath(const char *szPath)
+	void CVulkanShaderManager::AddIncludePath(const char *szPath)
 	{
 		m_fileFinder.search_path().push_back(szPath);
 	}
