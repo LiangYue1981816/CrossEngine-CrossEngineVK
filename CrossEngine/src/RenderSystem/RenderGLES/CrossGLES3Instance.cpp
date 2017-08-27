@@ -26,9 +26,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3Instance::CGLES3Instance(const char *szCachePath)
-		: CGfxInstance(szCachePath)
-		, m_pDevice(NULL)
+	CGLES3Instance::CGLES3Instance(void)
+		: m_pDevice(NULL)
 		, m_pSwapchain(NULL)
 	{
 		m_pDevice = SAFE_NEW CGLES3Device(this);

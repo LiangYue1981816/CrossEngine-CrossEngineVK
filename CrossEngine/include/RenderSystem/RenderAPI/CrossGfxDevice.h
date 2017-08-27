@@ -82,7 +82,7 @@ namespace CrossEngine {
 		uint32_t GetVertexAttributeSize(uint32_t attribute) const;
 		VkFormat GetVertexAttributeFormat(uint32_t attribute) const;
 
-	public:
+	protected:
 		virtual CGfxQueue* GetQueue(void) const = 0;
 		virtual CGfxInstance* GetInstance(void) const = 0;
 
@@ -104,6 +104,17 @@ namespace CrossEngine {
 
 		virtual CGfxRenderPassPtr NewRenderPass(void) = 0;
 		virtual CGfxFrameBufferPtr NewFrameBuffer(void) = 0;
+
+	public:
+		virtual void SetShaderCachePath(const char *szPath) = 0;
+		virtual void AddShaderIncludePath(const char *szPath) = 0;
+		virtual void AddShaderMacroDefinition(const char *szName) = 0;
+		virtual void AddShaderMacroDefinition(const char *szName, const char *szValue) = 0;
+
+	public:
+		virtual int Submit(const CGfxCommandBuffer *pCommandBuffer) const = 0;
+		virtual int Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const = 0;
+		virtual int WaitIdle(void) const = 0;
 
 	public:
 		virtual void DumpLog(void) const = 0;

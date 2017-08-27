@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Instance : public CGfxInstance
 	{
 	public:
-		CGLES3Instance(const char *szCachePath);
+		CGLES3Instance(void);
 		virtual ~CGLES3Instance(void);
 
 

@@ -29,10 +29,24 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanDevice : public CGfxDevice
 	{
 		friend class CVulkanInstance;
+		friend class CVulkanSwapchain;
+		friend class CVulkanFrameBuffer;
+		friend class CVulkanMemoryAllocator;
+		friend class CVulkanStagingBuffer;
+		friend class CVulkanStagingBufferManager;
 		friend class CVulkanImage;
 		friend class CVulkanTexture;
 		friend class CVulkanBuffer;
-		friend class CVulkanStagingBuffer;
+		friend class CVulkanShader;
+		friend class CVulkanPipeline;
+		friend class CVulkanPipelineCompute;
+		friend class CVulkanPipelineGraphics;
+		friend class CVulkanPipelineManager;
+		friend class CVulkanRenderPass;
+		friend class CVulkanCommandPool;
+		friend class CVulkanCommandBuffer;
+		friend class CVulkanDescriptorPool;
+		friend class CVulkanDescriptorSetLayout;
 
 
 	protected:
@@ -85,7 +99,7 @@ namespace CrossEngine {
 		CVulkanMemoryManager* GetMemoryManager(void) const;
 		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
 
-	public:
+	protected:
 		CGfxQueue* GetQueue(void) const;
 		CGfxInstance* GetInstance(void) const;
 
@@ -116,6 +130,17 @@ namespace CrossEngine {
 
 		CGfxRenderPassPtr NewRenderPass(void);
 		CGfxFrameBufferPtr NewFrameBuffer(void);
+
+	public:
+		void SetShaderCachePath(const char *szPath);
+		void AddShaderIncludePath(const char *szPath);
+		void AddShaderMacroDefinition(const char *szName);
+		void AddShaderMacroDefinition(const char *szName, const char *szValue);
+
+	public:
+		int Submit(const CGfxCommandBuffer *pCommandBuffer) const;
+		int Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
+		int WaitIdle(void) const;
 
 	public:
 		void DumpLog(void) const;

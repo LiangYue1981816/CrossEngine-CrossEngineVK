@@ -40,16 +40,20 @@ namespace CrossEngine {
 	protected:
 		CGfxShaderPtr AllocShader(void);
 
+		const char* GetCachePath(void) const;
 		const shaderc::Compiler& GetCompiler(void) const;
 		const shaderc::CompileOptions& GetCompileOptions(void) const;
 
-	public:
+	protected:
+		void SetCachePath(const char *szPath);
 		void AddIncludePath(const char *szPath);
 		void AddMacroDefinition(const char *szName);
 		void AddMacroDefinition(const char *szName, const char *szValue);
 
 
 	protected:
+		char m_szCachePath[_MAX_STRING];
+
 		shaderc_util::FileFinder m_fileFinder;
 		std::unique_ptr<glslc::FileIncluder> m_fileIncluder;
 

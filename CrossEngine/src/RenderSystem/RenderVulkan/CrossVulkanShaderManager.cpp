@@ -50,6 +50,11 @@ namespace CrossEngine {
 		return CGfxShaderPtr(pShader);
 	}
 
+	const char* CVulkanShaderManager::GetCachePath(void) const
+	{
+		return m_szCachePath;
+	}
+
 	const shaderc::Compiler& CVulkanShaderManager::GetCompiler(void) const
 	{
 		return m_compiler;
@@ -58,6 +63,11 @@ namespace CrossEngine {
 	const shaderc::CompileOptions& CVulkanShaderManager::GetCompileOptions(void) const
 	{
 		return m_options;
+	}
+
+	void CVulkanShaderManager::SetCachePath(const char *szPath)
+	{
+		strcpy(m_szCachePath, szPath);
 	}
 
 	void CVulkanShaderManager::AddIncludePath(const char *szPath)

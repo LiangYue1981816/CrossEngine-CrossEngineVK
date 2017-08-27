@@ -485,6 +485,41 @@ namespace CrossEngine {
 		return m_pFrameBufferManager->AllocFrameBuffer();
 	}
 
+	void CVulkanDevice::SetShaderCachePath(const char *szPath)
+	{
+		m_pShaderManager->SetCachePath(szPath);
+	}
+
+	void CVulkanDevice::AddShaderIncludePath(const char *szPath)
+	{
+		m_pShaderManager->AddIncludePath(szPath);
+	}
+
+	void CVulkanDevice::AddShaderMacroDefinition(const char *szName)
+	{
+		m_pShaderManager->AddMacroDefinition(szName);
+	}
+
+	void CVulkanDevice::AddShaderMacroDefinition(const char *szName, const char *szValue)
+	{
+		m_pShaderManager->AddMacroDefinition(szName, szValue);
+	}
+
+	int CVulkanDevice::Submit(const CGfxCommandBuffer *pCommandBuffer) const
+	{
+		return m_pQueue->Submit(pCommandBuffer);
+	}
+
+	int CVulkanDevice::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	{
+		return m_pQueue->Submit(pCommandBuffer, waitSemaphore, waitStageFlags, signalSemaphore);
+	}
+
+	int CVulkanDevice::WaitIdle(void) const
+	{
+		return m_pQueue->WaitIdle();
+	}
+
 	void CVulkanDevice::DumpLog(void) const
 	{
 		LOGI("=================== Vulkan Resource Dump ===================\n");

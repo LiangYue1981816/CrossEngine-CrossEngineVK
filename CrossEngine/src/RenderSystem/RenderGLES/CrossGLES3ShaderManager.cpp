@@ -50,6 +50,11 @@ namespace CrossEngine {
 		return CGfxShaderPtr(pShader);
 	}
 
+	const char* CGLES3ShaderManager::GetCachePath(void) const
+	{
+		return m_szCachePath;
+	}
+
 	const shaderc::Compiler& CGLES3ShaderManager::GetCompiler(void) const
 	{
 		return m_compiler;
@@ -58,6 +63,11 @@ namespace CrossEngine {
 	const shaderc::CompileOptions& CGLES3ShaderManager::GetCompileOptions(void) const
 	{
 		return m_options;
+	}
+
+	void CGLES3ShaderManager::SetCachePath(const char *szPath)
+	{
+		strcpy(m_szCachePath, szPath);
 	}
 
 	void CGLES3ShaderManager::AddIncludePath(const char *szPath)

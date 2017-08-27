@@ -281,6 +281,41 @@ namespace CrossEngine {
 		return m_pFrameBufferManager->AllocFrameBuffer();
 	}
 
+	void CGLES3Device::SetShaderCachePath(const char *szPath)
+	{
+		m_pShaderManager->SetCachePath(szPath);
+	}
+
+	void CGLES3Device::AddShaderIncludePath(const char *szPath)
+	{
+		m_pShaderManager->AddIncludePath(szPath);
+	}
+
+	void CGLES3Device::AddShaderMacroDefinition(const char *szName)
+	{
+		m_pShaderManager->AddMacroDefinition(szName);
+	}
+
+	void CGLES3Device::AddShaderMacroDefinition(const char *szName, const char *szValue)
+	{
+		m_pShaderManager->AddMacroDefinition(szName, szValue);
+	}
+
+	int CGLES3Device::Submit(const CGfxCommandBuffer *pCommandBuffer) const
+	{
+		return m_pQueue->Submit(pCommandBuffer);
+	}
+
+	int CGLES3Device::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	{
+		return m_pQueue->Submit(pCommandBuffer, waitSemaphore, waitStageFlags, signalSemaphore);
+	}
+
+	int CGLES3Device::WaitIdle(void) const
+	{
+		return m_pQueue->WaitIdle();
+	}
+
 	void CGLES3Device::DumpLog(void) const
 	{
 		LOGI("=================== GLES Resource Dump ===================\n");

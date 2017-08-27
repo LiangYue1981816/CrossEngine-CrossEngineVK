@@ -66,7 +66,7 @@ namespace CrossEngine {
 		void DestroyRenderPassManager(void);
 		void DestroyFrameBufferManager(void);
 
-	public:
+	protected:
 		CGfxQueue* GetQueue(void) const;
 		CGfxInstance* GetInstance(void) const;
 
@@ -91,6 +91,17 @@ namespace CrossEngine {
 
 		CGfxRenderPassPtr NewRenderPass(void);
 		CGfxFrameBufferPtr NewFrameBuffer(void);
+
+	public:
+		void SetShaderCachePath(const char *szPath);
+		void AddShaderIncludePath(const char *szPath);
+		void AddShaderMacroDefinition(const char *szName);
+		void AddShaderMacroDefinition(const char *szName, const char *szValue);
+
+	public:
+		int Submit(const CGfxCommandBuffer *pCommandBuffer) const;
+		int Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
+		int WaitIdle(void) const;
 
 	public:
 		void DumpLog(void) const;

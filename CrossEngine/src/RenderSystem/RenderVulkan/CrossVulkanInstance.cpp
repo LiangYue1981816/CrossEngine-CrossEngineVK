@@ -67,9 +67,8 @@ namespace CrossEngine {
 	}
 
 
-	CVulkanInstance::CVulkanInstance(const char *szCachePath)
-		: CGfxInstance(szCachePath)
-		, m_vkInstance(VK_NULL_HANDLE)
+	CVulkanInstance::CVulkanInstance(void)
+		: m_vkInstance(VK_NULL_HANDLE)
 		, m_vkSurface(VK_NULL_HANDLE)
 
 		, m_pDevice(NULL)
