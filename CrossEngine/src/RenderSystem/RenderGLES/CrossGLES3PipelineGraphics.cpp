@@ -145,6 +145,7 @@ namespace CrossEngine {
 		m_vertexFormat = 0;
 		m_colorBlendAttachmentStates.clear();
 
+		SetVertexFormat(0);
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
 		SetTessellationPatchControlPoints(0);
 		SetPolygonMode(VK_POLYGON_MODE_FILL);
@@ -163,6 +164,12 @@ namespace CrossEngine {
 		SetStencilTest(FALSE, front, back);
 		SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+
+	BOOL CGLES3PipelineGraphics::SetVertexFormat(uint32_t format)
+	{
+		m_vertexFormat = format;
+		return TRUE;
 	}
 
 	BOOL CGLES3PipelineGraphics::SetVertexShader(const CGfxShaderPtr &ptrShader)
