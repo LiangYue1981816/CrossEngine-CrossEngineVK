@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Buffer
 	{
 	protected:
-		CGLES3Buffer(void);
+		CGLES3Buffer(CGLES3Device *pDevice);
 		virtual ~CGLES3Buffer(void);
 
 
@@ -45,6 +45,9 @@ namespace CrossEngine {
 
 	protected:
 		GLuint m_buffer;
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

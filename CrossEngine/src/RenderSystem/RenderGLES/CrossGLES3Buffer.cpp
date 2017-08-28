@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3Buffer::CGLES3Buffer(void)
-		: m_usage(GL_STATIC_DRAW)
+	CGLES3Buffer::CGLES3Buffer(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
+		, m_usage(GL_STATIC_DRAW)
 		, m_size(0)
 		, m_buffer(0)
 	{

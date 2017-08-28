@@ -57,9 +57,6 @@ namespace CrossEngine {
 
 	protected:
 		std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>> m_vkDescriptorBufferInfos;
-
-	protected:
-		CGLES3Device *m_pDevice;
 	};
 
 }

@@ -27,7 +27,7 @@ namespace CrossEngine {
 
 	CGLES3UniformBuffer::CGLES3UniformBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxUniformBuffer(pResourceManager)
-		, m_pDevice(pDevice)
+		, CGLES3Buffer(pDevice)
 	{
 
 	}

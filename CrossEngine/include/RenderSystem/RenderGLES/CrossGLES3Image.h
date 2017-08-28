@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Image
 	{
 	protected:
-		CGLES3Image(void);
+		CGLES3Image(CGLES3Device *pDevice);
 		virtual ~CGLES3Image(void);
 
 
@@ -66,6 +66,9 @@ namespace CrossEngine {
 	protected:
 		GLuint m_texture;
 		GLuint m_sampler;
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

@@ -100,9 +100,6 @@ namespace CrossEngine {
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
 		std::map<uint32_t, VkVertexInputAttributeDescription> m_vertexInputAttributeDescriptions;
 		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
-
-	protected:
-		CGLES3Device *m_pDevice;
 	};
 
 }

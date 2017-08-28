@@ -25,8 +25,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3Image::CGLES3Image(void)
-		: m_texture(0)
+	CGLES3Image::CGLES3Image(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
+		, m_texture(0)
 		, m_sampler(0)
 
 		, m_width(0)

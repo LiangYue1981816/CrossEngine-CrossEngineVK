@@ -54,10 +54,6 @@ namespace CrossEngine {
 
 	public:
 		size_t GetMemorySize(void) const;
-
-
-	protected:
-		CGLES3Device *m_pDevice;
 	};
 
 }

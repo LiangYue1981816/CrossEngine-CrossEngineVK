@@ -55,7 +55,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGLES3Pipeline
 	{
 	protected:
-		CGLES3Pipeline(void);
+		CGLES3Pipeline(CGLES3Device *pDevice);
 		virtual ~CGLES3Pipeline(void);
 
 
@@ -71,6 +71,9 @@ namespace CrossEngine {
 		GLuint m_pipeline;
 		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
 		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }
