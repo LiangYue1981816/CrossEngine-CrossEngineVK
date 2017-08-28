@@ -45,7 +45,6 @@ namespace CrossEngine {
 
 	public:
 		virtual void SetDefault(void) = 0;
-		virtual BOOL SetVertexFormat(uint32_t format) = 0;
 		virtual BOOL SetVertexShader(const CGfxShaderPtr &ptrShader) = 0;
 		virtual BOOL SetTessellationControlShader(const CGfxShaderPtr &ptrShader) = 0;
 		virtual BOOL SetTessellationEvaluationShader(const CGfxShaderPtr &ptrShader) = 0;

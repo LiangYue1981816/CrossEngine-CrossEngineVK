@@ -1,6 +1,7 @@
 precision mediump float;
 
-#include "vertex.inc"
+layout (location = 0) in vec3 inPosition;
+layout (location = 6) in vec2 inTexcoord0;
 
 layout (binding = 0) uniform UBO
 {

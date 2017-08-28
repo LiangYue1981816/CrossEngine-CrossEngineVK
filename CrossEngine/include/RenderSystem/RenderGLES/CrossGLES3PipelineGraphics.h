@@ -50,7 +50,6 @@ namespace CrossEngine {
 
 	public:
 		void SetDefault(void);
-		BOOL SetVertexFormat(uint32_t format);
 		BOOL SetVertexShader(const CGfxShaderPtr &ptrShader);
 		BOOL SetTessellationControlShader(const CGfxShaderPtr &ptrShader);
 		BOOL SetTessellationEvaluationShader(const CGfxShaderPtr &ptrShader);
