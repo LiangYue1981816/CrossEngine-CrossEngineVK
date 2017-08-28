@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CGLES3VertexBuffer::CGLES3VertexBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxVertexBuffer(pResourceManager)
 		, CGLES3Buffer(pDevice)
+		, m_vertexFormat(0)
 	{
 
 	}
@@ -47,7 +48,7 @@ namespace CrossEngine {
 		return (HANDLE)m_buffer;
 	}
 
-	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)
+	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::UpdateData(GL_ARRAY_BUFFER, 0, size, pBuffer));
@@ -72,6 +73,11 @@ namespace CrossEngine {
 	size_t CGLES3VertexBuffer::GetMemorySize(void) const
 	{
 		return m_size;
+	}
+
+	uint32_t CGLES3VertexBuffer::GetVertexFormat(void) const
+	{
+		return m_vertexFormat;
 	}
 
 	void CGLES3VertexBuffer::DumpLog(void) const

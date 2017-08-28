@@ -84,7 +84,7 @@ void CreateBuffer(void)
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	ptrVertexBuffer = pDevice->NewVertexBuffer();
-	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE);
+	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_FLAG_POSITION | CrossEngine::VERTEX_ATTRIBUTE_FLAG_COLOR);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
