@@ -27,9 +27,7 @@ namespace CrossEngine {
 
 	CVulkanImage::CVulkanImage(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_pMemory(NULL)
-
 		, m_vkImage(VK_NULL_HANDLE)
 		, m_vkImageView(VK_NULL_HANDLE)
 		, m_vkSampler(VK_NULL_HANDLE)

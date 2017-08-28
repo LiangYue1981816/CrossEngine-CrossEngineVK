@@ -27,8 +27,8 @@ namespace CrossEngine {
 
 	CGLES3Swapchain::CGLES3Swapchain(CGLES3Device *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_hDC(NULL)
+
 		, m_width(0)
 		, m_height(0)
 		, m_indexImage(0)

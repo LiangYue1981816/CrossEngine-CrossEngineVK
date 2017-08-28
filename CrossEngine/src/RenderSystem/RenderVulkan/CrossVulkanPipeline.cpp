@@ -27,9 +27,9 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSetLayout::CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, uint32_t set)
 		: m_pDevice(pDevice)
+		, m_vkDescriptorSetLayout(VK_NULL_HANDLE)
 
 		, m_set(set)
-		, m_vkDescriptorSetLayout(VK_NULL_HANDLE)
 		, m_numTypesUsedCount{ 0 }
 	{
 
@@ -116,7 +116,6 @@ namespace CrossEngine {
 
 	CVulkanPipeline::CVulkanPipeline(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_vkPipeline(VK_NULL_HANDLE)
 		, m_vkPipelineLayout(VK_NULL_HANDLE)
 	{

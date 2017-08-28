@@ -27,12 +27,10 @@ namespace CrossEngine {
 
 	CVulkanBuffer::CVulkanBuffer(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_pMemory(NULL)
-
-		, m_size(0)
 		, m_vkBuffer(VK_NULL_HANDLE)
 
+		, m_size(0)
 		, m_usage(0)
 	{
 

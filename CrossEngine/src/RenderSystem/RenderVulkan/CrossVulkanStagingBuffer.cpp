@@ -27,14 +27,12 @@ namespace CrossEngine {
 
 	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkCommandPool vkCommandPool, VkDeviceSize size)
 		: m_pDevice(pDevice)
-
 		, m_pMemory(NULL)
-
-		, m_size(size)
-		, m_vkBuffer(VK_NULL_HANDLE)
-
 		, m_vkCommandPool(vkCommandPool)
 		, m_vkCommandBuffer(VK_NULL_HANDLE)
+		, m_vkBuffer(VK_NULL_HANDLE)
+
+		, m_size(size)
 	{
 		VkCommandBufferAllocateInfo commandBufferInfo = {};
 		commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;

@@ -86,14 +86,13 @@ namespace CrossEngine {
 
 	CVulkanSwapchain::CVulkanSwapchain(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_vkSwapchain(VK_NULL_HANDLE)
 		, m_vkAcquireSemaphore(VK_NULL_HANDLE)
-
-		, m_indexImage(0)
 		, m_vkImages{ VK_NULL_HANDLE }
 		, m_vkImageViews{ VK_NULL_HANDLE }
 		, m_vkRenderDoneSemaphores{ VK_NULL_HANDLE }
+
+		, m_indexImage(0)
 
 		, m_width(0)
 		, m_height(0)

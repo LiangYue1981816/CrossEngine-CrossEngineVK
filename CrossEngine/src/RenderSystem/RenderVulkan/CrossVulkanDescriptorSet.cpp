@@ -27,9 +27,8 @@ namespace CrossEngine {
 
 	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, uint32_t set, const uint32_t *typesUsedCount)
 		: m_pDevice(pDevice)
-
-		, m_vkDescriptorSet(vkDescriptorSet)
 		, m_pDescriptorPool(pDescriptorPool)
+		, m_vkDescriptorSet(vkDescriptorSet)
 
 		, m_set(set)
 		, m_typesUsedCount{ 0 }

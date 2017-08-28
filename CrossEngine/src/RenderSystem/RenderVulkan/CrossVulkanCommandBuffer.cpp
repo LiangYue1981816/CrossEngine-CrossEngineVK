@@ -27,10 +27,9 @@ namespace CrossEngine {
 
 	CVulkanCommandBuffer::CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer)
 		: m_pDevice(pDevice)
-
-		, m_vkFence(VK_NULL_HANDLE)
-		, m_vkCommandBuffer(vkCommandBuffer)
 		, m_pCommandPool(pCommandPool)
+		, m_vkCommandBuffer(vkCommandBuffer)
+		, m_vkFence(VK_NULL_HANDLE)
 	{
 		VkFenceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;

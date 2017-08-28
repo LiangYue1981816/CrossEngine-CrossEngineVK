@@ -27,8 +27,8 @@ namespace CrossEngine {
 
 	CVulkanQueue::CVulkanQueue(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-
 		, m_vkQueue(VK_NULL_HANDLE)
+
 		, m_queueFamilyIndex(UINT32_MAX)
 	{
 

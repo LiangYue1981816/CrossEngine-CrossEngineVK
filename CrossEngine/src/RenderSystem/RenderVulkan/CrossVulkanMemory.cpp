@@ -27,9 +27,8 @@ namespace CrossEngine {
 
 	CVulkanMemory::CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset)
 		: m_pDevice(pDevice)
-
-		, m_vkMemory(vkMemory)
 		, m_pAllocator(pAllocator)
+		, m_vkMemory(vkMemory)
 
 		, m_flags(flags)
 		, m_size(size)
