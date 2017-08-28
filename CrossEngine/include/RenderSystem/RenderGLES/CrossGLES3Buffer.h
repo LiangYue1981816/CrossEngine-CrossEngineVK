@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 
 	public:
-		BOOL Create(GLenum target, size_t size, const void *pBuffer, GLenum usage);
+		BOOL Create(GLenum target, size_t size, GLenum usage);
 		void Destroy(void);
 		BOOL UpdateData(GLenum target, size_t offset, size_t size, const void *pBuffer) const;
 

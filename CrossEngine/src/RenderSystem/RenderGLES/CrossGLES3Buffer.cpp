@@ -38,14 +38,14 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CGLES3Buffer::Create(GLenum target, size_t size, const void *pBuffer, GLenum usage)
+	BOOL CGLES3Buffer::Create(GLenum target, size_t size, GLenum usage)
 	{
 		m_size = size;
 		m_usage = usage;
 
 		glGenBuffers(1, &m_buffer);
 		glBindBuffer(target, m_buffer);
-		glBufferData(target, size, pBuffer, m_usage);
+		glBufferData(target, size, NULL, m_usage);
 		glBindBuffer(target, 0);
 
 		return TRUE;

@@ -49,7 +49,9 @@ namespace CrossEngine {
 
 	BOOL CGLES3UniformBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)
 	{
-		return CGLES3Buffer::Create(GL_UNIFORM_BUFFER, size, pBuffer, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_UNIFORM_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
+		CALL_BOOL_FUNCTION_RETURN(UpdateData(0, size, pBuffer));
+		return TRUE;
 	}
 
 	void CGLES3UniformBuffer::Destroy(void)
