@@ -50,7 +50,7 @@ namespace CrossEngine {
 	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
-		CALL_BOOL_FUNCTION_RETURN(UpdateData(0, size, pBuffer));
+		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::UpdateData(GL_ARRAY_BUFFER, 0, size, pBuffer));
 		return TRUE;
 	}
 
