@@ -26,8 +26,8 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3PipelineGraphics::CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
-		: CGLES3Pipeline(pDevice)
-		, CGfxPipelineGraphics(pResourceManager)
+		: CGfxPipelineGraphics(pResourceManager)
+		, m_pDevice(pDevice)
 		, m_vertexFormat(0)
 	{
 		m_inputAssemblyState = {};

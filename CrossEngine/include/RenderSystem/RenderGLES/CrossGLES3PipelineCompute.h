@@ -44,6 +44,10 @@ namespace CrossEngine {
 		BOOL Create(const CGfxShaderPtr &ptrShader);
 		void Destroy(void);
 		void DumpLog(void) const;
+
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }
