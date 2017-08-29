@@ -53,6 +53,7 @@ namespace CrossEngine {
 
 
 	protected:
+		GLuint m_vao;
 		uint32_t m_vertexFormat;
 	};
 

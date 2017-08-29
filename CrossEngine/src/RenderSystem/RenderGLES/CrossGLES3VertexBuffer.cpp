@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CGLES3VertexBuffer::CGLES3VertexBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxVertexBuffer(pResourceManager)
 		, CGLES3Buffer(pDevice)
+		, m_vao(0)
 		, m_vertexFormat(0)
 	{
 
@@ -45,7 +46,7 @@ namespace CrossEngine {
 
 	HANDLE CGLES3VertexBuffer::GetHandle(void) const
 	{
-		return (HANDLE)m_buffer;
+		return (HANDLE)m_vao;
 	}
 
 	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format)
