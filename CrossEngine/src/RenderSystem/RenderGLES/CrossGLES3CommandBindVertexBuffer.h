@@ -44,6 +44,7 @@ namespace CrossEngine {
 		{
 			if (m_ptrVertexBuffer.IsNull()) {
 				glBindVertexArray(0);
+				glBindVertexBuffer(0, 0, 0, 0);
 			}
 			else {
 				CGLES3Device *pDevice = ((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetDevice();
