@@ -45,7 +45,7 @@ namespace CrossEngine {
 				glBindVertexArray(0);
 			}
 			else {
-				glBindVertexArray((GLuint)m_ptrVertexBuffer->GetHandle());
+				glBindVertexArray((GLuint)((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetHandleVAO());
 			}
 		}
 

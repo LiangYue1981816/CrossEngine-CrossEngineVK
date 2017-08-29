@@ -46,6 +46,11 @@ namespace CrossEngine {
 
 	HANDLE CGLES3VertexBuffer::GetHandle(void) const
 	{
+		return (HANDLE)m_buffer;
+	}
+
+	HANDLE CGLES3VertexBuffer::GetHandleVAO(void) const
+	{
 		return (HANDLE)m_vao;
 	}
 

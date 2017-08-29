@@ -39,6 +39,7 @@ namespace CrossEngine {
 	public:
 		CGLES3Device* GetDevice(void) const;
 		HANDLE GetHandle(void) const;
+		HANDLE GetHandleVAO(void) const;
 
 	public:
 		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format);
