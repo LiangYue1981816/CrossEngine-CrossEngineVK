@@ -169,9 +169,9 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSet(ptrDescriptorSet));
 	}
 
-	void CGLES3CommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)
+	void CGLES3CommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindVertexBuffer(ptrVertexBuffer, m_ptrPipelineGraphics, offset));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindVertexBuffer(ptrVertexBuffer));
 	}
 
 	void CGLES3CommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type)

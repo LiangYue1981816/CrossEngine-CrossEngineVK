@@ -53,6 +53,37 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::UpdateData(GL_ARRAY_BUFFER, 0, size, pBuffer));
+		CALL_BOOL_FUNCTION_RETURN(CreateVAO(format));
+		return TRUE;
+	}
+
+	BOOL CGLES3VertexBuffer::CreateVAO(uint32_t format)
+	{
+		m_vertexFormat = format;
+
+		GLuint bindingindex = 0;
+		GLuint stride = m_pDevice->GetVertexSize(m_vertexFormat);
+
+		glGenVertexArrays(1, &m_vao);
+		glBindVertexArray(m_vao);
+		glBindVertexBuffer(bindingindex, m_buffer, 0, stride);
+		{
+			for (int indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+				if (m_vertexFormat & (1 << indexAttribute)) {
+					GLuint attribute = (1 << indexAttribute);
+					GLuint location = m_pDevice->GetVertexAttributeLocation(attribute);
+					GLuint size = m_pDevice->GetVertexAttributeSize(attribute) / sizeof(float);
+					GLuint offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
+
+					glEnableVertexAttribArray(location);
+					glVertexAttribBinding(location, bindingindex);
+					glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
+				}
+			}
+		}
+		glBindVertexArray(0);
+		glBindVertexBuffer(0, 0, 0, 0);
+
 		return TRUE;
 	}
 

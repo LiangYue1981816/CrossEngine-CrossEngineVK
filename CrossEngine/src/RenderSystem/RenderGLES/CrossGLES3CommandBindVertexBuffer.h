@@ -32,65 +32,26 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, const CGfxPipelineGraphicsPtr& ptrPipelineGraphics, size_t offset)
-			: m_offset(offset)
+		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer)
 		{
 			m_ptrVertexBuffer = ptrVertexBuffer;
-			m_ptrPipelineGraphics = ptrPipelineGraphics;
 		}
 
 
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrVertexBuffer.IsNull() || m_ptrPipelineGraphics.IsNull()) {
-				glBindVertexBuffer(0, 0, 0, 0);
+			if (m_ptrVertexBuffer.IsNull()) {
+				glBindVertexArray(0);
 			}
 			else {
-				const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
-				const CGLES3Device *pDevice = pPipeline->GetDevice();
-				const std::map<uint32_t, VkVertexInputAttributeDescription>& vertexInputAttributeDescriptions = pPipeline->GetInputAttributeDescriptions();
-
-				/*
-				GLuint bindingindex = 0;
-				GLuint stride = pDevice->GetVertexSize(pPipeline->GetVertexFormat());
-				glBindVertexBuffer(bindingindex, (GLuint)m_ptrVertexBuffer->GetHandle(), m_offset, stride);
-
-				for (const auto &itVertexInputAttributeDescription : vertexInputAttributeDescriptions) {
-					GLuint attribute = itVertexInputAttributeDescription.first;
-					GLuint attribindex = itVertexInputAttributeDescription.second.location;
-
-					GLenum type = GL_FLOAT;
-					GLuint size = pDevice->GetVertexAttributeSize(attribute) / sizeof(float);
-					GLuint offset = pDevice->GetVertexAttributeOffset(pPipeline->GetVertexFormat(), attribute);
-
-					glVertexAttribBinding(attribindex, bindingindex);
-					glVertexAttribFormat(attribindex, size, type, GL_FALSE, offset);
-				}
-				*/
-
-				GLuint stride = pDevice->GetVertexSize(pPipeline->GetVertexFormat());
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)m_ptrVertexBuffer->GetHandle());
-
-				for (const auto &itVertexInputAttributeDescription : vertexInputAttributeDescriptions) {
-					GLuint attribute = itVertexInputAttributeDescription.first;
-					GLuint attribindex = itVertexInputAttributeDescription.second.location;
-
-					GLenum type = GL_FLOAT;
-					GLuint size = pDevice->GetVertexAttributeSize(attribute) / sizeof(float);
-					GLuint offset = pDevice->GetVertexAttributeOffset(pPipeline->GetVertexFormat(), attribute);
-
-					glEnableVertexAttribArray(attribindex);
-					glVertexAttribPointer(attribindex, size, type, GL_FALSE, stride, (const void *)offset);
-				}
+				glBindVertexArray((GLuint)m_ptrVertexBuffer->GetHandle());
 			}
 		}
 
 
 	protected:
-		size_t m_offset;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
-		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 	};
 
 }

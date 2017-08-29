@@ -64,7 +64,7 @@ namespace CrossEngine {
 		virtual void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
 		virtual void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline) = 0;
 		virtual void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
-		virtual void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset) = 0;
+		virtual void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer) = 0;
 		virtual void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type) = 0;
 
 		virtual void CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth) = 0;

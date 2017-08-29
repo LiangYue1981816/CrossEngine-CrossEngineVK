@@ -46,6 +46,9 @@ namespace CrossEngine {
 		BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const;
 		void DumpLog(void) const;
 
+	protected:
+		BOOL CreateVAO(uint32_t format);
+
 	public:
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
