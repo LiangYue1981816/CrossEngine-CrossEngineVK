@@ -69,8 +69,8 @@ namespace CrossEngine {
 		barrier.image = vkImage;
 		barrier.subresourceRange = range;
 
-		VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-		VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+		VkPipelineStageFlags srcStageMask = CVulkanHelper::vkGetPipelineStageFlags(barrier.srcAccessMask);
+		VkPipelineStageFlags dstStageMask = CVulkanHelper::vkGetPipelineStageFlags(barrier.dstAccessMask);
 
 		if (oldLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR) {
 			srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
