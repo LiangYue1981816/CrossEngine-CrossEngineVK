@@ -98,11 +98,6 @@ namespace CrossEngine {
 		pthread_mutex_destroy(&m_mutexTaskList);
 	}
 
-	int CTaskGraph::GetThreadCount(void) const
-	{
-		return m_numThreads;
-	}
-
 	void CTaskGraph::Task(CTask *pTask, void *pParams, event_t *pEventSignal, event_t *pEventWait)
 	{
 		pTask->SetTaskParams(pParams);
@@ -112,6 +107,7 @@ namespace CrossEngine {
 		{
 			pTask->pNext = m_pTaskListHeads[pEventWait];
 			m_pTaskListHeads[pEventWait] = pTask;
+			m_pTaskListDependence[pEventWait] = pEventSignal;
 		}
 		pthread_mutex_unlock(&m_mutexTaskList);
 	}
@@ -126,15 +122,16 @@ namespace CrossEngine {
 		event_signal(&m_eventDispatch);
 	}
 
-	void CTaskGraph::Wait(int msec)
+	void CTaskGraph::Wait(void)
 	{
-		event_wait_timeout(&m_eventFinish, msec);
+		event_wait(&m_eventFinish);
+
+		m_pTaskListHeads.clear();
+		m_pTaskListDependence.clear();
 	}
 
 	void* CTaskGraph::TaskThread(void *pParams)
 	{
-		BOOL bFinish = TRUE;
-		CTask *pTask = NULL;
 		CTaskGraph *pTaskGraph = (CTaskGraph *)pParams;
 
 		while (TRUE) {
@@ -150,40 +147,40 @@ namespace CrossEngine {
 				event_wait(&pTaskGraph->m_eventReady);
 
 				// Run tasks
-				while (TRUE) {
-					pTask = NULL;
-					bFinish = TRUE;
+				event_t *pEvent = NULL;
+				do {
+					if (pEvent) {
+						event_wait(pEvent);
+					}
 
-					pthread_mutex_lock(&pTaskGraph->m_mutexTaskList);
-					{
-						for (auto &itTask : pTaskGraph->m_pTaskListHeads) {
-							if (itTask.first == NULL || event_wait_timeout(itTask.first, 0) == NO_ERROR) {
-								pTask = itTask.second;
+					if (CTask **ppTaskListHead = &pTaskGraph->m_pTaskListHeads[pEvent]) {
+						while (TRUE) {
+							BOOL bFinish = FALSE;
+							CTask *pTask = NULL;
 
-								if (itTask.second->pNext) {
-									itTask.second = itTask.second->pNext;
+							pthread_mutex_lock(&pTaskGraph->m_mutexTaskList);
+							{
+								if (*ppTaskListHead) {
+									pTask = *ppTaskListHead;
+									*ppTaskListHead = pTask->pNext;
 								}
 								else {
-									pTaskGraph->m_pTaskListHeads.erase(itTask.first);
+									bFinish = TRUE;
 								}
+							}
+							pthread_mutex_unlock(&pTaskGraph->m_mutexTaskList);
 
+							if (pTask) {
+								pTask->TaskFunc(pTask->GetTaskParams());
+								pTask->SetTaskSignal();
+							}
+
+							if (bFinish) {
 								break;
 							}
 						}
-
-						bFinish = pTaskGraph->m_pTaskListHeads.empty() ? TRUE : FALSE;
 					}
-					pthread_mutex_unlock(&pTaskGraph->m_mutexTaskList);
-
-					if (pTask) {
-						pTask->TaskFunc(pTask->GetTaskParams());
-						pTask->SetTaskSignal();
-					}
-
-					if (bFinish) {
-						break;
-					}
-				}
+				} while (pEvent = pTaskGraph->m_pTaskListDependence[pEvent]);
 			}
 			event_reset(&pTaskGraph->m_eventDispatch, 1);
 			event_signal(&pTaskGraph->m_eventFinish);

@@ -64,11 +64,9 @@ namespace CrossEngine {
 
 
 	public:
-		int GetThreadCount(void) const;
-
 		void Task(CTask *pTask, void *pParams, event_t *pEventSignal, event_t *pEventWait = NULL);
 		void Dispatch(void);
-		void Wait(int msec);
+		void Wait(void);
 
 	private:
 		static void* TaskThread(void *pParams);
@@ -86,6 +84,7 @@ namespace CrossEngine {
 	private:
 		pthread_mutex_t m_mutexTaskList;
 		std::map<event_t*, CTask*> m_pTaskListHeads;
+		std::map<event_t*, event_t*> m_pTaskListDependence;
 	};
 
 }
