@@ -91,7 +91,7 @@ namespace CrossEngine {
 			memorySize = max(size, memorySize);
 			memorySize = ALIGN_1KBYTE(memorySize);
 
-			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, memoryPropertyFlags);
+			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, alignment, memoryPropertyFlags);
 
 			if (m_pAllocatorListHeads[memoryTypeIndex]) {
 				m_pAllocatorListHeads[memoryTypeIndex]->pPrev = pAllocator;
