@@ -55,12 +55,12 @@ namespace CrossEngine {
 
 
 	protected:
-		static const VkDeviceSize HOST_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
-		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 16 * 1024 * 1024;
+		static const VkDeviceSize HOST_MEMORY_POOL_SIZE = 2 * 1024 * 1024;
+		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 4 * 1024 * 1024;
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanMemoryAllocator*> m_pAllocatorListHeads;
+		std::map<uint32_t, std::map<uint32_t, CVulkanMemoryAllocator*>> m_pAllocatorListHeads;
 
 	protected:
 		CVulkanDevice *m_pDevice;

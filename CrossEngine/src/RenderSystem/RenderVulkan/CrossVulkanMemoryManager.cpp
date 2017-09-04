@@ -43,13 +43,15 @@ namespace CrossEngine {
 
 	void CVulkanMemoryManager::Destroy(void)
 	{
-		for (const auto &itAllocator : m_pAllocatorListHeads) {
-			if (CVulkanMemoryAllocator *pAllocator = itAllocator.second) {
-				CVulkanMemoryAllocator *pAllocatorNext = NULL;
-				do {
-					pAllocatorNext = pAllocator->pNext;
-					SAFE_DELETE(pAllocator);
-				} while (pAllocator = pAllocatorNext);
+		for (const auto &itAligmentAllocator : m_pAllocatorListHeads) {
+			for (const auto &itTypeAllocator : itAligmentAllocator.second) {
+				if (CVulkanMemoryAllocator *pAllocator = itTypeAllocator.second) {
+					CVulkanMemoryAllocator *pAllocatorNext = NULL;
+					do {
+						pAllocatorNext = pAllocator->pNext;
+						SAFE_DELETE(pAllocator);
+					} while (pAllocator = pAllocatorNext);
+				}
 			}
 		}
 
@@ -77,7 +79,7 @@ namespace CrossEngine {
 		mutex_autolock mutex(m_mutex);
 
 		do {
-			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryTypeIndex]) {
+			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex]) {
 				do {
 					if (CVulkanMemory *pMemory = pAllocator->AllocMemory(size)) {
 						return pMemory;
@@ -93,12 +95,12 @@ namespace CrossEngine {
 
 			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, memoryAlignment, memoryPropertyFlags);
 
-			if (m_pAllocatorListHeads[memoryTypeIndex]) {
-				m_pAllocatorListHeads[memoryTypeIndex]->pPrev = pAllocator;
-				pAllocator->pNext = m_pAllocatorListHeads[memoryTypeIndex];
+			if (m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex]) {
+				m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex]->pPrev = pAllocator;
+				pAllocator->pNext = m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex];
 			}
 
-			m_pAllocatorListHeads[memoryTypeIndex] = pAllocator;
+			m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] = pAllocator;
 		} while (TRUE);
 	}
 
@@ -110,10 +112,11 @@ namespace CrossEngine {
 		pAllocator->FreeMemory(pMemory);
 
 		if (pAllocator->IsEmpty()) {
+			uint32_t memoryAlignment = pAllocator->GetMemoryAlignment();
 			uint32_t memoryTypeIndex = pAllocator->GetMemoryTypeIndex();
 
-			if (m_pAllocatorListHeads[memoryTypeIndex] == pAllocator) {
-				m_pAllocatorListHeads[memoryTypeIndex] =  pAllocator->pNext;
+			if (m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] == pAllocator) {
+				m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] =  pAllocator->pNext;
 			}
 
 			if (pAllocator->pPrev) {
@@ -135,15 +138,19 @@ namespace CrossEngine {
 
 		LOGI("%s\n", szTitle);
 		{
-			for (const auto &itAllocator : m_pAllocatorListHeads) {
-				LOGI("\tMemory type index: %d\n", itAllocator.first);
+			for (const auto &itAligmentAllocator : m_pAllocatorListHeads) {
+				LOGI("\tMemory aligment size %d:\n", itAligmentAllocator.first);
 
-				if (const CVulkanMemoryAllocator *pAllocator = itAllocator.second) {
-					do {
-						pAllocator->DumpLog();
-						size += pAllocator->GetFullSize();
-						count += pAllocator->GetAllocationCount();
-					} while (pAllocator = pAllocator->pNext);
+				for (const auto &itTypeAllocator : itAligmentAllocator.second) {
+					LOGI("\t\tMemory type index %d:\n", itTypeAllocator.first);
+
+					if (const CVulkanMemoryAllocator *pAllocator = itTypeAllocator.second) {
+						do {
+							pAllocator->DumpLog();
+							size += pAllocator->GetFullSize();
+							count += pAllocator->GetAllocationCount();
+						} while (pAllocator = pAllocator->pNext);
+					}
 				}
 			}
 		}
