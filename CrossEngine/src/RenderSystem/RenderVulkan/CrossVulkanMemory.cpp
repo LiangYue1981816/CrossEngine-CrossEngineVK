@@ -82,11 +82,23 @@ namespace CrossEngine {
 
 	int CVulkanMemory::BindImage(VkImage vkImage) const
 	{
+#ifdef _DEBUG
+		VkMemoryRequirements requirements;
+		vkGetImageMemoryRequirements(m_pDevice->GetDevice(), vkImage, &requirements);
+		ASSERT(requirements.alignment == m_alignment);
+		ASSERT(requirements.size == m_size);
+#endif
 		return vkBindImageMemory(m_pDevice->GetDevice(), vkImage, m_vkMemory, m_offset);
 	}
 
 	int CVulkanMemory::BindBuffer(VkBuffer vkBuffer) const
 	{
+#ifdef _DEBUG
+		VkMemoryRequirements requirements;
+		vkGetBufferMemoryRequirements(m_pDevice->GetDevice(), vkBuffer, &requirements);
+		ASSERT(requirements.alignment == m_alignment);
+		ASSERT(requirements.size == m_size);
+#endif
 		return vkBindBufferMemory(m_pDevice->GetDevice(), vkBuffer, m_vkMemory, m_offset);
 	}
 

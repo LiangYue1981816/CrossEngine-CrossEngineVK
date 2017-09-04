@@ -272,14 +272,14 @@ namespace CrossEngine {
 		return m_pListHead->pNext == NULL && m_pListHead->pPrev == NULL && m_pListHead->m_size == m_size ? TRUE : FALSE;
 	}
 
+	uint32_t CVulkanMemoryAllocator::GetMemoryAlignment(void) const
+	{
+		return m_alignment;
+	}
+
 	uint32_t CVulkanMemoryAllocator::GetMemoryTypeIndex(void) const
 	{
 		return m_type;
-	}
-
-	VkDeviceSize CVulkanMemoryAllocator::GetAlignment(void) const
-	{
-		return m_alignment;
 	}
 
 	VkDeviceSize CVulkanMemoryAllocator::GetFullSize(void) const
@@ -319,11 +319,12 @@ namespace CrossEngine {
 
 	void CVulkanMemoryAllocator::DumpLog(void) const
 	{
-		LOGI("\t\tAllocator: host = %s coherent = %s cached = %s alignment = %d pointer number = %d size = %d full = %d\n", 
+		LOGI("\t\tAllocator: host = %s coherent = %s cached = %s type = %d alignment = %d pointer number = %d size = %d full = %d\n", 
 			m_flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT ? "true" : "false",
 			m_flags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT ? "true" : "false",
 			m_flags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "true" : "false",
-			GetAlignment(),
+			GetMemoryTypeIndex(),
+			GetMemoryAlignment(),
 			GetAllocationCount(), 
 			GetAllocatedSize(), 
 			GetFullSize());

@@ -58,7 +58,7 @@ namespace CrossEngine {
 	protected:
 		BOOL IsEmpty(void) const;
 		uint32_t GetMemoryTypeIndex(void) const;
-		VkDeviceSize GetAlignment(void) const;
+		uint32_t GetMemoryAlignment(void) const;
 
 	protected:
 		VkDeviceSize GetFullSize(void) const;
