@@ -194,8 +194,8 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 	sprintf(szCachePath, "%s/Cache", szCurPath);
 	mkdir(szCachePath);
 
-	pGfxInstance = SAFE_NEW CrossEngine::CGLES3Instance;
-//	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance;
+//	pGfxInstance = SAFE_NEW CrossEngine::CGLES3Instance;
+	pGfxInstance = SAFE_NEW CrossEngine::CVulkanInstance;
 	pGfxInstance->Create(hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top);
 	pDevice = pGfxInstance->GetDevice();
 	pSwapchain = pGfxInstance->GetSwapchain();
@@ -207,6 +207,8 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 	CreateBuffer();
 	CreateDescriptorSet();
 	CreateCommandBuffer();
+
+	pDevice->DumpLog();
 }
 
 void Destroy(void)

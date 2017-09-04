@@ -55,8 +55,8 @@ namespace CrossEngine {
 
 
 	protected:
-		static const VkDeviceSize HOST_MEMORY_POOL_SIZE = 2 * 1024 * 1024;
-		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 4 * 1024 * 1024;
+		static const VkDeviceSize HOST_MEMORY_POOL_SIZE = 4 * 1024 * 1024;
+		static const VkDeviceSize DEVICE_MEMORY_POOL_SIZE = 8 * 1024 * 1024;
 
 	protected:
 		pthread_mutex_t m_mutex;
