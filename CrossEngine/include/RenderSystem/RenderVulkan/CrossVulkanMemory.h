@@ -33,7 +33,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset);
+		CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset, VkDeviceSize alignment);
 		virtual ~CVulkanMemory(void);
 
 
@@ -46,6 +46,7 @@ namespace CrossEngine {
 		BOOL IsHostCached(void) const;
 
 		VkDeviceSize GetSize(void) const;
+		VkDeviceSize GetAlignment(void) const;
 
 		int BindImage(VkImage vkImage) const;
 		int BindBuffer(VkBuffer vkBuffer) const;
@@ -63,6 +64,7 @@ namespace CrossEngine {
 		VkFlags m_flags;
 		VkDeviceSize m_size;
 		VkDeviceSize m_offset;
+		VkDeviceSize m_alignment;
 
 	protected:
 		CVulkanDevice *m_pDevice;

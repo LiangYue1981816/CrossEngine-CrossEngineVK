@@ -51,7 +51,7 @@ namespace CrossEngine {
 		vkAllocateMemory(m_pDevice->GetDevice(), &allocInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkMemory);
 
 		m_nodes = SAFE_NEW mem_node[m_size / UNIT_SIZE];
-		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, m_size, 0);
+		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, m_size, 0, 0);
 
 		InitNodes(m_size / UNIT_SIZE);
 		InsertMemory(m_pListHead);
@@ -94,7 +94,7 @@ namespace CrossEngine {
 			pMemory->bInUse = TRUE;
 
 			if (pMemory->m_size >= size + UNIT_SIZE) {
-				CVulkanMemory *pMemoryNext = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, pMemory->m_size - size, pMemory->m_offset + size);
+				CVulkanMemory *pMemoryNext = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, pMemory->m_size - size, pMemory->m_offset + size, alignment);
 
 				pMemoryNext->pNext = pMemory->pNext;
 				pMemoryNext->pPrev = pMemory;

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanMemory::CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset)
+	CVulkanMemory::CVulkanMemory(CVulkanMemoryAllocator *pAllocator, CVulkanDevice *pDevice, VkDeviceMemory vkMemory, VkFlags flags, VkDeviceSize size, VkDeviceSize offset, VkDeviceSize alignment)
 		: m_pDevice(pDevice)
 		, m_pAllocator(pAllocator)
 		, m_vkMemory(vkMemory)
@@ -33,6 +33,7 @@ namespace CrossEngine {
 		, m_flags(flags)
 		, m_size(size)
 		, m_offset(offset)
+		, m_alignment(alignment)
 
 		, bInUse(FALSE)
 
@@ -74,27 +75,18 @@ namespace CrossEngine {
 		return m_size;
 	}
 
+	VkDeviceSize CVulkanMemory::GetAlignment(void) const
+	{
+		return m_alignment;
+	}
+
 	int CVulkanMemory::BindImage(VkImage vkImage) const
 	{
-#ifdef _DEBUG
-		VkMemoryRequirements requirements;
-		vkGetImageMemoryRequirements(m_pDevice->GetDevice(), vkImage, &requirements);
-		ASSERT(ALIGN_1KBYTE(requirements.alignment) == ALIGN_1KBYTE(1));
-		ASSERT(ALIGN_1KBYTE(requirements.size) == m_size);
-		ASSERT(ALIGN_1KBYTE(m_offset) == m_offset);
-#endif
 		return vkBindImageMemory(m_pDevice->GetDevice(), vkImage, m_vkMemory, m_offset);
 	}
 
 	int CVulkanMemory::BindBuffer(VkBuffer vkBuffer) const
 	{
-#ifdef _DEBUG
-		VkMemoryRequirements requirements;
-		vkGetBufferMemoryRequirements(m_pDevice->GetDevice(), vkBuffer, &requirements);
-		ASSERT(ALIGN_1KBYTE(requirements.alignment) == ALIGN_1KBYTE(1));
-		ASSERT(ALIGN_1KBYTE(requirements.size) == m_size);
-		ASSERT(ALIGN_1KBYTE(m_offset) == m_offset);
-#endif
 		return vkBindBufferMemory(m_pDevice->GetDevice(), vkBuffer, m_vkMemory, m_offset);
 	}
 
