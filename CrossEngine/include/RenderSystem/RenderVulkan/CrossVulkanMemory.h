@@ -45,12 +45,15 @@ namespace CrossEngine {
 		BOOL IsHostCoherent(void) const;
 		BOOL IsHostCached(void) const;
 
+	public:
 		VkDeviceSize GetSize(void) const;
 		VkDeviceSize GetAlignment(void) const;
 
+	public:
 		int BindImage(VkImage vkImage) const;
 		int BindBuffer(VkBuffer vkBuffer) const;
 
+	public:
 		int BeginMapMemory(VkDeviceSize offset, VkDeviceSize size, void **ppAddress) const;
 		int EndMapMemory(void) const;
 		int FlushMappedMemory(VkDeviceSize offset, VkDeviceSize size) const;
