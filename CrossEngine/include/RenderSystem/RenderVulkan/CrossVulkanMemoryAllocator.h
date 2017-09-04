@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment);
+		CVulkanMemory* AllocMemory(VkDeviceSize size);
 		void FreeMemory(CVulkanMemory *pMemory);
 
 	protected:

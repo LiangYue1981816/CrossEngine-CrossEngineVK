@@ -69,7 +69,7 @@ namespace CrossEngine {
 		return -1;
 	}
 
-	CVulkanMemory* CVulkanMemoryManager::AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags)
+	CVulkanMemory* CVulkanMemoryManager::AllocMemory(VkDeviceSize size, VkDeviceSize memoryAlignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags)
 	{
 		uint32_t memoryTypeIndex = GetMemoryTypeIndex(memoryTypeBits, memoryPropertyFlags);
 		if (memoryTypeIndex == -1) return NULL;
@@ -79,7 +79,7 @@ namespace CrossEngine {
 		do {
 			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryTypeIndex]) {
 				do {
-					if (CVulkanMemory *pMemory = pAllocator->AllocMemory(size, alignment)) {
+					if (CVulkanMemory *pMemory = pAllocator->AllocMemory(size)) {
 						return pMemory;
 					}
 				} while (pAllocator = pAllocator->pNext);
@@ -91,7 +91,7 @@ namespace CrossEngine {
 			memorySize = max(size, memorySize);
 			memorySize = ALIGN_1KBYTE(memorySize);
 
-			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, alignment, memoryPropertyFlags);
+			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, memoryAlignment, memoryPropertyFlags);
 
 			if (m_pAllocatorListHeads[memoryTypeIndex]) {
 				m_pAllocatorListHeads[memoryTypeIndex]->pPrev = pAllocator;

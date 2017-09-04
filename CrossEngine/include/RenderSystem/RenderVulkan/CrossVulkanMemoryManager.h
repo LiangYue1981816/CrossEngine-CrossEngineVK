@@ -47,7 +47,7 @@ namespace CrossEngine {
 		uint32_t GetMemoryTypeIndex(VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags) const;
 
 	protected:
-		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize alignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
+		CVulkanMemory* AllocMemory(VkDeviceSize size, VkDeviceSize memoryAlignment, VkFlags memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags);
 		void FreeMemory(CVulkanMemory *pMemory);
 
 	protected:
