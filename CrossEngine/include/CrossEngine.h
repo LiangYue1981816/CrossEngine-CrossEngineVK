@@ -107,6 +107,9 @@ THE SOFTWARE.
 #include "CrossResourceManager.h"
 #include "CrossResourceSystem.h"
 
+#include "CrossEntityBase.h"
+#include "CrossEntityMesh.h"
+
 
 #define TAG_NAME "CrossEngine"
 

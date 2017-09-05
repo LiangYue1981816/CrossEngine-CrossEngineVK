@@ -109,6 +109,12 @@
     <Filter Include="Engine\Header Files\RenderSystem\glslc">
       <UniqueIdentifier>{4b4554b8-1cd7-4e18-ada1-f3c64fd4981f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\EntitySystem">
+      <UniqueIdentifier>{5caa4344-0454-4fb7-b88a-e7524b54833a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\EntitySystem">
+      <UniqueIdentifier>{a527213a-7e67-4bf4-8853-e77804af4b33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -525,6 +531,12 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.h">
       <Filter>Engine\Header Files\RenderSystem\glslc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityBase.h">
+      <Filter>Engine\Header Files\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h">
+      <Filter>Engine\Header Files\EntitySystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -877,6 +889,12 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.cc">
       <Filter>Engine\Source Files\RenderSystem\glslc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityBase.cpp">
+      <Filter>Engine\Source Files\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityMesh.cpp">
+      <Filter>Engine\Source Files\EntitySystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
