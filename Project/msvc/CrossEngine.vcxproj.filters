@@ -115,6 +115,9 @@
     <Filter Include="Engine\Source Files\EntitySystem">
       <UniqueIdentifier>{a527213a-7e67-4bf4-8853-e77804af4b33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\tinyxml">
+      <UniqueIdentifier>{6ffbf751-2b73-4f12-a732-a4b60e5771c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -537,6 +540,21 @@
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h">
       <Filter>Engine\Header Files\EntitySystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\tinyxml\tinystr.h">
+      <Filter>Dependencies\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\tinyxml\tinyxml.h">
+      <Filter>Dependencies\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\glew\glew.h">
+      <Filter>Dependencies\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\glew\glxew.h">
+      <Filter>Dependencies\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\glew\wglew.h">
+      <Filter>Dependencies\glew</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -895,6 +913,18 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityMesh.cpp">
       <Filter>Engine\Source Files\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinystr.cpp">
+      <Filter>Dependencies\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxml.cpp">
+      <Filter>Dependencies\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxmlerror.cpp">
+      <Filter>Dependencies\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxmlparser.cpp">
+      <Filter>Dependencies\tinyxml</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
