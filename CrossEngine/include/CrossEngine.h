@@ -120,6 +120,10 @@ THE SOFTWARE.
 
 #define Engine()             CrossEngine::CEngine::GetEngine()
 
+#define RenderSystem()       CrossEngine::CEngine::GetEngine()->GetRenderSystem();
+#define GfxDevice()          CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetDevice();
+#define GfxSwapChain()       CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetSwapchain();
+
 #define ResourceSystem()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()
 #define ShaderManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SHADER)
 #define TextureManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::TEXTURE)
@@ -142,16 +146,18 @@ namespace CrossEngine {
 	public:
 		static CEngine* GetEngine(void);
 
+
 	public:
+		CRenderSystem* GetRenderSystem(void) const;
 		CResourceSystem* GetResourceSystem(void) const;
 
-
 	public:
-		void Init(HINSTANCE hInstance, HWND hWnd, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode);
+		BOOL Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode);
 		void Exit(void);
 
 
 	protected:
+		CRenderSystem *m_pRenderSystem;
 		CResourceSystem *m_pResourceSystem;
 
 	protected:

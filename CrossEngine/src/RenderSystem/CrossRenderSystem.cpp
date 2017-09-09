@@ -48,9 +48,9 @@ namespace CrossEngine {
 		return m_pGfxSwapchain;
 	}
 
-	BOOL CRenderSystem::Create(GFX_API type, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height)
+	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height)
 	{
-		switch (type) {
+		switch (api) {
 		case GFX_API_GLES31: m_pGfxInstance = SAFE_NEW CGLES3Instance; break;
 		case GFX_API_VULKAN: m_pGfxInstance = SAFE_NEW CVulkanInstance; break;
 		}
