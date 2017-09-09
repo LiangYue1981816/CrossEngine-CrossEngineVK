@@ -86,7 +86,17 @@ namespace CrossEngine {
 
 	BOOL CShader::LoadFromStream(CStream *pStream)
 	{
-		return TRUE;
+		char szExt[_MAX_EXT];
+		splitfilename(pStream->GetName(), NULL, szExt);
+
+		VkShaderStageFlagBits shaderFlags;
+		if      (!stricmp(szExt, ".vert")) shaderFlags = VK_SHADER_STAGE_VERTEX_BIT;
+		else if (!stricmp(szExt, ".frag")) shaderFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+		else if (!stricmp(szExt, ".comp")) shaderFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+		else return FALSE;
+
+		m_ptrShader = GfxDevice()->NewShader();
+		return m_ptrShader->Create((const char *)pStream->GetAddress(), pStream->GetFullSize(), shaderFlags);
 	}
 
 }

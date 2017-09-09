@@ -60,8 +60,6 @@ CROSS_EXPORT unsigned int thread_id(void)
 CROSS_EXPORT void splitfilename(const char *name, char *fname, char *ext)
 {
 	ASSERT(name);
-	ASSERT(fname);
-	ASSERT(ext);
 
 	const char *p = NULL;
 	const char *c = NULL;
