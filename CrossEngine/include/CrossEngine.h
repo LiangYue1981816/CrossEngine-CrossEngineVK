@@ -120,9 +120,9 @@ THE SOFTWARE.
 
 #define Engine()             CrossEngine::CEngine::GetEngine()
 
-#define RenderSystem()       CrossEngine::CEngine::GetEngine()->GetRenderSystem();
-#define GfxDevice()          CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetDevice();
-#define GfxSwapChain()       CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetSwapchain();
+#define RenderSystem()       CrossEngine::CEngine::GetEngine()->GetRenderSystem()
+#define GfxDevice()          CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetDevice()
+#define GfxSwapChain()       CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetSwapchain()
 
 #define ResourceSystem()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()
 #define ShaderManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SHADER)

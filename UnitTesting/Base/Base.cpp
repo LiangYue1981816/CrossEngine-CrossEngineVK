@@ -31,20 +31,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TEST));
 
-	Create(hInstance, hWnd, GetDC(hWnd));
-	SetTimer(hWnd, 0, 1000 / 30, NULL);
+	RECT rcView;
+	GetClientRect(hWnd, &rcView);
 
-	while (GetMessage(&msg, nullptr, 0, 0))
+//	Engine()->Init(CrossEngine::GFX_API_GLES31, hInstance, hWnd, GetDC(hWnd), rcView, 4 * 1024 * 1024, 16, NULL, FALSE);
+	Engine()->Init(CrossEngine::GFX_API_VULKAN, hInstance, hWnd, GetDC(hWnd), rcView, 4 * 1024 * 1024, 16, NULL, FALSE);
+	Create();
 	{
-		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
+		SetTimer(hWnd, 0, 1000 / 30, NULL);
 
-	KillTimer(hWnd, 0);
+		while (GetMessage(&msg, nullptr, 0, 0))
+		{
+			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
+
+		KillTimer(hWnd, 0);
+	}
 	Destroy();
+	Engine()->Exit();
 
 	return (int)msg.wParam;
 }

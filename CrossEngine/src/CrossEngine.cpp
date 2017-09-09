@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	BOOL CEngine::Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode)
 	{
-		if (m_pRenderSystem->Create(api, hInstance, hWnd, hDC, rcView.right - rcView.left + 1, rcView.bottom - rcView.top + 1) == FALSE) return FALSE;
+		if (m_pRenderSystem->Create(api, hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top) == FALSE) return FALSE;
 		// ...
 
 		return TRUE;
