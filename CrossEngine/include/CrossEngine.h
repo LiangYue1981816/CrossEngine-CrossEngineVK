@@ -103,6 +103,7 @@ THE SOFTWARE.
 #include "CrossGfxAPI.h"
 #include "CrossGLES3API.h"
 #include "CrossVulkanAPI.h"
+#include "CrossRenderSystem.h"
 
 #include "CrossResource.h"
 #include "CrossResourceManager.h"

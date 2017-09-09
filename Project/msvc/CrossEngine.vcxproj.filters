@@ -561,6 +561,9 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossShaderManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -937,6 +940,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossShaderManage.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

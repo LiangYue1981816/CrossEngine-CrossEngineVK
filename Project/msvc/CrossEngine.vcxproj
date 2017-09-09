@@ -189,6 +189,7 @@
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityBase.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxAPI.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxCommandBuffer.h" />
@@ -340,6 +341,7 @@
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityBase.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityMesh.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.cc" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxDevice.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxResource.cpp" />
