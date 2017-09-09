@@ -117,6 +117,8 @@ namespace CrossEngine {
 
 	void CVulkanInstance::Destroy(void)
 	{
+		m_pDevice->WaitIdle();
+
 		DestroySwapchain();
 		DestroyDevice();
 		DestroyPresentationSurface();

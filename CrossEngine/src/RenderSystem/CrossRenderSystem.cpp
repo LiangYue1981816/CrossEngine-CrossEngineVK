@@ -68,11 +68,14 @@ namespace CrossEngine {
 
 	void CRenderSystem::Destroy(void)
 	{
-		SAFE_DELETE(m_pGfxInstance);
+		if (m_pGfxInstance) {
+			m_pGfxInstance->Destroy();
+			SAFE_DELETE(m_pGfxInstance);
 
-		m_pGfxInstance = NULL;
-		m_pGfxDevice = NULL;
-		m_pGfxSwapchain = NULL;
+			m_pGfxInstance = NULL;
+			m_pGfxDevice = NULL;
+			m_pGfxSwapchain = NULL;
+		}
 	}
 
 }

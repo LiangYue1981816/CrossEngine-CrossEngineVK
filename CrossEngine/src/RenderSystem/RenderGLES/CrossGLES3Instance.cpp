@@ -105,6 +105,8 @@ namespace CrossEngine {
 
 	void CGLES3Instance::Destroy(void)
 	{
+		m_pDevice->WaitIdle();
+
 		DestroySwapchain();
 		DestroyDevice();
 	}

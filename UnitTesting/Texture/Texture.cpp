@@ -214,8 +214,6 @@ void Create(HINSTANCE hInstance, HWND hWnd, HDC hDC)
 void Destroy(void)
 {
 	if (pGfxInstance) {
-		pDevice->WaitIdle();
-
 		DestroyRenderPass();
 		DestroyFrameBuffer();
 		DestroyCommandBuffer();
