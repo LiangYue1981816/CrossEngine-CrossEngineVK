@@ -26,43 +26,19 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef enum {
-		SHADER, TEXTURE, MATERIAL, MESH, SKELETON, EFFECT, SOUND, COUNT
-	} RESOURCE_TYPE;
-
-	class CROSS_EXPORT CResource
+	class CROSS_EXPORT CShader : public CResource
 	{
-		template<class T>
-		friend class CResourcePtr;
-		friend class CResourceManager;
-
-
 	protected:
-		CResource(CResourceManager *pResourceManager);
-		virtual ~CResource(void);
-
-		virtual void Release(void);
+		CShader(CResourceManager *pResourceManager);
+		virtual ~CShader(void);
 
 
 	public:
-		virtual BOOL IsValid(void) const = 0;
-		virtual RESOURCE_TYPE GetType(void) const = 0;
+		const CGfxShaderPtr& GetShader(void) const;
 
 	public:
-		virtual void Init(void);
-		virtual void Free(void);
-
-	public:
-		virtual const CStream* GetStream(void) const;
-		virtual CResourceManager* GetResourceManager(void) const;
-
-	public:
-		virtual BOOL SetName(const char *szName);
-		virtual const char* GetName(void) const;
-		virtual DWORD GetHashName(void) const;
-
-		virtual BOOL SetFileName(const char *szFileName);
-		virtual const char* GetFileName(void) const;
+		virtual BOOL IsValid(void) const;
+		virtual RESOURCE_TYPE GetType(void) const;
 
 	public:
 		virtual BOOL CopyFrom(const CResource *pCopyFrom);
@@ -70,48 +46,11 @@ namespace CrossEngine {
 		virtual BOOL LoadFromFile(const char *szFileName);
 		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName);
 		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName);
-		virtual BOOL LoadFromStream(CStream *pStream) = 0;
-
-		virtual BOOL SaveToFile(const char *szFileName);
-		virtual BOOL SaveToFileStream(FILE *pFile);
+		virtual BOOL LoadFromStream(CStream *pStream);
 
 
 	protected:
-		CStream m_stream;
-
-	protected:
-		CResourceManager *m_pResourceManager;
-	};
-
-	template<class T>
-	class CROSS_EXPORT CResourcePtr : public CSharedPtr<T>
-	{
-	public:
-		CResourcePtr(void) : CSharedPtr<T>()
-		{
-
-		}
-		CResourcePtr(const T *p) : CSharedPtr<T>(p)
-		{
-
-		}
-		CResourcePtr(const CResourcePtr &ptr) : CSharedPtr<T>(ptr)
-		{
-
-		}
-		virtual ~CResourcePtr(void)
-		{
-			Release();
-		}
-
-
-	protected:
-		virtual void FreePointer(void)
-		{
-			if (m_pPointer) {
-				((CResource *)m_pPointer)->Release();
-			}
-		}
+		CGfxShaderPtr m_ptrShader;
 	};
 
 }

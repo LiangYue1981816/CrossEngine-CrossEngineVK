@@ -107,6 +107,8 @@ THE SOFTWARE.
 #include "CrossResource.h"
 #include "CrossResourceManager.h"
 #include "CrossResourceSystem.h"
+#include "CrossShader.h"
+#include "CrossShaderManager.h"
 
 #include "CrossEntityBase.h"
 #include "CrossEntityMesh.h"
