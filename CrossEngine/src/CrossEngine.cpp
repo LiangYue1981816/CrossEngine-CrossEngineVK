@@ -35,14 +35,12 @@ namespace CrossEngine {
 		: m_pRenderSystem(NULL)
 		, m_pResourceSystem(NULL)
 	{
-		m_pRenderSystem = SAFE_NEW CRenderSystem;
-		m_pResourceSystem = SAFE_NEW CResourceSystem;
+
 	}
 
 	CEngine::~CEngine(void)
 	{
-		SAFE_DELETE(m_pRenderSystem);
-		SAFE_DELETE(m_pResourceSystem);
+
 	}
 
 	CRenderSystem* CEngine::GetRenderSystem(void) const
@@ -57,6 +55,9 @@ namespace CrossEngine {
 
 	BOOL CEngine::Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode)
 	{
+		m_pRenderSystem = SAFE_NEW CRenderSystem;
+		m_pResourceSystem = SAFE_NEW CResourceSystem;
+
 		if (m_pRenderSystem->Create(api, hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top) == FALSE) return FALSE;
 		// ...
 
@@ -66,6 +67,10 @@ namespace CrossEngine {
 	void CEngine::Exit(void)
 	{
 		m_pRenderSystem->Destroy();
+		// ...
+
+		SAFE_DELETE(m_pRenderSystem);
+		SAFE_DELETE(m_pResourceSystem);
 	}
 
 }
