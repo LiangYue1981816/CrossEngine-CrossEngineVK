@@ -27,11 +27,22 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	typedef enum {
-		RESOURCE_TYPE_SHADER, RESOURCE_TYPE_TEXTURE, RESOURCE_TYPE_MATERIAL, RESOURCE_TYPE_MESH, RESOURCE_TYPE_SKELETON, RESOURCE_TYPE_EFFECT, RESOURCE_TYPE_SOUND, COUNT
+		RESOURCE_TYPE_SHADER, 
+		RESOURCE_TYPE_TEXTURE, 
+		RESOURCE_TYPE_MATERIAL, 
+		RESOURCE_TYPE_MESH, 
+		RESOURCE_TYPE_SKELETON, 
+		RESOURCE_TYPE_EFFECT, 
+		RESOURCE_TYPE_SOUND, 
+		COUNT
 	} RESOURCE_TYPE;
 
 	typedef enum {
-		RESOURCE_LOAD_STATE_INIT, RESOURCE_LOAD_STATE_PENDING, RESOURCE_LOAD_STATE_LOADING, RESOURCE_LOAD_STATE_SUCCESS, RESOURCE_LOAD_STATE_FAIL
+		RESOURCE_LOAD_STATE_INIT, 
+		RESOURCE_LOAD_STATE_PENDING, 
+		RESOURCE_LOAD_STATE_LOADING, 
+		RESOURCE_LOAD_STATE_SUCCESS, 
+		RESOURCE_LOAD_STATE_FAIL
 	} RESOURCE_LOAD_STATE;
 
 	class CROSS_EXPORT CResource
@@ -49,7 +60,6 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL IsValid(void) const = 0;
 		virtual RESOURCE_TYPE GetType(void) const = 0;
 
 	public:
@@ -74,14 +84,17 @@ namespace CrossEngine {
 		virtual BOOL LoadFromFile(const char *szFileName);
 		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName);
 		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName);
-		virtual BOOL LoadFromStream(CStream *pStream) = 0;
-		virtual BOOL LoadFromStreamPost(CStream *pStream) = 0;
 
 		virtual BOOL SaveToFile(const char *szFileName);
 		virtual BOOL SaveToFileStream(FILE *pFile);
 
-		virtual void SetState(RESOURCE_LOAD_STATE state);
 		virtual RESOURCE_LOAD_STATE GetState(void) const;
+
+	protected:
+		virtual BOOL Load(void) = 0;
+		virtual BOOL LoadPost(void) = 0;
+
+		virtual void SetState(RESOURCE_LOAD_STATE state);
 
 
 	protected:

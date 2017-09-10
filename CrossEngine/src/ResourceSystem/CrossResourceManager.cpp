@@ -106,18 +106,18 @@ namespace CrossEngine {
 			if (m_szFileName) {
 				if (m_pPack) {
 					if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
-						throw "Load from pack failed.";
+						return FALSE;
 					}
 				}
 				else {
 					if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
-						throw "Load from file failed.";
+						return FALSE;
 					}
 				}
 			}
 		}
 
-		return m_ptrResource->IsValid();
+		return TRUE;
 	}
 
 	BOOL CResourceHandle::LoadResource(void)
@@ -125,17 +125,17 @@ namespace CrossEngine {
 		if (m_szFileName) {
 			if (m_pPack) {
 				if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
-					throw "Load from pack failed.";
+					return FALSE;
 				}
 			}
 			else {
 				if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
-					throw "Load from file failed.";
+					return FALSE;
 				}
 			}
 		}
 
-		return m_ptrResource->IsValid();
+		return TRUE;
 	}
 
 	void CResourceHandle::FreeResource(void)
@@ -274,10 +274,6 @@ namespace CrossEngine {
 		}
 
 		if (pCopyFrom == NULL) {
-			return ptrResourceNull;
-		}
-
-		if (pCopyFrom->IsValid() == FALSE) {
 			return ptrResourceNull;
 		}
 

@@ -36,6 +36,11 @@ namespace CrossEngine {
 		m_ptrShader.Release();
 	}
 
+	RESOURCE_TYPE CShader::GetType(void) const
+	{
+		return RESOURCE_TYPE_SHADER;
+	}
+
 	const CGfxShaderPtr& CShader::GetShader(void) const
 	{
 		return m_ptrShader;
@@ -46,41 +51,24 @@ namespace CrossEngine {
 		return m_shaderFlags;
 	}
 
-	BOOL CShader::IsValid(void) const
-	{
-		return m_ptrShader.IsNull() ? FALSE : TRUE;
-	}
-
-	RESOURCE_TYPE CShader::GetType(void) const
-	{
-		return RESOURCE_TYPE_SHADER;
-	}
-
-	BOOL CShader::CopyFrom(const CResource *pCopyFrom)
-	{
-		ASSERT(FALSE);
-		return FALSE;
-	}
-
-	BOOL CShader::LoadFromStream(CStream *pStream)
+	BOOL CShader::Load(void)
 	{
 		char szExt[_MAX_EXT];
-		splitfilename(pStream->GetName(), NULL, szExt);
+		splitfilename(m_stream.GetName(), NULL, szExt);
 
 		if      (!stricmp(szExt, ".vert")) m_shaderFlags = VK_SHADER_STAGE_VERTEX_BIT;
 		else if (!stricmp(szExt, ".frag")) m_shaderFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 		else if (!stricmp(szExt, ".comp")) m_shaderFlags = VK_SHADER_STAGE_COMPUTE_BIT;
 		else return FALSE;
 
-		return m_ptrShader->Precompile((const char *)pStream->GetAddress(), pStream->GetFullSize(), m_shaderFlags);
+		return m_ptrShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_shaderFlags);
 	}
 
-	BOOL CShader::LoadFromStreamPost(CStream *pStream)
+	BOOL CShader::LoadPost(void)
 	{
-		BOOL rcode = m_ptrShader->Create((const char *)pStream->GetAddress(), pStream->GetFullSize(), m_shaderFlags);
-		{
-			m_stream.Free();
-		}
+		BOOL rcode = m_ptrShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_shaderFlags);
+		m_stream.Free();
+
 		return rcode;
 	}
 

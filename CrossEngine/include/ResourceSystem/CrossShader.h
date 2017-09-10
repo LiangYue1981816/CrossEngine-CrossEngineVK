@@ -37,18 +37,15 @@ namespace CrossEngine {
 
 
 	public:
-		const CGfxShaderPtr& GetShader(void) const;
-		VkShaderStageFlagBits GetShaderFlags(void) const;
-
-	public:
-		virtual BOOL IsValid(void) const;
 		virtual RESOURCE_TYPE GetType(void) const;
 
 	public:
-		virtual BOOL CopyFrom(const CResource *pCopyFrom);
+		const CGfxShaderPtr& GetShader(void) const;
+		VkShaderStageFlagBits GetShaderFlags(void) const;
 
-		virtual BOOL LoadFromStream(CStream *pStream);
-		virtual BOOL LoadFromStreamPost(CStream *pStream);
+	protected:
+		virtual BOOL Load(void);
+		virtual BOOL LoadPost(void);
 
 
 	protected:

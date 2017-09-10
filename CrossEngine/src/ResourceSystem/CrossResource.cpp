@@ -106,7 +106,7 @@ namespace CrossEngine {
 			}
 
 			if (m_stream.CopyFrom(pCopyFrom->GetStream()) == FALSE) throw "Copy stream failed.";
-			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
+			if (Load() == FALSE) throw "Load failed.";
 
 			return TRUE;
 		}
@@ -128,7 +128,7 @@ namespace CrossEngine {
 			}
 
 			if (m_stream.LoadFromFile(szFileName) == FALSE) throw "Load stream from file failed.";
-			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
+			if (Load() == FALSE) throw "Load failed.";
 
 			return TRUE;
 		}
@@ -154,7 +154,7 @@ namespace CrossEngine {
 			}
 
 			if (m_stream.LoadFromPack(szPackName, szFileName)) throw "Load stream from pack failed.";
-			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
+			if (Load() == FALSE) throw "Load failed.";
 
 			return TRUE;
 		}
@@ -180,7 +180,7 @@ namespace CrossEngine {
 			}
 
 			if (m_stream.LoadFromPack(pPack, szFileName)) throw "Load stream from pack failed.";
-			if (LoadFromStream(&m_stream) == FALSE) throw "Load from stream failed.";
+			if (Load() == FALSE) throw "Load failed.";
 
 			return TRUE;
 		}
