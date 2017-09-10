@@ -49,6 +49,7 @@ namespace CrossEngine {
 	{
 		template<class T>
 		friend class CResourcePtr;
+		friend class CResourceHandle;
 		friend class CResourceManager;
 
 
@@ -70,31 +71,28 @@ namespace CrossEngine {
 		virtual const CStream* GetStream(void) const;
 		virtual CResourceManager* GetResourceManager(void) const;
 
-	public:
+	protected:
 		virtual BOOL SetName(const char *szName);
-		virtual const char* GetName(void) const;
-		virtual DWORD GetHashName(void) const;
-
 		virtual BOOL SetFileName(const char *szFileName);
+
+	public:
+		virtual DWORD GetHashName(void) const;
+		virtual const char* GetName(void) const;
 		virtual const char* GetFileName(void) const;
 
 	public:
-		virtual BOOL CopyFrom(const CResource *pCopyFrom);
+		virtual RESOURCE_LOAD_STATE GetState(void) const;
 
+	protected:
+		virtual void SetState(RESOURCE_LOAD_STATE state);
+
+		virtual BOOL CopyFrom(const CResource *pCopyFrom);
 		virtual BOOL LoadFromFile(const char *szFileName);
 		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName);
 		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName);
 
-		virtual BOOL SaveToFile(const char *szFileName);
-		virtual BOOL SaveToFileStream(FILE *pFile);
-
-		virtual RESOURCE_LOAD_STATE GetState(void) const;
-
-	protected:
 		virtual BOOL Load(void) = 0;
 		virtual BOOL LoadPost(void) = 0;
-
-		virtual void SetState(RESOURCE_LOAD_STATE state);
 
 
 	protected:

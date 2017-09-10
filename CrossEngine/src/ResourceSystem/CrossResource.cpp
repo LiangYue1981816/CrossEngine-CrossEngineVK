@@ -68,9 +68,9 @@ namespace CrossEngine {
 		return m_stream.SetName(szName);
 	}
 
-	const char* CResource::GetName(void) const
+	BOOL CResource::SetFileName(const char *szFileName)
 	{
-		return m_stream.GetName();
+		return m_stream.SetFileName(szFileName);
 	}
 
 	DWORD CResource::GetHashName(void) const
@@ -78,14 +78,24 @@ namespace CrossEngine {
 		return m_stream.GetHashName();
 	}
 
-	BOOL CResource::SetFileName(const char *szFileName)
+	const char* CResource::GetName(void) const
 	{
-		return m_stream.SetFileName(szFileName);
+		return m_stream.GetName();
 	}
 
 	const char* CResource::GetFileName(void) const
 	{
 		return m_stream.GetFileName();
+	}
+
+	void CResource::SetState(RESOURCE_LOAD_STATE state)
+	{
+		m_state = state;
+	}
+
+	RESOURCE_LOAD_STATE CResource::GetState(void) const
+	{
+		return m_state;
 	}
 
 	BOOL CResource::CopyFrom(const CResource *pCopyFrom)
@@ -97,16 +107,17 @@ namespace CrossEngine {
 				throw "Invalid resource.";
 			}
 
-			if (pCopyFrom->IsValid() == FALSE) {
-				throw "Invalid resource.";
-			}
-
 			if (pCopyFrom->GetType() != GetType()) {
 				throw "Invalid resource type.";
 			}
 
-			if (m_stream.CopyFrom(pCopyFrom->GetStream()) == FALSE) throw "Copy stream failed.";
-			if (Load() == FALSE) throw "Load failed.";
+			if (m_stream.CopyFrom(pCopyFrom->GetStream()) == FALSE) {
+				throw "Copy stream failed.";
+			}
+
+			if (Load() == FALSE) {
+				throw "Load failed.";
+			}
 
 			return TRUE;
 		}
@@ -127,8 +138,13 @@ namespace CrossEngine {
 				throw "Invalid file name.";
 			}
 
-			if (m_stream.LoadFromFile(szFileName) == FALSE) throw "Load stream from file failed.";
-			if (Load() == FALSE) throw "Load failed.";
+			if (m_stream.LoadFromFile(szFileName) == FALSE) {
+				throw "Load stream from file failed.";
+			}
+
+			if (Load() == FALSE) {
+				throw "Load failed.";
+			}
 
 			return TRUE;
 		}
@@ -153,8 +169,13 @@ namespace CrossEngine {
 				throw "Invalid file name.";
 			}
 
-			if (m_stream.LoadFromPack(szPackName, szFileName)) throw "Load stream from pack failed.";
-			if (Load() == FALSE) throw "Load failed.";
+			if (m_stream.LoadFromPack(szPackName, szFileName)) {
+				throw "Load stream from pack failed.";
+			}
+
+			if (Load() == FALSE) {
+				throw "Load failed.";
+			}
 
 			return TRUE;
 		}
@@ -179,8 +200,13 @@ namespace CrossEngine {
 				throw "Invalid file name.";
 			}
 
-			if (m_stream.LoadFromPack(pPack, szFileName)) throw "Load stream from pack failed.";
-			if (Load() == FALSE) throw "Load failed.";
+			if (m_stream.LoadFromPack(pPack, szFileName)) {
+				throw "Load stream from pack failed.";
+			}
+
+			if (Load() == FALSE) {
+				throw "Load failed.";
+			}
 
 			return TRUE;
 		}
@@ -190,60 +216,6 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
-	}
-
-	BOOL CResource::SaveToFile(const char *szFileName)
-	{
-		FILE *pFile = NULL;
-
-		try {
-			if (szFileName == NULL) {
-				throw "Invalid file name.";
-			}
-
-			if (IsValid() == FALSE) {
-				throw "Invalid resource.";
-			}
-
-			pFile = fopen(szFileName, "wb");
-			if (pFile == NULL) {
-				throw "Open file failed.";
-			}
-
-			if (SaveToFileStream(pFile) == FALSE) {
-				throw "Save file stream failed.";
-			}
-
-			SetFileName(szFileName);
-
-			fclose(pFile);
-
-			return TRUE;
-		}
-		catch (const char *szError) {
-			LOGE("CResource::SaveToFile(\"%s\"): %s\n", szFileName ? szFileName : "NULL", szError);
-
-			if (pFile) {
-				fclose(pFile);
-			}
-
-			return FALSE;
-		}
-	}
-
-	BOOL CResource::SaveToFileStream(FILE *pFile)
-	{
-		return TRUE;
-	}
-
-	void CResource::SetState(RESOURCE_LOAD_STATE state)
-	{
-		m_state = state;
-	}
-
-	RESOURCE_LOAD_STATE CResource::GetState(void) const
-	{
-		return m_state;
 	}
 
 }

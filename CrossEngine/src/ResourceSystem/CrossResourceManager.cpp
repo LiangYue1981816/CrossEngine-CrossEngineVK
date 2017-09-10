@@ -103,18 +103,7 @@ namespace CrossEngine {
 				m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 			}
 
-			if (m_szFileName) {
-				if (m_pPack) {
-					if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
-						return FALSE;
-					}
-				}
-			}
+			// ...
 		}
 
 		return TRUE;
@@ -124,36 +113,24 @@ namespace CrossEngine {
 	{
 		if (m_szFileName) {
 			if (m_pPack) {
-				if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
-					return FALSE;
-				}
+				return m_ptrResource->LoadFromPack(m_pPack, m_szFileName);
 			}
 			else {
-				if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
-					return FALSE;
-				}
+				return m_ptrResource->LoadFromFile(m_szFileName);
 			}
 		}
 
-		return TRUE;
+		return FALSE;
+	}
+
+	BOOL CResourceHandle::LoadResourcePost(void)
+	{
+		return m_ptrResource->LoadPost();
 	}
 
 	void CResourceHandle::FreeResource(void)
 	{
 		m_ptrResource.Release();
-	}
-
-	void CResourceHandle::DeleteResource(void)
-	{
-		if (m_szFileName && m_pPack) {
-			// ...
-			return;
-		}
-
-		if (m_szFileName) {
-			// ...
-			return;
-		}
 	}
 
 
@@ -242,23 +219,6 @@ namespace CrossEngine {
 		}
 
 		pResource->FreeResource();
-		return TRUE;
-	}
-
-	BOOL CResourceManager::DeleteResource(DWORD dwName)
-	{
-		CResourceHandle *pResource = NULL;
-		{
-			mutex_autolock mutex(m_mutex);
-			const auto &itResource = m_resources.find(dwName);
-			if (itResource != m_resources.end()) { pResource = itResource->second; m_resources.erase(itResource); }
-		}
-
-		if (pResource == NULL) {
-			return FALSE;
-		}
-
-		pResource->DeleteResource();
 		return TRUE;
 	}
 

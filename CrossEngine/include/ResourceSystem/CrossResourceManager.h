@@ -38,7 +38,7 @@ namespace CrossEngine {
 		virtual ~CResourceHandle(void);
 
 
-	public:
+	protected:
 		BOOL IsWaste(void) const;
 
 		const char* GetName(void) const;
@@ -48,8 +48,8 @@ namespace CrossEngine {
 	public:
 		BOOL LoadResource(BOOL bReload);
 		BOOL LoadResource(void);
+		BOOL LoadResourcePost(void);
 		void FreeResource(void);
-		void DeleteResource(void);
 
 
 	protected:
@@ -94,7 +94,6 @@ namespace CrossEngine {
 	public:
 		const CResourcePtr<CResource>& QueryResource(DWORD dwName, BOOL bReload = FALSE);
 		BOOL FreeResource(DWORD dwName);
-		BOOL DeleteResource(DWORD dwName);
 
 		const ResourceMap& GetResources(void) const;
 
