@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 	public:
 		const CGfxShaderPtr& GetShader(void) const;
-		VkShaderStageFlagBits GetShaderFlags(void) const;
+		VkShaderStageFlagBits GetFlags(void) const;
 
 	protected:
 		virtual BOOL Load(void);
@@ -50,7 +50,7 @@ namespace CrossEngine {
 
 	protected:
 		CGfxShaderPtr m_ptrShader;
-		VkShaderStageFlagBits m_shaderFlags;
+		VkShaderStageFlagBits m_flags;
 	};
 
 }

@@ -46,9 +46,9 @@ namespace CrossEngine {
 		return m_ptrShader;
 	}
 
-	VkShaderStageFlagBits CShader::GetShaderFlags(void) const
+	VkShaderStageFlagBits CShader::GetFlags(void) const
 	{
-		return m_shaderFlags;
+		return m_flags;
 	}
 
 	BOOL CShader::Load(void)
@@ -56,17 +56,17 @@ namespace CrossEngine {
 		char szExt[_MAX_EXT];
 		splitfilename(m_stream.GetName(), NULL, szExt);
 
-		if      (!stricmp(szExt, ".vert")) m_shaderFlags = VK_SHADER_STAGE_VERTEX_BIT;
-		else if (!stricmp(szExt, ".frag")) m_shaderFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-		else if (!stricmp(szExt, ".comp")) m_shaderFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+		if      (!stricmp(szExt, ".vert")) m_flags = VK_SHADER_STAGE_VERTEX_BIT;
+		else if (!stricmp(szExt, ".frag")) m_flags = VK_SHADER_STAGE_FRAGMENT_BIT;
+		else if (!stricmp(szExt, ".comp")) m_flags = VK_SHADER_STAGE_COMPUTE_BIT;
 		else return FALSE;
 
-		return m_ptrShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_shaderFlags);
+		return m_ptrShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 	}
 
 	BOOL CShader::LoadPost(void)
 	{
-		BOOL rcode = m_ptrShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_shaderFlags);
+		BOOL rcode = m_ptrShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 		m_stream.Free();
 
 		return rcode;
