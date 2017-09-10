@@ -364,6 +364,11 @@ namespace CrossEngine {
 				if (fileData.attrib&_A_SUBDIR) {
 					if (!stricmp(fileData.name, ".")) continue;
 					if (!stricmp(fileData.name, "..")) continue;
+
+					char szSubPathName[_MAX_PATH];
+					sprintf(szSubPathName, "%s/%s", szPathName, fileData.name);
+					PreLoadFromPath(szSubPathName, szExtName);
+
 					continue;
 				}
 
