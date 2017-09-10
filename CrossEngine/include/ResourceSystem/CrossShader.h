@@ -35,6 +35,7 @@ namespace CrossEngine {
 
 	public:
 		const CGfxShaderPtr& GetShader(void) const;
+		VkShaderStageFlagBits GetShaderFlags(void) const;
 
 	public:
 		virtual BOOL IsValid(void) const;
@@ -43,14 +44,13 @@ namespace CrossEngine {
 	public:
 		virtual BOOL CopyFrom(const CResource *pCopyFrom);
 
-		virtual BOOL LoadFromFile(const char *szFileName);
-		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName);
-		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName);
 		virtual BOOL LoadFromStream(CStream *pStream);
+		virtual BOOL LoadFromStreamPost(CStream *pStream);
 
 
 	protected:
 		CGfxShaderPtr m_ptrShader;
+		VkShaderStageFlagBits m_shaderFlags;
 	};
 
 }
