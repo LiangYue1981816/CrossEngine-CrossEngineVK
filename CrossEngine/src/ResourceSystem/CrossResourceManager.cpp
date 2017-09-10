@@ -294,20 +294,7 @@ namespace CrossEngine {
 		return ptrResource;
 	}
 
-	BOOL CResourceManager::Reload(void)
-	{
-		mutex_autolock mutex(m_mutex);
-
-		for (const auto &itResource : m_resources) {
-			if (CResourceHandle *pResource = itResource.second) {
-				pResource->LoadResource(TRUE);
-			}
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResourceManager::LoadFromFile(const char *szFileName, const char *szExtName)
+	BOOL CResourceManager::PreLoadFromFile(const char *szFileName, const char *szExtName)
 	{
 		if (szFileName == NULL) {
 			return FALSE;
@@ -347,7 +334,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResourceManager::LoadFromPath(const char *szPathName, const char *szExtName)
+	BOOL CResourceManager::PreLoadFromPath(const char *szPathName, const char *szExtName)
 	{
 		if (szPathName == NULL) {
 			return FALSE;
@@ -415,7 +402,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResourceManager::LoadFromPack(const char *szPackName, const char *szExtName)
+	BOOL CResourceManager::PreLoadFromPack(const char *szPackName, const char *szExtName)
 	{
 		if (szPackName == NULL) {
 			return FALSE;
@@ -474,8 +461,21 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResourceManager::PreLoad(CResourceHandle *pResource)
+	BOOL CResourceManager::Load(CResourceHandle *pResource)
 	{
+		return TRUE;
+	}
+
+	BOOL CResourceManager::Reload(void)
+	{
+		mutex_autolock mutex(m_mutex);
+
+		for (const auto &itResource : m_resources) {
+			if (CResourceHandle *pResource = itResource.second) {
+				pResource->LoadResource(TRUE);
+			}
+		}
+
 		return TRUE;
 	}
 

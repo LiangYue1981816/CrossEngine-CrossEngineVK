@@ -100,18 +100,18 @@ namespace CrossEngine {
 	public:
 		virtual const CResourcePtr<CResource>& CopyFrom(const char *szName, const CResource *pCopyFrom);
 
-		virtual BOOL LoadFromFile(const char *szFileName) = 0;
-		virtual BOOL LoadFromPath(const char *szPathName) = 0;
-		virtual BOOL LoadFromPack(const char *szPackName) = 0;
+		virtual BOOL PreLoadFromFile(const char *szFileName) = 0;
+		virtual BOOL PreLoadFromPath(const char *szPathName) = 0;
+		virtual BOOL PreLoadFromPack(const char *szPackName) = 0;
 
 		virtual BOOL Reload(void);
 
 	protected:
-		virtual BOOL LoadFromFile(const char *szFileName, const char *szExtName);
-		virtual BOOL LoadFromPath(const char *szPathName, const char *szExtName);
-		virtual BOOL LoadFromPack(const char *szPackName, const char *szExtName);
+		virtual BOOL PreLoadFromFile(const char *szFileName, const char *szExtName);
+		virtual BOOL PreLoadFromPath(const char *szPathName, const char *szExtName);
+		virtual BOOL PreLoadFromPack(const char *szPackName, const char *szExtName);
 
-		virtual BOOL PreLoad(CResourceHandle *pResource);
+		virtual BOOL Load(CResourceHandle *pResource);
 
 	public:
 		virtual void GarbageCollection(void);
