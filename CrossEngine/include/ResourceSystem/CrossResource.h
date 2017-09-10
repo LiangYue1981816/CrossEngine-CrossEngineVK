@@ -80,6 +80,7 @@ namespace CrossEngine {
 		virtual BOOL SaveToFile(const char *szFileName);
 		virtual BOOL SaveToFileStream(FILE *pFile);
 
+		virtual void SetState(RESOURCE_LOAD_STATE state);
 		virtual RESOURCE_LOAD_STATE GetState(void) const;
 
 

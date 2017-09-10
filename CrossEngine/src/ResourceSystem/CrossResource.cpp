@@ -236,6 +236,11 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	void CResource::SetState(RESOURCE_LOAD_STATE state)
+	{
+		m_state = state;
+	}
+
 	RESOURCE_LOAD_STATE CResource::GetState(void) const
 	{
 		return m_state;
