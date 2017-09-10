@@ -98,39 +98,11 @@ namespace CrossEngine {
 
 	BOOL CResourceHandle::LoadResource(BOOL bReload)
 	{
-		try {
-			if (m_ptrResource.IsNull() || bReload) {
-				if (m_ptrResource.IsNull()) {
-					m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
-				}
-
-				if (m_szFileName) {
-					if (m_pPack) {
-						if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
-							throw "Load from pack failed.";
-						}
-					}
-					else {
-						if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
-							throw "Load from file failed.";
-						}
-					}
-				}
+		if (m_ptrResource.IsNull() || bReload) {
+			if (m_ptrResource.IsNull()) {
+				m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 			}
 
-			return m_ptrResource->IsValid();
-		}
-		catch (const char *szError) {
-			LOGE("CResourceHandle::LoadResource(%s): %s\n", bReload ? "TRUE" : "FALSE", szError);
-			FreeResource();
-
-			return FALSE;
-		}
-	}
-
-	BOOL CResourceHandle::LoadResource(void)
-	{
-		try {
 			if (m_szFileName) {
 				if (m_pPack) {
 					if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
@@ -143,15 +115,27 @@ namespace CrossEngine {
 					}
 				}
 			}
-
-			return m_ptrResource->IsValid();
 		}
-		catch (const char *szError) {
-			LOGE("CResourceHandle::LoadResource(): %s\n", szError);
-			FreeResource();
 
-			return FALSE;
+		return m_ptrResource->IsValid();
+	}
+
+	BOOL CResourceHandle::LoadResource(void)
+	{
+		if (m_szFileName) {
+			if (m_pPack) {
+				if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
+					throw "Load from pack failed.";
+				}
+			}
+			else {
+				if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
+					throw "Load from file failed.";
+				}
+			}
 		}
+
+		return m_ptrResource->IsValid();
 	}
 
 	void CResourceHandle::FreeResource(void)

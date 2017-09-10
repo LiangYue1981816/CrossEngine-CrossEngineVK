@@ -52,6 +52,14 @@ namespace CrossEngine {
 
 
 	protected:
+		pthread_t m_thread;
+		pthread_mutex_t m_mutexPending;
+		pthread_mutex_t m_mutexLoading;
+
+		std::list<CResourceHandle*> m_pending;
+		std::list<CResourceHandle*> m_loading;
+
+	protected:
 		CResourceManager *m_pResourceManager[RESOURCE_TYPE::COUNT];
 	};
 
