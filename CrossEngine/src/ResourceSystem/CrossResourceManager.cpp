@@ -328,7 +328,7 @@ namespace CrossEngine {
 		}
 
 		if (pResource) {
-			PreLoad(pResource);
+			Load(pResource);
 		}
 
 		return TRUE;
@@ -392,7 +392,7 @@ namespace CrossEngine {
 				}
 
 				if (pResource) {
-					PreLoad(pResource);
+					Load(pResource);
 				}	
 			} while (_findnext(hFile, &fileData) == 0);
 
@@ -454,7 +454,7 @@ namespace CrossEngine {
 			}
 
 			if (pResource) {
-				PreLoad(pResource);
+				Load(pResource);
 			}
 		}
 
