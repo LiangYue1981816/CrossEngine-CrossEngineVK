@@ -47,6 +47,7 @@ namespace CrossEngine {
 
 	public:
 		BOOL LoadResource(BOOL bReload);
+		BOOL LoadResource(void);
 		void FreeResource(void);
 		void DeleteResource(void);
 

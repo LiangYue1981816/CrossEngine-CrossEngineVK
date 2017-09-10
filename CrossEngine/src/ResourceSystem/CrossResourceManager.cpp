@@ -128,6 +128,32 @@ namespace CrossEngine {
 		}
 	}
 
+	BOOL CResourceHandle::LoadResource(void)
+	{
+		try {
+			if (m_szFileName) {
+				if (m_pPack) {
+					if (m_ptrResource->LoadFromPack(m_pPack, m_szFileName) == FALSE) {
+						throw "Load from pack failed.";
+					}
+				}
+				else {
+					if (m_ptrResource->LoadFromFile(m_szFileName) == FALSE) {
+						throw "Load from file failed.";
+					}
+				}
+			}
+
+			return m_ptrResource->IsValid();
+		}
+		catch (const char *szError) {
+			LOGE("CResourceHandle::LoadResource(): %s\n", szError);
+			FreeResource();
+
+			return FALSE;
+		}
+	}
+
 	void CResourceHandle::FreeResource(void)
 	{
 		m_ptrResource.Release();
