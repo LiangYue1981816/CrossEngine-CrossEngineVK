@@ -53,19 +53,19 @@ namespace CrossEngine {
 		pResource->GetResourceManager()->DestroyResource(pResource);
 	}
 
-	BOOL CResourceSystem::LoadResourcePath(const char *szPathName)
+	BOOL CResourceSystem::PreLoadResourcePath(const char *szPathName)
 	{
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
-			m_pResourceManager[indexManager]->LoadFromPath(szPathName);
+			m_pResourceManager[indexManager]->PreLoadFromPath(szPathName);
 		}
 
 		return TRUE;
 	}
 
-	BOOL CResourceSystem::LoadResourcePack(const char *szPackName)
+	BOOL CResourceSystem::PreLoadResourcePack(const char *szPackName)
 	{
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
-			m_pResourceManager[indexManager]->LoadFromPack(szPackName);
+			m_pResourceManager[indexManager]->PreLoadFromPack(szPackName);
 		}
 
 		return TRUE;

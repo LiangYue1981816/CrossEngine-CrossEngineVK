@@ -44,8 +44,8 @@ namespace CrossEngine {
 		void DestroyResource(CResource *pResource);
 
 	public:
-		BOOL LoadResourcePath(const char *szPathName);
-		BOOL LoadResourcePack(const char *szPackName);
+		BOOL PreLoadResourcePath(const char *szPathName);
+		BOOL PreLoadResourcePack(const char *szPackName);
 
 	public:
 		void GarbageCollection(void);
