@@ -71,6 +71,7 @@ namespace CrossEngine {
 		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName);
 		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName);
 		virtual BOOL LoadFromStream(CStream *pStream) = 0;
+		virtual BOOL LoadFromStreamPost(CStream *pStream) = 0;
 
 		virtual BOOL SaveToFile(const char *szFileName);
 		virtual BOOL SaveToFileStream(FILE *pFile);
