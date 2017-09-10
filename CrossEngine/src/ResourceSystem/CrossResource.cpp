@@ -27,7 +27,6 @@ namespace CrossEngine {
 
 	CResource::CResource(CResourceManager *pResourceManager)
 		: m_pResourceManager(pResourceManager)
-		, m_state(RESOURCE_LOAD_STATE_INIT)
 	{
 		Init();
 	}
@@ -45,6 +44,7 @@ namespace CrossEngine {
 	void CResource::Init(void)
 	{
 		m_stream.Init();
+		m_state = RESOURCE_LOAD_STATE_INIT;
 	}
 
 	void CResource::Free(void)
@@ -93,8 +93,6 @@ namespace CrossEngine {
 		Free();
 
 		try {
-			m_state = RESOURCE_LOAD_STATE_LOADING;
-
 			if (pCopyFrom == NULL) {
 				throw "Invalid resource.";
 			}
@@ -114,8 +112,6 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::CopyFrom(0x%016x): %s\n", pCopyFrom, szError);
-
-			m_state = RESOURCE_LOAD_STATE_FAIL;
 			Free();
 
 			return FALSE;
@@ -127,8 +123,6 @@ namespace CrossEngine {
 		Free();
 
 		try {
-			m_state = RESOURCE_LOAD_STATE_LOADING;
-
 			if (szFileName == NULL) {
 				throw "Invalid file name.";
 			}
@@ -140,8 +134,6 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromFile(\"%s\"): %s\n", szFileName ? szFileName : "NULL", szError);
-
-			m_state = RESOURCE_LOAD_STATE_FAIL;
 			Free();
 
 			return FALSE;
@@ -153,8 +145,6 @@ namespace CrossEngine {
 		Free();
 
 		try {
-			m_state = RESOURCE_LOAD_STATE_LOADING;
-
 			if (szPackName == NULL) {
 				throw "Invalid pack name.";
 			}
@@ -170,8 +160,6 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(\"%s\", \"%s\"): %s\n", szPackName ? szPackName : "NULL", szFileName ? szFileName : "NULL", szError);
-
-			m_state = RESOURCE_LOAD_STATE_FAIL;
 			Free();
 
 			return FALSE;
@@ -183,8 +171,6 @@ namespace CrossEngine {
 		Free();
 
 		try {
-			m_state = RESOURCE_LOAD_STATE_LOADING;
-
 			if (pPack == NULL) {
 				throw "Invalid pack.";
 			}
@@ -200,8 +186,6 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(0x%016x, \"%s\"): %s\n", pPack, szFileName ? szFileName : "NULL", szError);
-
-			m_state = RESOURCE_LOAD_STATE_FAIL;
 			Free();
 
 			return FALSE;
