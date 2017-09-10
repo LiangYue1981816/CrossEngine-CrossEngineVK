@@ -35,4 +35,57 @@ namespace CrossEngine {
 
 	}
 
+	RESOURCE_TYPE CShaderManager::GetType(void) const
+	{
+		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
+	}
+
+	CResource* CShaderManager::CreateResource(void)
+	{
+		return SAFE_NEW CShader(this);
+	}
+
+	BOOL CShaderManager::PreLoadFromFile(const char *szFileName)
+	{
+		if (CResourceManager::PreLoadFromFile(szFileName, SHADER_EXT_NAME0) == FALSE) return FALSE;
+		if (CResourceManager::PreLoadFromFile(szFileName, SHADER_EXT_NAME1) == FALSE) return FALSE;
+		if (CResourceManager::PreLoadFromFile(szFileName, SHADER_EXT_NAME2) == FALSE) return FALSE;
+
+		return TRUE;
+	}
+
+	BOOL CShaderManager::PreLoadFromPath(const char *szPathName)
+	{
+		if (CResourceManager::PreLoadFromPath(szPathName, SHADER_EXT_NAME0) == FALSE) return FALSE;
+		if (CResourceManager::PreLoadFromPath(szPathName, SHADER_EXT_NAME1) == FALSE) return FALSE;
+		if (CResourceManager::PreLoadFromPath(szPathName, SHADER_EXT_NAME2) == FALSE) return FALSE;
+
+		return TRUE;
+	}
+
+	BOOL CShaderManager::PreLoadFromPack(const char *szPackName)
+	{
+		if (CResourceManager::PreLoadFromPack(szPackName, SHADER_EXT_NAME0) == FALSE) return FALSE;
+		if (CResourceManager::PreLoadFromPack(szPackName, SHADER_EXT_NAME1) == FALSE) return FALSE;
+		if (CResourceManager::PreLoadFromPack(szPackName, SHADER_EXT_NAME2) == FALSE) return FALSE;
+
+		return TRUE;
+	}
+
+	const CResourcePtr<CResource>& CShaderManager::CopyFrom(const char *szName, const CResource *pCopyFrom)
+	{
+		static const CResourcePtr<CResource> ptrResourceNull;
+		return ptrResourceNull;
+	}
+
+	BOOL CShaderManager::Load(CResourceHandle *pResource)
+	{
+		return TRUE;
+	}
+
+	void CShaderManager::GarbageCollection(void)
+	{
+
+	}
+
 }

@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CShader : public CResource
 	{
+		friend class CShaderManager;
+
+
 	protected:
 		CShader(CResourceManager *pResourceManager);
 		virtual ~CShader(void);

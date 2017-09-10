@@ -28,9 +28,31 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CShaderManager : public CResourceManager
 	{
+		friend class CResourceSystem;
+
+
 	protected:
 		CShaderManager(void);
 		virtual ~CShaderManager(void);
+
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
+
+	public:
+		virtual CResource* CreateResource(void);
+
+		virtual BOOL PreLoadFromFile(const char *szFileName);
+		virtual BOOL PreLoadFromPath(const char *szPathName);
+		virtual BOOL PreLoadFromPack(const char *szPackName);
+
+		virtual const CResourcePtr<CResource>& CopyFrom(const char *szName, const CResource *pCopyFrom);
+
+	protected:
+		virtual BOOL Load(CResourceHandle *pResource);
+
+	public:
+		virtual void GarbageCollection(void);
 	};
 
 }

@@ -362,6 +362,8 @@ namespace CrossEngine {
 		if (hFile != -1) {
 			do {
 				if (fileData.attrib&_A_SUBDIR) {
+					if (!stricmp(fileData.name, ".")) continue;
+					if (!stricmp(fileData.name, "..")) continue;
 					continue;
 				}
 

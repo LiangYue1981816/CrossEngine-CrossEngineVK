@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CResourceSystem::CResourceSystem(void)
 		: m_pResourceManager{ NULL }
 	{
-
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CShaderManager;
 	}
 
 	CResourceSystem::~CResourceSystem(void)

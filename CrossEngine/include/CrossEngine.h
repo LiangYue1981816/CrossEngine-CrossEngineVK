@@ -118,6 +118,21 @@ THE SOFTWARE.
 #define TAG_NAME "CrossEngine"
 
 
+#define SHADER_EXT_NAME0     ".vert"
+#define SHADER_EXT_NAME1     ".frag"
+#define SHADER_EXT_NAME2     ".comp"
+#define TEXTURE_EXT_NAME0    ".bmp"
+#define TEXTURE_EXT_NAME2    ".png"
+#define TEXTURE_EXT_NAME3    ".dds"
+#define TEXTURE_EXT_NAME4    ".etc"
+#define MATERIAL_EXT_NAME    ".material"
+#define SKELETON_EXT_NAME    ".skeleton"
+#define MESH_EXT_NAME        ".mesh"
+#define EFFECT_EXT_NAME      ".effect"
+#define SOUND_EXT_NAME0      ".wav"
+#define SOUND_EXT_NAME1      ".ogg"
+
+
 #define Engine()             CrossEngine::CEngine::GetEngine()
 
 #define RenderSystem()       CrossEngine::CEngine::GetEngine()->GetRenderSystem()
@@ -125,13 +140,13 @@ THE SOFTWARE.
 #define GfxSwapChain()       CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetSwapchain()
 
 #define ResourceSystem()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()
-#define ShaderManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SHADER)
-#define TextureManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::TEXTURE)
-#define MaterialManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::MATERIAL)
-#define MeshManager()        CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::MESH)
-#define SkeletonManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SKELETON)
-#define EffectManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::EFFECT)
-#define SoundManager()       CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::SOUND)
+#define ShaderManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SHADER)
+#define TextureManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE)
+#define MaterialManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL)
+#define MeshManager()        CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_MESH)
+#define SkeletonManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SKELETON)
+#define EffectManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_EFFECT)
+#define SoundManager()       CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SOUND)
 
 
 namespace CrossEngine {
