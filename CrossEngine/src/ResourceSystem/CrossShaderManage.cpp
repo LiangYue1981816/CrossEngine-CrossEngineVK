@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	static const CResourcePtr<CResource> ptrResourceNull;
+
 	CShaderManager::CShaderManager(void)
 	{
 
@@ -74,7 +76,6 @@ namespace CrossEngine {
 
 	const CResourcePtr<CResource>& CShaderManager::CopyFrom(const char *szName, const CResource *pCopyFrom)
 	{
-		static const CResourcePtr<CResource> ptrResourceNull;
 		return ptrResourceNull;
 	}
 
