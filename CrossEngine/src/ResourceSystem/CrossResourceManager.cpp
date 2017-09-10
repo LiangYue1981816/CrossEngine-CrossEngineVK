@@ -366,6 +366,7 @@ namespace CrossEngine {
 					if (!stricmp(fileData.name, "..")) continue;
 
 					char szSubPathName[_MAX_PATH];
+
 					sprintf(szSubPathName, "%s/%s", szPathName, fileData.name);
 					PreLoadFromPath(szSubPathName, szExtName);
 
