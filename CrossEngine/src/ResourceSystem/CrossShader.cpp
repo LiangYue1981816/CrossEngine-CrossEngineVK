@@ -28,12 +28,12 @@ namespace CrossEngine {
 	CShader::CShader(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrShader = GfxDevice()->NewShader();
+		m_ptrGfxShader = GfxDevice()->NewShader();
 	}
 
 	CShader::~CShader(void)
 	{
-		m_ptrShader.Release();
+		m_ptrGfxShader.Release();
 	}
 
 	RESOURCE_TYPE CShader::GetType(void) const
@@ -41,14 +41,9 @@ namespace CrossEngine {
 		return RESOURCE_TYPE_SHADER;
 	}
 
-	const CGfxShaderPtr& CShader::GetShaderPtr(void) const
+	const CGfxShaderPtr& CShader::GetGfxShaderPtr(void) const
 	{
-		return m_ptrShader;
-	}
-
-	VkShaderStageFlagBits CShader::GetFlags(void) const
-	{
-		return m_flags;
+		return m_ptrGfxShader;
 	}
 
 	BOOL CShader::Load(void)
@@ -61,12 +56,12 @@ namespace CrossEngine {
 		else if (!stricmp(szExt, ".comp")) m_flags = VK_SHADER_STAGE_COMPUTE_BIT;
 		else return FALSE;
 
-		return m_ptrShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
+		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 	}
 
 	BOOL CShader::LoadPost(void)
 	{
-		BOOL rcode = m_ptrShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
+		BOOL rcode = m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 		m_stream.Free();
 
 		return rcode;
