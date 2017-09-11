@@ -41,7 +41,7 @@ namespace CrossEngine {
 		return RESOURCE_TYPE_SHADER;
 	}
 
-	const CGfxShaderPtr& CShader::GetGfxShaderPtr(void) const
+	const CGfxShaderPtr& CShader::GetGfxShader(void) const
 	{
 		return m_ptrGfxShader;
 	}

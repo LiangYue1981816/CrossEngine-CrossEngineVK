@@ -40,7 +40,7 @@ namespace CrossEngine {
 		virtual RESOURCE_TYPE GetType(void) const;
 
 	public:
-		const CGfxShaderPtr& GetGfxShaderPtr(void) const;
+		const CGfxShaderPtr& GetGfxShader(void) const;
 
 	protected:
 		virtual BOOL Load(void);
