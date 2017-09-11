@@ -52,8 +52,8 @@ namespace CrossEngine {
 		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(void) const;
 
 		const uint32_t GetTextureUnit(uint32_t binding) const;
-		const CGfxTexturePtr GetTexture(uint32_t binding) const;
-		const CGfxUniformBufferPtr GetUniformBuffer(uint32_t binding) const;
+		const CGfxTexturePtr& GetTexture(uint32_t binding) const;
+		const CGfxUniformBufferPtr& GetUniformBuffer(uint32_t binding) const;
 
 
 	protected:
