@@ -96,11 +96,15 @@ namespace CrossEngine {
 		return m_ptrResource;
 	}
 
-	BOOL CResourceHandle::LoadResource(BOOL bReload)
+	BOOL CResourceHandle::LoadResource(BOOL bReload, BOOL bSync)
 	{
 		if (m_ptrResource.IsNull() || bReload) {
 			if (m_ptrResource.IsNull()) {
 				m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
+			}
+
+			if (bSync) {
+				return LoadResource();
 			}
 
 			// ...
@@ -185,7 +189,7 @@ namespace CrossEngine {
 		SAFE_DELETE(pResource);
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::QueryResource(DWORD dwName, BOOL bReload)
+	const CResourcePtr<CResource>& CResourceManager::QueryResource(DWORD dwName, BOOL bReload, BOOL bSync)
 	{
 		CResourceHandle *pResource = NULL;
 		{
@@ -198,7 +202,7 @@ namespace CrossEngine {
 			return ptrResourceNull;
 		}
 
-		if (pResource->LoadResource(bReload) == FALSE) {
+		if (pResource->LoadResource(bReload, bSync) == FALSE) {
 			return ptrResourceNull;
 		}
 
@@ -440,13 +444,13 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResourceManager::Reload(void)
+	BOOL CResourceManager::Reload(BOOL bSync)
 	{
 		mutex_autolock mutex(m_mutex);
 
 		for (const auto &itResource : m_resources) {
 			if (CResourceHandle *pResource = itResource.second) {
-				pResource->LoadResource(TRUE);
+				pResource->LoadResource(TRUE, bSync);
 			}
 		}
 
