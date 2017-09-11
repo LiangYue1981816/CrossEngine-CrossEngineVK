@@ -209,6 +209,33 @@ namespace CrossEngine {
 		return pResource->GetResourcePtr();
 	}
 
+	const CResourcePtr<CResource>& CResourceManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
+	{
+		if (pCopyFrom == NULL) {
+			return ptrResourceNull;
+		}
+
+		if (pCopyFrom->GetType() != GetType()) {
+			return ptrResourceNull;
+		}
+
+		CResourceHandle *pResource = NULL;
+		{
+			mutex_autolock mutex(m_mutex);
+
+			if (m_resources[dwName] == NULL) {
+				m_resources[dwName] = SAFE_NEW CResourceHandle(this, "");
+			}
+
+			pResource = m_resources[dwName];
+		}
+
+		const CResourcePtr<CResource> &ptrResource = pResource->GetResourcePtr();
+		ptrResource->CopyFrom(pCopyFrom);
+
+		return ptrResource;
+	}
+
 	BOOL CResourceManager::FreeResource(DWORD dwName)
 	{
 		CResourceHandle *pResource = NULL;
@@ -224,44 +251,6 @@ namespace CrossEngine {
 
 		pResource->FreeResource();
 		return TRUE;
-	}
-
-	const CResourceManager::ResourceMap& CResourceManager::GetResources(void) const
-	{
-		return m_resources;
-	}
-
-	const CResourcePtr<CResource>& CResourceManager::CopyFrom(const char *szName, const CResource *pCopyFrom)
-	{
-		if (szName == NULL) {
-			return ptrResourceNull;
-		}
-
-		if (pCopyFrom == NULL) {
-			return ptrResourceNull;
-		}
-
-		if (pCopyFrom->GetType() != GetType()) {
-			return ptrResourceNull;
-		}
-
-		CResourceHandle *pResource = NULL;
-		{
-			mutex_autolock mutex(m_mutex);
-			DWORD dwName = HashValue(szName);
-
-			if (m_resources[dwName] == NULL) {
-				m_resources[dwName] = SAFE_NEW CResourceHandle(this, szName);
-			}
-
-			pResource = m_resources[dwName];
-		}
-
-		const CResourcePtr<CResource> &ptrResource = pResource->GetResourcePtr();
-		ptrResource->CopyFrom(pCopyFrom);
-		ptrResource->SetName(szName);
-
-		return ptrResource;
 	}
 
 	BOOL CResourceManager::PreLoadFromFile(const char *szFileName, const char *szExtName)
@@ -441,19 +430,6 @@ namespace CrossEngine {
 
 	BOOL CResourceManager::Load(CResourceHandle *pResource)
 	{
-		return TRUE;
-	}
-
-	BOOL CResourceManager::Reload(BOOL bSync)
-	{
-		mutex_autolock mutex(m_mutex);
-
-		for (const auto &itResource : m_resources) {
-			if (CResourceHandle *pResource = itResource.second) {
-				pResource->LoadResource(TRUE, bSync);
-			}
-		}
-
 		return TRUE;
 	}
 

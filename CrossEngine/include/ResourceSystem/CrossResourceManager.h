@@ -92,19 +92,14 @@ namespace CrossEngine {
 		virtual void DestroyResource(CResource *pResource);
 
 	public:
-		const CResourcePtr<CResource>& QueryResource(DWORD dwName, BOOL bReload = FALSE, BOOL bSync = FALSE);
-		BOOL FreeResource(DWORD dwName);
-
-		const ResourceMap& GetResources(void) const;
+		virtual const CResourcePtr<CResource>& QueryResource(DWORD dwName, BOOL bReload = FALSE, BOOL bSync = FALSE);
+		virtual const CResourcePtr<CResource>& CopyResource(DWORD dwName, const CResource *pCopyFrom);
+		virtual BOOL FreeResource(DWORD dwName);
 
 	public:
-		virtual const CResourcePtr<CResource>& CopyFrom(const char *szName, const CResource *pCopyFrom);
-
 		virtual BOOL PreLoadFromFile(const char *szFileName) = 0;
 		virtual BOOL PreLoadFromPath(const char *szPathName) = 0;
 		virtual BOOL PreLoadFromPack(const char *szPackName) = 0;
-
-		virtual BOOL Reload(BOOL bSync = FALSE);
 
 	protected:
 		virtual BOOL PreLoadFromFile(const char *szFileName, const char *szExtName);
