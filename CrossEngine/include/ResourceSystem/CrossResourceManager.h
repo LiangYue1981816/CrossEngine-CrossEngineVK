@@ -32,6 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
+		CResourceHandle(CResourceManager *pResourceManager);
 		CResourceHandle(CResourceManager *pResourceManager, const char *szName);
 		CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName);
 		CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName, ZZIP_DIR *pPack);
@@ -40,16 +41,14 @@ namespace CrossEngine {
 
 	protected:
 		BOOL IsWaste(void) const;
-
-		const char* GetName(void) const;
-		const char* GetFileName(void) const;
 		CResourcePtr<CResource>& GetResourcePtr(void);
 
 	protected:
 		BOOL LoadResource(BOOL bReload, BOOL bSync);
 		BOOL LoadResource(void);
 		BOOL LoadResourcePost(void);
-		void FreeResource(void);
+		BOOL CopyFrom(const CResource *pCopyFrom);
+		BOOL FreeResource(void);
 
 
 	protected:

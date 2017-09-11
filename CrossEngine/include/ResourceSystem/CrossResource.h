@@ -97,10 +97,10 @@ namespace CrossEngine {
 
 	protected:
 		CStream m_stream;
-		RESOURCE_LOAD_STATE m_state;
 
 	protected:
 		pthread_mutex_t m_mutex;
+		RESOURCE_LOAD_STATE m_state;
 
 	protected:
 		CResourceManager *m_pResourceManager;
