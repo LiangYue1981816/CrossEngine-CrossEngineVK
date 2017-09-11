@@ -63,7 +63,7 @@ namespace CrossEngine {
 	public:
 		virtual RESOURCE_TYPE GetType(void) const = 0;
 
-	public:
+	protected:
 		virtual void Init(void);
 		virtual void Free(void);
 
@@ -81,7 +81,7 @@ namespace CrossEngine {
 		virtual const char* GetFileName(void) const;
 
 	public:
-		virtual RESOURCE_LOAD_STATE GetState(void) const;
+		virtual RESOURCE_LOAD_STATE GetState(void);
 
 	protected:
 		virtual void SetState(RESOURCE_LOAD_STATE state);
@@ -98,6 +98,9 @@ namespace CrossEngine {
 	protected:
 		CStream m_stream;
 		RESOURCE_LOAD_STATE m_state;
+
+	protected:
+		pthread_mutex_t m_mutex;
 
 	protected:
 		CResourceManager *m_pResourceManager;

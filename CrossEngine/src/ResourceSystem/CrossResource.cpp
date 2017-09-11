@@ -44,7 +44,7 @@ namespace CrossEngine {
 	void CResource::Init(void)
 	{
 		m_stream.Init();
-		m_state = RESOURCE_LOAD_STATE_INIT;
+		SetState(RESOURCE_LOAD_STATE_INIT);
 	}
 
 	void CResource::Free(void)
@@ -90,18 +90,18 @@ namespace CrossEngine {
 
 	void CResource::SetState(RESOURCE_LOAD_STATE state)
 	{
+		mutex_autolock mutex(m_mutex);
 		m_state = state;
 	}
 
-	RESOURCE_LOAD_STATE CResource::GetState(void) const
+	RESOURCE_LOAD_STATE CResource::GetState(void)
 	{
+		mutex_autolock mutex(m_mutex);
 		return m_state;
 	}
 
 	BOOL CResource::CopyFrom(const CResource *pCopyFrom)
 	{
-		Free();
-
 		try {
 			if (pCopyFrom == NULL) {
 				throw "Invalid resource.";
@@ -131,8 +131,6 @@ namespace CrossEngine {
 
 	BOOL CResource::LoadFromFile(const char *szFileName)
 	{
-		Free();
-
 		try {
 			if (szFileName == NULL) {
 				throw "Invalid file name.";
@@ -158,8 +156,6 @@ namespace CrossEngine {
 
 	BOOL CResource::LoadFromPack(const char *szPackName, const char *szFileName)
 	{
-		Free();
-
 		try {
 			if (szPackName == NULL) {
 				throw "Invalid pack name.";
@@ -189,8 +185,6 @@ namespace CrossEngine {
 
 	BOOL CResource::LoadFromPack(ZZIP_DIR *pPack, const char *szFileName)
 	{
-		Free();
-
 		try {
 			if (pPack == NULL) {
 				throw "Invalid pack.";
