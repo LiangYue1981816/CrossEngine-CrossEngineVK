@@ -111,7 +111,7 @@ namespace CrossEngine {
 		return m_ptrResource->LoadPost();
 	}
 
-	BOOL CResourceHandle::CopyFrom(const CResource *pCopyFrom)
+	BOOL CResourceHandle::CopyResource(const CResource *pCopyFrom)
 	{
 		if (m_ptrResource.IsNull()) {
 			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
@@ -211,7 +211,7 @@ namespace CrossEngine {
 			pResource = m_resources[dwName];
 		}
 
-		if (pResource->CopyFrom(pCopyFrom) == FALSE) {
+		if (pResource->CopyResource(pCopyFrom) == FALSE) {
 			return ptrResourceNull;
 		}
 

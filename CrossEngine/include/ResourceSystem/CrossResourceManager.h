@@ -47,7 +47,7 @@ namespace CrossEngine {
 		BOOL LoadResource(BOOL bReload, BOOL bSync);
 		BOOL LoadResource(void);
 		BOOL LoadResourcePost(void);
-		BOOL CopyFrom(const CResource *pCopyFrom);
+		BOOL CopyResource(const CResource *pCopyFrom);
 		BOOL FreeResource(void);
 
 
