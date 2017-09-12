@@ -92,7 +92,7 @@ namespace CrossEngine {
 
 	public:
 		virtual const CResourcePtr<CResource>& QueryResource(DWORD dwName, BOOL bReload = FALSE, BOOL bSync = FALSE);
-		virtual const CResourcePtr<CResource>& CopyResource(DWORD dwName, const CResource *pCopyFrom);
+		virtual const CResourcePtr<CResource>& CloneResource(DWORD dwName, const CResource *pCopyFrom);
 		virtual BOOL FreeResource(DWORD dwName);
 
 	public:

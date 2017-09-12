@@ -213,7 +213,7 @@ namespace CrossEngine {
 		return pResource->GetResourcePtr();
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
+	const CResourcePtr<CResource>& CResourceManager::CloneResource(DWORD dwName, const CResource *pCopyFrom)
 	{
 		if (pCopyFrom == NULL) {
 			return ptrResourceNull;
