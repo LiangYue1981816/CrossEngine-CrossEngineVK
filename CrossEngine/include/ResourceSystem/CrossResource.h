@@ -72,18 +72,6 @@ namespace CrossEngine {
 		virtual CResourceManager* GetResourceManager(void) const;
 
 	protected:
-		virtual BOOL SetName(const char *szName);
-		virtual BOOL SetFileName(const char *szFileName);
-
-	public:
-		virtual DWORD GetHashName(void) const;
-		virtual const char* GetName(void) const;
-		virtual const char* GetFileName(void) const;
-
-	public:
-		virtual RESOURCE_LOAD_STATE GetState(void);
-
-	protected:
 		virtual void SetState(RESOURCE_LOAD_STATE state);
 
 		virtual BOOL CopyFrom(const CResource *pCopyFrom);
@@ -93,6 +81,9 @@ namespace CrossEngine {
 
 		virtual BOOL Load(void) = 0;
 		virtual BOOL LoadPost(void) = 0;
+
+	public:
+		virtual RESOURCE_LOAD_STATE GetState(void);
 
 
 	protected:

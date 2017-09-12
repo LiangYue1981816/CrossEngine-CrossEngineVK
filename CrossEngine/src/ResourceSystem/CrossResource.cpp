@@ -63,41 +63,10 @@ namespace CrossEngine {
 		return m_pResourceManager;
 	}
 
-	BOOL CResource::SetName(const char *szName)
-	{
-		return m_stream.SetName(szName);
-	}
-
-	BOOL CResource::SetFileName(const char *szFileName)
-	{
-		return m_stream.SetFileName(szFileName);
-	}
-
-	DWORD CResource::GetHashName(void) const
-	{
-		return m_stream.GetHashName();
-	}
-
-	const char* CResource::GetName(void) const
-	{
-		return m_stream.GetName();
-	}
-
-	const char* CResource::GetFileName(void) const
-	{
-		return m_stream.GetFileName();
-	}
-
 	void CResource::SetState(RESOURCE_LOAD_STATE state)
 	{
 		mutex_autolock mutex(m_mutex);
 		m_state = state;
-	}
-
-	RESOURCE_LOAD_STATE CResource::GetState(void)
-	{
-		mutex_autolock mutex(m_mutex);
-		return m_state;
 	}
 
 	BOOL CResource::CopyFrom(const CResource *pCopyFrom)
@@ -210,6 +179,12 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	RESOURCE_LOAD_STATE CResource::GetState(void)
+	{
+		mutex_autolock mutex(m_mutex);
+		return m_state;
 	}
 
 }
