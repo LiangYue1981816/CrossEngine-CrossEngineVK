@@ -33,14 +33,14 @@ namespace CrossEngine {
 
 	protected:
 		CResourceHandle(CResourceManager *pResourceManager);
-		CResourceHandle(CResourceManager *pResourceManager, const char *szName);
-		CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName);
-		CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName, ZZIP_DIR *pPack);
+		CResourceHandle(CResourceManager *pResourceManager, const char *szFileName);
+		CResourceHandle(CResourceManager *pResourceManager, const char *szFileName, ZZIP_DIR *pPack);
 		virtual ~CResourceHandle(void);
 
 
 	protected:
 		BOOL IsWaste(void) const;
+		const char* GetFileName(void) const;
 		CResourcePtr<CResource>& GetResourcePtr(void);
 
 	protected:
@@ -55,12 +55,11 @@ namespace CrossEngine {
 		BOOL m_bIsWaste;
 
 	protected:
-		char *m_szName;
-		char *m_szFileName;
 		ZZIP_DIR *m_pPack;
+		char m_szFileName[_MAX_STRING];
+		CResourcePtr<CResource> m_ptrResource;
 
 	protected:
-		CResourcePtr<CResource> m_ptrResource;
 		CResourceManager *m_pResourceManager;
 	};
 
@@ -91,8 +90,8 @@ namespace CrossEngine {
 		virtual void DestroyResource(CResource *pResource);
 
 	public:
-		virtual const CResourcePtr<CResource>& QueryResource(DWORD dwName, BOOL bReload = FALSE, BOOL bSync = FALSE);
-		virtual const CResourcePtr<CResource>& CloneResource(DWORD dwName, const CResource *pCopyFrom);
+		virtual const CResourcePtr<CResource>& LoadResource(DWORD dwName, BOOL bReload = FALSE, BOOL bSync = FALSE);
+		virtual const CResourcePtr<CResource>& CopyResource(DWORD dwName, const CResource *pCopyFrom);
 		virtual BOOL FreeResource(DWORD dwName);
 
 	public:

@@ -29,68 +29,49 @@ namespace CrossEngine {
 		: m_pResourceManager(pResourceManager)
 
 		, m_pPack(NULL)
-		, m_szName(NULL)
-		, m_szFileName(NULL)
+		, m_szFileName{ 0 }
 
 		, m_bIsWaste(TRUE)
 	{
 
 	}
 
-	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szName)
+	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szFileName)
 		: m_pResourceManager(pResourceManager)
 
 		, m_pPack(NULL)
-		, m_szName(NULL)
-		, m_szFileName(NULL)
+		, m_szFileName{ 0 }
 
 		, m_bIsWaste(TRUE)
 	{
-		m_szName = (char *)SAFE_ALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
-		strcpy(m_szName, szName);
-	}
-
-	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName)
-		: m_pResourceManager(pResourceManager)
-
-		, m_pPack(NULL)
-		, m_szName(NULL)
-		, m_szFileName(NULL)
-
-		, m_bIsWaste(TRUE)
-	{
-		m_szName = (char *)SAFE_ALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
-		strcpy(m_szName, szName);
-
-		m_szFileName = (char *)SAFE_ALLOC(strlen(szFileName) + 1, MEMTYPE_HEAP);
 		strcpy(m_szFileName, szFileName);
 	}
 
-	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szName, const char *szFileName, ZZIP_DIR *pPack)
+	CResourceHandle::CResourceHandle(CResourceManager *pResourceManager, const char *szFileName, ZZIP_DIR *pPack)
 		: m_pResourceManager(pResourceManager)
 
-		, m_pPack(pPack)
-		, m_szName(NULL)
-		, m_szFileName(NULL)
+		, m_pPack(NULL)
+		, m_szFileName{ 0 }
 
 		, m_bIsWaste(TRUE)
 	{
-		m_szName = (char *)SAFE_ALLOC(strlen(szName) + 1, MEMTYPE_HEAP);
-		strcpy(m_szName, szName);
-
-		m_szFileName = (char *)SAFE_ALLOC(strlen(szFileName) + 1, MEMTYPE_HEAP);
+		m_pPack = pPack;
 		strcpy(m_szFileName, szFileName);
 	}
 
 	CResourceHandle::~CResourceHandle(void)
 	{
-		SAFE_FREE(m_szName);
-		SAFE_FREE(m_szFileName);
+
 	}
 
 	BOOL CResourceHandle::IsWaste(void) const
 	{
 		return m_bIsWaste;
+	}
+
+	const char* CResourceHandle::GetFileName(void) const
+	{
+		return m_szFileName;
 	}
 
 	CResourcePtr<CResource>& CResourceHandle::GetResourcePtr(void)
@@ -117,16 +98,12 @@ namespace CrossEngine {
 
 	BOOL CResourceHandle::LoadResource(void)
 	{
-		if (m_szFileName) {
-			if (m_pPack) {
-				return m_ptrResource->LoadFromPack(m_pPack, m_szFileName);
-			}
-			else {
-				return m_ptrResource->LoadFromFile(m_szFileName);
-			}
+		if (m_pPack) {
+			return m_ptrResource->LoadFromPack(m_pPack, m_szFileName);
 		}
-
-		return FALSE;
+		else {
+			return m_ptrResource->LoadFromFile(m_szFileName);
+		}
 	}
 
 	BOOL CResourceHandle::LoadResourcePost(void)
@@ -136,6 +113,10 @@ namespace CrossEngine {
 
 	BOOL CResourceHandle::CopyFrom(const CResource *pCopyFrom)
 	{
+		if (m_ptrResource.IsNull()) {
+			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
+		}
+
 		return m_ptrResource->CopyFrom(pCopyFrom);
 	}
 
@@ -180,6 +161,10 @@ namespace CrossEngine {
 
 		for (const auto &itResource : m_resources) {
 			if (const CResourceHandle *pResource = itResource.second) {
+				if (pResource->IsWaste()) {
+					LOGW("Waste Resource: %s\n", pResource->GetFileName());
+				}
+
 				SAFE_DELETE(pResource);
 			}
 		}
@@ -193,7 +178,7 @@ namespace CrossEngine {
 		SAFE_DELETE(pResource);
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::QueryResource(DWORD dwName, BOOL bReload, BOOL bSync)
+	const CResourcePtr<CResource>& CResourceManager::LoadResource(DWORD dwName, BOOL bReload, BOOL bSync)
 	{
 		CResourceHandle *pResource = NULL;
 		{
@@ -213,16 +198,8 @@ namespace CrossEngine {
 		return pResource->GetResourcePtr();
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::CloneResource(DWORD dwName, const CResource *pCopyFrom)
+	const CResourcePtr<CResource>& CResourceManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
 	{
-		if (pCopyFrom == NULL) {
-			return ptrResourceNull;
-		}
-
-		if (pCopyFrom->GetType() != GetType()) {
-			return ptrResourceNull;
-		}
-
 		CResourceHandle *pResource = NULL;
 		{
 			mutex_autolock mutex(m_mutex);
@@ -283,7 +260,7 @@ namespace CrossEngine {
 			DWORD dwName = HashValue(szName);
 
 			if (m_resources[dwName] == NULL) {
-				m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szName, szFileName);
+				m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName);
 			}
 			else {
 				LOGW("Exist resource : %s\n", szFileName);
@@ -355,7 +332,7 @@ namespace CrossEngine {
 					DWORD dwName = HashValue(szName);
 
 					if (m_resources[dwName] == NULL) {
-						m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szName, szFileName);
+						m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName);
 					}
 					else {
 						LOGW("Exist resource : %s\n", szFileName);
@@ -417,7 +394,7 @@ namespace CrossEngine {
 				DWORD dwName = HashValue(szName);
 
 				if (m_resources[dwName] == NULL) {
-					m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szName, szFileName, pPack);
+					m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName, pPack);
 				}
 				else {
 					LOGW("Exist resource : %s\n", szFileName);
@@ -444,9 +421,7 @@ namespace CrossEngine {
 		for (const auto &itResource : m_resources) {
 			if (CResourceHandle *pResource = itResource.second) {
 				if (pResource->m_ptrResource.GetRefCount() == 1) {
-					if (pResource->m_ptrResource->GetState() == RESOURCE_LOAD_STATE_SUCCESS || pResource->m_ptrResource->GetState() == RESOURCE_LOAD_STATE_FAIL) {
-						pResource->m_ptrResource.Release();
-					}
+					pResource->m_ptrResource.Release();
 				}
 			}
 		}
