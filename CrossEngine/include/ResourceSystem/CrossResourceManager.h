@@ -28,6 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CResourceHandle
 	{
+		friend class CResourceSystem;
 		friend class CResourceManager;
 
 
