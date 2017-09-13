@@ -75,7 +75,8 @@ namespace CrossEngine {
 
 	void CEngine::Update(float deltaTime)
 	{
-
+		m_pResourceSystem->UpdatePostLoad();
+		m_pResourceSystem->GarbageCollection();
 	}
 
 }

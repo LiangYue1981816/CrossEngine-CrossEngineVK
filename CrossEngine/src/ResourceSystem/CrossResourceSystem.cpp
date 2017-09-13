@@ -29,6 +29,11 @@ namespace CrossEngine {
 		: m_pResourceManager{ NULL }
 	{
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CShaderManager;
+		// ...
+
+		event_init(&m_eventExit, 1);
+		pthread_mutex_init(&m_mutexPendingList, NULL);
+		pthread_mutex_init(&m_mutexPostLoadList, NULL);
 	}
 
 	CResourceSystem::~CResourceSystem(void)
@@ -36,16 +41,22 @@ namespace CrossEngine {
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
 			SAFE_DELETE(m_pResourceManager[indexManager]);
 		}
+
+		event_destroy(&m_eventExit);
+		pthread_mutex_destroy(&m_mutexPendingList);
+		pthread_mutex_destroy(&m_mutexPostLoadList);
 	}
 
 	BOOL CResourceSystem::Create(void)
 	{
+		pthread_create(&m_thread, NULL, UpdateLoadThread, this);
 		return TRUE;
 	}
 
 	void CResourceSystem::Destroy(void)
 	{
-
+		event_signal(&m_eventExit);
+		pthread_join(m_thread, NULL);
 	}
 
 	CResourceManager* CResourceSystem::GetResourceManager(RESOURCE_TYPE type) const
@@ -71,26 +82,62 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CResourceSystem::RequestLoad(CResourceHandle *pResource)
+	{
+		mutex_autolock mutex(m_mutexPendingList);
+		m_pendingList.push_back(pResource);
+
+		return TRUE;
+	}
+
+	void CResourceSystem::UpdatePostLoad(void)
+	{
+		CResourceHandle *pResource = NULL;
+		{
+			mutex_autolock mutex(m_mutexPostLoadList);
+
+			if (m_postLoadList.size()) {
+				pResource = m_postLoadList.front();
+				m_postLoadList.pop_front();
+			}
+		}
+
+		if (pResource) {
+			pResource->PostLoadResource();
+		}
+	}
+
+	void* CResourceSystem::UpdateLoadThread(void *pParams)
+	{
+		CResourceSystem *pResourceSystem = (CResourceSystem *)pParams;
+
+		while (TRUE) {
+			if (event_wait_timeout(&pResourceSystem->m_eventExit, 1) == NO_ERROR) {
+				break;
+			}
+
+			CResourceHandle *pResource = NULL;
+			{
+				mutex_autolock mutex(pResourceSystem->m_mutexPendingList);
+
+				if (pResourceSystem->m_pendingList.size()) {
+					pResource = pResourceSystem->m_pendingList.front();
+					pResourceSystem->m_pendingList.pop_front();
+				}
+			}
+
+			if (pResource && pResource->LoadResource()) {
+				mutex_autolock mutex(pResourceSystem->m_mutexPostLoadList);
+				pResourceSystem->m_postLoadList.push_back(pResource);
+			}
+		}
+	}
+
 	void CResourceSystem::GarbageCollection(void)
 	{
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
 			m_pResourceManager[indexManager]->GarbageCollection();
 		}
-	}
-
-	BOOL CResourceSystem::RequestLoad(CResourceHandle *pResource)
-	{
-
-	}
-
-	void CResourceSystem::UpdatePostLoad(void)
-	{
-
-	}
-
-	void* CResourceSystem::UpdateLoadThread(void *pParams)
-	{
-
 	}
 
 }

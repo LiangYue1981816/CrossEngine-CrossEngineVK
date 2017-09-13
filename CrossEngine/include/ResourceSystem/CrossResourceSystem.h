@@ -49,13 +49,22 @@ namespace CrossEngine {
 		BOOL PreLoadResourcePack(const char *szPackName);
 
 	protected:
-		void GarbageCollection(void);
-
-	protected:
 		BOOL RequestLoad(CResourceHandle *pResource);
 		void UpdatePostLoad(void);
 		static void* UpdateLoadThread(void *pParams);
 
+	protected:
+		void GarbageCollection(void);
+
+
+	protected:
+		pthread_t m_thread;
+		event_t m_eventExit;
+
+		pthread_mutex_t m_mutexPendingList;
+		pthread_mutex_t m_mutexPostLoadList;
+		std::list<CResourceHandle*> m_pendingList;
+		std::list<CResourceHandle*> m_postLoadList;
 
 	protected:
 		CResourceManager *m_pResourceManager[RESOURCE_TYPE::COUNT];
