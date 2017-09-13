@@ -131,6 +131,8 @@ namespace CrossEngine {
 				pResourceSystem->m_postLoadList.push_back(pResource);
 			}
 		}
+
+		return NULL;
 	}
 
 	void CResourceSystem::GarbageCollection(void)
