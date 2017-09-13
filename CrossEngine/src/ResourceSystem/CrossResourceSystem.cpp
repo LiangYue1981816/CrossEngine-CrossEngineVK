@@ -67,7 +67,9 @@ namespace CrossEngine {
 	BOOL CResourceSystem::PreLoadResourcePath(const char *szPathName)
 	{
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
-			m_pResourceManager[indexManager]->PreLoadFromPath(szPathName);
+			if (m_pResourceManager[indexManager]) {
+				m_pResourceManager[indexManager]->PreLoadFromPath(szPathName);
+			}
 		}
 
 		return TRUE;
@@ -76,7 +78,9 @@ namespace CrossEngine {
 	BOOL CResourceSystem::PreLoadResourcePack(const char *szPackName)
 	{
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
-			m_pResourceManager[indexManager]->PreLoadFromPack(szPackName);
+			if (m_pResourceManager[indexManager]) {
+				m_pResourceManager[indexManager]->PreLoadFromPack(szPackName);
+			}
 		}
 
 		return TRUE;
@@ -138,7 +142,9 @@ namespace CrossEngine {
 	void CResourceSystem::GarbageCollection(void)
 	{
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
-			m_pResourceManager[indexManager]->GarbageCollection();
+			if (m_pResourceManager[indexManager]) {
+				m_pResourceManager[indexManager]->GarbageCollection();
+			}
 		}
 	}
 

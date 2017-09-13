@@ -36,6 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 //	Engine()->Init(CrossEngine::GFX_API_GLES31, hInstance, hWnd, GetDC(hWnd), rcView, 4 * 1024 * 1024, 16, NULL, FALSE);
 	Engine()->Init(CrossEngine::GFX_API_VULKAN, hInstance, hWnd, GetDC(hWnd), rcView, 4 * 1024 * 1024, 16, NULL, FALSE);
+	ResourceSystem()->PreLoadResourcePath("../Data");
 	Create();
 	{
 		SetTimer(hWnd, 0, 1000 / 30, NULL);
@@ -99,6 +100,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_TIMER:
+		Engine()->Update(1.0f / 30.0f);
 		Render();
 		break;
 
