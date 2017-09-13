@@ -78,4 +78,19 @@ namespace CrossEngine {
 		}
 	}
 
+	BOOL CResourceSystem::RequestLoad(CResourceHandle *pResource)
+	{
+
+	}
+
+	void CResourceSystem::UpdatePostLoad(void)
+	{
+
+	}
+
+	void* CResourceSystem::UpdateLoadThread(void *pParams)
+	{
+
+	}
+
 }

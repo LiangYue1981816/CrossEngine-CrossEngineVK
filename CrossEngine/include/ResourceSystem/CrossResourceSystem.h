@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CResourceSystem
 	{
 		friend class CEngine;
+		friend class CResourceHandle;
 
 
 	protected:
@@ -49,6 +50,11 @@ namespace CrossEngine {
 
 	protected:
 		void GarbageCollection(void);
+
+	protected:
+		BOOL RequestLoad(CResourceHandle *pResource);
+		void UpdatePostLoad(void);
+		static void* UpdateLoadThread(void *pParams);
 
 
 	protected:

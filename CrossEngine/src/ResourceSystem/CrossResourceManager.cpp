@@ -90,7 +90,7 @@ namespace CrossEngine {
 				return LoadResource();
 			}
 
-			// ...
+			return ResourceSystem()->RequestLoad(this);
 		}
 
 		return TRUE;
