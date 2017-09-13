@@ -44,14 +44,10 @@ namespace CrossEngine {
 		CResourceManager* GetResourceManager(RESOURCE_TYPE type) const;
 
 	public:
-		CResource* CreateResource(RESOURCE_TYPE type);
-		void DestroyResource(CResource *pResource);
-
-	public:
 		BOOL PreLoadResourcePath(const char *szPathName);
 		BOOL PreLoadResourcePack(const char *szPackName);
 
-	public:
+	protected:
 		void GarbageCollection(void);
 
 

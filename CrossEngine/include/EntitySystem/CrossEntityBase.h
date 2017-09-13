@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CEntityBase
 	{
-	public:
+	protected:
 		CEntityBase(void);
 		virtual ~CEntityBase(void);
 

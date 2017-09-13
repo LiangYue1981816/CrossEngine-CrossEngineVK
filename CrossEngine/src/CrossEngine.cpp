@@ -73,4 +73,9 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pRenderSystem);
 	}
 
+	void CEngine::Update(float deltaTime)
+	{
+
+	}
+
 }

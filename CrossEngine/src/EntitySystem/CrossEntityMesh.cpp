@@ -35,7 +35,17 @@ namespace CrossEngine {
 
 	}
 
+	void CEntityMesh::OnPreRender(void)
+	{
+
+	}
+
 	void CEntityMesh::OnRender(void)
+	{
+
+	}
+
+	void CEntityMesh::OnPostRender(void)
 	{
 
 	}

@@ -169,6 +169,7 @@ namespace CrossEngine {
 	public:
 		BOOL Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode);
 		void Exit(void);
+		void Update(float deltaTime);
 
 
 	protected:

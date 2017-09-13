@@ -28,13 +28,15 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CEntityMesh : public CEntityBase
 	{
-	public:
+	protected:
 		CEntityMesh(void);
 		virtual ~CEntityMesh(void);
 
 
 	public:
+		virtual void OnPreRender(void);
 		virtual void OnRender(void);
+		virtual void OnPostRender(void);
 	};
 
 }

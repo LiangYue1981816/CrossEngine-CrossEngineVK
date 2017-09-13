@@ -53,16 +53,6 @@ namespace CrossEngine {
 		return m_pResourceManager[type];
 	}
 
-	CResource* CResourceSystem::CreateResource(RESOURCE_TYPE type)
-	{
-		return m_pResourceManager[type]->CreateResource();
-	}
-
-	void CResourceSystem::DestroyResource(CResource *pResource)
-	{
-		pResource->GetResourceManager()->DestroyResource(pResource);
-	}
-
 	BOOL CResourceSystem::PreLoadResourcePath(const char *szPathName)
 	{
 		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
