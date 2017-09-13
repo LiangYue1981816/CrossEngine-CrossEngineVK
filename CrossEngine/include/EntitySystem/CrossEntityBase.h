@@ -40,9 +40,10 @@ namespace CrossEngine {
 		virtual void OnEnable(void);
 		virtual void OnDisable(void);
 
+		virtual void OnPreUpdate(float deltaTime);
 		virtual void OnUpdate(float deltaTime);
-		virtual void OnUpdateLate(float deltaTime);
-		virtual void OnUpdateFix(void);
+		virtual void OnPostUpdate(float deltaTime);
+		virtual void OnFixUpdate(float deltaTime);
 	};
 
 }

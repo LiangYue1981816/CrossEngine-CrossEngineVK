@@ -59,7 +59,7 @@ namespace CrossEngine {
 		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 	}
 
-	BOOL CShader::LoadPost(void)
+	BOOL CShader::PostLoad(void)
 	{
 		BOOL rcode = m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 		m_stream.Free();

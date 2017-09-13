@@ -80,7 +80,7 @@ namespace CrossEngine {
 		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName);
 
 		virtual BOOL Load(void) = 0;
-		virtual BOOL LoadPost(void) = 0;
+		virtual BOOL PostLoad(void) = 0;
 
 	public:
 		virtual RESOURCE_LOAD_STATE GetState(void);

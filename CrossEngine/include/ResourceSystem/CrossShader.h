@@ -44,7 +44,7 @@ namespace CrossEngine {
 
 	protected:
 		virtual BOOL Load(void);
-		virtual BOOL LoadPost(void);
+		virtual BOOL PostLoad(void);
 
 
 	protected:

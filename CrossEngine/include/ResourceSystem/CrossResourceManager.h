@@ -46,7 +46,7 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadResource(BOOL bReload, BOOL bSync);
 		BOOL LoadResource(void);
-		BOOL LoadResourcePost(void);
+		BOOL PostLoadResource(void);
 		BOOL CopyResource(const CResource *pCopyFrom);
 		BOOL FreeResource(void);
 
@@ -68,7 +68,7 @@ namespace CrossEngine {
 		friend class CResourceSystem;
 
 
-	public:
+	protected:
 		typedef std::map<DWORD, ZZIP_DIR*> PackMap;
 		typedef std::map<DWORD, CResourceHandle*> ResourceMap;
 
@@ -106,7 +106,7 @@ namespace CrossEngine {
 
 		virtual BOOL Load(CResourceHandle *pResource);
 
-	public:
+	protected:
 		virtual void GarbageCollection(void);
 
 

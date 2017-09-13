@@ -106,9 +106,9 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CResourceHandle::LoadResourcePost(void)
+	BOOL CResourceHandle::PostLoadResource(void)
 	{
-		return m_ptrResource->LoadPost();
+		return m_ptrResource->PostLoad();
 	}
 
 	BOOL CResourceHandle::CopyResource(const CResource *pCopyFrom)

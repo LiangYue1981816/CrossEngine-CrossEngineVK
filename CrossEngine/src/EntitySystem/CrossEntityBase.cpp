@@ -55,17 +55,22 @@ namespace CrossEngine {
 
 	}
 
+	void CEntityBase::OnPreUpdate(float deltaTime)
+	{
+
+	}
+
 	void CEntityBase::OnUpdate(float deltaTime)
 	{
 
 	}
 
-	void CEntityBase::OnUpdateLate(float deltaTime)
+	void CEntityBase::OnPostUpdate(float deltaTime)
 	{
 
 	}
 
-	void CEntityBase::OnUpdateFix(void)
+	void CEntityBase::OnFixUpdate(float deltaTime)
 	{
 
 	}
