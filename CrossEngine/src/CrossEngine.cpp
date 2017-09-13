@@ -59,18 +59,18 @@ namespace CrossEngine {
 		m_pResourceSystem = SAFE_NEW CResourceSystem;
 
 		if (m_pRenderSystem->Create(api, hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top) == FALSE) return FALSE;
-		// ...
+		if (m_pResourceSystem->Create() == FALSE) return FALSE;
 
 		return TRUE;
 	}
 
 	void CEngine::Exit(void)
 	{
+		m_pResourceSystem->Destroy();
 		m_pRenderSystem->Destroy();
-		// ...
 
-		SAFE_DELETE(m_pRenderSystem);
 		SAFE_DELETE(m_pResourceSystem);
+		SAFE_DELETE(m_pRenderSystem);
 	}
 
 }

@@ -36,6 +36,10 @@ namespace CrossEngine {
 		virtual ~CResourceSystem(void);
 
 
+	protected:
+		BOOL Create(void);
+		void Destroy(void);
+
 	public:
 		CResourceManager* GetResourceManager(RESOURCE_TYPE type) const;
 

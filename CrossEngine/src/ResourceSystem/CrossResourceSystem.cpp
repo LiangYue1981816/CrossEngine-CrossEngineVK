@@ -38,6 +38,16 @@ namespace CrossEngine {
 		}
 	}
 
+	BOOL CResourceSystem::Create(void)
+	{
+		return TRUE;
+	}
+
+	void CResourceSystem::Destroy(void)
+	{
+
+	}
+
 	CResourceManager* CResourceSystem::GetResourceManager(RESOURCE_TYPE type) const
 	{
 		return m_pResourceManager[type];
