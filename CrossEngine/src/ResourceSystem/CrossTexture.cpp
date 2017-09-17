@@ -25,8 +25,12 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CTexture::CTexture(CResourceManager *pResourceManager)
+	CTexture::CTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 		: CResource(pResourceManager)
+		, m_minFilter(minFilter)
+		, m_magFilter(magFilter)
+		, m_mipmapMode(mipmapMode)
+		, m_addressMode(addressMode)
 	{
 		m_ptrGfxTexture = GfxDevice()->NewTexture();
 	}
@@ -56,7 +60,7 @@ namespace CrossEngine {
 
 	BOOL CTexture::PostLoad(void)
 	{
-		BOOL rcode = m_ptrGfxTexture->CreateTexture2D(m_texture, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
+		BOOL rcode = m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		m_texture.clear();
 
 		return rcode;

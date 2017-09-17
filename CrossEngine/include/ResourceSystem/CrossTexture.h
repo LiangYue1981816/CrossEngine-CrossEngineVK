@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CTexture(CResourceManager *pResourceManager);
+		CTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		virtual ~CTexture(void);
 
 
@@ -48,6 +48,11 @@ namespace CrossEngine {
 
 
 	protected:
+		VkFilter m_minFilter;
+		VkFilter m_magFilter;
+		VkSamplerMipmapMode m_mipmapMode;
+		VkSamplerAddressMode m_addressMode;
+
 		gli::texture2d m_texture;
 		CGfxTexturePtr m_ptrGfxTexture;
 	};

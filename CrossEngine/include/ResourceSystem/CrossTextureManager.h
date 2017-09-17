@@ -41,6 +41,7 @@ namespace CrossEngine {
 
 	public:
 		virtual CResource* CreateResource(void);
+		virtual CResource* CreateResource(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 
 		virtual BOOL PreLoadFromFile(const char *szFileName);
 		virtual BOOL PreLoadFromPath(const char *szPathName);
