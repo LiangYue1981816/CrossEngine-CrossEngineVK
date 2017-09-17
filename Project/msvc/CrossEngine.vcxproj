@@ -291,6 +291,8 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceSystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossShader.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossShaderManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossTexture.h" />
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossTextureManager.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\c++11.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\debug_new.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\fast_mutex.h" />
@@ -417,6 +419,8 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossShader.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossShaderManage.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossTexture.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossTextureManage.cpp" />
     <ClCompile Include="..\..\Dependencies\event\event.cpp" />
     <ClCompile Include="..\..\Dependencies\glew\glew.c" />
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp" />

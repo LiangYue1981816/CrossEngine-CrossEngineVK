@@ -564,6 +564,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossTexture.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossTextureManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -943,6 +949,12 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossTexture.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossTextureManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

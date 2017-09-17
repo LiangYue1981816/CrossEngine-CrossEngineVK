@@ -25,44 +25,39 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CShader::CShader(CResourceManager *pResourceManager)
+	CTexture::CTexture(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrGfxShader = GfxDevice()->NewShader();
+		m_ptrGfxTexture = GfxDevice()->NewTexture();
 	}
 
-	CShader::~CShader(void)
+	CTexture::~CTexture(void)
 	{
-		m_ptrGfxShader.Release();
+		m_ptrGfxTexture.Release();
 	}
 
-	RESOURCE_TYPE CShader::GetType(void) const
+	RESOURCE_TYPE CTexture::GetType(void) const
 	{
-		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
+		return RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE;
 	}
 
-	const CGfxShaderPtr& CShader::GetGfxShader(void) const
+	const CGfxTexturePtr& CTexture::GetGfxTexture(void) const
 	{
-		return m_ptrGfxShader;
+		return m_ptrGfxTexture;
 	}
 
-	BOOL CShader::Load(void)
+	BOOL CTexture::Load(void)
 	{
-		char szExt[_MAX_EXT];
-		splitfilename(m_stream.GetName(), NULL, szExt);
-
-		if      (!stricmp(szExt, ".vert")) m_flags = VK_SHADER_STAGE_VERTEX_BIT;
-		else if (!stricmp(szExt, ".frag")) m_flags = VK_SHADER_STAGE_FRAGMENT_BIT;
-		else if (!stricmp(szExt, ".comp")) m_flags = VK_SHADER_STAGE_COMPUTE_BIT;
-		else return FALSE;
-
-		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
-	}
-
-	BOOL CShader::PostLoad(void)
-	{
-		BOOL rcode = m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
+		m_texture = (gli::texture2d)gli::load((const char *)m_stream.GetAddress(), m_stream.GetFullSize());
 		m_stream.Free();
+
+		return m_texture.empty() ? FALSE : TRUE;
+	}
+
+	BOOL CTexture::PostLoad(void)
+	{
+		BOOL rcode = m_ptrGfxTexture->CreateTexture2D(m_texture, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
+		m_texture.clear();
 
 		return rcode;
 	}

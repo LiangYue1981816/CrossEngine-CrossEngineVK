@@ -20,51 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CShader::CShader(CResourceManager *pResourceManager)
-		: CResource(pResourceManager)
+	class CROSS_EXPORT CTexture : public CResource
 	{
-		m_ptrGfxShader = GfxDevice()->NewShader();
-	}
+		friend class CTextureManager;
 
-	CShader::~CShader(void)
-	{
-		m_ptrGfxShader.Release();
-	}
 
-	RESOURCE_TYPE CShader::GetType(void) const
-	{
-		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
-	}
+	protected:
+		CTexture(CResourceManager *pResourceManager);
+		virtual ~CTexture(void);
 
-	const CGfxShaderPtr& CShader::GetGfxShader(void) const
-	{
-		return m_ptrGfxShader;
-	}
 
-	BOOL CShader::Load(void)
-	{
-		char szExt[_MAX_EXT];
-		splitfilename(m_stream.GetName(), NULL, szExt);
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
 
-		if      (!stricmp(szExt, ".vert")) m_flags = VK_SHADER_STAGE_VERTEX_BIT;
-		else if (!stricmp(szExt, ".frag")) m_flags = VK_SHADER_STAGE_FRAGMENT_BIT;
-		else if (!stricmp(szExt, ".comp")) m_flags = VK_SHADER_STAGE_COMPUTE_BIT;
-		else return FALSE;
+	public:
+		const CGfxTexturePtr& GetGfxTexture(void) const;
 
-		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
-	}
+	protected:
+		virtual BOOL Load(void);
+		virtual BOOL PostLoad(void);
 
-	BOOL CShader::PostLoad(void)
-	{
-		BOOL rcode = m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
-		m_stream.Free();
 
-		return rcode;
-	}
+	protected:
+		gli::texture2d m_texture;
+		CGfxTexturePtr m_ptrGfxTexture;
+	};
 
 }
