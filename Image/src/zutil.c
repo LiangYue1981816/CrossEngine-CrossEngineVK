@@ -204,7 +204,7 @@ void ZLIB_INTERNAL zmemzero(dest, len)
 
 local int next_ptr = 0;
 
-typedef struct ptr_table_s {
+typedef struct {
     voidpf org_ptr;
     voidpf new_ptr;
 } ptr_table;

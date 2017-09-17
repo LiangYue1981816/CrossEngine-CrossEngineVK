@@ -145,7 +145,7 @@ EXPORT_C int IMAGE_AllocImage(IMAGE * const pimage, int const nwidth, int const 
 	// 2.2. 填充 BITMAPINFO 信息
 	pimage->bmpInfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	pimage->bmpInfo->bmiHeader.biPlanes = 1;
-	pimage->bmpInfo->bmiHeader.biCompression = BI_RGB; // 不使用压缩格式
+	pimage->bmpInfo->bmiHeader.biCompression = 0; // 不使用压缩格式
 
 	pimage->bmpInfo->bmiHeader.biWidth = nwidth;
 	pimage->bmpInfo->bmiHeader.biHeight = nheight;

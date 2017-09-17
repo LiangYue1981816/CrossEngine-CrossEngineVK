@@ -114,7 +114,7 @@ local  void check_match OF((deflate_state *s, IPos start, IPos match,
  * exclude worst case performance for pathological files. Better values may be
  * found for specific files.
  */
-typedef struct config_s {
+typedef struct {
    ush good_length; /* reduce lazy search above this match length */
    ush max_lazy;    /* do not perform lazy search above this match length */
    ush nice_length; /* quit search above this match length */

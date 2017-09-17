@@ -210,7 +210,7 @@ EXPORT_C int IMAGE_LoadBmpEx(FILE * const pfile, IMAGE * const pimage)
 		32!= bmih.biBitCount) { // 影像文件色深检查
 		rcode = ERR_IO_BITCOUNT; goto RET;
 	}
-	if (BI_RGB != bmih.biCompression) { // 影像文件压缩检查
+	if (0 != bmih.biCompression) { // 影像文件压缩检查
 		rcode = ERR_IO_COMPRESS; goto RET;
 	}
 

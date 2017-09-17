@@ -13,15 +13,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "WINDOWS.H"
 
 
-#ifdef _WINDOWS_
-#define EXPORT_C                    __declspec(dllexport)
-#endif
-
-#ifdef __WINDOWS__
-#define EXPORT_C                    __declspec(dllexport)
+#ifdef WIN32
+#define EXPORT_C __declspec(dllexport)
+#else
+#define EXPORT_C
 #endif
 
 
@@ -36,6 +33,37 @@
 //=================================================================//
 // 版本信息
 #define VERSION                     0x01000000 // 1.0.0.0
+
+// 数据类型
+#ifdef WIN32
+typedef unsigned char               BYTE;     // 1BYTE
+typedef unsigned short              WORD;     // 2BYTE
+typedef unsigned long               DWORD;    // 4BYTE
+typedef unsigned long               COLORREF; // 4BYTE
+typedef long                        LONG;     // 4BYTE
+#else
+typedef unsigned char               BYTE;     // 1BYTE
+typedef unsigned short              WORD;     // 2BYTE
+typedef unsigned int                DWORD;    // 4BYTE
+typedef unsigned int                COLORREF; // 4BYTE
+typedef unsigned int                LONG;     // 4BYTE
+#endif
+
+#ifndef NO_ERROR
+#define NO_ERROR                    0
+#endif
+
+#ifndef BOOL
+#define BOOL                        int
+#endif
+
+#ifndef TRUE
+#define TRUE                        1
+#endif
+
+#ifndef FALSE
+#define FALSE                       0
+#endif
 
 // 影像绝对尺寸
 #define IMAGE_WIDTH(pimage)         ((int)((pimage)->bmpInfo->bmiHeader.biWidth))
@@ -100,10 +128,62 @@ extern "C" {
 /////////////////////////////////////////////////////////////////////
 //                          标准影像头定义                         //
 //=================================================================//
+#ifndef _WINDOWS_
 typedef struct {
-	unsigned long   sx, ex;    // 横向处理范围
-	unsigned long   sy, ey;    // 纵向处理范围
-	unsigned long   buffWidth; // 行缓冲区宽度
+	int x;
+	int y;
+} POINT;
+
+typedef struct {
+	int left;
+	int top;
+	int right;
+	int bottom;
+} RECT;
+
+typedef struct {
+	BYTE    rgbBlue;
+	BYTE    rgbGreen;
+	BYTE    rgbRed;
+	BYTE    rgbReserved;
+} RGBQUAD;
+
+typedef struct {
+	DWORD   biSize;
+	LONG    biWidth;
+	LONG    biHeight;
+	WORD    biPlanes;
+	WORD    biBitCount;
+	DWORD   biCompression;
+	DWORD   biSizeImage;
+	LONG    biXPelsPerMeter;
+	LONG    biYPelsPerMeter;
+	DWORD   biClrUsed;
+	DWORD   biClrImportant;
+} BITMAPINFOHEADER;
+
+#pragma pack(push, 1)
+
+typedef struct {
+	WORD    bfType;
+	DWORD   bfSize;
+	WORD    bfReserved1;
+	WORD    bfReserved2;
+	DWORD   bfOffBits;
+} BITMAPFILEHEADER;
+
+#pragma pack(pop)
+
+typedef struct {
+	BITMAPINFOHEADER    bmiHeader;
+	RGBQUAD             bmiColors[1];
+} BITMAPINFO;
+#endif
+
+typedef struct {
+	int             sx, ex;    // 横向处理范围
+	int             sy, ey;    // 纵向处理范围
+	int             buffWidth; // 行缓冲区宽度
 	unsigned char  *data;      // 影像数据缓冲 Image Data Buffer
 	unsigned char **matrix;    // 影像数据矩阵 Image Data Matrix
 	BITMAPINFO     *bmpInfo;   // 影像文件信息
