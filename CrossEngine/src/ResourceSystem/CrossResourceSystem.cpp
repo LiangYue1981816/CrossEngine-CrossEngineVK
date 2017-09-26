@@ -30,6 +30,7 @@ namespace CrossEngine {
 	{
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CShaderManager;
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE] = SAFE_NEW CTextureManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL] = SAFE_NEW CMaterialManager;
 		// ...
 
 		event_init(&m_eventExit, 1);

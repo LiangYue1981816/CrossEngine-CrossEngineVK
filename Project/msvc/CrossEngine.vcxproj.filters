@@ -570,6 +570,15 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossTextureManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterial.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterialManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterialPass.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -954,6 +963,15 @@
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossTextureManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossMaterial.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossMaterialManager.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossMaterialPass.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
   </ItemGroup>

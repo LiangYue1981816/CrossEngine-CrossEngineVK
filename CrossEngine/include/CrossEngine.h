@@ -110,8 +110,11 @@ THE SOFTWARE.
 #include "CrossResourceSystem.h"
 #include "CrossShader.h"
 #include "CrossTexture.h"
+#include "CrossMaterial.h"
+#include "CrossMaterialPass.h"
 #include "CrossShaderManager.h"
 #include "CrossTextureManager.h"
+#include "CrossMaterialManager.h"
 
 #include "CrossEntityBase.h"
 #include "CrossEntityMesh.h"
