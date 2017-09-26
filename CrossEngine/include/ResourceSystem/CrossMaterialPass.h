@@ -25,4 +25,27 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CMaterialPass
+	{
+	protected:
+		CMaterialPass(void);
+		virtual ~CMaterialPass(void);
+
+
+	public:
+		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
+
+	public:
+		BOOL Load(TiXmlNode *pPassNode);
+		BOOL PostLoad(void);
+
+
+	protected:
+		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
+
+	public:
+		CMaterialPass *pNext;
+	};
+
 }

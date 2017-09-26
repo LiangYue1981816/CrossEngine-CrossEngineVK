@@ -24,4 +24,31 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	CMaterialPass::CMaterialPass(void)
+		: pNext(NULL)
+	{
+		m_ptrGfxPipeline = GfxDevice()->NewPipelineGraphics();
+	}
+
+	CMaterialPass::~CMaterialPass(void)
+	{
+		m_ptrGfxPipeline.Release();
+	}
+
+	const CGfxPipelineGraphicsPtr& CMaterialPass::GetGfxPipeline(void) const
+	{
+		return m_ptrGfxPipeline;
+	}
+
+	BOOL CMaterialPass::Load(TiXmlNode *pPassNode)
+	{
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::PostLoad(void)
+	{
+		return TRUE;
+	}
+
 }
