@@ -105,7 +105,7 @@ namespace CrossEngine {
 		return m_vkPipeline;
 	}
 
-	BOOL CVulkanPipelineGraphics::Create(HANDLE hRenderPass)
+	BOOL CVulkanPipelineGraphics::Create(HANDLE hRenderPass, uint32_t indexSubPass)
 	{
 		try {
 			std::vector<VkDescriptorSetLayout> layouts;
@@ -146,7 +146,7 @@ namespace CrossEngine {
 			pipelineCreateInfo.pDynamicState = &m_dynamicState;
 			pipelineCreateInfo.layout = m_vkPipelineLayout;
 			pipelineCreateInfo.renderPass = (VkRenderPass)hRenderPass;
-			pipelineCreateInfo.subpass = VK_NULL_HANDLE;
+			pipelineCreateInfo.subpass = indexSubPass;
 			pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 			pipelineCreateInfo.basePipelineIndex = 0;
 			CALL_VK_FUNCTION_THROW(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), ((CVulkanPipelineManager *)m_pResourceManager)->GetPipelineCache(), 1, &pipelineCreateInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkPipeline));

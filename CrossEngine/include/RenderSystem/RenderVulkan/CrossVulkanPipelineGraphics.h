@@ -41,7 +41,7 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL Create(HANDLE hRenderPass);
+		BOOL Create(HANDLE hRenderPass, uint32_t indexSubPass);
 		void Destroy(void);
 		void DumpLog(void) const;
 

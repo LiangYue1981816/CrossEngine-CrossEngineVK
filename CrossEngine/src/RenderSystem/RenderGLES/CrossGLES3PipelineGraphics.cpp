@@ -79,7 +79,7 @@ namespace CrossEngine {
 		return (HANDLE)m_pipeline;
 	}
 
-	BOOL CGLES3PipelineGraphics::Create(HANDLE hRenderPass)
+	BOOL CGLES3PipelineGraphics::Create(HANDLE hRenderPass, uint32_t indexSubPass)
 	{
 		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull() ||
 			m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT].IsNull()) {

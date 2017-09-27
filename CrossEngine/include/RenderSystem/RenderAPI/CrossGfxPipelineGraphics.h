@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(HANDLE hRenderPass) = 0;
+		virtual BOOL Create(HANDLE hRenderPass, uint32_t indexSubPass) = 0;
 
 	public:
 		virtual void SetDefault(void) = 0;
