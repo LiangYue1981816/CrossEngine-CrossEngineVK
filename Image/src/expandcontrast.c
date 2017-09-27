@@ -78,9 +78,9 @@ static void * expandcontrast8bit(IMAGE *pimgsrc, IMAGE *pimgdst, int lower, int 
 	height = IMAGE_AREA_HEIGHT(pimgsrc);
 
 	i = 0; diff = upper - lower;
-	while (i <= lower) table[i++] = 0;
-	while (i <  upper) table[i++] = (unsigned char)((255 * (i - lower)) / diff);
-	while (i <  256)   table[i++] = 255;
+	while (i <= lower) { table[i] = 0; i++; }
+	while (i <  upper) { table[i] = (unsigned char)((255 * (i - lower)) / diff); i++; }
+	while (i <  256)   { table[i] = 255; i++; }
 
 	for (y = 0; y < height; y++) {
 		ppixel_src = (IMGGRAY *)(&(pimgsrc->matrix[pimgsrc->sy+y][pimgsrc->sx]));
@@ -110,9 +110,9 @@ static void * expandcontrast24bit(IMAGE *pimgsrc, IMAGE *pimgdst, int lower, int
 	height = IMAGE_AREA_HEIGHT(pimgsrc);
 
 	i = 0; diff = upper - lower;
-	while (i <= lower) table[i++] = 0;
-	while (i <  upper) table[i++] = (unsigned char)((255 * (i - lower)) / diff);
-	while (i <  256)   table[i++] = 255;
+	while (i <= lower) { table[i] = 0; i++; }
+	while (i <  upper) { table[i] = (unsigned char)((255 * (i - lower)) / diff); i++; }
+	while (i <  256)   { table[i] = 255; i++; }
 
 	for (y = 0; y < height; y++) {
 		ppixel_src = (IMGRGB *)(&(pimgsrc->matrix[pimgsrc->sy+y][pimgsrc->sx*3]));

@@ -46,7 +46,7 @@ typedef unsigned char               BYTE;     // 1BYTE
 typedef unsigned short              WORD;     // 2BYTE
 typedef unsigned int                DWORD;    // 4BYTE
 typedef unsigned int                COLORREF; // 4BYTE
-typedef unsigned int                LONG;     // 4BYTE
+typedef int                         LONG;     // 4BYTE
 #endif
 
 #ifndef NO_ERROR
@@ -64,6 +64,15 @@ typedef unsigned int                LONG;     // 4BYTE
 #ifndef FALSE
 #define FALSE                       0
 #endif
+
+#ifndef max
+#define max(a,b)                    (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)                    (((a) < (b)) ? (a) : (b))
+#endif
+
 
 // 影像绝对尺寸
 #define IMAGE_WIDTH(pimage)         ((int)((pimage)->bmpInfo->bmiHeader.biWidth))
@@ -129,26 +138,26 @@ extern "C" {
 //                          标准影像头定义                         //
 //=================================================================//
 #ifndef _WINDOWS_
-typedef struct {
-	int x;
-	int y;
+typedef struct tagPOINT {
+	LONG x;
+	LONG y;
 } POINT;
 
-typedef struct {
-	int left;
-	int top;
-	int right;
-	int bottom;
+typedef struct tagRECT {
+	LONG left;
+	LONG top;
+	LONG right;
+	LONG bottom;
 } RECT;
 
-typedef struct {
+typedef struct tagRGBQUAD {
 	BYTE    rgbBlue;
 	BYTE    rgbGreen;
 	BYTE    rgbRed;
 	BYTE    rgbReserved;
 } RGBQUAD;
 
-typedef struct {
+typedef struct tagBITMAPINFOHEADER {
 	DWORD   biSize;
 	LONG    biWidth;
 	LONG    biHeight;
@@ -164,7 +173,7 @@ typedef struct {
 
 #pragma pack(push, 1)
 
-typedef struct {
+typedef struct tagBITMAPFILEHEADER {
 	WORD    bfType;
 	DWORD   bfSize;
 	WORD    bfReserved1;
@@ -174,7 +183,7 @@ typedef struct {
 
 #pragma pack(pop)
 
-typedef struct {
+typedef struct tagBITMAPINFO {
 	BITMAPINFOHEADER    bmiHeader;
 	RGBQUAD             bmiColors[1];
 } BITMAPINFO;

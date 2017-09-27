@@ -71,3 +71,32 @@ float _rsqrt(float a)
 
 	return b;
 }
+
+float _atan2(float y, float x)
+{
+	#define _DBL_EPSILON 2.2204460492503131e-16f
+	#define atan2_p1     (0.9997878412794807f*57.29577951308232f)
+	#define atan2_p3     (-0.3258083974640975f*57.29577951308232f)
+	#define atan2_p5     (0.1555786518463281f*57.29577951308232f)
+	#define atan2_p7     (-0.04432655554792128f*57.29577951308232f)
+
+	float a, c, c2;
+	float ax = (float)fabs(x);
+	float ay = (float)fabs(y);
+
+	if (ax >= ay) {
+		c = ay / (ax + _DBL_EPSILON);
+		c2 = c*c;
+		a = (((atan2_p7*c2 + atan2_p5)*c2 + atan2_p3)*c2 + atan2_p1)*c;
+	}
+	else {
+		c = ax / (ay + _DBL_EPSILON);
+		c2 = c*c;
+		a = 90.f - (((atan2_p7*c2 + atan2_p5)*c2 + atan2_p3)*c2 + atan2_p1)*c;
+	}
+
+	if (x < 0) a = 180.f - a;
+	if (y < 0) a = 360.f - a;
+
+	return a;
+}

@@ -60,6 +60,7 @@ int _ceil(double a);
 float _fabs(float a);
 float _sqrt(float a);
 float _rsqrt(float a);
+float _atan2(float y, float x);
 
 
 #ifdef __cplusplus
