@@ -92,7 +92,7 @@ void CreatePipeline(void)
 	ptrPipeline->SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
 	ptrPipeline->SetSampleCounts(SAMPLE_COUNT);
 //	ptrPipeline->SetSampleShading(VK_TRUE, 0.25f);
-	ptrPipeline->Create(ptrRenderPass->GetHandle());
+	ptrPipeline->Create(ptrRenderPass->GetHandle(), 0);
 }
 
 void DestroyPipeline(void)

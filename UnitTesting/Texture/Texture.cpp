@@ -77,7 +77,7 @@ void CreatePipeline(void)
 	ptrPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 	ptrPipeline->SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
-	ptrPipeline->Create(ptrRenderPass->GetHandle());
+	ptrPipeline->Create(ptrRenderPass->GetHandle(), 0);
 }
 
 void DestroyPipeline(void)

@@ -63,7 +63,7 @@ void CreatePipeline(void)
 	ptrPipeline->SetColorBlendAttachment(0, FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	ptrPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
-	ptrPipeline->Create(ptrRenderPass->GetHandle());
+	ptrPipeline->Create(ptrRenderPass->GetHandle(), 0);
 }
 
 void CreateBuffer(void)
