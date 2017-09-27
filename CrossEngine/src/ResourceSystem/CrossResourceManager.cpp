@@ -420,7 +420,7 @@ namespace CrossEngine {
 
 		for (const auto &itResource : m_resources) {
 			if (CResourceHandle *pResource = itResource.second) {
-				if (pResource->m_ptrResource.GetRefCount() == 1 && pResource->m_ptrResource->GetState() != RESOURCE_LOAD_STATE_INIT) {
+				if (pResource->m_ptrResource.IsNull() == FALSE && pResource->m_ptrResource.GetRefCount() == 1 && pResource->m_ptrResource->GetState() != RESOURCE_LOAD_STATE_INIT) {
 					pResource->m_ptrResource.Release();
 				}
 			}
