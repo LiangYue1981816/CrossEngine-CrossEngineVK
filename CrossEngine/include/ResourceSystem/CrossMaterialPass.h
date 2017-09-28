@@ -42,6 +42,8 @@ namespace CrossEngine {
 
 
 	protected:
+		std::map<uint32_t, CGfxTexturePtr> m_textures;
+		std::map<uint32_t, CGfxUniformBufferPtr> m_uniforms;
 		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
 
 	public:
