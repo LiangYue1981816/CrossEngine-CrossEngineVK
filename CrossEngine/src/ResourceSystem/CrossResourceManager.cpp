@@ -79,18 +79,23 @@ namespace CrossEngine {
 		return m_ptrResource;
 	}
 
-	BOOL CResourceHandle::LoadResource(BOOL bReload, BOOL bSync)
+	BOOL CResourceHandle::LoadResource(BOOL bSync)
 	{
-		if (m_ptrResource.IsNull() || bReload) {
+		if (m_ptrResource.IsNull()) {
 			if (m_ptrResource.IsNull()) {
 				m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 			}
 
 			if (bSync) {
-				return LoadResource();
-			}
+				if (LoadResource() == FALSE) {
+					return FALSE;
+				}
 
-			return ResourceSystem()->RequestLoad(this);
+				return ResourceSystem()->RequestPostLoad(this);
+			}
+			else {
+				return ResourceSystem()->RequestLoad(this);
+			}
 		}
 
 		return TRUE;
@@ -178,7 +183,7 @@ namespace CrossEngine {
 		SAFE_DELETE(pResource);
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::LoadResource(DWORD dwName, BOOL bReload, BOOL bSync)
+	const CResourcePtr<CResource>& CResourceManager::LoadResource(DWORD dwName, BOOL bSync)
 	{
 		CResourceHandle *pResource = NULL;
 		{
@@ -191,7 +196,7 @@ namespace CrossEngine {
 			return ptrResourceNull;
 		}
 
-		if (pResource->LoadResource(bReload, bSync) == FALSE) {
+		if (pResource->LoadResource(bSync) == FALSE) {
 			return ptrResourceNull;
 		}
 
