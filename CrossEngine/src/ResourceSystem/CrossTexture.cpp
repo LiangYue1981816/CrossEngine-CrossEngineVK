@@ -60,10 +60,10 @@ namespace CrossEngine {
 
 	BOOL CTexture::PostLoad(void)
 	{
-		BOOL rcode = m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
+		m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		m_texture.clear();
 
-		return rcode;
+		return TRUE;
 	}
 
 }
