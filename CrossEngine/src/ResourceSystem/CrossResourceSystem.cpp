@@ -98,18 +98,20 @@ namespace CrossEngine {
 
 	void CResourceSystem::UpdatePostLoad(void)
 	{
-		CResourceHandle *pResource = NULL;
+		mutex_autolock mutex(m_mutexPostLoadList);
 		{
-			mutex_autolock mutex(m_mutexPostLoadList);
+			std::list<CResourceHandle*>::const_iterator itResource = m_postLoadList.begin();
 
-			if (m_postLoadList.size()) {
-				pResource = m_postLoadList.front();
-				m_postLoadList.pop_front();
+			while (itResource != m_postLoadList.end()) {
+				CResourceHandle *pResource = *itResource;
+
+				if (pResource && pResource->PostLoadResource()) {
+					itResource = m_postLoadList.erase(itResource);
+				}
+				else {
+					itResource++;
+				}
 			}
-		}
-
-		if (pResource) {
-			pResource->PostLoadResource();
 		}
 	}
 
