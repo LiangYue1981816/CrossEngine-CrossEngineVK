@@ -37,12 +37,6 @@ namespace CrossEngine {
 		COUNT
 	} RESOURCE_TYPE;
 
-	typedef enum {
-		RESOURCE_LOAD_STATE_INIT, 
-		RESOURCE_LOAD_STATE_SUCCESS, 
-		RESOURCE_LOAD_STATE_FAIL
-	} RESOURCE_LOAD_STATE;
-
 	class CROSS_EXPORT CResource
 	{
 		template<class T>
@@ -70,8 +64,6 @@ namespace CrossEngine {
 		virtual CResourceManager* GetResourceManager(void) const;
 
 	protected:
-		virtual void SetState(RESOURCE_LOAD_STATE state);
-
 		virtual BOOL CopyFrom(const CResource *pCopyFrom);
 		virtual BOOL LoadFromFile(const char *szFileName);
 		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName);
@@ -80,16 +72,9 @@ namespace CrossEngine {
 		virtual BOOL Load(void) = 0;
 		virtual BOOL PostLoad(void) = 0;
 
-	public:
-		virtual RESOURCE_LOAD_STATE GetState(void);
-
 
 	protected:
 		CStream m_stream;
-
-	protected:
-		pthread_mutex_t m_mutex;
-		RESOURCE_LOAD_STATE m_state;
 
 	protected:
 		CResourceManager *m_pResourceManager;

@@ -44,7 +44,6 @@ namespace CrossEngine {
 	void CResource::Init(void)
 	{
 		m_stream.Init();
-		SetState(RESOURCE_LOAD_STATE_INIT);
 	}
 
 	void CResource::Free(void)
@@ -61,12 +60,6 @@ namespace CrossEngine {
 	CResourceManager* CResource::GetResourceManager(void) const
 	{
 		return m_pResourceManager;
-	}
-
-	void CResource::SetState(RESOURCE_LOAD_STATE state)
-	{
-		mutex_autolock mutex(m_mutex);
-		m_state = state;
 	}
 
 	BOOL CResource::CopyFrom(const CResource *pCopyFrom)
@@ -179,12 +172,6 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
-	}
-
-	RESOURCE_LOAD_STATE CResource::GetState(void)
-	{
-		mutex_autolock mutex(m_mutex);
-		return m_state;
 	}
 
 }
