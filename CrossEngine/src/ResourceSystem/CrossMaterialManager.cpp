@@ -25,8 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static const CResourcePtr<CResource> ptrResourceNull;
-
 	CMaterialManager::CMaterialManager(void)
 	{
 
@@ -60,12 +58,6 @@ namespace CrossEngine {
 	BOOL CMaterialManager::PreLoadFromPack(const char *szPackName)
 	{
 		return CResourceManager::PreLoadFromPack(szPackName, MATERIAL_EXT_NAME);
-	}
-
-	const CResourcePtr<CResource>& CMaterialManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
-	{
-		ASSERT(FALSE);
-		return ptrResourceNull;
 	}
 
 }

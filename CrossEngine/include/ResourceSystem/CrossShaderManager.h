@@ -46,8 +46,6 @@ namespace CrossEngine {
 		virtual BOOL PreLoadFromPath(const char *szPathName);
 		virtual BOOL PreLoadFromPack(const char *szPackName);
 
-		virtual const CResourcePtr<CResource>& CopyResource(DWORD dwName, const CResource *pCopyFrom);
-
 	protected:
 		virtual BOOL Load(CResourceHandle *pResource);
 

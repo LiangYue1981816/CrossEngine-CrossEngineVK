@@ -58,7 +58,7 @@ namespace CrossEngine {
 		return m_texture.empty() ? FALSE : TRUE;
 	}
 
-	BOOL CTexture::PostLoad(void)
+	BOOL CTexture::PostLoad(BOOL bSync)
 	{
 		m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		m_texture.clear();

@@ -62,35 +62,6 @@ namespace CrossEngine {
 		return m_pResourceManager;
 	}
 
-	BOOL CResource::CopyFrom(const CResource *pCopyFrom)
-	{
-		try {
-			if (pCopyFrom == NULL) {
-				throw "Invalid resource.";
-			}
-
-			if (pCopyFrom->GetType() != GetType()) {
-				throw "Invalid resource type.";
-			}
-
-			if (m_stream.CopyFrom(pCopyFrom->GetStream()) == FALSE) {
-				throw "Copy stream failed.";
-			}
-
-			if (Load() == FALSE) {
-				throw "Load failed.";
-			}
-
-			return TRUE;
-		}
-		catch (const char *szError) {
-			LOGE("CResource::CopyFrom(0x%016x): %s\n", pCopyFrom, szError);
-			Free();
-
-			return FALSE;
-		}
-	}
-
 	BOOL CResource::LoadFromFile(const char *szFileName)
 	{
 		try {

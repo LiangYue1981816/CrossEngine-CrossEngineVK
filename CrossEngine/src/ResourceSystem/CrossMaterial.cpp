@@ -46,7 +46,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterial::PostLoad(void)
+	BOOL CMaterial::PostLoad(BOOL bSync)
 	{
 		return TRUE;
 	}

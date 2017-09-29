@@ -25,8 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static const CResourcePtr<CResource> ptrResourceNull;
-
 	CShaderManager::CShaderManager(void)
 	{
 
@@ -72,12 +70,6 @@ namespace CrossEngine {
 		if (CResourceManager::PreLoadFromPack(szPackName, SHADER_EXT_NAME2) == FALSE) return FALSE;
 
 		return TRUE;
-	}
-
-	const CResourcePtr<CResource>& CShaderManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
-	{
-		ASSERT(FALSE);
-		return ptrResourceNull;
 	}
 
 	BOOL CShaderManager::Load(CResourceHandle *pResource)
