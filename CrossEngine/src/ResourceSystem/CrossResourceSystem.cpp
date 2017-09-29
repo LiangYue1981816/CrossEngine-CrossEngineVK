@@ -96,14 +96,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResourceSystem::RequestPostLoad(CResourceHandle *pResource)
-	{
-		mutex_autolock mutex(m_mutexPostLoadList);
-		m_postLoadList.push_back(pResource);
-
-		return TRUE;
-	}
-
 	void CResourceSystem::UpdatePostLoad(void)
 	{
 		mutex_autolock mutex(m_mutexPostLoadList);
@@ -113,7 +105,7 @@ namespace CrossEngine {
 			while (itResource != m_postLoadList.end()) {
 				CResourceHandle *pResource = *itResource;
 
-				if (pResource && pResource->PostLoadResource()) {
+				if (pResource && pResource->PostLoadResource(FALSE)) {
 					itResource = m_postLoadList.erase(itResource);
 				}
 				else {

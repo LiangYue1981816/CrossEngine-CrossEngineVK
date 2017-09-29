@@ -50,7 +50,6 @@ namespace CrossEngine {
 
 	protected:
 		BOOL RequestLoad(CResourceHandle *pResource);
-		BOOL RequestPostLoad(CResourceHandle *pResource);
 
 	protected:
 		void UpdatePostLoad(void);

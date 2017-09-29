@@ -25,8 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static const CResourcePtr<CResource> ptrResourceNull;
-
 	CTextureManager::CTextureManager(void)
 	{
 
@@ -77,12 +75,6 @@ namespace CrossEngine {
 		if (CResourceManager::PreLoadFromPack(szPackName, TEXTURE_EXT_NAME2) == FALSE) return FALSE;
 
 		return TRUE;
-	}
-
-	const CResourcePtr<CResource>& CTextureManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
-	{
-		ASSERT(FALSE);
-		return ptrResourceNull;
 	}
 
 }
