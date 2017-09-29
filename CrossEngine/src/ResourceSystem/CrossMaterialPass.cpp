@@ -41,12 +41,42 @@ namespace CrossEngine {
 		return m_ptrGfxPipeline;
 	}
 
+	const std::map<uint32_t, CMaterialPass::Texture>& CMaterialPass::GetTextures(void) const
+	{
+		return m_textures;
+	}
+
+	const std::map<uint32_t, CMaterialPass::Uniform>& CMaterialPass::GetUniforms(void) const
+	{
+		return m_uniforms;
+	}
+
 	BOOL CMaterialPass::Load(TiXmlNode *pPassNode)
 	{
 		return TRUE;
 	}
 
 	BOOL CMaterialPass::PostLoad(void)
+	{
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::SetTexture(const char *szTextureName, uint32_t unit)
+	{
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::SetUniformFloat(const char *szUniformName, float value)
+	{
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::SetUniformFloat4(const char *szUniformName, float *values)
+	{
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::SetUniformMatrix4(const char *szUniformName, float *values)
 	{
 		return TRUE;
 	}

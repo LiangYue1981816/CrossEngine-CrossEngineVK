@@ -29,21 +29,41 @@ namespace CrossEngine {
 	class CROSS_EXPORT CMaterialPass
 	{
 	protected:
+		typedef struct Texture {
+			CGfxTexturePtr ptrTexture;
+			CGfxDescriptorSetPtr ptrDescriptorSet;
+		} Texture;
+
+		typedef struct Uniform {
+			CGfxUniformBufferPtr ptrUniform;
+			CGfxDescriptorSetPtr ptrDescriptorSet;
+		} Uniform;
+
+
+	protected:
 		CMaterialPass(void);
 		virtual ~CMaterialPass(void);
 
 
 	public:
 		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
+		const std::map<uint32_t, Texture>& GetTextures(void) const;
+		const std::map<uint32_t, Uniform>& GetUniforms(void) const;
 
 	public:
 		BOOL Load(TiXmlNode *pPassNode);
 		BOOL PostLoad(void);
 
+	public:
+		BOOL SetTexture(const char *szTextureName, uint32_t unit);
+		BOOL SetUniformFloat(const char *szUniformName, float value);
+		BOOL SetUniformFloat4(const char *szUniformName, float *values);
+		BOOL SetUniformMatrix4(const char *szUniformName, float *values);
+
 
 	protected:
-		std::map<uint32_t, CGfxTexturePtr> m_textures;
-		std::map<uint32_t, CGfxUniformBufferPtr> m_uniforms;
+		std::map<uint32_t, Texture> m_textures;
+		std::map<uint32_t, Uniform> m_uniforms;
 		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
 
 	public:
