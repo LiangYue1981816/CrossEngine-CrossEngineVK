@@ -81,7 +81,7 @@ namespace CrossEngine {
 				throw "Load failed.";
 			}
 
-			return PostLoad();
+			return TRUE;
 		}
 		catch (const char *szError) {
 			LOGE("CResource::CopyFrom(0x%016x): %s\n", pCopyFrom, szError);
