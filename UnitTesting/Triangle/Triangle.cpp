@@ -46,9 +46,6 @@ void CreatePipeline(void)
 {
 	static char szSourceCode[1024 * 1024];
 
-	GfxDevice()->SetShaderCachePath("../Data/ShaderCache/");
-	GfxDevice()->AddShaderIncludePath("../Data/Shader/");
-
 	LoadShader("../Data/Shader/triangle.vert", szSourceCode, sizeof(szSourceCode));
 	ptrShaderVertex = GfxDevice()->NewShader();
 	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_VERTEX_BIT);
