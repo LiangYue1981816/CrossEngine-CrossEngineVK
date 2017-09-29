@@ -81,6 +81,7 @@ namespace CrossEngine {
 
 	const CResourcePtr<CResource>& CTextureManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
 	{
+		ASSERT(FALSE);
 		return ptrResourceNull;
 	}
 

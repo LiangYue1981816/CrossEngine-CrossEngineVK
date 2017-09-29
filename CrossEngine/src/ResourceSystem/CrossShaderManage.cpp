@@ -76,6 +76,7 @@ namespace CrossEngine {
 
 	const CResourcePtr<CResource>& CShaderManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
 	{
+		ASSERT(FALSE);
 		return ptrResourceNull;
 	}
 
