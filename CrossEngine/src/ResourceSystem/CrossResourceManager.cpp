@@ -97,6 +97,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CResourceHandle::FreeResource(void)
+	{
+		m_ptrResource.Release();
+		return TRUE;
+	}
+
 	BOOL CResourceHandle::LoadResource(void)
 	{
 		if (m_pPack) {
@@ -110,12 +116,6 @@ namespace CrossEngine {
 	BOOL CResourceHandle::PostLoadResource(BOOL bSync)
 	{
 		return m_ptrResource->PostLoad(bSync);
-	}
-
-	BOOL CResourceHandle::FreeResource(void)
-	{
-		m_ptrResource.Release();
-		return TRUE;
 	}
 
 

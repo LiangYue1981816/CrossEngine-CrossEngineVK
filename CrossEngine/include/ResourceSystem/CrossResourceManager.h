@@ -39,16 +39,18 @@ namespace CrossEngine {
 		virtual ~CResourceHandle(void);
 
 
-	protected:
+	public:
 		BOOL IsWaste(void) const;
 		const char* GetFileName(void) const;
 		CResourcePtr<CResource>& GetResourcePtr(void);
 
-	protected:
+	public:
 		BOOL LoadResource(BOOL bSync);
+		BOOL FreeResource(void);
+
+	protected:
 		BOOL LoadResource(void);
 		BOOL PostLoadResource(BOOL bSync);
-		BOOL FreeResource(void);
 
 
 	protected:

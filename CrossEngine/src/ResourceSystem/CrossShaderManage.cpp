@@ -74,7 +74,7 @@ namespace CrossEngine {
 
 	BOOL CShaderManager::Load(CResourceHandle *pResource)
 	{
-		return TRUE;
+		return pResource->LoadResource(TRUE);
 	}
 
 	void CShaderManager::GarbageCollection(void)
