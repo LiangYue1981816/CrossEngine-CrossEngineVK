@@ -47,8 +47,7 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadResource(BOOL bSync);
 		BOOL LoadResource(void);
-		BOOL PostLoadResource(void);
-		BOOL CopyResource(const CResource *pCopyFrom);
+		BOOL PostLoadResource(BOOL bSync);
 		BOOL FreeResource(void);
 
 
@@ -92,7 +91,6 @@ namespace CrossEngine {
 
 	public:
 		virtual const CResourcePtr<CResource>& LoadResource(DWORD dwName, BOOL bSync = FALSE);
-		virtual const CResourcePtr<CResource>& CopyResource(DWORD dwName, const CResource *pCopyFrom);
 		virtual BOOL FreeResource(DWORD dwName);
 
 	public:

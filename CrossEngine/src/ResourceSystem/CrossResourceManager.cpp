@@ -82,16 +82,12 @@ namespace CrossEngine {
 	BOOL CResourceHandle::LoadResource(BOOL bSync)
 	{
 		if (m_ptrResource.IsNull()) {
-			if (m_ptrResource.IsNull()) {
-				m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
-			}
+			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 
 			if (bSync) {
-				if (LoadResource() == FALSE) {
-					return FALSE;
-				}
-
-				return ResourceSystem()->RequestPostLoad(this);
+				if (LoadResource() == FALSE) return FALSE;
+				if (PostLoadResource(TRUE) == FALSE) return FALSE;
+				return TRUE;
 			}
 			else {
 				return ResourceSystem()->RequestLoad(this);
@@ -111,18 +107,9 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CResourceHandle::PostLoadResource(void)
+	BOOL CResourceHandle::PostLoadResource(BOOL bSync)
 	{
-		return m_ptrResource->PostLoad();
-	}
-
-	BOOL CResourceHandle::CopyResource(const CResource *pCopyFrom)
-	{
-		if (m_ptrResource.IsNull()) {
-			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
-		}
-
-		return m_ptrResource->CopyFrom(pCopyFrom);
+		return m_ptrResource->PostLoad(bSync);
 	}
 
 	BOOL CResourceHandle::FreeResource(void)
@@ -197,26 +184,6 @@ namespace CrossEngine {
 		}
 
 		if (pResource->LoadResource(bSync) == FALSE) {
-			return ptrResourceNull;
-		}
-
-		return pResource->GetResourcePtr();
-	}
-
-	const CResourcePtr<CResource>& CResourceManager::CopyResource(DWORD dwName, const CResource *pCopyFrom)
-	{
-		CResourceHandle *pResource = NULL;
-		{
-			mutex_autolock mutex(m_mutex);
-
-			if (m_resources[dwName] == NULL) {
-				m_resources[dwName] = SAFE_NEW CResourceHandle(this);
-			}
-
-			pResource = m_resources[dwName];
-		}
-
-		if (pResource->CopyResource(pCopyFrom) == FALSE) {
 			return ptrResourceNull;
 		}
 
