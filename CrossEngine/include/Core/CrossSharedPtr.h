@@ -42,7 +42,7 @@ namespace CrossEngine {
 		{
 			Set(pPointer, NULL);
 		}
-		CSharedPtr(const CSharedPtr &ptr)
+		CSharedPtr(const CSharedPtr<T> &ptr)
 			: m_pPointer(NULL)
 			, m_pRefCount(NULL)
 		{
