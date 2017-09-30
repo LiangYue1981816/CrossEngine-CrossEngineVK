@@ -53,16 +53,6 @@ namespace CrossEngine {
 
 		}
 
-		inline T* GetPointer(void) const
-		{
-			return m_pPointer;
-		}
-
-		inline DWORD* GetRefCountPointer(void) const
-		{
-			return m_pRefCount;
-		}
-
 
 	protected:
 		inline void Set(const T *pPointer, const DWORD *pRefCount)
@@ -124,6 +114,11 @@ namespace CrossEngine {
 
 			m_pPointer = NULL;
 			m_pRefCount = NULL;
+		}
+
+		inline T* GetPointer(void) const
+		{
+			return m_pPointer;
 		}
 
 		inline DWORD GetRefCount(void) const
