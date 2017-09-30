@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
 
-CrossEngine::CGfxShaderPtr ptrShaderVertex;
-CrossEngine::CGfxShaderPtr ptrShaderFragment;
+CrossEngine::CShaderPtr ptrShaderVertex;
+CrossEngine::CShaderPtr ptrShaderFragment;
 CrossEngine::CGfxPipelineGraphicsPtr ptrPipeline;
 
 CrossEngine::CGfxIndexBufferPtr ptrIndexBuffer;
@@ -46,17 +46,12 @@ void CreatePipeline(void)
 {
 	static char szSourceCode[1024 * 1024];
 
-	LoadShader("../Data/Shader/triangle.vert", szSourceCode, sizeof(szSourceCode));
-	ptrShaderVertex = GfxDevice()->NewShader();
-	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_VERTEX_BIT);
-
-	LoadShader("../Data/Shader/triangle.frag", szSourceCode, sizeof(szSourceCode));
-	ptrShaderFragment = GfxDevice()->NewShader();
-	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_FRAGMENT_BIT);
+	ptrShaderVertex = ShaderManager()->LoadResource(CrossEngine::HashValue("triangle.vert"));
+	ptrShaderFragment = ShaderManager()->LoadResource(CrossEngine::HashValue("triangle.frag"));
 
 	ptrPipeline = GfxDevice()->NewPipelineGraphics();
-	ptrPipeline->SetVertexShader(ptrShaderVertex);
-	ptrPipeline->SetFragmentShader(ptrShaderFragment);
+	ptrPipeline->SetVertexShader(ptrShaderVertex->GetGfxShader());
+	ptrPipeline->SetFragmentShader(ptrShaderFragment->GetGfxShader());
 	ptrPipeline->SetColorBlendAttachment(0, FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	ptrPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
