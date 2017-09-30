@@ -63,17 +63,17 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGfxResourcePtr : public CSharedPtr<T>
 	{
 	public:
-		CGfxResourcePtr(void) : CSharedPtr<T>()
+		CGfxResourcePtr(void)
 		{
 
 		}
-		CGfxResourcePtr(const T *p) : CSharedPtr<T>(p)
+		CGfxResourcePtr(const T *pPointer)
 		{
-
+			Set(pPointer, NULL);
 		}
-		CGfxResourcePtr(const CGfxResourcePtr<CGfxResource> &ptr) : CSharedPtr<T>(ptr)
+		CGfxResourcePtr(const CGfxResourcePtr<CGfxResource> &ptr)
 		{
-
+			Set(ptr.m_pPointer, ptr.m_pRefCount);
 		}
 		virtual ~CGfxResourcePtr(void)
 		{

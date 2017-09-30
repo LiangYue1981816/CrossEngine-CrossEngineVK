@@ -83,17 +83,17 @@ namespace CrossEngine {
 	class CROSS_EXPORT CResourcePtr : public CSharedPtr<T>
 	{
 	public:
-		CResourcePtr(void) : CSharedPtr<T>()
+		CResourcePtr(void)
 		{
 
 		}
-		CResourcePtr(const T *p) : CSharedPtr<T>(p)
+		CResourcePtr(const T *pPointer)
 		{
-
+			Set(pPointer, NULL);
 		}
-		CResourcePtr(const CResourcePtr<CResource> &ptr) : CSharedPtr<T>(ptr)
+		CResourcePtr(const CResourcePtr<CResource> &ptr)
 		{
-
+			Set(ptr.m_pPointer, ptr.m_pRefCount);
 		}
 		virtual ~CResourcePtr(void)
 		{
