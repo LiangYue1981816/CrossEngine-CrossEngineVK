@@ -29,7 +29,6 @@ namespace CrossEngine {
 	template<class T>
 	class CROSS_EXPORT CResourcePtr;
 	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CResourceManager;
 	class CROSS_EXPORT CShader;
 	class CROSS_EXPORT CTexture;
 	class CROSS_EXPORT CMaterial;
