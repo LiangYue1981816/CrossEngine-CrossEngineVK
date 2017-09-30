@@ -91,7 +91,7 @@ namespace CrossEngine {
 		{
 
 		}
-		CResourcePtr(const CResourcePtr &ptr) : CSharedPtr<T>(ptr)
+		CResourcePtr(const CResourcePtr<CResource> &ptr) : CSharedPtr<T>(ptr)
 		{
 
 		}

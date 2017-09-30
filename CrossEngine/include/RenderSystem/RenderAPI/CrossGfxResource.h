@@ -71,7 +71,7 @@ namespace CrossEngine {
 		{
 
 		}
-		CGfxResourcePtr(const CGfxResourcePtr &ptr) : CSharedPtr<T>(ptr)
+		CGfxResourcePtr(const CGfxResourcePtr<CGfxResource> &ptr) : CSharedPtr<T>(ptr)
 		{
 
 		}
