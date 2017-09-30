@@ -28,11 +28,6 @@ namespace CrossEngine {
 	CResourceSystem::CResourceSystem(void)
 		: m_pResourceManager{ NULL }
 	{
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CShaderManager;
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE] = SAFE_NEW CTextureManager;
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL] = SAFE_NEW CMaterialManager;
-		// ...
-
 		event_init(&m_eventExit, 1);
 		pthread_mutex_init(&m_mutexPendingList, NULL);
 		pthread_mutex_init(&m_mutexPostLoadList, NULL);
@@ -40,10 +35,6 @@ namespace CrossEngine {
 
 	CResourceSystem::~CResourceSystem(void)
 	{
-		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
-			SAFE_DELETE(m_pResourceManager[indexManager]);
-		}
-
 		event_destroy(&m_eventExit);
 		pthread_mutex_destroy(&m_mutexPendingList);
 		pthread_mutex_destroy(&m_mutexPostLoadList);
@@ -51,12 +42,21 @@ namespace CrossEngine {
 
 	BOOL CResourceSystem::Create(void)
 	{
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CShaderManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE] = SAFE_NEW CTextureManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL] = SAFE_NEW CMaterialManager;
+		// ...
+
 		pthread_create(&m_thread, NULL, UpdateLoadThread, this);
 		return TRUE;
 	}
 
 	void CResourceSystem::Destroy(void)
 	{
+		for (int indexManager = 0; indexManager < RESOURCE_TYPE::COUNT; indexManager++) {
+			SAFE_DELETE(m_pResourceManager[indexManager]);
+		}
+
 		event_signal(&m_eventExit);
 		pthread_join(m_thread, NULL);
 	}
