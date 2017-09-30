@@ -22,40 +22,13 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossGfxAPI.h"
-#include "CrossGLES3API.h"
-#include "CrossVulkanAPI.h"
-
-
-namespace CrossEngine {
-
-	typedef enum {
-		GFX_API_GLES31, GFX_API_VULKAN
-	} GFX_API;
-
-	class CROSS_EXPORT CRenderSystem
-	{
-		friend class CEngine;
-
-
-	protected:
-		CRenderSystem(void);
-		virtual ~CRenderSystem(void);
-
-
-	protected:
-		BOOL Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
-		void Destroy(void);
-
-	public:
-		CGfxDevice* GetDevice(void);
-		CGfxSwapchain* GetSwapchain(void);
-
-
-	protected:
-		CGfxInstance *m_pGfxInstance;
-		CGfxDevice *m_pGfxDevice;
-		CGfxSwapchain *m_pGfxSwapchain;
-	};
-
-}
+#include "CrossType.h"
+#include "CrossMutex.h"
+#include "CrossMemory.h"
+#include "CrossDelegate.h"
+#include "CrossC.h"
+#include "CrossUtility.h"
+#include "CrossLog.h"
+#include "CrossStream.h"
+#include "CrossSharedPtr.h"
+#include "CrossTaskGraph.h"

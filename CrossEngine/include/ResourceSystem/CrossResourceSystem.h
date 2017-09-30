@@ -22,6 +22,16 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
+#include "CrossResource.h"
+#include "CrossResourceManager.h"
+#include "CrossResourceDefinition.h"
+#include "CrossShader.h"
+#include "CrossTexture.h"
+#include "CrossMaterial.h"
+#include "CrossMaterialPass.h"
+#include "CrossShaderManager.h"
+#include "CrossTextureManager.h"
+#include "CrossMaterialManager.h"
 
 
 namespace CrossEngine {

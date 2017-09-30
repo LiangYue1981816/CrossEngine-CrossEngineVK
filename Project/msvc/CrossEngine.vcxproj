@@ -177,6 +177,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossC.h" />
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossCore.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossDelegate.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossLog.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossMemory.h" />

@@ -89,32 +89,9 @@ THE SOFTWARE.
 #include <spirv_cross.hpp>
 
 
-#include "CrossType.h"
-#include "CrossMutex.h"
-#include "CrossMemory.h"
-#include "CrossDelegate.h"
-#include "CrossC.h"
-#include "CrossUtility.h"
-#include "CrossLog.h"
-#include "CrossStream.h"
-#include "CrossSharedPtr.h"
-#include "CrossTaskGraph.h"
-
-#include "CrossGfxAPI.h"
-#include "CrossGLES3API.h"
-#include "CrossVulkanAPI.h"
+#include "CrossCore.h"
 #include "CrossRenderSystem.h"
-
-#include "CrossResource.h"
-#include "CrossResourceManager.h"
 #include "CrossResourceSystem.h"
-#include "CrossShader.h"
-#include "CrossTexture.h"
-#include "CrossMaterial.h"
-#include "CrossMaterialPass.h"
-#include "CrossShaderManager.h"
-#include "CrossTextureManager.h"
-#include "CrossMaterialManager.h"
 
 #include "CrossEntityBase.h"
 #include "CrossEntityMesh.h"
