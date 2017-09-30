@@ -127,7 +127,7 @@ namespace CrossEngine {
 	BOOL CGLES3Shader::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		char szFileName[_MAX_STRING];
-		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue(szSource));
+		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue((const BYTE *)szSource, length));
 
 		std::vector<uint32_t> words;
 		if (LoadShaderBinary(szFileName, words) == FALSE) {
@@ -144,7 +144,7 @@ namespace CrossEngine {
 	BOOL CGLES3Shader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		char szFileName[_MAX_STRING];
-		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue(szSource));
+		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue((const BYTE *)szSource, length));
 
 		std::vector<uint32_t> words;
 		Precompile(szSource, length, flags);
