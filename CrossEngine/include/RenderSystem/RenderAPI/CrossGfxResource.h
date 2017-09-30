@@ -69,11 +69,11 @@ namespace CrossEngine {
 		}
 		CGfxResourcePtr(const T *pPointer)
 		{
-			Set(pPointer, NULL);
+			Set((const T *)pPointer, NULL);
 		}
 		CGfxResourcePtr(const CGfxResourcePtr<CGfxResource> &ptr)
 		{
-			Set(ptr.m_pPointer, ptr.m_pRefCount);
+			Set((const T *)ptr.GetPointer(), ptr.GetRefCountPointer());
 		}
 		virtual ~CGfxResourcePtr(void)
 		{

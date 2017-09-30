@@ -53,6 +53,16 @@ namespace CrossEngine {
 
 		}
 
+		inline T* GetPointer(void) const
+		{
+			return m_pPointer;
+		}
+
+		inline DWORD* GetRefCountPointer(void) const
+		{
+			return m_pRefCount;
+		}
+
 
 	protected:
 		inline void Set(const T *pPointer, const DWORD *pRefCount)
@@ -77,7 +87,7 @@ namespace CrossEngine {
 
 
 	public:
-		inline CSharedPtr& operator = (const CSharedPtr &ptr)
+		inline CSharedPtr<T>& operator = (const CSharedPtr<T> &ptr)
 		{
 			Set(ptr.m_pPointer, ptr.m_pRefCount);
 			return *this;
@@ -114,11 +124,6 @@ namespace CrossEngine {
 
 			m_pPointer = NULL;
 			m_pRefCount = NULL;
-		}
-
-		inline T* GetPointer(void) const
-		{
-			return m_pPointer;
 		}
 
 		inline DWORD GetRefCount(void) const

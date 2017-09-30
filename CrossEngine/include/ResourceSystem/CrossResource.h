@@ -89,11 +89,11 @@ namespace CrossEngine {
 		}
 		CResourcePtr(const T *pPointer)
 		{
-			Set(pPointer, NULL);
+			Set((const T *)pPointer, NULL);
 		}
 		CResourcePtr(const CResourcePtr<CResource> &ptr)
 		{
-			Set(ptr.m_pPointer, ptr.m_pRefCount);
+			Set((const T *)ptr.GetPointer(), ptr.GetRefCountPointer());
 		}
 		virtual ~CResourcePtr(void)
 		{
