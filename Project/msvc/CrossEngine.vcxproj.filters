@@ -579,6 +579,9 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterialPass.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceDefinition.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">

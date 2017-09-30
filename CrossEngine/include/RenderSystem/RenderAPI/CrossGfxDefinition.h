@@ -82,7 +82,6 @@ namespace CrossEngine {
 	template<class T>
 	class CROSS_EXPORT CGfxResourcePtr;
 	class CROSS_EXPORT CGfxResource;
-	class CROSS_EXPORT CGfxResourceManager;
 	class CROSS_EXPORT CGfxBuffer;
 	class CROSS_EXPORT CGfxIndexBuffer;
 	class CROSS_EXPORT CGfxVertexBuffer;

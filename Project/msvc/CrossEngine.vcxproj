@@ -290,6 +290,7 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterialManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterialPass.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResource.h" />
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceDefinition.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceSystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossShader.h" />
