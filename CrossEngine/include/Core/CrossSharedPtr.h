@@ -121,6 +121,11 @@ namespace CrossEngine {
 			return m_pPointer;
 		}
 
+		inline DWORD* GetRefCountPointer(void) const
+		{
+			return m_pRefCount;
+		}
+
 		inline DWORD GetRefCount(void) const
 		{
 			return *m_pRefCount;
