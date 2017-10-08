@@ -92,6 +92,7 @@ namespace CrossEngine {
 		virtual void DestroyResource(CResource *pResource);
 
 	public:
+		virtual const CResourcePtr<CResource>& LoadResource(const char *szName, BOOL bSync = FALSE);
 		virtual const CResourcePtr<CResource>& LoadResource(DWORD dwName, BOOL bSync = FALSE);
 		virtual BOOL FreeResource(DWORD dwName);
 

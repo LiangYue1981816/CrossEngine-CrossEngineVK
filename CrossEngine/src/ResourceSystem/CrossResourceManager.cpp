@@ -170,6 +170,11 @@ namespace CrossEngine {
 		SAFE_DELETE(pResource);
 	}
 
+	const CResourcePtr<CResource>& CResourceManager::LoadResource(const char *szName, BOOL bSync)
+	{
+		return LoadResource(HashValue(szName), bSync);
+	}
+
 	const CResourcePtr<CResource>& CResourceManager::LoadResource(DWORD dwName, BOOL bSync)
 	{
 		CResourceHandle *pResource = NULL;

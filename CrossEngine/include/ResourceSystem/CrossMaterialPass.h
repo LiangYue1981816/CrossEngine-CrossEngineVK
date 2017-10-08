@@ -54,6 +54,29 @@ namespace CrossEngine {
 		BOOL Load(TiXmlNode *pPassNode);
 		BOOL PostLoad(void);
 
+	protected:
+		BOOL LoadShaderVertex(TiXmlNode *pPassNode);
+		BOOL LoadShaderFragment(TiXmlNode *pPassNode);
+		BOOL LoadPrimitiveTopology(TiXmlNode *pPassNode);
+		BOOL LoadTessellationPatchControlPoints(TiXmlNode *pPassNode);
+		BOOL LoadPolygonMode(TiXmlNode *pPassNode);
+		BOOL LoadCullMode(TiXmlNode *pPassNode);
+		BOOL LoadFrontFace(TiXmlNode *pPassNode);
+		BOOL LoadDepthClamp(TiXmlNode *pPassNode);
+		BOOL LoadDepthBias(TiXmlNode *pPassNode);
+		BOOL LoadRasterizerDiscard(TiXmlNode *pPassNode);
+		BOOL LoadSampleCounts(TiXmlNode *pPassNode);
+		BOOL LoadSampleShading(TiXmlNode *pPassNode);
+		BOOL LoadSampleMask(TiXmlNode *pPassNode);
+		BOOL LoadSampleAlphaToCoverage(TiXmlNode *pPassNode);
+		BOOL LoadSampleAlphaToOne(TiXmlNode *pPassNode);
+		BOOL LoadDepthTest(TiXmlNode *pPassNode);
+		BOOL LoadDepthBoundsTest(TiXmlNode *pPassNode);
+		BOOL LoadStencilTest(TiXmlNode *pPassNode);
+		BOOL LoadColorBlendLogic(TiXmlNode *pPassNode);
+		BOOL LoadColorBlendConstants(TiXmlNode *pPassNode);
+		BOOL LoadColorBlendAttachment(TiXmlNode *pPassNode);
+
 	public:
 		BOOL SetTexture(const char *szTextureName, uint32_t unit);
 		BOOL SetUniformFloat(const char *szUniformName, float value);
