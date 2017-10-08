@@ -67,7 +67,6 @@ namespace CrossEngine {
 		BOOL LoadRasterizerDiscard(TiXmlNode *pPassNode);
 		BOOL LoadSampleCounts(TiXmlNode *pPassNode);
 		BOOL LoadSampleShading(TiXmlNode *pPassNode);
-		BOOL LoadSampleMask(TiXmlNode *pPassNode);
 		BOOL LoadSampleAlphaToCoverage(TiXmlNode *pPassNode);
 		BOOL LoadSampleAlphaToOne(TiXmlNode *pPassNode);
 		BOOL LoadDepthTest(TiXmlNode *pPassNode);
