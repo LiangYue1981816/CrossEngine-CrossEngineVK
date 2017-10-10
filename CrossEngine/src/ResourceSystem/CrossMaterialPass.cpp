@@ -60,6 +60,8 @@ namespace CrossEngine {
 		if (LoadMultisampleState(pStream) == FALSE) return FALSE;
 		if (LoadDepthStencilState(pStream) == FALSE) return FALSE;
 		if (LoadColorBlendState(pStream) == FALSE) return FALSE;
+		if (LoadTextures(pStream) == FALSE) return FALSE;
+		if (LoadUniforms(pStream) == FALSE) return FALSE;
 
 		return TRUE;
 	}
@@ -190,15 +192,43 @@ namespace CrossEngine {
 
 	BOOL CMaterialPass::LoadColorBlendState(CStream *pStream)
 	{
-		//VkPipelineColorBlendStateCreateInfo state = {};
+		VkPipelineColorBlendStateCreateInfo state = {};
+		{
+			*pStream >> state.logicOpEnable;
+			*pStream >> state.logicOp;
+			*pStream >> state.blendConstants;
+		}
+		m_ptrGfxPipeline->SetColorBlendLogic(state.logicOpEnable, state.logicOp);
+		m_ptrGfxPipeline->SetColorBlendConstants(state.blendConstants[0], state.blendConstants[1], state.blendConstants[2], state.blendConstants[3]);
+		
+		//std::map<uint32_t, VkPipelineColorBlendAttachmentState> attachmentColorBlends;
+		//std::map<uint32_t, uint32_t> attachmentColorBlends;
 		//{
-		//	*pStream >> state.logicOpEnable;
-		//	*pStream >> state.logicOp;
-		//	*pStream >> state.attachmentCount;
-		//	*pStream >> state.pAttachments;
-		//	*pStream >> state.blendConstants[4];
+		//	*pStream >> attachmentColorBlends;
+		//}
+		//for (const auto &itAttachment : attachmentColorBlends) {
+		//	m_ptrGfxPipeline->SetColorBlendAttachment(
+		//		itAttachment.first, 
+		//		itAttachment.second.blendEnable, 
+		//		itAttachment.second.srcColorBlendFactor, 
+		//		itAttachment.second.dstColorBlendFactor, 
+		//		itAttachment.second.colorBlendOp, 
+		//		itAttachment.second.srcAlphaBlendFactor, 
+		//		itAttachment.second.dstAlphaBlendFactor, 
+		//		itAttachment.second.alphaBlendOp, 
+		//		itAttachment.second.colorWriteMask);
 		//}
 
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::LoadTextures(CStream *pStream)
+	{
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::LoadUniforms(CStream *pStream)
+	{
 		return TRUE;
 	}
 
