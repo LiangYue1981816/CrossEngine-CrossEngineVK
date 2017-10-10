@@ -54,6 +54,15 @@ namespace CrossEngine {
 		BOOL Load(CStream *pStream);
 		BOOL PostLoad(void);
 
+	protected:
+		BOOL LoadShaders(CStream *pStream);
+		BOOL LoadInputAssemblyState(CStream *pStream);
+		BOOL LoadTessellationState(CStream *pStream);
+		BOOL LoadRasterizationState(CStream *pStream);
+		BOOL LoadMultisampleState(CStream *pStream);
+		BOOL LoadDepthStencilState(CStream *pStream);
+		BOOL LoadColorBlendState(CStream *pStream);
+
 	public:
 		BOOL SetTexture(const char *szTextureName, uint32_t unit);
 		BOOL SetUniformFloat(const char *szUniformName, float value);
