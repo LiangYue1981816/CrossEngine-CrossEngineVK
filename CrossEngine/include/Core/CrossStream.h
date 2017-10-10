@@ -83,13 +83,6 @@ namespace CrossEngine {
 
 	public:
 		size_t Read(void *pBuffer, size_t size, size_t count);
-		size_t ReadString(char *szString, size_t size = UINT_MAX);
-
-		BYTE ReadBYTE(void);
-		WORD ReadWORD(void);
-		DWORD ReadDWORD(void);
-		float ReadFLOAT(void);
-
 		BOOL Seek(size_t offset, SEEK_MODE mode);
 		BOOL IsEOF(void) const;
 
@@ -109,5 +102,66 @@ namespace CrossEngine {
 		size_t m_size;
 		size_t m_position;
 	};
+
+
+	template<typename T>
+	inline CStream& operator >> (CStream &stream, T &value)
+	{
+		stream.Read((void *)&value, sizeof(value), 1);
+		return stream;
+	}
+
+	inline CStream& operator >> (CStream &stream, char* &value)
+	{
+		size_t count;
+		stream >> count;
+		stream.Read((void *)value, sizeof(char), count);
+		return stream;
+	}
+
+	inline CStream& operator >> (CStream &stream, std::string &value)
+	{
+		size_t count;
+		stream >> count; value.resize(count);
+		stream.Read((void *)value.data(), sizeof(char), count);
+		return stream;
+	}
+
+	template<typename T>
+	inline CStream& operator >> (CStream &stream, std::vector<T> &values)
+	{
+		size_t count;
+		stream >> count;
+
+		values.clear();
+		values.resize(count);
+
+		for (size_t index = 0; index < count; index++) {
+			T value;
+			stream >> value;
+			values.push_back(value);
+		}
+
+		return stream;
+	}
+
+	template<typename K, typename T>
+	inline CStream& operator >> (CStream &stream, std::map<K, T> &values)
+	{
+		size_t count;
+		stream >> count;
+
+		values.clear();
+
+		for (size_t index = 0; index < count; index++) {
+			K key;
+			T value;
+			stream >> key;
+			stream >> value;
+			values.insert(key, value);
+		}
+
+		return stream;
+	}
 
 }
