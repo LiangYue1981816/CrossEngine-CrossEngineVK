@@ -41,16 +41,6 @@ namespace CrossEngine {
 		return m_ptrGfxPipeline;
 	}
 
-	const std::map<DWORD, CMaterialPass::Texture>& CMaterialPass::GetTextures(void) const
-	{
-		return m_textures;
-	}
-
-	const std::map<DWORD, CMaterialPass::Uniform>& CMaterialPass::GetUniforms(void) const
-	{
-		return m_uniforms;
-	}
-
 	BOOL CMaterialPass::Load(CStream *pStream)
 	{
 		if (LoadShaders(pStream) == FALSE) return FALSE;
@@ -227,26 +217,6 @@ namespace CrossEngine {
 	}
 
 	BOOL CMaterialPass::LoadUniforms(CStream *pStream)
-	{
-		return TRUE;
-	}
-
-	BOOL CMaterialPass::SetTexture(const char *szTextureName, uint32_t unit)
-	{
-		return TRUE;
-	}
-
-	BOOL CMaterialPass::SetUniformFloat(const char *szUniformName, float value)
-	{
-		return TRUE;
-	}
-
-	BOOL CMaterialPass::SetUniformFloat4(const char *szUniformName, float *values)
-	{
-		return TRUE;
-	}
-
-	BOOL CMaterialPass::SetUniformMatrix4(const char *szUniformName, float *values)
 	{
 		return TRUE;
 	}
