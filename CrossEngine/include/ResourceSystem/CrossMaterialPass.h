@@ -47,8 +47,8 @@ namespace CrossEngine {
 
 	public:
 		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
-		const std::map<uint32_t, Texture>& GetTextures(void) const;
-		const std::map<uint32_t, Uniform>& GetUniforms(void) const;
+		const std::map<DWORD, Texture>& GetTextures(void) const;
+		const std::map<DWORD, Uniform>& GetUniforms(void) const;
 
 	public:
 		BOOL Load(CStream *pStream);
@@ -73,8 +73,8 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, Texture> m_textures;
-		std::map<uint32_t, Uniform> m_uniforms;
+		std::map<DWORD, Texture> m_textures;
+		std::map<DWORD, Uniform> m_uniforms;
 		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
 
 	public:

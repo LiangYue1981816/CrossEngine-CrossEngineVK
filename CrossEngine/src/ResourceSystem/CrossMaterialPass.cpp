@@ -41,12 +41,12 @@ namespace CrossEngine {
 		return m_ptrGfxPipeline;
 	}
 
-	const std::map<uint32_t, CMaterialPass::Texture>& CMaterialPass::GetTextures(void) const
+	const std::map<DWORD, CMaterialPass::Texture>& CMaterialPass::GetTextures(void) const
 	{
 		return m_textures;
 	}
 
-	const std::map<uint32_t, CMaterialPass::Uniform>& CMaterialPass::GetUniforms(void) const
+	const std::map<DWORD, CMaterialPass::Uniform>& CMaterialPass::GetUniforms(void) const
 	{
 		return m_uniforms;
 	}
@@ -201,21 +201,21 @@ namespace CrossEngine {
 		m_ptrGfxPipeline->SetColorBlendLogic(state.logicOpEnable, state.logicOp);
 		m_ptrGfxPipeline->SetColorBlendConstants(state.blendConstants[0], state.blendConstants[1], state.blendConstants[2], state.blendConstants[3]);
 		
-		std::map<uint32_t, VkPipelineColorBlendAttachmentState> attachmentColorBlends;
+		std::vector<VkPipelineColorBlendAttachmentState> attachmentColorBlends;
 		{
 			*pStream >> attachmentColorBlends;
 		}
-		for (const auto &itAttachment : attachmentColorBlends) {
+		for (uint32_t index = 0; index < attachmentColorBlends.size(); index++) {
 			m_ptrGfxPipeline->SetColorBlendAttachment(
-				itAttachment.first, 
-				itAttachment.second.blendEnable, 
-				itAttachment.second.srcColorBlendFactor, 
-				itAttachment.second.dstColorBlendFactor, 
-				itAttachment.second.colorBlendOp, 
-				itAttachment.second.srcAlphaBlendFactor, 
-				itAttachment.second.dstAlphaBlendFactor, 
-				itAttachment.second.alphaBlendOp, 
-				itAttachment.second.colorWriteMask);
+				index,
+				attachmentColorBlends[index].blendEnable,
+				attachmentColorBlends[index].srcColorBlendFactor,
+				attachmentColorBlends[index].dstColorBlendFactor,
+				attachmentColorBlends[index].colorBlendOp,
+				attachmentColorBlends[index].srcAlphaBlendFactor,
+				attachmentColorBlends[index].dstAlphaBlendFactor,
+				attachmentColorBlends[index].alphaBlendOp,
+				attachmentColorBlends[index].colorWriteMask);
 		}
 
 		return TRUE;
