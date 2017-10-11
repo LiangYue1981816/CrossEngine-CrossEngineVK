@@ -201,23 +201,22 @@ namespace CrossEngine {
 		m_ptrGfxPipeline->SetColorBlendLogic(state.logicOpEnable, state.logicOp);
 		m_ptrGfxPipeline->SetColorBlendConstants(state.blendConstants[0], state.blendConstants[1], state.blendConstants[2], state.blendConstants[3]);
 		
-		//std::map<uint32_t, VkPipelineColorBlendAttachmentState> attachmentColorBlends;
-		//std::map<uint32_t, uint32_t> attachmentColorBlends;
-		//{
-		//	*pStream >> attachmentColorBlends;
-		//}
-		//for (const auto &itAttachment : attachmentColorBlends) {
-		//	m_ptrGfxPipeline->SetColorBlendAttachment(
-		//		itAttachment.first, 
-		//		itAttachment.second.blendEnable, 
-		//		itAttachment.second.srcColorBlendFactor, 
-		//		itAttachment.second.dstColorBlendFactor, 
-		//		itAttachment.second.colorBlendOp, 
-		//		itAttachment.second.srcAlphaBlendFactor, 
-		//		itAttachment.second.dstAlphaBlendFactor, 
-		//		itAttachment.second.alphaBlendOp, 
-		//		itAttachment.second.colorWriteMask);
-		//}
+		std::map<uint32_t, VkPipelineColorBlendAttachmentState> attachmentColorBlends;
+		{
+			*pStream >> attachmentColorBlends;
+		}
+		for (const auto &itAttachment : attachmentColorBlends) {
+			m_ptrGfxPipeline->SetColorBlendAttachment(
+				itAttachment.first, 
+				itAttachment.second.blendEnable, 
+				itAttachment.second.srcColorBlendFactor, 
+				itAttachment.second.dstColorBlendFactor, 
+				itAttachment.second.colorBlendOp, 
+				itAttachment.second.srcAlphaBlendFactor, 
+				itAttachment.second.dstAlphaBlendFactor, 
+				itAttachment.second.alphaBlendOp, 
+				itAttachment.second.colorWriteMask);
+		}
 
 		return TRUE;
 	}

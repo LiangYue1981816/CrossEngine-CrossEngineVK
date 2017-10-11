@@ -158,7 +158,7 @@ namespace CrossEngine {
 			T value;
 			stream >> key;
 			stream >> value;
-			values.insert(key, value);
+			values.insert(std::map<K, T>::value_type(key, value));
 		}
 
 		return stream;
