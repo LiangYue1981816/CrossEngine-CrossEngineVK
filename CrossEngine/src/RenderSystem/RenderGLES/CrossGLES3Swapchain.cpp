@@ -28,10 +28,14 @@ namespace CrossEngine {
 	CGLES3Swapchain::CGLES3Swapchain(CGLES3Device *pDevice)
 		: m_pDevice(pDevice)
 		, m_hDC(NULL)
+		, m_textures{ 0 }
+
+		, m_indexImage(0)
 
 		, m_width(0)
 		, m_height(0)
-		, m_indexImage(0)
+		, m_format(VK_FORMAT_UNDEFINED)
+		, m_transform(VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
 	{
 
 	}
@@ -41,18 +45,46 @@ namespace CrossEngine {
 
 	}
 
-	int CGLES3Swapchain::Create(HDC hDC, uint32_t width, uint32_t height)
+	int CGLES3Swapchain::Create(HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		m_hDC = hDC;
-		m_width = width;
-		m_height = height;
+		m_transform = transform;
 
-		return NO_ERROR;
+		return CreateSwapchain(width, height, VK_FORMAT_B8G8R8A8_UNORM);
 	}
 
 	void CGLES3Swapchain::Destroy(void)
 	{
+		DestroySwapchain();
+	}
 
+	int CGLES3Swapchain::CreateSwapchain(uint32_t width, uint32_t height, VkFormat format)
+	{
+		m_width = width;
+		m_height = height;
+		m_format = format;
+
+		GLenum type;
+		GLenum internalFormat;
+		GLenum externalFormat;
+		CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type);
+
+		for (int index = 0; index < SWAPCHAIN_IMAGE_COUNT; index++) {
+			glGenTextures(1, &m_textures[index]);
+			glBindTexture(GL_TEXTURE_2D, m_textures[index]);
+			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, externalFormat, type, NULL);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		return NO_ERROR;
+	}
+
+	void CGLES3Swapchain::DestroySwapchain(void)
+	{
+		for (int index = 0; index < SWAPCHAIN_IMAGE_COUNT; index++) {
+			glDeleteTextures(1, &m_textures[index]);
+			m_textures[index] = 0;
+		}
 	}
 
 	BOOL CGLES3Swapchain::Present(void) const
@@ -93,7 +125,7 @@ namespace CrossEngine {
 
 	HANDLE CGLES3Swapchain::GetImageHandle(int indexImage) const
 	{
-		return NULL;
+		return (HANDLE)m_textures[indexImage];
 	}
 
 	uint32_t CGLES3Swapchain::GetWidth(void) const
@@ -104,6 +136,11 @@ namespace CrossEngine {
 	uint32_t CGLES3Swapchain::GetHeight(void) const
 	{
 		return m_height;
+	}
+
+	VkFormat CGLES3Swapchain::GetFormat(void) const
+	{
+		return m_format;
 	}
 
 }

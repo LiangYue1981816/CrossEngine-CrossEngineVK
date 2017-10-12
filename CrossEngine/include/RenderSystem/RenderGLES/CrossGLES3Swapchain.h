@@ -37,8 +37,14 @@ namespace CrossEngine {
 
 
 	protected:
-		int Create(HDC hDC, uint32_t width, uint32_t height);
+		int Create(HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		void Destroy(void);
+
+	protected:
+		int CreateSwapchain(uint32_t width, uint32_t height, VkFormat format);
+
+	protected:
+		void DestroySwapchain(void);
 
 	public:
 		BOOL Present(void) const;
@@ -55,10 +61,8 @@ namespace CrossEngine {
 	public:
 		uint32_t GetWidth(void) const;
 		uint32_t GetHeight(void) const;
+		VkFormat GetFormat(void) const;
 
-
-	protected:
-		static const int SWAPCHAIN_IMAGE_COUNT = 2;
 
 	protected:
 		HDC m_hDC;
@@ -66,9 +70,12 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
+		VkFormat m_format;
+		VkSurfaceTransformFlagBitsKHR m_transform;
 
 	protected:
 		uint32_t m_indexImage;
+		GLuint m_textures[SWAPCHAIN_IMAGE_COUNT];
 
 	protected:
 		CGLES3Device *m_pDevice;
