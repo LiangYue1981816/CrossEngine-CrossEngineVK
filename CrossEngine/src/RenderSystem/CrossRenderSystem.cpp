@@ -48,7 +48,7 @@ namespace CrossEngine {
 		return m_pGfxSwapchain;
 	}
 
-	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height)
+	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		switch (api) {
 		case GFX_API_GLES31: m_pGfxInstance = SAFE_NEW CGLES3Instance; break;
@@ -56,7 +56,7 @@ namespace CrossEngine {
 		}
 
 		if (m_pGfxInstance == NULL || 
-			m_pGfxInstance->Create(hInstance, hWnd, hDC, width, height) == FALSE) {
+			m_pGfxInstance->Create(hInstance, hWnd, hDC, width, height, transform) == FALSE) {
 			return FALSE;
 		}
 

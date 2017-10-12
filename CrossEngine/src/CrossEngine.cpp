@@ -53,12 +53,12 @@ namespace CrossEngine {
 		return m_pResourceSystem;
 	}
 
-	BOOL CEngine::Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode)
+	BOOL CEngine::Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, VkSurfaceTransformFlagBitsKHR transform, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode)
 	{
 		m_pRenderSystem = SAFE_NEW CRenderSystem;
 		m_pResourceSystem = SAFE_NEW CResourceSystem;
 
-		if (m_pRenderSystem->Create(api, hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top) == FALSE) return FALSE;
+		if (m_pRenderSystem->Create(api, hInstance, hWnd, hDC, rcView.right - rcView.left, rcView.bottom - rcView.top, transform) == FALSE) return FALSE;
 		if (m_pResourceSystem->Create() == FALSE) return FALSE;
 
 		return TRUE;

@@ -45,7 +45,7 @@ namespace CrossEngine {
 		return glGetError();
 	}
 
-	BOOL CGLES3Instance::Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height)
+	BOOL CGLES3Instance::Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 #ifdef PLATFORM_WINDOWS
 		int pixelFormat;
@@ -82,7 +82,7 @@ namespace CrossEngine {
 
 		try {
 			CALL_GL_FUNCTION_THROW(CreateDevice());
-			CALL_GL_FUNCTION_THROW(CreateSwapchain(hDC, width, height));
+			CALL_GL_FUNCTION_THROW(CreateSwapchain(hDC, width, height, transform));
 
 			return TRUE;
 		}
@@ -98,9 +98,9 @@ namespace CrossEngine {
 		return m_pDevice->Create();
 	}
 
-	int CGLES3Instance::CreateSwapchain(HDC hDC, uint32_t width, uint32_t height)
+	int CGLES3Instance::CreateSwapchain(HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
-		return m_pSwapchain->Create(hDC, width, height);
+		return m_pSwapchain->Create(hDC, width, height, transform);
 	}
 
 	void CGLES3Instance::Destroy(void)

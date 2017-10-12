@@ -37,12 +37,12 @@ namespace CrossEngine {
 		static int GetLastError(void);
 
 	public:
-		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height);
+		BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		void Destroy(void);
 
 	protected:
 		int CreateDevice(void);
-		int CreateSwapchain(HDC hDC, uint32_t width, uint32_t height);
+		int CreateSwapchain(HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 
 	protected:
 		void DestroyDevice(void);

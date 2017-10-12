@@ -40,7 +40,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height) = 0;
+		virtual BOOL Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform) = 0;
 		virtual void Destroy(void) = 0;
 
 	public:

@@ -91,7 +91,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pAllocator);
 	}
 
-	BOOL CVulkanInstance::Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height)
+	BOOL CVulkanInstance::Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		try {
 			std::vector<const char*> enabledInstanceLayers;
@@ -103,7 +103,7 @@ namespace CrossEngine {
 			CALL_VK_FUNCTION_THROW(CreateDebugReportCallback());
 			CALL_VK_FUNCTION_THROW(CreatePresentationSurface(hInstance, hWnd));
 			CALL_VK_FUNCTION_THROW(CreateDevice());
-			CALL_VK_FUNCTION_THROW(CreateSwapchain(width, height, VK_SURFACE_TRANSFORM_INHERIT_BIT_KHR));
+			CALL_VK_FUNCTION_THROW(CreateSwapchain(width, height, transform));
 
 			return TRUE;
 		}
