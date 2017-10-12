@@ -54,6 +54,11 @@ namespace CrossEngine {
 	public:
 		virtual uint32_t GetWidth(void) const = 0;
 		virtual uint32_t GetHeight(void) const = 0;
+		virtual VkFormat GetFormat(void) const = 0;
+
+
+	protected:
+		static const int SWAPCHAIN_IMAGE_COUNT = 3;
 	};
 
 }
