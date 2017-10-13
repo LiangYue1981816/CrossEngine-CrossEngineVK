@@ -74,8 +74,7 @@ namespace CrossEngine {
 		VkSurfaceTransformFlagBitsKHR m_transform;
 
 	protected:
-		uint32_t m_indexImage;
-		GLuint m_textures[SWAPCHAIN_IMAGE_COUNT];
+		GLuint m_surface;
 
 	protected:
 		CGLES3Device *m_pDevice;

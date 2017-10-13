@@ -28,12 +28,10 @@ namespace CrossEngine {
 	CGLES3Swapchain::CGLES3Swapchain(CGLES3Device *pDevice)
 		: m_pDevice(pDevice)
 		, m_hDC(NULL)
-		, m_textures{ 0 }
-
-		, m_indexImage(0)
 
 		, m_width(0)
 		, m_height(0)
+		, m_surface(0)
 		, m_format(VK_FORMAT_UNDEFINED)
 		, m_transform(VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
 	{
@@ -50,7 +48,8 @@ namespace CrossEngine {
 		m_hDC = hDC;
 		m_transform = transform;
 
-		return CreateSwapchain(width, height, VK_FORMAT_B8G8R8A8_UNORM);
+
+		return NO_ERROR;
 	}
 
 	void CGLES3Swapchain::Destroy(void)
@@ -69,22 +68,18 @@ namespace CrossEngine {
 		GLenum externalFormat;
 		CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type);
 
-		for (int index = 0; index < SWAPCHAIN_IMAGE_COUNT; index++) {
-			glGenTextures(1, &m_textures[index]);
-			glBindTexture(GL_TEXTURE_2D, m_textures[index]);
-			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, externalFormat, type, NULL);
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
+		glGenTextures(1, &m_surface);
+		glBindTexture(GL_TEXTURE_2D, m_surface);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, externalFormat, type, NULL);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		return NO_ERROR;
 	}
 
 	void CGLES3Swapchain::DestroySwapchain(void)
 	{
-		for (int index = 0; index < SWAPCHAIN_IMAGE_COUNT; index++) {
-			glDeleteTextures(1, &m_textures[index]);
-			m_textures[index] = 0;
-		}
+		glDeleteTextures(1, &m_surface);
+		m_surface = 0;
 	}
 
 	BOOL CGLES3Swapchain::Present(void) const
@@ -99,7 +94,6 @@ namespace CrossEngine {
 
 	BOOL CGLES3Swapchain::AcquireNextImage(CGfxFence fence)
 	{
-		m_indexImage = 1 - m_indexImage;
 		return TRUE;
 	}
 
@@ -115,17 +109,17 @@ namespace CrossEngine {
 
 	uint32_t CGLES3Swapchain::GetImageCount(void) const
 	{
-		return SWAPCHAIN_IMAGE_COUNT;
+		return 1;
 	}
 
 	uint32_t CGLES3Swapchain::GetImageIndex(void) const
 	{
-		return m_indexImage;
+		return 0;
 	}
 
 	HANDLE CGLES3Swapchain::GetImageHandle(int indexImage) const
 	{
-		return (HANDLE)m_textures[indexImage];
+		return (HANDLE)m_surface;
 	}
 
 	uint32_t CGLES3Swapchain::GetWidth(void) const
