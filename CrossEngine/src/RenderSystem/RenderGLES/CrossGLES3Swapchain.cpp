@@ -48,6 +48,7 @@ namespace CrossEngine {
 		m_hDC = hDC;
 		m_transform = transform;
 
+		CALL_GL_FUNCTION_RETURN(CreateSwapchain(width, height, VK_FORMAT_B8G8R8A8_UNORM));
 
 		return NO_ERROR;
 	}
