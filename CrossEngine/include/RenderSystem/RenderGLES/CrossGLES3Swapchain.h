@@ -41,12 +41,15 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		int CreateSwapchain(uint32_t width, uint32_t height, VkFormat format);
-		int CreateProgram(void);
+		int CreateSurface(uint32_t width, uint32_t height, VkFormat format);
+		int CreateProgram(VkSurfaceTransformFlagBitsKHR transform);
 
 	protected:
-		void DestroySwapchain(void);
+		void DestroySurface(void);
 		void DestroyProgram(void);
+
+	protected:
+		void RenderSurface(void) const;
 
 	public:
 		BOOL Present(void) const;
@@ -73,7 +76,6 @@ namespace CrossEngine {
 		uint32_t m_width;
 		uint32_t m_height;
 		VkFormat m_format;
-		VkSurfaceTransformFlagBitsKHR m_transform;
 
 	protected:
 		GLuint m_vao;

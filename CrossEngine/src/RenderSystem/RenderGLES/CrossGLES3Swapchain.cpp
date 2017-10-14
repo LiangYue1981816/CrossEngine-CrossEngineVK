@@ -32,7 +32,6 @@ namespace CrossEngine {
 		, m_width(0)
 		, m_height(0)
 		, m_format(VK_FORMAT_UNDEFINED)
-		, m_transform(VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
 		
 		, m_vao(0)
 		, m_vbo(0)
@@ -51,21 +50,20 @@ namespace CrossEngine {
 	int CGLES3Swapchain::Create(HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		m_hDC = hDC;
-		m_transform = transform;
 
-		CALL_GL_FUNCTION_RETURN(CreateSwapchain(width, height, VK_FORMAT_B8G8R8A8_UNORM));
-		CALL_GL_FUNCTION_RETURN(CreateProgram());
+		CALL_GL_FUNCTION_RETURN(CreateSurface(width, height, VK_FORMAT_B8G8R8A8_UNORM));
+		CALL_GL_FUNCTION_RETURN(CreateProgram(transform));
 
 		return NO_ERROR;
 	}
 
 	void CGLES3Swapchain::Destroy(void)
 	{
-		DestroySwapchain();
+		DestroySurface();
 		DestroyProgram();
 	}
 
-	int CGLES3Swapchain::CreateSwapchain(uint32_t width, uint32_t height, VkFormat format)
+	int CGLES3Swapchain::CreateSurface(uint32_t width, uint32_t height, VkFormat format)
 	{
 		m_width = width;
 		m_height = height;
@@ -84,7 +82,7 @@ namespace CrossEngine {
 		return NO_ERROR;
 	}
 
-	int CGLES3Swapchain::CreateProgram(void)
+	int CGLES3Swapchain::CreateProgram(VkSurfaceTransformFlagBitsKHR transform)
 	{
 		static const GLchar *szShaderVertexCode =
 		"                                                                         \n\
@@ -203,7 +201,7 @@ namespace CrossEngine {
 		return NO_ERROR;
 	}
 
-	void CGLES3Swapchain::DestroySwapchain(void)
+	void CGLES3Swapchain::DestroySurface(void)
 	{
 		glDeleteTextures(1, &m_surface);
 		m_surface = 0;
@@ -217,7 +215,7 @@ namespace CrossEngine {
 		glDeleteProgram(m_program);
 	}
 
-	BOOL CGLES3Swapchain::Present(void) const
+	void CGLES3Swapchain::RenderSurface(void) const
 	{
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
@@ -238,6 +236,11 @@ namespace CrossEngine {
 			glBindVertexArray(0);
 		}
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	BOOL CGLES3Swapchain::Present(void) const
+	{
+		RenderSurface();
 
 #ifdef PLATFORM_WINDOWS
 
