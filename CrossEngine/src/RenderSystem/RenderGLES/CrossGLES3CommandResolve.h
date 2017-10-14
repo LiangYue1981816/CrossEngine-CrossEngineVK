@@ -47,24 +47,19 @@ namespace CrossEngine {
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 
 			if (IsNeedResolve(pFrameBuffer, pRenderPass, m_indexPass)) {
-				if (IsNeedFrameBuffer(pFrameBuffer, pRenderPass, m_indexPass)) {
-					const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandle();
-					glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-					{
-						std::vector<GLenum> drawBuffers;
-						std::vector<GLenum> discardBuffers;
+				const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandle();
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+				{
+					std::vector<GLenum> drawBuffers;
+					std::vector<GLenum> discardBuffers;
 
-						SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
+					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
 
-						glReadBuffer(GL_NONE);
-						glDrawBuffers(drawBuffers.size(), drawBuffers.data());
-						glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
+					glReadBuffer(GL_NONE);
+					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
 
-						CheckFramebufferStatus(framebuffer);
-					}
-				}
-				else {
-					glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+					CheckFramebufferStatus(framebuffer);
 				}
 
 				const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
@@ -90,24 +85,11 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		BOOL IsNeedFrameBuffer(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
-		{
-			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				for (const auto &itResolveAttachment : pSubPass->resolveAttachments) {
-					if (itResolveAttachment.second == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL) {
-						return TRUE;
-					}
-				}
-			}
-
-			return FALSE;
-		}
-
 		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				for (const auto &itResolveAttachment : pSubPass->resolveAttachments) {
-					if (itResolveAttachment.second == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL) {
+					if (itResolveAttachment.second == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL || itResolveAttachment.second == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR) {
 						if (GLuint texture = pFrameBuffer->GetRenderTexture(itResolveAttachment.first)) {
 							GLuint indexAttachment = drawBuffers.size();
 							GLenum attachment = GL_COLOR_ATTACHMENT0 + indexAttachment;
