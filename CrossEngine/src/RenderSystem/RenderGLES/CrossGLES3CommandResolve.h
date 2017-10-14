@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
 
-					glReadBuffer(GL_NONE);
+					glReadBuffers(drawBuffers.size(), drawBuffers.data());
 					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
 					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
 
