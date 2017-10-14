@@ -227,6 +227,7 @@ namespace CrossEngine {
 		{
 			glViewport(0, 0, m_width, m_height);
 
+			glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 			glUseProgram(m_program);
 			glBindVertexArray(m_vao);
 			{
