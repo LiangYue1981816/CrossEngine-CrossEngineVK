@@ -225,6 +225,7 @@ namespace CrossEngine {
 
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
+		glBindSampler(0, 0);
 		glBindTexture(GL_TEXTURE_2D, m_surface);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
