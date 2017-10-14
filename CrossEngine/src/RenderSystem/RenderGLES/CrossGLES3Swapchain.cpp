@@ -217,6 +217,12 @@ namespace CrossEngine {
 
 	void CGLES3Swapchain::RenderSurface(void) const
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_STENCIL_TEST);
+
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_surface);
@@ -229,7 +235,6 @@ namespace CrossEngine {
 
 			glUseProgram(m_program);
 			glBindVertexArray(m_vao);
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			{
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
 			}
