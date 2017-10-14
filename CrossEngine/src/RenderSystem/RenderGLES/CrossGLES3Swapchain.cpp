@@ -229,7 +229,7 @@ namespace CrossEngine {
 
 			glUseProgram(m_program);
 			glBindVertexArray(m_vao);
-			glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			{
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
 			}
