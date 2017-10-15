@@ -68,8 +68,10 @@ namespace CrossEngine {
 	{
 		DWORD dwVertexShader;
 		DWORD dwFragmentShader;
-		m_stream >> dwVertexShader;
-		m_stream >> dwFragmentShader;
+		{
+			m_stream >> dwVertexShader;
+			m_stream >> dwFragmentShader;
+		}
 
 		const CShaderPtr &ptrVertexShader = ShaderManager()->LoadResource(dwVertexShader);
 		const CShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(dwFragmentShader);
