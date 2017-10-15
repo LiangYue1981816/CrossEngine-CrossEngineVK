@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	BOOL CPipelineComputeManager::PreLoadFromPack(const char *szPackName)
 	{
-		CResourceManager::PreLoadFromPack(szPackName, COMPUTE_EXT_NAME);
+		return CResourceManager::PreLoadFromPack(szPackName, COMPUTE_EXT_NAME);
 	}
 
 	void CPipelineComputeManager::GarbageCollection(void)

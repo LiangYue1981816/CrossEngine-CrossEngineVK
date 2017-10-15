@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphicsManager::PreLoadFromPack(const char *szPackName)
 	{
-		CResourceManager::PreLoadFromPack(szPackName, GRAPHICS_EXT_NAME);
+		return CResourceManager::PreLoadFromPack(szPackName, GRAPHICS_EXT_NAME);
 	}
 
 	void CPipelineGraphicsManager::GarbageCollection(void)
