@@ -26,6 +26,28 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	
+	class CROSS_EXPORT CPipelineGraphicsManager : public CResourceManager
+	{
+		friend class CResourceSystem;
+
+
+	protected:
+		CPipelineGraphicsManager(void);
+		virtual ~CPipelineGraphicsManager(void);
+
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
+
+	public:
+		virtual CResource* CreateResource(void);
+
+		virtual BOOL PreLoadFromFile(const char *szFileName);
+		virtual BOOL PreLoadFromPath(const char *szPathName);
+		virtual BOOL PreLoadFromPack(const char *szPackName);
+
+	protected:
+		virtual void GarbageCollection(void);
+	};
 
 }

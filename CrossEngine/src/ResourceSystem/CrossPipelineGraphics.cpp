@@ -38,7 +38,7 @@ namespace CrossEngine {
 
 	RESOURCE_TYPE CPipelineGraphics::GetType(void) const
 	{
-		return RESOURCE_TYPE_GRAPHICS;
+		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
 	}
 
 	const CGfxPipelineGraphicsPtr& CPipelineGraphics::GetGfxPipeline(void) const

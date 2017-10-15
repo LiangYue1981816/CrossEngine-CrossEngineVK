@@ -25,6 +25,44 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	
+	CPipelineGraphicsManager::CPipelineGraphicsManager(void)
+	{
+
+	}
+
+	CPipelineGraphicsManager::~CPipelineGraphicsManager(void)
+	{
+
+	}
+
+	RESOURCE_TYPE CPipelineGraphicsManager::GetType(void) const
+	{
+		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
+	}
+
+	CResource* CPipelineGraphicsManager::CreateResource(void)
+	{
+		return SAFE_NEW CPipelineGraphics(this);
+	}
+
+	BOOL CPipelineGraphicsManager::PreLoadFromFile(const char *szFileName)
+	{
+		return CResourceManager::PreLoadFromFile(szFileName, GRAPHICS_EXT_NAME);
+	}
+
+	BOOL CPipelineGraphicsManager::PreLoadFromPath(const char *szPathName)
+	{
+		return CResourceManager::PreLoadFromPath(szPathName, GRAPHICS_EXT_NAME);
+	}
+
+	BOOL CPipelineGraphicsManager::PreLoadFromPack(const char *szPackName)
+	{
+		CResourceManager::PreLoadFromPack(szPackName, GRAPHICS_EXT_NAME);
+	}
+
+	void CPipelineGraphicsManager::GarbageCollection(void)
+	{
+
+	}
 
 }

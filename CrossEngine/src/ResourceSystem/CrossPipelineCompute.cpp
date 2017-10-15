@@ -38,7 +38,7 @@ namespace CrossEngine {
 
 	RESOURCE_TYPE CPipelineCompute::GetType(void) const
 	{
-		return RESOURCE_TYPE_COMPUTE;
+		return RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE;
 	}
 
 	const CGfxPipelineComputePtr& CPipelineCompute::GetGfxPipeline(void) const
