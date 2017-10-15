@@ -69,7 +69,7 @@ namespace CrossEngine {
 						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
 						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
 						GL_COLOR_BUFFER_BIT,
-						GL_LINEAR);
+						GL_NEAREST);
 				}
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);

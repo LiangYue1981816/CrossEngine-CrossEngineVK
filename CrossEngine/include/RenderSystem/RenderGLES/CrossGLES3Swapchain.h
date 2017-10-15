@@ -42,11 +42,11 @@ namespace CrossEngine {
 
 	protected:
 		int CreateSurface(uint32_t width, uint32_t height, VkFormat format);
-		int CreateProgram(VkSurfaceTransformFlagBitsKHR transform);
+		int CreateFrameBuffer(VkSurfaceTransformFlagBitsKHR transform);
 
 	protected:
 		void DestroySurface(void);
-		void DestroyProgram(void);
+		void DestroyFrameBuffer(void);
 
 	protected:
 		void RenderSurface(void) const;
@@ -78,10 +78,7 @@ namespace CrossEngine {
 		VkFormat m_format;
 
 	protected:
-		GLuint m_vao;
-		GLuint m_vbo;
-		GLuint m_ibo;
-		GLuint m_program;
+		GLuint m_fbo;
 		GLuint m_surface;
 
 	protected:
