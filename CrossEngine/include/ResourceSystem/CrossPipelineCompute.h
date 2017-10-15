@@ -26,20 +26,29 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	template<class T>
-	class CROSS_EXPORT CResourcePtr;
-	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CShader;
-	class CROSS_EXPORT CTexture;
-	class CROSS_EXPORT CPipelineCompute;
-	class CROSS_EXPORT CPipelineGraphics;
-	class CROSS_EXPORT CMaterial;
-	class CROSS_EXPORT CMaterialPass;
+	class CROSS_EXPORT CPipelineCompute : public CResource
+	{
+		friend class CPipelineComputeManager;
 
-	typedef CResourcePtr<CShader> CShaderPtr;
-	typedef CResourcePtr<CTexture> CTexturePtr;
-	typedef CResourcePtr<CPipelineCompute> CPipelineComputePtr;
-	typedef CResourcePtr<CPipelineGraphics> CPipelineGraphicsPtr;
-	typedef CResourcePtr<CMaterial> CMaterialPtr;
+
+	protected:
+		CPipelineCompute(CResourceManager *pResourceManager);
+		virtual ~CPipelineCompute(void);
+
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
+
+	public:
+		const CGfxPipelineComputePtr& GetGfxPipeline(void) const;
+
+	protected:
+		virtual BOOL Load(void);
+		virtual BOOL PostLoad(BOOL bSync);
+
+
+	protected:
+		CGfxPipelineComputePtr m_ptrGfxPipeline;
+	};
 
 }

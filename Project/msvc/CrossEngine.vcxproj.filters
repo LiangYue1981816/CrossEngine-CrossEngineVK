@@ -585,6 +585,18 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossCore.h">
       <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineCompute.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineGraphics.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineGraphicsManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineComputeManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -978,6 +990,18 @@
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossMaterialPass.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineCompute.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineComputeManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineGraphics.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineGraphicsManage.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
   </ItemGroup>

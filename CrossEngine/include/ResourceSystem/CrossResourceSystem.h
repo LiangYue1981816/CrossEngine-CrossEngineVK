@@ -27,10 +27,14 @@ THE SOFTWARE.
 #include "CrossResourceDefinition.h"
 #include "CrossShader.h"
 #include "CrossTexture.h"
+#include "CrossPipelineCompute.h"
+#include "CrossPipelineGraphics.h"
 #include "CrossMaterial.h"
 #include "CrossMaterialPass.h"
 #include "CrossShaderManager.h"
 #include "CrossTextureManager.h"
+#include "CrossPipelineComputeManager.h"
+#include "CrossPipelineGraphicsManager.h"
 #include "CrossMaterialManager.h"
 
 

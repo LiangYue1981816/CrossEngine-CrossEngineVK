@@ -26,20 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	template<class T>
-	class CROSS_EXPORT CResourcePtr;
-	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CShader;
-	class CROSS_EXPORT CTexture;
-	class CROSS_EXPORT CPipelineCompute;
-	class CROSS_EXPORT CPipelineGraphics;
-	class CROSS_EXPORT CMaterial;
-	class CROSS_EXPORT CMaterialPass;
-
-	typedef CResourcePtr<CShader> CShaderPtr;
-	typedef CResourcePtr<CTexture> CTexturePtr;
-	typedef CResourcePtr<CPipelineCompute> CPipelineComputePtr;
-	typedef CResourcePtr<CPipelineGraphics> CPipelineGraphicsPtr;
-	typedef CResourcePtr<CMaterial> CMaterialPtr;
+	
 
 }

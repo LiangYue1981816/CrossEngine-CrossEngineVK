@@ -20,26 +20,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	template<class T>
-	class CROSS_EXPORT CResourcePtr;
-	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CShader;
-	class CROSS_EXPORT CTexture;
-	class CROSS_EXPORT CPipelineCompute;
-	class CROSS_EXPORT CPipelineGraphics;
-	class CROSS_EXPORT CMaterial;
-	class CROSS_EXPORT CMaterialPass;
+	CPipelineCompute::CPipelineCompute(CResourceManager *pResourceManager)
+		: CResource(pResourceManager)
+	{
+		m_ptrGfxPipeline = GfxDevice()->NewPipelineCompute();
+	}
 
-	typedef CResourcePtr<CShader> CShaderPtr;
-	typedef CResourcePtr<CTexture> CTexturePtr;
-	typedef CResourcePtr<CPipelineCompute> CPipelineComputePtr;
-	typedef CResourcePtr<CPipelineGraphics> CPipelineGraphicsPtr;
-	typedef CResourcePtr<CMaterial> CMaterialPtr;
+	CPipelineCompute::~CPipelineCompute(void)
+	{
+		m_ptrGfxPipeline.Release();
+	}
+
+	RESOURCE_TYPE CPipelineCompute::GetType(void) const
+	{
+		return RESOURCE_TYPE_COMPUTE;
+	}
+
+	const CGfxPipelineComputePtr& CPipelineCompute::GetGfxPipeline(void) const
+	{
+		return m_ptrGfxPipeline;
+	}
+
+	BOOL CPipelineCompute::Load(void)
+	{
+		return TRUE;
+	}
+
+	BOOL CPipelineCompute::PostLoad(BOOL bSync)
+	{
+		return TRUE;
+	}
 
 }

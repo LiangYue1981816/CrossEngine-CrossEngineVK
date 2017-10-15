@@ -106,6 +106,8 @@ THE SOFTWARE.
 #define TEXTURE_EXT_NAME0    ".dds"
 #define TEXTURE_EXT_NAME1    ".kmg"
 #define TEXTURE_EXT_NAME2    ".ktx"
+#define COMPUTE_EXT_NAME     ".compute"
+#define GRAPHICS_EXT_NAME    ".graphics"
 #define MATERIAL_EXT_NAME    ".material"
 #define SKELETON_EXT_NAME    ".skeleton"
 #define MESH_EXT_NAME        ".mesh"
