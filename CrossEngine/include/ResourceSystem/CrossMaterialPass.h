@@ -41,22 +41,9 @@ namespace CrossEngine {
 		BOOL PostLoad(void);
 
 	protected:
-		BOOL LoadShaders(CStream *pStream);
-		BOOL LoadInputAssemblyState(CStream *pStream);
-		BOOL LoadTessellationState(CStream *pStream);
-		BOOL LoadRasterizationState(CStream *pStream);
-		BOOL LoadMultisampleState(CStream *pStream);
-		BOOL LoadDepthStencilState(CStream *pStream);
-		BOOL LoadColorBlendState(CStream *pStream);
+		BOOL LoadPipeline(CStream *pStream);
 		BOOL LoadTextures(CStream *pStream);
 		BOOL LoadUniforms(CStream *pStream);
-
-
-	protected:
-		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
-
-	public:
-		CMaterialPass *pNext;
 	};
 
 }

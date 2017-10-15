@@ -46,6 +46,15 @@ namespace CrossEngine {
 		virtual BOOL Load(void);
 		virtual BOOL PostLoad(BOOL bSync);
 
+	protected:
+		BOOL LoadShaders(void);
+		BOOL LoadInputAssemblyState(void);
+		BOOL LoadTessellationState(void);
+		BOOL LoadRasterizationState(void);
+		BOOL LoadMultisampleState(void);
+		BOOL LoadDepthStencilState(void);
+		BOOL LoadColorBlendState(void);
+
 
 	protected:
 		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
