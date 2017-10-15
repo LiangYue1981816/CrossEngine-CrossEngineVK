@@ -105,40 +105,40 @@ namespace CrossEngine {
 
 
 	template<typename T>
-	inline CStream& operator >> (CStream &stream, T &value)
+	inline CStream& operator << (CStream &stream, T &value)
 	{
 		stream.Read((void *)&value, sizeof(value), 1);
 		return stream;
 	}
 
-	inline CStream& operator >> (CStream &stream, char* &value)
+	inline CStream& operator << (CStream &stream, char* &value)
 	{
 		size_t count;
-		stream >> count;
+		stream << count;
 		stream.Read((void *)value, sizeof(char), count);
 		return stream;
 	}
 
-	inline CStream& operator >> (CStream &stream, std::string &value)
+	inline CStream& operator << (CStream &stream, std::string &value)
 	{
 		size_t count;
-		stream >> count; value.resize(count);
+		stream << count; value.resize(count);
 		stream.Read((void *)value.data(), sizeof(char), count);
 		return stream;
 	}
 
 	template<typename T>
-	inline CStream& operator >> (CStream &stream, std::vector<T> &values)
+	inline CStream& operator << (CStream &stream, std::vector<T> &values)
 	{
 		size_t count;
-		stream >> count;
+		stream << count;
 
 		values.clear();
 		values.resize(count);
 
 		for (size_t index = 0; index < count; index++) {
 			T value;
-			stream >> value;
+			stream << value;
 			values.push_back(value);
 		}
 
@@ -146,18 +146,18 @@ namespace CrossEngine {
 	}
 
 	template<typename K, typename T>
-	inline CStream& operator >> (CStream &stream, std::map<K, T> &values)
+	inline CStream& operator << (CStream &stream, std::map<K, T> &values)
 	{
 		size_t count;
-		stream >> count;
+		stream << count;
 
 		values.clear();
 
 		for (size_t index = 0; index < count; index++) {
 			K key;
 			T value;
-			stream >> key;
-			stream >> value;
+			stream << key;
+			stream << value;
 			values.insert(std::map<K, T>::value_type(key, value));
 		}
 
