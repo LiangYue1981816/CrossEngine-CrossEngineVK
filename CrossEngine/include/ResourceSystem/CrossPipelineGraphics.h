@@ -26,6 +26,105 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	struct PipelineGraphicsData {
+		struct Shader {
+			uint32_t vertex;
+			uint32_t fragment;
+		};
+
+		struct InputAssembly {
+			uint32_t topology;
+		};
+
+		struct Rasterization {
+			uint32_t polygonMode;
+			uint32_t cullMode;
+			uint32_t depthBiasEnable;
+			float depthBiasConstantFactor;
+			float depthBiasSlopeFactor;
+		};
+
+		struct Multisample {
+			uint32_t rasterizationSamples;
+			uint32_t alphaToCoverageEnable;
+			uint32_t alphaToOneEnable;
+		};
+
+		struct Depth {
+			uint32_t depthTestEnable;
+			uint32_t depthWriteEnable;
+			uint32_t depthCompareOp;
+		};
+
+		struct Stencil {
+			uint32_t stencilTestEnable;
+			uint32_t frontFailOp;
+			uint32_t frontPassOp;
+			uint32_t frontDepthFailOp;
+			uint32_t frontCompareOp;
+			uint32_t frontCompareMask;
+			uint32_t frontWriteMask;
+			uint32_t frontReference;
+			uint32_t backFailOp;
+			uint32_t backPassOp;
+			uint32_t backDepthFailOp;
+			uint32_t backCompareOp;
+			uint32_t backCompareMask;
+			uint32_t backWriteMask;
+			uint32_t backReference;
+		};
+
+		struct ColorBlendAttachment {
+			uint32_t blendEnable;
+			uint32_t srcColorBlendFactor;
+			uint32_t dstColorBlendFactor;
+			uint32_t colorBlendOp;
+			uint32_t srcAlphaBlendFactor;
+			uint32_t dstAlphaBlendFactor;
+			uint32_t alphaBlendOp;
+			uint32_t colorWriteMask;
+		};
+
+		uint32_t mark;
+		uint32_t size;
+
+		uint32_t renderPass;
+		uint32_t subPass;
+
+		Shader shader;
+		InputAssembly inputAssembly;
+		Rasterization rasterization;
+		Multisample multisample;
+		Depth depth;
+		Stencil stencil;
+		std::map<uint32_t, ColorBlendAttachment> colorBlendAttachments;
+
+		BOOL Load(CStream &stream)
+		{
+			stream << mark;
+			if (mark != HashValue("PipelineGraphicsData")) {
+				return FALSE;
+			}
+
+			stream << size;
+			if (size != sizeof(PipelineGraphicsData)) {
+				return FALSE;
+			}
+
+			stream << renderPass;
+			stream << subPass;
+			stream << shader;
+			stream << inputAssembly;
+			stream << rasterization;
+			stream << multisample;
+			stream << depth;
+			stream << stencil;
+			stream << colorBlendAttachments;
+
+			return TRUE;
+		}
+	};
+
 	class CROSS_EXPORT CPipelineGraphics : public CResource
 	{
 		friend class CPipelineGraphicsManager;
@@ -57,6 +156,7 @@ namespace CrossEngine {
 
 
 	protected:
+		PipelineGraphicsData m_data;
 		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
 	};
 

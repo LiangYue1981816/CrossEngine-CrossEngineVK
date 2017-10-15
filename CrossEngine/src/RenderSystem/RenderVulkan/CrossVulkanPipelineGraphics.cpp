@@ -252,7 +252,7 @@ namespace CrossEngine {
 		SetSampleAlphaToOne(FALSE);
 		SetDepthTest(TRUE, TRUE, VK_COMPARE_OP_LESS);
 		SetDepthBoundsTest(FALSE, 0.0f, 1.0f);
-		SetStencilTest(FALSE, front, back);
+		SetStencilTest(FALSE, front.failOp, front.passOp, front.depthFailOp, front.compareOp, front.compareMask, front.writeMask, front.reference, back.failOp, back.passOp, back.depthFailOp, back.compareOp, back.compareMask, back.writeMask, back.reference);
 		SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 	}
@@ -424,11 +424,23 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetStencilTest(BOOL stencilTestEnable, VkStencilOpState front, VkStencilOpState back)
+	BOOL CVulkanPipelineGraphics::SetStencilTest(BOOL stencilTestEnable, VkStencilOp frontFailOp, VkStencilOp frontPassOp, VkStencilOp frontDepthFailOp, VkCompareOp frontCompareOp, uint32_t frontCompareMask, uint32_t frontWriteMask, uint32_t frontReference, VkStencilOp backFailOp, VkStencilOp backPassOp, VkStencilOp backDepthFailOp, VkCompareOp backCompareOp, uint32_t backCompareMask, uint32_t backWriteMask, uint32_t backReference)
 	{
 		m_depthStencilState.stencilTestEnable = stencilTestEnable;
-		m_depthStencilState.front = front;
-		m_depthStencilState.back = back;
+		m_depthStencilState.front.failOp = frontFailOp;
+		m_depthStencilState.front.passOp = frontPassOp;
+		m_depthStencilState.front.depthFailOp = frontDepthFailOp;
+		m_depthStencilState.front.compareOp = frontCompareOp;
+		m_depthStencilState.front.compareMask = frontCompareMask;
+		m_depthStencilState.front.writeMask = frontWriteMask;
+		m_depthStencilState.front.reference = frontReference;
+		m_depthStencilState.back.failOp = backFailOp;
+		m_depthStencilState.back.passOp = backPassOp;
+		m_depthStencilState.back.depthFailOp = backDepthFailOp;
+		m_depthStencilState.back.compareOp = backCompareOp;
+		m_depthStencilState.back.compareMask = backCompareMask;
+		m_depthStencilState.back.writeMask = backWriteMask;
+		m_depthStencilState.back.reference = backReference;
 
 		return TRUE;
 	}

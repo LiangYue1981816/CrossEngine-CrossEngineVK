@@ -70,7 +70,7 @@ namespace CrossEngine {
 		BOOL SetSampleAlphaToOne(BOOL alphaToOneEnable);
 		BOOL SetDepthTest(BOOL depthTestEnable, BOOL depthWriteEnable, VkCompareOp depthCompareOp);
 		BOOL SetDepthBoundsTest(BOOL depthBoundsTestEnable, float minDepthBounds, float maxDepthBounds);
-		BOOL SetStencilTest(BOOL stencilTestEnable, VkStencilOpState front, VkStencilOpState back);
+		BOOL SetStencilTest(BOOL stencilTestEnable, VkStencilOp frontFailOp, VkStencilOp frontPassOp, VkStencilOp frontDepthFailOp, VkCompareOp frontCompareOp, uint32_t frontCompareMask, uint32_t frontWriteMask, uint32_t frontReference, VkStencilOp backFailOp, VkStencilOp backPassOp, VkStencilOp backDepthFailOp, VkCompareOp backCompareOp, uint32_t backCompareMask, uint32_t backWriteMask, uint32_t backReference);
 		BOOL SetColorBlendLogic(BOOL logicOpEnable, VkLogicOp logicOp);
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
 		BOOL SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);

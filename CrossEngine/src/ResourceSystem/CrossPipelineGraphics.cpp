@@ -48,6 +48,7 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphics::Load(void)
 	{
+		if (m_data.Load(m_stream) == FALSE) return FALSE;
 		if (LoadShaders() == FALSE) return FALSE;
 		if (LoadInputAssemblyState() == FALSE) return FALSE;
 		if (LoadTessellationState() == FALSE) return FALSE;
@@ -66,15 +67,8 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphics::LoadShaders(void)
 	{
-		DWORD dwVertexShader;
-		DWORD dwFragmentShader;
-		{
-			m_stream << dwVertexShader;
-			m_stream << dwFragmentShader;
-		}
-
-		const CShaderPtr &ptrVertexShader = ShaderManager()->LoadResource(dwVertexShader);
-		const CShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(dwFragmentShader);
+		const CShaderPtr &ptrVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
+		const CShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
 		if (ptrVertexShader.IsNull() || ptrFragmentShader.IsNull()) return FALSE;
 
 		m_ptrGfxPipeline->SetVertexShader(ptrVertexShader->GetGfxShader());
@@ -85,132 +79,53 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphics::LoadInputAssemblyState(void)
 	{
-		VkPipelineInputAssemblyStateCreateInfo state = {};
-		{
-			m_stream << state.topology;
-			m_stream << state.primitiveRestartEnable;
-		}
-		m_ptrGfxPipeline->SetPrimitiveTopology(state.topology, state.primitiveRestartEnable);
-
+		m_ptrGfxPipeline->SetPrimitiveTopology((VkPrimitiveTopology)m_data.inputAssembly.topology, FALSE);
 		return TRUE;
 	}
 
 	BOOL CPipelineGraphics::LoadTessellationState(void)
 	{
-		VkPipelineTessellationStateCreateInfo state = {};
-		{
-			m_stream << state.patchControlPoints;
-		}
-		m_ptrGfxPipeline->SetTessellationPatchControlPoints(state.patchControlPoints);
-
 		return TRUE;
 	}
 
 	BOOL CPipelineGraphics::LoadRasterizationState(void)
 	{
-		VkPipelineRasterizationStateCreateInfo state = {};
-		{
-			m_stream << state.depthClampEnable;
-			m_stream << state.rasterizerDiscardEnable;
-			m_stream << state.polygonMode;
-			m_stream << state.cullMode;
-			m_stream << state.frontFace;
-			m_stream << state.depthBiasEnable;
-			m_stream << state.depthBiasConstantFactor;
-			m_stream << state.depthBiasClamp;
-			m_stream << state.depthBiasSlopeFactor;
-		}
-		m_ptrGfxPipeline->SetPolygonMode(state.polygonMode);
-		m_ptrGfxPipeline->SetCullMode(state.cullMode);
-		m_ptrGfxPipeline->SetFrontFace(state.frontFace);
-		m_ptrGfxPipeline->SetDepthClamp(state.depthClampEnable);
-		m_ptrGfxPipeline->SetDepthBias(state.depthBiasEnable, state.depthBiasConstantFactor, state.depthBiasClamp, state.depthBiasSlopeFactor);
-		m_ptrGfxPipeline->SetRasterizerDiscard(state.rasterizerDiscardEnable);
+		m_ptrGfxPipeline->SetPolygonMode((VkPolygonMode)m_data.rasterization.polygonMode);
+		m_ptrGfxPipeline->SetCullMode((VkCullModeFlags)m_data.rasterization.cullMode);
+		m_ptrGfxPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
+		m_ptrGfxPipeline->SetDepthClamp(FALSE);
+		m_ptrGfxPipeline->SetDepthBias(m_data.rasterization.depthBiasEnable, m_data.rasterization.depthBiasConstantFactor, 0.0f, m_data.rasterization.depthBiasSlopeFactor);
+		m_ptrGfxPipeline->SetRasterizerDiscard(FALSE);
 
 		return TRUE;
 	}
 
 	BOOL CPipelineGraphics::LoadMultisampleState(void)
 	{
-		VkPipelineMultisampleStateCreateInfo state = {};
-		{
-			m_stream << state.rasterizationSamples;
-			m_stream << state.sampleShadingEnable;
-			m_stream << state.minSampleShading;
-			m_stream << state.alphaToCoverageEnable;
-			m_stream << state.alphaToOneEnable;
-		}
-		m_ptrGfxPipeline->SetSampleCounts(state.rasterizationSamples);
-		m_ptrGfxPipeline->SetSampleShading(state.sampleShadingEnable, state.minSampleShading);
-		m_ptrGfxPipeline->SetSampleAlphaToCoverage(state.alphaToCoverageEnable);
-		m_ptrGfxPipeline->SetSampleAlphaToOne(state.alphaToOneEnable);
+		m_ptrGfxPipeline->SetSampleCounts((VkSampleCountFlagBits)m_data.multisample.rasterizationSamples);
+		m_ptrGfxPipeline->SetSampleShading(FALSE, 0.0f);
+		m_ptrGfxPipeline->SetSampleAlphaToCoverage(m_data.multisample.alphaToCoverageEnable);
+		m_ptrGfxPipeline->SetSampleAlphaToOne(m_data.multisample.alphaToOneEnable);
 
 		return TRUE;
 	}
 
 	BOOL CPipelineGraphics::LoadDepthStencilState(void)
 	{
-		VkPipelineDepthStencilStateCreateInfo state = {};
-		{
-			m_stream << state.depthTestEnable;
-			m_stream << state.depthWriteEnable;
-			m_stream << state.depthCompareOp;
-			m_stream << state.depthBoundsTestEnable;
-			m_stream << state.minDepthBounds;
-			m_stream << state.maxDepthBounds;
-			m_stream << state.stencilTestEnable;
-			{
-				m_stream << state.front.failOp;
-				m_stream << state.front.passOp;
-				m_stream << state.front.depthFailOp;
-				m_stream << state.front.compareOp;
-				m_stream << state.front.compareMask;
-				m_stream << state.front.writeMask;
-				m_stream << state.front.reference;
-			}
-			{
-				m_stream << state.back.failOp;
-				m_stream << state.back.passOp;
-				m_stream << state.back.depthFailOp;
-				m_stream << state.back.compareOp;
-				m_stream << state.back.compareMask;
-				m_stream << state.back.writeMask;
-				m_stream << state.back.reference;
-			}
-		}
-		m_ptrGfxPipeline->SetDepthTest(state.depthTestEnable, state.depthWriteEnable, state.depthCompareOp);
-		m_ptrGfxPipeline->SetDepthBoundsTest(state.depthBoundsTestEnable, state.minDepthBounds, state.maxDepthBounds);
-		m_ptrGfxPipeline->SetStencilTest(state.stencilTestEnable, state.front, state.back);
+		m_ptrGfxPipeline->SetDepthBoundsTest(FALSE, 0.0f, 0.0f);
+		m_ptrGfxPipeline->SetDepthTest(m_data.depth.depthTestEnable, m_data.depth.depthWriteEnable, (VkCompareOp)m_data.depth.depthCompareOp);
+		m_ptrGfxPipeline->SetStencilTest(m_data.stencil.stencilTestEnable, (VkStencilOp)m_data.stencil.frontFailOp, (VkStencilOp)m_data.stencil.frontPassOp, (VkStencilOp)m_data.stencil.frontDepthFailOp, (VkCompareOp)m_data.stencil.frontCompareOp, m_data.stencil.frontCompareMask, m_data.stencil.frontWriteMask, m_data.stencil.frontReference, (VkStencilOp)m_data.stencil.backFailOp, (VkStencilOp)m_data.stencil.backPassOp, (VkStencilOp)m_data.stencil.backDepthFailOp, (VkCompareOp)m_data.stencil.backCompareOp, m_data.stencil.backCompareMask, m_data.stencil.backWriteMask, m_data.stencil.backReference);
 
 		return TRUE;
 	}
 
 	BOOL CPipelineGraphics::LoadColorBlendState(void)
 	{
-		VkPipelineColorBlendStateCreateInfo state = {};
-		{
-			m_stream << state.logicOpEnable;
-			m_stream << state.logicOp;
-			m_stream << state.blendConstants;
-		}
-		m_ptrGfxPipeline->SetColorBlendLogic(state.logicOpEnable, state.logicOp);
-		m_ptrGfxPipeline->SetColorBlendConstants(state.blendConstants[0], state.blendConstants[1], state.blendConstants[2], state.blendConstants[3]);
+		m_ptrGfxPipeline->SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
+		m_ptrGfxPipeline->SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 
-		std::vector<VkPipelineColorBlendAttachmentState> attachmentColorBlends;
-		{
-			m_stream << attachmentColorBlends;
-		}
-		for (uint32_t index = 0; index < attachmentColorBlends.size(); index++) {
-			m_ptrGfxPipeline->SetColorBlendAttachment(
-				index,
-				attachmentColorBlends[index].blendEnable,
-				attachmentColorBlends[index].srcColorBlendFactor,
-				attachmentColorBlends[index].dstColorBlendFactor,
-				attachmentColorBlends[index].colorBlendOp,
-				attachmentColorBlends[index].srcAlphaBlendFactor,
-				attachmentColorBlends[index].dstAlphaBlendFactor,
-				attachmentColorBlends[index].alphaBlendOp,
-				attachmentColorBlends[index].colorWriteMask);
+		for (std::map<uint32_t, PipelineGraphicsData::ColorBlendAttachment>::const_iterator itColorBlendAttachment = m_data.colorBlendAttachments.begin(); itColorBlendAttachment != m_data.colorBlendAttachments.end(); ++itColorBlendAttachment) {
+			m_ptrGfxPipeline->SetColorBlendAttachment(itColorBlendAttachment->first, itColorBlendAttachment->second.blendEnable, (VkBlendFactor)itColorBlendAttachment->second.srcColorBlendFactor, (VkBlendFactor)itColorBlendAttachment->second.dstColorBlendFactor, (VkBlendOp)itColorBlendAttachment->second.colorBlendOp, (VkBlendFactor)itColorBlendAttachment->second.srcAlphaBlendFactor, (VkBlendFactor)itColorBlendAttachment->second.dstAlphaBlendFactor, (VkBlendOp)itColorBlendAttachment->second.alphaBlendOp, (VkColorComponentFlags)itColorBlendAttachment->second.colorWriteMask);
 		}
 
 		return TRUE;
