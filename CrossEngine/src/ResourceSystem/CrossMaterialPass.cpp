@@ -35,11 +35,11 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CMaterialPass::Load(CStream *pStream)
+	BOOL CMaterialPass::Load(TiXmlNode *pPassNode)
 	{
-		if (LoadPipeline(pStream) == FALSE) return FALSE;
-		if (LoadTextures(pStream) == FALSE) return FALSE;
-		if (LoadUniforms(pStream) == FALSE) return FALSE;
+		if (LoadPipeline(pPassNode) == FALSE) return FALSE;
+		if (LoadTextures(pPassNode) == FALSE) return FALSE;
+		if (LoadUniforms(pPassNode) == FALSE) return FALSE;
 
 		return TRUE;
 	}
@@ -49,17 +49,17 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadPipeline(CStream *pStream)
+	BOOL CMaterialPass::LoadPipeline(TiXmlNode *pPassNode)
 	{
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadTextures(CStream *pStream)
+	BOOL CMaterialPass::LoadTextures(TiXmlNode *pPassNode)
 	{
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadUniforms(CStream *pStream)
+	BOOL CMaterialPass::LoadUniforms(TiXmlNode *pPassNode)
 	{
 		return TRUE;
 	}

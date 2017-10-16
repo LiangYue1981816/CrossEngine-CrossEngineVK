@@ -37,13 +37,13 @@ namespace CrossEngine {
 		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
 
 	public:
-		BOOL Load(CStream *pStream);
+		BOOL Load(TiXmlNode *pPassNode);
 		BOOL PostLoad(void);
 
 	protected:
-		BOOL LoadPipeline(CStream *pStream);
-		BOOL LoadTextures(CStream *pStream);
-		BOOL LoadUniforms(CStream *pStream);
+		BOOL LoadPipeline(TiXmlNode *pPassNode);
+		BOOL LoadTextures(TiXmlNode *pPassNode);
+		BOOL LoadUniforms(TiXmlNode *pPassNode);
 	};
 
 }
