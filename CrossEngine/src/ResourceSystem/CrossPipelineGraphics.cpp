@@ -48,7 +48,7 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphics::Load(void)
 	{
-		if (m_data.Load(m_stream) == FALSE) return FALSE;
+		if (Load() == FALSE) return FALSE;
 		if (LoadShaders() == FALSE) return FALSE;
 		if (LoadInputAssemblyState() == FALSE) return FALSE;
 		if (LoadTessellationState() == FALSE) return FALSE;
@@ -62,6 +62,31 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphics::PostLoad(BOOL bSync)
 	{
+		return TRUE;
+	}
+
+	BOOL CPipelineGraphics::LoadData(void)
+	{
+		m_stream << m_data.mark;
+		if (m_data.mark != HashValue("PipelineGraphicsData")) {
+			return FALSE;
+		}
+
+		m_stream << m_data.size;
+		if (m_data.size != sizeof(PipelineGraphicsData)) {
+			return FALSE;
+		}
+
+		m_stream << m_data.renderPass;
+		m_stream << m_data.subPass;
+		m_stream << m_data.shader;
+		m_stream << m_data.inputAssembly;
+		m_stream << m_data.rasterization;
+		m_stream << m_data.multisample;
+		m_stream << m_data.depth;
+		m_stream << m_data.stencil;
+		m_stream << m_data.colorBlendAttachments;
+
 		return TRUE;
 	}
 

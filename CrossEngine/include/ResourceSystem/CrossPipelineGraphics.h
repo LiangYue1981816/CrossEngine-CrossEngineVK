@@ -98,31 +98,6 @@ namespace CrossEngine {
 		Depth depth;
 		Stencil stencil;
 		std::map<uint32_t, ColorBlendAttachment> colorBlendAttachments;
-
-		BOOL Load(CStream &stream)
-		{
-			stream << mark;
-			if (mark != HashValue("PipelineGraphicsData")) {
-				return FALSE;
-			}
-
-			stream << size;
-			if (size != sizeof(PipelineGraphicsData)) {
-				return FALSE;
-			}
-
-			stream << renderPass;
-			stream << subPass;
-			stream << shader;
-			stream << inputAssembly;
-			stream << rasterization;
-			stream << multisample;
-			stream << depth;
-			stream << stencil;
-			stream << colorBlendAttachments;
-
-			return TRUE;
-		}
 	};
 
 	class CROSS_EXPORT CPipelineGraphics : public CResource
@@ -146,6 +121,7 @@ namespace CrossEngine {
 		virtual BOOL PostLoad(BOOL bSync);
 
 	protected:
+		BOOL LoadData(void);
 		BOOL LoadShaders(void);
 		BOOL LoadInputAssemblyState(void);
 		BOOL LoadTessellationState(void);
