@@ -34,6 +34,7 @@ namespace CrossEngine {
 	CPipelineGraphics::~CPipelineGraphics(void)
 	{
 		m_ptrGfxPipeline.Release();
+		m_ptrGfxRenderPass.Release();
 	}
 
 	RESOURCE_TYPE CPipelineGraphics::GetType(void) const
@@ -58,18 +59,16 @@ namespace CrossEngine {
 		if (rcode) rcode = LoadMultisampleState();
 		if (rcode) rcode = LoadDepthStencilState();
 		if (rcode) rcode = LoadColorBlendState();
+		if (rcode) m_ptrGfxRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass);
 
 		m_stream.Free();
 
-		return rcode;
+		return m_ptrGfxRenderPass.IsNull() ? FALSE : TRUE;
 	}
 
 	BOOL CPipelineGraphics::PostLoad(BOOL bSync)
 	{
-		const CGfxRenderPassPtr &ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass);
-		if (ptrRenderPass.IsNull()) return TRUE;
-
-		m_ptrGfxPipeline->Create(ptrRenderPass->GetHandle(), m_data.subPass);
+		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_data.subPass);
 		return TRUE;
 	}
 
