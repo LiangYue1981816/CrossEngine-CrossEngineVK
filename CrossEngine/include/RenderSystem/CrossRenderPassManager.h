@@ -34,6 +34,15 @@ namespace CrossEngine {
 	protected:
 		CRenderPassManager(void);
 		virtual ~CRenderPassManager(void);
+
+
+	public:
+		const CGfxRenderPassPtr& GetRenderPass(const char *szName) const;
+		const CGfxRenderPassPtr& GetRenderPass(DWORD dwName) const;
+
+
+	protected:
+		std::map<DWORD, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};
 
 }

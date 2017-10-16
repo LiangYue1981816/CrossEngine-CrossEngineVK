@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	static const CGfxRenderPassPtr ptrRenderPassNull;
+
 	CRenderPassManager::CRenderPassManager(void)
 	{
 
@@ -33,6 +35,17 @@ namespace CrossEngine {
 	CRenderPassManager::~CRenderPassManager(void)
 	{
 
+	}
+
+	const CGfxRenderPassPtr& CRenderPassManager::GetRenderPass(const char *szName) const
+	{
+		return GetRenderPass(HashValue(szName));
+	}
+
+	const CGfxRenderPassPtr& CRenderPassManager::GetRenderPass(DWORD dwName) const
+	{
+		const auto &itRenderPass = m_ptrRenderPasses.find(dwName);
+		return itRenderPass != m_ptrRenderPasses.end() ? itRenderPass->second : ptrRenderPassNull;
 	}
 
 }

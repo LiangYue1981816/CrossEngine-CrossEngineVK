@@ -48,20 +48,28 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphics::Load(void)
 	{
-		if (Load() == FALSE) return FALSE;
-		if (LoadShaders() == FALSE) return FALSE;
-		if (LoadInputAssemblyState() == FALSE) return FALSE;
-		if (LoadTessellationState() == FALSE) return FALSE;
-		if (LoadRasterizationState() == FALSE) return FALSE;
-		if (LoadMultisampleState() == FALSE) return FALSE;
-		if (LoadDepthStencilState() == FALSE) return FALSE;
-		if (LoadColorBlendState() == FALSE) return FALSE;
+		BOOL rcode = TRUE;
 
-		return TRUE;
+		if (rcode) rcode = Load();
+		if (rcode) rcode = LoadShaders();
+		if (rcode) rcode = LoadInputAssemblyState();
+		if (rcode) rcode = LoadTessellationState();
+		if (rcode) rcode = LoadRasterizationState();
+		if (rcode) rcode = LoadMultisampleState();
+		if (rcode) rcode = LoadDepthStencilState();
+		if (rcode) rcode = LoadColorBlendState();
+
+		m_stream.Free();
+
+		return rcode;
 	}
 
 	BOOL CPipelineGraphics::PostLoad(BOOL bSync)
 	{
+		const CGfxRenderPassPtr &ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass);
+		if (ptrRenderPass.IsNull()) return TRUE;
+
+		m_ptrGfxPipeline->Create(ptrRenderPass->GetHandle(), m_data.subPass);
 		return TRUE;
 	}
 
