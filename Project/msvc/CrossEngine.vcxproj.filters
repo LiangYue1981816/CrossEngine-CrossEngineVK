@@ -597,6 +597,12 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineComputeManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFrameBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderPassManager.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -1003,6 +1009,12 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineGraphicsManage.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossFrameBufferManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderPassManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

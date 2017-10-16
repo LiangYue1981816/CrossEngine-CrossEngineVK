@@ -29,6 +29,9 @@ namespace CrossEngine {
 		: m_pGfxInstance(NULL)
 		, m_pGfxDevice(NULL)
 		, m_pGfxSwapchain(NULL)
+
+		, m_pRenderPassManager(NULL)
+		, m_pFrameBufferManager(NULL)
 	{
 
 	}
@@ -38,14 +41,24 @@ namespace CrossEngine {
 
 	}
 
-	CGfxDevice* CRenderSystem::GetDevice(void)
+	CGfxDevice* CRenderSystem::GetDevice(void) const
 	{
 		return m_pGfxDevice;
 	}
 
-	CGfxSwapchain* CRenderSystem::GetSwapchain(void)
+	CGfxSwapchain* CRenderSystem::GetSwapchain(void) const
 	{
 		return m_pGfxSwapchain;
+	}
+
+	CRenderPassManager* CRenderSystem::GetRenderPassManager(void) const
+	{
+		return m_pRenderPassManager;
+	}
+
+	CFrameBufferManager* CRenderSystem::GetFrameBufferManager(void) const
+	{
+		return m_pFrameBufferManager;
 	}
 
 	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
@@ -63,19 +76,24 @@ namespace CrossEngine {
 		m_pGfxDevice = m_pGfxInstance->GetDevice();
 		m_pGfxSwapchain = m_pGfxInstance->GetSwapchain();
 
+		m_pRenderPassManager = SAFE_NEW CRenderPassManager;
+		m_pFrameBufferManager = SAFE_NEW CFrameBufferManager;
+
 		return TRUE;
 	}
 
 	void CRenderSystem::Destroy(void)
 	{
-		if (m_pGfxInstance) {
-			m_pGfxInstance->Destroy();
-			SAFE_DELETE(m_pGfxInstance);
+		SAFE_DELETE(m_pRenderPassManager);
+		SAFE_DELETE(m_pFrameBufferManager);
+		m_pRenderPassManager = NULL;
+		m_pFrameBufferManager = NULL;
 
-			m_pGfxInstance = NULL;
-			m_pGfxDevice = NULL;
-			m_pGfxSwapchain = NULL;
-		}
+		m_pGfxInstance->Destroy();
+		SAFE_DELETE(m_pGfxInstance);
+		m_pGfxInstance = NULL;
+		m_pGfxDevice = NULL;
+		m_pGfxSwapchain = NULL;
 	}
 
 }
