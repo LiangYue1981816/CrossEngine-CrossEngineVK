@@ -81,11 +81,12 @@ namespace CrossEngine {
 			vkDestroyDescriptorSetLayout(m_pDevice->GetDevice(), m_vkDescriptorSetLayout, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
 
+		m_names.clear();
 		m_bindings.clear();
 		m_vkDescriptorSetLayout = VK_NULL_HANDLE;
 	}
 
-	BOOL CVulkanDescriptorSetLayout::SetBinding(uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags)
+	BOOL CVulkanDescriptorSetLayout::SetBinding(const char *szName, uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags)
 	{
 		m_numTypesUsedCount[type]++;
 
@@ -94,6 +95,8 @@ namespace CrossEngine {
 		m_bindings[binding].descriptorCount = 1;
 		m_bindings[binding].stageFlags = flags;
 		m_bindings[binding].pImmutableSamplers = NULL;
+
+		m_names[HashValue(szName)] = binding;
 
 		return TRUE;
 	}
@@ -106,6 +109,12 @@ namespace CrossEngine {
 	uint32_t CVulkanDescriptorSetLayout::GetSet(void) const
 	{
 		return m_set;
+	}
+
+	uint32_t CVulkanDescriptorSetLayout::GetBinding(const char *szName) const
+	{
+		const auto &itName = m_names.find(HashValue(szName));
+		return itName != m_names.end() ? itName->second : -1;
 	}
 
 	const uint32_t* CVulkanDescriptorSetLayout::GetTypesUsedCount(void) const
@@ -186,7 +195,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
+					m_pDescriptorSetLayouts[set]->SetBinding(itUniform.name.c_str(), binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
 				}
 			}
 
@@ -200,7 +209,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
-					m_pDescriptorSetLayouts[set]->SetBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
+					m_pDescriptorSetLayouts[set]->SetBinding(itSampledImage.name.c_str(), binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
 				}
 			}
 		}

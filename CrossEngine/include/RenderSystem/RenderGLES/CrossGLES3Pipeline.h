@@ -37,17 +37,20 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL SetUniformBlockBinding(GLuint program, uint32_t binding, const char *szName);
-		BOOL SetSampledImageBinding(GLuint program, uint32_t binding, const char *szName);
+		BOOL SetUniformBlockBinding(const char *szName, uint32_t binding, GLuint program);
+		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, GLuint program);
 
 	public:
 		uint32_t GetSet(void) const;
+		uint32_t GetBinding(const char *szName) const;
+
 		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetUniformBlockBindings(void) const;
 		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetSampledImageBindings(void) const;
 
 
 	protected:
 		uint32_t m_set;
+		std::map<uint32_t, uint32_t> m_names;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_uniformBlockBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_sampledImageBindings;
 	};
