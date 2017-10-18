@@ -40,11 +40,8 @@ namespace CrossEngine {
 		virtual RESOURCE_TYPE GetType(void) const;
 
 	protected:
-		virtual BOOL Load(void);
-		virtual BOOL PostLoad(BOOL bSync);
-
-
-	protected:
+		virtual BOOL Load(BOOL bSync);
+		virtual BOOL PostLoad(void);
 	};
 
 }

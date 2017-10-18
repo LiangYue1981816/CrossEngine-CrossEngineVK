@@ -47,11 +47,11 @@ namespace CrossEngine {
 		return m_ptrGfxPipeline;
 	}
 
-	BOOL CPipelineGraphics::Load(void)
+	BOOL CPipelineGraphics::Load(BOOL bSync)
 	{
 		BOOL rcode = TRUE;
 
-		if (rcode) rcode = Load();
+		if (rcode) rcode = LoadData();
 		if (rcode) rcode = LoadShaders();
 		if (rcode) rcode = LoadInputAssemblyState();
 		if (rcode) rcode = LoadTessellationState();
@@ -66,7 +66,7 @@ namespace CrossEngine {
 		return m_ptrGfxRenderPass.IsNull() ? FALSE : TRUE;
 	}
 
-	BOOL CPipelineGraphics::PostLoad(BOOL bSync)
+	BOOL CPipelineGraphics::PostLoad(void)
 	{
 		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_data.subPass);
 		return TRUE;

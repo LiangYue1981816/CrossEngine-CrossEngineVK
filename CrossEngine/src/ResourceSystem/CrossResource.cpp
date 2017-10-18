@@ -62,7 +62,7 @@ namespace CrossEngine {
 		return m_pResourceManager;
 	}
 
-	BOOL CResource::LoadFromFile(const char *szFileName)
+	BOOL CResource::LoadFromFile(const char *szFileName, BOOL bSync)
 	{
 		try {
 			if (szFileName == NULL) {
@@ -73,7 +73,7 @@ namespace CrossEngine {
 				throw "Load stream from file failed.";
 			}
 
-			if (Load() == FALSE) {
+			if (Load(bSync) == FALSE) {
 				throw "Load failed.";
 			}
 
@@ -87,7 +87,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CResource::LoadFromPack(const char *szPackName, const char *szFileName)
+	BOOL CResource::LoadFromPack(const char *szPackName, const char *szFileName, BOOL bSync)
 	{
 		try {
 			if (szPackName == NULL) {
@@ -102,7 +102,7 @@ namespace CrossEngine {
 				throw "Load stream from pack failed.";
 			}
 
-			if (Load() == FALSE) {
+			if (Load(bSync) == FALSE) {
 				throw "Load failed.";
 			}
 
@@ -116,7 +116,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CResource::LoadFromPack(ZZIP_DIR *pPack, const char *szFileName)
+	BOOL CResource::LoadFromPack(ZZIP_DIR *pPack, const char *szFileName, BOOL bSync)
 	{
 		try {
 			if (pPack == NULL) {
@@ -131,7 +131,7 @@ namespace CrossEngine {
 				throw "Load stream from pack failed.";
 			}
 
-			if (Load() == FALSE) {
+			if (Load(bSync) == FALSE) {
 				throw "Load failed.";
 			}
 

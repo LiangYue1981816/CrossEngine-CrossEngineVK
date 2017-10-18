@@ -66,12 +66,12 @@ namespace CrossEngine {
 		virtual CResourceManager* GetResourceManager(void) const;
 
 	protected:
-		virtual BOOL LoadFromFile(const char *szFileName);
-		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName);
-		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName);
+		virtual BOOL LoadFromFile(const char *szFileName, BOOL bSync);
+		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName, BOOL bSync);
+		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName, BOOL bSync);
 
-		virtual BOOL Load(void) = 0;
-		virtual BOOL PostLoad(BOOL bSync) = 0;
+		virtual BOOL Load(BOOL bSync) = 0;
+		virtual BOOL PostLoad(void) = 0;
 
 
 	protected:

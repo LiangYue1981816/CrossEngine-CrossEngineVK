@@ -107,7 +107,7 @@ namespace CrossEngine {
 			while (itResource != m_postLoadList.end()) {
 				CResourceHandle *pResource = *itResource;
 
-				if (pResource && pResource->PostLoadResource(FALSE)) {
+				if (pResource && pResource->PostLoad()) {
 					itResource = m_postLoadList.erase(itResource);
 				}
 				else {
@@ -136,7 +136,7 @@ namespace CrossEngine {
 				}
 			}
 
-			if (pResource && pResource->LoadResource()) {
+			if (pResource && pResource->Load(FALSE)) {
 				mutex_autolock mutex(pResourceSystem->m_mutexPostLoadList);
 				pResourceSystem->m_postLoadList.push_back(pResource);
 			}

@@ -50,7 +50,7 @@ namespace CrossEngine {
 		return m_ptrGfxTexture;
 	}
 
-	BOOL CTexture::Load(void)
+	BOOL CTexture::Load(BOOL bSync)
 	{
 		m_texture = (gli::texture2d)gli::load((const char *)m_stream.GetAddress(), m_stream.GetFullSize());
 		m_stream.Free();
@@ -58,7 +58,7 @@ namespace CrossEngine {
 		return m_texture.empty() ? FALSE : TRUE;
 	}
 
-	BOOL CTexture::PostLoad(BOOL bSync)
+	BOOL CTexture::PostLoad(void)
 	{
 		m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		m_texture.clear();

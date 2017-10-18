@@ -49,8 +49,8 @@ namespace CrossEngine {
 		BOOL FreeResource(void);
 
 	protected:
-		BOOL LoadResource(void);
-		BOOL PostLoadResource(BOOL bSync);
+		BOOL Load(BOOL bSync);
+		BOOL PostLoad(void);
 
 
 	protected:

@@ -38,13 +38,13 @@ namespace CrossEngine {
 		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:
-		BOOL Load(TiXmlNode *pPassNode);
+		BOOL Load(TiXmlNode *pPassNode, BOOL bSync);
 		BOOL PostLoad(void);
 
 	protected:
-		BOOL LoadPipeline(TiXmlNode *pPassNode);
-		BOOL LoadTextures(TiXmlNode *pPassNode);
-		BOOL LoadUniforms(TiXmlNode *pPassNode);
+		BOOL LoadPipeline(TiXmlNode *pPassNode, BOOL bSync);
+		BOOL LoadTextures(TiXmlNode *pPassNode, BOOL bSync);
+		BOOL LoadUniforms(TiXmlNode *pPassNode, BOOL bSync);
 
 
 	protected:

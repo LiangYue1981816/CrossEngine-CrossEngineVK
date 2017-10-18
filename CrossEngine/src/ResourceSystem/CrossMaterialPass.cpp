@@ -45,11 +45,11 @@ namespace CrossEngine {
 		return m_ptrDescriptorSet;
 	}
 
-	BOOL CMaterialPass::Load(TiXmlNode *pPassNode)
+	BOOL CMaterialPass::Load(TiXmlNode *pPassNode, BOOL bSync)
 	{
-		if (LoadPipeline(pPassNode) == FALSE) return FALSE;
-		if (LoadTextures(pPassNode) == FALSE) return FALSE;
-		if (LoadUniforms(pPassNode) == FALSE) return FALSE;
+		if (LoadPipeline(pPassNode, bSync) == FALSE) return FALSE;
+		if (LoadTextures(pPassNode, bSync) == FALSE) return FALSE;
+		if (LoadUniforms(pPassNode, bSync) == FALSE) return FALSE;
 
 		return TRUE;
 	}
@@ -59,7 +59,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadPipeline(TiXmlNode *pPassNode)
+	BOOL CMaterialPass::LoadPipeline(TiXmlNode *pPassNode, BOOL bSync)
 	{
 		if (TiXmlNode *pPipelineNode = pPassNode->FirstChild("Pipeline")) {
 			const char *szName = pPipelineNode->ToElement()->AttributeString("name");
@@ -68,7 +68,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadTextures(TiXmlNode *pPassNode)
+	BOOL CMaterialPass::LoadTextures(TiXmlNode *pPassNode, BOOL bSync)
 	{
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture")) {
 			const char *szName = pTextureNode->ToElement()->AttributeString("name");
@@ -78,7 +78,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadUniforms(TiXmlNode *pPassNode)
+	BOOL CMaterialPass::LoadUniforms(TiXmlNode *pPassNode, BOOL bSync)
 	{
 		if (TiXmlNode *pUniformNode = pPassNode->FirstChild("Uniform")) {
 			const char *szName = pUniformNode->ToElement()->AttributeString("name");

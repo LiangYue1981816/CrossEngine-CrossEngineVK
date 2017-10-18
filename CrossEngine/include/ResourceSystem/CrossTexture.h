@@ -43,8 +43,8 @@ namespace CrossEngine {
 		const CGfxTexturePtr& GetGfxTexture(void) const;
 
 	protected:
-		virtual BOOL Load(void);
-		virtual BOOL PostLoad(BOOL bSync);
+		virtual BOOL Load(BOOL bSync);
+		virtual BOOL PostLoad(void);
 
 
 	protected:

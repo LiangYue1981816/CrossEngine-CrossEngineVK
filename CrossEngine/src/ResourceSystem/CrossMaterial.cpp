@@ -41,12 +41,12 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL;
 	}
 
-	BOOL CMaterial::Load(void)
+	BOOL CMaterial::Load(BOOL bSync)
 	{
 		return TRUE;
 	}
 
-	BOOL CMaterial::PostLoad(BOOL bSync)
+	BOOL CMaterial::PostLoad(void)
 	{
 		return TRUE;
 	}

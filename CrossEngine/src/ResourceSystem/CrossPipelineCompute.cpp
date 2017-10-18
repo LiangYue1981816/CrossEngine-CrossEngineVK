@@ -46,12 +46,12 @@ namespace CrossEngine {
 		return m_ptrGfxPipeline;
 	}
 
-	BOOL CPipelineCompute::Load(void)
+	BOOL CPipelineCompute::Load(BOOL bSync)
 	{
 		return TRUE;
 	}
 
-	BOOL CPipelineCompute::PostLoad(BOOL bSync)
+	BOOL CPipelineCompute::PostLoad(void)
 	{
 		return TRUE;
 	}

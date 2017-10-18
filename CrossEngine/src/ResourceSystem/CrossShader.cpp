@@ -46,7 +46,7 @@ namespace CrossEngine {
 		return m_ptrGfxShader;
 	}
 
-	BOOL CShader::Load(void)
+	BOOL CShader::Load(BOOL bSync)
 	{
 		char szExt[_MAX_EXT];
 		splitfilename(m_stream.GetName(), NULL, szExt);
@@ -59,7 +59,7 @@ namespace CrossEngine {
 		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 	}
 
-	BOOL CShader::PostLoad(BOOL bSync)
+	BOOL CShader::PostLoad(void)
 	{
 		m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 		m_stream.Free();
