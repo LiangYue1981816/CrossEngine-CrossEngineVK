@@ -35,6 +35,7 @@ namespace CrossEngine {
 
 	public:
 		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
+		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:
 		BOOL Load(TiXmlNode *pPassNode);
@@ -44,6 +45,14 @@ namespace CrossEngine {
 		BOOL LoadPipeline(TiXmlNode *pPassNode);
 		BOOL LoadTextures(TiXmlNode *pPassNode);
 		BOOL LoadUniforms(TiXmlNode *pPassNode);
+
+
+	protected:
+		CPipelineGraphicsPtr m_ptrPipeline;
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+
+		std::map<DWORD, CTexturePtr> m_textures;
+		std::map<DWORD, CGfxUniformBufferPtr> m_uniforms;
 	};
 
 }

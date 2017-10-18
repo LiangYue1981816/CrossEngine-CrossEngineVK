@@ -35,6 +35,16 @@ namespace CrossEngine {
 
 	}
 
+	const CGfxPipelineGraphicsPtr& CMaterialPass::GetGfxPipeline(void) const
+	{
+		return m_ptrPipeline->GetGfxPipeline();
+	}
+
+	const CGfxDescriptorSetPtr& CMaterialPass::GetDescriptorSet(void) const
+	{
+		return m_ptrDescriptorSet;
+	}
+
 	BOOL CMaterialPass::Load(TiXmlNode *pPassNode)
 	{
 		if (LoadPipeline(pPassNode) == FALSE) return FALSE;
@@ -63,7 +73,6 @@ namespace CrossEngine {
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture")) {
 			const char *szName = pTextureNode->ToElement()->AttributeString("name");
 			const char *szTexture = pTextureNode->ToElement()->AttributeString("texture");
-			const int unit = pTextureNode->ToElement()->AttributeInt("unit");
 		}
 
 		return TRUE;
