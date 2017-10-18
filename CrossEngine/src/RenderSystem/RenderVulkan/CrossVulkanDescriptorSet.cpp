@@ -57,7 +57,7 @@ namespace CrossEngine {
 		return m_vkDescriptorSet;
 	}
 
-	void CVulkanDescriptorSet::SetTexture(uint32_t binding, uint32_t unit, const CGfxTexturePtr &ptrTexture)
+	void CVulkanDescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
 		m_ptrTextures[binding] = ptrTexture;
 	}

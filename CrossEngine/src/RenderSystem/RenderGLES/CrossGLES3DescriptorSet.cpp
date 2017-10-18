@@ -56,9 +56,8 @@ namespace CrossEngine {
 		return (HANDLE)this;
 	}
 
-	void CGLES3DescriptorSet::SetTexture(uint32_t binding, uint32_t unit, const CGfxTexturePtr &ptrTexture)
+	void CGLES3DescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
-		m_units[binding] = unit;
 		m_ptrTextures[binding] = ptrTexture;
 	}
 
@@ -75,12 +74,6 @@ namespace CrossEngine {
 	const CGLES3DescriptorSetLayout* CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
 	{
 		return m_pDescriptorSetLayout;
-	}
-
-	const uint32_t CGLES3DescriptorSet::GetTextureUnit(uint32_t binding) const
-	{
-		const auto &itUnit = m_units.find(binding);
-		return itUnit != m_units.end() ? itUnit->second : 0;
 	}
 
 	const CGfxTexturePtr& CGLES3DescriptorSet::GetTexture(uint32_t binding) const

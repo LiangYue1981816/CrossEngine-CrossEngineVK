@@ -64,6 +64,7 @@ namespace CrossEngine {
 					}
 				}
 
+				GLuint indexTexUnit = 0;
 				const std::map<uint32_t, std::map<uint32_t, uint32_t>> &sampledImageBindings = pDescriptorSetLayout->GetSampledImageBindings();
 				for (const auto &itSampledImageBinding : sampledImageBindings) {
 					for (const auto &itBinding : itSampledImageBinding.second) {
@@ -74,12 +75,13 @@ namespace CrossEngine {
 						const CGfxTexturePtr &ptrTexture = pDescriptorSet->GetTexture(binding);
 						if (ptrTexture.IsNull()) continue;
 
-						const GLuint indexTexUnit = pDescriptorSet->GetTextureUnit(binding);
 						const CGLES3Texture *pTexture = (CGLES3Texture *)((CGfxTexture *)ptrTexture);
 						glActiveTexture(GL_TEXTURE0 + indexTexUnit);
 						glBindSampler(indexTexUnit, pTexture->GetSampler());
 						glBindTexture(pTexture->GetTarget(), (GLuint)pTexture->GetHandle());
 						glProgramUniform1i(program, location, indexTexUnit);
+
+						indexTexUnit++;
 					}
 				}
 			}
