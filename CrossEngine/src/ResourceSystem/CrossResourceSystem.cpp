@@ -44,6 +44,8 @@ namespace CrossEngine {
 	{
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CShaderManager;
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE] = SAFE_NEW CTextureManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE] = SAFE_NEW CPipelineComputeManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS] = SAFE_NEW CPipelineGraphicsManager;
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL] = SAFE_NEW CMaterialManager;
 		// ...
 

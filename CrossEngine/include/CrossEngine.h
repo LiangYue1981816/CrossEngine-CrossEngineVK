@@ -127,6 +127,8 @@ THE SOFTWARE.
 #define ResourceSystem()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()
 #define ShaderManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SHADER)
 #define TextureManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE)
+#define ComputeManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE)
+#define GraphicsManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS)
 #define MaterialManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL)
 #define MeshManager()        CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_MESH)
 #define SkeletonManager()    CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SKELETON)
