@@ -51,16 +51,30 @@ namespace CrossEngine {
 
 	BOOL CMaterialPass::LoadPipeline(TiXmlNode *pPassNode)
 	{
+		if (TiXmlNode *pPipelineNode = pPassNode->FirstChild("Pipeline")) {
+			const char *szName = pPipelineNode->ToElement()->AttributeString("name");
+		}
+
 		return TRUE;
 	}
 
 	BOOL CMaterialPass::LoadTextures(TiXmlNode *pPassNode)
 	{
+		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture")) {
+			const char *szName = pTextureNode->ToElement()->AttributeString("name");
+			const char *szTexture = pTextureNode->ToElement()->AttributeString("texture");
+			const int unit = pTextureNode->ToElement()->AttributeInt("unit");
+		}
+
 		return TRUE;
 	}
 
 	BOOL CMaterialPass::LoadUniforms(TiXmlNode *pPassNode)
 	{
+		if (TiXmlNode *pUniformNode = pPassNode->FirstChild("Uniform")) {
+			const char *szName = pUniformNode->ToElement()->AttributeString("name");
+		}
+
 		return TRUE;
 	}
 
