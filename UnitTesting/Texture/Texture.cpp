@@ -133,7 +133,7 @@ void CreateDescriptorSet(void)
 {
 	ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, 0, ptrPipeline);
 	ptrDescriptorSet->SetUniformBuffer(0, ptrUniformBuffer);
-	ptrDescriptorSet->SetTexture(1, 0, ptrTexture);
+	ptrDescriptorSet->SetTexture(1, ptrTexture);
 	ptrDescriptorSet->UpdateDescriptorSets();
 }
 
