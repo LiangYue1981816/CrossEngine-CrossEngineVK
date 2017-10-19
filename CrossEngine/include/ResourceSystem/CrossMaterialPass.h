@@ -52,7 +52,8 @@ namespace CrossEngine {
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
 		std::map<DWORD, CTexturePtr> m_textures;
-		std::map<DWORD, CGfxUniformBufferPtr> m_uniforms;
+		std::map<DWORD, CGfxUniformBufferPtr> m_uniformFloats;
+		std::map<DWORD, CGfxUniformBufferPtr> m_uniformVectors;
 	};
 
 }

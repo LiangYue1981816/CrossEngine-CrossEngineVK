@@ -63,6 +63,9 @@ namespace CrossEngine {
 	{
 		if (TiXmlNode *pPipelineNode = pPassNode->FirstChild("Pipeline")) {
 			const char *szName = pPipelineNode->ToElement()->AttributeString("name");
+
+			DWORD dwName = HashValue(szName);
+			m_ptrPipeline = GraphicsManager()->LoadResource(dwName, bSync);
 		}
 
 		return TRUE;
@@ -70,9 +73,24 @@ namespace CrossEngine {
 
 	BOOL CMaterialPass::LoadTextures(TiXmlNode *pPassNode, BOOL bSync)
 	{
-		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture")) {
-			const char *szName = pTextureNode->ToElement()->AttributeString("name");
-			const char *szTexture = pTextureNode->ToElement()->AttributeString("texture");
+		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
+			do {
+				const char *szName = pTextureNode->ToElement()->AttributeString("name");
+				const char *szTexture = pTextureNode->ToElement()->AttributeString("texture");
+
+				DWORD dwName = HashValue(szName);
+				m_textures[dwName] = TextureManager()->LoadResource(dwName, bSync);
+			} while (pTextureNode = pTextureNode->IterateChildren("Texture2D", pTextureNode));
+		}
+
+		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("TextureCube")) {
+			do {
+				const char *szName = pTextureNode->ToElement()->AttributeString("name");
+				const char *szTexture = pTextureNode->ToElement()->AttributeString("texture");
+
+				DWORD dwName = HashValue(szName);
+				m_textures[dwName] = TextureManager()->LoadResource(dwName, bSync);
+			} while (pTextureNode = pTextureNode->IterateChildren("TextureCube", pTextureNode));
 		}
 
 		return TRUE;
@@ -80,8 +98,32 @@ namespace CrossEngine {
 
 	BOOL CMaterialPass::LoadUniforms(TiXmlNode *pPassNode, BOOL bSync)
 	{
-		if (TiXmlNode *pUniformNode = pPassNode->FirstChild("Uniform")) {
-			const char *szName = pUniformNode->ToElement()->AttributeString("name");
+		if (TiXmlNode *pFloatNode = pPassNode->FirstChild("Float")) {
+			do {
+				const char *szName = pFloatNode->ToElement()->AttributeString("name");
+				const char *szValue = pFloatNode->ToElement()->AttributeString("value");
+
+				float value;
+				scanf(szValue, "%f", &value);
+
+				DWORD dwName = HashValue(szName);
+				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
+				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
+			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
+		}
+
+		if (TiXmlNode *pVectorNode = pPassNode->FirstChild("Vector")) {
+			do {
+				const char *szName = pVectorNode->ToElement()->AttributeString("name");
+				const char *szValue = pVectorNode->ToElement()->AttributeString("value");
+
+				glm::vec4 value;
+				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);
+
+				DWORD dwName = HashValue(szName);
+				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
+				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
+			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
 		}
 
 		return TRUE;
