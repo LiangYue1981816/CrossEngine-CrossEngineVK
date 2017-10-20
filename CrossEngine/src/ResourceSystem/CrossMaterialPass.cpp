@@ -66,6 +66,7 @@ namespace CrossEngine {
 
 			DWORD dwName = HashValue(szName);
 			m_ptrPipeline = GraphicsManager()->LoadResource(dwName, bSync);
+			if (m_ptrPipeline.IsNull()) return FALSE;
 		}
 
 		return TRUE;
@@ -80,6 +81,7 @@ namespace CrossEngine {
 
 				DWORD dwName = HashValue(szName);
 				m_textures[dwName] = TextureManager()->LoadResource(dwName, bSync);
+				if (m_textures[dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pTextureNode->IterateChildren("Texture2D", pTextureNode));
 		}
 
@@ -90,6 +92,7 @@ namespace CrossEngine {
 
 				DWORD dwName = HashValue(szName);
 				m_textures[dwName] = TextureManager()->LoadResource(dwName, bSync);
+				if (m_textures[dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pTextureNode->IterateChildren("TextureCube", pTextureNode));
 		}
 
