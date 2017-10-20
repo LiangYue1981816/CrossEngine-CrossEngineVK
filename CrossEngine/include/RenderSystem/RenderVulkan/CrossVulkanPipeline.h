@@ -45,7 +45,7 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetSet(void) const;
-		uint32_t GetBinding(const char *szName) const;
+		uint32_t GetBinding(uint32_t name) const;
 
 	public:
 		VkDescriptorSetLayout GetLayout(void) const;
