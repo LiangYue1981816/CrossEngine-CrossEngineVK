@@ -44,7 +44,10 @@ namespace CrossEngine {
 	{
 		try {
 			std::vector<VkDescriptorSetLayoutBinding> bindings;
-			CALL_BOOL_FUNCTION_THROW(CreateBindings(bindings));
+
+			for (const auto &itBinding : m_bindings) {
+				bindings.push_back(itBinding.second);
+			}
 
 			VkDescriptorSetLayoutCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -62,17 +65,6 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
-	}
-
-	BOOL CVulkanDescriptorSetLayout::CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings)
-	{
-		bindings.clear();
-
-		for (const auto &itBinding : m_bindings) {
-			bindings.push_back(itBinding.second);
-		}
-
-		return TRUE;
 	}
 
 	void CVulkanDescriptorSetLayout::Destroy(void)
@@ -101,11 +93,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	VkDescriptorSetLayout CVulkanDescriptorSetLayout::GetLayout(void) const
-	{
-		return m_vkDescriptorSetLayout;
-	}
-
 	uint32_t CVulkanDescriptorSetLayout::GetSet(void) const
 	{
 		return m_set;
@@ -115,6 +102,11 @@ namespace CrossEngine {
 	{
 		const auto &itName = m_names.find(HashValue(szName));
 		return itName != m_names.end() ? itName->second : -1;
+	}
+
+	VkDescriptorSetLayout CVulkanDescriptorSetLayout::GetLayout(void) const
+	{
+		return m_vkDescriptorSetLayout;
 	}
 
 	const uint32_t* CVulkanDescriptorSetLayout::GetTypesUsedCount(void) const

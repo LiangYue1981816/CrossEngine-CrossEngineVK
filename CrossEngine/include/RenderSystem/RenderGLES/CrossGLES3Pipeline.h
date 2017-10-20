@@ -44,6 +44,7 @@ namespace CrossEngine {
 		uint32_t GetSet(void) const;
 		uint32_t GetBinding(const char *szName) const;
 
+	public:
 		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetUniformBlockBindings(void) const;
 		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetSampledImageBindings(void) const;
 

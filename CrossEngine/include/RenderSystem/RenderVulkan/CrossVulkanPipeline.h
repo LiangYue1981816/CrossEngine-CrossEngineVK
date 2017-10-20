@@ -41,26 +41,24 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		BOOL CreateBindings(std::vector<VkDescriptorSetLayoutBinding> &bindings);
 		BOOL SetBinding(const char *szName, uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags = VK_SHADER_STAGE_ALL);
 
 	public:
-		VkDescriptorSetLayout GetLayout(void) const;
-
 		uint32_t GetSet(void) const;
 		uint32_t GetBinding(const char *szName) const;
 
+	public:
+		VkDescriptorSetLayout GetLayout(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
 
 
 	protected:
-		VkDescriptorSetLayout m_vkDescriptorSetLayout;
 		uint32_t m_set;
-
 		std::map<uint32_t, uint32_t> m_names;
 		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
 
 	protected:
+		VkDescriptorSetLayout m_vkDescriptorSetLayout;
 		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
 	protected:
