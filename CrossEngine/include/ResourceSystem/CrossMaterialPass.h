@@ -46,6 +46,9 @@ namespace CrossEngine {
 		BOOL LoadTextures(TiXmlNode *pPassNode, BOOL bSync);
 		BOOL LoadUniforms(TiXmlNode *pPassNode, BOOL bSync);
 
+		BOOL IsPipelineReady(void) const;
+		BOOL IsTextureReady(void) const;
+
 
 	protected:
 		CPipelineGraphicsPtr m_ptrPipeline;

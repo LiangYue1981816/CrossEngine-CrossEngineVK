@@ -56,6 +56,14 @@ namespace CrossEngine {
 
 	BOOL CMaterialPass::PostLoad(void)
 	{
+		if (IsPipelineReady() == FALSE) {
+			return FALSE;
+		}
+
+		if (IsTextureReady() == FALSE) {
+			return FALSE;
+		}
+
 		return TRUE;
 	}
 
@@ -127,6 +135,26 @@ namespace CrossEngine {
 				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
 				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
 			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
+		}
+
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::IsPipelineReady(void) const
+	{
+		if (m_ptrPipeline->GetGfxPipeline()->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	BOOL CMaterialPass::IsTextureReady(void) const
+	{
+		for (const auto &itTexture : m_textures) {
+			if (itTexture.second->GetGfxTexture()->GetHandle() == NULL) {
+				return FALSE;
+			}
 		}
 
 		return TRUE;

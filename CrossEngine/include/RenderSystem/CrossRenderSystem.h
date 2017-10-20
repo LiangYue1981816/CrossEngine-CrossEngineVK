@@ -35,6 +35,12 @@ namespace CrossEngine {
 		GFX_API_GLES31, GFX_API_VULKAN
 	} GFX_API;
 
+	typedef enum {
+		DESCRIPTOR_SET_FRAME = 0,
+		DESCRIPTOR_SET_MATERAL,
+		DESCRIPTOR_SET_MESH
+	} DESCRIPTOR_SET_TYPE;
+
 	class CROSS_EXPORT CRenderSystem
 	{
 		friend class CEngine;
