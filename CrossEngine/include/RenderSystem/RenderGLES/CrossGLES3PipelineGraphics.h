@@ -86,6 +86,7 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetVertexFormat(void) const;
+		uint32_t GetBinding(uint32_t set, uint32_t name) const;
 
 
 	protected:

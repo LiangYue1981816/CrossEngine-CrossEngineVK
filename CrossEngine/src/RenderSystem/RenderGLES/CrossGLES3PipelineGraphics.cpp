@@ -384,6 +384,15 @@ namespace CrossEngine {
 		return m_vertexFormat;
 	}
 
+	uint32_t CGLES3PipelineGraphics::GetBinding(uint32_t set, uint32_t name) const
+	{
+		if (const CGLES3DescriptorSetLayout *pDescriptorSetLayout = GetDescriptorSetLayout(set)) {
+			return pDescriptorSetLayout->GetBinding(name);
+		}
+
+		return -1;
+	}
+
 	void CGLES3PipelineGraphics::DumpLog(void) const
 	{
 		if (m_pipeline) {
