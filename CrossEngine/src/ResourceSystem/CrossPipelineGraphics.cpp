@@ -47,6 +47,16 @@ namespace CrossEngine {
 		return m_ptrGfxPipeline;
 	}
 
+	const CGfxRenderPassPtr& CPipelineGraphics::GetGfxRenderPass(void) const
+	{
+		return m_ptrGfxRenderPass;
+	}
+
+	uint32_t CPipelineGraphics::GetSubPassIndex(void) const
+	{
+		return m_data.subPass;
+	}
+
 	BOOL CPipelineGraphics::Load(BOOL bSync)
 	{
 		BOOL rcode = TRUE;

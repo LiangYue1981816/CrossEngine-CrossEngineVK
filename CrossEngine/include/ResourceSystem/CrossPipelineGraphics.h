@@ -115,6 +115,8 @@ namespace CrossEngine {
 
 	public:
 		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
+		const CGfxRenderPassPtr& GetGfxRenderPass(void) const;
+		uint32_t GetSubPassIndex(void) const;
 
 	protected:
 		virtual BOOL Load(BOOL bSync);
