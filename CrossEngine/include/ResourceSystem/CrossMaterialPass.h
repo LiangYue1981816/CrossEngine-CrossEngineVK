@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CMaterialPass
 	{
+		friend class CMaterial;
+
+
 	protected:
 		CMaterialPass(void);
 		virtual ~CMaterialPass(void);

@@ -41,6 +41,21 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL;
 	}
 
+	void CMaterial::Init(void)
+	{
+		m_passes.clear();
+		CResource::Init();
+	}
+
+	void CMaterial::Free(void)
+	{
+		for (auto &itPass : m_passes) {
+			SAFE_DELETE(itPass.second);
+		}
+
+		CResource::Free();
+	}
+
 	BOOL CMaterial::Load(BOOL bSync)
 	{
 		return TRUE;
