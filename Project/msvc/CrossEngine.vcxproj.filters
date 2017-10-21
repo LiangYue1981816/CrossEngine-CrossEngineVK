@@ -603,6 +603,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderPassManager.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntitySystem.h">
+      <Filter>Engine\Header Files\EntitySystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">

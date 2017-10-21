@@ -205,14 +205,14 @@ namespace CrossEngine {
 		memAllocator.Free(ptr);
 	}
 
-	CROSS_EXPORT void** AllocMatrix(size_t nx, size_t ny, size_t nsize, MEMTYPE memType)
+	CROSS_EXPORT void** AllocMatrix(size_t cols, size_t rows, size_t size, MEMTYPE memType)
 	{
-		ASSERT(nx);
-		ASSERT(ny);
-		ASSERT(nsize);
+		ASSERT(cols);
+		ASSERT(rows);
+		ASSERT(size);
 
-		uint32_t dwHeaderSize = (uint32_t)(nx*POINTER_SIZE);
-		uint32_t dwBufferSize = (uint32_t)(dwHeaderSize + nx*ny*nsize);
+		uint32_t dwHeaderSize = (uint32_t)(cols*POINTER_SIZE);
+		uint32_t dwBufferSize = (uint32_t)(dwHeaderSize + cols*rows*size);
 
 		uint8_t *pBuffer = (uint8_t *)SAFE_ALLOC(dwBufferSize, memType);
 		if (pBuffer == NULL) return NULL;
@@ -220,8 +220,8 @@ namespace CrossEngine {
 		uint8_t **ppLine = (uint8_t **)pBuffer;
 		uint8_t *pBody = pBuffer + dwHeaderSize;
 
-		for (uint32_t x = 0; x < nx; x++) {
-			*ppLine = pBody; pBody += ny*nsize; ppLine++;
+		for (uint32_t x = 0; x < cols; x++) {
+			*ppLine = pBody; pBody += rows*size; ppLine++;
 		}
 
 		return (void **)pBuffer;
@@ -232,28 +232,28 @@ namespace CrossEngine {
 		SAFE_FREE(ptr);
 	}
 
-	CROSS_EXPORT void*** AllocVolume(size_t nx, size_t ny, size_t nz, size_t nsize, MEMTYPE memType)
+	CROSS_EXPORT void*** AllocVolume(size_t cols, size_t rows, size_t depths, size_t size, MEMTYPE memType)
 	{
-		ASSERT(nx);
-		ASSERT(ny);
-		ASSERT(nz);
-		ASSERT(nsize);
+		ASSERT(cols);
+		ASSERT(rows);
+		ASSERT(depths);
+		ASSERT(size);
 
-		uint32_t dwHeaderSize = (uint32_t)(nx*POINTER_SIZE + nx*ny*POINTER_SIZE);
-		uint32_t dwBufferSize = (uint32_t)(dwHeaderSize + nx*ny*nz*nsize);
+		uint32_t dwHeaderSize = (uint32_t)(cols*POINTER_SIZE + cols*rows*POINTER_SIZE);
+		uint32_t dwBufferSize = (uint32_t)(dwHeaderSize + cols*rows*depths*size);
 
 		uint8_t *pBuffer = (uint8_t *)SAFE_ALLOC(dwBufferSize, memType);
 		if (pBuffer == NULL) return NULL;
 
 		uint8_t ***pppLine = (uint8_t ***)pBuffer;
-		uint8_t **ppLine = (uint8_t **)(pBuffer + nx*POINTER_SIZE);
+		uint8_t **ppLine = (uint8_t **)(pBuffer + cols*POINTER_SIZE);
 		uint8_t *pBody = pBuffer + dwHeaderSize;
 
-		for (uint32_t x = 0; x < nx; x++) {
+		for (uint32_t x = 0; x < cols; x++) {
 			*pppLine = ppLine;
 
-			for (uint32_t y = 0; y < ny; y++) {
-				*ppLine = pBody; pBody += nz*nsize; ppLine++;
+			for (uint32_t y = 0; y < rows; y++) {
+				*ppLine = pBody; pBody += depths*size; ppLine++;
 			}
 
 			pppLine++;

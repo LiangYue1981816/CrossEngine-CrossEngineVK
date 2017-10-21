@@ -190,6 +190,7 @@
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityBase.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h" />
+    <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntitySystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFrameBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderPassManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h" />

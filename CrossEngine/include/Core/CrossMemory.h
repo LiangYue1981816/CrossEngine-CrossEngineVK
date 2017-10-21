@@ -71,10 +71,10 @@ namespace CrossEngine {
 	CROSS_EXPORT void* Alloc(size_t size, MEMTYPE memType);
 	CROSS_EXPORT void  Free(void *ptr);
 
-	CROSS_EXPORT void** AllocMatrix(size_t nx, size_t ny, size_t nsize, MEMTYPE memType);
+	CROSS_EXPORT void** AllocMatrix(size_t cols, size_t rows, size_t size, MEMTYPE memType);
 	CROSS_EXPORT void   FreeMatrix(void **ptr);
 
-	CROSS_EXPORT void*** AllocVolume(size_t nx, size_t ny, size_t nz, size_t nsize, MEMTYPE memType);
+	CROSS_EXPORT void*** AllocVolume(size_t cols, size_t rows, size_t depths, size_t size, MEMTYPE memType);
 	CROSS_EXPORT void    FreeVolume(void ***ptr);
 
 	CROSS_EXPORT uint32_t GetPointerCount(void);
