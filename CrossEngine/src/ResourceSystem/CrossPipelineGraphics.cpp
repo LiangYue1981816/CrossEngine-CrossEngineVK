@@ -52,9 +52,9 @@ namespace CrossEngine {
 		return m_ptrGfxRenderPass;
 	}
 
-	uint32_t CPipelineGraphics::GetSubPassIndex(void) const
+	uint32_t CPipelineGraphics::GetIndexSubPass(void) const
 	{
-		return m_data.subPass;
+		return m_data.renderPass.indexSubPass;
 	}
 
 	BOOL CPipelineGraphics::Load(BOOL bSync)
@@ -69,7 +69,7 @@ namespace CrossEngine {
 		if (rcode) rcode = LoadMultisampleState();
 		if (rcode) rcode = LoadDepthStencilState();
 		if (rcode) rcode = LoadColorBlendState();
-		if (rcode) m_ptrGfxRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass);
+		if (rcode) m_ptrGfxRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
 
 		m_stream.Free();
 
@@ -95,7 +95,6 @@ namespace CrossEngine {
 		}
 
 		m_stream << m_data.renderPass;
-		m_stream << m_data.subPass;
 		m_stream << m_data.shader;
 		m_stream << m_data.inputAssembly;
 		m_stream << m_data.rasterization;

@@ -27,6 +27,11 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	struct PipelineGraphicsData {
+		struct RenderPass {
+			uint32_t dwName;
+			uint32_t indexSubPass;
+		};
+
 		struct Shader {
 			uint32_t vertex;
 			uint32_t fragment;
@@ -88,9 +93,7 @@ namespace CrossEngine {
 		uint32_t mark;
 		uint32_t size;
 
-		uint32_t renderPass;
-		uint32_t subPass;
-
+		RenderPass renderPass;
 		Shader shader;
 		InputAssembly inputAssembly;
 		Rasterization rasterization;
@@ -116,7 +119,7 @@ namespace CrossEngine {
 	public:
 		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
 		const CGfxRenderPassPtr& GetGfxRenderPass(void) const;
-		uint32_t GetSubPassIndex(void) const;
+		uint32_t GetIndexSubPass(void) const;
 
 	protected:
 		virtual BOOL Load(BOOL bSync);
