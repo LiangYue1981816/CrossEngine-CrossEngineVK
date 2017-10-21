@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 
 	protected:
-		inline void Set(const T *pPointer, const DWORD *pRefCount)
+		inline void Set(const T *pPointer, const uint32_t *pRefCount)
 		{
 			if (m_pPointer == pPointer) {
 				return;
@@ -64,10 +64,10 @@ namespace CrossEngine {
 			Release();
 
 			m_pPointer = (T *)pPointer;
-			m_pRefCount = (DWORD *)pRefCount;
+			m_pRefCount = (uint32_t *)pRefCount;
 
 			if (m_pRefCount == NULL) {
-				m_pRefCount = (DWORD *)SAFE_ALLOC(sizeof(*m_pRefCount), MEMTYPE_HEAP); (*m_pRefCount) = 0;
+				m_pRefCount = (uint32_t *)SAFE_ALLOC(sizeof(*m_pRefCount), MEMTYPE_HEAP); (*m_pRefCount) = 0;
 			}
 
 			++(*m_pRefCount);
@@ -121,12 +121,12 @@ namespace CrossEngine {
 			return m_pPointer;
 		}
 
-		inline DWORD* GetRefCountPointer(void) const
+		inline uint32_t* GetRefCountPointer(void) const
 		{
 			return m_pRefCount;
 		}
 
-		inline DWORD GetRefCount(void) const
+		inline uint32_t GetRefCount(void) const
 		{
 			return *m_pRefCount;
 		}
@@ -134,7 +134,7 @@ namespace CrossEngine {
 
 	protected:
 		T *m_pPointer;
-		DWORD *m_pRefCount;
+		uint32_t *m_pRefCount;
 	};
 
 }

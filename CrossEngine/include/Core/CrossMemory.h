@@ -44,11 +44,11 @@ namespace CrossEngine {
 		void Free(void *ptr);
 
 	public:
-		DWORD GetMemSize(void *ptr) const;
-		DWORD GetPointerCount(void);
-		DWORD GetAllocatedSize(void);
-		DWORD GetMaxPointerCount(void);
-		DWORD GetMaxAllocatedSize(void);
+		uint32_t GetMemSize(void *ptr) const;
+		uint32_t GetPointerCount(void);
+		uint32_t GetAllocatedSize(void);
+		uint32_t GetMaxPointerCount(void);
+		uint32_t GetMaxAllocatedSize(void);
 
 
 	protected:
@@ -58,14 +58,14 @@ namespace CrossEngine {
 		STACK_ALLOCATOR *m_pStackAllocator;
 
 	protected:
-		DWORD m_dwPointerCount;
-		DWORD m_dwAllocatedSize;
+		uint32_t m_dwPointerCount;
+		uint32_t m_dwAllocatedSize;
 
-		DWORD m_dwMaxPointerCount;
-		DWORD m_dwMaxAllocatedSize;
+		uint32_t m_dwMaxPointerCount;
+		uint32_t m_dwMaxAllocatedSize;
 
 	protected:
-		static DWORD dwAllocatorCount;
+		static uint32_t dwAllocatorCount;
 	};
 
 	CROSS_EXPORT void* Alloc(size_t size, MEMTYPE memType);
@@ -77,11 +77,11 @@ namespace CrossEngine {
 	CROSS_EXPORT void*** AllocVolume(size_t nx, size_t ny, size_t nz, size_t nsize, MEMTYPE memType);
 	CROSS_EXPORT void    FreeVolume(void ***ptr);
 
-	CROSS_EXPORT DWORD GetPointerCount(void);
-	CROSS_EXPORT DWORD GetAllocatedSize(void);
+	CROSS_EXPORT uint32_t GetPointerCount(void);
+	CROSS_EXPORT uint32_t GetAllocatedSize(void);
 
-	CROSS_EXPORT DWORD GetMaxPointerCount(void);
-	CROSS_EXPORT DWORD GetMaxAllocatedSize(void);
+	CROSS_EXPORT uint32_t GetMaxPointerCount(void);
+	CROSS_EXPORT uint32_t GetMaxAllocatedSize(void);
 
 }
 
@@ -95,4 +95,4 @@ namespace CrossEngine {
 #define SAFE_DELETE_ARRAY(p) do { if ((p)) { delete [] (p); (p) = NULL; } } while (0);
 
 
-#define MEM_SIZE(ptr) *((DWORD *)(ptr) - 1)
+#define MEM_SIZE(ptr) *((uint32_t *)(ptr) - 1)

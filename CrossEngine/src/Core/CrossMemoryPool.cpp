@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	#define GET_BLOCK_POOL(pBlock) (BLOCK_POOL *)((BYTE *)(pBlock) - (pBlock)->dwOffset - ALIGN_16BYTE(sizeof(BLOCK_POOL)))
-	#define GET_BLOCK_NEXT(pBlock) (BLOCK *)((BYTE *)GET_BLOCK_POOL(pBlock) + (pBlock)->dwOffsetNext + ALIGN_16BYTE(sizeof(BLOCK_POOL)))
+	#define GET_BLOCK_POOL(pBlock) (BLOCK_POOL *)((uint8_t *)(pBlock) - (pBlock)->dwOffset - ALIGN_16BYTE(sizeof(BLOCK_POOL)))
+	#define GET_BLOCK_NEXT(pBlock) (BLOCK *)((uint8_t *)GET_BLOCK_POOL(pBlock) + (pBlock)->dwOffsetNext + ALIGN_16BYTE(sizeof(BLOCK_POOL)))
 
-	static const DWORD BLOCK_POOL_COUNT = 4 * 1024 / 16;
-	static const DWORD BLOCK_POOL_SIZE = 64 * 1024;
+	static const uint32_t BLOCK_POOL_COUNT = 4 * 1024 / 16;
+	static const uint32_t BLOCK_POOL_SIZE = 64 * 1024;
 
 	struct BLOCK;
 	struct BLOCK_POOL;
 
 	struct BLOCK {
-		DWORD dwOffset;
-		DWORD dwOffsetNext;
-		DWORD dwReserve;
-		DWORD dwAddress;
+		uint32_t dwOffset;
+		uint32_t dwOffsetNext;
+		uint32_t dwReserve;
+		uint32_t dwAddress;
 	};
 
 	struct BLOCK_POOL {
@@ -50,8 +50,8 @@ namespace CrossEngine {
 		BLOCK_POOL *pFreeNext;
 		BLOCK_POOL *pFreePrev;
 
-		DWORD dwBlockIndex;
-		DWORD dwBlockCount;
+		uint32_t dwBlockIndex;
+		uint32_t dwBlockCount;
 	};
 
 	struct BLOCK_POOL_HEAD {
@@ -64,14 +64,14 @@ namespace CrossEngine {
 	};
 
 	
-	static BLOCK_POOL* POOL_CreatePool(HEAP_ALLOCATOR *pHeapAllocator, DWORD dwMemSize)
+	static BLOCK_POOL* POOL_CreatePool(HEAP_ALLOCATOR *pHeapAllocator, uint32_t dwMemSize)
 	{
-		const DWORD dwBlockSize = ALIGN_16BYTE(sizeof(BLOCK)) + ALIGN_16BYTE(dwMemSize);
-		const DWORD dwBlockCount = (BLOCK_POOL_SIZE - ALIGN_16BYTE(sizeof(BLOCK_POOL))) / ALIGN_16BYTE(dwBlockSize);
+		const uint32_t dwBlockSize = ALIGN_16BYTE(sizeof(BLOCK)) + ALIGN_16BYTE(dwMemSize);
+		const uint32_t dwBlockCount = (BLOCK_POOL_SIZE - ALIGN_16BYTE(sizeof(BLOCK_POOL))) / ALIGN_16BYTE(dwBlockSize);
 
 		BLOCK_POOL *pBlockPool = (BLOCK_POOL *)HEAP_Alloc(pHeapAllocator, BLOCK_POOL_SIZE);
 		{
-			pBlockPool->pBlockHead = (BLOCK *)((BYTE *)pBlockPool + ALIGN_16BYTE(sizeof(BLOCK_POOL)));
+			pBlockPool->pBlockHead = (BLOCK *)((uint8_t *)pBlockPool + ALIGN_16BYTE(sizeof(BLOCK_POOL)));
 			pBlockPool->pNext = NULL;
 			pBlockPool->pPrev = NULL;
 			pBlockPool->pFreeNext = NULL;
@@ -82,7 +82,7 @@ namespace CrossEngine {
 
 		BLOCK *pBlock = pBlockPool->pBlockHead;
 		{
-			for (DWORD indexBlock = 0; indexBlock < dwBlockCount; indexBlock++) {
+			for (uint32_t indexBlock = 0; indexBlock < dwBlockCount; indexBlock++) {
 				pBlock->dwOffset = indexBlock * dwBlockSize;
 				pBlock->dwOffsetNext = pBlock->dwOffset + dwBlockSize;
 				pBlock = GET_BLOCK_NEXT(pBlock);
@@ -101,7 +101,7 @@ namespace CrossEngine {
 	{
 		POOL_ALLOCATOR *pPoolAllocator = (POOL_ALLOCATOR *)HEAP_Alloc(pHeapAllocator, sizeof(POOL_ALLOCATOR));
 
-		for (DWORD indexPool = 0; indexPool < BLOCK_POOL_COUNT; indexPool++) {
+		for (uint32_t indexPool = 0; indexPool < BLOCK_POOL_COUNT; indexPool++) {
 			pPoolAllocator->pools[indexPool].pBlockPoolHead = NULL;
 			pPoolAllocator->pools[indexPool].pBlockPoolFreeHead = NULL;
 		}
@@ -111,7 +111,7 @@ namespace CrossEngine {
 
 	void POOL_Destroy(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator)
 	{
-		for (DWORD indexPool = 0; indexPool < BLOCK_POOL_COUNT; indexPool++) {
+		for (uint32_t indexPool = 0; indexPool < BLOCK_POOL_COUNT; indexPool++) {
 			if (BLOCK_POOL *pBlockPool = pPoolAllocator->pools[indexPool].pBlockPoolHead) {
 				BLOCK_POOL *pBlockPoolNext = NULL;
 
@@ -127,11 +127,11 @@ namespace CrossEngine {
 
 	void* POOL_Alloc(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator, size_t size)
 	{
-		DWORD *pPointer = NULL;
+		uint32_t *pPointer = NULL;
 		
 		if (pHeapAllocator && pPoolAllocator) {
-			const DWORD dwMemSize = (DWORD)ALIGN_16BYTE(size);
-			const DWORD dwIndexPool = dwMemSize / 16;
+			const uint32_t dwMemSize = (uint32_t)ALIGN_16BYTE(size);
+			const uint32_t dwIndexPool = dwMemSize / 16;
 
 			if (dwIndexPool < BLOCK_POOL_COUNT) {
 				BLOCK_POOL_HEAD *pPoolHead = &pPoolAllocator->pools[dwIndexPool];
@@ -165,11 +165,11 @@ namespace CrossEngine {
 	BOOL POOL_Free(HEAP_ALLOCATOR *pHeapAllocator, POOL_ALLOCATOR *pPoolAllocator, void *pPointer)
 	{
 		if (pHeapAllocator && pPoolAllocator) {
-			const DWORD dwMemSize = MEM_SIZE(pPointer);
-			const DWORD dwIndexPool = dwMemSize / 16;
+			const uint32_t dwMemSize = MEM_SIZE(pPointer);
+			const uint32_t dwIndexPool = dwMemSize / 16;
 
 			if (dwIndexPool < BLOCK_POOL_COUNT) {
-				BLOCK *pBlock = (BLOCK *)((BYTE *)pPointer - ALIGN_16BYTE(sizeof(BLOCK)));
+				BLOCK *pBlock = (BLOCK *)((uint8_t *)pPointer - ALIGN_16BYTE(sizeof(BLOCK)));
 				BLOCK_POOL *pBlockPool = GET_BLOCK_POOL(pBlock);
 				BLOCK_POOL_HEAD *pPoolHead = &pPoolAllocator->pools[dwIndexPool];
 

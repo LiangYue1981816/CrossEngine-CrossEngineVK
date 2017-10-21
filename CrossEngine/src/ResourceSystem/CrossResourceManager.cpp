@@ -175,7 +175,7 @@ namespace CrossEngine {
 		return LoadResource(HashValue(szName), bSync);
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::LoadResource(DWORD dwName, BOOL bSync)
+	const CResourcePtr<CResource>& CResourceManager::LoadResource(uint32_t dwName, BOOL bSync)
 	{
 		CResourceHandle *pResource = NULL;
 		{
@@ -195,7 +195,7 @@ namespace CrossEngine {
 		return pResource->GetResourcePtr();
 	}
 
-	BOOL CResourceManager::FreeResource(DWORD dwName)
+	BOOL CResourceManager::FreeResource(uint32_t dwName)
 	{
 		CResourceHandle *pResource = NULL;
 		{
@@ -234,7 +234,7 @@ namespace CrossEngine {
 			char szName[_MAX_STRING];
 			sprintf(szName, "%s%s", szFName, szEName);
 
-			DWORD dwName = HashValue(szName);
+			uint32_t dwName = HashValue(szName);
 
 			if (m_resources[dwName] == NULL) {
 				m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName);
@@ -306,7 +306,7 @@ namespace CrossEngine {
 					sprintf(szName, "%s%s", szFName, szEName);
 					sprintf(szFileName, "%s/%s", szPathName, szName);
 
-					DWORD dwName = HashValue(szName);
+					uint32_t dwName = HashValue(szName);
 
 					if (m_resources[dwName] == NULL) {
 						m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName);
@@ -340,7 +340,7 @@ namespace CrossEngine {
 		ZZIP_DIR *pPack = NULL;
 		{
 			mutex_autolock mutex(m_mutex);
-			DWORD dwName = HashValue(szPackName);
+			uint32_t dwName = HashValue(szPackName);
 
 			if (m_packs[dwName] == NULL) {
 				m_packs[dwName] = zzip_opendir(szPackName);
@@ -368,7 +368,7 @@ namespace CrossEngine {
 				sprintf(szName, "%s%s", szFName, szEName);
 				sprintf(szFileName, "%s", pEntry->d_name);
 
-				DWORD dwName = HashValue(szName);
+				uint32_t dwName = HashValue(szName);
 
 				if (m_resources[dwName] == NULL) {
 					m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName, pPack);

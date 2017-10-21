@@ -85,7 +85,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_pAddress = (BYTE *)SAFE_ALLOC(size, MEMTYPE_HEAP);
+		m_pAddress = (uint8_t *)SAFE_ALLOC(size, MEMTYPE_HEAP);
 		if (m_pAddress == NULL) return FALSE;
 
 		m_size = size;
@@ -96,7 +96,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CStream::SetStream(BYTE *pAddress, size_t size)
+	BOOL CStream::SetStream(uint8_t *pAddress, size_t size)
 	{
 		if (pAddress == NULL) {
 			return FALSE;
@@ -329,7 +329,7 @@ namespace CrossEngine {
 		return m_szName;
 	}
 
-	DWORD CStream::GetHashName(void) const
+	uint32_t CStream::GetHashName(void) const
 	{
 		return m_dwName;
 	}

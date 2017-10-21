@@ -49,7 +49,7 @@ namespace CrossEngine {
 		void FreeData(void);
 
 		BOOL Alloc(size_t size);
-		BOOL SetStream(BYTE *pAddress, size_t size);
+		BOOL SetStream(uint8_t *pAddress, size_t size);
 
 	public:
 		BOOL CopyFrom(const CStream *pStream);
@@ -62,7 +62,7 @@ namespace CrossEngine {
 	public:
 		BOOL SetName(const char *szName);
 		const char* GetName(void) const;
-		DWORD GetHashName(void) const;
+		uint32_t GetHashName(void) const;
 
 		BOOL SetFileName(const char *szFileName);
 		const char* GetFileName(void) const;
@@ -88,7 +88,7 @@ namespace CrossEngine {
 
 
 	protected:
-		DWORD m_dwName;
+		uint32_t m_dwName;
 		char m_szName[_MAX_STRING];
 
 		ZZIP_DIR *m_pPack;
@@ -97,7 +97,7 @@ namespace CrossEngine {
 
 	protected:
 		BOOL m_bAlloced;
-		BYTE *m_pAddress;
+		uint8_t *m_pAddress;
 
 		size_t m_size;
 		size_t m_position;

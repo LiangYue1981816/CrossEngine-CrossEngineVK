@@ -154,7 +154,7 @@ namespace CrossEngine {
 		CResourceSystem* GetResourceSystem(void) const;
 
 	public:
-		BOOL Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, VkSurfaceTransformFlagBitsKHR transform, DWORD dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode);
+		BOOL Init(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, RECT rcView, VkSurfaceTransformFlagBitsKHR transform, uint32_t dwSoundMemPoolSize, INT maxChannels, const CHAR *szLogFileName, BOOL bEditorMode);
 		void Exit(void);
 		void Update(float deltaTime);
 

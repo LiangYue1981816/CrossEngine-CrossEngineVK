@@ -27,8 +27,8 @@ namespace CrossEngine {
 
 	#define NODE_INDEX(size) (((size) / BLOCK_UNIT_SIZE) - 1)
 
-	static const DWORD BLOCK_POOL_SIZE = 4 * 1024 * 1024;
-	static const DWORD BLOCK_UNIT_SIZE = 4 * 1024;
+	static const uint32_t BLOCK_POOL_SIZE = 4 * 1024 * 1024;
+	static const uint32_t BLOCK_UNIT_SIZE = 4 * 1024;
 
 	struct BLOCK;
 	struct BLOCK_POOL;
@@ -42,21 +42,21 @@ namespace CrossEngine {
 		BLOCK *pFreeNext;
 		BLOCK *pFreePrev;
 
-		DWORD dwSize;
-		DWORD dwInUse;
+		uint32_t dwSize;
+		uint32_t dwInUse;
 
 #ifdef __LP64__
-		DWORD dwReserve0;
-		DWORD dwReserve1;
-		DWORD dwReserve2;
+		uint32_t dwReserve0;
+		uint32_t dwReserve1;
+		uint32_t dwReserve2;
 #endif
-		DWORD dwAddress;
+		uint32_t dwAddress;
 	};
 
 	struct BLOCK_NODE {
 		rb_node node;
 
-		DWORD dwSize;
+		uint32_t dwSize;
 		BLOCK *pBlockHead;
 	};
 
@@ -75,17 +75,17 @@ namespace CrossEngine {
 	};
 
 	
-	static void HEAP_InitNodes(BLOCK_POOL *pBlockPool, DWORD dwNodeCount)
+	static void HEAP_InitNodes(BLOCK_POOL *pBlockPool, uint32_t dwNodeCount)
 	{
 		pBlockPool->root = RB_ROOT;
 
-		for (DWORD indexNode = 0; indexNode < dwNodeCount; indexNode++) {
+		for (uint32_t indexNode = 0; indexNode < dwNodeCount; indexNode++) {
 			pBlockPool->nodes[indexNode].dwSize = (indexNode + 1) * BLOCK_UNIT_SIZE;
 			pBlockPool->nodes[indexNode].pBlockHead = NULL;
 		}
 	}
 
-	static BLOCK* HEAP_SearchBlock(BLOCK_POOL *pBlockPool, DWORD dwSize)
+	static BLOCK* HEAP_SearchBlock(BLOCK_POOL *pBlockPool, uint32_t dwSize)
 	{
 		BLOCK_NODE *pBlockNode = NULL;
 		rb_node *node = pBlockPool->root.rb_node;
@@ -179,17 +179,17 @@ namespace CrossEngine {
 		}
 	}
 
-	static BLOCK_POOL* HEAP_CreatePool(DWORD dwMemSize)
+	static BLOCK_POOL* HEAP_CreatePool(uint32_t dwMemSize)
 	{
-		const DWORD dwBlockPoolSize = ALIGN_16BYTE(max(dwMemSize, BLOCK_POOL_SIZE));
-		const DWORD dwNodeCount = dwBlockPoolSize / BLOCK_UNIT_SIZE;
+		const uint32_t dwBlockPoolSize = ALIGN_16BYTE(max(dwMemSize, BLOCK_POOL_SIZE));
+		const uint32_t dwNodeCount = dwBlockPoolSize / BLOCK_UNIT_SIZE;
 
 		BLOCK_POOL *pBlockPool = (BLOCK_POOL *)_malloc(ALIGN_16BYTE(sizeof(BLOCK_POOL)) + ALIGN_16BYTE(sizeof(BLOCK)) + dwBlockPoolSize);
 		{
 			pBlockPool->pNext = NULL;
 			pBlockPool->pPrev = NULL;
 
-			pBlockPool->pBlockHead = (BLOCK *)((BYTE *)pBlockPool + ALIGN_16BYTE(sizeof(BLOCK_POOL)));
+			pBlockPool->pBlockHead = (BLOCK *)((uint8_t *)pBlockPool + ALIGN_16BYTE(sizeof(BLOCK_POOL)));
 			pBlockPool->pBlockHead->pPool = pBlockPool;
 			pBlockPool->pBlockHead->pNext = NULL;
 			pBlockPool->pBlockHead->pPrev = NULL;
@@ -212,9 +212,9 @@ namespace CrossEngine {
 		_free(pBlockPool);
 	}
 
-	static void* HEAP_PoolAlloc(BLOCK_POOL *pBlockPool, DWORD dwMemSize)
+	static void* HEAP_PoolAlloc(BLOCK_POOL *pBlockPool, uint32_t dwMemSize)
 	{
-		DWORD *pPointer = NULL;
+		uint32_t *pPointer = NULL;
 
 		if (BLOCK *pBlock = HEAP_SearchBlock(pBlockPool, dwMemSize)) {
 			HEAP_RemoveBlock(pBlockPool, pBlock);
@@ -222,7 +222,7 @@ namespace CrossEngine {
 			pBlock->dwInUse = TRUE;
 
 			if (pBlock->dwSize >= dwMemSize + ALIGN_16BYTE(sizeof(BLOCK)) + BLOCK_UNIT_SIZE) {
-				BLOCK *pBlockNext = (BLOCK *)((BYTE *)pBlock + dwMemSize + ALIGN_16BYTE(sizeof(BLOCK)));
+				BLOCK *pBlockNext = (BLOCK *)((uint8_t *)pBlock + dwMemSize + ALIGN_16BYTE(sizeof(BLOCK)));
 				pBlockNext->pPool = pBlock->pPool;
 				pBlockNext->dwSize = pBlock->dwSize - dwMemSize - ALIGN_16BYTE(sizeof(BLOCK));
 				pBlockNext->dwInUse = FALSE;
@@ -251,7 +251,7 @@ namespace CrossEngine {
 
 		if (BLOCK *pBlockNext = pBlock->pNext) {
 			if (pBlockNext->dwInUse == FALSE) {
-				if ((BYTE *)pBlock + pBlock->dwSize + ALIGN_16BYTE(sizeof(BLOCK)) == (BYTE *)pBlockNext) {
+				if ((uint8_t *)pBlock + pBlock->dwSize + ALIGN_16BYTE(sizeof(BLOCK)) == (uint8_t *)pBlockNext) {
 					HEAP_RemoveBlock(pBlockPool, pBlockNext);
 
 					pBlock->dwSize = pBlock->dwSize + pBlockNext->dwSize + ALIGN_16BYTE(sizeof(BLOCK));
@@ -269,7 +269,7 @@ namespace CrossEngine {
 
 		if (BLOCK *pBlockPrev = pBlock->pPrev) {
 			if (pBlockPrev->dwInUse == FALSE) {
-				if ((BYTE *)pBlockPrev + pBlockPrev->dwSize + ALIGN_16BYTE(sizeof(BLOCK)) == (BYTE *)pBlock) {
+				if ((uint8_t *)pBlockPrev + pBlockPrev->dwSize + ALIGN_16BYTE(sizeof(BLOCK)) == (uint8_t *)pBlock) {
 					HEAP_RemoveBlock(pBlockPool, pBlockPrev);
 
 					pBlockPrev->dwSize = pBlockPrev->dwSize + pBlock->dwSize + ALIGN_16BYTE(sizeof(BLOCK));
@@ -313,15 +313,15 @@ namespace CrossEngine {
 
 	void* HEAP_Alloc(HEAP_ALLOCATOR *pHeapAllocator, size_t size)
 	{
-		DWORD *pPointer = NULL;
+		uint32_t *pPointer = NULL;
 		
 		if (pHeapAllocator) {
-			const DWORD dwMemSize = (DWORD)ALIGN_4KBYTE(size);
+			const uint32_t dwMemSize = (uint32_t)ALIGN_4KBYTE(size);
 
 			do {
 				if (BLOCK_POOL *pBlockPool = pHeapAllocator->pBlockPoolHead) {
 					do {
-						if (pPointer = (DWORD *)HEAP_PoolAlloc(pBlockPool, dwMemSize)) {
+						if (pPointer = (uint32_t *)HEAP_PoolAlloc(pBlockPool, dwMemSize)) {
 							return pPointer;
 						}
 					} while (pBlockPool = pBlockPool->pNext);
@@ -344,7 +344,7 @@ namespace CrossEngine {
 	BOOL HEAP_Free(HEAP_ALLOCATOR *pHeapAllocator, void *pPointer)
 	{
 		if (pHeapAllocator) {
-			BLOCK *pBlock = (BLOCK *)((BYTE *)pPointer - ALIGN_16BYTE(sizeof(BLOCK)));
+			BLOCK *pBlock = (BLOCK *)((uint8_t *)pPointer - ALIGN_16BYTE(sizeof(BLOCK)));
 			BLOCK_POOL *pBlockPool = pBlock->pPool;
 
 			HEAP_PoolFree(pBlockPool, pBlock);

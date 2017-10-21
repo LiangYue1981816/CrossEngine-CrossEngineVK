@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	DWORD CMemAllocator::dwAllocatorCount = 0;
+	uint32_t CMemAllocator::dwAllocatorCount = 0;
 
 	CMemAllocator::CMemAllocator(BOOL bHeap, BOOL bStack, BOOL bMultiThread)
 		: m_mutex(NULL)
@@ -92,26 +92,26 @@ namespace CrossEngine {
 
 	void* CMemAllocator::Alloc(size_t size, MEMTYPE memType)
 	{
-		DWORD *pPointer = NULL;
-		const DWORD dwMemSize = (DWORD)ALIGN_16BYTE(size);
+		uint32_t *pPointer = NULL;
+		const uint32_t dwMemSize = (uint32_t)ALIGN_16BYTE(size);
 
 		if (dwMemSize > 0) {
 			mutex_autolock mutex(m_mutex);
 
 			if (pPointer == NULL && memType == MEMTYPE_STACK) {
-				pPointer = (DWORD *)STACK_Alloc(m_pStackAllocator, dwMemSize);
+				pPointer = (uint32_t *)STACK_Alloc(m_pStackAllocator, dwMemSize);
 			}
 
 			if (pPointer == NULL) {
-				pPointer = (DWORD *)POOL_Alloc(m_pHeapAllocator, m_pPoolAllocator, dwMemSize);
+				pPointer = (uint32_t *)POOL_Alloc(m_pHeapAllocator, m_pPoolAllocator, dwMemSize);
 			}
 
 			if (pPointer == NULL) {
-				pPointer = (DWORD *)HEAP_Alloc(m_pHeapAllocator, dwMemSize);
+				pPointer = (uint32_t *)HEAP_Alloc(m_pHeapAllocator, dwMemSize);
 			}
 
 			if (pPointer == NULL) {
-				pPointer = (DWORD *)_malloc(dwMemSize + 16);
+				pPointer = (uint32_t *)_malloc(dwMemSize + 16);
 
 				*pPointer++ = 0xcccccccc;
 				*pPointer++ = 0xcccccccc;
@@ -136,7 +136,7 @@ namespace CrossEngine {
 	{
 		if (ptr) {
 			BOOL bFree = FALSE;
-			const DWORD dwMemSize = MEM_SIZE(ptr);
+			const uint32_t dwMemSize = MEM_SIZE(ptr);
 
 			if (dwMemSize > 0) {
 				mutex_autolock mutex(m_mutex);
@@ -154,7 +154,7 @@ namespace CrossEngine {
 				}
 
 				if (bFree == FALSE) {
-					_free((BYTE *)ptr - 16);
+					_free((uint8_t *)ptr - 16);
 				}
 
 				m_dwPointerCount--;
@@ -163,30 +163,30 @@ namespace CrossEngine {
 		}
 	}
 
-	DWORD CMemAllocator::GetMemSize(void *ptr) const
+	uint32_t CMemAllocator::GetMemSize(void *ptr) const
 	{
 		return MEM_SIZE(ptr);
 	}
 
-	DWORD CMemAllocator::GetPointerCount(void)
+	uint32_t CMemAllocator::GetPointerCount(void)
 	{
 		mutex_autolock mutex(m_mutex);
 		return m_dwPointerCount;
 	}
 
-	DWORD CMemAllocator::GetAllocatedSize(void)
+	uint32_t CMemAllocator::GetAllocatedSize(void)
 	{
 		mutex_autolock mutex(m_mutex);
 		return m_dwAllocatedSize;
 	}
 
-	DWORD CMemAllocator::GetMaxPointerCount(void)
+	uint32_t CMemAllocator::GetMaxPointerCount(void)
 	{
 		mutex_autolock mutex(m_mutex);
 		return m_dwMaxPointerCount;
 	}
 
-	DWORD CMemAllocator::GetMaxAllocatedSize(void)
+	uint32_t CMemAllocator::GetMaxAllocatedSize(void)
 	{
 		mutex_autolock mutex(m_mutex);
 		return m_dwMaxAllocatedSize;
@@ -211,16 +211,16 @@ namespace CrossEngine {
 		ASSERT(ny);
 		ASSERT(nsize);
 
-		DWORD dwHeaderSize = (DWORD)(nx*POINTER_SIZE);
-		DWORD dwBufferSize = (DWORD)(dwHeaderSize + nx*ny*nsize);
+		uint32_t dwHeaderSize = (uint32_t)(nx*POINTER_SIZE);
+		uint32_t dwBufferSize = (uint32_t)(dwHeaderSize + nx*ny*nsize);
 
-		BYTE *pBuffer = (BYTE *)SAFE_ALLOC(dwBufferSize, memType);
+		uint8_t *pBuffer = (uint8_t *)SAFE_ALLOC(dwBufferSize, memType);
 		if (pBuffer == NULL) return NULL;
 
-		BYTE **ppLine = (BYTE **)pBuffer;
-		BYTE *pBody = pBuffer + dwHeaderSize;
+		uint8_t **ppLine = (uint8_t **)pBuffer;
+		uint8_t *pBody = pBuffer + dwHeaderSize;
 
-		for (DWORD x = 0; x < nx; x++) {
+		for (uint32_t x = 0; x < nx; x++) {
 			*ppLine = pBody; pBody += ny*nsize; ppLine++;
 		}
 
@@ -239,20 +239,20 @@ namespace CrossEngine {
 		ASSERT(nz);
 		ASSERT(nsize);
 
-		DWORD dwHeaderSize = (DWORD)(nx*POINTER_SIZE + nx*ny*POINTER_SIZE);
-		DWORD dwBufferSize = (DWORD)(dwHeaderSize + nx*ny*nz*nsize);
+		uint32_t dwHeaderSize = (uint32_t)(nx*POINTER_SIZE + nx*ny*POINTER_SIZE);
+		uint32_t dwBufferSize = (uint32_t)(dwHeaderSize + nx*ny*nz*nsize);
 
-		BYTE *pBuffer = (BYTE *)SAFE_ALLOC(dwBufferSize, memType);
+		uint8_t *pBuffer = (uint8_t *)SAFE_ALLOC(dwBufferSize, memType);
 		if (pBuffer == NULL) return NULL;
 
-		BYTE ***pppLine = (BYTE ***)pBuffer;
-		BYTE **ppLine = (BYTE **)(pBuffer + nx*POINTER_SIZE);
-		BYTE *pBody = pBuffer + dwHeaderSize;
+		uint8_t ***pppLine = (uint8_t ***)pBuffer;
+		uint8_t **ppLine = (uint8_t **)(pBuffer + nx*POINTER_SIZE);
+		uint8_t *pBody = pBuffer + dwHeaderSize;
 
-		for (DWORD x = 0; x < nx; x++) {
+		for (uint32_t x = 0; x < nx; x++) {
 			*pppLine = ppLine;
 
-			for (DWORD y = 0; y < ny; y++) {
+			for (uint32_t y = 0; y < ny; y++) {
 				*ppLine = pBody; pBody += nz*nsize; ppLine++;
 			}
 
@@ -267,22 +267,22 @@ namespace CrossEngine {
 		SAFE_FREE(ptr);
 	}
 
-	CROSS_EXPORT DWORD GetPointerCount(void)
+	CROSS_EXPORT uint32_t GetPointerCount(void)
 	{
 		return memAllocator.GetPointerCount();
 	}
 
-	CROSS_EXPORT DWORD GetAllocatedSize(void)
+	CROSS_EXPORT uint32_t GetAllocatedSize(void)
 	{
 		return memAllocator.GetAllocatedSize();
 	}
 
-	CROSS_EXPORT DWORD GetMaxPointerCount(void)
+	CROSS_EXPORT uint32_t GetMaxPointerCount(void)
 	{
 		return memAllocator.GetMaxPointerCount();
 	}
 
-	CROSS_EXPORT DWORD GetMaxAllocatedSize(void)
+	CROSS_EXPORT uint32_t GetMaxAllocatedSize(void)
 	{
 		return memAllocator.GetMaxAllocatedSize();
 	}

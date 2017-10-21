@@ -45,12 +45,12 @@ namespace CrossEngine {
 
 	}
 
-	DWORD CVulkanAllocator::GetAllocatedSize(void) const
+	uint32_t CVulkanAllocator::GetAllocatedSize(void) const
 	{
 		return m_dwAllocatedSize;
 	}
 
-	DWORD CVulkanAllocator::GetMaxAllocatedSize(void) const
+	uint32_t CVulkanAllocator::GetMaxAllocatedSize(void) const
 	{
 		return m_dwMaxAllocatedSize;
 	}

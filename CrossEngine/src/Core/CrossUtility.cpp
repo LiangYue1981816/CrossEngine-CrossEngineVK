@@ -25,12 +25,12 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CROSS_EXPORT DWORD HashValue(const char *szString)
+	CROSS_EXPORT uint32_t HashValue(const char *szString)
 	{
 		ASSERT(szString);
 
 		const char *c = szString;
-		DWORD dwHashValue = 0x00000000;
+		uint32_t dwHashValue = 0x00000000;
 
 		while (*c) {
 			dwHashValue = (dwHashValue << 5) - dwHashValue + (*c == '/' ? '\\' : *c);
@@ -40,12 +40,12 @@ namespace CrossEngine {
 		return dwHashValue ? dwHashValue : INVALID_HASHNAME;
 	}
 
-	CROSS_EXPORT DWORD HashValue(const BYTE *pBuffer, int length)
+	CROSS_EXPORT uint32_t HashValue(const uint8_t *pBuffer, int length)
 	{
 		ASSERT(pBuffer);
 
-		const BYTE *c = pBuffer;
-		DWORD dwHashValue = 0x00000000;
+		const uint8_t *c = pBuffer;
+		uint32_t dwHashValue = 0x00000000;
 
 		while (length--) {
 			dwHashValue = (dwHashValue << 5) - dwHashValue + (*c == '/' ? '\\' : *c);
@@ -55,15 +55,15 @@ namespace CrossEngine {
 		return dwHashValue ? dwHashValue : INVALID_HASHNAME;
 	}
 
-	static DWORD dwRandomValue = 0x19810816;
-	static DWORD dwRandomKernel = 0x19810130;
+	static uint32_t dwRandomValue = 0x19810816;
+	static uint32_t dwRandomKernel = 0x19810130;
 
-	CROSS_EXPORT void PseudoRandomSeed(DWORD dwSeed)
+	CROSS_EXPORT void PseudoRandomSeed(uint32_t dwSeed)
 	{
 		dwRandomValue = dwSeed;
 	}
 
-	CROSS_EXPORT DWORD PseudoRandomValue(void)
+	CROSS_EXPORT uint32_t PseudoRandomValue(void)
 	{
 		if (dwRandomValue & 1) {
 			dwRandomValue = ((dwRandomValue^dwRandomKernel) >> 1) | 0x80000000;
@@ -213,7 +213,7 @@ namespace CrossEngine {
 
 		int i = 0;
 		int i_cur_output = 0;
-		BYTE *pszSrc = (BYTE *)szSrc;
+		uint8_t *pszSrc = (uint8_t *)szSrc;
 
 		while (i < nSrcLen) {
 			/* 1st byte of 3 byte representation */

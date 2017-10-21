@@ -30,7 +30,7 @@ namespace CrossEngine {
 		FILE *pFile = fopen(szFileName, "wb");
 		if (pFile == NULL) return FALSE;
 
-		DWORD dwHashValue = HashValue((BYTE *)words.data(), sizeof(uint32_t) * words.size());
+		uint32_t dwHashValue = HashValue((uint8_t *)words.data(), sizeof(uint32_t) * words.size());
 
 		fwrite(&dwHashValue, sizeof(dwHashValue), 1, pFile);
 		fwrite(words.data(), sizeof(uint32_t), words.size(), pFile);
@@ -44,7 +44,7 @@ namespace CrossEngine {
 		FILE *pFile = fopen(szFileName, "rb");
 		if (pFile == NULL) return FALSE;
 
-		DWORD dwHashValue;
+		uint32_t dwHashValue;
 
 		words.clear();
 		words.resize((fsize(pFile) - sizeof(dwHashValue)) / sizeof(uint32_t));
@@ -53,7 +53,7 @@ namespace CrossEngine {
 		fread(words.data(), sizeof(uint32_t), words.size(), pFile);
 		fclose(pFile);
 
-		return HashValue((BYTE *)words.data(), sizeof(uint32_t) * words.size()) == dwHashValue ? TRUE : FALSE;
+		return HashValue((uint8_t *)words.data(), sizeof(uint32_t) * words.size()) == dwHashValue ? TRUE : FALSE;
 	}
 
 	static shaderc_shader_kind GetShaderKind(VkShaderStageFlagBits flags)
@@ -127,7 +127,7 @@ namespace CrossEngine {
 	BOOL CGLES3Shader::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		char szFileName[_MAX_STRING];
-		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue((const BYTE *)szSource, length));
+		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue((const uint8_t *)szSource, length));
 
 		std::vector<uint32_t> words;
 		if (LoadShaderBinary(szFileName, words) == FALSE) {
@@ -144,7 +144,7 @@ namespace CrossEngine {
 	BOOL CGLES3Shader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		char szFileName[_MAX_STRING];
-		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue((const BYTE *)szSource, length));
+		sprintf(szFileName, "%s/%x", ((CGLES3ShaderManager *)m_pResourceManager)->GetCachePath(), HashValue((const uint8_t *)szSource, length));
 
 		std::vector<uint32_t> words;
 		Precompile(szSource, length, flags);

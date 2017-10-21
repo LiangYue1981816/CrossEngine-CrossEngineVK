@@ -32,18 +32,6 @@ typedef unsigned short                 uint16_t; // 2BYTE
 typedef unsigned int                   uint32_t; // 4BYTE
 typedef unsigned long long             uint64_t; // 8BYTE
 
-#ifdef PLATFORM_WINDOWS
-typedef unsigned char                  BYTE;     // 1BYTE
-typedef unsigned short                 WORD;     // 2BYTE
-typedef unsigned long                  DWORD;    // 4BYTE
-typedef unsigned long                  COLORREF; // 4BYTE
-#else
-typedef unsigned char                  BYTE;     // 1BYTE
-typedef unsigned short                 WORD;     // 2BYTE
-typedef unsigned int                   DWORD;    // 4BYTE
-typedef unsigned int                   COLORREF; // 4BYTE
-#endif
-
 #ifdef __LP64__
 #define POINTER_SIZE                   8         // 8BYTE
 #else
@@ -96,23 +84,23 @@ typedef unsigned int                   COLORREF; // 4BYTE
 #endif
 
 #ifndef RGB
-#define RGB(r,g,b)                     ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
+#define RGB(r,g,b)                     ((COLORREF)(((uint8_t)(r)|((uint16_t)((uint8_t)(g))<<8))|(((uint32_t)(uint8_t)(b))<<16)))
 #endif
 
 #ifndef RGBA
-#define RGBA(r,g,b,a)                  ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16))|(((DWORD)(BYTE)(a))<<24))
+#define RGBA(r,g,b,a)                  ((COLORREF)(((uint8_t)(r)|((uint16_t)((uint8_t)(g))<<8))|(((uint32_t)(uint8_t)(b))<<16))|(((uint32_t)(uint8_t)(a))<<24))
 #endif
 
 #ifndef GET_RED
-#define GET_RED(color)                 (BYTE)((color)  &  0xff)
+#define GET_RED(color)                 (uint8_t)((color)  &  0xff)
 #endif
 
 #ifndef GET_GRN
-#define GET_GRN(color)                 (BYTE)(((color) >> 0x08) & 0xff)
+#define GET_GRN(color)                 (uint8_t)(((color) >> 0x08) & 0xff)
 #endif
 
 #ifndef GET_BLU
-#define GET_BLU(color)                 (BYTE)(((color) >> 0x10) & 0xff)
+#define GET_BLU(color)                 (uint8_t)(((color) >> 0x10) & 0xff)
 #endif
 
 #define SWAP(a, b, tmp)                { (tmp) = (a); (a) = (b); (b) = (tmp); }

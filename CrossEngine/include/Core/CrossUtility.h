@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CROSS_EXPORT DWORD HashValue(const char *szString);
-	CROSS_EXPORT DWORD HashValue(const BYTE *pBuffer, int length);
+	CROSS_EXPORT uint32_t HashValue(const char *szString);
+	CROSS_EXPORT uint32_t HashValue(const uint8_t *pBuffer, int length);
 
-	CROSS_EXPORT void PseudoRandomSeed(DWORD dwSeed);
-	CROSS_EXPORT DWORD PseudoRandomValue(void);
+	CROSS_EXPORT void PseudoRandomSeed(uint32_t dwSeed);
+	CROSS_EXPORT uint32_t PseudoRandomValue(void);
 
 	CROSS_EXPORT size_t UnicodeToUTF8(const wchar_t *wszSrc, int nSrcLen, char *szDest, int nDestLen);
 	CROSS_EXPORT size_t UTF8ToUnicode(const char *szSrc, int nSrcLen, wchar_t *wszDest, int nDestLen);

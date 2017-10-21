@@ -54,9 +54,9 @@ namespace CrossEngine {
 		CPipelineGraphicsPtr m_ptrPipeline;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
-		std::map<DWORD, CTexturePtr> m_textures;
-		std::map<DWORD, CGfxUniformBufferPtr> m_uniformFloats;
-		std::map<DWORD, CGfxUniformBufferPtr> m_uniformVectors;
+		std::map<uint32_t, CTexturePtr> m_textures;
+		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformFloats;
+		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformVectors;
 	};
 
 }

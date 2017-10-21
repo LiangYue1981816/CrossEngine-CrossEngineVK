@@ -25,21 +25,21 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static const DWORD STACK_POOL_SIZE = 8 * 1024 * 1024;
+	static const uint32_t STACK_POOL_SIZE = 8 * 1024 * 1024;
 
 	struct STACK_ALLOCATOR {
-		BYTE pAddress[STACK_POOL_SIZE];
+		uint8_t pAddress[STACK_POOL_SIZE];
 
-		DWORD *pPointer;
-		DWORD dwFullSize;
-		DWORD dwFreeSize;
+		uint32_t *pPointer;
+		uint32_t dwFullSize;
+		uint32_t dwFreeSize;
 	};
 
 	STACK_ALLOCATOR* STACK_Create(void)
 	{
 		STACK_ALLOCATOR *pStackAllocator = (STACK_ALLOCATOR *)_malloc(sizeof(STACK_ALLOCATOR));
 		{
-			pStackAllocator->pPointer = (DWORD *)pStackAllocator->pAddress;
+			pStackAllocator->pPointer = (uint32_t *)pStackAllocator->pAddress;
 			pStackAllocator->dwFullSize = sizeof(pStackAllocator->pAddress);
 			pStackAllocator->dwFreeSize = sizeof(pStackAllocator->pAddress);
 		}
@@ -53,21 +53,21 @@ namespace CrossEngine {
 
 	void* STACK_Alloc(STACK_ALLOCATOR *pStackAllocator, size_t size)
 	{
-		DWORD *pPointer = NULL;
+		uint32_t *pPointer = NULL;
 
 		if (pStackAllocator) {
-			const DWORD dwMemSize = (DWORD)ALIGN_16BYTE(size);
+			const uint32_t dwMemSize = (uint32_t)ALIGN_16BYTE(size);
 
-			if (((BYTE *)pStackAllocator->pPointer + dwMemSize + 16) <= ((BYTE *)pStackAllocator->pAddress + pStackAllocator->dwFullSize)) {
+			if (((uint8_t *)pStackAllocator->pPointer + dwMemSize + 16) <= ((uint8_t *)pStackAllocator->pAddress + pStackAllocator->dwFullSize)) {
 				pPointer = pStackAllocator->pPointer;
 
 				*pPointer++ = 0xcccccccc;
 				*pPointer++ = 0xcccccccc;
 				*pPointer++ = 0xcccccccc;
-				*pPointer++ = (DWORD)dwMemSize;
+				*pPointer++ = (uint32_t)dwMemSize;
 
-				pStackAllocator->pPointer = (DWORD *)((BYTE *)pStackAllocator->pPointer + dwMemSize + 16);
-				pStackAllocator->dwFreeSize = (DWORD)((BYTE *)pStackAllocator->pAddress + pStackAllocator->dwFullSize - (BYTE *)pStackAllocator->pPointer);
+				pStackAllocator->pPointer = (uint32_t *)((uint8_t *)pStackAllocator->pPointer + dwMemSize + 16);
+				pStackAllocator->dwFreeSize = (uint32_t)((uint8_t *)pStackAllocator->pAddress + pStackAllocator->dwFullSize - (uint8_t *)pStackAllocator->pPointer);
 			}
 		}
 
@@ -77,11 +77,11 @@ namespace CrossEngine {
 	BOOL STACK_Free(STACK_ALLOCATOR *pStackAllocator, void *ptr)
 	{
 		if (pStackAllocator) {
-			const DWORD dwMemSize = MEM_SIZE(ptr);
+			const uint32_t dwMemSize = MEM_SIZE(ptr);
 
-			if (((BYTE *)pStackAllocator->pPointer - dwMemSize - 16) >= (BYTE *)pStackAllocator->pAddress) {
-				pStackAllocator->pPointer = (DWORD *)((BYTE *)pStackAllocator->pPointer - dwMemSize - 16);
-				pStackAllocator->dwFreeSize = (DWORD)((BYTE *)pStackAllocator->pAddress + pStackAllocator->dwFullSize - (BYTE *)pStackAllocator->pPointer);
+			if (((uint8_t *)pStackAllocator->pPointer - dwMemSize - 16) >= (uint8_t *)pStackAllocator->pAddress) {
+				pStackAllocator->pPointer = (uint32_t *)((uint8_t *)pStackAllocator->pPointer - dwMemSize - 16);
+				pStackAllocator->dwFreeSize = (uint32_t)((uint8_t *)pStackAllocator->pAddress + pStackAllocator->dwFullSize - (uint8_t *)pStackAllocator->pPointer);
 				return TRUE;
 			}
 		}
@@ -91,7 +91,7 @@ namespace CrossEngine {
 
 	BOOL IsStackMemory(STACK_ALLOCATOR *pStackAllocator, void *pPointer)
 	{
-		return pStackAllocator && (BYTE *)pPointer >= (BYTE *)pStackAllocator->pAddress && (BYTE *)pPointer < (BYTE *)pStackAllocator->pPointer ? TRUE : FALSE;
+		return pStackAllocator && (uint8_t *)pPointer >= (uint8_t *)pStackAllocator->pAddress && (uint8_t *)pPointer < (uint8_t *)pStackAllocator->pPointer ? TRUE : FALSE;
 	}
 
 }

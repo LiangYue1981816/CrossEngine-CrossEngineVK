@@ -71,8 +71,8 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef std::map<DWORD, ZZIP_DIR*> PackMap;
-		typedef std::map<DWORD, CResourceHandle*> ResourceMap;
+		typedef std::map<uint32_t, ZZIP_DIR*> PackMap;
+		typedef std::map<uint32_t, CResourceHandle*> ResourceMap;
 
 
 	protected:
@@ -93,8 +93,8 @@ namespace CrossEngine {
 
 	public:
 		virtual const CResourcePtr<CResource>& LoadResource(const char *szName, BOOL bSync = FALSE);
-		virtual const CResourcePtr<CResource>& LoadResource(DWORD dwName, BOOL bSync = FALSE);
-		virtual BOOL FreeResource(DWORD dwName);
+		virtual const CResourcePtr<CResource>& LoadResource(uint32_t dwName, BOOL bSync = FALSE);
+		virtual BOOL FreeResource(uint32_t dwName);
 
 	public:
 		virtual BOOL PreLoadFromFile(const char *szFileName) = 0;

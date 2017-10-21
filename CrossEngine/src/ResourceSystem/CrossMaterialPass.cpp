@@ -88,7 +88,7 @@ namespace CrossEngine {
 		if (TiXmlNode *pPipelineNode = pPassNode->FirstChild("Pipeline")) {
 			const char *szName = pPipelineNode->ToElement()->AttributeString("name");
 
-			DWORD dwName = HashValue(szName);
+			uint32_t dwName = HashValue(szName);
 			m_ptrPipeline = GraphicsManager()->LoadResource(dwName, bSync);
 			if (m_ptrPipeline.IsNull()) return FALSE;
 		}
@@ -103,7 +103,7 @@ namespace CrossEngine {
 				const char *szName = pTextureNode->ToElement()->AttributeString("name");
 				const char *szTexture = pTextureNode->ToElement()->AttributeString("texture");
 
-				DWORD dwName = HashValue(szName);
+				uint32_t dwName = HashValue(szName);
 				m_textures[dwName] = TextureManager()->LoadResource(dwName, bSync);
 				if (m_textures[dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pTextureNode->IterateChildren("Texture2D", pTextureNode));
@@ -114,7 +114,7 @@ namespace CrossEngine {
 				const char *szName = pTextureNode->ToElement()->AttributeString("name");
 				const char *szTexture = pTextureNode->ToElement()->AttributeString("texture");
 
-				DWORD dwName = HashValue(szName);
+				uint32_t dwName = HashValue(szName);
 				m_textures[dwName] = TextureManager()->LoadResource(dwName, bSync);
 				if (m_textures[dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pTextureNode->IterateChildren("TextureCube", pTextureNode));
@@ -133,7 +133,7 @@ namespace CrossEngine {
 				float value;
 				scanf(szValue, "%f", &value);
 
-				DWORD dwName = HashValue(szName);
+				uint32_t dwName = HashValue(szName);
 				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
 				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
 			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
@@ -147,7 +147,7 @@ namespace CrossEngine {
 				glm::vec4 value;
 				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);
 
-				DWORD dwName = HashValue(szName);
+				uint32_t dwName = HashValue(szName);
 				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
 				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
 			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));

@@ -37,8 +37,8 @@ namespace CrossEngine {
 
 
 	public:
-		DWORD GetAllocatedSize(void) const;
-		DWORD GetMaxAllocatedSize(void) const;
+		uint32_t GetAllocatedSize(void) const;
+		uint32_t GetMaxAllocatedSize(void) const;
 
 	public:
 		const VkAllocationCallbacks* GetAllocationCallbacks(void) const;
@@ -60,8 +60,8 @@ namespace CrossEngine {
 		VkAllocationCallbacks m_vkCallback;
 
 	protected:
-		DWORD m_dwAllocatedSize;
-		DWORD m_dwMaxAllocatedSize;
+		uint32_t m_dwAllocatedSize;
+		uint32_t m_dwMaxAllocatedSize;
 	};
 
 }

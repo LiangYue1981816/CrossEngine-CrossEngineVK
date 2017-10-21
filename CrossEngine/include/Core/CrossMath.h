@@ -836,7 +836,7 @@ namespace CrossEngine {
 	///////////////////////////////////////////////////////////////////////////////
 	// ÊýÖµ¼ÆËã
 	//=============================================================================
-	inline void RandomSeed(DWORD dwSeek)
+	inline void RandomSeed(uint32_t dwSeek)
 	{
 		PseudoRandomSeed(dwSeek);
 	}
@@ -1490,21 +1490,21 @@ namespace CrossEngine {
 		return quatOut;
 	}
 
-	inline void Vec3ColorToBytes(const VEC3 *color, BYTE *bytes)
+	inline void Vec3ColorToBytes(const VEC3 *color, uint8_t *bytes)
 	{
-		bytes[0] = (BYTE)((*color)[0] * 255);
-		bytes[1] = (BYTE)((*color)[1] * 255);
-		bytes[2] = (BYTE)((*color)[2] * 255);
+		bytes[0] = (uint8_t)((*color)[0] * 255);
+		bytes[1] = (uint8_t)((*color)[1] * 255);
+		bytes[2] = (uint8_t)((*color)[2] * 255);
 	}
 
-	inline void Vec3BytesToColor(VEC3 *color, BYTE *bytes)
+	inline void Vec3BytesToColor(VEC3 *color, uint8_t *bytes)
 	{
 		(*color)[0] = bytes[0] / 255.0f;
 		(*color)[1] = bytes[1] / 255.0f;
 		(*color)[2] = bytes[2] / 255.0f;
 	}
 
-	inline void Vec3DirectionToLatLong(const VEC3 *direction, BYTE *bytes)
+	inline void Vec3DirectionToLatLong(const VEC3 *direction, uint8_t *bytes)
 	{
 		if ((*direction)[0] == 0.0f && (*direction)[1] == 0.0f) {
 			if ((*direction)[2] > 0.0f) {
@@ -1522,7 +1522,7 @@ namespace CrossEngine {
 		}
 	}
 
-	inline void Vec3LatLongToDirection(VEC3 *direction, BYTE *bytes)
+	inline void Vec3LatLongToDirection(VEC3 *direction, uint8_t *bytes)
 	{
 		float lat = DEG2RAD((bytes[0] * 360.0f / 255.0f));
 		float lng = DEG2RAD((bytes[1] * 360.0f / 255.0f));
