@@ -78,7 +78,7 @@ namespace CrossEngine {
 
 	BOOL CPipelineGraphics::PostLoad(void)
 	{
-		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_data.subPass);
+		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_data.renderPass.indexSubPass);
 		return TRUE;
 	}
 
