@@ -29,6 +29,7 @@ namespace CrossEngine {
 		: CGfxPipelineGraphics(pResourceManager)
 		, CGLES3Pipeline(pDevice)
 		, m_vertexFormat(0)
+		, m_indexSubPass(0)
 	{
 		m_inputAssemblyState = {};
 		m_inputAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -85,6 +86,8 @@ namespace CrossEngine {
 			m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT].IsNull()) {
 			return FALSE;
 		}
+
+		m_indexSubPass = indexSubPass;
 
 		glGenProgramPipelines(1, &m_pipeline);
 		glBindProgramPipeline(m_pipeline);
@@ -143,6 +146,7 @@ namespace CrossEngine {
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
+		m_indexSubPass = 0;
 		m_colorBlendAttachmentStates.clear();
 
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
@@ -382,6 +386,11 @@ namespace CrossEngine {
 	uint32_t CGLES3PipelineGraphics::GetVertexFormat(void) const
 	{
 		return m_vertexFormat;
+	}
+
+	uint32_t CGLES3PipelineGraphics::GetIndexSubPass(void) const
+	{
+		return m_indexSubPass;
 	}
 
 	uint32_t CGLES3PipelineGraphics::GetBinding(uint32_t set, const char *szName) const

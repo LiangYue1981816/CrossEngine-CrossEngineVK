@@ -54,7 +54,7 @@ namespace CrossEngine {
 
 	uint32_t CPipelineGraphics::GetIndexSubPass(void) const
 	{
-		return m_data.renderPass.indexSubPass;
+		return m_ptrGfxPipeline->GetIndexSubPass();
 	}
 
 	BOOL CPipelineGraphics::Load(BOOL bSync)
