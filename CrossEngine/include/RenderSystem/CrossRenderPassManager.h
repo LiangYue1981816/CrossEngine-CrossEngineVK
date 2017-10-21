@@ -37,12 +37,11 @@ namespace CrossEngine {
 
 
 	public:
-		const CGfxRenderPassPtr& GetRenderPass(const char *szName) const;
-		const CGfxRenderPassPtr& GetRenderPass(DWORD dwName) const;
+		const CGfxRenderPassPtr& GetRenderPass(uint32_t dwName) const;
 
 
 	protected:
-		std::map<DWORD, CGfxRenderPassPtr> m_ptrRenderPasses;
+		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};
 
 }

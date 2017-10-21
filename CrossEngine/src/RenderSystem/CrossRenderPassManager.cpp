@@ -37,12 +37,7 @@ namespace CrossEngine {
 
 	}
 
-	const CGfxRenderPassPtr& CRenderPassManager::GetRenderPass(const char *szName) const
-	{
-		return GetRenderPass(HashValue(szName));
-	}
-
-	const CGfxRenderPassPtr& CRenderPassManager::GetRenderPass(DWORD dwName) const
+	const CGfxRenderPassPtr& CRenderPassManager::GetRenderPass(uint32_t dwName) const
 	{
 		const auto &itRenderPass = m_ptrRenderPasses.find(dwName);
 		return itRenderPass != m_ptrRenderPasses.end() ? itRenderPass->second : ptrRenderPassNull;
