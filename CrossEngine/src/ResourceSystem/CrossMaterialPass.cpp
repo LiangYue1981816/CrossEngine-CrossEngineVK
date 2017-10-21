@@ -85,15 +85,12 @@ namespace CrossEngine {
 
 	BOOL CMaterialPass::LoadPipeline(TiXmlNode *pPassNode, BOOL bSync)
 	{
-		if (TiXmlNode *pPipelineNode = pPassNode->FirstChild("Pipeline")) {
-			const char *szName = pPipelineNode->ToElement()->AttributeString("name");
+		const char *szName = pPassNode->ToElement()->AttributeString("pipeline");
 
-			uint32_t dwName = HashValue(szName);
-			m_ptrPipeline = GraphicsManager()->LoadResource(dwName, bSync);
-			if (m_ptrPipeline.IsNull()) return FALSE;
-		}
+		uint32_t dwName = HashValue(szName);
+		m_ptrPipeline = GraphicsManager()->LoadResource(dwName, bSync);
 
-		return TRUE;
+		return m_ptrPipeline.IsNull() ? FALSE : TRUE;
 	}
 
 	BOOL CMaterialPass::LoadTextures(TiXmlNode *pPassNode, BOOL bSync)
