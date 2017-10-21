@@ -64,6 +64,22 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_MATERAL, m_ptrPipeline->GetGfxPipeline());
+		{
+			for (const auto &itTexture : m_textures) {
+				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itTexture.first), itTexture.second->GetGfxTexture());
+			}
+
+			for (const auto itUniform : m_uniformFloats) {
+				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
+			}
+
+			for (const auto itUniform : m_uniformVectors) {
+				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
+			}
+		}
+		m_ptrDescriptorSet->UpdateDescriptorSets();
+
 		return TRUE;
 	}
 
