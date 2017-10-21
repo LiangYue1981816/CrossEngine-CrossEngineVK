@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CGLES3DescriptorSetLayout::SetUniformBlockBinding(const char *szName, uint32_t binding, GLuint program)
+	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, GLuint program)
 	{
 		GLuint location = glGetUniformBlockIndex(program, szName);
 
@@ -113,7 +113,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_pDescriptorSetLayouts[set]->SetUniformBlockBinding(itUniform.name.c_str(), binding, (GLuint)itShader.second->GetHandle());
+					m_pDescriptorSetLayouts[set]->SetUniformBinding(itUniform.name.c_str(), binding, (GLuint)itShader.second->GetHandle());
 				}
 			}
 

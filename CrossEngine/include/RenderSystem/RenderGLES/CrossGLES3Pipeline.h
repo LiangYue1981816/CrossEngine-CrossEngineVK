@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL SetUniformBlockBinding(const char *szName, uint32_t binding, GLuint program);
+		BOOL SetUniformBinding(const char *szName, uint32_t binding, GLuint program);
 		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, GLuint program);
 
 	public:
