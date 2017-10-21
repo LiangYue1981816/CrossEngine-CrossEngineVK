@@ -92,9 +92,7 @@ THE SOFTWARE.
 #include "CrossCore.h"
 #include "CrossRenderSystem.h"
 #include "CrossResourceSystem.h"
-
-#include "CrossEntityBase.h"
-#include "CrossEntityMesh.h"
+#include "CrossEntitySystem.h"
 
 
 #define TAG_NAME "CrossEngine"
