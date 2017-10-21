@@ -78,9 +78,9 @@ namespace CrossEngine {
 		m_vkDescriptorSetLayout = VK_NULL_HANDLE;
 	}
 
-	BOOL CVulkanDescriptorSetLayout::SetBinding(const char *szName, uint32_t binding, VkDescriptorType type, VkShaderStageFlags flags)
+	BOOL CVulkanDescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
-		m_numTypesUsedCount[type]++;
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 
 		m_bindings[binding].binding = binding;
 		m_bindings[binding].descriptorType = type;
@@ -89,6 +89,23 @@ namespace CrossEngine {
 		m_bindings[binding].pImmutableSamplers = NULL;
 
 		m_names[HashValue(szName)] = binding;
+		m_numTypesUsedCount[type]++;
+
+		return TRUE;
+	}
+
+	BOOL CVulkanDescriptorSetLayout::SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
+	{
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+		m_bindings[binding].binding = binding;
+		m_bindings[binding].descriptorType = type;
+		m_bindings[binding].descriptorCount = 1;
+		m_bindings[binding].stageFlags = flags;
+		m_bindings[binding].pImmutableSamplers = NULL;
+
+		m_names[HashValue(szName)] = binding;
+		m_numTypesUsedCount[type]++;
 
 		return TRUE;
 	}
@@ -187,7 +204,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_pDescriptorSetLayouts[set]->SetBinding(itUniform.name.c_str(), binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStageFlags);
+					m_pDescriptorSetLayouts[set]->SetUniformBinding(itUniform.name.c_str(), binding, shaderStageFlags);
 				}
 			}
 
@@ -201,7 +218,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
-					m_pDescriptorSetLayouts[set]->SetBinding(itSampledImage.name.c_str(), binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, shaderStageFlags);
+					m_pDescriptorSetLayouts[set]->SetSampledImageBinding(itSampledImage.name.c_str(), binding, shaderStageFlags);
 				}
 			}
 		}
