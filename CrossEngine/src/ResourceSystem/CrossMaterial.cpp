@@ -58,11 +58,44 @@ namespace CrossEngine {
 
 	BOOL CMaterial::Load(BOOL bSync)
 	{
+		TiXmlDocument xmlDoc;
+
+		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize()) == FALSE) {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
+			do {
+				const char *szName = pPassNode->ToElement()->AttributeString("name");
+
+				uint32_t dwName = HashValue(szName);
+				m_passes[dwName] = SAFE_NEW CMaterialPass;
+
+				if (m_passes[dwName]->Load(pPassNode, bSync) == FALSE) {
+					return FALSE;
+				}
+			} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
+		}
+
 		return TRUE;
 	}
 
 	BOOL CMaterial::PostLoad(void)
 	{
+		for (const auto &itPass : m_passes) {
+			if (itPass.second->IsPipelineReady() == FALSE) {
+				return FALSE;
+			}
+
+			if (itPass.second->IsTextureReady() == FALSE) {
+				return FALSE;
+			}
+		}
+
+		for (auto &itPass : m_passes) {
+			itPass.second->PostLoad();
+		}
+
 		return TRUE;
 	}
 

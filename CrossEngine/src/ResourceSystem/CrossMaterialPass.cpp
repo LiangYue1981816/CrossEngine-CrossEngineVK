@@ -56,14 +56,6 @@ namespace CrossEngine {
 
 	BOOL CMaterialPass::PostLoad(void)
 	{
-		if (IsPipelineReady() == FALSE) {
-			return FALSE;
-		}
-
-		if (IsTextureReady() == FALSE) {
-			return FALSE;
-		}
-
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_MATERAL, m_ptrPipeline->GetGfxPipeline());
 		{
 			for (const auto &itTexture : m_textures) {
