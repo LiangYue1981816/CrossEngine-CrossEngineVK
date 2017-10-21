@@ -115,9 +115,9 @@ namespace CrossEngine {
 		return m_set;
 	}
 
-	uint32_t CVulkanDescriptorSetLayout::GetBinding(uint32_t name) const
+	uint32_t CVulkanDescriptorSetLayout::GetBinding(uint32_t dwName) const
 	{
-		const auto &itName = m_names.find(name);
+		const auto &itName = m_names.find(dwName);
 		return itName != m_names.end() ? itName->second : -1;
 	}
 

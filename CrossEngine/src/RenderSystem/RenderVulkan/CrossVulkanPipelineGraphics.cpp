@@ -482,10 +482,10 @@ namespace CrossEngine {
 		return m_vertexFormat;
 	}
 
-	uint32_t CVulkanPipelineGraphics::GetBinding(uint32_t set, uint32_t name) const
+	uint32_t CVulkanPipelineGraphics::GetBinding(uint32_t set, uint32_t dwName) const
 	{
 		if (const CVulkanDescriptorSetLayout *pDescriptorSetLayout = GetDescriptorSetLayout(set)) {
-			return pDescriptorSetLayout->GetBinding(name);
+			return pDescriptorSetLayout->GetBinding(dwName);
 		}
 
 		return -1;

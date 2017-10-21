@@ -42,7 +42,7 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetSet(void) const;
-		uint32_t GetBinding(uint32_t name) const;
+		uint32_t GetBinding(uint32_t dwName) const;
 
 	public:
 		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetUniformBlockBindings(void) const;
