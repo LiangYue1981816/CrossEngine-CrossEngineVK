@@ -66,4 +66,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	const CMaterialPass* CMaterial::GetPass(const char *szName) const
+	{
+		return GetPass(HashValue(szName));
+	}
+
+	const CMaterialPass* CMaterial::GetPass(uint32_t dwName) const
+	{
+		const auto &itPass = m_passes.find(dwName);
+		return itPass != m_passes.end() ? itPass->second : NULL;
+	}
+
 }
