@@ -36,9 +36,9 @@ namespace CrossEngine {
 
 	}
 
-	const CGfxPipelineGraphicsPtr& CMaterialPass::GetGfxPipeline(void) const
+	const CPipelineGraphicsPtr& CMaterialPass::GetPipeline(void) const
 	{
-		return m_ptrPipeline->GetGfxPipeline();
+		return m_ptrPipeline;
 	}
 
 	const CGfxDescriptorSetPtr& CMaterialPass::GetDescriptorSet(void) const

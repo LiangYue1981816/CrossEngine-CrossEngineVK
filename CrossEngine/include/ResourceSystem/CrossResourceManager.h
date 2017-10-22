@@ -71,11 +71,6 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef std::map<uint32_t, ZZIP_DIR*> PackMap;
-		typedef std::map<uint32_t, CResourceHandle*> ResourceMap;
-
-
-	protected:
 		CResourceManager(void);
 		virtual ~CResourceManager(void);
 
@@ -113,8 +108,8 @@ namespace CrossEngine {
 
 
 	protected:
-		PackMap m_packs;
-		ResourceMap m_resources;
+		std::map<uint32_t, ZZIP_DIR*> m_packs;
+		std::map<uint32_t, CResourceHandle*> m_resources;
 
 	protected:
 		pthread_mutex_t m_mutex;

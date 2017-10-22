@@ -97,7 +97,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;WIN32;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/shaderc/libshaderc/include;$(VULKAN_SDK)/shaderc/libshaderc_util/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/tinyxml;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-cross;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/EntitySystem;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/glslc;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302;4503</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -117,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;__LP64__;_DEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/shaderc/libshaderc/include;$(VULKAN_SDK)/shaderc/libshaderc_util/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/tinyxml;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-cross;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/EntitySystem;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/glslc;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302;4503</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -139,7 +139,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;WIN32;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/shaderc/libshaderc/include;$(VULKAN_SDK)/shaderc/libshaderc_util/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/tinyxml;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-cross;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/EntitySystem;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/glslc;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302;4503</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -162,7 +162,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;__LP64__;NDEBUG;_WINDOWS;_USRDLL;CROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/shaderc/libshaderc/include;$(VULKAN_SDK)/shaderc/libshaderc_util/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/glew;../../Dependencies/zlib;../../Dependencies/tinyxml;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-cross;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/EntitySystem;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/glslc;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../../CrossEngine/src;../../CrossEngine/src/Core;../../CrossEngine/src/Core/nvwa;../../CrossEngine/src/RenderSystem;../../CrossEngine/src/ResourceSystem</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302;4503</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -193,6 +193,7 @@
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntitySystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFrameBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderPassManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderQueue.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxAPI.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxBuffer.h" />
@@ -357,6 +358,7 @@
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityMesh.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossFrameBufferManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderPassManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderQueue.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.cc" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxDevice.cpp" />

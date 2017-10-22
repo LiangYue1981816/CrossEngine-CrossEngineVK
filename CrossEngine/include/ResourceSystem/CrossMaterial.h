@@ -50,6 +50,7 @@ namespace CrossEngine {
 	public:
 		const CMaterialPass* GetPass(const char *szName) const;
 		const CMaterialPass* GetPass(uint32_t dwName) const;
+		const std::map<uint32_t, CMaterialPass*>& GetPasses(void) const;
 
 
 	protected:

@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	public:
-		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
+		const CPipelineGraphicsPtr& GetPipeline(void) const;
 		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:

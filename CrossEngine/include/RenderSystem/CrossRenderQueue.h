@@ -20,39 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CEntityMesh::CEntityMesh(void)
+	class CROSS_EXPORT CEntityMesh;
+	class CROSS_EXPORT CMaterialPass;
+	class CROSS_EXPORT CPipelineGraphics;
+
+	class CROSS_EXPORT CRenderQueue
 	{
+		typedef std::vector<CEntityMesh*> MeshQueue;
+		typedef std::map<const CMaterialPass*, MeshQueue> MatPassQueue;
+		typedef std::map<const CPipelineGraphics*, MatPassQueue> PipelineQueue;
+		typedef std::map<const uint32_t, PipelineQueue> RenderSubPassQueue;
+		typedef std::map<const CGfxRenderPass*, RenderSubPassQueue> RenderPassQueue;
 
-	}
+		
+	protected:
+		CRenderQueue(void);
+		virtual ~CRenderQueue(void);
 
-	CEntityMesh::~CEntityMesh(void)
-	{
 
-	}
+	public:
+		void AddMesh(CEntityMesh *pEntityMesh);
 
-	const CMaterialPtr& CEntityMesh::GetMaterial(void) const
-	{
-		return m_ptrMaterial;
-	}
 
-	void CEntityMesh::OnPreRender(void)
-	{
-
-	}
-
-	void CEntityMesh::OnRender(void)
-	{
-
-	}
-
-	void CEntityMesh::OnPostRender(void)
-	{
-
-	}
+	protected:
+		RenderPassQueue m_queue;
+	};
 
 }

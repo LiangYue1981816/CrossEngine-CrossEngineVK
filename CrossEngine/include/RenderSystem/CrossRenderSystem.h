@@ -25,6 +25,7 @@ THE SOFTWARE.
 #include "CrossGfxAPI.h"
 #include "CrossGLES3API.h"
 #include "CrossVulkanAPI.h"
+#include "CrossRenderQueue.h"
 #include "CrossRenderPassManager.h"
 #include "CrossFrameBufferManager.h"
 

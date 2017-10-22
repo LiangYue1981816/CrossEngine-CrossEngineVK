@@ -25,34 +25,32 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CEntityMesh::CEntityMesh(void)
+	CRenderQueue::CRenderQueue(void)
 	{
 
 	}
 
-	CEntityMesh::~CEntityMesh(void)
+	CRenderQueue::~CRenderQueue(void)
 	{
 
 	}
 
-	const CMaterialPtr& CEntityMesh::GetMaterial(void) const
+	void CRenderQueue::AddMesh(CEntityMesh *pEntityMesh)
 	{
-		return m_ptrMaterial;
-	}
+		const CMaterialPtr &ptrMaterial = pEntityMesh->GetMaterial();
 
-	void CEntityMesh::OnPreRender(void)
-	{
+		for (const auto &itMatPass : ptrMaterial->GetPasses()) {
+			const CMaterialPass *pMatPass = itMatPass.second;
+			const CPipelineGraphicsPtr &ptrPipeline = pMatPass->GetPipeline();
+			const CGfxRenderPassPtr &ptrRenderPass = ptrPipeline->GetGfxRenderPass();
+			const uint32_t indexSubPass = ptrPipeline->GetIndexSubPass();
 
-	}
-
-	void CEntityMesh::OnRender(void)
-	{
-
-	}
-
-	void CEntityMesh::OnPostRender(void)
-	{
-
+			RenderSubPassQueue &renderSubPassQueue = m_queue[ptrRenderPass];
+			PipelineQueue &pipelineQueue = renderSubPassQueue[indexSubPass];
+			MatPassQueue &matPassQueue = pipelineQueue[ptrPipeline];
+			MeshQueue &meshQueue = matPassQueue[pMatPass];
+			meshQueue.push_back(pEntityMesh);
+		}
 	}
 
 }

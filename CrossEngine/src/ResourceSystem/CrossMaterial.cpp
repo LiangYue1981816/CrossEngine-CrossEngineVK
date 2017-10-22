@@ -106,4 +106,9 @@ namespace CrossEngine {
 		return itPass != m_passes.end() ? itPass->second : NULL;
 	}
 
+	const std::map<uint32_t, CMaterialPass*>& CMaterial::GetPasses(void) const
+	{
+		return m_passes;
+	}
+
 }
