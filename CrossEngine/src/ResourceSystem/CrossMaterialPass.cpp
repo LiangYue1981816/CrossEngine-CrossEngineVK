@@ -146,17 +146,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::IsPipelineReady(void) const
+	BOOL CMaterialPass::IsReady(void) const
 	{
 		if (m_ptrPipeline->GetGfxPipeline()->GetHandle() == NULL) {
 			return FALSE;
 		}
 
-		return TRUE;
-	}
-
-	BOOL CMaterialPass::IsTextureReady(void) const
-	{
 		for (const auto &itTexture : m_textures) {
 			if (itTexture.second->GetGfxTexture()->GetHandle() == NULL) {
 				return FALSE;

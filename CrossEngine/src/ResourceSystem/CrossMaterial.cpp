@@ -83,11 +83,7 @@ namespace CrossEngine {
 	BOOL CMaterial::PostLoad(void)
 	{
 		for (const auto &itPass : m_passes) {
-			if (itPass.second->IsPipelineReady() == FALSE) {
-				return FALSE;
-			}
-
-			if (itPass.second->IsTextureReady() == FALSE) {
+			if (itPass.second->IsReady() == FALSE) {
 				return FALSE;
 			}
 		}
