@@ -585,18 +585,6 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceSystem.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineCompute.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineComputeManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineGraphics.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineGraphicsManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResShader.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
@@ -607,6 +595,18 @@
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResTextureManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResCompute.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResComputeManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResGraphics.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResGraphicsManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1001,18 +1001,6 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineCompute.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineComputeManage.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineGraphics.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineGraphicsManage.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResShader.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
@@ -1023,6 +1011,18 @@
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResTextureManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResCompute.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResComputeManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResGraphics.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResGraphicsManage.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
   </ItemGroup>
