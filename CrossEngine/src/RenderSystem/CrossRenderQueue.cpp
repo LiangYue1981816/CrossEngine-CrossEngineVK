@@ -37,6 +37,7 @@ namespace CrossEngine {
 
 	void CRenderQueue::AddMesh(CEntityMesh *pEntityMesh)
 	{
+		/*
 		const CResMaterialPtr &ptrMaterial = pEntityMesh->GetMaterial();
 
 		for (const auto &itMatPass : ptrMaterial->GetPasses()) {
@@ -51,6 +52,7 @@ namespace CrossEngine {
 			MeshQueue &meshQueue = matPassQueue[pMatPass];
 			meshQueue.push_back(pEntityMesh);
 		}
+		*/
 	}
 
 }
