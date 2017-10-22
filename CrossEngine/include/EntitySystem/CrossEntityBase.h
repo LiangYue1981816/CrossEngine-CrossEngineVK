@@ -44,6 +44,10 @@ namespace CrossEngine {
 		virtual void OnUpdate(float deltaTime);
 		virtual void OnPostUpdate(float deltaTime);
 		virtual void OnFixUpdate(float deltaTime);
+
+
+	public:
+		CEntityBase *pNext;
 	};
 
 }

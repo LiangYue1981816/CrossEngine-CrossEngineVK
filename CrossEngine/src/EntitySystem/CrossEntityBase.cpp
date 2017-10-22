@@ -26,6 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CEntityBase::CEntityBase(void)
+		: pNext(NULL)
 	{
 
 	}
