@@ -86,14 +86,12 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetVertexFormat(void) const;
-		uint32_t GetIndexSubPass(void) const;
 		uint32_t GetBinding(uint32_t set, const char *szName) const;
 		uint32_t GetBinding(uint32_t set, uint32_t dwName) const;
 
 
 	protected:
 		uint32_t m_vertexFormat;
-		uint32_t m_indexSubPass;
 
 	protected:
 		VkPipelineInputAssemblyStateCreateInfo m_inputAssemblyState;

@@ -29,7 +29,6 @@ namespace CrossEngine {
 		: CVulkanPipeline(pDevice)
 		, CGfxPipelineGraphics(pResourceManager)
 		, m_vertexFormat(0)
-		, m_indexSubPass(0)
 	{
 		m_vertexInputState = {};
 		m_vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
@@ -109,8 +108,6 @@ namespace CrossEngine {
 	BOOL CVulkanPipelineGraphics::Create(HANDLE hRenderPass, uint32_t indexSubPass)
 	{
 		try {
-			m_indexSubPass = indexSubPass;
-
 			std::vector<VkDescriptorSetLayout> layouts;
 			std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
 			std::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
@@ -238,7 +235,6 @@ namespace CrossEngine {
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
-		m_indexSubPass = 0;
 		m_colorBlendAttachmentStates.clear();
 
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
@@ -484,11 +480,6 @@ namespace CrossEngine {
 	uint32_t CVulkanPipelineGraphics::GetVertexFormat(void) const
 	{
 		return m_vertexFormat;
-	}
-
-	uint32_t CVulkanPipelineGraphics::GetIndexSubPass(void) const
-	{
-		return m_indexSubPass;
 	}
 
 	uint32_t CVulkanPipelineGraphics::GetBinding(uint32_t set, const char *szName) const
