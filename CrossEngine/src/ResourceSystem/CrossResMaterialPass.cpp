@@ -36,14 +36,14 @@ namespace CrossEngine {
 
 	}
 
-	const CResGraphicsPtr& CResMaterialPass::GetPipeline(void) const
+	const CResGraphicsPtr& CResMaterialPass::GetResPipeline(void) const
 	{
-		return m_ptrPipeline;
+		return m_ptrResPipeline;
 	}
 
-	const CGfxDescriptorSetPtr& CResMaterialPass::GetDescriptorSet(void) const
+	const CGfxDescriptorSetPtr& CResMaterialPass::GetGfxDescriptorSet(void) const
 	{
-		return m_ptrDescriptorSet;
+		return m_ptrGfxDescriptorSet;
 	}
 
 	BOOL CResMaterialPass::Load(TiXmlNode *pPassNode, BOOL bSync)
@@ -57,21 +57,21 @@ namespace CrossEngine {
 
 	BOOL CResMaterialPass::PostLoad(void)
 	{
-		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_MATERAL, m_ptrPipeline->GetGfxPipeline());
+		m_ptrGfxDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_MATERAL, m_ptrResPipeline->GetGfxPipeline());
 		{
 			for (const auto &itTexture : m_textures) {
-				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itTexture.first), itTexture.second->GetGfxTexture());
+				m_ptrGfxDescriptorSet->SetTexture(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itTexture.first), itTexture.second->GetGfxTexture());
 			}
 
 			for (const auto itUniform : m_uniformFloats) {
-				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
+				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
 			}
 
 			for (const auto itUniform : m_uniformVectors) {
-				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
+				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
 			}
 		}
-		m_ptrDescriptorSet->UpdateDescriptorSets();
+		m_ptrGfxDescriptorSet->UpdateDescriptorSets();
 
 		return TRUE;
 	}
@@ -81,9 +81,9 @@ namespace CrossEngine {
 		const char *szName = pPassNode->ToElement()->AttributeString("pipeline");
 
 		uint32_t dwName = HashValue(szName);
-		m_ptrPipeline = GraphicsManager()->LoadResource(dwName, bSync);
+		m_ptrResPipeline = GraphicsManager()->LoadResource(dwName, bSync);
 
-		return m_ptrPipeline.IsNull() ? FALSE : TRUE;
+		return m_ptrResPipeline.IsNull() ? FALSE : TRUE;
 	}
 
 	BOOL CResMaterialPass::LoadTextures(TiXmlNode *pPassNode, BOOL bSync)
@@ -148,7 +148,7 @@ namespace CrossEngine {
 
 	BOOL CResMaterialPass::IsReady(void) const
 	{
-		if (m_ptrPipeline->GetGfxPipeline()->GetHandle() == NULL) {
+		if (m_ptrResPipeline->GetGfxPipeline()->GetHandle() == NULL) {
 			return FALSE;
 		}
 
