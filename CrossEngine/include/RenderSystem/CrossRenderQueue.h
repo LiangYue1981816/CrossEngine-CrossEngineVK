@@ -32,9 +32,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CRenderQueue
 	{
-		typedef std::vector<CEntityMesh*> MeshQueue;
-		typedef std::map<const CResMaterialPass*, MeshQueue> MatPassQueue;
-		typedef std::map<const CResGraphics*, MatPassQueue> PipelineQueue;
+		typedef std::vector<CEntityMesh*> EntityQueue;
+		typedef std::map<const CGfxDescriptorSet*, EntityQueue> DescriptorSetQueue;
+		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;
 		typedef std::map<const uint32_t, PipelineQueue> RenderSubPassQueue;
 		typedef std::map<const CGfxRenderPass*, RenderSubPassQueue> RenderPassQueue;
 

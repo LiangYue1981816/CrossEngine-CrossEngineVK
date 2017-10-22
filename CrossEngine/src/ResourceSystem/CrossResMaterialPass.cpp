@@ -26,7 +26,6 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CResMaterialPass::CResMaterialPass(void)
-		: pNext(NULL)
 	{
 
 	}
@@ -36,9 +35,19 @@ namespace CrossEngine {
 
 	}
 
-	const CResGraphicsPtr& CResMaterialPass::GetResPipeline(void) const
+	const uint32_t CResMaterialPass::GetIndexSubPass(void) const
 	{
-		return m_ptrResPipeline;
+		return m_ptrResPipeline->GetIndexSubPass();
+	}
+
+	const CGfxRenderPassPtr& CResMaterialPass::GetGfxRenderPass(void) const
+	{
+		return m_ptrResPipeline->GetGfxRenderPass();
+	}
+
+	const CGfxPipelineGraphicsPtr& CResMaterialPass::GetGfxPipeline(void) const
+	{
+		return m_ptrResPipeline->GetGfxPipeline();
 	}
 
 	const CGfxDescriptorSetPtr& CResMaterialPass::GetGfxDescriptorSet(void) const

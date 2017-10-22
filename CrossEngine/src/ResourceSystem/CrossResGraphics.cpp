@@ -53,7 +53,7 @@ namespace CrossEngine {
 		return m_ptrGfxRenderPass;
 	}
 
-	uint32_t CResGraphics::GetIndexSubPass(void) const
+	const uint32_t CResGraphics::GetIndexSubPass(void) const
 	{
 		return m_indexSubPass;
 	}

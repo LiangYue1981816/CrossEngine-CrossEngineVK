@@ -37,7 +37,9 @@ namespace CrossEngine {
 
 
 	public:
-		const CResGraphicsPtr& GetResPipeline(void) const;
+		const uint32_t GetIndexSubPass(void) const;
+		const CGfxRenderPassPtr& GetGfxRenderPass(void) const;
+		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
 		const CGfxDescriptorSetPtr& GetGfxDescriptorSet(void) const;
 
 	public:
@@ -60,9 +62,6 @@ namespace CrossEngine {
 		std::map<uint32_t, CResTexturePtr> m_textures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformFloats;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformVectors;
-
-	public:
-		CResMaterialPass *pNext;
 	};
 
 }
