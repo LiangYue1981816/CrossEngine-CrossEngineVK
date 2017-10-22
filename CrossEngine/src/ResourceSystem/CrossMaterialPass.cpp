@@ -26,6 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CMaterialPass::CMaterialPass(void)
+		: pNext(NULL)
 	{
 
 	}

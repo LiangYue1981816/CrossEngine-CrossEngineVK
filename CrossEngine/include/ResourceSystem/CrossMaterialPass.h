@@ -60,6 +60,9 @@ namespace CrossEngine {
 		std::map<uint32_t, CTexturePtr> m_textures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformFloats;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformVectors;
+
+	public:
+		CMaterialPass *pNext;
 	};
 
 }
