@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CResGraphics::CResGraphics(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
+		, m_indexSubPass(0)
 	{
 		m_ptrGfxPipeline = GfxDevice()->NewPipelineGraphics();
 	}
@@ -54,7 +55,7 @@ namespace CrossEngine {
 
 	uint32_t CResGraphics::GetIndexSubPass(void) const
 	{
-		return m_data.renderPass.indexSubPass;
+		return m_indexSubPass;
 	}
 
 	BOOL CResGraphics::Load(BOOL bSync)
@@ -78,7 +79,8 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::PostLoad(void)
 	{
-		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_data.renderPass.indexSubPass);
+		m_indexSubPass = m_data.renderPass.indexSubPass;
+		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_indexSubPass);
 		return TRUE;
 	}
 
