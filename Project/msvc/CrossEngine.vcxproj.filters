@@ -719,15 +719,6 @@
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResource.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceManager.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanHelper.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan</Filter>
     </ClCompile>
@@ -980,41 +971,8 @@
     <ClCompile Include="..\..\Dependencies\tinyxml\tinyxmlparser.cpp">
       <Filter>Dependencies\tinyxml</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossShader.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossShaderManage.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossTexture.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossTextureManage.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossMaterial.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossMaterialManager.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossMaterialPass.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineCompute.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineComputeManage.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineGraphics.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossPipelineGraphicsManage.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossFrameBufferManager.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
@@ -1024,6 +982,48 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderQueue.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterial.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterialManager.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterialPass.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResource.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceManager.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineCompute.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineComputeManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineGraphics.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResPipelineGraphicsManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResShader.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResShaderManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResTexture.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResTextureManage.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
