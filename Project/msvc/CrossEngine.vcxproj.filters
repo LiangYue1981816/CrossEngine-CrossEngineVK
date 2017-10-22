@@ -165,15 +165,6 @@
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\static_assert.h">
       <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResource.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceSystem.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossSharedPtr.h">
       <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
@@ -555,47 +546,11 @@
     <ClInclude Include="..\..\Dependencies\glew\wglew.h">
       <Filter>Dependencies\glew</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossShader.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossShaderManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossTexture.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossTextureManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterial.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterialManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossMaterialPass.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceDefinition.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossCore.h">
       <Filter>Engine\Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineCompute.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineGraphics.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineGraphicsManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossPipelineComputeManager.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFrameBufferManager.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
@@ -608,6 +563,51 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderQueue.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterial.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterialManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterialPass.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResource.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceDefinition.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceSystem.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineCompute.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineComputeManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineGraphics.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResPipelineGraphicsManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResShader.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResShaderManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResTexture.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResTextureManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
