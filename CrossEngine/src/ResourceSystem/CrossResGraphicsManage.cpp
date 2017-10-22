@@ -25,42 +25,42 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CPipelineGraphicsManager::CPipelineGraphicsManager(void)
+	CResGraphicsManager::CResGraphicsManager(void)
 	{
 
 	}
 
-	CPipelineGraphicsManager::~CPipelineGraphicsManager(void)
+	CResGraphicsManager::~CResGraphicsManager(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CPipelineGraphicsManager::GetType(void) const
+	RESOURCE_TYPE CResGraphicsManager::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
 	}
 
-	CResource* CPipelineGraphicsManager::CreateResource(void)
+	CResource* CResGraphicsManager::CreateResource(void)
 	{
-		return SAFE_NEW CPipelineGraphics(this);
+		return SAFE_NEW CResGraphics(this);
 	}
 
-	BOOL CPipelineGraphicsManager::PreLoadFromFile(const char *szFileName)
+	BOOL CResGraphicsManager::PreLoadFromFile(const char *szFileName)
 	{
 		return CResourceManager::PreLoadFromFile(szFileName, GRAPHICS_EXT_NAME);
 	}
 
-	BOOL CPipelineGraphicsManager::PreLoadFromPath(const char *szPathName)
+	BOOL CResGraphicsManager::PreLoadFromPath(const char *szPathName)
 	{
 		return CResourceManager::PreLoadFromPath(szPathName, GRAPHICS_EXT_NAME);
 	}
 
-	BOOL CPipelineGraphicsManager::PreLoadFromPack(const char *szPackName)
+	BOOL CResGraphicsManager::PreLoadFromPack(const char *szPackName)
 	{
 		return CResourceManager::PreLoadFromPack(szPackName, GRAPHICS_EXT_NAME);
 	}
 
-	void CPipelineGraphicsManager::GarbageCollection(void)
+	void CResGraphicsManager::GarbageCollection(void)
 	{
 
 	}

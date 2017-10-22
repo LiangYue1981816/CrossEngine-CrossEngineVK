@@ -25,28 +25,28 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CShader::CShader(CResourceManager *pResourceManager)
+	CResShader::CResShader(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
 		m_ptrGfxShader = GfxDevice()->NewShader();
 	}
 
-	CShader::~CShader(void)
+	CResShader::~CResShader(void)
 	{
 		m_ptrGfxShader.Release();
 	}
 
-	RESOURCE_TYPE CShader::GetType(void) const
+	RESOURCE_TYPE CResShader::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
 	}
 
-	const CGfxShaderPtr& CShader::GetGfxShader(void) const
+	const CGfxShaderPtr& CResShader::GetGfxShader(void) const
 	{
 		return m_ptrGfxShader;
 	}
 
-	BOOL CShader::Load(BOOL bSync)
+	BOOL CResShader::Load(BOOL bSync)
 	{
 		char szExt[_MAX_EXT];
 		splitfilename(m_stream.GetName(), NULL, szExt);
@@ -59,7 +59,7 @@ namespace CrossEngine {
 		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 	}
 
-	BOOL CShader::PostLoad(void)
+	BOOL CResShader::PostLoad(void)
 	{
 		m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 		m_stream.Free();

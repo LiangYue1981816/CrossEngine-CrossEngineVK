@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CTexture : public CResource
+	class CROSS_EXPORT CResTexture : public CResource
 	{
-		friend class CTextureManager;
+		friend class CResTextureManager;
 
 
 	protected:
-		CTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
-		virtual ~CTexture(void);
+		CResTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		virtual ~CResTexture(void);
 
 
 	public:

@@ -25,29 +25,29 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CMaterial::CMaterial(CResourceManager *pResourceManager)
+	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
 
 	}
 
-	CMaterial::~CMaterial(void)
+	CResMaterial::~CResMaterial(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CMaterial::GetType(void) const
+	RESOURCE_TYPE CResMaterial::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL;
 	}
 
-	void CMaterial::Init(void)
+	void CResMaterial::Init(void)
 	{
 		m_passes.clear();
 		CResource::Init();
 	}
 
-	void CMaterial::Free(void)
+	void CResMaterial::Free(void)
 	{
 		for (auto &itPass : m_passes) {
 			SAFE_DELETE(itPass.second);
@@ -56,7 +56,7 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CMaterial::Load(BOOL bSync)
+	BOOL CResMaterial::Load(BOOL bSync)
 	{
 		TiXmlDocument xmlDoc;
 
@@ -69,7 +69,7 @@ namespace CrossEngine {
 				const char *szName = pPassNode->ToElement()->AttributeString("name");
 
 				uint32_t dwName = HashValue(szName);
-				m_passes[dwName] = SAFE_NEW CMaterialPass;
+				m_passes[dwName] = SAFE_NEW CResMaterialPass;
 
 				if (m_passes[dwName]->Load(pPassNode, bSync) == FALSE) {
 					return FALSE;
@@ -80,7 +80,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterial::PostLoad(void)
+	BOOL CResMaterial::PostLoad(void)
 	{
 		for (const auto &itPass : m_passes) {
 			if (itPass.second->IsReady() == FALSE) {
@@ -95,18 +95,18 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	const CMaterialPass* CMaterial::GetPass(const char *szName) const
+	const CResMaterialPass* CResMaterial::GetPass(const char *szName) const
 	{
 		return GetPass(HashValue(szName));
 	}
 
-	const CMaterialPass* CMaterial::GetPass(uint32_t dwName) const
+	const CResMaterialPass* CResMaterial::GetPass(uint32_t dwName) const
 	{
 		const auto &itPass = m_passes.find(dwName);
 		return itPass != m_passes.end() ? itPass->second : NULL;
 	}
 
-	const std::map<uint32_t, CMaterialPass*>& CMaterial::GetPasses(void) const
+	const std::map<uint32_t, CResMaterialPass*>& CResMaterial::GetPasses(void) const
 	{
 		return m_passes;
 	}

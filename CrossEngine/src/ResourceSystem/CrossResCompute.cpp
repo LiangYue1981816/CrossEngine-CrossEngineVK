@@ -25,33 +25,33 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CPipelineCompute::CPipelineCompute(CResourceManager *pResourceManager)
+	CResCompute::CResCompute(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
 		m_ptrGfxPipeline = GfxDevice()->NewPipelineCompute();
 	}
 
-	CPipelineCompute::~CPipelineCompute(void)
+	CResCompute::~CResCompute(void)
 	{
 		m_ptrGfxPipeline.Release();
 	}
 
-	RESOURCE_TYPE CPipelineCompute::GetType(void) const
+	RESOURCE_TYPE CResCompute::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE;
 	}
 
-	const CGfxPipelineComputePtr& CPipelineCompute::GetGfxPipeline(void) const
+	const CGfxPipelineComputePtr& CResCompute::GetGfxPipeline(void) const
 	{
 		return m_ptrGfxPipeline;
 	}
 
-	BOOL CPipelineCompute::Load(BOOL bSync)
+	BOOL CResCompute::Load(BOOL bSync)
 	{
 		return TRUE;
 	}
 
-	BOOL CPipelineCompute::PostLoad(void)
+	BOOL CResCompute::PostLoad(void)
 	{
 		return TRUE;
 	}

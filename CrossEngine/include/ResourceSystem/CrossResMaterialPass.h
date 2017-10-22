@@ -26,18 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CMaterialPass
+	class CROSS_EXPORT CResMaterialPass
 	{
-		friend class CMaterial;
+		friend class CResMaterial;
 
 
 	protected:
-		CMaterialPass(void);
-		virtual ~CMaterialPass(void);
+		CResMaterialPass(void);
+		virtual ~CResMaterialPass(void);
 
 
 	public:
-		const CPipelineGraphicsPtr& GetPipeline(void) const;
+		const CResGraphicsPtr& GetPipeline(void) const;
 		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:
@@ -54,15 +54,15 @@ namespace CrossEngine {
 
 
 	protected:
-		CPipelineGraphicsPtr m_ptrPipeline;
+		CResGraphicsPtr m_ptrPipeline;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
-		std::map<uint32_t, CTexturePtr> m_textures;
+		std::map<uint32_t, CResTexturePtr> m_textures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformFloats;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformVectors;
 
 	public:
-		CMaterialPass *pNext;
+		CResMaterialPass *pNext;
 	};
 
 }

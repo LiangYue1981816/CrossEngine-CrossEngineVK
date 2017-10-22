@@ -25,28 +25,28 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CMaterialPass::CMaterialPass(void)
+	CResMaterialPass::CResMaterialPass(void)
 		: pNext(NULL)
 	{
 
 	}
 
-	CMaterialPass::~CMaterialPass(void)
+	CResMaterialPass::~CResMaterialPass(void)
 	{
 
 	}
 
-	const CPipelineGraphicsPtr& CMaterialPass::GetPipeline(void) const
+	const CResGraphicsPtr& CResMaterialPass::GetPipeline(void) const
 	{
 		return m_ptrPipeline;
 	}
 
-	const CGfxDescriptorSetPtr& CMaterialPass::GetDescriptorSet(void) const
+	const CGfxDescriptorSetPtr& CResMaterialPass::GetDescriptorSet(void) const
 	{
 		return m_ptrDescriptorSet;
 	}
 
-	BOOL CMaterialPass::Load(TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterialPass::Load(TiXmlNode *pPassNode, BOOL bSync)
 	{
 		if (LoadPipeline(pPassNode, bSync) == FALSE) return FALSE;
 		if (LoadTextures(pPassNode, bSync) == FALSE) return FALSE;
@@ -55,7 +55,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::PostLoad(void)
+	BOOL CResMaterialPass::PostLoad(void)
 	{
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_MATERAL, m_ptrPipeline->GetGfxPipeline());
 		{
@@ -76,7 +76,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadPipeline(TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterialPass::LoadPipeline(TiXmlNode *pPassNode, BOOL bSync)
 	{
 		const char *szName = pPassNode->ToElement()->AttributeString("pipeline");
 
@@ -86,7 +86,7 @@ namespace CrossEngine {
 		return m_ptrPipeline.IsNull() ? FALSE : TRUE;
 	}
 
-	BOOL CMaterialPass::LoadTextures(TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterialPass::LoadTextures(TiXmlNode *pPassNode, BOOL bSync)
 	{
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
 			do {
@@ -113,7 +113,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::LoadUniforms(TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterialPass::LoadUniforms(TiXmlNode *pPassNode, BOOL bSync)
 	{
 		if (TiXmlNode *pFloatNode = pPassNode->FirstChild("Float")) {
 			do {
@@ -146,7 +146,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CMaterialPass::IsReady(void) const
+	BOOL CResMaterialPass::IsReady(void) const
 	{
 		if (m_ptrPipeline->GetGfxPipeline()->GetHandle() == NULL) {
 			return FALSE;

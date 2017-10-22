@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CTexture::CTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	CResTexture::CResTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 		: CResource(pResourceManager)
 		, m_minFilter(minFilter)
 		, m_magFilter(magFilter)
@@ -35,22 +35,22 @@ namespace CrossEngine {
 		m_ptrGfxTexture = GfxDevice()->NewTexture();
 	}
 
-	CTexture::~CTexture(void)
+	CResTexture::~CResTexture(void)
 	{
 		m_ptrGfxTexture.Release();
 	}
 
-	RESOURCE_TYPE CTexture::GetType(void) const
+	RESOURCE_TYPE CResTexture::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE;
 	}
 
-	const CGfxTexturePtr& CTexture::GetGfxTexture(void) const
+	const CGfxTexturePtr& CResTexture::GetGfxTexture(void) const
 	{
 		return m_ptrGfxTexture;
 	}
 
-	BOOL CTexture::Load(BOOL bSync)
+	BOOL CResTexture::Load(BOOL bSync)
 	{
 		m_texture = (gli::texture2d)gli::load((const char *)m_stream.GetAddress(), m_stream.GetFullSize());
 		m_stream.Free();
@@ -58,7 +58,7 @@ namespace CrossEngine {
 		return m_texture.empty() ? FALSE : TRUE;
 	}
 
-	BOOL CTexture::PostLoad(void)
+	BOOL CResTexture::PostLoad(void)
 	{
 		m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		m_texture.clear();

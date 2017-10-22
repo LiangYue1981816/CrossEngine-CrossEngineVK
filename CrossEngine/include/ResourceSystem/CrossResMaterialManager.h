@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CMaterialManager : public CResourceManager
+	class CROSS_EXPORT CResMaterialManager : public CResourceManager
 	{
 		friend class CResourceSystem;
 
 
 	protected:
-		CMaterialManager(void);
-		virtual ~CMaterialManager(void);
+		CResMaterialManager(void);
+		virtual ~CResMaterialManager(void);
 
 
 	public:

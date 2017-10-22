@@ -25,37 +25,37 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CMaterialManager::CMaterialManager(void)
+	CResMaterialManager::CResMaterialManager(void)
 	{
 
 	}
 
-	CMaterialManager::~CMaterialManager(void)
+	CResMaterialManager::~CResMaterialManager(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CMaterialManager::GetType(void) const
+	RESOURCE_TYPE CResMaterialManager::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL;
 	}
 
-	CResource* CMaterialManager::CreateResource(void)
+	CResource* CResMaterialManager::CreateResource(void)
 	{
-		return SAFE_NEW CMaterial(this);
+		return SAFE_NEW CResMaterial(this);
 	}
 
-	BOOL CMaterialManager::PreLoadFromFile(const char *szFileName)
+	BOOL CResMaterialManager::PreLoadFromFile(const char *szFileName)
 	{
 		return CResourceManager::PreLoadFromFile(szFileName, MATERIAL_EXT_NAME);
 	}
 
-	BOOL CMaterialManager::PreLoadFromPath(const char *szPathName)
+	BOOL CResMaterialManager::PreLoadFromPath(const char *szPathName)
 	{
 		return CResourceManager::PreLoadFromPath(szPathName, MATERIAL_EXT_NAME);
 	}
 
-	BOOL CMaterialManager::PreLoadFromPack(const char *szPackName)
+	BOOL CResMaterialManager::PreLoadFromPack(const char *szPackName)
 	{
 		return CResourceManager::PreLoadFromPack(szPackName, MATERIAL_EXT_NAME);
 	}

@@ -25,39 +25,39 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CPipelineGraphics::CPipelineGraphics(CResourceManager *pResourceManager)
+	CResGraphics::CResGraphics(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
 		m_ptrGfxPipeline = GfxDevice()->NewPipelineGraphics();
 	}
 
-	CPipelineGraphics::~CPipelineGraphics(void)
+	CResGraphics::~CResGraphics(void)
 	{
 		m_ptrGfxPipeline.Release();
 		m_ptrGfxRenderPass.Release();
 	}
 
-	RESOURCE_TYPE CPipelineGraphics::GetType(void) const
+	RESOURCE_TYPE CResGraphics::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
 	}
 
-	const CGfxPipelineGraphicsPtr& CPipelineGraphics::GetGfxPipeline(void) const
+	const CGfxPipelineGraphicsPtr& CResGraphics::GetGfxPipeline(void) const
 	{
 		return m_ptrGfxPipeline;
 	}
 
-	const CGfxRenderPassPtr& CPipelineGraphics::GetGfxRenderPass(void) const
+	const CGfxRenderPassPtr& CResGraphics::GetGfxRenderPass(void) const
 	{
 		return m_ptrGfxRenderPass;
 	}
 
-	uint32_t CPipelineGraphics::GetIndexSubPass(void) const
+	uint32_t CResGraphics::GetIndexSubPass(void) const
 	{
-		return m_ptrGfxPipeline->GetIndexSubPass();
+		return m_data.renderPass.indexSubPass;
 	}
 
-	BOOL CPipelineGraphics::Load(BOOL bSync)
+	BOOL CResGraphics::Load(BOOL bSync)
 	{
 		BOOL rcode = TRUE;
 
@@ -76,13 +76,13 @@ namespace CrossEngine {
 		return m_ptrGfxRenderPass.IsNull() ? FALSE : TRUE;
 	}
 
-	BOOL CPipelineGraphics::PostLoad(void)
+	BOOL CResGraphics::PostLoad(void)
 	{
 		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_data.renderPass.indexSubPass);
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadData(void)
+	BOOL CResGraphics::LoadData(void)
 	{
 		m_stream << m_data.mark;
 		if (m_data.mark != HashValue("PipelineGraphicsData")) {
@@ -106,10 +106,10 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadShaders(void)
+	BOOL CResGraphics::LoadShaders(void)
 	{
-		const CShaderPtr &ptrVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
-		const CShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
+		const CResShaderPtr &ptrVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
+		const CResShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
 		if (ptrVertexShader.IsNull() || ptrFragmentShader.IsNull()) return FALSE;
 
 		m_ptrGfxPipeline->SetVertexShader(ptrVertexShader->GetGfxShader());
@@ -118,18 +118,18 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadInputAssemblyState(void)
+	BOOL CResGraphics::LoadInputAssemblyState(void)
 	{
 		m_ptrGfxPipeline->SetPrimitiveTopology((VkPrimitiveTopology)m_data.inputAssembly.topology, FALSE);
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadTessellationState(void)
+	BOOL CResGraphics::LoadTessellationState(void)
 	{
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadRasterizationState(void)
+	BOOL CResGraphics::LoadRasterizationState(void)
 	{
 		m_ptrGfxPipeline->SetPolygonMode((VkPolygonMode)m_data.rasterization.polygonMode);
 		m_ptrGfxPipeline->SetCullMode((VkCullModeFlags)m_data.rasterization.cullMode);
@@ -141,7 +141,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadMultisampleState(void)
+	BOOL CResGraphics::LoadMultisampleState(void)
 	{
 		m_ptrGfxPipeline->SetSampleCounts((VkSampleCountFlagBits)m_data.multisample.rasterizationSamples);
 		m_ptrGfxPipeline->SetSampleShading(FALSE, 0.0f);
@@ -151,7 +151,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadDepthStencilState(void)
+	BOOL CResGraphics::LoadDepthStencilState(void)
 	{
 		m_ptrGfxPipeline->SetDepthBoundsTest(FALSE, 0.0f, 0.0f);
 		m_ptrGfxPipeline->SetDepthTest(m_data.depth.depthTestEnable, m_data.depth.depthWriteEnable, (VkCompareOp)m_data.depth.depthCompareOp);
@@ -160,7 +160,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CPipelineGraphics::LoadColorBlendState(void)
+	BOOL CResGraphics::LoadColorBlendState(void)
 	{
 		m_ptrGfxPipeline->SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
 		m_ptrGfxPipeline->SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);

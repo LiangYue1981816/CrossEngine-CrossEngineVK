@@ -42,11 +42,11 @@ namespace CrossEngine {
 
 	BOOL CResourceSystem::Create(void)
 	{
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CShaderManager;
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE] = SAFE_NEW CTextureManager;
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE] = SAFE_NEW CPipelineComputeManager;
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS] = SAFE_NEW CPipelineGraphicsManager;
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL] = SAFE_NEW CMaterialManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CResShaderManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE] = SAFE_NEW CResTextureManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE] = SAFE_NEW CResComputeManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS] = SAFE_NEW CResGraphicsManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL] = SAFE_NEW CResMaterialManager;
 		// ...
 
 		pthread_create(&m_thread, NULL, UpdateLoadThread, this);

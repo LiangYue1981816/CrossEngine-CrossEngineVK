@@ -29,17 +29,17 @@ namespace CrossEngine {
 	template<class T>
 	class CROSS_EXPORT CResourcePtr;
 	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CShader;
-	class CROSS_EXPORT CTexture;
-	class CROSS_EXPORT CPipelineCompute;
-	class CROSS_EXPORT CPipelineGraphics;
-	class CROSS_EXPORT CMaterial;
-	class CROSS_EXPORT CMaterialPass;
+	class CROSS_EXPORT CResShader;
+	class CROSS_EXPORT CResTexture;
+	class CROSS_EXPORT CResCompute;
+	class CROSS_EXPORT CResGraphics;
+	class CROSS_EXPORT CResMaterial;
+	class CROSS_EXPORT CResMaterialPass;
 
-	typedef CResourcePtr<CShader> CShaderPtr;
-	typedef CResourcePtr<CTexture> CTexturePtr;
-	typedef CResourcePtr<CPipelineCompute> CPipelineComputePtr;
-	typedef CResourcePtr<CPipelineGraphics> CPipelineGraphicsPtr;
-	typedef CResourcePtr<CMaterial> CMaterialPtr;
+	typedef CResourcePtr<CResShader> CResShaderPtr;
+	typedef CResourcePtr<CResTexture> CResTexturePtr;
+	typedef CResourcePtr<CResCompute> CResComputePtr;
+	typedef CResourcePtr<CResGraphics> CResGraphicsPtr;
+	typedef CResourcePtr<CResMaterial> CResMaterialPtr;
 
 }

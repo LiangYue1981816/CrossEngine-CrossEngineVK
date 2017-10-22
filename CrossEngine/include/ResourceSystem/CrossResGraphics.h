@@ -103,14 +103,14 @@ namespace CrossEngine {
 		std::map<uint32_t, ColorBlendAttachment> colorBlendAttachments;
 	};
 
-	class CROSS_EXPORT CPipelineGraphics : public CResource
+	class CROSS_EXPORT CResGraphics : public CResource
 	{
-		friend class CPipelineGraphicsManager;
+		friend class CResGraphicsManager;
 
 
 	protected:
-		CPipelineGraphics(CResourceManager *pResourceManager);
-		virtual ~CPipelineGraphics(void);
+		CResGraphics(CResourceManager *pResourceManager);
+		virtual ~CResGraphics(void);
 
 
 	public:

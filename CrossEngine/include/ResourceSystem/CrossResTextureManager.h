@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CTextureManager : public CResourceManager
+	class CROSS_EXPORT CResTextureManager : public CResourceManager
 	{
 		friend class CResourceSystem;
 
 
 	protected:
-		CTextureManager(void);
-		virtual ~CTextureManager(void);
+		CResTextureManager(void);
+		virtual ~CResTextureManager(void);
 
 
 	public:

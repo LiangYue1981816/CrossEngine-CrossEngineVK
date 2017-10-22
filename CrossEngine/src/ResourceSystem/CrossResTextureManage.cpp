@@ -25,32 +25,32 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CTextureManager::CTextureManager(void)
+	CResTextureManager::CResTextureManager(void)
 	{
 
 	}
 
-	CTextureManager::~CTextureManager(void)
+	CResTextureManager::~CResTextureManager(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CTextureManager::GetType(void) const
+	RESOURCE_TYPE CResTextureManager::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE;
 	}
 
-	CResource* CTextureManager::CreateResource(void)
+	CResource* CResTextureManager::CreateResource(void)
 	{
-		return SAFE_NEW CTexture(this, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
+		return SAFE_NEW CResTexture(this, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
 	}
 
-	CResource* CTextureManager::CreateResource(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	CResource* CResTextureManager::CreateResource(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		return SAFE_NEW CTexture(this, minFilter, magFilter, mipmapMode, addressMode);
+		return SAFE_NEW CResTexture(this, minFilter, magFilter, mipmapMode, addressMode);
 	}
 
-	BOOL CTextureManager::PreLoadFromFile(const char *szFileName)
+	BOOL CResTextureManager::PreLoadFromFile(const char *szFileName)
 	{
 		if (CResourceManager::PreLoadFromFile(szFileName, TEXTURE_EXT_NAME0) == FALSE) return FALSE;
 		if (CResourceManager::PreLoadFromFile(szFileName, TEXTURE_EXT_NAME1) == FALSE) return FALSE;
@@ -59,7 +59,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CTextureManager::PreLoadFromPath(const char *szPathName)
+	BOOL CResTextureManager::PreLoadFromPath(const char *szPathName)
 	{
 		if (CResourceManager::PreLoadFromPath(szPathName, TEXTURE_EXT_NAME0) == FALSE) return FALSE;
 		if (CResourceManager::PreLoadFromPath(szPathName, TEXTURE_EXT_NAME1) == FALSE) return FALSE;
@@ -68,7 +68,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CTextureManager::PreLoadFromPack(const char *szPackName)
+	BOOL CResTextureManager::PreLoadFromPack(const char *szPackName)
 	{
 		if (CResourceManager::PreLoadFromPack(szPackName, TEXTURE_EXT_NAME0) == FALSE) return FALSE;
 		if (CResourceManager::PreLoadFromPack(szPackName, TEXTURE_EXT_NAME1) == FALSE) return FALSE;

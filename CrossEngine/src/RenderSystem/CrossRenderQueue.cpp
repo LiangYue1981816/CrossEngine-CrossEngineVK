@@ -37,11 +37,11 @@ namespace CrossEngine {
 
 	void CRenderQueue::AddMesh(CEntityMesh *pEntityMesh)
 	{
-		const CMaterialPtr &ptrMaterial = pEntityMesh->GetMaterial();
+		const CResMaterialPtr &ptrMaterial = pEntityMesh->GetMaterial();
 
 		for (const auto &itMatPass : ptrMaterial->GetPasses()) {
-			const CMaterialPass *pMatPass = itMatPass.second;
-			const CPipelineGraphicsPtr &ptrPipeline = pMatPass->GetPipeline();
+			const CResMaterialPass *pMatPass = itMatPass.second;
+			const CResGraphicsPtr &ptrPipeline = pMatPass->GetPipeline();
 			const CGfxRenderPassPtr &ptrRenderPass = ptrPipeline->GetGfxRenderPass();
 			const uint32_t indexSubPass = ptrPipeline->GetIndexSubPass();
 

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
 
-CrossEngine::CShaderPtr ptrShaderVertex;
-CrossEngine::CShaderPtr ptrShaderFragment;
+CrossEngine::CResShaderPtr ptrShaderVertex;
+CrossEngine::CResShaderPtr ptrShaderFragment;
 CrossEngine::CGfxPipelineGraphicsPtr ptrPipeline;
 
 CrossEngine::CGfxIndexBufferPtr ptrIndexBuffer;

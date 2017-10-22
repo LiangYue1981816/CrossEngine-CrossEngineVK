@@ -25,27 +25,27 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CShaderManager::CShaderManager(void)
+	CResShaderManager::CResShaderManager(void)
 	{
 
 	}
 
-	CShaderManager::~CShaderManager(void)
+	CResShaderManager::~CResShaderManager(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CShaderManager::GetType(void) const
+	RESOURCE_TYPE CResShaderManager::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
 	}
 
-	CResource* CShaderManager::CreateResource(void)
+	CResource* CResShaderManager::CreateResource(void)
 	{
-		return SAFE_NEW CShader(this);
+		return SAFE_NEW CResShader(this);
 	}
 
-	BOOL CShaderManager::PreLoadFromFile(const char *szFileName)
+	BOOL CResShaderManager::PreLoadFromFile(const char *szFileName)
 	{
 		if (CResourceManager::PreLoadFromFile(szFileName, SHADER_EXT_NAME0) == FALSE) return FALSE;
 		if (CResourceManager::PreLoadFromFile(szFileName, SHADER_EXT_NAME1) == FALSE) return FALSE;
@@ -54,7 +54,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CShaderManager::PreLoadFromPath(const char *szPathName)
+	BOOL CResShaderManager::PreLoadFromPath(const char *szPathName)
 	{
 		if (CResourceManager::PreLoadFromPath(szPathName, SHADER_EXT_NAME0) == FALSE) return FALSE;
 		if (CResourceManager::PreLoadFromPath(szPathName, SHADER_EXT_NAME1) == FALSE) return FALSE;
@@ -63,7 +63,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CShaderManager::PreLoadFromPack(const char *szPackName)
+	BOOL CResShaderManager::PreLoadFromPack(const char *szPackName)
 	{
 		if (CResourceManager::PreLoadFromPack(szPackName, SHADER_EXT_NAME0) == FALSE) return FALSE;
 		if (CResourceManager::PreLoadFromPack(szPackName, SHADER_EXT_NAME1) == FALSE) return FALSE;
@@ -72,12 +72,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CShaderManager::Load(CResourceHandle *pResource)
+	BOOL CResShaderManager::Load(CResourceHandle *pResource)
 	{
 		return pResource->LoadResource(TRUE);
 	}
 
-	void CShaderManager::GarbageCollection(void)
+	void CResShaderManager::GarbageCollection(void)
 	{
 
 	}

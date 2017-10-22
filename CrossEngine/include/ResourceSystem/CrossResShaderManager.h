@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CShaderManager : public CResourceManager
+	class CROSS_EXPORT CResShaderManager : public CResourceManager
 	{
 		friend class CResourceSystem;
 
 
 	protected:
-		CShaderManager(void);
-		virtual ~CShaderManager(void);
+		CResShaderManager(void);
+		virtual ~CResShaderManager(void);
 
 
 	public:

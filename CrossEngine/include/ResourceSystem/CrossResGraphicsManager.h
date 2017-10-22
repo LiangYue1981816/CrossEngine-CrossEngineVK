@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CPipelineGraphicsManager : public CResourceManager
+	class CROSS_EXPORT CResGraphicsManager : public CResourceManager
 	{
 		friend class CResourceSystem;
 
 
 	protected:
-		CPipelineGraphicsManager(void);
-		virtual ~CPipelineGraphicsManager(void);
+		CResGraphicsManager(void);
+		virtual ~CResGraphicsManager(void);
 
 
 	public:

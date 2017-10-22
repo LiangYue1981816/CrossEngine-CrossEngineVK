@@ -25,42 +25,42 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CPipelineComputeManager::CPipelineComputeManager(void)
+	CResComputeManager::CResComputeManager(void)
 	{
 
 	}
 
-	CPipelineComputeManager::~CPipelineComputeManager(void)
+	CResComputeManager::~CResComputeManager(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CPipelineComputeManager::GetType(void) const
+	RESOURCE_TYPE CResComputeManager::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE;
 	}
 
-	CResource* CPipelineComputeManager::CreateResource(void)
+	CResource* CResComputeManager::CreateResource(void)
 	{
-		return SAFE_NEW CPipelineCompute(this);
+		return SAFE_NEW CResCompute(this);
 	}
 
-	BOOL CPipelineComputeManager::PreLoadFromFile(const char *szFileName)
+	BOOL CResComputeManager::PreLoadFromFile(const char *szFileName)
 	{
 		return CResourceManager::PreLoadFromFile(szFileName, COMPUTE_EXT_NAME);
 	}
 
-	BOOL CPipelineComputeManager::PreLoadFromPath(const char *szPathName)
+	BOOL CResComputeManager::PreLoadFromPath(const char *szPathName)
 	{
 		return CResourceManager::PreLoadFromPath(szPathName, COMPUTE_EXT_NAME);
 	}
 
-	BOOL CPipelineComputeManager::PreLoadFromPack(const char *szPackName)
+	BOOL CResComputeManager::PreLoadFromPack(const char *szPackName)
 	{
 		return CResourceManager::PreLoadFromPack(szPackName, COMPUTE_EXT_NAME);
 	}
 
-	void CPipelineComputeManager::GarbageCollection(void)
+	void CResComputeManager::GarbageCollection(void)
 	{
 
 	}

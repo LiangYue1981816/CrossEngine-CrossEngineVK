@@ -35,7 +35,7 @@ namespace CrossEngine {
 
 	}
 
-	const CMaterialPtr& CEntityMesh::GetMaterial(void) const
+	const CResMaterialPtr& CEntityMesh::GetMaterial(void) const
 	{
 		return m_ptrMaterial;
 	}
