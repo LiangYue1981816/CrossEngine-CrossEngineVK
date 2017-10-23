@@ -48,7 +48,7 @@ namespace CrossEngine {
 		VkQueue GetQueue(void) const;
 		uint32_t GetQueueFamilyIndex(void) const;
 
-	public:
+	protected:
 		int Submit(const CGfxCommandBuffer *pCommandBuffer) const;
 		int Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
 		int WaitIdle(void) const;

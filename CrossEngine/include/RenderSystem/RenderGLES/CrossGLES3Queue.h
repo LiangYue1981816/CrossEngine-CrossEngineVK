@@ -36,7 +36,7 @@ namespace CrossEngine {
 		virtual ~CGLES3Queue(void);
 
 
-	public:
+	protected:
 		int Submit(const CGfxCommandBuffer *pCommandBuffer) const;
 		int Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
 		int WaitIdle(void) const;
