@@ -133,8 +133,11 @@ namespace CrossEngine {
 				scanf(szValue, "%f", &value);
 
 				uint32_t dwName = HashValue(szName);
+				uint32_t binding = m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, dwName);
+
 				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
 				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
+				m_uniformFloats[dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_MATERAL, binding, 0, sizeof(value));
 			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
 		}
 
@@ -147,8 +150,11 @@ namespace CrossEngine {
 				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);
 
 				uint32_t dwName = HashValue(szName);
+				uint32_t binding = m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, dwName);
+
 				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
 				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
+				m_uniformFloats[dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_MATERAL, binding, 0, sizeof(value));
 			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
 		}
 
