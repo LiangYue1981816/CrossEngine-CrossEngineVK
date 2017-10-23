@@ -28,7 +28,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanInstance : public CGfxInstance
 	{
-	public:
+		friend class CRenderSystem;
+
+
+	protected:
 		CVulkanInstance(void);
 		virtual ~CVulkanInstance(void);
 

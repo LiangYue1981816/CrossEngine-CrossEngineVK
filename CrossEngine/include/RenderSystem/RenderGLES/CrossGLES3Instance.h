@@ -28,7 +28,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3Instance : public CGfxInstance
 	{
-	public:
+		friend class CRenderSystem;
+
+
+	protected:
 		CGLES3Instance(void);
 		virtual ~CGLES3Instance(void);
 
