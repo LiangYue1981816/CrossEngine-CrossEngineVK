@@ -29,10 +29,10 @@ namespace CrossEngine {
 		: m_pDevice(pDevice)
 		, m_vkDescriptorPool(VK_NULL_HANDLE)
 
-		, m_maxDescriptorSets(0)
 		, m_numDescriptorSets(0)
-		, m_maxAllocatedTypes{ 0 }
+		, m_maxDescriptorSets(0)
 		, m_numAllocatedTypes{ 0 }
+		, m_maxAllocatedTypes{ 0 }
 
 		, pNext(NULL)
 	{
