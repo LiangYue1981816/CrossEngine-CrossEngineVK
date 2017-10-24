@@ -112,8 +112,6 @@ namespace CrossEngine {
 			return;
 		}
 
-		vkDeviceWaitIdle(m_vkDevice);
-
 		DestroyFrameBufferManager();
 		DestroyRenderPassManager();
 		DestroyPipelineManager();
@@ -515,7 +513,7 @@ namespace CrossEngine {
 
 	int CVulkanDevice::WaitIdle(void) const
 	{
-		return m_pQueue->WaitIdle();
+		return vkDeviceWaitIdle(m_vkDevice);
 	}
 
 	void CVulkanDevice::DumpLog(void) const

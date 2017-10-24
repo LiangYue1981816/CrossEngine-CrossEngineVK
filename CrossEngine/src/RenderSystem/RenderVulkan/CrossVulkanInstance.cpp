@@ -192,11 +192,19 @@ namespace CrossEngine {
 				continue;
 			}
 #endif
+
+			// ...
 		}
 
-		if (bSurfaceExtension == FALSE || bPlatformSurfaceExtension == FALSE) {
+		if (bSurfaceExtension == FALSE) {
 			return VK_ERROR_INITIALIZATION_FAILED;
 		}
+
+		if (bPlatformSurfaceExtension == FALSE) {
+			return VK_ERROR_INITIALIZATION_FAILED;
+		}
+
+		// ...
 
 		return VK_SUCCESS;
 	}
