@@ -185,15 +185,13 @@ namespace CrossEngine {
 		std::vector<VkExtensionProperties> extensions(numExtensions);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, extensions.data()));
 
-		BOOL bSwapchainExtension = FALSE;
 		for (uint32_t index = 0; index < numExtensions; index++) {
 			if (stricmp(extensions[index].extensionName, VK_KHR_SWAPCHAIN_EXTENSION_NAME) == 0) {
-				bSwapchainExtension = TRUE;
-				continue;
+				return VK_SUCCESS;
 			}
 		}
 
-		return bSwapchainExtension ? VK_SUCCESS : VK_ERROR_INITIALIZATION_FAILED;
+		return VK_ERROR_INITIALIZATION_FAILED;
 	}
 
 	int CVulkanDevice::CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const
@@ -207,12 +205,12 @@ namespace CrossEngine {
 		std::vector<VkQueueFamilyProperties> queueFamilies(numQueueFamilies);
 		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, queueFamilies.data());
 
-		std::vector<VkBool32> surfaceSupports(numQueueFamilies);
 		for (uint32_t index = 0; index < numQueueFamilies; index++) {
-			CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pInstance->GetSurface(), &surfaceSupports[index]));
+			if (queueFamilies[index].queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+				VkBool32 surfaceSupported;
+				CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pInstance->GetSurface(), &surfaceSupported));
 
-			if ((queueFamilies[index].queueCount > 0) && (queueFamilies[index].queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
-				if (queueFamilyIndex == UINT32_MAX && surfaceSupports[index] == TRUE) {
+				if (surfaceSupported == TRUE) {
 					queueFamilyIndex = index;
 					return VK_SUCCESS;
 				}
@@ -312,7 +310,7 @@ namespace CrossEngine {
 
 	void CVulkanDevice::DestroyDevice(void)
 	{
-		if (m_vkDevice && m_vkPhysicalDevice) {
+		if (m_vkDevice) {
 			vkDestroyDevice(m_vkDevice, m_pInstance->GetAllocator()->GetAllocationCallbacks());
 		}
 
