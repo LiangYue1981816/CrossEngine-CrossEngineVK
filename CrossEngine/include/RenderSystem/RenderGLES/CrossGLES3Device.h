@@ -81,14 +81,11 @@ namespace CrossEngine {
 		CGfxIndexBufferPtr NewIndexBuffer(void);
 		CGfxVertexBufferPtr NewVertexBuffer(void);
 		CGfxUniformBufferPtr NewUniformBuffer(void);
-
 		CGfxTexturePtr NewTexture(void);
 		CGfxRenderTexturePtr NewRenderTexture(void);
-
 		CGfxShaderPtr NewShader(void);
 		CGfxPipelineComputePtr NewPipelineCompute(void);
 		CGfxPipelineGraphicsPtr NewPipelineGraphics(void);
-
 		CGfxRenderPassPtr NewRenderPass(void);
 		CGfxFrameBufferPtr NewFrameBuffer(void);
 
