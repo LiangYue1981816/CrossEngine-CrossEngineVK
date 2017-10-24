@@ -41,7 +41,7 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		CVulkanCommandPool* GetCommandPool(uint32_t pool);
+		CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 
 
 	protected:
