@@ -67,7 +67,7 @@ namespace CrossEngine {
 		int CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
 
 		int CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex);
-		int CreateQueue(uint32_t queueFamilyIndex);
+		int CreateQueue(void);
 		int CreateMemoryManager(void);
 		int CreateCommandPoolManager(void);
 		int CreateDescriptorSetManager(void);
@@ -104,6 +104,7 @@ namespace CrossEngine {
 		CGfxQueue* GetComputeQueue(void) const;
 		CGfxQueue* GetGraphicsQueue(void) const;
 		CGfxQueue* GetTransferQueue(void) const;
+		uint32_t GetQueueFamilyIndex(void) const;
 
 	public:
 		VkDevice GetDevice(void) const;
@@ -153,6 +154,7 @@ namespace CrossEngine {
 		VkPhysicalDeviceMemoryProperties m_vkPhysicalDeviceMemoryProperties;
 
 	protected:
+		uint32_t m_queueFamilyIndex;
 		CVulkanQueue *m_pComputeQueue;
 		CVulkanQueue *m_pGraphicsQueue;
 		CVulkanQueue *m_pTransferQueue;

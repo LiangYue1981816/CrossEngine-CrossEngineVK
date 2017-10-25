@@ -31,6 +31,7 @@ namespace CrossEngine {
 		, m_vkDevice(VK_NULL_HANDLE)
 		, m_vkPhysicalDevice(VK_NULL_HANDLE)
 
+		, m_queueFamilyIndex(0)
 		, m_pComputeQueue(NULL)
 		, m_pGraphicsQueue(NULL)
 		, m_pTransferQueue(NULL)
@@ -94,7 +95,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(SelectPhysicalDevices(devices, vkPhysicalDevice, queueFamilyIndex));
 		CALL_VK_FUNCTION_RETURN(CreateDevice(vkPhysicalDevice, queueFamilyIndex));
 
-		CALL_VK_FUNCTION_RETURN(CreateQueue(queueFamilyIndex));
+		CALL_VK_FUNCTION_RETURN(CreateQueue());
 		CALL_VK_FUNCTION_RETURN(CreateMemoryManager());
 		CALL_VK_FUNCTION_RETURN(CreateCommandPoolManager());
 		CALL_VK_FUNCTION_RETURN(CreateDescriptorSetManager());
@@ -210,7 +211,9 @@ namespace CrossEngine {
 		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, queueFamilies.data());
 
 		for (uint32_t index = 0; index < numQueueFamilies; index++) {
-			if (queueFamilies[index].queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+			if (queueFamilies[index].queueFlags & VK_QUEUE_COMPUTE_BIT && 
+				queueFamilies[index].queueFlags & VK_QUEUE_GRAPHICS_BIT && 
+				queueFamilies[index].queueFlags & VK_QUEUE_TRANSFER_BIT) {
 				VkBool32 surfaceSupported;
 				CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pInstance->GetSurface(), &surfaceSupported));
 
@@ -249,6 +252,7 @@ namespace CrossEngine {
 		deviceCreateInfo.pEnabledFeatures = NULL;
 		CALL_VK_FUNCTION_RETURN(vkCreateDevice(vkPhysicalDevice, &deviceCreateInfo, m_pInstance->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice));
 
+		m_queueFamilyIndex = queueFamilyIndex;
 		m_vkPhysicalDevice = vkPhysicalDevice;
 		vkGetPhysicalDeviceFeatures(m_vkPhysicalDevice, &m_vkPhysicalDeviceFeatures);
 		vkGetPhysicalDeviceProperties(m_vkPhysicalDevice, &m_vkPhysicalDeviceProperties);
@@ -257,11 +261,11 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	int CVulkanDevice::CreateQueue(uint32_t queueFamilyIndex)
+	int CVulkanDevice::CreateQueue(void)
 	{
-		CALL_VK_FUNCTION_RETURN(m_pComputeQueue->Create(queueFamilyIndex, 0));
-		CALL_VK_FUNCTION_RETURN(m_pGraphicsQueue->Create(queueFamilyIndex, 1));
-		CALL_VK_FUNCTION_RETURN(m_pTransferQueue->Create(queueFamilyIndex, 2));
+		CALL_VK_FUNCTION_RETURN(m_pComputeQueue->Create(m_queueFamilyIndex, 0));
+		CALL_VK_FUNCTION_RETURN(m_pGraphicsQueue->Create(m_queueFamilyIndex, 1));
+		CALL_VK_FUNCTION_RETURN(m_pTransferQueue->Create(m_queueFamilyIndex, 2));
 
 		return VK_SUCCESS;
 	}
@@ -411,6 +415,11 @@ namespace CrossEngine {
 	CGfxQueue* CVulkanDevice::GetTransferQueue(void) const
 	{
 		return m_pTransferQueue;
+	}
+
+	uint32_t CVulkanDevice::GetQueueFamilyIndex(void) const
+	{
+		return m_queueFamilyIndex;
 	}
 
 	VkDevice CVulkanDevice::GetDevice(void) const
