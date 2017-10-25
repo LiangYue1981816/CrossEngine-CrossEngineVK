@@ -86,10 +86,10 @@ namespace CrossEngine {
 
 	CVulkanSwapchain::CVulkanSwapchain(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
-		, m_vkSwapchain(VK_NULL_HANDLE)
-		, m_vkAcquireSemaphore(VK_NULL_HANDLE)
 		, m_vkImages{ VK_NULL_HANDLE }
 		, m_vkImageViews{ VK_NULL_HANDLE }
+		, m_vkSwapchain(VK_NULL_HANDLE)
+		, m_vkAcquireSemaphore(VK_NULL_HANDLE)
 		, m_vkRenderDoneSemaphores{ VK_NULL_HANDLE }
 
 		, m_indexImage(0)
@@ -236,25 +236,12 @@ namespace CrossEngine {
 
 	void CVulkanSwapchain::DestroySwapchain(void)
 	{
-		if (m_vkSwapchain) {
-			vkDestroySwapchainKHR(m_pDevice->GetDevice(), m_vkSwapchain, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
-		}
+		vkDestroySwapchainKHR(m_pDevice->GetDevice(), m_vkSwapchain, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 
-		if (m_vkAcquireSemaphore) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		if (m_vkRenderDoneSemaphores[0]) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[0], ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		if (m_vkRenderDoneSemaphores[1]) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[1], ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
-		}
-
-		if (m_vkRenderDoneSemaphores[2]) {
-			vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[2], ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
-		}
+		vkDestroySemaphore(m_pDevice->GetDevice(), m_vkAcquireSemaphore, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
+		vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[0], ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
+		vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[1], ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
+		vkDestroySemaphore(m_pDevice->GetDevice(), m_vkRenderDoneSemaphores[2], ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 
 		m_vkSwapchain = VK_NULL_HANDLE;
 		m_vkAcquireSemaphore = VK_NULL_HANDLE;
