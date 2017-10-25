@@ -201,6 +201,11 @@ namespace CrossEngine {
 		m_pFrameBufferManager->Destroy();
 	}
 
+	CGfxInstance* CGLES3Device::GetInstance(void) const
+	{
+		return m_pInstance;
+	}
+
 	CGfxQueue* CGLES3Device::GetComputeQueue(void) const
 	{
 		return m_pQueue;
@@ -214,11 +219,6 @@ namespace CrossEngine {
 	CGfxQueue* CGLES3Device::GetTransferQueue(void) const
 	{
 		return m_pQueue;
-	}
-
-	CGfxInstance* CGLES3Device::GetInstance(void) const
-	{
-		return m_pInstance;
 	}
 
 	const GLPhysicalDeviceLimits& CGLES3Device::GetPhysicalDeviceLimits(void) const

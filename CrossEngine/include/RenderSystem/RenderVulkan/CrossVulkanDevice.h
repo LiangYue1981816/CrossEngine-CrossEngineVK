@@ -99,11 +99,11 @@ namespace CrossEngine {
 		CVulkanMemoryManager* GetMemoryManager(void) const;
 		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
 
-	protected:
+	public:
+		CGfxInstance* GetInstance(void) const;
 		CGfxQueue* GetComputeQueue(void) const;
 		CGfxQueue* GetGraphicsQueue(void) const;
 		CGfxQueue* GetTransferQueue(void) const;
-		CGfxInstance* GetInstance(void) const;
 
 	public:
 		VkDevice GetDevice(void) const;

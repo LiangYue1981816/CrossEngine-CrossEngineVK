@@ -393,6 +393,11 @@ namespace CrossEngine {
 		return m_pStagingBufferManager;
 	}
 
+	CGfxInstance* CVulkanDevice::GetInstance(void) const
+	{
+		return m_pInstance;
+	}
+
 	CGfxQueue* CVulkanDevice::GetComputeQueue(void) const
 	{
 		return m_pComputeQueue;
@@ -406,11 +411,6 @@ namespace CrossEngine {
 	CGfxQueue* CVulkanDevice::GetTransferQueue(void) const
 	{
 		return m_pTransferQueue;
-	}
-
-	CGfxInstance* CVulkanDevice::GetInstance(void) const
-	{
-		return m_pInstance;
 	}
 
 	VkDevice CVulkanDevice::GetDevice(void) const

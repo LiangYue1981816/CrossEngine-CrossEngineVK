@@ -66,11 +66,11 @@ namespace CrossEngine {
 		void DestroyRenderPassManager(void);
 		void DestroyFrameBufferManager(void);
 
-	protected:
+	public:
+		CGfxInstance* GetInstance(void) const;
 		CGfxQueue* GetComputeQueue(void) const;
 		CGfxQueue* GetGraphicsQueue(void) const;
 		CGfxQueue* GetTransferQueue(void) const;
-		CGfxInstance* GetInstance(void) const;
 
 	public:
 		const GLPhysicalDeviceLimits& GetPhysicalDeviceLimits(void) const;

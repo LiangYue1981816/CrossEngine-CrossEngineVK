@@ -83,11 +83,11 @@ namespace CrossEngine {
 		uint32_t GetVertexAttributeLocation(uint32_t attribute) const;
 		VkFormat GetVertexAttributeFormat(uint32_t attribute) const;
 
-	protected:
+	public:
+		virtual CGfxInstance* GetInstance(void) const = 0;
 		virtual CGfxQueue* GetComputeQueue(void) const = 0;
 		virtual CGfxQueue* GetGraphicsQueue(void) const = 0;
 		virtual CGfxQueue* GetTransferQueue(void) const = 0;
-		virtual CGfxInstance* GetInstance(void) const = 0;
 
 	public:
 		virtual CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level) = 0;
