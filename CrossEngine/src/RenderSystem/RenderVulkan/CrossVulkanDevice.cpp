@@ -523,16 +523,6 @@ namespace CrossEngine {
 		m_pShaderManager->AddMacroDefinition(szName, szValue);
 	}
 
-	int CVulkanDevice::Submit(const CGfxCommandBuffer *pCommandBuffer) const
-	{
-		return m_pGraphicsQueue->Submit(pCommandBuffer);
-	}
-
-	int CVulkanDevice::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
-	{
-		return m_pGraphicsQueue->Submit(pCommandBuffer, waitSemaphore, waitStageFlags, signalSemaphore);
-	}
-
 	int CVulkanDevice::WaitIdle(void) const
 	{
 		return vkDeviceWaitIdle(m_vkDevice);

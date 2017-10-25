@@ -137,8 +137,6 @@ namespace CrossEngine {
 		void AddShaderMacroDefinition(const char *szName, const char *szValue);
 
 	public:
-		int Submit(const CGfxCommandBuffer *pCommandBuffer) const;
-		int Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const;
 		int WaitIdle(void) const;
 
 	public:

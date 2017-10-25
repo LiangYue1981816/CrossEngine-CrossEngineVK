@@ -311,16 +311,6 @@ namespace CrossEngine {
 		m_pShaderManager->AddMacroDefinition(szName, szValue);
 	}
 
-	int CGLES3Device::Submit(const CGfxCommandBuffer *pCommandBuffer) const
-	{
-		return m_pQueue->Submit(pCommandBuffer);
-	}
-
-	int CGLES3Device::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
-	{
-		return m_pQueue->Submit(pCommandBuffer, waitSemaphore, waitStageFlags, signalSemaphore);
-	}
-
 	int CGLES3Device::WaitIdle(void) const
 	{
 		return m_pQueue->WaitIdle();
