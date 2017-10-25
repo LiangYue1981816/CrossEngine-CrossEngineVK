@@ -272,7 +272,7 @@ namespace CrossEngine {
 		presentInfo.pSwapchains = &m_vkSwapchain;
 		presentInfo.pImageIndices = &m_indexImage;
 		presentInfo.pResults = NULL;
-		return vkQueuePresentKHR(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue(), &presentInfo);
+		return vkQueuePresentKHR(((CVulkanQueue *)m_pDevice->GetGraphicsQueue())->GetQueue(), &presentInfo);
 	}
 
 	BOOL CVulkanSwapchain::AcquireNextImage(CGfxFence fence)

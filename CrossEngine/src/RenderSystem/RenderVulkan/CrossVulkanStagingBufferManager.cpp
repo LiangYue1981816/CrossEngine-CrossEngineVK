@@ -43,7 +43,7 @@ namespace CrossEngine {
 		createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
-		createInfo.queueFamilyIndex = ((CVulkanQueue *)m_pDevice->GetQueue())->GetQueueFamilyIndex();
+		createInfo.queueFamilyIndex = m_pDevice->GetQueueFamilyIndex();
 		CALL_VK_FUNCTION_RETURN(vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool));
 
 		return VK_SUCCESS;
