@@ -101,6 +101,7 @@ namespace CrossEngine {
 
 	protected:
 		CGfxQueue* GetQueue(void) const;
+		CGfxQueue* GetResQueue(void) const;
 		CGfxInstance* GetInstance(void) const;
 
 	public:
@@ -154,6 +155,7 @@ namespace CrossEngine {
 
 	protected:
 		CVulkanQueue *m_pQueue;
+		CVulkanQueue *m_pResQueue;
 		CVulkanMemoryManager *m_pMemoryManager;
 		CVulkanCommandPoolManager *m_pCommandPoolManager;
 		CVulkanDescriptorSetManager *m_pDescriptorSetManager;

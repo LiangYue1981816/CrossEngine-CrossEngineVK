@@ -32,6 +32,7 @@ namespace CrossEngine {
 		, m_vkPhysicalDevice(VK_NULL_HANDLE)
 
 		, m_pQueue(NULL)
+		, m_pResQueue(NULL)
 		, m_pMemoryManager(NULL)
 		, m_pCommandPoolManager(NULL)
 		, m_pDescriptorSetManager(NULL)
@@ -49,6 +50,7 @@ namespace CrossEngine {
 		, m_vkPhysicalDeviceMemoryProperties{}
 	{
 		m_pQueue = SAFE_NEW CVulkanQueue(this);
+		m_pResQueue = SAFE_NEW CVulkanQueue(this);
 		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
 		m_pCommandPoolManager = SAFE_NEW CVulkanCommandPoolManager(this);
 		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
@@ -65,6 +67,7 @@ namespace CrossEngine {
 	CVulkanDevice::~CVulkanDevice(void)
 	{
 		SAFE_DELETE(m_pQueue);
+		SAFE_DELETE(m_pResQueue);
 		SAFE_DELETE(m_pMemoryManager);
 		SAFE_DELETE(m_pCommandPoolManager);
 		SAFE_DELETE(m_pDescriptorSetManager);
@@ -220,12 +223,12 @@ namespace CrossEngine {
 
 	int CVulkanDevice::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
-		float queuePpriorities[1] = { 0.0f };
+		float queuePpriorities[2] = { 1.0f, 1.0f };
 		VkDeviceQueueCreateInfo queueCreateInfo[1] = {};
 		queueCreateInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 		queueCreateInfo[0].pNext = NULL;
 		queueCreateInfo[0].flags = 0;
-		queueCreateInfo[0].queueCount = 1;
+		queueCreateInfo[0].queueCount = 2;
 		queueCreateInfo[0].queueFamilyIndex = queueFamilyIndex;
 		queueCreateInfo[0].pQueuePriorities = queuePpriorities;
 
@@ -253,7 +256,10 @@ namespace CrossEngine {
 
 	int CVulkanDevice::CreateQueue(uint32_t queueFamilyIndex)
 	{
-		return m_pQueue->Create(queueFamilyIndex);
+		CALL_VK_FUNCTION_RETURN(m_pQueue->Create(queueFamilyIndex, 0));
+		CALL_VK_FUNCTION_RETURN(m_pResQueue->Create(queueFamilyIndex, 1));
+
+		return VK_SUCCESS;
 	}
 
 	int CVulkanDevice::CreateMemoryManager(void)
@@ -319,6 +325,7 @@ namespace CrossEngine {
 	void CVulkanDevice::DestroyQueue(void)
 	{
 		m_pQueue->Destroy();
+		m_pResQueue->Destroy();
 	}
 
 	void CVulkanDevice::DestroyMemoryManager(void)
@@ -384,6 +391,11 @@ namespace CrossEngine {
 	CGfxQueue* CVulkanDevice::GetQueue(void) const
 	{
 		return m_pQueue;
+	}
+
+	CGfxQueue* CVulkanDevice::GetResQueue(void) const
+	{
+		return m_pResQueue;
 	}
 
 	CGfxInstance* CVulkanDevice::GetInstance(void) const

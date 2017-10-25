@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	protected:
-		int Create(uint32_t queueFamilyIndex);
+		int Create(uint32_t queueFamilyIndex, uint32_t queueIndex);
 		void Destroy(void);
 
 	protected:

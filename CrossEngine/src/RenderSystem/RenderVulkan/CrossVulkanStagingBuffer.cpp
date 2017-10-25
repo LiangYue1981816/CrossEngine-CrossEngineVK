@@ -93,8 +93,8 @@ namespace CrossEngine {
 		}
 		CALL_VK_FUNCTION_RETURN(vkEndCommandBuffer(m_vkCommandBuffer));
 
-		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
-		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue()));
+		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(((CVulkanQueue *)m_pDevice->GetResQueue())->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
+		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(((CVulkanQueue *)m_pDevice->GetResQueue())->GetQueue()));
 
 		return VK_SUCCESS;
 	}
@@ -132,8 +132,8 @@ namespace CrossEngine {
 		}
 		CALL_VK_FUNCTION_RETURN(vkEndCommandBuffer(m_vkCommandBuffer));
 
-		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
-		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(((CVulkanQueue *)m_pDevice->GetQueue())->GetQueue()));
+		CALL_VK_FUNCTION_RETURN(vkSubmitCommandBuffer(((CVulkanQueue *)m_pDevice->GetResQueue())->GetQueue(), m_vkCommandBuffer, VK_NULL_HANDLE));
+		CALL_VK_FUNCTION_RETURN(vkQueueWaitIdle(((CVulkanQueue *)m_pDevice->GetResQueue())->GetQueue()));
 
 		return VK_SUCCESS;
 	}
