@@ -100,8 +100,9 @@ namespace CrossEngine {
 		CVulkanStagingBufferManager* GetStagingBufferManager(void) const;
 
 	protected:
-		CGfxQueue* GetQueue(void) const;
-		CGfxQueue* GetResQueue(void) const;
+		CGfxQueue* GetComputeQueue(void) const;
+		CGfxQueue* GetGraphicsQueue(void) const;
+		CGfxQueue* GetTransferQueue(void) const;
 		CGfxInstance* GetInstance(void) const;
 
 	public:
@@ -154,8 +155,9 @@ namespace CrossEngine {
 		VkPhysicalDeviceMemoryProperties m_vkPhysicalDeviceMemoryProperties;
 
 	protected:
-		CVulkanQueue *m_pQueue;
-		CVulkanQueue *m_pResQueue;
+		CVulkanQueue *m_pComputeQueue;
+		CVulkanQueue *m_pGraphicsQueue;
+		CVulkanQueue *m_pTransferQueue;
 		CVulkanMemoryManager *m_pMemoryManager;
 		CVulkanCommandPoolManager *m_pCommandPoolManager;
 		CVulkanDescriptorSetManager *m_pDescriptorSetManager;

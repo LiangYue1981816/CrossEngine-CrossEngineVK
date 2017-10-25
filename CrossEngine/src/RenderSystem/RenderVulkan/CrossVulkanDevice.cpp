@@ -31,8 +31,9 @@ namespace CrossEngine {
 		, m_vkDevice(VK_NULL_HANDLE)
 		, m_vkPhysicalDevice(VK_NULL_HANDLE)
 
-		, m_pQueue(NULL)
-		, m_pResQueue(NULL)
+		, m_pComputeQueue(NULL)
+		, m_pGraphicsQueue(NULL)
+		, m_pTransferQueue(NULL)
 		, m_pMemoryManager(NULL)
 		, m_pCommandPoolManager(NULL)
 		, m_pDescriptorSetManager(NULL)
@@ -49,8 +50,9 @@ namespace CrossEngine {
 		, m_vkPhysicalDeviceProperties{}
 		, m_vkPhysicalDeviceMemoryProperties{}
 	{
-		m_pQueue = SAFE_NEW CVulkanQueue(this);
-		m_pResQueue = SAFE_NEW CVulkanQueue(this);
+		m_pComputeQueue = SAFE_NEW CVulkanQueue(this);
+		m_pGraphicsQueue = SAFE_NEW CVulkanQueue(this);
+		m_pTransferQueue = SAFE_NEW CVulkanQueue(this);
 		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
 		m_pCommandPoolManager = SAFE_NEW CVulkanCommandPoolManager(this);
 		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
@@ -66,8 +68,9 @@ namespace CrossEngine {
 
 	CVulkanDevice::~CVulkanDevice(void)
 	{
-		SAFE_DELETE(m_pQueue);
-		SAFE_DELETE(m_pResQueue);
+		SAFE_DELETE(m_pComputeQueue);
+		SAFE_DELETE(m_pGraphicsQueue);
+		SAFE_DELETE(m_pTransferQueue);
 		SAFE_DELETE(m_pMemoryManager);
 		SAFE_DELETE(m_pCommandPoolManager);
 		SAFE_DELETE(m_pDescriptorSetManager);
@@ -223,12 +226,12 @@ namespace CrossEngine {
 
 	int CVulkanDevice::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
-		float queuePpriorities[2] = { 1.0f, 1.0f };
+		float queuePpriorities[3] = { 1.0f, 1.0f, 1.0f };
 		VkDeviceQueueCreateInfo queueCreateInfo[1] = {};
 		queueCreateInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 		queueCreateInfo[0].pNext = NULL;
 		queueCreateInfo[0].flags = 0;
-		queueCreateInfo[0].queueCount = 2;
+		queueCreateInfo[0].queueCount = 3;
 		queueCreateInfo[0].queueFamilyIndex = queueFamilyIndex;
 		queueCreateInfo[0].pQueuePriorities = queuePpriorities;
 
@@ -256,8 +259,9 @@ namespace CrossEngine {
 
 	int CVulkanDevice::CreateQueue(uint32_t queueFamilyIndex)
 	{
-		CALL_VK_FUNCTION_RETURN(m_pQueue->Create(queueFamilyIndex, 0));
-		CALL_VK_FUNCTION_RETURN(m_pResQueue->Create(queueFamilyIndex, 1));
+		CALL_VK_FUNCTION_RETURN(m_pComputeQueue->Create(queueFamilyIndex, 0));
+		CALL_VK_FUNCTION_RETURN(m_pGraphicsQueue->Create(queueFamilyIndex, 1));
+		CALL_VK_FUNCTION_RETURN(m_pTransferQueue->Create(queueFamilyIndex, 2));
 
 		return VK_SUCCESS;
 	}
@@ -324,8 +328,9 @@ namespace CrossEngine {
 
 	void CVulkanDevice::DestroyQueue(void)
 	{
-		m_pQueue->Destroy();
-		m_pResQueue->Destroy();
+		m_pComputeQueue->Destroy();
+		m_pGraphicsQueue->Destroy();
+		m_pTransferQueue->Destroy();
 	}
 
 	void CVulkanDevice::DestroyMemoryManager(void)
@@ -388,14 +393,19 @@ namespace CrossEngine {
 		return m_pStagingBufferManager;
 	}
 
-	CGfxQueue* CVulkanDevice::GetQueue(void) const
+	CGfxQueue* CVulkanDevice::GetComputeQueue(void) const
 	{
-		return m_pQueue;
+		return m_pComputeQueue;
 	}
 
-	CGfxQueue* CVulkanDevice::GetResQueue(void) const
+	CGfxQueue* CVulkanDevice::GetGraphicsQueue(void) const
 	{
-		return m_pResQueue;
+		return m_pGraphicsQueue;
+	}
+
+	CGfxQueue* CVulkanDevice::GetTransferQueue(void) const
+	{
+		return m_pTransferQueue;
 	}
 
 	CGfxInstance* CVulkanDevice::GetInstance(void) const
@@ -515,12 +525,12 @@ namespace CrossEngine {
 
 	int CVulkanDevice::Submit(const CGfxCommandBuffer *pCommandBuffer) const
 	{
-		return m_pQueue->Submit(pCommandBuffer);
+		return m_pGraphicsQueue->Submit(pCommandBuffer);
 	}
 
 	int CVulkanDevice::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
 	{
-		return m_pQueue->Submit(pCommandBuffer, waitSemaphore, waitStageFlags, signalSemaphore);
+		return m_pGraphicsQueue->Submit(pCommandBuffer, waitSemaphore, waitStageFlags, signalSemaphore);
 	}
 
 	int CVulkanDevice::WaitIdle(void) const

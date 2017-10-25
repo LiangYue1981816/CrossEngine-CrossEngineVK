@@ -84,7 +84,9 @@ namespace CrossEngine {
 		VkFormat GetVertexAttributeFormat(uint32_t attribute) const;
 
 	protected:
-		virtual CGfxQueue* GetQueue(void) const = 0;
+		virtual CGfxQueue* GetComputeQueue(void) const = 0;
+		virtual CGfxQueue* GetGraphicsQueue(void) const = 0;
+		virtual CGfxQueue* GetTransferQueue(void) const = 0;
 		virtual CGfxInstance* GetInstance(void) const = 0;
 
 	public:

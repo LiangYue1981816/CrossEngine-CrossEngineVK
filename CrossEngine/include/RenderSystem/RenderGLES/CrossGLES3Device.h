@@ -67,7 +67,9 @@ namespace CrossEngine {
 		void DestroyFrameBufferManager(void);
 
 	protected:
-		CGfxQueue* GetQueue(void) const;
+		CGfxQueue* GetComputeQueue(void) const;
+		CGfxQueue* GetGraphicsQueue(void) const;
+		CGfxQueue* GetTransferQueue(void) const;
 		CGfxInstance* GetInstance(void) const;
 
 	public:
