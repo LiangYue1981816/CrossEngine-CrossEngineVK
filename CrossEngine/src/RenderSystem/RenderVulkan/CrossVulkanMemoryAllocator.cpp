@@ -119,43 +119,13 @@ namespace CrossEngine {
 
 		if (CVulkanMemory *pMemoryNext = pMemory->pNext) {
 			if (pMemoryNext->bInUse == FALSE) {
-				if (pMemory->m_offset + pMemory->m_size == pMemoryNext->m_offset) {
-					RemoveMemory(pMemoryNext);
-
-					pMemory->m_size = pMemory->m_size + pMemoryNext->m_size;
-					pMemory->pNext = pMemoryNext->pNext;
-
-					if (pMemoryNext->pNext) {
-						pMemoryNext->pNext->pPrev = pMemory;
-					}
-
-					SAFE_DELETE(pMemoryNext);
-				}
-				else {
-					ASSERT(FALSE);
-				}
+				pMemory = MergeMemory(pMemory, pMemoryNext);
 			}
 		}
 
 		if (CVulkanMemory *pMemoryPrev = pMemory->pPrev) {
 			if (pMemoryPrev->bInUse == FALSE) {
-				if (pMemoryPrev->m_offset + pMemoryPrev->m_size == pMemory->m_offset) {
-					RemoveMemory(pMemoryPrev);
-
-					pMemoryPrev->m_size = pMemoryPrev->m_size + pMemory->m_size;
-					pMemoryPrev->pNext = pMemory->pNext;
-
-					if (pMemory->pNext) {
-						pMemory->pNext->pPrev = pMemoryPrev;
-					}
-
-					SAFE_DELETE(pMemory);
-
-					pMemory = pMemoryPrev;
-				}
-				else {
-					ASSERT(FALSE);
-				}
+				pMemory = MergeMemory(pMemoryPrev, pMemory);
 			}
 		}
 
@@ -233,6 +203,24 @@ namespace CrossEngine {
 				rb_erase(&pMemoryNode->node, &m_root);
 			}
 		}
+	}
+
+	CVulkanMemory* CVulkanMemoryAllocator::MergeMemory(CVulkanMemory *pMemory, CVulkanMemory *pMemoryNext)
+	{
+		ASSERT(pMemory->m_offset + pMemory->m_size == pMemoryNext->m_offset);
+
+		RemoveMemory(pMemoryNext);
+
+		pMemory->m_size = pMemory->m_size + pMemoryNext->m_size;
+		pMemory->pNext = pMemoryNext->pNext;
+
+		if (pMemoryNext->pNext) {
+			pMemoryNext->pNext->pPrev = pMemory;
+		}
+
+		SAFE_DELETE(pMemoryNext);
+
+		return pMemory;
 	}
 
 	CVulkanMemory* CVulkanMemoryAllocator::SearchMemory(VkDeviceSize size) const

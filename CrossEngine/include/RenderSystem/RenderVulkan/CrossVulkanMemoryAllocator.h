@@ -53,6 +53,7 @@ namespace CrossEngine {
 		void InitNodes(uint32_t numNodes);
 		void InsertMemory(CVulkanMemory *pMemory);
 		void RemoveMemory(CVulkanMemory *pMemory);
+		CVulkanMemory* MergeMemory(CVulkanMemory *pMemory, CVulkanMemory *pMemoryNext);
 		CVulkanMemory* SearchMemory(VkDeviceSize size) const;
 
 	protected:
