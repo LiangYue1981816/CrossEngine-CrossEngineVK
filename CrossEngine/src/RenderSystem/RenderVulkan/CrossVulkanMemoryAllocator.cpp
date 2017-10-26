@@ -198,10 +198,10 @@ namespace CrossEngine {
 
 		if (pMemoryNode->pFreeListHead == pMemory) {
 			pMemoryNode->pFreeListHead = pMemory->pFreeNext;
+		}
 
-			if (pMemoryNode->pFreeListHead == NULL) {
-				rb_erase(&pMemoryNode->node, &m_root);
-			}
+		if (pMemoryNode->pFreeListHead == NULL) {
+			rb_erase(&pMemoryNode->node, &m_root);
 		}
 	}
 
