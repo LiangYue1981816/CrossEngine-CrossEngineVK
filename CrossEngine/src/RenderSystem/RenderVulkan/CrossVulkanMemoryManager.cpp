@@ -79,7 +79,7 @@ namespace CrossEngine {
 		mutex_autolock mutex(m_mutex);
 
 		do {
-			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex]) {
+			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment]) {
 				do {
 					if (CVulkanMemory *pMemory = pAllocator->AllocMemory(size)) {
 						return pMemory;
@@ -95,12 +95,12 @@ namespace CrossEngine {
 
 			CVulkanMemoryAllocator *pAllocator = SAFE_NEW CVulkanMemoryAllocator(m_pDevice, memoryTypeIndex, memorySize, memoryAlignment, memoryPropertyFlags);
 
-			if (m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex]) {
-				m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex]->pPrev = pAllocator;
-				pAllocator->pNext = m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex];
+			if (m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment]) {
+				m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment]->pPrev = pAllocator;
+				pAllocator->pNext = m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment];
 			}
 
-			m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] = pAllocator;
+			m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment] = pAllocator;
 		} while (TRUE);
 	}
 
@@ -116,8 +116,8 @@ namespace CrossEngine {
 				uint32_t memoryAlignment = pAllocator->GetMemoryAlignment();
 				uint32_t memoryTypeIndex = pAllocator->GetMemoryTypeIndex();
 
-				if (m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] == pAllocator) {
-					m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] = pAllocator->pNext;
+				if (m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment] == pAllocator) {
+					m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment] = pAllocator->pNext;
 				}
 
 				if (pAllocator->pPrev) {
