@@ -49,9 +49,9 @@ namespace CrossEngine {
 
 	BOOL CVulkanPipelineCompute::Create(const CGfxShaderPtr &ptrShader)
 	{
-		m_ptrShaders[VK_SHADER_STAGE_COMPUTE_BIT] = ptrShader;
-
 		try {
+			m_ptrShaders[VK_SHADER_STAGE_COMPUTE_BIT] = ptrShader;
+
 			std::vector<VkDescriptorSetLayout> layouts;
 			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
 
@@ -73,8 +73,8 @@ namespace CrossEngine {
 			createInfo.stage.pNext = NULL;
 			createInfo.stage.flags = 0;
 			createInfo.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-			createInfo.stage.module = (VkShaderModule)ptrShader->GetHandle();
-			createInfo.stage.pName = "main";
+			createInfo.stage.module = (VkShaderModule)m_ptrShaders[VK_SHADER_STAGE_COMPUTE_BIT]->GetHandle();
+			createInfo.stage.pName = m_shaderStages[VK_SHADER_STAGE_COMPUTE_BIT].pName;
 			createInfo.stage.pSpecializationInfo = NULL;
 			createInfo.layout = m_vkPipelineLayout;
 			createInfo.basePipelineHandle = VK_NULL_HANDLE;
