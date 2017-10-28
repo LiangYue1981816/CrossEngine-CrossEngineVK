@@ -50,10 +50,8 @@ namespace CrossEngine {
 		CVulkanMemory *m_pMemory;
 
 	protected:
-		VkDeviceSize m_size;
 		VkBuffer m_vkBuffer;
-
-	protected:
+		VkDeviceSize m_size;
 		VkBufferUsageFlags m_usage;
 
 	protected:
