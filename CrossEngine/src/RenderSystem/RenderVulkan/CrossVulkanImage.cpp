@@ -78,6 +78,13 @@ namespace CrossEngine {
 		}
 	}
 
+	void CVulkanImage::Destroy(void)
+	{
+		DestroyImageView();
+		DestroyImage();
+		DestroySampler();
+	}
+
 	int CVulkanImage::CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
 	{
 		depth = max(depth, 1);
@@ -266,13 +273,6 @@ namespace CrossEngine {
 		if (samples != (samples & formatProperties.sampleCounts)) return VK_ERROR_FORMAT_NOT_SUPPORTED;
 
 		return VK_SUCCESS;
-	}
-
-	void CVulkanImage::Destroy(void)
-	{
-		DestroyImageView();
-		DestroyImage();
-		DestroySampler();
 	}
 
 	void CVulkanImage::DestroyImage(void)
