@@ -137,7 +137,7 @@ namespace CrossEngine {
 			pipelineCreateInfo.pStages = shaderStages.data();
 			pipelineCreateInfo.pVertexInputState = &m_vertexInputState;
 			pipelineCreateInfo.pInputAssemblyState = &m_inputAssemblyState;
-			pipelineCreateInfo.pTessellationState = m_shaderStages[VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT].module != VK_NULL_HANDLE && m_shaderStages[VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT].module != VK_NULL_HANDLE ? &m_tessellationState : NULL;
+			pipelineCreateInfo.pTessellationState = &m_tessellationState;
 			pipelineCreateInfo.pViewportState = &m_viewportState;
 			pipelineCreateInfo.pRasterizationState = &m_rasterizationState;
 			pipelineCreateInfo.pMultisampleState = &m_multiSampleState;
