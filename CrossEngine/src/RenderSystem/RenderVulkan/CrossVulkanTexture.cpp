@@ -78,117 +78,78 @@ namespace CrossEngine {
 
 	BOOL CVulkanTexture::TransferTexture2D(const gli::texture2d &texture)
 	{
-		CVulkanStagingBuffer *pStagingBuffer = NULL;
+		uint32_t offset = 0;
+		std::vector<VkBufferImageCopy> regions;
 
-		try {
-			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
-			{
-				uint32_t offset = 0;
-				std::vector<VkBufferImageCopy> regions;
+		for (uint32_t level = 0; level < texture.levels(); level++) {
+			VkBufferImageCopy region;
+			region.bufferOffset = offset;
+			region.bufferRowLength = 0;
+			region.bufferImageHeight = 0;
+			region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, 0, 1 };
+			region.imageOffset = { 0, 0, 0 };
+			region.imageExtent = { (uint32_t)texture.extent(level).x, (uint32_t)texture.extent(level).y, 1 };
 
-				for (uint32_t level = 0; level < texture.levels(); level++) {
-					VkBufferImageCopy region;
-					region.bufferOffset = offset;
-					region.bufferRowLength = 0;
-					region.bufferImageHeight = 0;
-					region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, 0, 1 };
-					region.imageOffset = { 0, 0, 0 };
-					region.imageExtent = { (uint32_t)texture.extent(level).x, (uint32_t)texture.extent(level).y, 1 };
-
-					regions.push_back(region);
-					offset += texture.size(level);
-				}
-
-				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data()));
-			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-
-			return TRUE;
+			regions.push_back(region);
+			offset += texture.size(level);
 		}
-		catch (int err) {
-			CVulkanInstance::SetLastError(err);
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
-			return FALSE;
-		}
+		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+		CALL_VK_FUNCTION_RETURN_BOOL(ptrStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data()));
+
+		return TRUE;
 	}
 
 	BOOL CVulkanTexture::TransferTexture2DArray(const gli::texture2d_array &texture)
 	{
-		CVulkanStagingBuffer *pStagingBuffer = NULL;
+		uint32_t offset = 0;
+		std::vector<VkBufferImageCopy> regions;
 
-		try {
-			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
-			{
-				uint32_t offset = 0;
-				std::vector<VkBufferImageCopy> regions;
+		for (uint32_t layer = 0; layer < texture.layers(); layer++) {
+			for (uint32_t level = 0; level < texture.levels(); level++) {
+				VkBufferImageCopy region;
+				region.bufferOffset = offset;
+				region.bufferRowLength = 0;
+				region.bufferImageHeight = 0;
+				region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, layer, 1 };
+				region.imageOffset = { 0, 0, 0 };
+				region.imageExtent = { (uint32_t)texture[layer].extent(level).x, (uint32_t)texture[layer].extent(level).y, 1 };
 
-				for (uint32_t layer = 0; layer < texture.layers(); layer++) {
-					for (uint32_t level = 0; level < texture.levels(); level++) {
-						VkBufferImageCopy region;
-						region.bufferOffset = offset;
-						region.bufferRowLength = 0;
-						region.bufferImageHeight = 0;
-						region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, layer, 1 };
-						region.imageOffset = { 0, 0, 0 };
-						region.imageExtent = { (uint32_t)texture[layer].extent(level).x, (uint32_t)texture[layer].extent(level).y, 1 };
-
-						regions.push_back(region);
-						offset += texture[layer].size(level);
-					}
-				}
-
-				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data()));
+				regions.push_back(region);
+				offset += texture[layer].size(level);
 			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-
-			return TRUE;
 		}
-		catch (int err) {
-			CVulkanInstance::SetLastError(err);
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
-			return FALSE;
-		}
+		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+		CALL_VK_FUNCTION_RETURN_BOOL(ptrStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data()));
+
+		return TRUE;
 	}
 
 	BOOL CVulkanTexture::TransferTextureCube(const gli::texture_cube &texture)
 	{
-		CVulkanStagingBuffer *pStagingBuffer = NULL;
+		uint32_t offset = 0;
+		std::vector<VkBufferImageCopy> regions;
 
-		try {
-			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
-			{
-				uint32_t offset = 0;
-				std::vector<VkBufferImageCopy> regions;
+		for (uint32_t face = 0; face < 6; face++) {
+			for (uint32_t level = 0; level < texture.levels(); level++) {
+				VkBufferImageCopy region;
+				region.bufferOffset = offset;
+				region.bufferRowLength = 0;
+				region.bufferImageHeight = 0;
+				region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, face, 1 };
+				region.imageOffset = { 0, 0, 0 };
+				region.imageExtent = { (uint32_t)texture[face].extent(level).x, (uint32_t)texture[face].extent(level).y, 1 };
 
-				for (uint32_t face = 0; face < 6; face++) {
-					for (uint32_t level = 0; level < texture.levels(); level++) {
-						VkBufferImageCopy region;
-						region.bufferOffset = offset;
-						region.bufferRowLength = 0;
-						region.bufferImageHeight = 0;
-						region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, face, 1 };
-						region.imageOffset = { 0, 0, 0 };
-						region.imageExtent = { (uint32_t)texture[face].extent(level).x, (uint32_t)texture[face].extent(level).y, 1 };
-
-						regions.push_back(region);
-						offset += texture[face].size(level);
-					}
-				}
-
-				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data()));
+				regions.push_back(region);
+				offset += texture[face].size(level);
 			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-
-			return TRUE;
 		}
-		catch (int err) {
-			CVulkanInstance::SetLastError(err);
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
 
-			return FALSE;
-		}
+		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+		CALL_VK_FUNCTION_RETURN_BOOL(ptrStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data()));
+
+		return TRUE;
 	}
 
 	uint32_t CVulkanTexture::GetWidth(void) const
