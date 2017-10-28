@@ -61,7 +61,7 @@ namespace CrossEngine {
 	{
 		try {
 			CALL_VK_FUNCTION_THROW(CreateImage(viewType, format, width, height, depth, mipLevels, arrayLayers, samples, tiling, usage));
-			CALL_VK_FUNCTION_THROW(CreateImageView(viewType, format, aspectMask, mipLevels));
+			CALL_VK_FUNCTION_THROW(CreateImageView(viewType, aspectMask));
 			CALL_VK_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
 
 			m_vkDescriptorImageInfo.sampler = m_vkSampler;
@@ -85,7 +85,7 @@ namespace CrossEngine {
 		DestroySampler();
 	}
 
-	int CVulkanImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	int CVulkanImage::CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
 	{
 		VkImageCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -111,7 +111,7 @@ namespace CrossEngine {
 			createInfo.extent.width = width;
 			createInfo.extent.height = 1;
 			createInfo.extent.depth = 1;
-			createInfo.arrayLayers = 1;
+			createInfo.arrayLayers = arrayLayers;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_2D:
@@ -123,7 +123,7 @@ namespace CrossEngine {
 			createInfo.extent.width = width;
 			createInfo.extent.height = height;
 			createInfo.extent.depth = 1;
-			createInfo.arrayLayers = 1;
+			createInfo.arrayLayers = arrayLayers;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_CUBE:
@@ -202,21 +202,21 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	int CVulkanImage::CreateImageView(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t mipLevels)
+	int CVulkanImage::CreateImageView(VkImageViewType viewType, VkImageAspectFlags aspectMask)
 	{
 		VkImageViewCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 		createInfo.pNext = NULL;
 		createInfo.flags = 0;
-		createInfo.image = m_vkImage;
 		createInfo.viewType = viewType;
-		createInfo.format = format;
-		createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(format);
+		createInfo.image = m_vkImage;
+		createInfo.format = m_format;
+		createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(m_format);
 		createInfo.subresourceRange.aspectMask = aspectMask;
 		createInfo.subresourceRange.baseMipLevel = 0;
-		createInfo.subresourceRange.levelCount = mipLevels;
+		createInfo.subresourceRange.levelCount = m_mipLevels;
 		createInfo.subresourceRange.baseArrayLayer = 0;
-		createInfo.subresourceRange.layerCount = viewType == VK_IMAGE_VIEW_TYPE_CUBE ? 6 : 1;
+		createInfo.subresourceRange.layerCount = m_arrayLayers;
 		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
 	}
 
