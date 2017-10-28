@@ -85,7 +85,7 @@ namespace CrossEngine {
 		DestroySampler();
 	}
 
-	int CVulkanImage::CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)
+	int CVulkanImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		depth = max(depth, 1);
 		width = max(width, 1);
@@ -117,10 +117,10 @@ namespace CrossEngine {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_1D;
-			createInfo.arrayLayers = arrayLayers;
 			createInfo.extent.width = width;
 			createInfo.extent.height = 1;
 			createInfo.extent.depth = 1;
+			createInfo.arrayLayers = 1;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_2D:
@@ -129,10 +129,10 @@ namespace CrossEngine {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_2D;
-			createInfo.arrayLayers = arrayLayers;
 			createInfo.extent.width = width;
 			createInfo.extent.height = height;
 			createInfo.extent.depth = 1;
+			createInfo.arrayLayers = 1;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_CUBE:
@@ -145,10 +145,10 @@ namespace CrossEngine {
 			}
 			createInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 			createInfo.imageType = VK_IMAGE_TYPE_2D;
-			createInfo.arrayLayers = 6;
 			createInfo.extent.width = width;
 			createInfo.extent.height = height;
 			createInfo.extent.depth = 1;
+			createInfo.arrayLayers = 6;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_3D:
@@ -156,10 +156,10 @@ namespace CrossEngine {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_3D;
-			createInfo.arrayLayers = 1;
 			createInfo.extent.width = width;
 			createInfo.extent.height = height;
 			createInfo.extent.depth = depth;
+			createInfo.arrayLayers = 1;
 			break;
 		}
 
