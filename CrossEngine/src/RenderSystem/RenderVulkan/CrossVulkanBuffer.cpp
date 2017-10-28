@@ -89,65 +89,49 @@ namespace CrossEngine {
 
 	BOOL CVulkanBuffer::UpdateData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
-		if (pBuffer) {
+		try {
 			if (m_pMemory->IsHostVisible()) {
-				return CopyData(offset, size, pBuffer);
+				CALL_VK_FUNCTION_THROW(CopyData(offset, size, pBuffer));
 			}
 			else {
-				return TransferData(offset, size, pBuffer);
+				CALL_VK_FUNCTION_THROW(TransferData(offset, size, pBuffer));
 			}
-		}
-		
-		return TRUE;
-	}
-
-	BOOL CVulkanBuffer::CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
-	{
-		try {
-			void *pAddress = NULL;
-
-			CALL_VK_FUNCTION_THROW(m_pMemory->BeginMapMemory(offset, size, &pAddress));
-			{
-				memcpy(pAddress, pBuffer, size);
-			}
-			CALL_VK_FUNCTION_THROW(m_pMemory->FlushMappedMemory(offset, size));
-			CALL_VK_FUNCTION_THROW(m_pMemory->EndMapMemory());
 
 			return TRUE;
 		}
 		catch (int err) {
 			CVulkanInstance::SetLastError(err);
-
 			return FALSE;
 		}
 	}
 
-	BOOL CVulkanBuffer::TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
+	int CVulkanBuffer::CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
-		CVulkanStagingBuffer *pStagingBuffer = NULL;
+		void *pAddress = NULL;
 
-		try {
-			pStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
-			{
-				VkAccessFlags dstAccessMask = 0;
-				VkPipelineStageFlags dstStageMask = 0;
-
-				if (m_usage & VK_BUFFER_USAGE_INDEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_INDEX_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-				if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
-				if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
-
-				CALL_VK_FUNCTION_THROW(pStagingBuffer->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer));
-			}
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
-
-			return TRUE;
+		CALL_VK_FUNCTION_RETURN(m_pMemory->BeginMapMemory(offset, size, &pAddress));
+		{
+			memcpy(pAddress, pBuffer, size);
 		}
-		catch (int err) {
-			CVulkanInstance::SetLastError(err);
-			m_pDevice->GetStagingBufferManager()->FreeBuffer(pStagingBuffer);
+		CALL_VK_FUNCTION_RETURN(m_pMemory->FlushMappedMemory(offset, size));
+		CALL_VK_FUNCTION_RETURN(m_pMemory->EndMapMemory());
 
-			return FALSE;
-		}
+		return VK_SUCCESS;
+	}
+
+	int CVulkanBuffer::TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
+	{
+		VkAccessFlags dstAccessMask = 0;
+		VkPipelineStageFlags dstStageMask = 0;
+
+		if (m_usage & VK_BUFFER_USAGE_INDEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_INDEX_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
+		if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
+		if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
+
+		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
+		CALL_VK_FUNCTION_RETURN(ptrStagingBuffer->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer));
+
+		return VK_SUCCESS;
 	}
 
 	VkBufferUsageFlags CVulkanBuffer::GetUsage(void) const
