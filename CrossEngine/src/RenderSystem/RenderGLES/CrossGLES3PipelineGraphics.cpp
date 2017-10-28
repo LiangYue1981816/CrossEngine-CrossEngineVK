@@ -108,13 +108,9 @@ namespace CrossEngine {
 		const spirv_cross::ShaderResources shaderResources = pShaderCompiler->get_shader_resources();
 
 		for (const auto &itInput : shaderResources.stage_inputs) {
-			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(pShaderCompiler->get_name(itInput.id).c_str())) {
+			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(itInput.name.c_str())) {
 				m_vertexFormat |= attribute;
-			}
-		}
 
-		for (const auto &itInput : shaderResources.stage_inputs) {
-			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(pShaderCompiler->get_name(itInput.id).c_str())) {
 				VkVertexInputAttributeDescription inputAttributeDescription;
 				inputAttributeDescription.binding = 0;
 				inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
