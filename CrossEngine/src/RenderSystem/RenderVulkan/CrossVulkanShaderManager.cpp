@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CVulkanShaderManager::CVulkanShaderManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 		, m_fileIncluder(new glslc::FileIncluder(&m_fileFinder))
+		, m_szCachePath{ 0 }
 	{
 		m_options.SetIncluder(std::move(m_fileIncluder));
 		m_options.SetWarningsAsErrors();
