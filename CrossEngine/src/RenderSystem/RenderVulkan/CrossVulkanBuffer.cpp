@@ -90,11 +90,13 @@ namespace CrossEngine {
 	BOOL CVulkanBuffer::UpdateData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
 		try {
-			if (m_pMemory->IsHostVisible()) {
-				CALL_VK_FUNCTION_THROW(CopyData(offset, size, pBuffer));
-			}
-			else {
-				CALL_VK_FUNCTION_THROW(TransferData(offset, size, pBuffer));
+			if (pBuffer) {
+				if (m_pMemory->IsHostVisible()) {
+					CALL_VK_FUNCTION_THROW(CopyData(offset, size, pBuffer));
+				}
+				else {
+					CALL_VK_FUNCTION_THROW(TransferData(offset, size, pBuffer));
+				}
 			}
 
 			return TRUE;
