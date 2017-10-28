@@ -42,7 +42,7 @@ namespace CrossEngine {
 		const spirv_cross::Compiler* GetShaderCompiler(void) const;
 
 	public:
-		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags);
+		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words);
 		BOOL Create(const char *szSource, size_t length, VkShaderStageFlagBits flags);
 		BOOL Create(const uint32_t *words, size_t numWords);
 		void Destroy(void);
