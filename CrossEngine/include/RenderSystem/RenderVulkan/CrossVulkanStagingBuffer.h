@@ -30,6 +30,7 @@ namespace CrossEngine {
 	{
 		friend class CVulkanBuffer;
 		friend class CVulkanTexture;
+		friend class CVulkanStagingBufferPtr;
 		friend class CVulkanStagingBufferManager;
 
 
@@ -69,6 +70,36 @@ namespace CrossEngine {
 
 	protected:
 		CVulkanDevice *m_pDevice;
+	};
+
+	class CROSS_EXPORT CVulkanStagingBufferPtr : public CSharedPtr<CVulkanStagingBuffer>
+	{
+	public:
+		CVulkanStagingBufferPtr(void) : CSharedPtr<CVulkanStagingBuffer>()
+		{
+
+		}
+		CVulkanStagingBufferPtr(const CVulkanStagingBuffer *p) : CSharedPtr<CVulkanStagingBuffer>(p)
+		{
+
+		}
+		CVulkanStagingBufferPtr(const CVulkanStagingBufferPtr &ptr) : CSharedPtr<CVulkanStagingBuffer>(ptr)
+		{
+
+		}
+		virtual ~CVulkanStagingBufferPtr(void)
+		{
+			Release();
+		}
+
+
+	protected:
+		virtual void FreePointer(void)
+		{
+			if (m_pPointer) {
+				m_pPointer->Release();
+			}
+		}
 	};
 
 }
