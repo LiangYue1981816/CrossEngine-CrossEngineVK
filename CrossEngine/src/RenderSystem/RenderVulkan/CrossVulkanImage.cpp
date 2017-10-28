@@ -87,15 +87,6 @@ namespace CrossEngine {
 
 	int CVulkanImage::Create(VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectMask, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		depth = max(depth, 1);
-		width = max(width, 1);
-		height = max(height, 1);
-		mipLevels = max(mipLevels, 1);
-
-		if (CVulkanHelper::vkIsFormatSupported(format) == FALSE) {
-			return VK_ERROR_FORMAT_NOT_SUPPORTED;
-		}
-
 		VkImageCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 		createInfo.pNext = NULL;
