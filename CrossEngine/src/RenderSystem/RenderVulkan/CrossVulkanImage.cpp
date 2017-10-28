@@ -45,7 +45,7 @@ namespace CrossEngine {
 		, m_samples(VK_SAMPLE_COUNT_1_BIT)
 
 		, m_minFilter(VK_FILTER_NEAREST)
-		, m_magFilter(VK_FILTER_NEAREST)
+		, m_magFilter(VK_FILTER_LINEAR)
 		, m_mipmapMode(VK_SAMPLER_MIPMAP_MODE_NEAREST)
 		, m_addressMode(VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE)
 	{
