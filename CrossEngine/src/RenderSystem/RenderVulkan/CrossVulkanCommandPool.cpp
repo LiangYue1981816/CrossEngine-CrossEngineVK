@@ -70,8 +70,10 @@ namespace CrossEngine {
 
 	void CVulkanCommandPool::FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer)
 	{
-		m_pCommandBuffers.erase(pCommandBuffer);
-		SAFE_DELETE(pCommandBuffer);
+		if (pCommandBuffer) {
+			m_pCommandBuffers.erase(pCommandBuffer);
+			SAFE_DELETE(pCommandBuffer);
+		}
 	}
 
 }

@@ -64,9 +64,11 @@ namespace CrossEngine {
 
 	void CGLES3DescriptorSetManager::FreeDescriptorSet(CGLES3DescriptorSet *pDescriptorSet)
 	{
-		mutex_autolock mutex(m_mutex);
-		m_pDescriptorSets.erase(pDescriptorSet);
-		SAFE_DELETE(pDescriptorSet);
+		if (pDescriptorSet) {
+			mutex_autolock mutex(m_mutex);
+			m_pDescriptorSets.erase(pDescriptorSet);
+			SAFE_DELETE(pDescriptorSet);
+		}
 	}
 
 	void CGLES3DescriptorSetManager::DumpLog(const char *szTitle) const

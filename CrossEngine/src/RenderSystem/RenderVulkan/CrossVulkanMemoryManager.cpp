@@ -106,28 +106,30 @@ namespace CrossEngine {
 
 	void CVulkanMemoryManager::FreeMemory(CVulkanMemory *pMemory)
 	{
-		mutex_autolock mutex(m_mutex);
+		if (pMemory) {
+			mutex_autolock mutex(m_mutex);
 
-		CVulkanMemoryAllocator *pAllocator = pMemory->GetAllocator();
-		pAllocator->FreeMemory(pMemory);
+			CVulkanMemoryAllocator *pAllocator = pMemory->GetAllocator();
+			pAllocator->FreeMemory(pMemory);
 
-		if (pAllocator->IsEmpty()) {
-			uint32_t memoryAlignment = pAllocator->GetMemoryAlignment();
-			uint32_t memoryTypeIndex = pAllocator->GetMemoryTypeIndex();
+			if (pAllocator->IsEmpty()) {
+				uint32_t memoryAlignment = pAllocator->GetMemoryAlignment();
+				uint32_t memoryTypeIndex = pAllocator->GetMemoryTypeIndex();
 
-			if (m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] == pAllocator) {
-				m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] =  pAllocator->pNext;
+				if (m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] == pAllocator) {
+					m_pAllocatorListHeads[memoryAlignment][memoryTypeIndex] = pAllocator->pNext;
+				}
+
+				if (pAllocator->pPrev) {
+					pAllocator->pPrev->pNext = pAllocator->pNext;
+				}
+
+				if (pAllocator->pNext) {
+					pAllocator->pNext->pPrev = pAllocator->pPrev;
+				}
+
+				SAFE_DELETE(pAllocator);
 			}
-
-			if (pAllocator->pPrev) {
-				pAllocator->pPrev->pNext = pAllocator->pNext;
-			}
-
-			if (pAllocator->pNext) {
-				pAllocator->pNext->pPrev = pAllocator->pPrev;
-			}
-
-			SAFE_DELETE(pAllocator);
 		}
 	}
 

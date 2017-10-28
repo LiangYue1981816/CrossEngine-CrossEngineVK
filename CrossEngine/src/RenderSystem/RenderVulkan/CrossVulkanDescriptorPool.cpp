@@ -114,16 +114,18 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
-		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)pDescriptorSet->GetHandle();
-		vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
+		if (pDescriptorSet) {
+			VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)pDescriptorSet->GetHandle();
+			vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
 
-		m_numDescriptorSets--;
-		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
-			m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
+			m_numDescriptorSets--;
+			for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
+				m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
+			}
+
+			m_pDescriptorSets.erase(pDescriptorSet);
+			SAFE_DELETE(pDescriptorSet);
 		}
-
-		m_pDescriptorSets.erase(pDescriptorSet);
-		SAFE_DELETE(pDescriptorSet);
 	}
 
 	uint32_t CVulkanDescriptorPool::GetDescriptorSetCount(void) const
