@@ -41,8 +41,8 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags = VK_SHADER_STAGE_ALL);
-		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags = VK_SHADER_STAGE_ALL);
+		BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
+		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
 
 	public:
 		uint32_t GetSet(void) const;
@@ -76,6 +76,7 @@ namespace CrossEngine {
 	protected:
 		BOOL CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts);
 		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
+
 		void Destroy(void);
 		void DestroyDescriptorSetLayouts(void);
 		void DestroyShaderStages(void);

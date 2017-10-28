@@ -80,6 +80,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanDescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
+		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 
 		m_bindings[binding].binding = binding;
@@ -88,7 +89,7 @@ namespace CrossEngine {
 		m_bindings[binding].stageFlags = flags;
 		m_bindings[binding].pImmutableSamplers = NULL;
 
-		m_names[HashValue(szName)] = binding;
+		m_names[dwName] = binding;
 		m_numTypesUsedCount[type]++;
 
 		return TRUE;
@@ -96,6 +97,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanDescriptorSetLayout::SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
+		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 
 		m_bindings[binding].binding = binding;
@@ -104,7 +106,7 @@ namespace CrossEngine {
 		m_bindings[binding].stageFlags = flags;
 		m_bindings[binding].pImmutableSamplers = NULL;
 
-		m_names[HashValue(szName)] = binding;
+		m_names[dwName] = binding;
 		m_numTypesUsedCount[type]++;
 
 		return TRUE;

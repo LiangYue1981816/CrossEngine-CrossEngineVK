@@ -38,10 +38,11 @@ namespace CrossEngine {
 
 	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, GLuint program)
 	{
+		uint32_t dwName = HashValue(szName);
 		GLuint location = glGetUniformBlockIndex(program, szName);
 
 		if (location != GL_INVALID_INDEX) {
-			m_names[HashValue(szName)] = binding;
+			m_names[dwName] = binding;
 			m_uniformBlockBindings[program][binding] = location;
 			return TRUE;
 		}
@@ -51,10 +52,11 @@ namespace CrossEngine {
 
 	BOOL CGLES3DescriptorSetLayout::SetSampledImageBinding(const char *szName, uint32_t binding, GLuint program)
 	{
-		GLint location = glGetUniformLocation(program, szName);
+		uint32_t dwName = HashValue(szName);
+		GLuint location = glGetUniformLocation(program, szName);
 
-		if (location >= 0) {
-			m_names[HashValue(szName)] = binding;
+		if (location != GL_INVALID_INDEX) {
+			m_names[dwName] = binding;
 			m_sampledImageBindings[program][binding] = location;
 			return TRUE;
 		}
