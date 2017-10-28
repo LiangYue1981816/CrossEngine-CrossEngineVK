@@ -124,20 +124,32 @@ namespace CrossEngine {
 
 	BOOL CVulkanFrameBuffer::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
-		m_attachments[indexAttachment].ptrRenderTexture.Release();
-		return SetAttachment(indexAttachment, format, width, height, hImageView);
+		if (SetAttachment(indexAttachment, format, width, height, hImageView)) {
+			m_attachments[indexAttachment].ptrRenderTexture.Release();
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	BOOL CVulkanFrameBuffer::SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
-		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		if (SetAttachment(indexAttachment, ((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle())) {
+			m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	BOOL CVulkanFrameBuffer::SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
-		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		if (SetAttachment(indexAttachment, ((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle())) {
+			m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	uint32_t CVulkanFrameBuffer::GetWidth(void) const
