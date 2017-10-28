@@ -44,7 +44,6 @@ namespace CrossEngine {
 	{
 		try {
 			std::vector<VkDescriptorSetLayoutBinding> bindings;
-
 			for (const auto &itBinding : m_bindings) {
 				bindings.push_back(itBinding.second);
 			}
@@ -76,6 +75,8 @@ namespace CrossEngine {
 		m_names.clear();
 		m_bindings.clear();
 		m_vkDescriptorSetLayout = VK_NULL_HANDLE;
+
+		memset(m_numTypesUsedCount, 0, sizeof(m_numTypesUsedCount));
 	}
 
 	BOOL CVulkanDescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
@@ -250,6 +251,9 @@ namespace CrossEngine {
 
 	void CVulkanPipeline::Destroy(void)
 	{
+		DestroyDescriptorSetLayouts();
+		DestroyShaderStages();
+
 		if (m_vkPipeline) {
 			vkDestroyPipeline(m_pDevice->GetDevice(), m_vkPipeline, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
@@ -257,9 +261,6 @@ namespace CrossEngine {
 		if (m_vkPipelineLayout) {
 			vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_vkPipelineLayout, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
-
-		DestroyDescriptorSetLayouts();
-		DestroyShaderStages();
 
 		m_vkPipeline = VK_NULL_HANDLE;
 		m_vkPipelineLayout = VK_NULL_HANDLE;
