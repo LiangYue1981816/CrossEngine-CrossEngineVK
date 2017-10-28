@@ -31,6 +31,7 @@ namespace CrossEngine {
 		friend class CVulkanDevice;
 		friend class CVulkanBuffer;
 		friend class CVulkanTexture;
+		friend class CVulkanStagingBuffer;
 
 
 	protected:

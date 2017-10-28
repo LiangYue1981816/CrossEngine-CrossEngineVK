@@ -67,6 +67,11 @@ namespace CrossEngine {
 		m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 	}
 
+	void CVulkanStagingBuffer::Release(void)
+	{
+		m_pDevice->GetStagingBufferManager()->FreeBuffer(this);
+	}
+
 	int CVulkanStagingBuffer::TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const
 	{
 		void *pAddress = NULL;

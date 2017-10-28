@@ -37,6 +37,9 @@ namespace CrossEngine {
 		CVulkanStagingBuffer(CVulkanDevice *pDevice, VkCommandPool vkCommandPool, VkDeviceSize size);
 		virtual ~CVulkanStagingBuffer(void);
 
+	protected:
+		void Release(void);
+
 
 	protected:
 		int TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const;
