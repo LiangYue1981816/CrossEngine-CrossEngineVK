@@ -187,7 +187,7 @@ namespace CrossEngine {
 			createInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 		}
 
-		CALL_VK_FUNCTION_RETURN(CheckParameters(createInfo.imageType, createInfo.format, createInfo.extent.width, createInfo.extent.height, createInfo.extent.depth, createInfo.mipLevels, createInfo.arrayLayers, createInfo.samples, createInfo.tiling, createInfo.usage));
+		CALL_VK_FUNCTION_RETURN(CheckParameters(createInfo));
 		CALL_VK_FUNCTION_RETURN(vkCreateImage(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkImage));
 
 		VkMemoryPropertyFlags memoryPropertyFlags;
@@ -245,7 +245,7 @@ namespace CrossEngine {
 		createInfo.anisotropyEnable = VK_FALSE;
 		createInfo.maxAnisotropy = 1.0f;
 		createInfo.compareEnable = VK_FALSE;
-		createInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+		createInfo.compareOp = VK_COMPARE_OP_NEVER;
 		createInfo.minLod = 0.0f;
 		createInfo.maxLod = 0.0f;
 		createInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
@@ -260,17 +260,17 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	int CVulkanImage::CheckParameters(VkImageType type, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage) const
+	int CVulkanImage::CheckParameters(const VkImageCreateInfo &createInfo) const
 	{
 		VkImageFormatProperties formatProperties;
-		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceImageFormatProperties(m_pDevice->GetPhysicalDevice(), format, type, tiling, usage, 0, &formatProperties));
+		CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceImageFormatProperties(m_pDevice->GetPhysicalDevice(), createInfo.format, createInfo.imageType, createInfo.tiling, createInfo.usage, 0, &formatProperties));
 
-		if (width < 1 || width > formatProperties.maxExtent.width) return VK_ERROR_FORMAT_NOT_SUPPORTED;
-		if (height < 1 || height > formatProperties.maxExtent.height) return VK_ERROR_FORMAT_NOT_SUPPORTED;
-		if (depth < 1 || depth > formatProperties.maxExtent.depth) return VK_ERROR_FORMAT_NOT_SUPPORTED;
-		if (mipLevels < 1 || mipLevels > formatProperties.maxMipLevels) return VK_ERROR_FORMAT_NOT_SUPPORTED;
-		if (arrayLayers < 1 || arrayLayers > formatProperties.maxArrayLayers) return VK_ERROR_FORMAT_NOT_SUPPORTED;
-		if (samples != (samples & formatProperties.sampleCounts)) return VK_ERROR_FORMAT_NOT_SUPPORTED;
+		if (createInfo.extent.width < 1 || createInfo.extent.width > formatProperties.maxExtent.width) return VK_ERROR_FORMAT_NOT_SUPPORTED;
+		if (createInfo.extent.height < 1 || createInfo.extent.height > formatProperties.maxExtent.height) return VK_ERROR_FORMAT_NOT_SUPPORTED;
+		if (createInfo.extent.depth < 1 || createInfo.extent.depth > formatProperties.maxExtent.depth) return VK_ERROR_FORMAT_NOT_SUPPORTED;
+		if (createInfo.mipLevels < 1 || createInfo.mipLevels > formatProperties.maxMipLevels) return VK_ERROR_FORMAT_NOT_SUPPORTED;
+		if (createInfo.arrayLayers < 1 || createInfo.arrayLayers > formatProperties.maxArrayLayers) return VK_ERROR_FORMAT_NOT_SUPPORTED;
+		if (createInfo.samples != (createInfo.samples & formatProperties.sampleCounts)) return VK_ERROR_FORMAT_NOT_SUPPORTED;
 
 		return VK_SUCCESS;
 	}
