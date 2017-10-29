@@ -154,8 +154,8 @@ namespace CrossEngine {
 			vkDestroyRenderPass(m_pDevice->GetDevice(), m_vkRenderPass, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
 
-		m_attachments.clear();
 		m_attachmentClearValues.clear();
+		m_attachments.clear();
 		m_subpasses.clear();
 		m_dependencies.clear();
 		m_vkRenderPass = VK_NULL_HANDLE;
