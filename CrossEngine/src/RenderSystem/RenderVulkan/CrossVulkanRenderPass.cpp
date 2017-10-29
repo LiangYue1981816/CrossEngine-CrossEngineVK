@@ -343,6 +343,11 @@ namespace CrossEngine {
 			for (const auto &itSubpass : m_subpasses) {
 				LOGI("\t\t\t\tSubpass %d:\n", itSubpass.first);
 
+				LOGI("\t\t\t\t\tInputAttachments:\n");
+				for (const auto &itAttachment : itSubpass.second.inputAttachments) {
+					LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::vkImageLayoutToString(itAttachment.second));
+				}
+
 				LOGI("\t\t\t\t\tColorAttachments:\n");
 				for (const auto &itAttachment : itSubpass.second.colorAttachments) {
 					LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::vkImageLayoutToString(itAttachment.second));
