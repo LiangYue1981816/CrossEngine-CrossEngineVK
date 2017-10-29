@@ -232,32 +232,18 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassInputReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
-			return FALSE;
-		}
-
 		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-
 		return TRUE;
 	}
 
 	BOOL CVulkanRenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
-			return FALSE;
-		}
-
 		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
 		return TRUE;
 	}
 
 	BOOL CVulkanRenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
-			return FALSE;
-		}
-
 		m_subpasses[indexSubpass].depthStencilAttachment.attachment = indexAttachment;
 		m_subpasses[indexSubpass].depthStencilAttachment.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
@@ -266,23 +252,13 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
-			return FALSE;
-		}
-
 		m_subpasses[indexSubpass].resolveAttachments[indexAttachment] = imageLayout;
-
 		return TRUE;
 	}
 
 	BOOL CVulkanRenderPass::SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
-			return FALSE;
-		}
-
 		m_subpasses[indexSubpass].preserveAttachments[indexAttachment] = indexAttachment;
-
 		return TRUE;
 	}
 
