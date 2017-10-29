@@ -112,25 +112,45 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassInputReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3RenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = indexAttachment;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3RenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].depthStencilAttachment = indexAttachment;
+
 		return TRUE;
 	}
 
 	BOOL CGLES3RenderPass::SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].resolveAttachments[indexAttachment] = imageLayout;
+
 		return TRUE;
 	}
 

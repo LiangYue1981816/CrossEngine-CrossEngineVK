@@ -232,18 +232,32 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassInputReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
 		return TRUE;
 	}
 
 	BOOL CVulkanRenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
 		return TRUE;
 	}
 
 	BOOL CVulkanRenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].depthStencilAttachment.attachment = indexAttachment;
 		m_subpasses[indexSubpass].depthStencilAttachment.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
@@ -252,19 +266,29 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderPass::SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].resolveAttachments[indexAttachment] = imageLayout;
+
 		return TRUE;
 	}
 
 	BOOL CVulkanRenderPass::SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
 		m_subpasses[indexSubpass].preserveAttachments[indexAttachment] = indexAttachment;
+
 		return TRUE;
 	}
 
 	BOOL CVulkanRenderPass::SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass)
 	{
-		if (indexSrcSubpass >= m_subpasses.size() || indexDstSubpass >= m_subpasses.size()) {
+		if (m_subpasses.find(indexSrcSubpass) == m_subpasses.end() || m_subpasses.find(indexDstSubpass) == m_subpasses.end()) {
 			return FALSE;
 		}
 
