@@ -450,15 +450,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3PipelineManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DescriptorSet.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DescriptorSetManager.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3CommandBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Command.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Core</Filter>
     </ClInclude>
@@ -611,6 +602,15 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetDepthBounds.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3CommandBufferManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DescriptorSet.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3DescriptorSetManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
