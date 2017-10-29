@@ -25,3 +25,4 @@ THE SOFTWARE.
 
 
 extern void glReadBuffers(GLsizei n, const GLenum *bufs);
+extern void glDepthBounds(GLclampf zmin, GLclampf zmax);

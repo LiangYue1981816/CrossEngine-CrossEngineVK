@@ -29,3 +29,8 @@ void glReadBuffers(GLsizei n, const GLenum *bufs)
 		glReadBuffer(bufs[index]);
 	}
 }
+
+void glDepthBounds(GLclampf zmin, GLclampf zmax)
+{
+
+}
