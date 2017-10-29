@@ -67,9 +67,7 @@ namespace CrossEngine {
 
 	void CGLES3PipelineCompute::Destroy(void)
 	{
-		DestroyDescriptorSetLayouts();
-		glDeleteProgramPipelines(1, &m_pipeline);
-		m_pipeline = 0;
+		CGLES3Pipeline::Destroy();
 	}
 
 	void CGLES3PipelineCompute::DumpLog(void) const

@@ -83,6 +83,22 @@ namespace CrossEngine {
 		DestroyImageView();
 		DestroyImage();
 		DestroySampler();
+
+		m_width = 0;
+		m_height = 0;
+		m_depth = 0;
+		m_mipLevels = 0;
+		m_arrayLayers = 0;
+
+		m_format = VK_FORMAT_R8G8B8A8_UNORM;
+		m_type = VK_IMAGE_TYPE_2D;
+		m_tiling = VK_IMAGE_TILING_OPTIMAL;
+		m_samples = VK_SAMPLE_COUNT_1_BIT;
+
+		m_minFilter = VK_FILTER_NEAREST;
+		m_magFilter = VK_FILTER_LINEAR;
+		m_mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+		m_addressMode = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 	}
 
 	int CVulkanImage::CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage)

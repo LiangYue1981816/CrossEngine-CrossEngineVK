@@ -191,6 +191,7 @@ namespace CrossEngine {
 	void CGLES3Shader::Destroy(void)
 	{
 		SAFE_DELETE(m_pShaderCompiler);
+
 		glDeleteProgram(m_program);
 		m_program = 0;
 	}

@@ -59,6 +59,7 @@ namespace CrossEngine {
 	void CVulkanVertexBuffer::Destroy(void)
 	{
 		CVulkanBuffer::Destroy();
+		m_vertexFormat = 0;
 	}
 
 	BOOL CVulkanVertexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const

@@ -83,6 +83,8 @@ namespace CrossEngine {
 			m_pDevice->GetMemoryManager()->FreeMemory(m_pMemory);
 		}
 
+		m_size = 0;
+		m_usage = 0;
 		m_pMemory = NULL;
 		m_vkBuffer = VK_NULL_HANDLE;
 	}

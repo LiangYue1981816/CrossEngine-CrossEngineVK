@@ -129,9 +129,8 @@ namespace CrossEngine {
 
 	void CGLES3PipelineGraphics::Destroy(void)
 	{
-		DestroyDescriptorSetLayouts();
-		glDeleteProgramPipelines(1, &m_pipeline);
-		m_pipeline = 0;
+		CGLES3Pipeline::Destroy();
+		SetDefault();
 	}
 
 	void CGLES3PipelineGraphics::SetDefault(void)

@@ -137,6 +137,17 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	void CGLES3Pipeline::Destroy(void)
+	{
+		DestroyDescriptorSetLayouts();
+
+		if (m_pipeline) {
+			glDeleteProgramPipelines(1, &m_pipeline);
+		}
+
+		m_pipeline = 0;
+	}
+
 	void CGLES3Pipeline::DestroyDescriptorSetLayouts(void)
 	{
 		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {

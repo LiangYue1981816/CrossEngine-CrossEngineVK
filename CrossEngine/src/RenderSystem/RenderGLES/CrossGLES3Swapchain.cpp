@@ -58,6 +58,10 @@ namespace CrossEngine {
 	{
 		DestroySurface();
 		DestroyFrameBuffer();
+
+		m_width = 0;
+		m_height = 0;
+		m_format = VK_FORMAT_UNDEFINED;
 	}
 
 	int CGLES3Swapchain::CreateSurface(uint32_t width, uint32_t height, VkFormat format)
@@ -96,13 +100,19 @@ namespace CrossEngine {
 
 	void CGLES3Swapchain::DestroySurface(void)
 	{
-		glDeleteTextures(1, &m_surface);
+		if (m_surface) {
+			glDeleteTextures(1, &m_surface);
+		}
+
 		m_surface = 0;
 	}
 
 	void CGLES3Swapchain::DestroyFrameBuffer(void)
 	{
-		glDeleteFramebuffers(1, &m_fbo);
+		if (m_fbo) {
+			glDeleteFramebuffers(1, &m_fbo);
+		}
+
 		m_fbo = 0;
 	}
 

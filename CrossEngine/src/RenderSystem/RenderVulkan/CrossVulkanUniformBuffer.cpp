@@ -57,6 +57,7 @@ namespace CrossEngine {
 	void CVulkanUniformBuffer::Destroy(void)
 	{
 		CVulkanBuffer::Destroy();
+		m_vkDescriptorBufferInfos.clear();
 	}
 
 	BOOL CVulkanUniformBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const

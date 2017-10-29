@@ -93,13 +93,19 @@ namespace CrossEngine {
 
 	void CGLES3FrameBuffer::Destroy(void)
 	{
-		glDeleteFramebuffers(1, &m_framebuffer);
-		glDeleteFramebuffers(1, &m_framebufferMSAA);
+		if (m_framebuffer) {
+			glDeleteFramebuffers(1, &m_framebuffer);
+		}
+
+		if (m_framebufferMSAA) {
+			glDeleteFramebuffers(1, &m_framebufferMSAA);
+		}
+
+		m_framebuffer = 0;
+		m_framebufferMSAA = 0;
 
 		m_width = 0;
 		m_height = 0;
-		m_framebuffer = 0;
-		m_framebufferMSAA = 0;
 		m_attachments.clear();
 	}
 

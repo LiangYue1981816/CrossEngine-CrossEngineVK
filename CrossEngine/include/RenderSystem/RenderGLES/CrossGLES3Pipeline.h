@@ -65,6 +65,8 @@ namespace CrossEngine {
 
 	protected:
 		BOOL CreateDescriptorSetLayouts(void);
+
+		void Destroy(void);
 		void DestroyDescriptorSetLayouts(void);
 
 	public:

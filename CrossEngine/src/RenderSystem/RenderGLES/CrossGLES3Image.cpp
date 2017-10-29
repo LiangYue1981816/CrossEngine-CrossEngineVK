@@ -141,10 +141,33 @@ namespace CrossEngine {
 
 	void CGLES3Image::Destroy(void)
 	{
-		glDeleteTextures(1, &m_texture);
-		glDeleteSamplers(1, &m_sampler);
+		if (m_texture) {
+			glDeleteTextures(1, &m_texture);
+		}
+
+		if (m_sampler) {
+			glDeleteSamplers(1, &m_sampler);
+		}
+
 		m_texture = 0;
 		m_sampler = 0;
+
+		m_width = 0;
+		m_height = 0;
+		m_depth = 0;
+		m_mipLevels = 0;
+		m_arrayLayers = 0;
+		m_samples = 1;
+
+		m_minFilter = GL_NEAREST_MIPMAP_LINEAR;
+		m_magFilter = GL_LINEAR;
+		m_addressMode = GL_REPEAT;
+
+		m_target = GL_TEXTURE_2D;
+		m_format = GL_RGBA;
+		m_internalFormat = GL_RGBA;
+
+		m_size = 0;
 	}
 
 	GLenum CGLES3Image::GetTarget(void) const

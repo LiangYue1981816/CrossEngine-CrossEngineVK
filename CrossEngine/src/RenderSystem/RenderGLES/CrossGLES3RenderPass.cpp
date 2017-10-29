@@ -54,8 +54,8 @@ namespace CrossEngine {
 
 	void CGLES3RenderPass::Destroy(void)
 	{
-		m_attachments.clear();
 		m_attachmentClearValues.clear();
+		m_attachments.clear();
 		m_subpasses.clear();
 	}
 

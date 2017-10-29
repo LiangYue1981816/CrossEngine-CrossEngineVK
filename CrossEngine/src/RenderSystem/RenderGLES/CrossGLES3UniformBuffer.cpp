@@ -57,6 +57,7 @@ namespace CrossEngine {
 	void CGLES3UniformBuffer::Destroy(void)
 	{
 		CGLES3Buffer::Destroy();
+		m_vkDescriptorBufferInfos.clear();
 	}
 
 	BOOL CGLES3UniformBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const

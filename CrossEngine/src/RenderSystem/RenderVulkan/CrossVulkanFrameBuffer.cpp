@@ -102,8 +102,8 @@ namespace CrossEngine {
 
 		m_width = 0;
 		m_height = 0;
-		m_vkFrameBuffer = VK_NULL_HANDLE;
 		m_attachments.clear();
+		m_vkFrameBuffer = VK_NULL_HANDLE;
 	}
 
 	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView)

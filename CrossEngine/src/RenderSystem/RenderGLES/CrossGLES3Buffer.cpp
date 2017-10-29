@@ -55,9 +55,14 @@ namespace CrossEngine {
 
 	void CGLES3Buffer::Destroy(void)
 	{
-		glDeleteBuffers(1, &m_buffer);
+		if (m_buffer) {
+			glDeleteBuffers(1, &m_buffer);
+		}
+
 		m_buffer = 0;
+
 		m_size = 0;
+		m_usage = GL_STATIC_DRAW;
 	}
 
 	BOOL CGLES3Buffer::UpdateData(GLenum target, size_t offset, size_t size, const void *pBuffer) const

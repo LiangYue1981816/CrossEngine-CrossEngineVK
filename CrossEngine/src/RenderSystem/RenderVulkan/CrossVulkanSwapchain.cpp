@@ -125,6 +125,11 @@ namespace CrossEngine {
 	{
 		DestroyImagesAndImageViews();
 		DestroySwapchain();
+
+		m_indexImage = 0;
+		m_width = 0;
+		m_height = 0;
+		m_format = VK_FORMAT_UNDEFINED;
 	}
 
 	int CVulkanSwapchain::EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const

@@ -90,6 +90,7 @@ namespace CrossEngine {
 		m_pFrameBufferManager = NULL;
 
 		m_pGfxInstance->Destroy();
+
 		SAFE_DELETE(m_pGfxInstance);
 		m_pGfxInstance = NULL;
 		m_pGfxDevice = NULL;

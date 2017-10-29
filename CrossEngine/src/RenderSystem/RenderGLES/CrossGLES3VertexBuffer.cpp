@@ -95,6 +95,13 @@ namespace CrossEngine {
 	void CGLES3VertexBuffer::Destroy(void)
 	{
 		CGLES3Buffer::Destroy();
+
+		if (m_vao) {
+			glDeleteVertexArrays(1, &m_vao);
+		}
+
+		m_vao = 0;
+		m_vertexFormat = 0;
 	}
 
 	BOOL CGLES3VertexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
