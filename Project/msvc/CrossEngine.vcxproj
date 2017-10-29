@@ -195,6 +195,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderPassManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderQueue.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\glslc\file_includer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxAPI.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxCommandBuffer.h" />
@@ -310,7 +311,6 @@
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\debug_new.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\fast_mutex.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\static_assert.h" />
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindDescriptorSet.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindFrameBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindIndexBuffer.h" />

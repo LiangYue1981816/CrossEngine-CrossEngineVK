@@ -522,9 +522,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Extent.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.h">
-      <Filter>Engine\Header Files\RenderSystem\glslc</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityBase.h">
       <Filter>Engine\Header Files\EntitySystem</Filter>
     </ClInclude>
@@ -608,6 +605,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResGraphicsManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\glslc\file_includer.h">
+      <Filter>Engine\Header Files\RenderSystem\glslc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
