@@ -61,7 +61,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
+		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
 			return FALSE;
 		}
 
@@ -78,7 +78,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
+		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
 			return FALSE;
 		}
 
@@ -95,7 +95,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
+		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
 			return FALSE;
 		}
 
