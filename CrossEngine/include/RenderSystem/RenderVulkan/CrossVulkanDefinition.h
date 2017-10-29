@@ -33,6 +33,7 @@ namespace CrossEngine {
 	} VkAttachmentInformation;
 
 	typedef struct VkSubpassInformation {
+		std::map<uint32_t, VkImageLayout> inputAttachments;
 		std::map<uint32_t, VkImageLayout> colorAttachments;
 		std::map<uint32_t, VkImageLayout> resolveAttachments;
 		std::map<uint32_t, uint32_t> preserveAttachments;
