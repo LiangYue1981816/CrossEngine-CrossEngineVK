@@ -126,18 +126,16 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
 	{
-		m_ptrFrameBuffer = ptrFrameBuffer;
-		m_ptrRenderPass = ptrRenderPass;
-
 		m_indexPass = 0;
+		m_ptrRenderPass = ptrRenderPass;
+		m_ptrFrameBuffer = ptrFrameBuffer;
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
-		m_indexPass++;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, ++m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdEndRenderPass(void)
@@ -217,25 +215,19 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask)
 	{
-		const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
-		const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
-
+		const VkPipelineDepthStencilStateCreateInfo& depthStencilState = ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetDepthStencilState();
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetStencilReference(faceMask, depthStencilState.front.compareOp, depthStencilState.back.compareOp, reference, compareMask));
 	}
 
 	void CGLES3CommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
-		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
-
+		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState();
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandDraw(inputAssemblyState.topology, vertexCount, instanceCount, firstVertex, firstInstance));
 	}
 
 	void CGLES3CommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
 	{
-		const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
-		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
-
+		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState();
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandDrawIndexed(inputAssemblyState.topology, m_indexType, indexCount, m_indexOffset));
 	}
 
