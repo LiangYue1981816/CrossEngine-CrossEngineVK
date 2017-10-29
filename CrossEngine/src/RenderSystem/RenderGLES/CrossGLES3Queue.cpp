@@ -43,14 +43,13 @@ namespace CrossEngine {
 
 	int CGLES3Queue::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
 	{
-		const CGLES3CommandBuffer *pGLCommandBuffer = (CGLES3CommandBuffer *)pCommandBuffer;
-		pGLCommandBuffer->Execute();
+		((CGLES3CommandBuffer *)pCommandBuffer)->Execute();
 		return NO_ERROR;
 	}
 
 	int CGLES3Queue::WaitIdle(void) const
 	{
-		glFinish();
+		glFlush();
 		return NO_ERROR;
 	}
 

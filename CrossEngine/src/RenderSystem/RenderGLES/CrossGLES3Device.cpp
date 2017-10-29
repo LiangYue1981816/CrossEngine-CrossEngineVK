@@ -136,8 +136,6 @@ namespace CrossEngine {
 
 	void CGLES3Device::Destroy(void)
 	{
-		glFinish();
-
 		DestroyFrameBufferManager();
 		DestroyRenderPassManager();
 		DestroyPipelineManager();
@@ -313,12 +311,13 @@ namespace CrossEngine {
 
 	int CGLES3Device::WaitIdle(void) const
 	{
-		return m_pQueue->WaitIdle();
+		glFinish();
+		return NO_ERROR;
 	}
 
 	void CGLES3Device::DumpLog(void) const
 	{
-		LOGI("=================== GLES Resource Dump ===================\n");
+		LOGI("==================== GLES Resource Dump ====================\n");
 		{
 			m_pDescriptorSetManager->DumpLog("DescriptorSet ...");
 			m_pBufferManager->DumpLog("Buffer ...");
