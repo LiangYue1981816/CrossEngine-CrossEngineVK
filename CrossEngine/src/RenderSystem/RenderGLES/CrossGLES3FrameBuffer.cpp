@@ -96,6 +96,8 @@ namespace CrossEngine {
 		glDeleteFramebuffers(1, &m_framebuffer);
 		glDeleteFramebuffers(1, &m_framebufferMSAA);
 
+		m_width = 0;
+		m_height = 0;
 		m_framebuffer = 0;
 		m_framebufferMSAA = 0;
 		m_attachments.clear();
@@ -124,21 +126,33 @@ namespace CrossEngine {
 		GLenum internalFormat;
 		GLenum externalFormat;
 		CGLES3Helper::glTranslateFormat(format, internalFormat, externalFormat, type);
+		
+		if (SetAttachment(indexAttachment, GL_TEXTURE_2D, externalFormat, width, height, hImageView)) {
+			m_attachments[indexAttachment].ptrRenderTexture.Release();
+			return TRUE;
+		}
 
-		m_attachments[indexAttachment].ptrRenderTexture.Release();
-		return SetAttachment(indexAttachment, GL_TEXTURE_2D, externalFormat, width, height, hImageView);
+		return FALSE;
 	}
 
 	BOOL CGLES3FrameBuffer::SetColorAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
-		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetTarget(), ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		if (SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetTarget(), ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle())) {
+			m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	BOOL CGLES3FrameBuffer::SetDepthStencilAttachment(uint32_t indexAttachment, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
-		m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
-		return SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetTarget(), ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle());
+		if (SetAttachment(indexAttachment, ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetTarget(), ((CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetFormat(), ptrRenderTexture->GetWidth(), ptrRenderTexture->GetHeight(), ptrRenderTexture->GetHandle())) {
+			m_attachments[indexAttachment].ptrRenderTexture = ptrRenderTexture;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	uint32_t CGLES3FrameBuffer::GetWidth(void) const

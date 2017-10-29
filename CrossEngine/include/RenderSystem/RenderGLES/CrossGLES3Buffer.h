@@ -40,11 +40,9 @@ namespace CrossEngine {
 
 
 	protected:
+		GLuint m_buffer;
 		GLenum m_usage;
 		GLsizeiptr m_size;
-
-	protected:
-		GLuint m_buffer;
 
 	protected:
 		CGLES3Device *m_pDevice;
