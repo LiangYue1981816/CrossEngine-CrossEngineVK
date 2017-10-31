@@ -26,8 +26,8 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3PipelineCompute::CGLES3PipelineCompute(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
-		: CGfxPipelineCompute(pResourceManager)
-		, CGLES3Pipeline(pDevice)
+		: CGLES3Pipeline(pDevice)
+		, CGfxPipelineCompute(pResourceManager)
 	{
 
 	}

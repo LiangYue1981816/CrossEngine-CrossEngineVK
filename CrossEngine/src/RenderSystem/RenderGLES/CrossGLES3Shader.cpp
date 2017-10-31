@@ -192,7 +192,10 @@ namespace CrossEngine {
 	{
 		SAFE_DELETE(m_pShaderCompiler);
 
-		glDeleteProgram(m_program);
+		if (m_program) {
+			glDeleteProgram(m_program);
+		}
+
 		m_program = 0;
 	}
 

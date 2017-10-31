@@ -26,8 +26,8 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3RenderTexture::CGLES3RenderTexture(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
-		: CGfxRenderTexture(pResourceManager)
-		, CGLES3Image(pDevice)
+		: CGLES3Image(pDevice)
+		, CGfxRenderTexture(pResourceManager)
 	{
 
 	}

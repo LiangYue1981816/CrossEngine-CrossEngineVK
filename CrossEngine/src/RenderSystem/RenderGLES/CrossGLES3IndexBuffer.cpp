@@ -26,8 +26,8 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3IndexBuffer::CGLES3IndexBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
-		: CGfxIndexBuffer(pResourceManager)
-		, CGLES3Buffer(pDevice)
+		: CGLES3Buffer(pDevice)
+		, CGfxIndexBuffer(pResourceManager)
 	{
 
 	}
