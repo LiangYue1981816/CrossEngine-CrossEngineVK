@@ -85,24 +85,22 @@ namespace CrossEngine {
 
 		switch (m_target) {
 		case GL_TEXTURE_2D:
-		case GL_TEXTURE_2D_MULTISAMPLE:
 		case GL_TEXTURE_CUBE_MAP:
-			if (m_samples > 1) {
-				glGenTextures(1, &m_texture);
-				glBindTexture(m_target, m_texture);
-				{
-					glTexStorage2DMultisample(m_target, m_samples, m_internalFormat, m_width, m_height, GL_TRUE);
-				}
-				glBindTexture(m_target, 0);
+			glGenTextures(1, &m_texture);
+			glBindTexture(m_target, m_texture);
+			{
+				glTexStorage2D(m_target, m_mipLevels, m_internalFormat, m_width, m_height);
 			}
-			else {
-				glGenTextures(1, &m_texture);
-				glBindTexture(m_target, m_texture);
-				{
-					glTexStorage2D(m_target, m_mipLevels, m_internalFormat, m_width, m_height);
-				}
-				glBindTexture(m_target, 0);
+			glBindTexture(m_target, 0);
+			break;
+
+		case GL_TEXTURE_2D_MULTISAMPLE:
+			glGenTextures(1, &m_texture);
+			glBindTexture(m_target, m_texture);
+			{
+				glTexStorage2DMultisample(m_target, m_samples, m_internalFormat, m_width, m_height, GL_TRUE);
 			}
+			glBindTexture(m_target, 0);
 			break;
 
 		case GL_TEXTURE_2D_ARRAY:
