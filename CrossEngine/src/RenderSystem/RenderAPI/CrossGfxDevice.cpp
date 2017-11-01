@@ -70,7 +70,7 @@ namespace CrossEngine {
 
 		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) return offset;
-			if (format & vertexAttributes[indexAttribute].flag) offset += vertexAttributes[indexAttribute].size;
+			if (format & vertexAttributes[indexAttribute].flag) offset += vertexAttributes[indexAttribute].size * sizeof(float);
 		}
 
 		return -1;
