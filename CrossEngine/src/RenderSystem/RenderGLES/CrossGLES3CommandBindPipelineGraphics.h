@@ -41,43 +41,35 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrPipelineGraphics.IsNull()) {
-				glUseProgram(0);
-				glBindProgramPipeline(0);
-			}
-			else {
-				glUseProgram(0);
-				glBindProgramPipeline((GLuint)m_ptrPipelineGraphics->GetHandle());
+			const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
+			const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
+			const VkPipelineRasterizationStateCreateInfo& rasterizationState = pPipeline->GetRasterizationState();
+			const VkPipelineMultisampleStateCreateInfo& multisampleState = pPipeline->GetMultisampleState();
+			const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
+			const VkPipelineColorBlendStateCreateInfo& colorBlendState = pPipeline->GetColorBlendState();
 
-				const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
-				const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
-				const VkPipelineRasterizationStateCreateInfo& rasterizationState = pPipeline->GetRasterizationState();
-				const VkPipelineMultisampleStateCreateInfo& multisampleState = pPipeline->GetMultisampleState();
-				const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
-				const VkPipelineColorBlendStateCreateInfo& colorBlendState = pPipeline->GetColorBlendState();
+			InitStates();
 
-				InitStates();
-
-				SetPrimitiveRestartEnable(inputAssemblyState);
-				SetRasterizerDiscard(rasterizationState);
-				SetPolygonMode(rasterizationState);
-				SetCullMode(rasterizationState);
-				SetFrontFace(rasterizationState);
-				SetPolygonOffset(rasterizationState);
-				SetLineWidth(rasterizationState);
-				SetDepthTest(depthStencilState);
-				SetDepthWrite(depthStencilState);
-				SetDepthFunc(depthStencilState);
-				SetStencilTest(depthStencilState);
-				SetStencilFunc(depthStencilState);
-				SetStencilOp(depthStencilState);
-				SetStencilMask(depthStencilState);
-				SetBlendEnable(colorBlendState);
-				SetBlendColor(colorBlendState);
-				SetBlendEquationSeparate(colorBlendState);
-				SetBlendFuncSeparate(colorBlendState);
-				SetColorMask(colorBlendState);
-			}
+			SetProgram(pPipeline);
+			SetPrimitiveRestartEnable(inputAssemblyState);
+			SetRasterizerDiscard(rasterizationState);
+			SetPolygonMode(rasterizationState);
+			SetCullMode(rasterizationState);
+			SetFrontFace(rasterizationState);
+			SetPolygonOffset(rasterizationState);
+			SetLineWidth(rasterizationState);
+			SetDepthTest(depthStencilState);
+			SetDepthWrite(depthStencilState);
+			SetDepthFunc(depthStencilState);
+			SetStencilTest(depthStencilState);
+			SetStencilFunc(depthStencilState);
+			SetStencilOp(depthStencilState);
+			SetStencilMask(depthStencilState);
+			SetBlendEnable(colorBlendState);
+			SetBlendColor(colorBlendState);
+			SetBlendEquationSeparate(colorBlendState);
+			SetBlendFuncSeparate(colorBlendState);
+			SetColorMask(colorBlendState);
 		}
 
 		void InitStates(void) const
@@ -89,7 +81,11 @@ namespace CrossEngine {
 			glDisable(GL_DEPTH_TEST);
 			glDisable(GL_STENCIL_TEST);
 			glDisable(GL_BLEND);
-			glDisable(GL_SCISSOR_TEST);
+		}
+
+		void SetProgram(const CGLES3PipelineGraphics *pPipeline) const
+		{
+			glBindProgramPipeline((GLuint)pPipeline->GetHandle());
 		}
 
 		void SetPrimitiveRestartEnable(const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState) const
