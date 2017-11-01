@@ -81,11 +81,11 @@ namespace CrossEngine {
 		m_depth = depth;
 		m_mipLevels = mipLevels;
 		m_arrayLayers = arrayLayers;
-		m_samples = samples;
 
 		switch (m_target) {
 		case GL_TEXTURE_2D:
 		case GL_TEXTURE_CUBE_MAP:
+			m_samples = 1;
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
 			{
@@ -95,6 +95,7 @@ namespace CrossEngine {
 			break;
 
 		case GL_TEXTURE_2D_MULTISAMPLE:
+			m_samples = samples;
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
 			{
