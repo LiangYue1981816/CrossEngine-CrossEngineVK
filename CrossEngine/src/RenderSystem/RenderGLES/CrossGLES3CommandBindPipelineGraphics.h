@@ -41,27 +41,28 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
-			const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
-			const VkPipelineRasterizationStateCreateInfo& rasterizationState = pPipeline->GetRasterizationState();
-			const VkPipelineMultisampleStateCreateInfo& multisampleState = pPipeline->GetMultisampleState();
-			const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
-			const VkPipelineColorBlendStateCreateInfo& colorBlendState = pPipeline->GetColorBlendState();
+			if (const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics)) {
+				const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
+				const VkPipelineRasterizationStateCreateInfo& rasterizationState = pPipeline->GetRasterizationState();
+				const VkPipelineMultisampleStateCreateInfo& multisampleState = pPipeline->GetMultisampleState();
+				const VkPipelineDepthStencilStateCreateInfo& depthStencilState = pPipeline->GetDepthStencilState();
+				const VkPipelineColorBlendStateCreateInfo& colorBlendState = pPipeline->GetColorBlendState();
 
-			InitStates();
+				InitStates();
 
-			SetProgram(pPipeline);
-			SetPrimitiveRestart(inputAssemblyState);
-			SetRasterizerDiscard(rasterizationState);
-			SetCullMode(rasterizationState);
-			SetFrontFace(rasterizationState);
-			SetPolygonOffset(rasterizationState);
-			SetLineWidth(rasterizationState);
-			SetDepthWrite(depthStencilState);
-			SetDepthTest(depthStencilState);
-			SetStencilTest(depthStencilState);
-			SetBlend(colorBlendState);
-			SetColorMask(colorBlendState);
+				SetProgram(pPipeline);
+				SetPrimitiveRestart(inputAssemblyState);
+				SetRasterizerDiscard(rasterizationState);
+				SetCullMode(rasterizationState);
+				SetFrontFace(rasterizationState);
+				SetPolygonOffset(rasterizationState);
+				SetLineWidth(rasterizationState);
+				SetDepthWrite(depthStencilState);
+				SetDepthTest(depthStencilState);
+				SetStencilTest(depthStencilState);
+				SetBlend(colorBlendState);
+				SetColorMask(colorBlendState);
+			}
 		}
 
 		void InitStates(void) const

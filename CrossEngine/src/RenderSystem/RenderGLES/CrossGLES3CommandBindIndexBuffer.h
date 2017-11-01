@@ -41,7 +41,9 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)m_ptrIndexBuffer->GetHandle());
+			if (const CGLES3IndexBuffer *pIndexBuffer = (CGLES3IndexBuffer *)((CGfxIndexBuffer *)m_ptrIndexBuffer)) {
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)pIndexBuffer->GetHandle());
+			}
 		}
 
 
