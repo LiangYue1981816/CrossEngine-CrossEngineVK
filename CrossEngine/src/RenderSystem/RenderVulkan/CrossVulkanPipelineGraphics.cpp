@@ -194,7 +194,7 @@ namespace CrossEngine {
 
 		VkVertexInputBindingDescription inputBindingDescription;
 		inputBindingDescription.binding = 0;
-		inputBindingDescription.stride = m_pDevice->GetVertexSize(m_vertexFormat);
+		inputBindingDescription.stride = m_pDevice->GetVertexStride(m_vertexFormat);
 		inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 		inputBindingDescriptions.push_back(inputBindingDescription);
 

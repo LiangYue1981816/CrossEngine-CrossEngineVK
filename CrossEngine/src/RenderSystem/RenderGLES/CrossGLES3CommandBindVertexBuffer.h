@@ -49,7 +49,7 @@ namespace CrossEngine {
 			else {
 				CGLES3Device *pDevice = ((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetDevice();
 				GLuint bindingindex = 0;
-				GLuint stride = pDevice->GetVertexSize(m_ptrVertexBuffer->GetVertexFormat());
+				GLuint stride = pDevice->GetVertexStride(m_ptrVertexBuffer->GetVertexFormat());
 
 				glBindVertexArray((GLuint)((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetHandleVAO());
 				glBindVertexBuffer(bindingindex, (GLuint)((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetHandle(), 0, stride);

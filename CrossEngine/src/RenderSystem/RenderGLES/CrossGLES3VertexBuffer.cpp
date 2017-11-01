@@ -67,7 +67,7 @@ namespace CrossEngine {
 		m_vertexFormat = format;
 
 		GLuint bindingindex = 0;
-		GLuint stride = m_pDevice->GetVertexSize(m_vertexFormat);
+		GLuint stride = m_pDevice->GetVertexStride(m_vertexFormat);
 
 		glGenVertexArrays(1, &m_vao);
 		glBindVertexArray(m_vao);

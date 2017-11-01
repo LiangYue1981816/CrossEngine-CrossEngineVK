@@ -51,17 +51,17 @@ namespace CrossEngine {
 	};
 
 
-	uint32_t CGfxDevice::GetVertexSize(uint32_t format) const
+	uint32_t CGfxDevice::GetVertexStride(uint32_t format) const
 	{
-		uint32_t size = 0;
+		uint32_t stride = 0;
 
 		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
 			if (format & vertexAttributes[indexAttribute].flag) {
-				size += vertexAttributes[indexAttribute].size;
+				stride += vertexAttributes[indexAttribute].size * sizeof(float);
 			}
 		}
 
-		return size;
+		return stride;
 	}
 
 	uint32_t CGfxDevice::GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const
