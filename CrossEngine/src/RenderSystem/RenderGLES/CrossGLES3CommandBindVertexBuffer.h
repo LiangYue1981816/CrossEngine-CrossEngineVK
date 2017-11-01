@@ -42,18 +42,13 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrVertexBuffer.IsNull()) {
-				glBindVertexArray(0);
-				glBindVertexBuffer(0, 0, 0, 0);
-			}
-			else {
-				CGLES3Device *pDevice = ((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetDevice();
-				GLuint bindingindex = 0;
-				GLuint stride = pDevice->GetVertexStride(m_ptrVertexBuffer->GetVertexFormat());
+			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
 
-				glBindVertexArray((GLuint)((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetHandleVAO());
-				glBindVertexBuffer(bindingindex, (GLuint)((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetHandle(), 0, stride);
-			}
+			GLuint bindingindex = 0;
+			GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(m_ptrVertexBuffer->GetVertexFormat());
+
+			glBindVertexArray((GLuint)pVertexBuffer->GetHandleVAO());
+			glBindVertexBuffer(bindingindex, (GLuint)pVertexBuffer->GetHandle(), 0, stride);
 		}
 
 

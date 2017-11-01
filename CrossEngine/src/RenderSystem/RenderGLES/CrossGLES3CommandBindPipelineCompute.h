@@ -41,14 +41,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (m_ptrPipelineCompute.IsNull()) {
-				glUseProgram(0);
-				glBindProgramPipeline(0);
-			}
-			else {
-				glUseProgram(0);
-				glBindProgramPipeline((GLuint)m_ptrPipelineCompute->GetHandle());
-			}
+			glBindProgramPipeline((GLuint)m_ptrPipelineCompute->GetHandle());
 		}
 
 
