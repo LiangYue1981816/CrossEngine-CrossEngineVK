@@ -215,7 +215,7 @@ void Render(void)
 		return;
 	}
 
-	static float angle = 0.0f; angle += 0.05f;
+	static float angle = 0.0f; angle += 0.01f;
 	static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
 	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
