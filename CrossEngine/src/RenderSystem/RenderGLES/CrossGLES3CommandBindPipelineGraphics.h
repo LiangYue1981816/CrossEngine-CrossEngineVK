@@ -57,6 +57,7 @@ namespace CrossEngine {
 				SetFrontFace(rasterizationState);
 				SetPolygonOffset(rasterizationState);
 				SetLineWidth(rasterizationState);
+				SetSampleMask(multisampleState);
 				SetAlphaToCoverage(multisampleState);
 				SetDepthWrite(depthStencilState);
 				SetDepthTest(depthStencilState);
@@ -75,6 +76,7 @@ namespace CrossEngine {
 			glDisable(GL_DEPTH_TEST);
 			glDisable(GL_STENCIL_TEST);
 			glDisable(GL_BLEND);
+			glDisable(GL_SAMPLE_MASK);
 			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		}
 
@@ -121,6 +123,14 @@ namespace CrossEngine {
 		void SetLineWidth(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			glLineWidth(rasterizationState.lineWidth);
+		}
+
+		void SetSampleMask(const VkPipelineMultisampleStateCreateInfo& multisampleState) const
+		{
+			if (multisampleState.pSampleMask) {
+				glEnable(GL_SAMPLE_MASK);
+				glSampleMaski(multisampleState.rasterizationSamples, *multisampleState.pSampleMask);
+			}
 		}
 
 		void SetAlphaToCoverage(const VkPipelineMultisampleStateCreateInfo& multisampleState) const
