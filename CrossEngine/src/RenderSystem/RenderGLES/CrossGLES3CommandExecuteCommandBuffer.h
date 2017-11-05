@@ -41,9 +41,8 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (const CGLES3CommandBuffer *pCommandBuffer = (CGLES3CommandBuffer *)((CGfxCommandBuffer *)m_ptrCommandBuffer)) {
-				pCommandBuffer->Execute();
-			}
+			const CGLES3CommandBuffer *pCommandBuffer = (CGLES3CommandBuffer *)((CGfxCommandBuffer *)m_ptrCommandBuffer);
+			pCommandBuffer->Execute();
 		}
 
 

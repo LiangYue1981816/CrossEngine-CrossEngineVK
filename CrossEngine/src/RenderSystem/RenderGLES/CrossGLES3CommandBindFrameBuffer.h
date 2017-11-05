@@ -46,22 +46,20 @@ namespace CrossEngine {
 			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 
-			if (pFrameBuffer && pRenderPass) {
-				const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
-				glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-				{
-					std::vector<GLenum> drawBuffers;
-					std::vector<GLenum> discardBuffers;
+			const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
+			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+			{
+				std::vector<GLenum> drawBuffers;
+				std::vector<GLenum> discardBuffers;
 
-					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
-					SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
+				SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
+				SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
 
-					glReadBuffers(drawBuffers.size(), drawBuffers.data());
-					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
-					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
+				glReadBuffers(drawBuffers.size(), drawBuffers.data());
+				glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+				glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
 
-					CheckFramebufferStatus(framebuffer);
-				}
+				CheckFramebufferStatus(framebuffer);
 			}
 		}
 

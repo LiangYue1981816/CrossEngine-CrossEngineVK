@@ -42,13 +42,12 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			if (const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer)) {
-				GLuint bindingindex = 0;
-				GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(m_ptrVertexBuffer->GetVertexFormat());
+			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
+			const GLuint bindingindex = 0;
+			const GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(m_ptrVertexBuffer->GetVertexFormat());
 
-				glBindVertexArray((GLuint)pVertexBuffer->GetHandleVAO());
-				glBindVertexBuffer(bindingindex, (GLuint)pVertexBuffer->GetHandle(), 0, stride);
-			}
+			glBindVertexArray((GLuint)pVertexBuffer->GetHandleVAO());
+			glBindVertexBuffer(bindingindex, (GLuint)pVertexBuffer->GetHandle(), 0, stride);
 		}
 
 

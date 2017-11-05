@@ -46,35 +46,33 @@ namespace CrossEngine {
 			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 
-			if (pFrameBuffer && pRenderPass) {
-				if (IsNeedResolve(pFrameBuffer, pRenderPass, m_indexPass)) {
-					const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandle();
-					glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-					{
-						std::vector<GLenum> drawBuffers;
-						std::vector<GLenum> discardBuffers;
+			if (IsNeedResolve(pFrameBuffer, pRenderPass, m_indexPass)) {
+				const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandle();
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+				{
+					std::vector<GLenum> drawBuffers;
+					std::vector<GLenum> discardBuffers;
 
-						SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
+					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
 
-						glReadBuffers(drawBuffers.size(), drawBuffers.data());
-						glDrawBuffers(drawBuffers.size(), drawBuffers.data());
-						glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
+					glReadBuffers(drawBuffers.size(), drawBuffers.data());
+					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
 
-						CheckFramebufferStatus(framebuffer);
-					}
-
-					const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
-					glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
-					{
-						glBlitFramebuffer(
-							0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
-							0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
-							GL_COLOR_BUFFER_BIT,
-							GL_NEAREST);
-					}
-					glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-					glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+					CheckFramebufferStatus(framebuffer);
 				}
+
+				const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
+				glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
+				{
+					glBlitFramebuffer(
+						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
+						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
+						GL_COLOR_BUFFER_BIT,
+						GL_NEAREST);
+				}
+				glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 			}
 		}
 

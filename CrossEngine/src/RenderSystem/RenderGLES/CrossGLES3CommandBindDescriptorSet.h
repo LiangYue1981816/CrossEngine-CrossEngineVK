@@ -45,46 +45,43 @@ namespace CrossEngine {
 		{
 			const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet);
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
+			const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(m_indexPass);
+			const CGLES3DescriptorSetLayout *pDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
 
-			if (pDescriptorSet && pRenderPass) {
-				const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(m_indexPass);
-				const CGLES3DescriptorSetLayout *pDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
+			const std::map<uint32_t, std::map<uint32_t, uint32_t>> &uniformBlockBindings = pDescriptorSetLayout->GetUniformBlockBindings();
+			for (const auto &itUniformBlockBinding : uniformBlockBindings) {
+				for (const auto &itBinding : itUniformBlockBinding.second) {
+					GLuint program = itUniformBlockBinding.first;
+					GLuint binding = itBinding.first;
+					GLuint location = itBinding.second;
 
-				const std::map<uint32_t, std::map<uint32_t, uint32_t>> &uniformBlockBindings = pDescriptorSetLayout->GetUniformBlockBindings();
-				for (const auto &itUniformBlockBinding : uniformBlockBindings) {
-					for (const auto &itBinding : itUniformBlockBinding.second) {
-						GLuint program = itUniformBlockBinding.first;
-						GLuint binding = itBinding.first;
-						GLuint location = itBinding.second;
+					const CGfxUniformBufferPtr &ptrUniformBuffer = pDescriptorSet->GetUniformBuffer(binding);
+					if (ptrUniformBuffer.IsNull()) continue;
 
-						const CGfxUniformBufferPtr &ptrUniformBuffer = pDescriptorSet->GetUniformBuffer(binding);
-						if (ptrUniformBuffer.IsNull()) continue;
-
-						const VkDescriptorBufferInfo &bufferInfo = ptrUniformBuffer->GetDescriptorBufferInfo(pDescriptorSetLayout->GetSet(), binding);
-						glBindBufferRange(GL_UNIFORM_BUFFER, binding, (GLuint)ptrUniformBuffer->GetHandle(), bufferInfo.offset, bufferInfo.range);
-						glUniformBlockBinding(program, location, binding);
-					}
+					const VkDescriptorBufferInfo &bufferInfo = ptrUniformBuffer->GetDescriptorBufferInfo(pDescriptorSetLayout->GetSet(), binding);
+					glBindBufferRange(GL_UNIFORM_BUFFER, binding, (GLuint)ptrUniformBuffer->GetHandle(), bufferInfo.offset, bufferInfo.range);
+					glUniformBlockBinding(program, location, binding);
 				}
+			}
 
-				GLuint indexTexUnit = pSubPass->inputAttachments.size();
-				const std::map<uint32_t, std::map<uint32_t, uint32_t>> &sampledImageBindings = pDescriptorSetLayout->GetSampledImageBindings();
-				for (const auto &itSampledImageBinding : sampledImageBindings) {
-					for (const auto &itBinding : itSampledImageBinding.second) {
-						GLuint program = itSampledImageBinding.first;
-						GLuint binding = itBinding.first;
-						GLuint location = itBinding.second;
+			GLuint indexTexUnit = pSubPass->inputAttachments.size();
+			const std::map<uint32_t, std::map<uint32_t, uint32_t>> &sampledImageBindings = pDescriptorSetLayout->GetSampledImageBindings();
+			for (const auto &itSampledImageBinding : sampledImageBindings) {
+				for (const auto &itBinding : itSampledImageBinding.second) {
+					GLuint program = itSampledImageBinding.first;
+					GLuint binding = itBinding.first;
+					GLuint location = itBinding.second;
 
-						const CGfxTexturePtr &ptrTexture = pDescriptorSet->GetTexture(binding);
-						if (ptrTexture.IsNull()) continue;
+					const CGfxTexturePtr &ptrTexture = pDescriptorSet->GetTexture(binding);
+					if (ptrTexture.IsNull()) continue;
 
-						const CGLES3Texture *pTexture = (CGLES3Texture *)((CGfxTexture *)ptrTexture);
-						glActiveTexture(GL_TEXTURE0 + indexTexUnit);
-						glBindSampler(indexTexUnit, pTexture->GetSampler());
-						glBindTexture(pTexture->GetTarget(), (GLuint)pTexture->GetHandle());
-						glProgramUniform1i(program, location, indexTexUnit);
+					const CGLES3Texture *pTexture = (CGLES3Texture *)((CGfxTexture *)ptrTexture);
+					glActiveTexture(GL_TEXTURE0 + indexTexUnit);
+					glBindSampler(indexTexUnit, pTexture->GetSampler());
+					glBindTexture(pTexture->GetTarget(), (GLuint)pTexture->GetHandle());
+					glProgramUniform1i(program, location, indexTexUnit);
 
-						indexTexUnit++;
-					}
+					indexTexUnit++;
 				}
 			}
 		}
