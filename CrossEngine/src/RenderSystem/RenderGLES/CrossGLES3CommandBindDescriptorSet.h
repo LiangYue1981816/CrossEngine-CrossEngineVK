@@ -32,16 +32,22 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindDescriptorSet(const CGfxDescriptorSetPtr &ptrDescriptorSet)
+		CGLES3CommandBindDescriptorSet(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxRenderPassPtr &ptrRenderPass, int indexPass)
+			: m_indexPass(indexPass)
 		{
 			m_ptrDescriptorSet = ptrDescriptorSet;
+			m_ptrRenderPass = ptrRenderPass;
 		}
 
 
 	protected:
 		virtual void Execute(void) const
 		{
-			if (const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet)) {
+			const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet);
+			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
+
+			if (pDescriptorSet && pRenderPass) {
+				const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(m_indexPass);
 				const CGLES3DescriptorSetLayout *pDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
 
 				const std::map<uint32_t, std::map<uint32_t, uint32_t>> &uniformBlockBindings = pDescriptorSetLayout->GetUniformBlockBindings();
@@ -60,7 +66,7 @@ namespace CrossEngine {
 					}
 				}
 
-				GLuint indexTexUnit = 0;
+				GLuint indexTexUnit = pSubPass->inputAttachments.size();
 				const std::map<uint32_t, std::map<uint32_t, uint32_t>> &sampledImageBindings = pDescriptorSetLayout->GetSampledImageBindings();
 				for (const auto &itSampledImageBinding : sampledImageBindings) {
 					for (const auto &itBinding : itSampledImageBinding.second) {
@@ -86,6 +92,8 @@ namespace CrossEngine {
 
 	protected:
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+		CGfxRenderPassPtr m_ptrRenderPass;
+		int m_indexPass;
 	};
 
 }
