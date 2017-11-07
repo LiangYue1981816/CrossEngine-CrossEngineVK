@@ -26,6 +26,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultiSampling", "..\..\Unit
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubPass", "..\..\UnitTesting\SubPass\SubPass.vcxproj", "{80A668E8-3889-4819-B714-C62C36DED74B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F3C89080-B49C-4FAD-B788-2D22427E2AF9} = {F3C89080-B49C-4FAD-B788-2D22427E2AF9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
