@@ -15,6 +15,7 @@ struct {
 	CrossEngine::CResShaderPtr ptrShaderVertex;
 	CrossEngine::CResShaderPtr ptrShaderFragment;
 	CrossEngine::CGfxPipelineGraphicsPtr ptrGraphics;
+	CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSet;
 } Screen;
 
 struct {
@@ -98,6 +99,7 @@ void CreateMesh(void)
 	Mesh.ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, 0, Mesh.ptrGraphics);
 	Mesh.ptrDescriptorSet->SetUniformBuffer(0, Mesh.ptrUniformBuffer);
 	Mesh.ptrDescriptorSet->SetTexture(1, Mesh.ptrTexture);
+	Mesh.ptrDescriptorSet->UpdateDescriptorSets();
 }
 
 void DestroyMesh(void)
@@ -128,6 +130,10 @@ void CreateScreen(void)
 	Screen.ptrGraphics->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 	Screen.ptrGraphics->SetColorBlendAttachment(0, FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	Screen.ptrGraphics->Create(Renderer.ptrRenderPass->GetHandle(), 1);
+
+	Screen.ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, 0, Screen.ptrGraphics);
+	Screen.ptrDescriptorSet->SetRenderTexture(0, Renderer.ptrColorTexture);
+	Screen.ptrDescriptorSet->UpdateDescriptorSets();
 }
 
 void DestroyScreen(void)
@@ -135,16 +141,47 @@ void DestroyScreen(void)
 	Screen.ptrGraphics.Release();
 	Screen.ptrShaderVertex.Release();
 	Screen.ptrShaderFragment.Release();
+	Screen.ptrDescriptorSet.Release();
 }
 
 void CreateCommandBuffer(void)
 {
+	for (int index = 0; index < (int)GfxSwapChain()->GetImageCount(); index++) {
+		Renderer.ptrCommandBuffers[index] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		Renderer.ptrCommandBuffers[index]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+		{
+			Renderer.ptrCommandBuffers[index]->CmdBeginRenderPass(Renderer.ptrFrameBuffers[index], Renderer.ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
+			{
+				Renderer.ptrCommandBuffers[index]->CmdSetViewport(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), 0.0f, 1.0f);
+				Renderer.ptrCommandBuffers[index]->CmdSetScissor(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
 
+				Renderer.ptrCommandBuffers[index]->CmdBindPipelineGraphics(Mesh.ptrGraphics);
+				{
+					Renderer.ptrCommandBuffers[index]->CmdBindVertexBuffer(Mesh.ptrVertexBuffer, 0);
+					Renderer.ptrCommandBuffers[index]->CmdBindIndexBuffer(Mesh.ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+					Renderer.ptrCommandBuffers[index]->CmdBindDescriptorSetGraphics(Mesh.ptrDescriptorSet, Mesh.ptrGraphics);
+					Renderer.ptrCommandBuffers[index]->CmdDrawIndexed(3, 1, 0, 0, 1);
+				}
+
+				Renderer.ptrCommandBuffers[index]->CmdNextSubpass(VK_SUBPASS_CONTENTS_INLINE);
+
+				Renderer.ptrCommandBuffers[index]->CmdBindPipelineGraphics(Screen.ptrGraphics);
+				{
+					Renderer.ptrCommandBuffers[index]->CmdBindDescriptorSetGraphics(Screen.ptrDescriptorSet, Screen.ptrGraphics);
+					Renderer.ptrCommandBuffers[index]->CmdDraw(3, 1, 0, 0);
+				}
+			}
+			Renderer.ptrCommandBuffers[index]->CmdEndRenderPass();
+		}
+		Renderer.ptrCommandBuffers[index]->End();
+	}
 }
 
 void DestroyCommandBuffer(void)
 {
-
+	for (int index = 0; index < GfxSwapChain()->GetImageCount(); index++) {
+		Renderer.ptrCommandBuffers[index].Release();
+	}
 }
 
 void Create(void)
