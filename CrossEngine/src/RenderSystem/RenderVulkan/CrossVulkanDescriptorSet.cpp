@@ -39,6 +39,7 @@ namespace CrossEngine {
 	CVulkanDescriptorSet::~CVulkanDescriptorSet(void)
 	{
 		m_ptrTextures.clear();
+		m_ptrRenderTextures.clear();
 		m_ptrUniformBuffers.clear();
 	}
 
@@ -60,6 +61,11 @@ namespace CrossEngine {
 	void CVulkanDescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
 		m_ptrTextures[binding] = ptrTexture;
+	}
+
+	void CVulkanDescriptorSet::SetRenderTexture(uint32_t binding, const CGfxRenderTexturePtr &ptrRenderTexture)
+	{
+		m_ptrRenderTextures[binding] = ptrRenderTexture;
 	}
 
 	void CVulkanDescriptorSet::SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer)
@@ -84,6 +90,25 @@ namespace CrossEngine {
 			write.descriptorCount = 1;
 			write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 			write.pImageInfo = &((CVulkanTexture *)((CGfxTexture *)ptrTexture))->GetDescriptorImageInfo();
+			write.pBufferInfo = NULL;
+			write.pTexelBufferView = NULL;
+
+			writes.push_back(write);
+		}
+
+		for (const auto &itRenderTexture : m_ptrRenderTextures) {
+			const uint32_t binding = itRenderTexture.first;
+			const CGfxRenderTexturePtr &ptrRenderTexture = itRenderTexture.second;
+
+			VkWriteDescriptorSet write = {};
+			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			write.pNext = NULL;
+			write.dstSet = m_vkDescriptorSet;
+			write.dstBinding = binding;
+			write.dstArrayElement = 0;
+			write.descriptorCount = 1;
+			write.descriptorType = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
+			write.pImageInfo = &((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetDescriptorImageInfo();
 			write.pBufferInfo = NULL;
 			write.pTexelBufferView = NULL;
 

@@ -44,8 +44,9 @@ namespace CrossEngine {
 		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER] = 512;
 		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER] = 512;
 		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_STORAGE_IMAGE] = 512;
+		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT] = 256;
 
-		VkDescriptorPoolSize poolSizes[7] = {
+		VkDescriptorPoolSize poolSizes[8] = {
 			{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER] },
 			{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC] },
 			{ VK_DESCRIPTOR_TYPE_SAMPLER, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_SAMPLER] },
@@ -53,6 +54,7 @@ namespace CrossEngine {
 			{ VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER] },
 			{ VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER] },
 			{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_STORAGE_IMAGE] },
+			{ VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT] },
 		};
 
 		VkDescriptorPoolCreateInfo createInfo = {};
@@ -60,7 +62,7 @@ namespace CrossEngine {
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
 		createInfo.maxSets = m_maxDescriptorSets;
-		createInfo.poolSizeCount = 7;
+		createInfo.poolSizeCount = 8;
 		createInfo.pPoolSizes = poolSizes;
 		vkCreateDescriptorPool(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorPool);
 	}
