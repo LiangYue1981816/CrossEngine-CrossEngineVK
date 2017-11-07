@@ -113,6 +113,23 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CVulkanDescriptorSetLayout::SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
+	{
+		uint32_t dwName = HashValue(szName);
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
+
+		m_bindings[binding].binding = binding;
+		m_bindings[binding].descriptorType = type;
+		m_bindings[binding].descriptorCount = 1;
+		m_bindings[binding].stageFlags = flags;
+		m_bindings[binding].pImmutableSamplers = NULL;
+
+		m_names[dwName] = binding;
+		m_numTypesUsedCount[type]++;
+
+		return TRUE;
+	}
+
 	uint32_t CVulkanDescriptorSetLayout::GetSet(void) const
 	{
 		return m_set;
@@ -222,6 +239,20 @@ namespace CrossEngine {
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
 					m_pDescriptorSetLayouts[set]->SetSampledImageBinding(itSampledImage.name.c_str(), binding, shaderStageFlags);
+				}
+			}
+
+			for (const auto &itSubpassInput : shaderResources.subpass_inputs) {
+				const uint32_t set = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationDescriptorSet);
+				const uint32_t binding = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationBinding);
+				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSubpassInput.type_id);
+
+				if (m_pDescriptorSetLayouts[set] == NULL) {
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
+				}
+
+				if (type.basetype == spirv_cross::SPIRType::Image) {
+					m_pDescriptorSetLayouts[set]->SetInputAttachmentBinding(itSubpassInput.name.c_str(), binding, shaderStageFlags);
 				}
 			}
 		}

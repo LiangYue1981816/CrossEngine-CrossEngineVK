@@ -43,6 +43,7 @@ namespace CrossEngine {
 	protected:
 		BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
 		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
+		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
 
 	public:
 		uint32_t GetSet(void) const;
