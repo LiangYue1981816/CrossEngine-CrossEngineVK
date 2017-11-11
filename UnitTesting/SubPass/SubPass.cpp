@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+struct Vertex {
+	float position[3];
+	float texcoord[2];
+};
+
 struct {
 	CrossEngine::CResShaderPtr ptrShaderVertex;
 	CrossEngine::CResShaderPtr ptrShaderFragment;
@@ -73,11 +78,6 @@ void CreateMesh(void)
 
 	Mesh.ptrTexture = GfxDevice()->NewTexture();
 	Mesh.ptrTexture->CreateTexture2D((gli::texture2d)gli::load("../Data/Texture/het_kanonschot_rgba8.ktx"), VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
-
-	struct Vertex {
-		float position[3];
-		float texcoord[2];
-	};
 
 	std::vector<Vertex> vertexBuffer = {
 		{ { -1.0f, -1.0f, 0.0f },{ 0.0f, 1.0f } },
