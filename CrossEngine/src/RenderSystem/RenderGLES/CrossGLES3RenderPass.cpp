@@ -159,7 +159,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass)
+	BOOL CGLES3RenderPass::SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkDependencyFlags dependencyFlags)
 	{
 		return TRUE;
 	}

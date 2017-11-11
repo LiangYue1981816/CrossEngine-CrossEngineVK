@@ -286,20 +286,24 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass)
+	BOOL CVulkanRenderPass::SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkDependencyFlags dependencyFlags)
 	{
-		if (m_subpasses.find(indexSrcSubpass) == m_subpasses.end() || m_subpasses.find(indexDstSubpass) == m_subpasses.end()) {
+		if (indexSrcSubpass != VK_SUBPASS_EXTERNAL && m_subpasses.find(indexSrcSubpass) == m_subpasses.end()) {
+			return FALSE;
+		}
+
+		if (indexDstSubpass != VK_SUBPASS_EXTERNAL && m_subpasses.find(indexDstSubpass) == m_subpasses.end()) {
 			return FALSE;
 		}
 
 		m_dependencies[indexDependency] = {};
 		m_dependencies[indexDependency].srcSubpass = indexSrcSubpass;
 		m_dependencies[indexDependency].dstSubpass = indexDstSubpass;
-		m_dependencies[indexDependency].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		m_dependencies[indexDependency].dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-		m_dependencies[indexDependency].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		m_dependencies[indexDependency].dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-		m_dependencies[indexDependency].dependencyFlags = 0;
+		m_dependencies[indexDependency].srcStageMask = srcStageMask;
+		m_dependencies[indexDependency].dstStageMask = dstStageMask;
+		m_dependencies[indexDependency].srcAccessMask = srcAccessMask;
+		m_dependencies[indexDependency].dstAccessMask = dstAccessMask;
+		m_dependencies[indexDependency].dependencyFlags = dependencyFlags;
 
 		return TRUE;
 	}
