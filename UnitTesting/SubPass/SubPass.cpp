@@ -86,7 +86,7 @@ void CreateMesh(void)
 		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f } }
 	};
 	Mesh.ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
-	Mesh.ptrVertexBuffer->Create(vertexBuffer.size() * sizeof(Vertex), vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD0);
+	Mesh.ptrVertexBuffer->Create(vertexBuffer.size() * sizeof(Vertex), vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_FLAG_POSITION | CrossEngine::VERTEX_ATTRIBUTE_FLAG_TEXCOORD0);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	Mesh.ptrIndexBuffer = GfxDevice()->NewIndexBuffer();

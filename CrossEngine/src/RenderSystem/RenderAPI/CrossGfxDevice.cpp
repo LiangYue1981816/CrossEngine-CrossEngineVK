@@ -33,7 +33,7 @@ namespace CrossEngine {
 		const char *name;
 	};
 
-	static const VERTEX_ATTRIBUTE vertexAttributes[VERTEX_ATTRIBUTE_COUNT] = {
+	static const VERTEX_ATTRIBUTE vertexAttributes[VERTEX_ATTRIBUTE_FLAG_COUNT] = {
 		{ VERTEX_ATTRIBUTE_FLAG_POSITION,    3, 0,  VK_FORMAT_R32G32B32_SFLOAT, "inPosition"  },
 		{ VERTEX_ATTRIBUTE_FLAG_NORMAL,      3, 1,  VK_FORMAT_R32G32B32_SFLOAT, "inNormal"    },
 		{ VERTEX_ATTRIBUTE_FLAG_BINORMAL,    3, 2,  VK_FORMAT_R32G32B32_SFLOAT, "inBinormal"  },
@@ -55,7 +55,7 @@ namespace CrossEngine {
 	{
 		uint32_t stride = 0;
 
-		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (format & vertexAttributes[indexAttribute].flag) {
 				stride += vertexAttributes[indexAttribute].size * sizeof(float);
 			}
@@ -68,7 +68,7 @@ namespace CrossEngine {
 	{
 		uint32_t offset = 0;
 
-		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) return offset;
 			if (format & vertexAttributes[indexAttribute].flag) offset += vertexAttributes[indexAttribute].size * sizeof(float);
 		}
@@ -78,7 +78,7 @@ namespace CrossEngine {
 
 	uint32_t CGfxDevice::GetVertexAttributeFlag(const char *szName) const
 	{
-		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (strcmp(vertexAttributes[indexAttribute].name, szName) == 0) {
 				return vertexAttributes[indexAttribute].flag;
 			}
@@ -89,7 +89,7 @@ namespace CrossEngine {
 
 	uint32_t CGfxDevice::GetVertexAttributeSize(uint32_t attribute) const
 	{
-		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) {
 				return vertexAttributes[indexAttribute].size;
 			}
@@ -100,7 +100,7 @@ namespace CrossEngine {
 
 	uint32_t CGfxDevice::GetVertexAttributeLocation(uint32_t attribute) const
 	{
-		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) {
 				return vertexAttributes[indexAttribute].location;
 			}
@@ -111,7 +111,7 @@ namespace CrossEngine {
 
 	VkFormat CGfxDevice::GetVertexAttributeFormat(uint32_t attribute) const
 	{
-		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_COUNT; indexAttribute++) {
+		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) {
 				return vertexAttributes[indexAttribute].format;
 			}
