@@ -126,8 +126,7 @@ void CreateScreen(void)
 	Screen.ptrGraphics->SetVertexShader(Screen.ptrShaderVertex->GetGfxShader());
 	Screen.ptrGraphics->SetFragmentShader(Screen.ptrShaderFragment->GetGfxShader());
 	Screen.ptrGraphics->SetDepthTest(FALSE, FALSE, VK_COMPARE_OP_ALWAYS);
-	Screen.ptrGraphics->SetCullMode(VK_CULL_MODE_BACK_BIT);
-	Screen.ptrGraphics->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
+	Screen.ptrGraphics->SetCullMode(VK_CULL_MODE_NONE);
 	Screen.ptrGraphics->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	Screen.ptrGraphics->Create(Renderer.ptrRenderPass->GetHandle(), 1);
 
