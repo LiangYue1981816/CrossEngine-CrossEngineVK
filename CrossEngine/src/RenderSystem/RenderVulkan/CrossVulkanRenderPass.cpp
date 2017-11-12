@@ -230,13 +230,24 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassInputReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CVulkanRenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
 		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
 			return FALSE;
 		}
 
 		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+		return TRUE;
+	}
+
+	BOOL CVulkanRenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
+		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 
 		return TRUE;
 	}

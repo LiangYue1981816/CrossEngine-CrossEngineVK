@@ -110,7 +110,18 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassInputReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CGLES3RenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	{
+		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+			return FALSE;
+		}
+
+		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
+
+		return TRUE;
+	}
+
+	BOOL CGLES3RenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
 		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
 			return FALSE;

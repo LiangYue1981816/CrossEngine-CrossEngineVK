@@ -34,11 +34,11 @@ void CreateRenderer(void)
 {
 	Renderer.ptrRenderPass = GfxDevice()->NewRenderPass();
 	Renderer.ptrRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 1.0f, 0.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
-	Renderer.ptrRenderPass->SetColorAttachment(1, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 0.0f, 1.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	Renderer.ptrRenderPass->SetColorAttachment(1, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 0.0f, 1.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
 	Renderer.ptrRenderPass->SetSubpassOutputColorReference(0, 1);
-	Renderer.ptrRenderPass->SetSubpassInputReference(1, 1);
+	Renderer.ptrRenderPass->SetSubpassInputColorReference(1, 1);
 	Renderer.ptrRenderPass->SetSubpassOutputColorReference(1, 0);
-	Renderer.ptrRenderPass->SetSubpassDependency(0, 0, 1);
+//	Renderer.ptrRenderPass->SetSubpassDependency(0, 0, 1);
 	Renderer.ptrRenderPass->Create();
 
 	Renderer.ptrColorTexture = GfxDevice()->NewRenderTexture();
