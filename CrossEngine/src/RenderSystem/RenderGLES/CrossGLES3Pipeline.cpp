@@ -64,6 +64,20 @@ namespace CrossEngine {
 		return FALSE;
 	}
 
+	BOOL CGLES3DescriptorSetLayout::SetInputAttachmentBinding(const char *szName, uint32_t binding, GLuint program)
+	{
+		uint32_t dwName = HashValue(szName);
+		GLuint location = glGetUniformLocation(program, szName);
+
+		if (location != GL_INVALID_INDEX) {
+			m_names[dwName] = binding;
+			m_inputAttachmentBindings[program][binding] = location;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 	uint32_t CGLES3DescriptorSetLayout::GetSet(void) const
 	{
 		return m_set;
@@ -83,6 +97,11 @@ namespace CrossEngine {
 	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetSampledImageBindings(void) const
 	{
 		return m_sampledImageBindings;
+	}
+
+	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetInputAttachmentBindings(void) const
+	{
+		return m_inputAttachmentBindings;
 	}
 
 
@@ -130,6 +149,20 @@ namespace CrossEngine {
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
 					m_pDescriptorSetLayouts[set]->SetSampledImageBinding(itSampledImage.name.c_str(), binding, (GLuint)itShader.second->GetHandle());
+				}
+			}
+
+			for (const auto &itSubpassInput : shaderResources.subpass_inputs) {
+				const uint32_t set = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationDescriptorSet);
+				const uint32_t binding = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationBinding);
+				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSubpassInput.type_id);
+
+				if (m_pDescriptorSetLayouts[set] == NULL) {
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CGLES3DescriptorSetLayout(set);
+				}
+
+				if (type.basetype == spirv_cross::SPIRType::Image) {
+					m_pDescriptorSetLayouts[set]->SetInputAttachmentBinding(itSubpassInput.name.c_str(), binding, (GLuint)itShader.second->GetHandle());
 				}
 			}
 		}

@@ -52,7 +52,6 @@ namespace CrossEngine {
 				std::vector<GLenum> drawBuffers;
 				std::vector<GLenum> discardBuffers;
 
-				SetInputTexture(pFrameBuffer, pRenderPass, m_indexPass);
 				SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
 				SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
 
@@ -79,27 +78,6 @@ namespace CrossEngine {
 			}
 
 			return FALSE;
-		}
-
-		void SetInputTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
-		{
-			if (const GLSubpassInformation *pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
-				GLuint indexTexUnit = 0;
-				for (const auto &itInputAttachment : pSubPass->inputAttachments) {
-					if (GLuint texture = pFrameBuffer->GetRenderTexture(itInputAttachment.first)) {
-						GLenum target = pFrameBuffer->GetRenderTextureTarget(itInputAttachment.first);
-
-						glActiveTexture(GL_TEXTURE0 + indexTexUnit);
-						glBindTexture(target, texture);
-						glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-						glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-						glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-						glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-						indexTexUnit++;
-					}
-				}
-			}
 		}
 
 		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const

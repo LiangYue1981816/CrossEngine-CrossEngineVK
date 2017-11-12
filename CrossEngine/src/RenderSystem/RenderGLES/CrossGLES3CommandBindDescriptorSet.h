@@ -43,6 +43,8 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			GLuint indexTexUnit = 0;
+
 			const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet);
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 			const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(m_indexPass);
@@ -64,7 +66,26 @@ namespace CrossEngine {
 				}
 			}
 
-			GLuint indexTexUnit = pSubPass->inputAttachments.size();
+			const std::map<uint32_t, std::map<uint32_t, uint32_t>> &inputAttachmentBindings = pDescriptorSetLayout->GetInputAttachmentBindings();
+			for (const auto &itInputAttachmentBinding : inputAttachmentBindings) {
+				for (const auto &itBinding : itInputAttachmentBinding.second) {
+					GLuint program = itInputAttachmentBinding.first;
+					GLuint binding = itBinding.first;
+					GLuint location = itBinding.second;
+
+					const CGfxRenderTexturePtr &ptrRenderTexture = pDescriptorSet->GetRenderTexture(binding);
+					if (ptrRenderTexture.IsNull()) continue;
+
+					const CGLES3RenderTexture *pRenderTexture = (CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture);
+					glActiveTexture(GL_TEXTURE0 + indexTexUnit);
+					glBindSampler(indexTexUnit, pRenderTexture->GetSampler());
+					glBindTexture(pRenderTexture->GetTarget(), (GLuint)pRenderTexture->GetHandle());
+					glProgramUniform1i(program, location, indexTexUnit);
+
+					indexTexUnit++;
+				}
+			}
+
 			const std::map<uint32_t, std::map<uint32_t, uint32_t>> &sampledImageBindings = pDescriptorSetLayout->GetSampledImageBindings();
 			for (const auto &itSampledImageBinding : sampledImageBindings) {
 				for (const auto &itBinding : itSampledImageBinding.second) {
