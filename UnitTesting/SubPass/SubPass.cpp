@@ -34,7 +34,7 @@ void CreateRenderer(void)
 {
 	Renderer.ptrRenderPass = GfxDevice()->NewRenderPass();
 	Renderer.ptrRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 1.0f, 0.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
-	Renderer.ptrRenderPass->SetColorAttachment(1, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 0.0f, 1.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
+	Renderer.ptrRenderPass->SetColorAttachment(1, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 0.0f, 1.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
 	Renderer.ptrRenderPass->SetSubpassOutputColorReference(0, 1);
 	Renderer.ptrRenderPass->SetSubpassInputColorReference(1, 1);
 	Renderer.ptrRenderPass->SetSubpassOutputColorReference(1, 0);
@@ -150,16 +150,15 @@ void CreateCommandBuffer(void)
 		Renderer.ptrCommandBuffers[index] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		Renderer.ptrCommandBuffers[index]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
 		{
+			Renderer.ptrCommandBuffers[index]->CmdBeginRenderPass(Renderer.ptrFrameBuffers[index], Renderer.ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			Renderer.ptrCommandBuffers[index]->CmdSetViewport(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), 0.0f, 1.0f);
 			Renderer.ptrCommandBuffers[index]->CmdSetScissor(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
-
-			Renderer.ptrCommandBuffers[index]->CmdBeginRenderPass(Renderer.ptrFrameBuffers[index], Renderer.ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
 				Renderer.ptrCommandBuffers[index]->CmdBindPipelineGraphics(Mesh.ptrGraphics);
 				{
+					Renderer.ptrCommandBuffers[index]->CmdBindDescriptorSetGraphics(Mesh.ptrDescriptorSet, Mesh.ptrGraphics);
 					Renderer.ptrCommandBuffers[index]->CmdBindVertexBuffer(Mesh.ptrVertexBuffer, 0);
 					Renderer.ptrCommandBuffers[index]->CmdBindIndexBuffer(Mesh.ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
-					Renderer.ptrCommandBuffers[index]->CmdBindDescriptorSetGraphics(Mesh.ptrDescriptorSet, Mesh.ptrGraphics);
 					Renderer.ptrCommandBuffers[index]->CmdDrawIndexed(3, 1, 0, 0, 1);
 				}
 			}
