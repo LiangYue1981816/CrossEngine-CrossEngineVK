@@ -54,7 +54,7 @@ namespace CrossEngine {
 		virtual BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
 		virtual BOOL SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout) = 0;
 		virtual BOOL SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
-		virtual BOOL SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkDependencyFlags dependencyFlags) = 0;
+		virtual BOOL SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass, VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VkAccessFlags srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VkAccessFlags dstAccessMask = VK_ACCESS_SHADER_READ_BIT, VkDependencyFlags dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT) = 0;
 
 	public:
 		virtual uint32_t GetSubpassCount(void) const = 0;
