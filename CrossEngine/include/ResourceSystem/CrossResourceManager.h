@@ -30,6 +30,11 @@ namespace CrossEngine {
 	{
 		friend class CResourceSystem;
 		friend class CResourceManager;
+		friend class CResShaderManager;
+		friend class CResTextureManager;
+		friend class CResComputeManager;
+		friend class CResGraphicsManager;
+		friend class CResMaterialManager;
 
 
 	protected:
@@ -39,16 +44,13 @@ namespace CrossEngine {
 		virtual ~CResourceHandle(void);
 
 
-	public:
+	protected:
 		BOOL IsWaste(void) const;
 		const char* GetFileName(void) const;
 		CResourcePtr<CResource>& GetResourcePtr(void);
 
-	public:
-		BOOL LoadResource(BOOL bSync);
-		BOOL FreeResource(void);
-
 	protected:
+		BOOL LoadResource(BOOL bSync);
 		BOOL Load(BOOL bSync);
 		BOOL PostLoad(void);
 
@@ -89,7 +91,6 @@ namespace CrossEngine {
 	public:
 		virtual const CResourcePtr<CResource>& LoadResource(const char *szName, BOOL bSync = FALSE);
 		virtual const CResourcePtr<CResource>& LoadResource(uint32_t dwName, BOOL bSync = FALSE);
-		virtual BOOL FreeResource(uint32_t dwName);
 
 	public:
 		virtual BOOL PreLoadFromFile(const char *szFileName) = 0;
@@ -101,7 +102,7 @@ namespace CrossEngine {
 		virtual BOOL PreLoadFromPath(const char *szPathName, const char *szExtName);
 		virtual BOOL PreLoadFromPack(const char *szPackName, const char *szExtName);
 
-		virtual BOOL Load(CResourceHandle *pResource);
+		virtual BOOL PreLoad(CResourceHandle *pResourceHandle);
 
 	protected:
 		virtual void GarbageCollection(void);

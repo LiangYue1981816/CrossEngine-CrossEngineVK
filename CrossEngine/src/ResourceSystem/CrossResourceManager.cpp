@@ -81,6 +81,8 @@ namespace CrossEngine {
 
 	BOOL CResourceHandle::LoadResource(BOOL bSync)
 	{
+		m_bIsWaste = FALSE;
+
 		if (m_ptrResource.IsNull()) {
 			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 
@@ -94,12 +96,6 @@ namespace CrossEngine {
 			}
 		}
 
-		return TRUE;
-	}
-
-	BOOL CResourceHandle::FreeResource(void)
-	{
-		m_ptrResource.Release();
 		return TRUE;
 	}
 
@@ -152,12 +148,12 @@ namespace CrossEngine {
 		}
 
 		for (const auto &itResource : m_resources) {
-			if (const CResourceHandle *pResource = itResource.second) {
-				if (pResource->IsWaste()) {
-					LOGW("Waste Resource: %s\n", pResource->GetFileName());
+			if (const CResourceHandle *pResourceHandle = itResource.second) {
+				if (pResourceHandle->IsWaste()) {
+					LOGW("Waste Resource: %s\n", pResourceHandle->GetFileName());
 				}
 
-				SAFE_DELETE(pResource);
+				SAFE_DELETE(pResourceHandle);
 			}
 		}
 
@@ -177,38 +173,22 @@ namespace CrossEngine {
 
 	const CResourcePtr<CResource>& CResourceManager::LoadResource(uint32_t dwName, BOOL bSync)
 	{
-		CResourceHandle *pResource = NULL;
+		CResourceHandle *pResourceHandle = NULL;
 		{
 			mutex_autolock mutex(m_mutex);
 			const auto &itResource = m_resources.find(dwName);
-			if (itResource != m_resources.end()) pResource = itResource->second;
+			if (itResource != m_resources.end()) pResourceHandle = itResource->second;
 		}
 
-		if (pResource == NULL) {
+		if (pResourceHandle == NULL) {
 			return ptrResourceNull;
 		}
 
-		if (pResource->LoadResource(bSync) == FALSE) {
+		if (pResourceHandle->LoadResource(bSync) == FALSE) {
 			return ptrResourceNull;
 		}
 
-		return pResource->GetResourcePtr();
-	}
-
-	BOOL CResourceManager::FreeResource(uint32_t dwName)
-	{
-		CResourceHandle *pResource = NULL;
-		{
-			mutex_autolock mutex(m_mutex);
-			const auto &itResource = m_resources.find(dwName);
-			if (itResource != m_resources.end()) pResource = itResource->second;
-		}
-
-		if (pResource == NULL) {
-			return FALSE;
-		}
-
-		return pResource->FreeResource();
+		return pResourceHandle->GetResourcePtr();
 	}
 
 	BOOL CResourceManager::PreLoadFromFile(const char *szFileName, const char *szExtName)
@@ -223,29 +203,27 @@ namespace CrossEngine {
 
 		char szFName[_MAX_STRING];
 		char szEName[_MAX_STRING];
-
 		splitfilename(szFileName, szFName, szEName);
 		if (stricmp(szExtName, szEName)) return FALSE;
 
-		CResourceHandle *pResource = NULL;
+		char szName[_MAX_STRING];
+		sprintf(szName, "%s%s", szFName, szEName);
+
+		uint32_t dwName = HashValue(szName);
+		CResourceHandle *pResourceHandle = NULL;
 		{
 			mutex_autolock mutex(m_mutex);
 
-			char szName[_MAX_STRING];
-			sprintf(szName, "%s%s", szFName, szEName);
-
-			uint32_t dwName = HashValue(szName);
-
 			if (m_resources[dwName] == NULL) {
-				m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName);
+				m_resources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
 			}
 			else {
 				LOGW("Exist resource : %s\n", szFileName);
 			}
 		}
 
-		if (pResource) {
-			Load(pResource);
+		if (pResourceHandle) {
+			PreLoad(pResourceHandle);
 		}
 
 		return TRUE;
@@ -283,7 +261,6 @@ namespace CrossEngine {
 					if (!stricmp(fileData.name, "..")) continue;
 
 					char szSubPathName[_MAX_STRING];
-
 					sprintf(szSubPathName, "%s/%s", szPathName, fileData.name);
 					PreLoadFromPath(szSubPathName, szExtName);
 
@@ -292,33 +269,30 @@ namespace CrossEngine {
 
 				char szFName[_MAX_STRING];
 				char szEName[_MAX_STRING];
-
 				splitfilename(fileData.name, szFName, szEName);
 				if (stricmp(szExtName, szEName)) continue;
 
-				CResourceHandle *pResource = NULL;
+				char szName[_MAX_STRING];
+				char szFileName[_MAX_STRING];
+				sprintf(szName, "%s%s", szFName, szEName);
+				sprintf(szFileName, "%s/%s", szPathName, szName);
+
+				uint32_t dwName = HashValue(szName);
+				CResourceHandle *pResourceHandle = NULL;
 				{
 					mutex_autolock mutex(m_mutex);
 
-					char szName[_MAX_STRING];
-					char szFileName[_MAX_STRING];
-
-					sprintf(szName, "%s%s", szFName, szEName);
-					sprintf(szFileName, "%s/%s", szPathName, szName);
-
-					uint32_t dwName = HashValue(szName);
-
 					if (m_resources[dwName] == NULL) {
-						m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName);
+						m_resources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
 					}
 					else {
 						LOGW("Exist resource : %s\n", szFileName);
 					}
 				}
 
-				if (pResource) {
-					Load(pResource);
-				}	
+				if (pResourceHandle) {
+					PreLoad(pResourceHandle);
+				}
 			} while (_findnext(hFile, &fileData) == 0);
 
 			_findclose(hFile);
@@ -337,10 +311,10 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		uint32_t dwName = HashValue(szPackName);
 		ZZIP_DIR *pPack = NULL;
 		{
 			mutex_autolock mutex(m_mutex);
-			uint32_t dwName = HashValue(szPackName);
 
 			if (m_packs[dwName] == NULL) {
 				m_packs[dwName] = zzip_opendir(szPackName);
@@ -354,39 +328,36 @@ namespace CrossEngine {
 		while (ZZIP_DIRENT *pEntry = zzip_readdir(pPack)) {
 			char szFName[_MAX_STRING];
 			char szEName[_MAX_STRING];
-
 			splitfilename(pEntry->d_name, szFName, szEName);
 			if (stricmp(szExtName, szEName)) continue;
-			
-			CResourceHandle *pResource = NULL;
+
+			char szName[_MAX_STRING];
+			char szFileName[_MAX_STRING];
+			sprintf(szName, "%s%s", szFName, szEName);
+			sprintf(szFileName, "%s", pEntry->d_name);
+
+			uint32_t dwName = HashValue(szName);
+			CResourceHandle *pResourceHandle = NULL;
 			{
 				mutex_autolock mutex(m_mutex);
 
-				char szName[_MAX_STRING];
-				char szFileName[_MAX_STRING];
-
-				sprintf(szName, "%s%s", szFName, szEName);
-				sprintf(szFileName, "%s", pEntry->d_name);
-
-				uint32_t dwName = HashValue(szName);
-
 				if (m_resources[dwName] == NULL) {
-					m_resources[dwName] = pResource = SAFE_NEW CResourceHandle(this, szFileName, pPack);
+					m_resources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName, pPack);
 				}
 				else {
 					LOGW("Exist resource : %s\n", szFileName);
 				}
 			}
 
-			if (pResource) {
-				Load(pResource);
+			if (pResourceHandle) {
+				PreLoad(pResourceHandle);
 			}
 		}
 
 		return TRUE;
 	}
 
-	BOOL CResourceManager::Load(CResourceHandle *pResource)
+	BOOL CResourceManager::PreLoad(CResourceHandle *pResourceHandle)
 	{
 		return TRUE;
 	}
@@ -396,9 +367,9 @@ namespace CrossEngine {
 		mutex_autolock mutex(m_mutex);
 
 		for (const auto &itResource : m_resources) {
-			if (CResourceHandle *pResource = itResource.second) {
-				if (pResource->m_ptrResource.IsNull() == FALSE && pResource->m_ptrResource.GetRefCount() == 1) {
-					pResource->m_ptrResource.Release();
+			if (CResourceHandle *pResourceHandle = itResource.second) {
+				if (pResourceHandle->m_ptrResource.IsNull() == FALSE && pResourceHandle->m_ptrResource.GetRefCount() == 1) {
+					pResourceHandle->m_ptrResource.Release();
 				}
 			}
 		}
