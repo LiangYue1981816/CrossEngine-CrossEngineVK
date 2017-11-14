@@ -73,8 +73,12 @@ namespace CrossEngine {
 		virtual BOOL Load(BOOL bSync) = 0;
 		virtual BOOL PostLoad(void) = 0;
 
+	public:
+		virtual BOOL IsLoaded(void) const;
+
 
 	protected:
+		BOOL m_bIsLoaded;
 		CStream m_stream;
 
 	protected:

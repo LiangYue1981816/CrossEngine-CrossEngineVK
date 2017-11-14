@@ -63,14 +63,15 @@ namespace CrossEngine {
 		BOOL PreLoadResourcePack(const char *szPackName);
 
 	protected:
-		BOOL RequestLoad(CResourceHandle *pResource);
-
-	protected:
-		void UpdatePostLoad(void);
-		static void* UpdateLoadThread(void *pParams);
+		BOOL RequestLoad(CResourceHandle *pResourceHandle);
+		void Load(void);
+		void PostLoad(void);
 
 	protected:
 		void GarbageCollection(void);
+
+	protected:
+		static void* WorkThread(void *pParams);
 
 
 	protected:

@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CResource::CResource(CResourceManager *pResourceManager)
 		: m_pResourceManager(pResourceManager)
+		, m_bIsLoaded(FALSE)
 	{
 		Init();
 	}
@@ -44,6 +45,7 @@ namespace CrossEngine {
 	void CResource::Init(void)
 	{
 		m_stream.Init();
+		m_bIsLoaded = FALSE;
 	}
 
 	void CResource::Free(void)
@@ -143,6 +145,11 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	BOOL CResource::IsLoaded(void) const
+	{
+		return m_bIsLoaded;
 	}
 
 }
