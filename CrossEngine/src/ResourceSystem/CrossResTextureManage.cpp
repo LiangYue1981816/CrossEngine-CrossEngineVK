@@ -42,7 +42,7 @@ namespace CrossEngine {
 
 	CResource* CResTextureManager::CreateResource(void)
 	{
-		return SAFE_NEW CResTexture(this, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
+		return SAFE_NEW CResTexture(this, VK_FILTER_NEAREST, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
 	}
 
 	CResource* CResTextureManager::CreateResource(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
