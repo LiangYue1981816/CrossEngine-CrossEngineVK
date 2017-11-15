@@ -62,10 +62,17 @@ namespace CrossEngine {
 
 	BOOL CResShader::PostLoad(void)
 	{
-		m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
-		m_stream.Free();
+		BOOL rcode = m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 
-		return TRUE;
+		m_stream.Free();
+		m_bIsLoaded = TRUE;
+
+		return rcode;
+	}
+
+	BOOL CResShader::IsLoaded(void) const
+	{
+		return m_bIsLoaded;
 	}
 
 }

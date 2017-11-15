@@ -46,6 +46,9 @@ namespace CrossEngine {
 		virtual BOOL Load(BOOL bSync);
 		virtual BOOL PostLoad(void);
 
+	public:
+		virtual BOOL IsLoaded(void) const;
+
 
 	protected:
 		CGfxPipelineComputePtr m_ptrGfxPipeline;

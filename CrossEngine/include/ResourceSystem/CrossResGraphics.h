@@ -27,14 +27,14 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	struct PipelineGraphicsData {
-		struct RenderPass {
-			uint32_t dwName;
-			uint32_t indexSubPass;
-		};
-
 		struct Shader {
 			uint32_t vertex;
 			uint32_t fragment;
+		};
+
+		struct RenderPass {
+			uint32_t dwName;
+			uint32_t indexSubPass;
 		};
 
 		struct InputAssembly {
@@ -93,8 +93,8 @@ namespace CrossEngine {
 		uint32_t mark;
 		uint32_t size;
 
-		RenderPass renderPass;
 		Shader shader;
+		RenderPass renderPass;
 		InputAssembly inputAssembly;
 		Rasterization rasterization;
 		Multisample multisample;
@@ -117,9 +117,9 @@ namespace CrossEngine {
 		virtual RESOURCE_TYPE GetType(void) const;
 
 	public:
-		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
-		const CGfxRenderPassPtr& GetGfxRenderPass(void) const;
 		const uint32_t GetIndexSubPass(void) const;
+		const CGfxRenderPassPtr& GetGfxRenderPass(void) const;
+		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
 
 	protected:
 		virtual BOOL Load(BOOL bSync);
@@ -128,12 +128,16 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadData(void);
 		BOOL LoadShaders(void);
+		BOOL LoadRenderPass(void);
 		BOOL LoadInputAssemblyState(void);
 		BOOL LoadTessellationState(void);
 		BOOL LoadRasterizationState(void);
 		BOOL LoadMultisampleState(void);
 		BOOL LoadDepthStencilState(void);
 		BOOL LoadColorBlendState(void);
+
+	public:
+		virtual BOOL IsLoaded(void) const;
 
 
 	protected:

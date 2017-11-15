@@ -43,9 +43,9 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
 	}
 
-	const CGfxPipelineGraphicsPtr& CResGraphics::GetGfxPipeline(void) const
+	const uint32_t CResGraphics::GetIndexSubPass(void) const
 	{
-		return m_ptrGfxPipeline;
+		return m_indexSubPass;
 	}
 
 	const CGfxRenderPassPtr& CResGraphics::GetGfxRenderPass(void) const
@@ -53,9 +53,9 @@ namespace CrossEngine {
 		return m_ptrGfxRenderPass;
 	}
 
-	const uint32_t CResGraphics::GetIndexSubPass(void) const
+	const CGfxPipelineGraphicsPtr& CResGraphics::GetGfxPipeline(void) const
 	{
-		return m_indexSubPass;
+		return m_ptrGfxPipeline;
 	}
 
 	BOOL CResGraphics::Load(BOOL bSync)
@@ -64,24 +64,25 @@ namespace CrossEngine {
 
 		if (rcode) rcode = LoadData();
 		if (rcode) rcode = LoadShaders();
+		if (rcode) rcode = LoadRenderPass();
 		if (rcode) rcode = LoadInputAssemblyState();
 		if (rcode) rcode = LoadTessellationState();
 		if (rcode) rcode = LoadRasterizationState();
 		if (rcode) rcode = LoadMultisampleState();
 		if (rcode) rcode = LoadDepthStencilState();
 		if (rcode) rcode = LoadColorBlendState();
-		if (rcode) m_ptrGfxRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
 
-		m_stream.Free();
-
-		return m_ptrGfxRenderPass.IsNull() ? FALSE : TRUE;
+		return rcode;
 	}
 
 	BOOL CResGraphics::PostLoad(void)
 	{
-		m_indexSubPass = m_data.renderPass.indexSubPass;
-		m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_indexSubPass);
-		return TRUE;
+		BOOL rcode = m_ptrGfxPipeline->Create(m_ptrGfxRenderPass->GetHandle(), m_indexSubPass);
+
+		m_stream.Free();
+		m_bIsLoaded = TRUE;
+
+		return rcode;
 	}
 
 	BOOL CResGraphics::LoadData(void)
@@ -96,8 +97,8 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_stream << m_data.renderPass;
 		m_stream << m_data.shader;
+		m_stream << m_data.renderPass;
 		m_stream << m_data.inputAssembly;
 		m_stream << m_data.rasterization;
 		m_stream << m_data.multisample;
@@ -110,12 +111,21 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadShaders(void)
 	{
-		const CResShaderPtr &ptrVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
-		const CResShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
-		if (ptrVertexShader.IsNull() || ptrFragmentShader.IsNull()) return FALSE;
+		const CResShaderPtr &ptrResVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
+		const CResShaderPtr &ptrResFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
+		if (ptrResVertexShader.IsNull() || ptrResFragmentShader.IsNull()) return FALSE;
 
-		m_ptrGfxPipeline->SetVertexShader(ptrVertexShader->GetGfxShader());
-		m_ptrGfxPipeline->SetFragmentShader(ptrFragmentShader->GetGfxShader());
+		m_ptrGfxPipeline->SetVertexShader(ptrResVertexShader->GetGfxShader());
+		m_ptrGfxPipeline->SetFragmentShader(ptrResFragmentShader->GetGfxShader());
+
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadRenderPass(void)
+	{
+		m_indexSubPass = m_data.renderPass.indexSubPass;
+		m_ptrGfxRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
+		if (m_ptrGfxRenderPass.IsNull()) return FALSE;
 
 		return TRUE;
 	}
@@ -172,6 +182,11 @@ namespace CrossEngine {
 		}
 
 		return TRUE;
+	}
+
+	BOOL CResGraphics::IsLoaded(void) const
+	{
+		return m_bIsLoaded;
 	}
 
 }

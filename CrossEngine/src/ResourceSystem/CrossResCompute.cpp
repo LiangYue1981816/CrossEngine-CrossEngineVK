@@ -56,4 +56,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CResCompute::IsLoaded(void) const
+	{
+		return m_bIsLoaded;
+	}
+
 }
