@@ -67,6 +67,19 @@ namespace CrossEngine {
 		return rcode;
 	}
 
+	BOOL CResTexture::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrGfxTexture.IsNull() == TRUE || m_ptrGfxTexture->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
 	BOOL CResTexture::IsLoaded(void) const
 	{
 		return m_bIsLoaded;

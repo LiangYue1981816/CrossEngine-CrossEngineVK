@@ -70,6 +70,19 @@ namespace CrossEngine {
 		return rcode;
 	}
 
+	BOOL CResShader::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrGfxShader.IsNull() == TRUE || m_ptrGfxShader->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
 	BOOL CResShader::IsLoaded(void) const
 	{
 		return m_bIsLoaded;

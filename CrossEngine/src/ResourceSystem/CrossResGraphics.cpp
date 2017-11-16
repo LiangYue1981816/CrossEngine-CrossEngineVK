@@ -113,7 +113,8 @@ namespace CrossEngine {
 	{
 		const CResShaderPtr &ptrResVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
 		const CResShaderPtr &ptrResFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
-		if (ptrResVertexShader.IsNull() || ptrResFragmentShader.IsNull()) return FALSE;
+		if (ptrResVertexShader.IsNull() || ptrResVertexShader->IsValid() == FALSE) return FALSE;
+		if (ptrResFragmentShader.IsNull() || ptrResFragmentShader->IsValid() == FALSE) return FALSE;
 
 		m_ptrGfxPipeline->SetVertexShader(ptrResVertexShader->GetGfxShader());
 		m_ptrGfxPipeline->SetFragmentShader(ptrResFragmentShader->GetGfxShader());
@@ -179,6 +180,23 @@ namespace CrossEngine {
 
 		for (std::map<uint32_t, PipelineGraphicsData::ColorBlendAttachment>::const_iterator itColorBlendAttachment = m_data.colorBlendAttachments.begin(); itColorBlendAttachment != m_data.colorBlendAttachments.end(); ++itColorBlendAttachment) {
 			m_ptrGfxPipeline->SetColorBlendAttachment(itColorBlendAttachment->first, itColorBlendAttachment->second.blendEnable, (VkBlendFactor)itColorBlendAttachment->second.srcColorBlendFactor, (VkBlendFactor)itColorBlendAttachment->second.dstColorBlendFactor, (VkBlendOp)itColorBlendAttachment->second.colorBlendOp, (VkBlendFactor)itColorBlendAttachment->second.srcAlphaBlendFactor, (VkBlendFactor)itColorBlendAttachment->second.dstAlphaBlendFactor, (VkBlendOp)itColorBlendAttachment->second.alphaBlendOp, (VkColorComponentFlags)itColorBlendAttachment->second.colorWriteMask);
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResGraphics::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrGfxRenderPass.IsNull() == TRUE || m_ptrGfxRenderPass->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		if (m_ptrGfxPipeline.IsNull() == TRUE || m_ptrGfxPipeline->GetHandle() == NULL) {
+			return FALSE;
 		}
 
 		return TRUE;

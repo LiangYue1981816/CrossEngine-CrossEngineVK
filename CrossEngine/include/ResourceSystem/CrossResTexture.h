@@ -47,6 +47,7 @@ namespace CrossEngine {
 		virtual BOOL PostLoad(void);
 
 	public:
+		virtual BOOL IsValid(void) const;
 		virtual BOOL IsLoaded(void) const;
 
 

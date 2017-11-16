@@ -147,6 +147,11 @@ namespace CrossEngine {
 		}
 	}
 
+	BOOL CResource::IsValid(void) const
+	{
+		return IsLoaded();
+	}
+
 	BOOL CResource::IsLoaded(void) const
 	{
 		return m_bIsLoaded;

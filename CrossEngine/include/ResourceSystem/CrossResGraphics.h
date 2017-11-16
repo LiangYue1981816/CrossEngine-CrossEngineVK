@@ -137,6 +137,7 @@ namespace CrossEngine {
 		BOOL LoadColorBlendState(void);
 
 	public:
+		virtual BOOL IsValid(void) const;
 		virtual BOOL IsLoaded(void) const;
 
 
