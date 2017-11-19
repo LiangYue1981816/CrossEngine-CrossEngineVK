@@ -182,27 +182,13 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrGfxDescriptorSet.IsNull() == TRUE || m_ptrGfxDescriptorSet->GetHandle() == NULL) {
+		if (m_ptrGfxDescriptorSet.IsNull() || m_ptrGfxDescriptorSet->GetHandle() == NULL) {
 			return FALSE;
 		}
 
 		for (const auto &itTexture : m_textures) {
 			const CResTexturePtr &ptrTexture = itTexture.second;
 			if (ptrTexture->IsValid() == FALSE) {
-				return FALSE;
-			}
-		}
-
-		for (const auto &itUniform : m_uniformFloats) {
-			const CGfxUniformBufferPtr &ptrUniform = itUniform.second;
-			if (ptrUniform.IsNull() || ptrUniform->GetHandle() == NULL) {
-				return FALSE;
-			}
-		}
-
-		for (const auto &itUniform : m_uniformVectors) {
-			const CGfxUniformBufferPtr &ptrUniform = itUniform.second;
-			if (ptrUniform.IsNull() || ptrUniform->GetHandle() == NULL) {
 				return FALSE;
 			}
 		}
