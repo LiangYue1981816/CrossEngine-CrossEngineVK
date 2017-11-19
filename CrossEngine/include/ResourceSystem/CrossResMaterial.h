@@ -48,6 +48,10 @@ namespace CrossEngine {
 		virtual BOOL PostLoad(void);
 
 	public:
+		virtual BOOL IsValid(void) const;
+		virtual BOOL IsLoaded(void) const;
+
+	public:
 		const CResMaterialPass* GetPass(const char *szName) const;
 		const CResMaterialPass* GetPass(uint32_t dwName) const;
 		const std::map<uint32_t, CResMaterialPass*>& GetPasses(void) const;

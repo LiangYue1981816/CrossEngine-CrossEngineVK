@@ -52,10 +52,13 @@ namespace CrossEngine {
 		BOOL LoadUniforms(TiXmlNode *pPassNode, BOOL bSync);
 
 	protected:
-		BOOL IsReady(void) const;
+		BOOL IsValid(void) const;
+		BOOL IsLoaded(void) const;
 
 
 	protected:
+		BOOL m_bIsLoaded;
+
 		CResGraphicsPtr m_ptrResPipeline;
 		CGfxDescriptorSetPtr m_ptrGfxDescriptorSet;
 

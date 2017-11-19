@@ -43,7 +43,6 @@ namespace CrossEngine {
 
 	void CResMaterial::Init(void)
 	{
-		m_passes.clear();
 		CResource::Init();
 	}
 
@@ -53,6 +52,7 @@ namespace CrossEngine {
 			SAFE_DELETE(itPass.second);
 		}
 
+		m_passes.clear();
 		CResource::Free();
 	}
 
@@ -67,9 +67,11 @@ namespace CrossEngine {
 		if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
 			do {
 				const char *szName = pPassNode->ToElement()->AttributeString("name");
+				const uint32_t dwName = HashValue(szName);
 
-				uint32_t dwName = HashValue(szName);
-				m_passes[dwName] = SAFE_NEW CResMaterialPass;
+				if (m_passes[dwName] == NULL) {
+					m_passes[dwName] = SAFE_NEW CResMaterialPass;
+				}
 
 				if (m_passes[dwName]->Load(pPassNode, bSync) == FALSE) {
 					return FALSE;
@@ -82,14 +84,36 @@ namespace CrossEngine {
 
 	BOOL CResMaterial::PostLoad(void)
 	{
-		for (const auto &itPass : m_passes) {
-			if (itPass.second->IsReady() == FALSE) {
-				return FALSE;
+		for (auto &itPass : m_passes) {
+			if (CResMaterialPass *pPass = itPass.second) {
+				pPass->PostLoad();
 			}
 		}
 
-		for (auto &itPass : m_passes) {
-			itPass.second->PostLoad();
+		return TRUE;
+	}
+
+	BOOL CResMaterial::IsValid(void) const
+	{
+		for (const auto &itPass : m_passes) {
+			if (const CResMaterialPass *pPass = itPass.second) {
+				if (pPass->IsValid() == FALSE) {
+					return FALSE;
+				}
+			}
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResMaterial::IsLoaded(void) const
+	{
+		for (const auto &itPass : m_passes) {
+			if (const CResMaterialPass *pPass = itPass.second) {
+				if (pPass->IsLoaded() == FALSE) {
+					return FALSE;
+				}
+			}
 		}
 
 		return TRUE;
