@@ -53,12 +53,9 @@ namespace CrossEngine {
 
 	protected:
 		BOOL IsValid(void) const;
-		BOOL IsLoaded(void) const;
 
 
 	protected:
-		BOOL m_bIsLoaded;
-
 		CResGraphicsPtr m_ptrResPipeline;
 		CGfxDescriptorSetPtr m_ptrGfxDescriptorSet;
 

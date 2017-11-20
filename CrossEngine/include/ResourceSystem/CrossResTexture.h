@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CResTexture : public CResource
 	{
 		friend class CResTextureManager;
+		friend class CResMaterialPass;
 
 
 	protected:

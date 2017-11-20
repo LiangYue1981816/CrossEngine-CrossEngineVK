@@ -76,6 +76,9 @@ namespace CrossEngine {
 				if (m_passes[dwName] == NULL) {
 					m_passes[dwName] = SAFE_NEW CResMaterialPass;
 				}
+				else {
+					return FALSE;
+				}
 
 				if (m_passes[dwName]->Load(pPassNode, bSync) == FALSE) {
 					return FALSE;
@@ -92,20 +95,16 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
-		BOOL rcode = TRUE;
-
 		for (auto &itPass : m_passes) {
 			if (CResMaterialPass *pPass = itPass.second) {
-				if (pPass->PostLoad() == FALSE) {
-					rcode = FALSE; break;
-				}
+				pPass->PostLoad();
 			}
 		}
 
 		m_stream.Free();
 		m_bIsLoaded = TRUE;
 
-		return rcode;
+		return TRUE;
 	}
 
 	BOOL CResMaterial::IsValid(void) const

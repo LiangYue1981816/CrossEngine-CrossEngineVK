@@ -106,6 +106,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CResGraphics : public CResource
 	{
 		friend class CResGraphicsManager;
+		friend class CResMaterialPass;
 
 
 	protected:
