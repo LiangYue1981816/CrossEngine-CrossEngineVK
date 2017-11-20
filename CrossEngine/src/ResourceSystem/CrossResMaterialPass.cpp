@@ -26,7 +26,6 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CResMaterialPass::CResMaterialPass(void)
-		: m_bIsLoaded(FALSE)
 	{
 
 	}
@@ -56,18 +55,17 @@ namespace CrossEngine {
 		return m_ptrGfxDescriptorSet;
 	}
 
-	BOOL CResMaterialPass::Load(TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterialPass::Load(TiXmlNode *pPassNode)
 	{
-		if (LoadPipeline(pPassNode, bSync) == FALSE) return FALSE;
-		if (LoadTextures(pPassNode, bSync) == FALSE) return FALSE;
-		if (LoadUniforms(pPassNode, bSync) == FALSE) return FALSE;
+		if (LoadPipeline(pPassNode) == FALSE) return FALSE;
+		if (LoadTextures(pPassNode) == FALSE) return FALSE;
+		if (LoadUniforms(pPassNode) == FALSE) return FALSE;
 
 		return TRUE;
 	}
 
 	BOOL CResMaterialPass::PostLoad(void)
 	{
-		/*
 		m_ptrGfxDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_MATERAL, m_ptrResPipeline->GetGfxPipeline());
 		{
 			for (const auto &itTexture : m_textures) {
@@ -83,17 +81,16 @@ namespace CrossEngine {
 			}
 		}
 		m_ptrGfxDescriptorSet->UpdateDescriptorSets();
-		*/
-		m_bIsLoaded = TRUE;
+
 		return TRUE;
 	}
 
-	BOOL CResMaterialPass::LoadPipeline(TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterialPass::LoadPipeline(TiXmlNode *pPassNode)
 	{
 		const char *szName = pPassNode->ToElement()->AttributeString("pipeline");
 		const uint32_t dwName = HashValue(szName);
 
-		m_ptrResPipeline = GraphicsManager()->LoadResource(dwName, bSync);
+		m_ptrResPipeline = GraphicsManager()->LoadResource(dwName, TRUE);
 		if (m_ptrResPipeline.IsNull()) return FALSE;
 
 		return TRUE;
@@ -101,8 +98,6 @@ namespace CrossEngine {
 
 	BOOL CResMaterialPass::LoadTextures(TiXmlNode *pPassNode, BOOL bSync)
 	{
-		m_textures.clear();
-
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
 			do {
 				const char *szName = pTextureNode->ToElement()->AttributeString("name");
@@ -128,9 +123,6 @@ namespace CrossEngine {
 
 	BOOL CResMaterialPass::LoadUniforms(TiXmlNode *pPassNode, BOOL bSync)
 	{
-		m_uniformFloats.clear();
-		m_uniformVectors.clear();
-
 		if (TiXmlNode *pFloatNode = pPassNode->FirstChild("Float")) {
 			do {
 				const char *szName = pFloatNode->ToElement()->AttributeString("name");
@@ -174,15 +166,7 @@ namespace CrossEngine {
 
 	BOOL CResMaterialPass::IsValid(void) const
 	{
-		if (m_bIsLoaded == FALSE) {
-			return FALSE;
-		}
-
 		if (m_ptrResPipeline->IsValid() == FALSE) {
-			return FALSE;
-		}
-
-		if (m_ptrGfxDescriptorSet.IsNull() || m_ptrGfxDescriptorSet->GetHandle() == NULL) {
 			return FALSE;
 		}
 
@@ -193,12 +177,11 @@ namespace CrossEngine {
 			}
 		}
 
-		return TRUE;
-	}
+		if (m_ptrGfxDescriptorSet.IsNull() || m_ptrGfxDescriptorSet->GetHandle() == NULL) {
+			return FALSE;
+		}
 
-	BOOL CResMaterialPass::IsLoaded(void) const
-	{
-		return m_bIsLoaded;
+		return TRUE;
 	}
 
 }

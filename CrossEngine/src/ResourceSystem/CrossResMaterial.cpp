@@ -58,6 +58,10 @@ namespace CrossEngine {
 
 	BOOL CResMaterial::Load(BOOL bSync)
 	{
+		if (IsLoaded()) {
+			return TRUE;
+		}
+
 		TiXmlDocument xmlDoc;
 
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize()) == FALSE) {
@@ -84,17 +88,32 @@ namespace CrossEngine {
 
 	BOOL CResMaterial::PostLoad(void)
 	{
+		if (IsLoaded()) {
+			return TRUE;
+		}
+
+		BOOL rcode = TRUE;
+
 		for (auto &itPass : m_passes) {
 			if (CResMaterialPass *pPass = itPass.second) {
-				pPass->PostLoad();
+				if (pPass->PostLoad() == FALSE) {
+					rcode = FALSE; break;
+				}
 			}
 		}
 
-		return TRUE;
+		m_stream.Free();
+		m_bIsLoaded = TRUE;
+
+		return rcode;
 	}
 
 	BOOL CResMaterial::IsValid(void) const
 	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
 		for (const auto &itPass : m_passes) {
 			if (const CResMaterialPass *pPass = itPass.second) {
 				if (pPass->IsValid() == FALSE) {
@@ -108,15 +127,7 @@ namespace CrossEngine {
 
 	BOOL CResMaterial::IsLoaded(void) const
 	{
-		for (const auto &itPass : m_passes) {
-			if (const CResMaterialPass *pPass = itPass.second) {
-				if (pPass->IsLoaded() == FALSE) {
-					return FALSE;
-				}
-			}
-		}
-
-		return TRUE;
+		return m_bIsLoaded;
 	}
 
 	const CResMaterialPass* CResMaterial::GetPass(const char *szName) const
