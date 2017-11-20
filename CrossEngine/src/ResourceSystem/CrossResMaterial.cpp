@@ -96,9 +96,7 @@ namespace CrossEngine {
 		}
 
 		for (auto &itPass : m_passes) {
-			if (CResMaterialPass *pPass = itPass.second) {
-				pPass->PostLoad();
-			}
+			itPass.second->PostLoad();
 		}
 
 		m_stream.Free();
@@ -114,10 +112,8 @@ namespace CrossEngine {
 		}
 
 		for (const auto &itPass : m_passes) {
-			if (const CResMaterialPass *pPass = itPass.second) {
-				if (pPass->IsValid() == FALSE) {
-					return FALSE;
-				}
+			if (itPass.second->IsValid() == FALSE) {
+				return FALSE;
 			}
 		}
 
