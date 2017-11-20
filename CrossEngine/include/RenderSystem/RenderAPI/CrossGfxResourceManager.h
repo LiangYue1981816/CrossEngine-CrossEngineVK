@@ -50,11 +50,9 @@ namespace CrossEngine {
 
 		virtual void Destroy(void)
 		{
-			for (const auto &itResource : m_pResources) {
-				if (CGfxResource *pResource = itResource.second) {
-					pResource->Destroy();
-					SAFE_DELETE(pResource);
-				}
+			for (auto &itResource : m_pResources) {
+				itResource.second->Destroy();
+				SAFE_DELETE(itResource.second);
 			}
 
 			m_pResources.clear();
@@ -78,10 +76,8 @@ namespace CrossEngine {
 			LOGI("%s\n", szTitle);
 			{
 				for (const auto &itResource : m_pResources) {
-					if (const CGfxResource *pResource = itResource.second) {
-						pResource->DumpLog();
-						count++;
-					}
+					itResource.second->DumpLog();
+					count++;
 				}
 			}
 			LOGI("*** %d objects found\n", count);

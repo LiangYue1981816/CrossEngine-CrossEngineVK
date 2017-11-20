@@ -141,20 +141,16 @@ namespace CrossEngine {
 	{
 		mutex_autolock mutex(m_mutex);
 
-		for (const auto &itPack : m_packs) {
-			if (ZZIP_DIR *pPack = itPack.second) {
-				zzip_closedir(pPack);
-			}
+		for (auto &itPack : m_packs) {
+			zzip_closedir(itPack.second);
 		}
 
-		for (const auto &itResource : m_resources) {
-			if (const CResourceHandle *pResourceHandle = itResource.second) {
-				if (pResourceHandle->IsWaste()) {
-					LOGW("Waste Resource: %s\n", pResourceHandle->GetFileName());
-				}
-
-				SAFE_DELETE(pResourceHandle);
+		for (auto &itResource : m_resources) {
+			if (itResource.second->IsWaste()) {
+				LOGW("Waste Resource: %s\n", itResource.second->GetFileName());
 			}
+
+			SAFE_DELETE(itResource.second);
 		}
 
 		m_packs.clear();
@@ -366,11 +362,9 @@ namespace CrossEngine {
 	{
 		mutex_autolock mutex(m_mutex);
 
-		for (const auto &itResource : m_resources) {
-			if (CResourceHandle *pResourceHandle = itResource.second) {
-				if (pResourceHandle->m_ptrResource.IsNull() == FALSE && pResourceHandle->m_ptrResource.GetRefCount() == 1) {
-					pResourceHandle->m_ptrResource.Release();
-				}
+		for (auto &itResource : m_resources) {
+			if (itResource.second->m_ptrResource.IsNull() == FALSE && itResource.second->m_ptrResource.GetRefCount() == 1) {
+				itResource.second->m_ptrResource.Release();
 			}
 		}
 	}

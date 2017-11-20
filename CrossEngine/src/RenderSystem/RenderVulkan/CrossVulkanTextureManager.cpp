@@ -64,11 +64,9 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itResource : m_pResources) {
-				if (const CGfxImage *pResource = (CGfxImage *)itResource.second) {
-					pResource->DumpLog();
-					size += pResource->GetMemorySize();
-					count++;
-				}
+				itResource.second->DumpLog();
+				size += ((CGfxImage *)itResource.second)->GetMemorySize();
+				count++;
 			}
 		}
 		LOGI("*** %d objects found, total size %d\n", count, size);

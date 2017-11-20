@@ -184,10 +184,8 @@ namespace CrossEngine {
 
 	void CGLES3Pipeline::DestroyDescriptorSetLayouts(void)
 	{
-		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
-			if (CGLES3DescriptorSetLayout* pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				SAFE_DELETE(pDescriptorSetLayout);
-			}
+		for (auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			SAFE_DELETE(itDescriptorSetLayout.second);
 		}
 
 		m_pDescriptorSetLayouts.clear();

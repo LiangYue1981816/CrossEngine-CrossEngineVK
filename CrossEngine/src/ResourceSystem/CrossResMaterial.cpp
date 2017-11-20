@@ -95,14 +95,18 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
+		BOOL rcode = TRUE;
+
 		for (auto &itPass : m_passes) {
-			itPass.second->PostLoad();
+			if (itPass.second->PostLoad() == FALSE) {
+				rcode = FALSE; break;
+			}
 		}
 
 		m_stream.Free();
 		m_bIsLoaded = TRUE;
 
-		return TRUE;
+		return rcode;
 	}
 
 	BOOL CResMaterial::IsValid(void) const

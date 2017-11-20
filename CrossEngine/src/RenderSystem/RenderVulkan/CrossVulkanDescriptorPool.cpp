@@ -69,10 +69,8 @@ namespace CrossEngine {
 
 	CVulkanDescriptorPool::~CVulkanDescriptorPool(void)
 	{
-		for (const auto &itDescriptorSet : m_pDescriptorSets) {
-			if (CVulkanDescriptorSet *pDescriptorSet = itDescriptorSet.second) {
-				SAFE_DELETE(pDescriptorSet);
-			}
+		for (auto &itDescriptorSet : m_pDescriptorSets) {
+			SAFE_DELETE(itDescriptorSet.second);
 		}
 
 		m_pDescriptorSets.clear();

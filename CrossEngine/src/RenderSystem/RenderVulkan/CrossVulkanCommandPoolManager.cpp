@@ -43,10 +43,8 @@ namespace CrossEngine {
 
 	void CVulkanCommandPoolManager::Destroy(void)
 	{
-		for (const auto &itCommandPool : m_pCommandPools) {
-			if (CVulkanCommandPool *pCommandPool = itCommandPool.second) {
-				SAFE_DELETE(pCommandPool);
-			}
+		for (auto &itCommandPool : m_pCommandPools) {
+			SAFE_DELETE(itCommandPool.second);
 		}
 
 		m_pCommandPools.clear();

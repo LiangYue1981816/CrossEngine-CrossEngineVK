@@ -43,10 +43,8 @@ namespace CrossEngine {
 
 	void CGLES3CommandBufferManager::Destroy(void)
 	{
-		for (const auto &itCommandBuffer : m_pCommandBuffers) {
-			if (CGLES3CommandBuffer *pCommandBuffer = itCommandBuffer.second) {
-				SAFE_DELETE(pCommandBuffer);
-			}
+		for (auto &itCommandBuffer : m_pCommandBuffers) {
+			SAFE_DELETE(itCommandBuffer.second);
 		}
 
 		m_pCommandBuffers.clear();

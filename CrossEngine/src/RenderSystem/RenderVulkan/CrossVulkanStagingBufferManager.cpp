@@ -51,10 +51,8 @@ namespace CrossEngine {
 
 	void CVulkanStagingBufferManager::Destroy(void)
 	{
-		for (const auto &itBuffer : m_pBuffers) {
-			if (CVulkanStagingBuffer *pBuffer = itBuffer.second) {
-				SAFE_DELETE(pBuffer);
-			}
+		for (auto &itBuffer : m_pBuffers) {
+			SAFE_DELETE(itBuffer.second);
 		}
 
 		if (m_vkCommandPool) {
@@ -93,12 +91,10 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itBuffer : m_pBuffers) {
-				if (const CVulkanStagingBuffer *pBuffer = itBuffer.second) {
-					pBuffer->DumpLog();
-					bufferSize += pBuffer->GetBufferSize();
-					memorySize += pBuffer->GetMemorySize();
-					count++;
-				}
+				itBuffer.second->DumpLog();
+				bufferSize += itBuffer.second->GetBufferSize();
+				memorySize += itBuffer.second->GetMemorySize();
+				count++;
 			}
 		}
 		LOGI("*** %d objects found, total buffer size %d total memory size %d\n", count, bufferSize, memorySize);

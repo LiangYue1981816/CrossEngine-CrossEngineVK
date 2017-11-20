@@ -257,11 +257,9 @@ namespace CrossEngine {
 			}
 		}
 
-		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
-			if (CVulkanDescriptorSetLayout* pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				pDescriptorSetLayout->Create();
-				layouts.push_back(pDescriptorSetLayout->GetLayout());
-			}
+		for (auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			itDescriptorSetLayout.second->Create();
+			layouts.push_back(itDescriptorSetLayout.second->GetLayout());
 		}
 
 		return TRUE;
@@ -299,11 +297,9 @@ namespace CrossEngine {
 
 	void CVulkanPipeline::DestroyDescriptorSetLayouts(void)
 	{
-		for (const auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
-			if (CVulkanDescriptorSetLayout* pDescriptorSetLayout = itDescriptorSetLayout.second) {
-				pDescriptorSetLayout->Destroy();
-				SAFE_DELETE(pDescriptorSetLayout);
-			}
+		for (auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+			itDescriptorSetLayout.second->Destroy();
+			SAFE_DELETE(itDescriptorSetLayout.second);
 		}
 
 		m_pDescriptorSetLayouts.clear();

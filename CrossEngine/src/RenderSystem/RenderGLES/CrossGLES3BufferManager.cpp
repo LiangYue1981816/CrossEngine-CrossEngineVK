@@ -75,12 +75,10 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itResource : m_pResources) {
-				if (const CGfxBuffer *pResource = (CGfxBuffer *)itResource.second) {
-					pResource->DumpLog();
-					bufferSize += pResource->GetBufferSize();
-					memorySize += pResource->GetMemorySize();
-					count++;
-				}
+				itResource.second->DumpLog();
+				bufferSize += ((CGfxBuffer *)itResource.second)->GetBufferSize();
+				memorySize += ((CGfxBuffer *)itResource.second)->GetMemorySize();
+				count++;
 			}
 		}
 		LOGI("*** %d objects found, total buffer size %d total memory size %d\n", count, bufferSize, memorySize);
