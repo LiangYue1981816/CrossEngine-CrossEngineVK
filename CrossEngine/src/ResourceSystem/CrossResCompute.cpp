@@ -63,10 +63,10 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
-		// ...
-
 		m_stream.Free();
 		m_bIsLoaded = TRUE;
+
+		// ...
 
 		return TRUE;
 	}

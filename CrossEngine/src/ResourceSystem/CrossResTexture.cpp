@@ -66,13 +66,11 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
-		BOOL rcode = m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
-
 		m_stream.Free();
 		m_texture.clear();
 		m_bIsLoaded = TRUE;
 
-		return rcode;
+		return m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 	}
 
 	BOOL CResTexture::IsValid(void) const
