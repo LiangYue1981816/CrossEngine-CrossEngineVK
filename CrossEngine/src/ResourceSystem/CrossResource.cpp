@@ -45,7 +45,6 @@ namespace CrossEngine {
 	void CResource::Init(void)
 	{
 		m_stream.Init();
-		m_bIsLoaded = FALSE;
 	}
 
 	void CResource::Free(void)

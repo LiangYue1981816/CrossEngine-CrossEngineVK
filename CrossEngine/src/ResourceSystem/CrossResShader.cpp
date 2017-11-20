@@ -48,6 +48,10 @@ namespace CrossEngine {
 
 	BOOL CResShader::Load(BOOL bSync)
 	{
+		if (IsLoaded()) {
+			return TRUE;
+		}
+
 		char szExt[_MAX_EXT];
 		splitfilename(m_stream.GetName(), NULL, szExt);
 
@@ -62,6 +66,10 @@ namespace CrossEngine {
 
 	BOOL CResShader::PostLoad(void)
 	{
+		if (IsLoaded()) {
+			return TRUE;
+		}
+
 		BOOL rcode = m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
 
 		m_stream.Free();
