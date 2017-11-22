@@ -52,6 +52,7 @@ namespace CrossEngine {
 
 
 	protected:
+		std::vector<uint32_t> m_words;
 		CGfxShaderPtr m_ptrGfxShader;
 		VkShaderStageFlagBits m_flags;
 	};

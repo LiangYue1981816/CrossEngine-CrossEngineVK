@@ -60,8 +60,7 @@ namespace CrossEngine {
 		else if (!stricmp(szExt, ".comp")) m_flags = VK_SHADER_STAGE_COMPUTE_BIT;
 		else return FALSE;
 
-		std::vector<uint32_t> words;
-		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags, words);
+		return m_ptrGfxShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags, m_words);
 	}
 
 	BOOL CResShader::PostLoad(void)
@@ -70,12 +69,10 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
-		BOOL rcode = m_ptrGfxShader->Create((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags);
-
 		m_stream.Free();
 		m_bIsLoaded = TRUE;
 
-		return rcode;
+		return m_ptrGfxShader->Create(m_words.data(), m_words.size(), m_flags);
 	}
 
 	BOOL CResShader::IsValid(void) const

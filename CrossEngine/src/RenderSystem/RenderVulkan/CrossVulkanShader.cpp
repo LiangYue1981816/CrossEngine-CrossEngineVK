@@ -134,10 +134,10 @@ namespace CrossEngine {
 		std::vector<uint32_t> words;
 		Precompile(szSource, length, flags, words);
 
-		return Create(words.data(), words.size());
+		return Create(words.data(), words.size(), flags);
 	}
 
-	BOOL CVulkanShader::Create(const uint32_t *words, size_t numWords)
+	BOOL CVulkanShader::Create(const uint32_t *words, size_t numWords, VkShaderStageFlagBits flags)
 	{
 		try {
 			VkShaderModuleCreateInfo createInfo = {};
