@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CResourceSystem::CResourceSystem(void)
 		: m_pResourceManager{ NULL }
 	{
-		event_init(&m_eventExit, 1);
+		event_init(&m_eventExit, 0);
 		pthread_mutex_init(&m_mutexPendingList, NULL);
 		pthread_mutex_init(&m_mutexPostLoadList, NULL);
 	}

@@ -69,10 +69,10 @@ namespace CrossEngine {
 		: m_threads(NULL)
 		, m_numThreads(numThreads)
 	{
-		event_init(&m_eventExit, 1);
-		event_init(&m_eventReady, 0);
-		event_init(&m_eventFinish, 0);
-		event_init(&m_eventDispatch, 1);
+		event_init(&m_eventExit, 0);
+		event_init(&m_eventReady, 1);
+		event_init(&m_eventFinish, 1);
+		event_init(&m_eventDispatch, 0);
 		pthread_mutex_init(&m_mutexTaskList, NULL);
 
 		m_threads = (pthread_t *)malloc(sizeof(pthread_t) * m_numThreads);

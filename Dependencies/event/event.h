@@ -12,7 +12,7 @@ struct event_t {
 	pthread_mutex_t mutex;
 };
 
-extern void event_init(event_t *event, int reset);
+extern void event_init(event_t *event, int set);
 extern void event_destroy(event_t *event);
 extern void event_reset(event_t *event, int init);
 extern void event_signal(event_t *event);

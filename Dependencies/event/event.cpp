@@ -27,9 +27,9 @@ static int gettimeofday(struct timeval *tp, void *tzp)
 #endif
 
 
-void event_init(event_t *event, int reset)
+void event_init(event_t *event, int set)
 {
-	event->count = reset ? 1 : 0;
+	event->count = set ? 0 : 1;
 	pthread_cond_init(&event->cond, NULL);
 	pthread_mutex_init(&event->mutex, NULL);
 }
