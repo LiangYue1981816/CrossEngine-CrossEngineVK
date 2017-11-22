@@ -40,11 +40,11 @@ void event_destroy(event_t *event)
 	pthread_mutex_destroy(&event->mutex);
 }
 
-void event_reset(event_t *event, int init)
+void event_reset(event_t *event)
 {
 	pthread_mutex_lock(&event->mutex);
 	{
-		event->count = init ? 1 : event->count + 1;
+		event->count = 1;
 	}
 	pthread_mutex_unlock(&event->mutex);
 }
@@ -64,19 +64,13 @@ void event_signal(event_t *event)
 	pthread_mutex_unlock(&event->mutex);
 }
 
-int event_is_signaled(event_t *event)
+void event_unsignal(event_t *event)
 {
-	int rcode = NO_ERROR;
-
 	pthread_mutex_lock(&event->mutex);
 	{
-		if (event->count > 0) {
-			rcode = -1;
-		}
+		event->count++;
 	}
 	pthread_mutex_unlock(&event->mutex);
-
-	return rcode;
 }
 
 void event_wait(event_t *event)

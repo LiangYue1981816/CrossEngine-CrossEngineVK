@@ -48,8 +48,10 @@ namespace CrossEngine {
 
 	void CTask::SetTaskEventSignal(event_t *pEventSignal)
 	{
-		if (m_pTaskEventSignal = pEventSignal) {
-			event_reset(m_pTaskEventSignal, 0);
+		m_pTaskEventSignal = pEventSignal;
+
+		if (m_pTaskEventSignal) {
+			event_unsignal(m_pTaskEventSignal);
 		}
 	}
 
@@ -70,12 +72,12 @@ namespace CrossEngine {
 		, m_numThreads(numThreads)
 	{
 		event_init(&m_eventExit, 0);
-		event_init(&m_eventReady, 1);
 		event_init(&m_eventFinish, 1);
 		event_init(&m_eventDispatch, 0);
 		pthread_mutex_init(&m_mutexTaskList, NULL);
 
 		m_threads = (pthread_t *)malloc(sizeof(pthread_t) * m_numThreads);
+
 		for (int index = 0; index < m_numThreads; index++) {
 			pthread_create(&m_threads[index], NULL, TaskThread, this);
 		}
@@ -92,7 +94,6 @@ namespace CrossEngine {
 		free(m_threads);
 
 		event_destroy(&m_eventExit);
-		event_destroy(&m_eventReady);
 		event_destroy(&m_eventFinish);
 		event_destroy(&m_eventDispatch);
 		pthread_mutex_destroy(&m_mutexTaskList);
@@ -115,8 +116,7 @@ namespace CrossEngine {
 	void CTaskGraph::Dispatch(void)
 	{
 		for (int index = 0; index < m_numThreads; index++) {
-			event_reset(&m_eventReady, 0);
-			event_reset(&m_eventFinish, 0);
+			event_unsignal(&m_eventFinish);
 		}
 
 		event_signal(&m_eventDispatch);
@@ -141,10 +141,6 @@ namespace CrossEngine {
 				if (event_wait_timeout(&pTaskGraph->m_eventExit, 0) == NO_ERROR) {
 					break;
 				}
-
-				// Waiting for all threads to wake up
-				event_signal(&pTaskGraph->m_eventReady);
-				event_wait(&pTaskGraph->m_eventReady);
 
 				// Run tasks
 				event_t *pEvent = NULL;
@@ -182,7 +178,7 @@ namespace CrossEngine {
 					}
 				} while (pEvent = pTaskGraph->m_pTaskListDependence[pEvent]);
 			}
-			event_reset(&pTaskGraph->m_eventDispatch, 1);
+			event_reset(&pTaskGraph->m_eventDispatch);
 			event_signal(&pTaskGraph->m_eventFinish);
 		}
 

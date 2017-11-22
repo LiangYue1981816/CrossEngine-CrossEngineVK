@@ -14,9 +14,9 @@ struct event_t {
 
 extern void event_init(event_t *event, int set);
 extern void event_destroy(event_t *event);
-extern void event_reset(event_t *event, int init);
+extern void event_reset(event_t *event);
 extern void event_signal(event_t *event);
-extern int  event_is_signaled(event_t *event);
+extern void event_unsignal(event_t *event);
 extern void event_wait(event_t *event);
 extern int  event_wait_timeout(event_t *event, int msec);
 
