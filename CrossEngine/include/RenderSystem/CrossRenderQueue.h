@@ -35,8 +35,8 @@ namespace CrossEngine {
 		typedef std::vector<CEntityMesh*> EntityQueue;
 		typedef std::map<const CGfxDescriptorSet*, EntityQueue> DescriptorSetQueue;
 		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;
-		typedef std::map<const uint32_t, PipelineQueue> RenderSubPassQueue;
-		typedef std::map<const CGfxRenderPass*, RenderSubPassQueue> RenderPassQueue;
+		typedef std::map<const uint32_t, PipelineQueue> SubPassQueue;
+		typedef std::map<const CGfxRenderPass*, SubPassQueue> RenderPassQueue;
 
 		
 	protected:
@@ -45,7 +45,8 @@ namespace CrossEngine {
 
 
 	public:
-		void AddMesh(CEntityMesh *pEntityMesh);
+		void Add(CEntityMesh *pEntityMesh);
+		void Clear(void);
 
 
 	protected:

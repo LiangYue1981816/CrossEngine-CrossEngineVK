@@ -35,24 +35,20 @@ namespace CrossEngine {
 
 	}
 
-	void CRenderQueue::AddMesh(CEntityMesh *pEntityMesh)
+	void CRenderQueue::Add(CEntityMesh *pEntityMesh)
 	{
-		/*
-		const CResMaterialPtr &ptrMaterial = pEntityMesh->GetMaterial();
-
-		for (const auto &itMatPass : ptrMaterial->GetPasses()) {
-			const CResMaterialPass *pMatPass = itMatPass.second;
-			const CResGraphicsPtr &ptrPipeline = pMatPass->GetPipeline();
-			const CGfxRenderPassPtr &ptrRenderPass = ptrPipeline->GetGfxRenderPass();
-			const uint32_t indexSubPass = ptrPipeline->GetIndexSubPass();
-
-			RenderSubPassQueue &renderSubPassQueue = m_queue[ptrRenderPass];
-			PipelineQueue &pipelineQueue = renderSubPassQueue[indexSubPass];
-			MatPassQueue &matPassQueue = pipelineQueue[ptrPipeline];
-			MeshQueue &meshQueue = matPassQueue[pMatPass];
-			meshQueue.push_back(pEntityMesh);
+		for (const auto &itMatPass : pEntityMesh->GetMaterial()->GetPasses()) {
+			SubPassQueue &subPassQueue = m_queue[itMatPass.second->GetGfxRenderPass()];
+			PipelineQueue &pipelineQueue = subPassQueue[itMatPass.second->GetIndexSubPass()];
+			DescriptorSetQueue &descriptorSetQueue = pipelineQueue[itMatPass.second->GetGfxPipeline()];
+			EntityQueue &entityQueue = descriptorSetQueue[itMatPass.second->GetGfxDescriptorSet()];
+			entityQueue.push_back(pEntityMesh);
 		}
-		*/
+	}
+
+	void CRenderQueue::Clear(void)
+	{
+		m_queue.clear();
 	}
 
 }
