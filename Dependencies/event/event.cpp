@@ -1,6 +1,6 @@
 #include "event.h"
 
-#ifdef PLATFORM_WINDOWS
+#ifdef WIN32
 #include "windows.h"
 #endif
 
