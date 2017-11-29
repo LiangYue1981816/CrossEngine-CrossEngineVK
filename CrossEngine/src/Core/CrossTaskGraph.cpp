@@ -72,6 +72,7 @@ namespace CrossEngine {
 		, m_numThreads(numThreads)
 	{
 		event_init(&m_eventExit, 0);
+		event_init(&m_eventReady, 1);
 		event_init(&m_eventFinish, 1);
 		event_init(&m_eventDispatch, 0);
 		pthread_mutex_init(&m_mutexTaskList, NULL);
@@ -94,6 +95,7 @@ namespace CrossEngine {
 		free(m_threads);
 
 		event_destroy(&m_eventExit);
+		event_destroy(&m_eventReady);
 		event_destroy(&m_eventFinish);
 		event_destroy(&m_eventDispatch);
 		pthread_mutex_destroy(&m_mutexTaskList);
@@ -116,6 +118,7 @@ namespace CrossEngine {
 	void CTaskGraph::Dispatch(void)
 	{
 		for (int index = 0; index < m_numThreads; index++) {
+			event_unsignal(&m_eventReady);
 			event_unsignal(&m_eventFinish);
 		}
 
@@ -141,6 +144,10 @@ namespace CrossEngine {
 				if (event_wait_timeout(&pTaskGraph->m_eventExit, 0) == NO_ERROR) {
 					break;
 				}
+
+				// Waiting for all threads ready
+				event_signal(&pTaskGraph->m_eventReady);
+				event_wait(&pTaskGraph->m_eventReady);
 
 				// Run tasks
 				event_t *pEvent = NULL;

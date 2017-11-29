@@ -77,6 +77,7 @@ namespace CrossEngine {
 		pthread_t *m_threads;
 
 		event_t m_eventExit;
+		event_t m_eventReady;
 		event_t m_eventFinish;
 		event_t m_eventDispatch;
 
