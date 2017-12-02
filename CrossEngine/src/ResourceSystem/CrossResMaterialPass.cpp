@@ -76,18 +76,18 @@ namespace CrossEngine {
 			}
 		}
 
-		m_ptrGfxDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_MATERAL, m_ptrResPipeline->GetGfxPipeline());
+		m_ptrGfxDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_PASS, m_ptrResPipeline->GetGfxPipeline());
 		{
 			for (const auto &itTexture : m_textures) {
-				m_ptrGfxDescriptorSet->SetTexture(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itTexture.first), itTexture.second->GetGfxTexture());
+				m_ptrGfxDescriptorSet->SetTexture(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second->GetGfxTexture());
 			}
 
 			for (const auto itUniform : m_uniformFloats) {
-				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
+				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, itUniform.first), itUniform.second);
 			}
 
 			for (const auto itUniform : m_uniformVectors) {
-				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, itUniform.first), itUniform.second);
+				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, itUniform.first), itUniform.second);
 			}
 		}
 		m_ptrGfxDescriptorSet->UpdateDescriptorSets();
@@ -139,7 +139,7 @@ namespace CrossEngine {
 				const char *szValue = pFloatNode->ToElement()->AttributeString("value");
 
 				const uint32_t dwName = HashValue(szName);
-				const uint32_t binding = m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, dwName);
+				const uint32_t binding = m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwName);
 				if (binding == -1) return FALSE;
 				if (m_uniformFloats.find(dwName) != m_uniformFloats.end()) return FALSE;
 
@@ -148,7 +148,7 @@ namespace CrossEngine {
 
 				m_uniformFloats[dwName] = GfxDevice()->NewUniformBuffer();
 				m_uniformFloats[dwName]->Create(sizeof(value), &value, TRUE);
-				m_uniformFloats[dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_MATERAL, binding, 0, sizeof(value));
+				m_uniformFloats[dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(value));
 			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
 		}
 
@@ -158,7 +158,7 @@ namespace CrossEngine {
 				const char *szValue = pVectorNode->ToElement()->AttributeString("value");
 
 				const uint32_t dwName = HashValue(szName);
-				const uint32_t binding = m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_MATERAL, dwName);
+				const uint32_t binding = m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwName);
 				if (binding == -1) return FALSE;
 				if (m_uniformVectors.find(dwName) != m_uniformVectors.end()) return FALSE;
 
@@ -167,7 +167,7 @@ namespace CrossEngine {
 
 				m_uniformVectors[dwName] = GfxDevice()->NewUniformBuffer();
 				m_uniformVectors[dwName]->Create(sizeof(value), &value, TRUE);
-				m_uniformVectors[dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_MATERAL, binding, 0, sizeof(value));
+				m_uniformVectors[dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(value));
 			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
 		}
 
