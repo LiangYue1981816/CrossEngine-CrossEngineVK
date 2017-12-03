@@ -26,16 +26,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CDrawable
+	class CROSS_EXPORT CMaterial
 	{
-	protected:
-		CDrawable(void);
-		virtual ~CDrawable(void);
+	public:
+		CMaterial(void);
+		virtual ~CMaterial(void);
 
 
 	public:
-		virtual const CMaterial* GetMaterial(void) const = 0;
-		virtual const void Draw(void) const = 0;
+		CMaterialPass* GetPass(uint32_t dwName);
+		const std::map<uint32_t, CMaterialPass*>& GetPasses(void) const;
+
+
+	protected:
+		std::map<uint32_t, CMaterialPass*> m_passes;
 	};
 
 }

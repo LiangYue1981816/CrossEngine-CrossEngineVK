@@ -20,22 +20,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CDrawable
+	CMaterial::CMaterial(void)
 	{
-	protected:
-		CDrawable(void);
-		virtual ~CDrawable(void);
 
+	}
 
-	public:
-		virtual const CMaterial* GetMaterial(void) const = 0;
-		virtual const void Draw(void) const = 0;
-	};
+	CMaterial::~CMaterial(void)
+	{
+		for (auto &itPass : m_passes) {
+			SAFE_DELETE(itPass.second);
+		}
+
+		m_passes.clear();
+	}
+
+	CMaterialPass* CMaterial::GetPass(uint32_t dwName)
+	{
+		CMaterialPass *pPass = m_passes[dwName];
+
+		if (pPass == NULL) {
+			pPass = m_passes[dwName] = SAFE_NEW CMaterialPass;
+		}
+
+		return pPass;
+	}
+
+	const std::map<uint32_t, CMaterialPass*>& CMaterial::GetPasses(void) const
+	{
+		return m_passes;
+	}
 
 }

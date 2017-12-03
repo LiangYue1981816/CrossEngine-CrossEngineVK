@@ -22,69 +22,44 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossResourceDefinition.h"
-#include "CrossResource.h"
-#include "CrossResourceManager.h"
-#include "CrossResShader.h"
-#include "CrossResTexture.h"
-#include "CrossResCompute.h"
-#include "CrossResGraphics.h"
-#include "CrossResMaterial.h"
-#include "CrossResMaterialPass.h"
-#include "CrossResShaderManager.h"
-#include "CrossResTextureManager.h"
-#include "CrossResComputeManager.h"
-#include "CrossResGraphicsManager.h"
-#include "CrossResMaterialManager.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CResourceSystem
+	class CROSS_EXPORT CMaterialPass
 	{
-		friend class CEngine;
-		friend class CResourceHandle;
+		friend class CMaterial;
 
 
 	protected:
-		CResourceSystem(void);
-		virtual ~CResourceSystem(void);
+		CMaterialPass(void);
+		virtual ~CMaterialPass(void);
 
-
-	protected:
-		BOOL Create(void);
-		void Destroy(void);
 
 	public:
-		CResourceManager* GetResourceManager(RESOURCE_TYPE type) const;
+		const uint32_t GetIndexSubPass(void) const;
+		const CGfxRenderPassPtr& GetRenderPass(void) const;
+		const CGfxPipelineGraphicsPtr& GetPipeline(void) const;
+		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:
-		BOOL PreLoadResourcePath(const char *szPathName);
-		BOOL PreLoadResourcePack(const char *szPackName);
+		void SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass);
+		void SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline);
 
-	protected:
-		BOOL RequestLoad(CResourceHandle *pResourceHandle);
-		void Load(void);
-		void PostLoad(void);
-
-	protected:
-		void GarbageCollection(void);
-
-	protected:
-		static void* WorkThread(void *pParams);
+		void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture);
+		void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform);
+		void UpdateDescriptorSet(void);
 
 
 	protected:
-		pthread_t m_thread;
-		event_t m_eventExit;
-
-		pthread_mutex_t m_mutexPendingList;
-		pthread_mutex_t m_mutexPostLoadList;
-		std::list<CResourceHandle*> m_pendingList;
-		std::list<CResourceHandle*> m_postLoadList;
+		uint32_t m_indexSubPass;
+		CGfxRenderPassPtr m_ptrRenderPass;
+		CGfxPipelineGraphicsPtr m_ptrPipeline;
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
 	protected:
-		CResourceManager *m_pResourceManager[RESOURCE_TYPE::COUNT];
+		std::map<uint32_t, CGfxTexturePtr> m_textures;
+		std::map<uint32_t, CGfxUniformBufferPtr> m_uniforms;
 	};
 
 }

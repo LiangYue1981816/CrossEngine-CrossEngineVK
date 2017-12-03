@@ -38,11 +38,11 @@ namespace CrossEngine {
 	void CRenderQueue::Add(CDrawable *pDraw)
 	{
 		for (const auto &itMatPass : pDraw->GetMaterial()->GetPasses()) {
-			SubPassQueue &subPassQueue = m_queue[itMatPass.second->GetGfxRenderPass()];
-			PipelineQueue &pipelineQueue = subPassQueue[itMatPass.second->GetIndexSubPass()];
-			DescriptorSetQueue &descriptorSetQueue = pipelineQueue[itMatPass.second->GetGfxPipeline()];
-			DrawQueue &drawQueue = descriptorSetQueue[itMatPass.second->GetGfxDescriptorSet()];
-			drawQueue.push_back(pDraw);
+			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
+			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
+			const CGfxPipelineGraphics *pPipeline = itMatPass.second->GetPipeline();
+			const CGfxDescriptorSet *pDescriptorSet = itMatPass.second->GetDescriptorSet();
+			m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet].push_back(pDraw);
 		}
 	}
 
