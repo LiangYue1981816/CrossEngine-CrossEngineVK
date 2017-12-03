@@ -26,13 +26,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CEntityMesh;
-	class CROSS_EXPORT CResMaterialPass;
-	class CROSS_EXPORT CResGraphics;
-
+	class CROSS_EXPORT CEntityBase;
 	class CROSS_EXPORT CRenderQueue
 	{
-		typedef std::vector<CEntityMesh*> EntityQueue;
+		typedef std::vector<CEntityBase*> EntityQueue;
 		typedef std::map<const CGfxDescriptorSet*, EntityQueue> DescriptorSetQueue;
 		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;
 		typedef std::map<const uint32_t, PipelineQueue> SubPassQueue;
@@ -45,7 +42,7 @@ namespace CrossEngine {
 
 
 	public:
-		void Add(CEntityMesh *pEntityMesh);
+		void Add(CEntityBase *pEntity, const CResMaterialPtr &ptrMaterial);
 		void Clear(void);
 
 

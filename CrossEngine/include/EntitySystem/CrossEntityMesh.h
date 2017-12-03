@@ -36,11 +36,6 @@ namespace CrossEngine {
 	public:
 		virtual const CResMaterialPtr& GetMaterial(void) const;
 
-	public:
-		virtual void OnPreRender(void);
-		virtual void OnRender(void);
-		virtual void OnPostRender(void);
-
 
 	protected:
 		CResMaterialPtr m_ptrMaterial;

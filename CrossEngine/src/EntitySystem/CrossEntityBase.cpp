@@ -76,4 +76,19 @@ namespace CrossEngine {
 
 	}
 
+	void CEntityBase::OnPreRender(void)
+	{
+
+	}
+
+	void CEntityBase::OnRender(void)
+	{
+
+	}
+
+	void CEntityBase::OnPostRender(void)
+	{
+
+	}
+
 }

@@ -45,6 +45,11 @@ namespace CrossEngine {
 		virtual void OnPostUpdate(float deltaTime);
 		virtual void OnFixUpdate(float deltaTime);
 
+	public:
+		virtual void OnPreRender(void);
+		virtual void OnRender(void);
+		virtual void OnPostRender(void);
+
 
 	public:
 		CEntityBase *pNext;

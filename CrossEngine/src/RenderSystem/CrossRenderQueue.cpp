@@ -35,14 +35,14 @@ namespace CrossEngine {
 
 	}
 
-	void CRenderQueue::Add(CEntityMesh *pEntityMesh)
+	void CRenderQueue::Add(CEntityBase *pEntity, const CResMaterialPtr &ptrMaterial)
 	{
-		for (const auto &itMatPass : pEntityMesh->GetMaterial()->GetPasses()) {
+		for (const auto &itMatPass : ptrMaterial->GetPasses()) {
 			SubPassQueue &subPassQueue = m_queue[itMatPass.second->GetGfxRenderPass()];
 			PipelineQueue &pipelineQueue = subPassQueue[itMatPass.second->GetIndexSubPass()];
 			DescriptorSetQueue &descriptorSetQueue = pipelineQueue[itMatPass.second->GetGfxPipeline()];
 			EntityQueue &entityQueue = descriptorSetQueue[itMatPass.second->GetGfxDescriptorSet()];
-			entityQueue.push_back(pEntityMesh);
+			entityQueue.push_back(pEntity);
 		}
 	}
 
