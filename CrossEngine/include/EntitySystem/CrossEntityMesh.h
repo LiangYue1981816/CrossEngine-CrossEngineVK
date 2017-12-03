@@ -31,14 +31,6 @@ namespace CrossEngine {
 	protected:
 		CEntityMesh(void);
 		virtual ~CEntityMesh(void);
-
-
-	public:
-		virtual const CResMaterialPtr& GetMaterial(void) const;
-
-
-	protected:
-		CResMaterialPtr m_ptrMaterial;
 	};
 
 }

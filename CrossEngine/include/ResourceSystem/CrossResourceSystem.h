@@ -22,9 +22,9 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossResource.h"
-#include "CrossResourceManager.h"
 #include "CrossResourceDefinition.h"
+#include "CrossResourceManager.h"
+#include "CrossResource.h"
 #include "CrossResShader.h"
 #include "CrossResTexture.h"
 #include "CrossResCompute.h"

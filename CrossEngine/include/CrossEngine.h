@@ -75,10 +75,11 @@ THE SOFTWARE.
 #include <event.h>
 #include <semaphore.h>
 #include <tinyxml.h>
+#include <zzip/zzip.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <gli/gli.hpp>
-#include <zzip/zzip.h>
+#include <gles3/gl31.h>
 #include <vulkan/vulkan.h>
 #include <shaderc/shaderc.hpp>
 #include <glslc/file_includer.h>

@@ -35,24 +35,4 @@ namespace CrossEngine {
 
 	}
 
-	const CResMaterialPtr& CEntityMesh::GetMaterial(void) const
-	{
-		return m_ptrMaterial;
-	}
-
-	void CEntityMesh::OnPreRender(void)
-	{
-
-	}
-
-	void CEntityMesh::OnRender(void)
-	{
-
-	}
-
-	void CEntityMesh::OnPostRender(void)
-	{
-
-	}
-
 }

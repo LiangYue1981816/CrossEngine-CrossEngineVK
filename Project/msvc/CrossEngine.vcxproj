@@ -191,6 +191,7 @@
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityBase.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntitySystem.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawable.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFrameBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderPassManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderQueue.h" />
@@ -357,6 +358,7 @@
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityBase.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityMesh.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawable.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossFrameBufferManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderPassManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderQueue.cpp" />

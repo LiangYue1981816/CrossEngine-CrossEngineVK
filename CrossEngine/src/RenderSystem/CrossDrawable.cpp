@@ -25,30 +25,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRenderQueue::CRenderQueue(void)
+	CDrawable::CDrawable(void)
 	{
 
 	}
 
-	CRenderQueue::~CRenderQueue(void)
+	CDrawable::~CDrawable(void)
 	{
 
-	}
-
-	void CRenderQueue::Add(CDrawable *pDraw)
-	{
-		for (const auto &itMatPass : pDraw->GetMaterial()->GetPasses()) {
-			SubPassQueue &subPassQueue = m_queue[itMatPass.second->GetGfxRenderPass()];
-			PipelineQueue &pipelineQueue = subPassQueue[itMatPass.second->GetIndexSubPass()];
-			DescriptorSetQueue &descriptorSetQueue = pipelineQueue[itMatPass.second->GetGfxPipeline()];
-			DrawQueue &drawQueue = descriptorSetQueue[itMatPass.second->GetGfxDescriptorSet()];
-			drawQueue.push_back(pDraw);
-		}
-	}
-
-	void CRenderQueue::Clear(void)
-	{
-		m_queue.clear();
 	}
 
 }

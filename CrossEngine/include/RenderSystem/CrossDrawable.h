@@ -20,35 +20,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CRenderQueue::CRenderQueue(void)
+	class CROSS_EXPORT CDrawable
 	{
+	protected:
+		CDrawable(void);
+		virtual ~CDrawable(void);
 
-	}
 
-	CRenderQueue::~CRenderQueue(void)
-	{
-
-	}
-
-	void CRenderQueue::Add(CDrawable *pDraw)
-	{
-		for (const auto &itMatPass : pDraw->GetMaterial()->GetPasses()) {
-			SubPassQueue &subPassQueue = m_queue[itMatPass.second->GetGfxRenderPass()];
-			PipelineQueue &pipelineQueue = subPassQueue[itMatPass.second->GetIndexSubPass()];
-			DescriptorSetQueue &descriptorSetQueue = pipelineQueue[itMatPass.second->GetGfxPipeline()];
-			DrawQueue &drawQueue = descriptorSetQueue[itMatPass.second->GetGfxDescriptorSet()];
-			drawQueue.push_back(pDraw);
-		}
-	}
-
-	void CRenderQueue::Clear(void)
-	{
-		m_queue.clear();
-	}
+	public:
+		virtual const CResMaterialPtr& GetMaterial(void) const = 0;
+		virtual const void Draw(void) const = 0;
+	};
 
 }
