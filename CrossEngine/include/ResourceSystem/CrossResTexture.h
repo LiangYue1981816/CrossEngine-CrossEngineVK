@@ -29,7 +29,6 @@ namespace CrossEngine {
 	class CROSS_EXPORT CResTexture : public CResource
 	{
 		friend class CResTextureManager;
-		friend class CResMaterialPass;
 
 
 	protected:
@@ -38,10 +37,10 @@ namespace CrossEngine {
 
 
 	public:
-		virtual RESOURCE_TYPE GetType(void) const;
+		const CGfxTexturePtr& GetTexture(void) const;
 
 	public:
-		const CGfxTexturePtr& GetGfxTexture(void) const;
+		virtual RESOURCE_TYPE GetType(void) const;
 
 	protected:
 		virtual BOOL Load(BOOL bSync);
@@ -59,7 +58,7 @@ namespace CrossEngine {
 		VkSamplerAddressMode m_addressMode;
 
 		gli::texture2d m_texture;
-		CGfxTexturePtr m_ptrGfxTexture;
+		CGfxTexturePtr m_ptrTexture;
 	};
 
 }

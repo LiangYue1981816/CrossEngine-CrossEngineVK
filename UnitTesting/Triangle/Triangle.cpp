@@ -50,8 +50,8 @@ void CreatePipeline(void)
 	ptrShaderFragment = ShaderManager()->LoadResource(CrossEngine::HashValue("triangle.frag"));
 
 	ptrPipeline = GfxDevice()->NewPipelineGraphics();
-	ptrPipeline->SetVertexShader(ptrShaderVertex->GetGfxShader());
-	ptrPipeline->SetFragmentShader(ptrShaderFragment->GetGfxShader());
+	ptrPipeline->SetVertexShader(ptrShaderVertex->GetShader());
+	ptrPipeline->SetFragmentShader(ptrShaderFragment->GetShader());
 	ptrPipeline->SetColorBlendAttachment(0, FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	ptrPipeline->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);

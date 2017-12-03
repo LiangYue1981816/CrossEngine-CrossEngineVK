@@ -42,7 +42,8 @@ namespace CrossEngine {
 
 	CResource* CResMaterialManager::CreateResource(void)
 	{
-		return SAFE_NEW CResMaterial(this);
+//		return SAFE_NEW CResMaterial(this);
+		return NULL;
 	}
 
 	BOOL CResMaterialManager::PreLoadFromFile(const char *szFileName)

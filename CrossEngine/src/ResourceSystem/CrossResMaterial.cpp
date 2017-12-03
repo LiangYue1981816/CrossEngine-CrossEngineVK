@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-
+	/*
 	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
@@ -142,5 +142,5 @@ namespace CrossEngine {
 	{
 		return m_passes;
 	}
-
+	*/
 }

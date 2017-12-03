@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-
+	/*
 	class CROSS_EXPORT CResMaterial : public CResource
 	{
 		friend class CResMaterialManager;
@@ -60,5 +60,5 @@ namespace CrossEngine {
 	protected:
 		std::map<uint32_t, CResMaterialPass*> m_passes;
 	};
-
+	*/
 }

@@ -68,8 +68,8 @@ void CreateMesh(void)
 	Mesh.ptrShaderFragment = ShaderManager()->LoadResource("texture.frag", TRUE);
 
 	Mesh.ptrGraphics = GfxDevice()->NewPipelineGraphics();
-	Mesh.ptrGraphics->SetVertexShader(Mesh.ptrShaderVertex->GetGfxShader());
-	Mesh.ptrGraphics->SetFragmentShader(Mesh.ptrShaderFragment->GetGfxShader());
+	Mesh.ptrGraphics->SetVertexShader(Mesh.ptrShaderVertex->GetShader());
+	Mesh.ptrGraphics->SetFragmentShader(Mesh.ptrShaderFragment->GetShader());
 	Mesh.ptrGraphics->SetDepthTest(FALSE, FALSE, VK_COMPARE_OP_ALWAYS);
 	Mesh.ptrGraphics->SetCullMode(VK_CULL_MODE_BACK_BIT);
 	Mesh.ptrGraphics->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
@@ -123,8 +123,8 @@ void CreateScreen(void)
 	Screen.ptrShaderFragment = ShaderManager()->LoadResource("composition.frag", TRUE);
 
 	Screen.ptrGraphics = GfxDevice()->NewPipelineGraphics();
-	Screen.ptrGraphics->SetVertexShader(Screen.ptrShaderVertex->GetGfxShader());
-	Screen.ptrGraphics->SetFragmentShader(Screen.ptrShaderFragment->GetGfxShader());
+	Screen.ptrGraphics->SetVertexShader(Screen.ptrShaderVertex->GetShader());
+	Screen.ptrGraphics->SetFragmentShader(Screen.ptrShaderFragment->GetShader());
 	Screen.ptrGraphics->SetDepthTest(FALSE, FALSE, VK_COMPARE_OP_ALWAYS);
 	Screen.ptrGraphics->SetCullMode(VK_CULL_MODE_NONE);
 	Screen.ptrGraphics->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);

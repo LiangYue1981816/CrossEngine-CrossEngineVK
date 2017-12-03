@@ -37,10 +37,10 @@ namespace CrossEngine {
 
 
 	public:
-		virtual RESOURCE_TYPE GetType(void) const;
+		const CGfxPipelineComputePtr& GetPipeline(void) const;
 
 	public:
-		const CGfxPipelineComputePtr& GetGfxPipeline(void) const;
+		virtual RESOURCE_TYPE GetType(void) const;
 
 	protected:
 		virtual BOOL Load(BOOL bSync);
@@ -52,7 +52,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGfxPipelineComputePtr m_ptrGfxPipeline;
+		CGfxPipelineComputePtr m_ptrPipeline;
 	};
 
 }

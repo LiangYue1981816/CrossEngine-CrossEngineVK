@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-
+	/*
 	class CROSS_EXPORT CResMaterialPass
 	{
 		friend class CResMaterial;
@@ -63,5 +63,5 @@ namespace CrossEngine {
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformFloats;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_uniformVectors;
 	};
-
+	*/
 }

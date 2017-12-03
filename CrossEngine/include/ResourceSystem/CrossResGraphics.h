@@ -106,7 +106,6 @@ namespace CrossEngine {
 	class CROSS_EXPORT CResGraphics : public CResource
 	{
 		friend class CResGraphicsManager;
-		friend class CResMaterialPass;
 
 
 	protected:
@@ -115,12 +114,12 @@ namespace CrossEngine {
 
 
 	public:
-		virtual RESOURCE_TYPE GetType(void) const;
+		const uint32_t GetIndexSubPass(void) const;
+		const CGfxRenderPassPtr& GetRenderPass(void) const;
+		const CGfxPipelineGraphicsPtr& GetPipeline(void) const;
 
 	public:
-		const uint32_t GetIndexSubPass(void) const;
-		const CGfxRenderPassPtr& GetGfxRenderPass(void) const;
-		const CGfxPipelineGraphicsPtr& GetGfxPipeline(void) const;
+		virtual RESOURCE_TYPE GetType(void) const;
 
 	protected:
 		virtual BOOL Load(BOOL bSync);
@@ -144,8 +143,8 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_indexSubPass;
-		CGfxRenderPassPtr m_ptrGfxRenderPass;
-		CGfxPipelineGraphicsPtr m_ptrGfxPipeline;
+		CGfxRenderPassPtr m_ptrRenderPass;
+		CGfxPipelineGraphicsPtr m_ptrPipeline;
 
 	protected:
 		PipelineGraphicsData m_data;

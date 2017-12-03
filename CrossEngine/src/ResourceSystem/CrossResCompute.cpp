@@ -28,22 +28,22 @@ namespace CrossEngine {
 	CResCompute::CResCompute(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrGfxPipeline = GfxDevice()->NewPipelineCompute();
+		m_ptrPipeline = GfxDevice()->NewPipelineCompute();
 	}
 
 	CResCompute::~CResCompute(void)
 	{
-		m_ptrGfxPipeline.Release();
+		m_ptrPipeline.Release();
+	}
+
+	const CGfxPipelineComputePtr& CResCompute::GetPipeline(void) const
+	{
+		return m_ptrPipeline;
 	}
 
 	RESOURCE_TYPE CResCompute::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE;
-	}
-
-	const CGfxPipelineComputePtr& CResCompute::GetGfxPipeline(void) const
-	{
-		return m_ptrGfxPipeline;
 	}
 
 	BOOL CResCompute::Load(BOOL bSync)
@@ -73,7 +73,15 @@ namespace CrossEngine {
 
 	BOOL CResCompute::IsValid(void) const
 	{
-		return IsLoaded();
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrPipeline->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	BOOL CResCompute::IsLoaded(void) const

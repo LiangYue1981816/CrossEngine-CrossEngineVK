@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-
+	/*
 	CResMaterialPass::CResMaterialPass(void)
 	{
 
@@ -192,5 +192,5 @@ namespace CrossEngine {
 
 		return TRUE;
 	}
-
+	*/
 }

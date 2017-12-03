@@ -32,22 +32,22 @@ namespace CrossEngine {
 		, m_mipmapMode(mipmapMode)
 		, m_addressMode(addressMode)
 	{
-		m_ptrGfxTexture = GfxDevice()->NewTexture();
+		m_ptrTexture = GfxDevice()->NewTexture();
 	}
 
 	CResTexture::~CResTexture(void)
 	{
-		m_ptrGfxTexture.Release();
+		m_ptrTexture.Release();
+	}
+
+	const CGfxTexturePtr& CResTexture::GetTexture(void) const
+	{
+		return m_ptrTexture;
 	}
 
 	RESOURCE_TYPE CResTexture::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE;
-	}
-
-	const CGfxTexturePtr& CResTexture::GetGfxTexture(void) const
-	{
-		return m_ptrGfxTexture;
 	}
 
 	BOOL CResTexture::Load(BOOL bSync)
@@ -66,11 +66,13 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
+		BOOL rcode = m_ptrTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
+
 		m_stream.Free();
 		m_texture.clear();
 		m_bIsLoaded = TRUE;
 
-		return m_ptrGfxTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
+		return rcode;
 	}
 
 	BOOL CResTexture::IsValid(void) const
@@ -79,7 +81,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrGfxTexture.IsNull() == TRUE || m_ptrGfxTexture->GetHandle() == NULL) {
+		if (m_ptrTexture->GetHandle() == NULL) {
 			return FALSE;
 		}
 
