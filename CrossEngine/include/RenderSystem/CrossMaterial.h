@@ -26,20 +26,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CMaterial
+	class CROSS_EXPORT CGfxMaterial
 	{
 	public:
-		CMaterial(void);
-		virtual ~CMaterial(void);
+		CGfxMaterial(void);
+		virtual ~CGfxMaterial(void);
 
 
 	public:
-		CMaterialPass* GetPass(uint32_t dwName);
-		const std::map<uint32_t, CMaterialPass*>& GetPasses(void) const;
+		CGfxMaterialPass* GetPass(uint32_t dwName);
+		const std::map<uint32_t, CGfxMaterialPass*>& GetPasses(void) const;
 
 
 	protected:
-		std::map<uint32_t, CMaterialPass*> m_passes;
+		std::map<uint32_t, CGfxMaterialPass*> m_passes;
 	};
 
 }

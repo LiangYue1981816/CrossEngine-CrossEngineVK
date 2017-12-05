@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CMaterialPass
+	class CROSS_EXPORT CGfxMaterialPass
 	{
 		friend class CMaterial;
 
 
 	protected:
-		CMaterialPass(void);
-		virtual ~CMaterialPass(void);
+		CGfxMaterialPass(void);
+		virtual ~CGfxMaterialPass(void);
 
 
 	public:

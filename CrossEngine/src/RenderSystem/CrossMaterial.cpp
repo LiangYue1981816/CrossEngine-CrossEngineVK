@@ -25,12 +25,12 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CMaterial::CMaterial(void)
+	CGfxMaterial::CGfxMaterial(void)
 	{
 
 	}
 
-	CMaterial::~CMaterial(void)
+	CGfxMaterial::~CGfxMaterial(void)
 	{
 		for (auto &itPass : m_passes) {
 			SAFE_DELETE(itPass.second);
@@ -39,7 +39,7 @@ namespace CrossEngine {
 		m_passes.clear();
 	}
 
-	CMaterialPass* CMaterial::GetPass(uint32_t dwName)
+	CMaterialPass* CGfxMaterial::GetPass(uint32_t dwName)
 	{
 		CMaterialPass *pPass = m_passes[dwName];
 
@@ -50,7 +50,7 @@ namespace CrossEngine {
 		return pPass;
 	}
 
-	const std::map<uint32_t, CMaterialPass*>& CMaterial::GetPasses(void) const
+	const std::map<uint32_t, CMaterialPass*>& CGfxMaterial::GetPasses(void) const
 	{
 		return m_passes;
 	}

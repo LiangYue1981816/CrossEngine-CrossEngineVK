@@ -25,58 +25,58 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CMaterialPass::CMaterialPass(void)
+	CGfxMaterialPass::CGfxMaterialPass(void)
 	{
 
 	}
 
-	CMaterialPass::~CMaterialPass(void)
+	CGfxMaterialPass::~CGfxMaterialPass(void)
 	{
 
 	}
 
-	const uint32_t CMaterialPass::GetIndexSubPass(void) const
+	const uint32_t CGfxMaterialPass::GetIndexSubPass(void) const
 	{
 		return m_indexSubPass;
 	}
 
-	const CGfxRenderPassPtr& CMaterialPass::GetRenderPass(void) const
+	const CGfxRenderPassPtr& CGfxMaterialPass::GetRenderPass(void) const
 	{
 		return m_ptrRenderPass;
 	}
 
-	const CGfxPipelineGraphicsPtr& CMaterialPass::GetPipeline(void) const
+	const CGfxPipelineGraphicsPtr& CGfxMaterialPass::GetPipeline(void) const
 	{
 		return m_ptrPipeline;
 	}
 
-	const CGfxDescriptorSetPtr& CMaterialPass::GetDescriptorSet(void) const
+	const CGfxDescriptorSetPtr& CGfxMaterialPass::GetDescriptorSet(void) const
 	{
 		return m_ptrDescriptorSet;
 	}
 
-	void CMaterialPass::SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass)
+	void CGfxMaterialPass::SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass)
 	{
 		m_indexSubPass = indexSubPass;
 		m_ptrRenderPass = ptrRenderPass;
 	}
 
-	void CMaterialPass::SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CGfxMaterialPass::SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
 		m_ptrPipeline = ptrPipeline;
 	}
 
-	void CMaterialPass::SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture)
+	void CGfxMaterialPass::SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture)
 	{
 		m_textures[dwName] = ptrTexture;
 	}
 
-	void CMaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform)
+	void CGfxMaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform)
 	{
 		m_uniforms[dwName] = ptrUniform;
 	}
 
-	void CMaterialPass::UpdateDescriptorSet(void)
+	void CGfxMaterialPass::UpdateDescriptorSet(void)
 	{
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_PASS, m_ptrPipeline);
 		{
