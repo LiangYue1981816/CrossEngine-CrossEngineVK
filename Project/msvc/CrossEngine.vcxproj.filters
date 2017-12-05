@@ -558,12 +558,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawable.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossMaterial.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossMaterialPass.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxCommandBuffer.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI\Core</Filter>
     </ClInclude>
@@ -625,6 +619,12 @@
       <Filter>Engine\Header Files\RenderSystem\RenderAPI\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxVertexBuffer.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxMaterial.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxMaterialPass.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI\Resource</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1046,11 +1046,11 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawable.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossMaterial.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxMaterial.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderAPI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossMaterialPass.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderAPI\CrossGfxMaterialPass.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderAPI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

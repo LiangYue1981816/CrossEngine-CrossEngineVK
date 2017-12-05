@@ -39,18 +39,18 @@ namespace CrossEngine {
 		m_passes.clear();
 	}
 
-	CMaterialPass* CGfxMaterial::GetPass(uint32_t dwName)
+	CGfxMaterialPass* CGfxMaterial::GetPass(uint32_t dwName)
 	{
-		CMaterialPass *pPass = m_passes[dwName];
+		CGfxMaterialPass *pPass = m_passes[dwName];
 
 		if (pPass == NULL) {
-			pPass = m_passes[dwName] = SAFE_NEW CMaterialPass;
+			pPass = m_passes[dwName] = SAFE_NEW CGfxMaterialPass;
 		}
 
 		return pPass;
 	}
 
-	const std::map<uint32_t, CMaterialPass*>& CGfxMaterial::GetPasses(void) const
+	const std::map<uint32_t, CGfxMaterialPass*>& CGfxMaterial::GetPasses(void) const
 	{
 		return m_passes;
 	}

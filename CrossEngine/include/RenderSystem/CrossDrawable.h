@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual const CMaterial* GetMaterial(void) const = 0;
+		virtual const CGfxMaterialPtr& GetMaterial(void) const = 0;
 		virtual const void Draw(void) const = 0;
 	};
 

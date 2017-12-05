@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGfxMaterialPass
 	{
-		friend class CMaterial;
+		friend class CGfxMaterial;
 
 
 	protected:
