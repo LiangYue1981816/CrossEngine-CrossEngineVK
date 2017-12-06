@@ -20,33 +20,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxMaterial : public CGfxResource
+	CVulkanMaterialManager::CVulkanMaterialManager(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
 	{
-	protected:
-		CGfxMaterial(CGfxResourceManager *pResourceManager)
-			: CGfxResource(pResourceManager)
+
+	}
+
+	CVulkanMaterialManager::~CVulkanMaterialManager(void)
+	{
+
+	}
+
+	CGfxMaterialPtr CVulkanMaterialManager::AllocMaterial(void)
+	{
+		CVulkanMaterial *pMaterial = SAFE_NEW CVulkanMaterial(m_pDevice, this);
 		{
-
+			mutex_autolock mutex(m_mutex);
+			m_pResources[pMaterial] = pMaterial;
 		}
-		virtual ~CGfxMaterial(void)
-		{
-
-		}
-
-
-	public:
-		virtual CGfxMaterialPassPtr& GetPass(uint32_t dwName) = 0;
-		virtual const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const = 0;
-
-
-	protected:
-		std::map<uint32_t, CGfxMaterialPassPtr> m_passes;
-	};
+		return CGfxMaterialPtr(pMaterial);
+	}
 
 }

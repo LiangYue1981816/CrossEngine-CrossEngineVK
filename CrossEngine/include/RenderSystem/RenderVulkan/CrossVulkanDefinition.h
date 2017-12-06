@@ -73,6 +73,9 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanPipelineCompute;
 	class CROSS_EXPORT CVulkanPipelineGraphics;
 	class CROSS_EXPORT CVulkanPipelineManager;
+	class CROSS_EXPORT CVulkanMaterial;
+	class CROSS_EXPORT CVulkanMaterialPass;
+	class CROSS_EXPORT CVulkanMaterialManager;
 	class CROSS_EXPORT CVulkanRenderPass;
 	class CROSS_EXPORT CVulkanRenderPassManager;
 	class CROSS_EXPORT CVulkanFrameBuffer;

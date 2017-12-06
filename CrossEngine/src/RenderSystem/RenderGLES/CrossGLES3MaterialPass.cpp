@@ -20,67 +20,55 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxMaterialPass
+	CGLES3MaterialPass::CGLES3MaterialPass(void)
 	{
-		friend class CGfxMaterial;
 
+	}
 
-	protected:
-		CGfxMaterialPass(void)
+	CGLES3MaterialPass::~CGLES3MaterialPass(void)
+	{
+
+	}
+
+	void CGLES3MaterialPass::SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass)
+	{
+		m_indexSubPass = indexSubPass;
+		m_ptrRenderPass = ptrRenderPass;
+	}
+
+	void CGLES3MaterialPass::SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline)
+	{
+		m_ptrPipeline = ptrPipeline;
+	}
+
+	void CGLES3MaterialPass::SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture)
+	{
+		m_textures[dwName] = ptrTexture;
+	}
+
+	void CGLES3MaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform)
+	{
+		m_uniforms[dwName] = ptrUniform;
+	}
+
+	void CGLES3MaterialPass::UpdateDescriptorSet(uint32_t pool)
+	{
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTOR_SET_PASS, m_ptrPipeline);
 		{
+			for (const auto &itTexture : m_textures) {
+				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
+			}
 
+			for (const auto &itUniform : m_uniforms) {
+				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniform.first), itUniform.second);
+			}
 		}
-		virtual ~CGfxMaterialPass(void)
-		{
-
-		}
-
-
-	public:
-		const uint32_t GetIndexSubPass(void) const
-		{
-			return m_indexSubPass;
-		}
-
-		const CGfxRenderPassPtr& GetRenderPass(void) const
-		{
-			return m_ptrRenderPass;
-		}
-
-		const CGfxPipelineGraphicsPtr& GetPipeline(void) const
-		{
-			return m_ptrPipeline;
-		}
-
-		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const
-		{
-			return m_ptrDescriptorSet;
-		}
-
-	public:
-		virtual void SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass) = 0;
-		virtual void SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
-
-		virtual void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture) = 0;
-		virtual void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform) = 0;
-		virtual void UpdateDescriptorSet(uint32_t pool) = 0;
-
-
-	protected:
-		uint32_t m_indexSubPass;
-		CGfxRenderPassPtr m_ptrRenderPass;
-		CGfxPipelineGraphicsPtr m_ptrPipeline;
-		CGfxDescriptorSetPtr m_ptrDescriptorSet;
-
-	protected:
-		std::map<uint32_t, CGfxTexturePtr> m_textures;
-		std::map<uint32_t, CGfxUniformBufferPtr> m_uniforms;
-	};
+		m_ptrDescriptorSet->UpdateDescriptorSets();
+	}
 
 }

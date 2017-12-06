@@ -22,38 +22,33 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Extent.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3Command.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3CommandBufferManager.h"
-#include "CrossGLES3DescriptorSet.h"
-#include "CrossGLES3DescriptorSetManager.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
-#include "CrossGLES3Image.h"
-#include "CrossGLES3Texture.h"
-#include "CrossGLES3RenderTexture.h"
-#include "CrossGLES3TextureManager.h"
-#include "CrossGLES3Shader.h"
-#include "CrossGLES3ShaderManager.h"
-#include "CrossGLES3Pipeline.h"
-#include "CrossGLES3PipelineCompute.h"
-#include "CrossGLES3PipelineGraphics.h"
-#include "CrossGLES3PipelineManager.h"
-#include "CrossGLES3Material.h"
-#include "CrossGLES3MaterialPass.h"
-#include "CrossGLES3MaterialManager.h"
-#include "CrossGLES3RenderPass.h"
-#include "CrossGLES3RenderPassManager.h"
-#include "CrossGLES3FrameBuffer.h"
-#include "CrossGLES3FrameBufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGLES3Material : public CGfxMaterial
+	{
+		friend class CGLES3MaterialManager;
+
+
+	protected:
+		CGLES3Material(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CGLES3Material(void);
+
+
+	public:
+		CGLES3Device* GetDevice(void) const;
+		HANDLE GetHandle(void) const;
+
+	public:
+		CGfxMaterialPassPtr& GetPass(uint32_t dwName);
+		const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const;
+		void Destroy(void);
+		void DumpLog(void) const;
+
+
+	protected:
+		CGLES3Device *m_pDevice;
+	};
+
+}

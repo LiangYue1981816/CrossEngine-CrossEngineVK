@@ -20,39 +20,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CGfxMaterial::CGfxMaterial(void)
+	class CROSS_EXPORT CVulkanMaterial : public CGfxMaterial
 	{
+		friend class CVulkanMaterialManager;
 
-	}
 
-	CGfxMaterial::~CGfxMaterial(void)
-	{
-		for (auto &itPass : m_passes) {
-			SAFE_DELETE(itPass.second);
-		}
+	protected:
+		CVulkanMaterial(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		virtual ~CVulkanMaterial(void);
 
-		m_passes.clear();
-	}
 
-	CGfxMaterialPass* CGfxMaterial::GetPass(uint32_t dwName)
-	{
-		CGfxMaterialPass *pPass = m_passes[dwName];
+	public:
+		CVulkanDevice* GetDevice(void) const;
+		HANDLE GetHandle(void) const;
 
-		if (pPass == NULL) {
-			pPass = m_passes[dwName] = SAFE_NEW CGfxMaterialPass;
-		}
+	public:
+		CGfxMaterialPassPtr& GetPass(uint32_t dwName);
+		const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const;
+		void Destroy(void);
+		void DumpLog(void) const;
 
-		return pPass;
-	}
 
-	const std::map<uint32_t, CGfxMaterialPass*>& CGfxMaterial::GetPasses(void) const
-	{
-		return m_passes;
-	}
+	protected:
+		CVulkanDevice *m_pDevice;
+	};
 
 }

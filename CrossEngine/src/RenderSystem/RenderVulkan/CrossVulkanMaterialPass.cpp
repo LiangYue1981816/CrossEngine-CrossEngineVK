@@ -25,60 +25,40 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGfxMaterialPass::CGfxMaterialPass(void)
+	CVulkanMaterialPass::CVulkanMaterialPass(void)
 	{
 
 	}
 
-	CGfxMaterialPass::~CGfxMaterialPass(void)
+	CVulkanMaterialPass::~CVulkanMaterialPass(void)
 	{
 
 	}
 
-	const uint32_t CGfxMaterialPass::GetIndexSubPass(void) const
-	{
-		return m_indexSubPass;
-	}
-
-	const CGfxRenderPassPtr& CGfxMaterialPass::GetRenderPass(void) const
-	{
-		return m_ptrRenderPass;
-	}
-
-	const CGfxPipelineGraphicsPtr& CGfxMaterialPass::GetPipeline(void) const
-	{
-		return m_ptrPipeline;
-	}
-
-	const CGfxDescriptorSetPtr& CGfxMaterialPass::GetDescriptorSet(void) const
-	{
-		return m_ptrDescriptorSet;
-	}
-
-	void CGfxMaterialPass::SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass)
+	void CVulkanMaterialPass::SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass)
 	{
 		m_indexSubPass = indexSubPass;
 		m_ptrRenderPass = ptrRenderPass;
 	}
 
-	void CGfxMaterialPass::SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CVulkanMaterialPass::SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
 		m_ptrPipeline = ptrPipeline;
 	}
 
-	void CGfxMaterialPass::SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture)
+	void CVulkanMaterialPass::SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture)
 	{
 		m_textures[dwName] = ptrTexture;
 	}
 
-	void CGfxMaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform)
+	void CVulkanMaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform)
 	{
 		m_uniforms[dwName] = ptrUniform;
 	}
 
-	void CGfxMaterialPass::UpdateDescriptorSet(void)
+	void CVulkanMaterialPass::UpdateDescriptorSet(uint32_t pool)
 	{
-		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, DESCRIPTOR_SET_PASS, m_ptrPipeline);
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTOR_SET_PASS, m_ptrPipeline);
 		{
 			for (const auto &itTexture : m_textures) {
 				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);

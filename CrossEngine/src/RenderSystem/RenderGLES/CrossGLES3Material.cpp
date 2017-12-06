@@ -20,33 +20,55 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxMaterial : public CGfxResource
+	CGLES3Material::CGLES3Material(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
+		: CGfxMaterial(pResourceManager)
+		, m_pDevice(pDevice)
 	{
-	protected:
-		CGfxMaterial(CGfxResourceManager *pResourceManager)
-			: CGfxResource(pResourceManager)
-		{
 
+	}
+
+	CGLES3Material::~CGLES3Material(void)
+	{
+
+	}
+
+	CGLES3Device* CGLES3Material::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
+	HANDLE CGLES3Material::GetHandle(void) const
+	{
+		return (HANDLE)this;
+	}
+
+	CGfxMaterialPassPtr& CGLES3Material::GetPass(uint32_t dwName)
+	{
+		if (m_passes.find(dwName) == m_passes.end()) {
+			m_passes[dwName] = CGfxMaterialPassPtr(SAFE_NEW CGLES3MaterialPass);
 		}
-		virtual ~CGfxMaterial(void)
-		{
 
-		}
+		return m_passes[dwName];
+	}
 
+	const std::map<uint32_t, CGfxMaterialPassPtr>& CGLES3Material::GetPasses(void) const
+	{
+		return m_passes;
+	}
 
-	public:
-		virtual CGfxMaterialPassPtr& GetPass(uint32_t dwName) = 0;
-		virtual const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const = 0;
+	void CGLES3Material::Destroy(void)
+	{
+		m_passes.clear();
+	}
 
+	void CGLES3Material::DumpLog(void) const
+	{
 
-	protected:
-		std::map<uint32_t, CGfxMaterialPassPtr> m_passes;
-	};
+	}
 
 }

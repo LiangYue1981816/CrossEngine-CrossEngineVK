@@ -80,14 +80,12 @@ namespace CrossEngine {
 		virtual CGfxIndexBufferPtr NewIndexBuffer(void) = 0;
 		virtual CGfxVertexBufferPtr NewVertexBuffer(void) = 0;
 		virtual CGfxUniformBufferPtr NewUniformBuffer(void) = 0;
-
 		virtual CGfxTexturePtr NewTexture(void) = 0;
 		virtual CGfxRenderTexturePtr NewRenderTexture(void) = 0;
-
 		virtual CGfxShaderPtr NewShader(void) = 0;
 		virtual CGfxPipelineComputePtr NewPipelineCompute(void) = 0;
 		virtual CGfxPipelineGraphicsPtr NewPipelineGraphics(void) = 0;
-
+		virtual CGfxMaterialPtr NewMaterial(void) = 0;
 		virtual CGfxRenderPassPtr NewRenderPass(void) = 0;
 		virtual CGfxFrameBufferPtr NewFrameBuffer(void) = 0;
 

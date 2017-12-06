@@ -82,11 +82,11 @@ namespace CrossEngine {
 				m_ptrGfxDescriptorSet->SetTexture(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second->GetGfxTexture());
 			}
 
-			for (const auto itUniform : m_uniformFloats) {
+			for (const auto &itUniform : m_uniformFloats) {
 				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, itUniform.first), itUniform.second);
 			}
 
-			for (const auto itUniform : m_uniformVectors) {
+			for (const auto &itUniform : m_uniformVectors) {
 				m_ptrGfxDescriptorSet->SetUniformBuffer(m_ptrResPipeline->GetGfxPipeline()->GetBinding(DESCRIPTOR_SET_PASS, itUniform.first), itUniform.second);
 			}
 		}

@@ -36,6 +36,7 @@ namespace CrossEngine {
 		, m_pTextureManager(NULL)
 		, m_pShaderManager(NULL)
 		, m_pPipelineManager(NULL)
+		, m_pMaterialManager(NULL)
 		, m_pRenderPassManager(NULL)
 		, m_pFrameBufferManager(NULL)
 	{
@@ -47,6 +48,7 @@ namespace CrossEngine {
 		m_pTextureManager = SAFE_NEW CGLES3TextureManager(this);
 		m_pShaderManager = SAFE_NEW CGLES3ShaderManager(this);
 		m_pPipelineManager = SAFE_NEW CGLES3PipelineManager(this);
+		m_pMaterialManager = SAFE_NEW CGLES3MaterialManager(this);
 		m_pRenderPassManager = SAFE_NEW CGLES3RenderPassManager(this);
 		m_pFrameBufferManager = SAFE_NEW CGLES3FrameBufferManager(this);
 	}
@@ -61,6 +63,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pTextureManager);
 		SAFE_DELETE(m_pShaderManager);
 		SAFE_DELETE(m_pPipelineManager);
+		SAFE_DELETE(m_pMaterialManager);
 		SAFE_DELETE(m_pRenderPassManager);
 		SAFE_DELETE(m_pFrameBufferManager);
 	}
@@ -78,6 +81,7 @@ namespace CrossEngine {
 		CALL_GL_FUNCTION_RETURN(CreateTextureManager());
 		CALL_GL_FUNCTION_RETURN(CreateShaderManager());
 		CALL_GL_FUNCTION_RETURN(CreatePipelineManager());
+		CALL_GL_FUNCTION_RETURN(CreateMaterialManager());
 		CALL_GL_FUNCTION_RETURN(CreateRenderPassManager());
 		CALL_GL_FUNCTION_RETURN(CreateFrameBufferManager());
 
@@ -124,6 +128,11 @@ namespace CrossEngine {
 		return m_pPipelineManager->Create();
 	}
 
+	int CGLES3Device::CreateMaterialManager(void)
+	{
+		return m_pMaterialManager->Create();
+	}
+
 	int CGLES3Device::CreateRenderPassManager(void)
 	{
 		return m_pRenderPassManager->Create();
@@ -138,6 +147,7 @@ namespace CrossEngine {
 	{
 		DestroyFrameBufferManager();
 		DestroyRenderPassManager();
+		DestroyMaterialManager();
 		DestroyPipelineManager();
 		DestroyShaderManager();
 		DestroyTextureManager();
@@ -187,6 +197,11 @@ namespace CrossEngine {
 	void CGLES3Device::DestroyPipelineManager(void)
 	{
 		m_pPipelineManager->Destroy();
+	}
+
+	void CGLES3Device::DestroyMaterialManager(void)
+	{
+		m_pMaterialManager->Destroy();
 	}
 
 	void CGLES3Device::DestroyRenderPassManager(void)
@@ -277,6 +292,11 @@ namespace CrossEngine {
 	CGfxPipelineGraphicsPtr CGLES3Device::NewPipelineGraphics(void)
 	{
 		return m_pPipelineManager->AllocPipelineGraphics();
+	}
+
+	CGfxMaterialPtr CGLES3Device::NewMaterial(void)
+	{
+		return m_pMaterialManager->AllocMaterial();
 	}
 
 	CGfxRenderPassPtr CGLES3Device::NewRenderPass(void)

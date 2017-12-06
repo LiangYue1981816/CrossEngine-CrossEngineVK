@@ -75,7 +75,7 @@ namespace CrossEngine {
 		for (const auto &itRenderPassAttachment : renderPassAttachments) {
 			uint32_t indexAttachment = itRenderPassAttachment.first;
 
-			const auto itAttachment = m_attachments.find(indexAttachment);
+			const auto &itAttachment = m_attachments.find(indexAttachment);
 			if (itAttachment == m_attachments.end()) return FALSE;
 
 			GLenum type;

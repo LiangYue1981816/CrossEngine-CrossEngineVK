@@ -50,6 +50,7 @@ namespace CrossEngine {
 		int CreateTextureManager(void);
 		int CreateShaderManager(void);
 		int CreatePipelineManager(void);
+		int CreateMaterialManager(void);
 		int CreateRenderPassManager(void);
 		int CreateFrameBufferManager(void);
 
@@ -63,6 +64,7 @@ namespace CrossEngine {
 		void DestroyTextureManager(void);
 		void DestroyShaderManager(void);
 		void DestroyPipelineManager(void);
+		void DestroyMaterialManager(void);
 		void DestroyRenderPassManager(void);
 		void DestroyFrameBufferManager(void);
 
@@ -88,6 +90,7 @@ namespace CrossEngine {
 		CGfxShaderPtr NewShader(void);
 		CGfxPipelineComputePtr NewPipelineCompute(void);
 		CGfxPipelineGraphicsPtr NewPipelineGraphics(void);
+		CGfxMaterialPtr NewMaterial(void);
 		CGfxRenderPassPtr NewRenderPass(void);
 		CGfxFrameBufferPtr NewFrameBuffer(void);
 
@@ -117,6 +120,7 @@ namespace CrossEngine {
 		CGLES3TextureManager *m_pTextureManager;
 		CGLES3ShaderManager *m_pShaderManager;
 		CGLES3PipelineManager *m_pPipelineManager;
+		CGLES3MaterialManager *m_pMaterialManager;
 		CGLES3RenderPassManager *m_pRenderPassManager;
 		CGLES3FrameBufferManager *m_pFrameBufferManager;
 

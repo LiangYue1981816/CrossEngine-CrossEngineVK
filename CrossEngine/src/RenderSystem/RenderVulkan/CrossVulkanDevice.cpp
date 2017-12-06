@@ -44,6 +44,7 @@ namespace CrossEngine {
 		, m_pTextureManager(NULL)
 		, m_pShaderManager(NULL)
 		, m_pPipelineManager(NULL)
+		, m_pMaterialManager(NULL)
 		, m_pRenderPassManager(NULL)
 		, m_pFrameBufferManager(NULL)
 
@@ -63,6 +64,7 @@ namespace CrossEngine {
 		m_pTextureManager = SAFE_NEW CVulkanTextureManager(this);
 		m_pShaderManager = SAFE_NEW CVulkanShaderManager(this);
 		m_pPipelineManager = SAFE_NEW CVulkanPipelineManager(this);
+		m_pMaterialManager = SAFE_NEW CVulkanMaterialManager(this);
 		m_pRenderPassManager = SAFE_NEW CVulkanRenderPassManager(this);
 		m_pFrameBufferManager = SAFE_NEW CVulkanFrameBufferManager(this);
 	}
@@ -81,6 +83,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pTextureManager);
 		SAFE_DELETE(m_pShaderManager);
 		SAFE_DELETE(m_pPipelineManager);
+		SAFE_DELETE(m_pMaterialManager);
 		SAFE_DELETE(m_pRenderPassManager);
 		SAFE_DELETE(m_pFrameBufferManager);
 	}
@@ -105,6 +108,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(CreateTextureManager());
 		CALL_VK_FUNCTION_RETURN(CreateShaderManager());
 		CALL_VK_FUNCTION_RETURN(CreatePipelineManager());
+		CALL_VK_FUNCTION_RETURN(CreateMaterialManager());
 		CALL_VK_FUNCTION_RETURN(CreateRenderPassManager());
 		CALL_VK_FUNCTION_RETURN(CreateFrameBufferManager());
 
@@ -121,6 +125,7 @@ namespace CrossEngine {
 
 		DestroyFrameBufferManager();
 		DestroyRenderPassManager();
+		DestroyMaterialManager();
 		DestroyPipelineManager();
 		DestroyShaderManager();
 		DestroyTextureManager();
@@ -310,6 +315,11 @@ namespace CrossEngine {
 		return m_pPipelineManager->Create();
 	}
 
+	int CVulkanDevice::CreateMaterialManager(void)
+	{
+		return m_pMaterialManager->Create();
+	}
+
 	int CVulkanDevice::CreateRenderPassManager(void)
 	{
 		return m_pRenderPassManager->Create();
@@ -375,6 +385,11 @@ namespace CrossEngine {
 	void CVulkanDevice::DestroyPipelineManager(void)
 	{
 		m_pPipelineManager->Destroy();
+	}
+
+	void CVulkanDevice::DestroyMaterialManager(void)
+	{
+		m_pMaterialManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyRenderPassManager(void)
@@ -500,6 +515,11 @@ namespace CrossEngine {
 	CGfxPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(void)
 	{
 		return m_pPipelineManager->AllocPipelineGraphics();
+	}
+
+	CGfxMaterialPtr CVulkanDevice::NewMaterial(void)
+	{
+		return m_pMaterialManager->AllocMaterial();
 	}
 
 	CGfxRenderPassPtr CVulkanDevice::NewRenderPass(void)
