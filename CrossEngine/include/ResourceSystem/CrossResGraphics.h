@@ -142,12 +142,12 @@ namespace CrossEngine {
 
 
 	protected:
+		PipelineGraphicsData m_data;
+
+	protected:
 		uint32_t m_indexSubPass;
 		CGfxRenderPassPtr m_ptrRenderPass;
 		CGfxPipelineGraphicsPtr m_ptrPipeline;
-
-	protected:
-		PipelineGraphicsData m_data;
 	};
 
 }

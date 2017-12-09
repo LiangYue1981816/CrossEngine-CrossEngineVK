@@ -67,11 +67,11 @@ namespace CrossEngine {
 		}
 
 		BOOL rcode = m_ptrTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
-
-		m_stream.Free();
-		m_texture.clear();
-		m_bIsLoaded = TRUE;
-
+		{
+			m_stream.Free();
+			m_texture.clear();
+			m_bIsLoaded = TRUE;
+		}
 		return rcode;
 	}
 

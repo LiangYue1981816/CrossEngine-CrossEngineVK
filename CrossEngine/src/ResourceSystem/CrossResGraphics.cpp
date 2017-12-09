@@ -85,10 +85,12 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
-		m_stream.Free();
-		m_bIsLoaded = TRUE;
-
-		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
+		BOOL rcode = m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
+		{
+			m_stream.Free();
+			m_bIsLoaded = TRUE;
+		}
+		return rcode;
 	}
 
 	BOOL CResGraphics::LoadData(void)

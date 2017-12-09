@@ -70,11 +70,11 @@ namespace CrossEngine {
 		}
 
 		BOOL rcode = m_ptrShader->Create(m_words.data(), m_words.size(), m_flags);
-
-		m_stream.Free();
-		m_words.clear();
-		m_bIsLoaded = TRUE;
-
+		{
+			m_stream.Free();
+			m_words.clear();
+			m_bIsLoaded = TRUE;
+		}
 		return rcode;
 	}
 
