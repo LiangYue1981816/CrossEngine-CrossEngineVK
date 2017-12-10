@@ -49,6 +49,8 @@ namespace CrossEngine {
 		static GLenum glTranslatePrimitiveTopology(VkPrimitiveTopology topology);
 		static GLenum glTranslateIndexType(VkIndexType type);
 
+		static GLsizei glGetIndexTypeSize(VkIndexType type);
+
 		static const char* glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp);
 		static const char* glAttachmentStoreOpToString(VkAttachmentStoreOp storeOp);
 	};

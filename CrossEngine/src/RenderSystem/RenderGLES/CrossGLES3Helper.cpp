@@ -250,6 +250,15 @@ namespace CrossEngine {
 		}
 	}
 
+	GLsizei CGLES3Helper::glGetIndexTypeSize(VkIndexType type)
+	{
+		switch (type) {
+		case VK_INDEX_TYPE_UINT16: return 2;
+		case VK_INDEX_TYPE_UINT32: return 4;
+		default: return 0;
+		}
+	}
+
 	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		static char szString[_MAX_STRING];
