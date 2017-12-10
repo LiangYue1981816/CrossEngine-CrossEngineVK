@@ -24,6 +24,56 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
+		: CResource(pResourceManager)
+	{
+
+	}
+
+	CResMaterial::~CResMaterial(void)
+	{
+
+	}
+
+	const CGfxMaterialPtr& CResMaterial::GetMaterial(void) const
+	{
+		return m_ptrMaterial;
+	}
+
+	RESOURCE_TYPE CResMaterial::GetType(void) const
+	{
+		return RESOURCE_TYPE_MATERIAL;
+	}
+
+	BOOL CResMaterial::Load(BOOL bSync)
+	{
+		return TRUE;
+	}
+
+	BOOL CResMaterial::PostLoad(void)
+	{
+		return TRUE;
+	}
+
+	BOOL CResMaterial::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrMaterial->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResMaterial::IsLoaded(void) const
+	{
+		return m_bIsLoaded;
+	}
+
 	/*
 	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)

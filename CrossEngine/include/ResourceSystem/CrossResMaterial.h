@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-	/*
+
 	class CROSS_EXPORT CResMaterial : public CResource
 	{
 		friend class CResMaterialManager;
@@ -37,11 +37,10 @@ namespace CrossEngine {
 
 
 	public:
-		virtual RESOURCE_TYPE GetType(void) const;
+		const CGfxMaterialPtr& GetMaterial(void) const;
 
-	protected:
-		virtual void Init(void);
-		virtual void Free(void);
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
 
 	protected:
 		virtual BOOL Load(BOOL bSync);
@@ -51,14 +50,9 @@ namespace CrossEngine {
 		virtual BOOL IsValid(void) const;
 		virtual BOOL IsLoaded(void) const;
 
-	public:
-		const CResMaterialPass* GetPass(const char *szName) const;
-		const CResMaterialPass* GetPass(uint32_t dwName) const;
-		const std::map<uint32_t, CResMaterialPass*>& GetPasses(void) const;
-
 
 	protected:
-		std::map<uint32_t, CResMaterialPass*> m_passes;
+		CGfxMaterialPtr m_ptrMaterial;
 	};
-	*/
+
 }
