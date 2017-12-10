@@ -116,10 +116,10 @@ void CreateCommandBuffer(void)
 					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
 					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetA, ptrPipeline);
-					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
+					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 0);
 
 					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetB, ptrPipeline);
-					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 1);
+					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 0);
 				}
 			}
 			ptrCommandBuffers[indexView]->CmdEndRenderPass();
