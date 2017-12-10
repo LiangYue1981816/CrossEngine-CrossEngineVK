@@ -307,7 +307,6 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResGraphicsManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterial.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterialManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterialPass.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResource.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceDefinition.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceManager.h" />
@@ -453,7 +452,6 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResGraphicsManage.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterial.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterialManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterialPass.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResource.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp" />

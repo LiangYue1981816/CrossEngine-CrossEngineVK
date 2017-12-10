@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include "CrossResCompute.h"
 #include "CrossResGraphics.h"
 #include "CrossResMaterial.h"
-#include "CrossResMaterialPass.h"
 #include "CrossResShaderManager.h"
 #include "CrossResTextureManager.h"
 #include "CrossResComputeManager.h"

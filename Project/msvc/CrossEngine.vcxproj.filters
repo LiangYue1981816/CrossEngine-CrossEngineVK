@@ -501,9 +501,6 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterialManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterialPass.h">
-      <Filter>Engine\Header Files\ResourceSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResource.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
@@ -1023,9 +1020,6 @@
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterialManager.cpp">
-      <Filter>Engine\Source Files\ResourceSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterialPass.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResource.cpp">

@@ -50,6 +50,11 @@ namespace CrossEngine {
 		virtual BOOL IsValid(void) const;
 		virtual BOOL IsLoaded(void) const;
 
+	protected:
+		BOOL LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
+		BOOL LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
+		BOOL LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
+
 
 	protected:
 		CGfxMaterialPtr m_ptrMaterial;

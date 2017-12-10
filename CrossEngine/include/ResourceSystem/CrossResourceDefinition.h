@@ -34,7 +34,6 @@ namespace CrossEngine {
 	class CROSS_EXPORT CResCompute;
 	class CROSS_EXPORT CResGraphics;
 	class CROSS_EXPORT CResMaterial;
-	class CROSS_EXPORT CResMaterialPass;
 
 	typedef CResourcePtr<CResShader> CResShaderPtr;
 	typedef CResourcePtr<CResTexture> CResTexturePtr;

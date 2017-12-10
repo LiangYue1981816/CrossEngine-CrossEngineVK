@@ -28,12 +28,12 @@ namespace CrossEngine {
 	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-
+		m_ptrMaterial = GfxDevice()->NewMaterial();
 	}
 
 	CResMaterial::~CResMaterial(void)
 	{
-
+		m_ptrMaterial.Release();
 	}
 
 	const CGfxMaterialPtr& CResMaterial::GetMaterial(void) const
@@ -48,11 +48,131 @@ namespace CrossEngine {
 
 	BOOL CResMaterial::Load(BOOL bSync)
 	{
+		if (IsLoaded()) {
+			return TRUE;
+		}
+
+		TiXmlDocument xmlDoc;
+
+		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize()) == FALSE) {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
+			do {
+				const char *szName = pPassNode->ToElement()->AttributeString("name");
+				const uint32_t dwName = HashValue(szName);
+
+				CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetPass(dwName);
+				LoadPassPipeline(ptrPass, pPassNode, bSync);
+				LoadPassTextures(ptrPass, pPassNode, bSync);
+				LoadPassUniforms(ptrPass, pPassNode, bSync);
+			} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResMaterial::LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)
+	{
+		const char *szName = pPassNode->ToElement()->AttributeString("pipeline");
+		const uint32_t dwName = HashValue(szName);
+
+		const CResGraphicsPtr &ptrGraphics = GraphicsManager()->LoadResource(dwName, bSync);
+		if (ptrGraphics.IsNull()) return FALSE;
+
+		ptrPass->SetPipeline(ptrGraphics->GetPipeline());
+
+		return TRUE;
+	}
+
+	BOOL CResMaterial::LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)
+	{
+		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
+			do {
+				const char *szName = pTextureNode->ToElement()->AttributeString("name");
+				const uint32_t dwName = HashValue(szName);
+
+				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, bSync);
+				if (ptrTexture.IsNull()) return FALSE;
+
+				ptrPass->SetTexture(dwName, ptrTexture->GetTexture());
+			} while (pTextureNode = pTextureNode->IterateChildren("Texture2D", pTextureNode));
+		}
+
+		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("TextureCube")) {
+			do {
+				const char *szName = pTextureNode->ToElement()->AttributeString("name");
+				const uint32_t dwName = HashValue(szName);
+
+				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, bSync);
+				if (ptrTexture.IsNull()) return FALSE;
+
+				ptrPass->SetTexture(dwName, ptrTexture->GetTexture());
+			} while (pTextureNode = pTextureNode->IterateChildren("TextureCube", pTextureNode));
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResMaterial::LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)
+	{
+		if (TiXmlNode *pFloatNode = pPassNode->FirstChild("Float")) {
+			do {
+				const char *szName = pFloatNode->ToElement()->AttributeString("name");
+				const char *szValue = pFloatNode->ToElement()->AttributeString("value");
+
+				const uint32_t dwName = HashValue(szName);
+				const uint32_t binding = ptrPass->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwName);
+				if (binding == -1) return FALSE;
+
+				float value;
+				scanf(szValue, "%f", &value);
+
+				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+				ptrUniform->Create(sizeof(value), &value, FALSE);
+				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(value));
+
+				ptrPass->SetUniform(dwName, ptrUniform);
+			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
+		}
+
+		if (TiXmlNode *pVectorNode = pPassNode->FirstChild("Vector")) {
+			do {
+				const char *szName = pVectorNode->ToElement()->AttributeString("name");
+				const char *szValue = pVectorNode->ToElement()->AttributeString("value");
+
+				const uint32_t dwName = HashValue(szName);
+				const uint32_t binding = ptrPass->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwName);
+				if (binding == -1) return FALSE;
+
+				glm::vec4 value;
+				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);
+
+				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+				ptrUniform->Create(sizeof(value), &value, FALSE);
+				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(value));
+
+				ptrPass->SetUniform(dwName, ptrUniform);
+			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
+		}
+
 		return TRUE;
 	}
 
 	BOOL CResMaterial::PostLoad(void)
 	{
+		if (IsLoaded()) {
+			return TRUE;
+		}
+
+		for (auto &itPass : m_ptrMaterial->GetPasses()) {
+			itPass.second->UpdateDescriptorSet(0);
+		}
+
+		m_stream.Free();
+		m_bIsLoaded = TRUE;
+
 		return TRUE;
 	}
 
@@ -74,123 +194,4 @@ namespace CrossEngine {
 		return m_bIsLoaded;
 	}
 
-	/*
-	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
-		: CResource(pResourceManager)
-	{
-
-	}
-
-	CResMaterial::~CResMaterial(void)
-	{
-
-	}
-
-	RESOURCE_TYPE CResMaterial::GetType(void) const
-	{
-		return RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL;
-	}
-
-	void CResMaterial::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResMaterial::Free(void)
-	{
-		for (auto &itPass : m_passes) {
-			SAFE_DELETE(itPass.second);
-		}
-
-		m_passes.clear();
-		CResource::Free();
-	}
-
-	BOOL CResMaterial::Load(BOOL bSync)
-	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
-		TiXmlDocument xmlDoc;
-
-		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize()) == FALSE) {
-			return FALSE;
-		}
-
-		if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
-			do {
-				const char *szName = pPassNode->ToElement()->AttributeString("name");
-				const uint32_t dwName = HashValue(szName);
-
-				if (m_passes[dwName] == NULL) {
-					m_passes[dwName] = SAFE_NEW CResMaterialPass;
-				}
-				else {
-					return FALSE;
-				}
-
-				if (m_passes[dwName]->Load(pPassNode, bSync) == FALSE) {
-					return FALSE;
-				}
-			} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResMaterial::PostLoad(void)
-	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
-		m_stream.Free();
-		m_bIsLoaded = TRUE;
-
-		for (auto &itPass : m_passes) {
-			if (itPass.second->PostLoad() == FALSE) {
-				return FALSE;
-			}
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResMaterial::IsValid(void) const
-	{
-		if (IsLoaded() == FALSE) {
-			return FALSE;
-		}
-
-		for (const auto &itPass : m_passes) {
-			if (itPass.second->IsValid() == FALSE) {
-				return FALSE;
-			}
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResMaterial::IsLoaded(void) const
-	{
-		return m_bIsLoaded;
-	}
-
-	const CResMaterialPass* CResMaterial::GetPass(const char *szName) const
-	{
-		return GetPass(HashValue(szName));
-	}
-
-	const CResMaterialPass* CResMaterial::GetPass(uint32_t dwName) const
-	{
-		const auto &itPass = m_passes.find(dwName);
-		return itPass != m_passes.end() ? itPass->second : NULL;
-	}
-
-	const std::map<uint32_t, CResMaterialPass*>& CResMaterial::GetPasses(void) const
-	{
-		return m_passes;
-	}
-	*/
 }
