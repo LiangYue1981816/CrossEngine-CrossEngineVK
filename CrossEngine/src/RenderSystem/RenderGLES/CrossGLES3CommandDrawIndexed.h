@@ -32,11 +32,12 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandDrawIndexed(VkPrimitiveTopology topology, VkIndexType indexType, uint32_t indexFirst, uint32_t indexCount, uint32_t indexOffset)
+		CGLES3CommandDrawIndexed(VkPrimitiveTopology topology, VkIndexType indexType, uint32_t indexCount, uint32_t instanceCount, uint32_t indexFirst, int32_t indexOffset)
 			: m_topology(topology)
 			, m_indexType(indexType)
-			, m_indexFirst(indexFirst)
 			, m_indexCount(indexCount)
+			, m_instanceCount(instanceCount)
+			, m_indexFirst(indexFirst)
 			, m_indexOffset(indexOffset)
 		{
 
@@ -49,15 +50,16 @@ namespace CrossEngine {
 			GLenum mode = CGLES3Helper::glTranslatePrimitiveTopology(m_topology);
 			GLenum type = CGLES3Helper::glTranslateIndexType(m_indexType);
 			GLsizei size = CGLES3Helper::glGetIndexTypeSize(m_indexType);
-			glDrawElements(mode, m_indexCount, type, (const void *)(m_indexOffset + m_indexFirst * size));
+			glDrawElementsInstanced(mode, m_indexCount, type, (const void *)(m_indexOffset + m_indexFirst * size), m_instanceCount);
 		}
 
 
 	protected:
 		VkPrimitiveTopology m_topology;
 		VkIndexType m_indexType;
-		uint32_t m_indexFirst;
 		uint32_t m_indexCount;
+		uint32_t m_instanceCount;
+		uint32_t m_indexFirst;
 		uint32_t m_indexOffset;
 	};
 
