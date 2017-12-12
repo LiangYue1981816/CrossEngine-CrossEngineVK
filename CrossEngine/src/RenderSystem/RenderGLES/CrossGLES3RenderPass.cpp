@@ -54,7 +54,7 @@ namespace CrossEngine {
 
 	void CGLES3RenderPass::Destroy(void)
 	{
-		m_attachmentClearValues.clear();
+		m_clears.clear();
 		m_attachments.clear();
 		m_subpasses.clear();
 	}
@@ -71,7 +71,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		m_attachmentClearValues[indexAttachment] = clearValue;
+		m_clears[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -88,7 +88,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		m_attachmentClearValues[indexAttachment] = clearValue;
+		m_clears[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -105,7 +105,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].storeOp = storeOp;
 		m_attachments[indexAttachment].stencilLoadOp = stencilLoadOp;
 		m_attachments[indexAttachment].stencilStoreOp = stencilStoreOp;
-		m_attachmentClearValues[indexAttachment] = clearValue;
+		m_clears[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -186,21 +186,21 @@ namespace CrossEngine {
 		return itSubpass != m_subpasses.end() ? &itSubpass->second : NULL;
 	}
 
+	uint32_t CGLES3RenderPass::GetAttachmentCount(void) const
+	{
+		return m_attachments.size();
+	}
+
 	const VkClearValue* CGLES3RenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
 	{
-		const auto &itAttachmentClearValue = m_attachmentClearValues.find(indexAttachment);
-		return itAttachmentClearValue != m_attachmentClearValues.end() ? &itAttachmentClearValue->second : NULL;
+		const auto &itClear = m_clears.find(indexAttachment);
+		return itClear != m_clears.end() ? &itClear->second : NULL;
 	}
 
 	const VkAttachmentDescription* CGLES3RenderPass::GetAttachmentDescription(uint32_t indexAttachment) const
 	{
 		const auto &itAttachment = m_attachments.find(indexAttachment);
 		return itAttachment != m_attachments.end() ? &itAttachment->second : NULL;
-	}
-
-	const std::map<uint32_t, VkAttachmentDescription>& CGLES3RenderPass::GetAttachmentDescriptions(void) const
-	{
-		return m_attachments;
 	}
 
 	void CGLES3RenderPass::DumpLog(void) const

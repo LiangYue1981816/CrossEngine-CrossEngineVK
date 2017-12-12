@@ -65,14 +65,18 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetSubpassCount(void) const;
-		std::vector<VkClearValue> GetClearValues(void) const;
+		const VkSubpassInformation* GetSubpass(uint32_t indexSubpass) const;
+
+		uint32_t GetAttachmentCount(void) const;
+		const VkClearValue* GetAttachmentClearValue(uint32_t indexAttachment) const;
+		const VkAttachmentDescription* GetAttachmentDescription(uint32_t indexAttachment) const;
 
 
 	protected:
 		VkRenderPass m_vkRenderPass;
 
 	protected:
-		std::map<uint32_t, VkClearValue> m_attachmentClearValues;
+		std::map<uint32_t, VkClearValue> m_clears;
 		std::map<uint32_t, VkAttachmentDescription> m_attachments;
 		std::map<uint32_t, VkSubpassInformation> m_subpasses;
 		std::map<uint32_t, VkSubpassDependency> m_dependencies;

@@ -58,6 +58,9 @@ namespace CrossEngine {
 
 	public:
 		virtual uint32_t GetSubpassCount(void) const = 0;
+		virtual uint32_t GetAttachmentCount(void) const = 0;
+		virtual const VkClearValue* GetAttachmentClearValue(uint32_t indexAttachment) const = 0;
+		virtual const VkAttachmentDescription* GetAttachmentDescription(uint32_t indexAttachment) const = 0;
 	};
 
 }

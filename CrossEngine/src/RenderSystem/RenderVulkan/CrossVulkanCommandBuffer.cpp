@@ -115,8 +115,17 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
 	{
-		VkRect2D renderArea = { 0, 0, ptrFrameBuffer->GetWidth(),ptrFrameBuffer->GetHeight() };
-		std::vector<VkClearValue> clearValues = ((CVulkanRenderPass *)((CGfxRenderPass *)ptrRenderPass))->GetClearValues();
+		VkRect2D renderArea = { 
+			0, 0, 
+			ptrFrameBuffer->GetWidth(),
+			ptrFrameBuffer->GetHeight()
+		};
+
+		std::vector<VkClearValue> clearValues;
+		for (uint32_t indexAttachment = 0; indexAttachment < ptrRenderPass->GetAttachmentCount(); indexAttachment++) {
+			clearValues.push_back(*ptrRenderPass->GetAttachmentClearValue(indexAttachment));
+		}
+
 		VkRenderPassBeginInfo renderPassBeginInfo = {};
 		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderPassBeginInfo.pNext = nullptr;

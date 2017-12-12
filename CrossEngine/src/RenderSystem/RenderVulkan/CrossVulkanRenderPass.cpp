@@ -160,7 +160,7 @@ namespace CrossEngine {
 			vkDestroyRenderPass(m_pDevice->GetDevice(), m_vkRenderPass, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
 
-		m_attachmentClearValues.clear();
+		m_clears.clear();
 		m_attachments.clear();
 		m_subpasses.clear();
 		m_dependencies.clear();
@@ -183,7 +183,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		m_attachments[indexAttachment].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-		m_attachmentClearValues[indexAttachment] = clearValue;
+		m_clears[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -204,7 +204,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		m_attachments[indexAttachment].finalLayout = finalLayout;
-		m_attachmentClearValues[indexAttachment] = clearValue;
+		m_clears[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -225,7 +225,7 @@ namespace CrossEngine {
 		m_attachments[indexAttachment].stencilStoreOp = stencilStoreOp;
 		m_attachments[indexAttachment].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		m_attachments[indexAttachment].finalLayout = finalLayout;
-		m_attachmentClearValues[indexAttachment] = clearValue;
+		m_clears[indexAttachment] = clearValue;
 
 		return TRUE;
 	}
@@ -324,15 +324,27 @@ namespace CrossEngine {
 		return m_subpasses.size();
 	}
 
-	std::vector<VkClearValue> CVulkanRenderPass::GetClearValues(void) const
+	const VkSubpassInformation* CVulkanRenderPass::GetSubpass(uint32_t indexSubpass) const
 	{
-		std::vector<VkClearValue> clearValues;
+		const auto &itSubpass = m_subpasses.find(indexSubpass);
+		return itSubpass != m_subpasses.end() ? &itSubpass->second : NULL;
+	}
 
-		for (const auto &itClearValues : m_attachmentClearValues) {
-			clearValues.push_back(itClearValues.second);
-		}
+	uint32_t CVulkanRenderPass::GetAttachmentCount(void) const
+	{
+		return m_attachments.size();
+	}
 
-		return clearValues;
+	const VkClearValue* CVulkanRenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
+	{
+		const auto &itClear = m_clears.find(indexAttachment);
+		return itClear != m_clears.end() ? &itClear->second : NULL;
+	}
+
+	const VkAttachmentDescription* CVulkanRenderPass::GetAttachmentDescription(uint32_t indexAttachment) const
+	{
+		const auto &itAttachment = m_attachments.find(indexAttachment);
+		return itAttachment != m_attachments.end() ? &itAttachment->second : NULL;
 	}
 
 	void CVulkanRenderPass::DumpLog(void) const

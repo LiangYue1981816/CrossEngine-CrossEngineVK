@@ -70,10 +70,8 @@ namespace CrossEngine {
 
 	BOOL CGLES3FrameBuffer::CompatibilityCheck(const CGLES3RenderPass *pRenderPass) const
 	{
-		const std::map<uint32_t, VkAttachmentDescription>& renderPassAttachments = pRenderPass->GetAttachmentDescriptions();
-
-		for (const auto &itRenderPassAttachment : renderPassAttachments) {
-			uint32_t indexAttachment = itRenderPassAttachment.first;
+		for (uint32_t indexAttachment = 0; indexAttachment < pRenderPass->GetAttachmentCount(); indexAttachment++) {
+			const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(indexAttachment);
 
 			const auto &itAttachment = m_attachments.find(indexAttachment);
 			if (itAttachment == m_attachments.end()) return FALSE;
@@ -81,7 +79,7 @@ namespace CrossEngine {
 			GLenum type;
 			GLenum internalFormat;
 			GLenum externalFormat;
-			CGLES3Helper::glTranslateFormat(itRenderPassAttachment.second.format, internalFormat, externalFormat, type);
+			CGLES3Helper::glTranslateFormat(pAttachmentDescription->format, internalFormat, externalFormat, type);
 
 			if (itAttachment->second.format != externalFormat) {
 				return FALSE;
