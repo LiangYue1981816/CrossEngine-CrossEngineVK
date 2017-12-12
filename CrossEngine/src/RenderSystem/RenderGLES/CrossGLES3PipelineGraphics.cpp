@@ -142,6 +142,8 @@ namespace CrossEngine {
 
 		m_vertexFormat = 0;
 		m_colorBlendAttachmentStates.clear();
+		m_colorBlendState.attachmentCount = 0;
+		m_colorBlendState.pAttachments = NULL;
 
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
 		SetTessellationPatchControlPoints(0);
