@@ -95,14 +95,19 @@ namespace CrossEngine {
 		glBindProgramPipeline(0);
 
 		CreateDescriptorSetLayouts();
-		CreateVertexInputAttributeDescriptions();
+		CreateVertexInputState();
+		CreateColorBlendState();
 
 		return TRUE;
 	}
 
-	BOOL CGLES3PipelineGraphics::CreateVertexInputAttributeDescriptions(void)
+	BOOL CGLES3PipelineGraphics::CreateVertexInputState(void)
 	{
 		m_vertexFormat = 0;
+
+		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull()) {
+			return FALSE;
+		}
 
 		const spirv_cross::Compiler *pShaderCompiler = m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT]->GetShaderCompiler();
 		const spirv_cross::ShaderResources shaderResources = pShaderCompiler->get_shader_resources();
@@ -113,17 +118,11 @@ namespace CrossEngine {
 			}
 		}
 
-		for (const auto &itInput : shaderResources.stage_inputs) {
-			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(itInput.name.c_str())) {
-				VkVertexInputAttributeDescription inputAttributeDescription;
-				inputAttributeDescription.binding = 0;
-				inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
-				inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
-				inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
-				m_vertexInputAttributeDescriptions[attribute] = inputAttributeDescription;
-			}
-		}
+		return TRUE;
+	}
 
+	BOOL CGLES3PipelineGraphics::CreateColorBlendState(void)
+	{
 		return TRUE;
 	}
 
