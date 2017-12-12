@@ -81,8 +81,6 @@ namespace CrossEngine {
 		const VkPipelineMultisampleStateCreateInfo& GetMultisampleState(void) const;
 		const VkPipelineDepthStencilStateCreateInfo& GetDepthStencilState(void) const;
 		const VkPipelineColorBlendStateCreateInfo& GetColorBlendState(void) const;
-		const std::map<uint32_t, VkVertexInputAttributeDescription>& GetInputAttributeDescriptions(void) const;
-		const std::map<uint32_t, VkPipelineColorBlendAttachmentState>& GetColorBlendAttachments(void) const;
 
 	public:
 		uint32_t GetVertexFormat(void) const;

@@ -368,16 +368,6 @@ namespace CrossEngine {
 		return m_colorBlendState;
 	}
 
-	const std::map<uint32_t, VkVertexInputAttributeDescription>& CGLES3PipelineGraphics::GetInputAttributeDescriptions(void) const
-	{
-		return m_vertexInputAttributeDescriptions;
-	}
-
-	const std::map<uint32_t, VkPipelineColorBlendAttachmentState>& CGLES3PipelineGraphics::GetColorBlendAttachments(void) const
-	{
-		return m_colorBlendAttachmentStates;
-	}
-
 	uint32_t CGLES3PipelineGraphics::GetVertexFormat(void) const
 	{
 		return m_vertexFormat;
