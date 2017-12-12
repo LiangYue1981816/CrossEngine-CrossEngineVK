@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGfxFrameBufferPtr AllocFrameBuffer(void);
+		CGfxFrameBufferPtr AllocFrameBuffer(uint32_t numAttachments);
 
 
 	protected:

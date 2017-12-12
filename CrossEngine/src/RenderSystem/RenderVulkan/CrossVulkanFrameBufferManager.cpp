@@ -36,9 +36,9 @@ namespace CrossEngine {
 
 	}
 
-	CGfxFrameBufferPtr CVulkanFrameBufferManager::AllocFrameBuffer(void)
+	CGfxFrameBufferPtr CVulkanFrameBufferManager::AllocFrameBuffer(uint32_t numAttachments)
 	{
-		CVulkanFrameBuffer *pFrameBuffer = SAFE_NEW CVulkanFrameBuffer(m_pDevice, this);
+		CVulkanFrameBuffer *pFrameBuffer = SAFE_NEW CVulkanFrameBuffer(m_pDevice, this, numAttachments);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pFrameBuffer] = pFrameBuffer;
