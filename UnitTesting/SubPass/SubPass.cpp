@@ -45,7 +45,7 @@ void CreateRenderer(void)
 	Renderer.ptrColorTexture->CreateColorTarget(VK_FORMAT_B8G8R8A8_UNORM, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), VK_SAMPLE_COUNT_1_BIT, VK_FILTER_NEAREST, VK_FILTER_NEAREST, VK_SAMPLER_MIPMAP_MODE_NEAREST, VK_SAMPLER_ADDRESS_MODE_REPEAT);
 
 	for (int index = 0; index < 3; index++) {
-		Renderer.ptrFrameBuffers[index] = GfxDevice()->NewFrameBuffer();
+		Renderer.ptrFrameBuffers[index] = GfxDevice()->NewFrameBuffer(Renderer.ptrRenderPass->GetAttachmentCount());
 		Renderer.ptrFrameBuffers[index]->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(index));
 		Renderer.ptrFrameBuffers[index]->SetColorAttachment(1, Renderer.ptrColorTexture);
 		Renderer.ptrFrameBuffers[index]->Create(Renderer.ptrRenderPass->GetHandle());

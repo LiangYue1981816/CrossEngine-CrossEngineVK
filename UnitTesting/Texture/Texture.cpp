@@ -39,7 +39,7 @@ void CreateFrameBuffer(void)
 	ptrDepthTexture->CreateDepthStencilTarget(VK_FORMAT_D24_UNORM_S8_UINT, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), VK_SAMPLE_COUNT_1_BIT, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_NEAREST, VK_SAMPLER_ADDRESS_MODE_REPEAT);
 
 	for (int indexView = 0; indexView < (int)GfxSwapChain()->GetImageCount(); indexView++) {
-		ptrFrameBuffers[indexView] = GfxDevice()->NewFrameBuffer();
+		ptrFrameBuffers[indexView] = GfxDevice()->NewFrameBuffer(ptrRenderPass->GetAttachmentCount());
 		ptrFrameBuffers[indexView]->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(indexView));
 		ptrFrameBuffers[indexView]->SetDepthStencilAttachment(1, ptrDepthTexture);
 		ptrFrameBuffers[indexView]->Create(ptrRenderPass->GetHandle());
