@@ -304,9 +304,9 @@ namespace CrossEngine {
 		return m_pRenderPassManager->AllocRenderPass();
 	}
 
-	CGfxFrameBufferPtr CGLES3Device::NewFrameBuffer(void)
+	CGfxFrameBufferPtr CGLES3Device::NewFrameBuffer(uint32_t numAttachments)
 	{
-		return m_pFrameBufferManager->AllocFrameBuffer();
+		return m_pFrameBufferManager->AllocFrameBuffer(numAttachments);
 	}
 
 	void CGLES3Device::SetShaderCachePath(const char *szPath)

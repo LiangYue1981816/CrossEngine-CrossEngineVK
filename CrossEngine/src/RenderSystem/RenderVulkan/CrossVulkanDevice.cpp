@@ -527,9 +527,9 @@ namespace CrossEngine {
 		return m_pRenderPassManager->AllocRenderPass();
 	}
 
-	CGfxFrameBufferPtr CVulkanDevice::NewFrameBuffer(void)
+	CGfxFrameBufferPtr CVulkanDevice::NewFrameBuffer(uint32_t numAttachments)
 	{
-		return m_pFrameBufferManager->AllocFrameBuffer();
+		return m_pFrameBufferManager->AllocFrameBuffer(numAttachments);
 	}
 
 	void CVulkanDevice::SetShaderCachePath(const char *szPath)

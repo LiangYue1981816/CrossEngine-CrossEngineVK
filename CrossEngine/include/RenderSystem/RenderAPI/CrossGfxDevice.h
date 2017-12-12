@@ -87,7 +87,7 @@ namespace CrossEngine {
 		virtual CGfxPipelineGraphicsPtr NewPipelineGraphics(void) = 0;
 		virtual CGfxMaterialPtr NewMaterial(void) = 0;
 		virtual CGfxRenderPassPtr NewRenderPass(void) = 0;
-		virtual CGfxFrameBufferPtr NewFrameBuffer(void) = 0;
+		virtual CGfxFrameBufferPtr NewFrameBuffer(uint32_t numAttachments) = 0;
 
 	public:
 		virtual void SetShaderCachePath(const char *szPath) = 0;
