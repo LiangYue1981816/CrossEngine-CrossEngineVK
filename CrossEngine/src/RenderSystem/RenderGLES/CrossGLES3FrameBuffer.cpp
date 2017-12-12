@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3FrameBuffer::CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
+	CGLES3FrameBuffer::CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments)
 		: CGfxFrameBuffer(pResourceManager)
 		, m_pDevice(pDevice)
 		, m_framebuffer(0)
@@ -34,7 +34,7 @@ namespace CrossEngine {
 		, m_width(0)
 		, m_height(0)
 	{
-
+		m_attachments.resize(numAttachments);
 	}
 
 	CGLES3FrameBuffer::~CGLES3FrameBuffer(void)
@@ -70,18 +70,19 @@ namespace CrossEngine {
 
 	BOOL CGLES3FrameBuffer::CompatibilityCheck(const CGLES3RenderPass *pRenderPass) const
 	{
+		if (m_attachments.size() != pRenderPass->GetAttachmentCount()) {
+			return FALSE;
+		}
+
 		for (uint32_t indexAttachment = 0; indexAttachment < pRenderPass->GetAttachmentCount(); indexAttachment++) {
 			const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(indexAttachment);
-
-			const auto &itAttachment = m_attachments.find(indexAttachment);
-			if (itAttachment == m_attachments.end()) return FALSE;
 
 			GLenum type;
 			GLenum internalFormat;
 			GLenum externalFormat;
 			CGLES3Helper::glTranslateFormat(pAttachmentDescription->format, internalFormat, externalFormat, type);
 
-			if (itAttachment->second.format != externalFormat) {
+			if (m_attachments[indexAttachment].format != externalFormat) {
 				return FALSE;
 			}
 		}
@@ -109,7 +110,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3FrameBuffer::SetAttachment(uint32_t indexAttachment, GLenum target, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
-		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -171,28 +172,25 @@ namespace CrossEngine {
 
 	GLuint CGLES3FrameBuffer::GetRenderTexture(uint32_t indexAttachment) const
 	{
-		const auto &itAttachment = m_attachments.find(indexAttachment);
-		return itAttachment != m_attachments.end() ? itAttachment->second.texture : 0;
+		return indexAttachment >= 0 && indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].texture : 0;
 	}
 
 	GLenum CGLES3FrameBuffer::GetRenderTextureTarget(uint32_t indexAttachment) const
 	{
-		const auto &itAttachment = m_attachments.find(indexAttachment);
-		return itAttachment != m_attachments.end() ? itAttachment->second.target : GL_INVALID_ENUM;
+		return indexAttachment >= 0 && indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].target : GL_INVALID_ENUM;
 	}
 
 	GLenum CGLES3FrameBuffer::GetRenderTextureFormat(uint32_t indexAttachment) const
 	{
-		const auto &itAttachment = m_attachments.find(indexAttachment);
-		return itAttachment != m_attachments.end() ? itAttachment->second.format : GL_INVALID_ENUM;
+		return indexAttachment >= 0 && indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].format : GL_INVALID_ENUM;
 	}
 
 	void CGLES3FrameBuffer::DumpLog(void) const
 	{
 		if (m_framebuffer) {
 			LOGI("\t\tFrameBuffer 0x%x (MSAA 0x%x): width = %d height = %d\n", m_framebuffer, m_framebufferMSAA, m_width, m_height);
-			for (const auto &itAttachment : m_attachments) {
-				LOGI("\t\t\tAttachment %d: texture = 0x%x format = %s\n", itAttachment.first, itAttachment.second.texture, CGLES3Helper::glEnumToString(itAttachment.second.format));
+			for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
+				LOGI("\t\t\tAttachment %d: texture = 0x%x format = %s\n", indexAttachment, m_attachments[indexAttachment].texture, CGLES3Helper::glEnumToString(m_attachments[indexAttachment].format));
 			}
 		}
 	}

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanFrameBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		CVulkanFrameBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments);
 		virtual ~CVulkanFrameBuffer(void);
 
 
@@ -46,7 +46,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	protected:
-		uint32_t CreateAttachments(std::vector<VkImageView> &attachments);
+		BOOL CreateAttachments(std::vector<VkImageView> &attachments);
 
 	protected:
 		BOOL SetAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView);
@@ -64,10 +64,10 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
-		VkFramebuffer m_vkFrameBuffer;
+		std::vector<VkAttachmentInformation> m_attachments;
 
 	protected:
-		std::map<uint32_t, VkAttachmentInformation> m_attachments;
+		VkFramebuffer m_vkFrameBuffer;
 
 	protected:
 		CVulkanDevice *m_pDevice;

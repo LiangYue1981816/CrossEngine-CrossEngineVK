@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
+		CGLES3FrameBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments);
 		virtual ~CGLES3FrameBuffer(void);
 
 
@@ -67,7 +67,7 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
-		std::map<uint32_t, GLAttachmentInformation> m_attachments;
+		std::vector<GLAttachmentInformation> m_attachments;
 
 	protected:
 		GLuint m_framebuffer;

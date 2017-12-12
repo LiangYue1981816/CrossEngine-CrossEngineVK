@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanFrameBuffer::CVulkanFrameBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
+	CVulkanFrameBuffer::CVulkanFrameBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments)
 		: CGfxFrameBuffer(pResourceManager)
 		, m_pDevice(pDevice)
 		, m_vkFrameBuffer(VK_NULL_HANDLE)
@@ -33,7 +33,7 @@ namespace CrossEngine {
 		, m_width(0)
 		, m_height(0)
 	{
-
+		m_attachments.resize(numAttachments);
 	}
 
 	CVulkanFrameBuffer::~CVulkanFrameBuffer(void)
@@ -55,14 +55,14 @@ namespace CrossEngine {
 	{
 		try {
 			std::vector<VkImageView> attachments;
-			uint32_t numAttachment = CreateAttachments(attachments);
+			CALL_BOOL_FUNCTION_THROW(CreateAttachments(attachments));
 
 			VkFramebufferCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 			createInfo.pNext = NULL;
 			createInfo.flags = 0;
 			createInfo.renderPass = (VkRenderPass)hRenderPass;
-			createInfo.attachmentCount = numAttachment;
+			createInfo.attachmentCount = attachments.size();
 			createInfo.pAttachments = attachments.data();
 			createInfo.width = m_width;
 			createInfo.height = m_height;
@@ -79,19 +79,15 @@ namespace CrossEngine {
 		}
 	}
 
-	uint32_t CVulkanFrameBuffer::CreateAttachments(std::vector<VkImageView> &attachments)
+	BOOL CVulkanFrameBuffer::CreateAttachments(std::vector<VkImageView> &attachments)
 	{
-		uint32_t numAttachment = 0;
-
 		attachments.clear();
-		attachments.resize(m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments);
 
-		for (const auto &itAttachment : m_attachments) {
-			numAttachment = max(numAttachment, itAttachment.first + 1);
-			attachments[itAttachment.first] = itAttachment.second.vkImageView;
+		for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
+			attachments.push_back(m_attachments[indexAttachment].vkImageView);
 		}
 
-		return numAttachment;
+		return TRUE;
 	}
 
 	void CVulkanFrameBuffer::Destroy(void)
@@ -108,7 +104,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanFrameBuffer::SetAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView)
 	{
-		if (indexAttachment >= m_pDevice->GetPhysicalDeviceLimits().maxColorAttachments) {
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -166,8 +162,8 @@ namespace CrossEngine {
 	{
 		if (m_vkFrameBuffer) {
 			LOGI("\t\tFrameBuffer 0x%x: width = %d height = %d\n", m_vkFrameBuffer, m_width, m_height);
-			for (const auto &itAttachment : m_attachments) {
-				LOGI("\t\t\tAttachment %d: view = 0x%x format = %s\n", itAttachment.first, itAttachment.second.vkImageView, CVulkanHelper::vkFormatToString(itAttachment.second.foramt));
+			for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
+				LOGI("\t\t\tAttachment %d: view = 0x%x format = %s\n", indexAttachment, m_attachments[indexAttachment].vkImageView, CVulkanHelper::vkFormatToString(m_attachments[indexAttachment].foramt));
 			}
 		}
 	}
