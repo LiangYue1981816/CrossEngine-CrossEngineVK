@@ -99,7 +99,7 @@ namespace CrossEngine {
 		VkPipelineMultisampleStateCreateInfo m_multiSampleState;
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
-		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+		std::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
 	};
 
 }

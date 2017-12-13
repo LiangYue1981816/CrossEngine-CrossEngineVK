@@ -72,6 +72,7 @@ namespace CrossEngine {
 		m_colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		m_colorBlendState.pNext = NULL;
 		m_colorBlendState.flags = 0;
+		m_colorBlendAttachmentStates.resize(numAttachments);
 
 		static VkDynamicState dynamicStates[] = {
 			VK_DYNAMIC_STATE_VIEWPORT,
@@ -112,12 +113,11 @@ namespace CrossEngine {
 			std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
 			std::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
 			std::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
-			std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
 
 			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
 			CALL_BOOL_FUNCTION_THROW(CreateShaderStages(shaderStages));
 			CALL_BOOL_FUNCTION_THROW(CreateVertexInputState(inputBindingDescriptions, inputAttributeDescriptions));
-			CALL_BOOL_FUNCTION_THROW(CreateColorBlendState(colorBlendAttachments));
+			CALL_BOOL_FUNCTION_THROW(CreateColorBlendState());
 
 			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
 			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -212,17 +212,10 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::CreateColorBlendState(std::vector<VkPipelineColorBlendAttachmentState> &colorBlendAttachments)
+	BOOL CVulkanPipelineGraphics::CreateColorBlendState(void)
 	{
-		colorBlendAttachments.clear();
-
-		for (const auto &itColorBlendAttachment : m_colorBlendAttachmentStates) {
-			colorBlendAttachments.push_back(itColorBlendAttachment.second);
-		}
-
-		m_colorBlendState.attachmentCount = colorBlendAttachments.size();
-		m_colorBlendState.pAttachments = colorBlendAttachments.data();
-
+		m_colorBlendState.attachmentCount = m_colorBlendAttachmentStates.size();
+		m_colorBlendState.pAttachments = m_colorBlendAttachmentStates.data();
 		return TRUE;
 	}
 
@@ -241,7 +234,6 @@ namespace CrossEngine {
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
-		m_colorBlendAttachmentStates.clear();
 		m_colorBlendState.attachmentCount = 0;
 		m_colorBlendState.pAttachments = NULL;
 
@@ -473,6 +465,10 @@ namespace CrossEngine {
 
 	BOOL CVulkanPipelineGraphics::SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
 	{
+		if (attachment < 0 || attachment >= m_colorBlendAttachmentStates.size()) {
+			return FALSE;
+		}
+
 		m_colorBlendAttachmentStates[attachment].blendEnable = blendEnable;
 		m_colorBlendAttachmentStates[attachment].srcColorBlendFactor = srcColorBlendFactor;
 		m_colorBlendAttachmentStates[attachment].dstColorBlendFactor = dstColorBlendFactor;

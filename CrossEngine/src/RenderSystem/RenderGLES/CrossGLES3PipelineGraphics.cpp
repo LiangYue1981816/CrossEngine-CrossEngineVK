@@ -60,6 +60,7 @@ namespace CrossEngine {
 		m_colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		m_colorBlendState.pNext = NULL;
 		m_colorBlendState.flags = 0;
+		m_colorBlendAttachmentStates.resize(numAttachments);
 
 		SetDefault();
 	}
@@ -123,6 +124,8 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::CreateColorBlendState(void)
 	{
+		m_colorBlendState.attachmentCount = m_colorBlendAttachmentStates.size();
+		m_colorBlendState.pAttachments = m_colorBlendAttachmentStates.data();
 		return TRUE;
 	}
 
@@ -141,7 +144,6 @@ namespace CrossEngine {
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
-		m_colorBlendAttachmentStates.clear();
 		m_colorBlendState.attachmentCount = 0;
 		m_colorBlendState.pAttachments = NULL;
 
@@ -327,6 +329,10 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
 	{
+		if (attachment < 0 || attachment >= m_colorBlendAttachmentStates.size()) {
+			return FALSE;
+		}
+
 		m_colorBlendAttachmentStates[attachment].blendEnable = blendEnable;
 		m_colorBlendAttachmentStates[attachment].srcColorBlendFactor = srcColorBlendFactor;
 		m_colorBlendAttachmentStates[attachment].dstColorBlendFactor = dstColorBlendFactor;
