@@ -46,9 +46,9 @@ namespace CrossEngine {
 		return CGfxPipelineComputePtr(pPipelineCompute);
 	}
 
-	CGfxPipelineGraphicsPtr CGLES3PipelineManager::AllocPipelineGraphics(uint32_t numAttachments)
+	CGfxPipelineGraphicsPtr CGLES3PipelineManager::AllocPipelineGraphics(void)
 	{
-		CGLES3PipelineGraphics *pPipelineGraphics = SAFE_NEW CGLES3PipelineGraphics(m_pDevice, this, numAttachments);
+		CGLES3PipelineGraphics *pPipelineGraphics = SAFE_NEW CGLES3PipelineGraphics(m_pDevice, this);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pPipelineGraphics] = pPipelineGraphics;

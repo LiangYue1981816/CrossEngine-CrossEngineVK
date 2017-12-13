@@ -98,7 +98,6 @@ namespace CrossEngine {
 
 		m_width = 0;
 		m_height = 0;
-		m_attachments.clear();
 		m_vkFrameBuffer = VK_NULL_HANDLE;
 	}
 

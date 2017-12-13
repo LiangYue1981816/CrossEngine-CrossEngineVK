@@ -29,7 +29,7 @@ namespace CrossEngine {
 		: CResource(pResourceManager)
 		, m_indexSubPass(0)
 	{
-
+		m_ptrPipeline = GfxDevice()->NewPipelineGraphics();
 	}
 
 	CResGraphics::~CResGraphics(void)
@@ -72,8 +72,6 @@ namespace CrossEngine {
 
 		BOOL rcode = TRUE;
 		{
-			m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetAttachmentCount());
-
 			if (rcode) rcode = LoadShaders();
 			if (rcode) rcode = LoadSubPassIndex();
 			if (rcode) rcode = LoadInputAssemblyState();

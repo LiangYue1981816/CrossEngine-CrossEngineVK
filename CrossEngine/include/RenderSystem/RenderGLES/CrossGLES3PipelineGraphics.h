@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments);
+		CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CGLES3PipelineGraphics(void);
 
 
@@ -100,6 +100,7 @@ namespace CrossEngine {
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
 		std::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStateMap;
 	};
 
 }

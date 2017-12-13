@@ -32,7 +32,7 @@ namespace CrossEngine {
 		, m_mipmapMode(mipmapMode)
 		, m_addressMode(addressMode)
 	{
-
+		m_ptrTexture = GfxDevice()->NewTexture();
 	}
 
 	CResTexture::~CResTexture(void)
@@ -57,11 +57,7 @@ namespace CrossEngine {
 		}
 
 		m_texture = (gli::texture2d)gli::load((const char *)m_stream.GetAddress(), m_stream.GetFullSize());
-		if (m_texture.empty()) return FALSE;
-
-		m_ptrTexture = GfxDevice()->NewTexture();
-
-		return TRUE;
+		return m_texture.empty() ? FALSE : TRUE;
 	}
 
 	BOOL CResTexture::PostLoad(void)

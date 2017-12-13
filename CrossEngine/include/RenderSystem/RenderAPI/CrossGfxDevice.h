@@ -84,7 +84,7 @@ namespace CrossEngine {
 		virtual CGfxRenderTexturePtr NewRenderTexture(void) = 0;
 		virtual CGfxShaderPtr NewShader(void) = 0;
 		virtual CGfxPipelineComputePtr NewPipelineCompute(void) = 0;
-		virtual CGfxPipelineGraphicsPtr NewPipelineGraphics(uint32_t numAttachments) = 0;
+		virtual CGfxPipelineGraphicsPtr NewPipelineGraphics(void) = 0;
 		virtual CGfxMaterialPtr NewMaterial(void) = 0;
 		virtual CGfxRenderPassPtr NewRenderPass(void) = 0;
 		virtual CGfxFrameBufferPtr NewFrameBuffer(uint32_t numAttachments) = 0;

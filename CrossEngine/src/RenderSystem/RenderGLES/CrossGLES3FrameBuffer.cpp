@@ -105,7 +105,6 @@ namespace CrossEngine {
 
 		m_width = 0;
 		m_height = 0;
-		m_attachments.clear();
 	}
 
 	BOOL CGLES3FrameBuffer::SetAttachment(uint32_t indexAttachment, GLenum target, GLenum format, uint32_t width, uint32_t height, HANDLE hImageView)

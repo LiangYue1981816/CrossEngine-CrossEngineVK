@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-
+		m_ptrMaterial = GfxDevice()->NewMaterial();
 	}
 
 	CResMaterial::~CResMaterial(void)
@@ -55,8 +55,6 @@ namespace CrossEngine {
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
-				m_ptrMaterial = GfxDevice()->NewMaterial();
-
 				do {
 					const char *szName = pPassNode->ToElement()->AttributeString("name");
 					const uint32_t dwName = HashValue(szName);

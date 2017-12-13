@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments);
+		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
 		virtual ~CVulkanPipelineGraphics(void);
 
 
@@ -96,6 +96,7 @@ namespace CrossEngine {
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
 		VkPipelineDynamicStateCreateInfo m_dynamicState;
 		std::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStateMap;
 	};
 
 }

@@ -512,9 +512,9 @@ namespace CrossEngine {
 		return m_pPipelineManager->AllocPipelineCompute();
 	}
 
-	CGfxPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(uint32_t numAttachments)
+	CGfxPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(void)
 	{
-		return m_pPipelineManager->AllocPipelineGraphics(numAttachments);
+		return m_pPipelineManager->AllocPipelineGraphics();
 	}
 
 	CGfxMaterialPtr CVulkanDevice::NewMaterial(void)

@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CResCompute::CResCompute(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-
+		m_ptrPipeline = GfxDevice()->NewPipelineCompute();
 	}
 
 	CResCompute::~CResCompute(void)
