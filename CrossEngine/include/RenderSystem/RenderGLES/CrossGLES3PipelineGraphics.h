@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
+		CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments);
 		virtual ~CGLES3PipelineGraphics(void);
 
 

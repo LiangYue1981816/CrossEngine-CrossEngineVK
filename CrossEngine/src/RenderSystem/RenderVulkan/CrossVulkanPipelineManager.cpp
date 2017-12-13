@@ -73,7 +73,7 @@ namespace CrossEngine {
 
 	CGfxPipelineGraphicsPtr CVulkanPipelineManager::AllocPipelineGraphics(uint32_t numAttachments)
 	{
-		CVulkanPipelineGraphics *pPipelineGraphics = SAFE_NEW CVulkanPipelineGraphics(m_pDevice, this);
+		CVulkanPipelineGraphics *pPipelineGraphics = SAFE_NEW CVulkanPipelineGraphics(m_pDevice, this, numAttachments);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pPipelineGraphics] = pPipelineGraphics;

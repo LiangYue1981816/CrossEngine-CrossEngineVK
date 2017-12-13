@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3PipelineGraphics::CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
+	CGLES3PipelineGraphics::CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments)
 		: CGLES3Pipeline(pDevice)
 		, CGfxPipelineGraphics(pResourceManager)
 		, m_vertexFormat(0)

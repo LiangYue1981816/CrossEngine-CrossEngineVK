@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanPipelineGraphics::CVulkanPipelineGraphics(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
+	CVulkanPipelineGraphics::CVulkanPipelineGraphics(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments)
 		: CVulkanPipeline(pDevice)
 		, CGfxPipelineGraphics(pResourceManager)
 		, m_vertexFormat(0)

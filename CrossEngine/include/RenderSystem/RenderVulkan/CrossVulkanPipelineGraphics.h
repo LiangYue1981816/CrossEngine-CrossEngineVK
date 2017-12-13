@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		CVulkanPipelineGraphics(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments);
 		virtual ~CVulkanPipelineGraphics(void);
 
 
