@@ -67,13 +67,15 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_indexSubPass = m_data.renderPass.indexSubPass;
 		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
-		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetAttachmentCount());
+		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) return FALSE;
 
 		BOOL rcode = TRUE;
 		{
+			m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetAttachmentCount());
+
 			if (rcode) rcode = LoadShaders();
+			if (rcode) rcode = LoadSubPassIndex();
 			if (rcode) rcode = LoadInputAssemblyState();
 			if (rcode) rcode = LoadTessellationState();
 			if (rcode) rcode = LoadRasterizationState();
@@ -132,6 +134,12 @@ namespace CrossEngine {
 		m_ptrPipeline->SetVertexShader(ptrResVertexShader->GetShader());
 		m_ptrPipeline->SetFragmentShader(ptrResFragmentShader->GetShader());
 
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadSubPassIndex(void)
+	{
+		m_indexSubPass = m_data.renderPass.indexSubPass;
 		return TRUE;
 	}
 
