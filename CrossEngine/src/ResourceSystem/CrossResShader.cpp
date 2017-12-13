@@ -60,12 +60,11 @@ namespace CrossEngine {
 		else if (!stricmp(szExt, ".comp")) m_flags = VK_SHADER_STAGE_COMPUTE_BIT;
 		else return FALSE;
 
-		if (GfxDevice()->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags, m_words) == FALSE) {
+		if (GfxDevice()->PrecompileShader((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags, m_words) == FALSE) {
 			return FALSE;
 		}
 
 		m_ptrShader = GfxDevice()->NewShader();
-
 		return TRUE;
 	}
 

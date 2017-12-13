@@ -139,7 +139,7 @@ namespace CrossEngine {
 		void AddShaderIncludePath(const char *szPath);
 		void AddShaderMacroDefinition(const char *szName);
 		void AddShaderMacroDefinition(const char *szName, const char *szValue);
-		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words);
+		BOOL PrecompileShader(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words);
 
 	public:
 		int WaitIdle(void) const;

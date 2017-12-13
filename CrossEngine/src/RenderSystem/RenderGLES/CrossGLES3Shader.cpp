@@ -69,7 +69,11 @@ namespace CrossEngine {
 	BOOL CGLES3Shader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		std::vector<uint32_t> words;
-		((CGLES3ShaderManager *)m_pResourceManager)->Precompile(szSource, length, flags, words);
+
+		if (((CGLES3ShaderManager *)m_pResourceManager)->Precompile(szSource, length, flags, words) == FALSE) {
+			return FALSE;
+		}
+
 		return Create(words.data(), words.size(), flags);
 	}
 

@@ -57,7 +57,11 @@ namespace CrossEngine {
 	BOOL CVulkanShader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		std::vector<uint32_t> words;
-		((CVulkanShaderManager *)m_pResourceManager)->Precompile(szSource, length, flags, words);
+
+		if (((CVulkanShaderManager *)m_pResourceManager)->Precompile(szSource, length, flags, words) == FALSE) {
+			return FALSE;
+		}
+
 		return Create(words.data(), words.size(), flags);
 	}
 
