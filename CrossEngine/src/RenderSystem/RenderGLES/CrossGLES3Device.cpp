@@ -289,9 +289,9 @@ namespace CrossEngine {
 		return m_pPipelineManager->AllocPipelineCompute();
 	}
 
-	CGfxPipelineGraphicsPtr CGLES3Device::NewPipelineGraphics(void)
+	CGfxPipelineGraphicsPtr CGLES3Device::NewPipelineGraphics(uint32_t numAttachments)
 	{
-		return m_pPipelineManager->AllocPipelineGraphics();
+		return m_pPipelineManager->AllocPipelineGraphics(numAttachments);
 	}
 
 	CGfxMaterialPtr CGLES3Device::NewMaterial(void)

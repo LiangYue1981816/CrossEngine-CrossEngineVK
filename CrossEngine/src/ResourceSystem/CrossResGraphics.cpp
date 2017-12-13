@@ -29,13 +29,12 @@ namespace CrossEngine {
 		: CResource(pResourceManager)
 		, m_indexSubPass(0)
 	{
-		m_ptrPipeline = GfxDevice()->NewPipelineGraphics();
+
 	}
 
 	CResGraphics::~CResGraphics(void)
 	{
-		m_ptrPipeline.Release();
-		m_ptrRenderPass.Release();
+
 	}
 
 	const uint32_t CResGraphics::GetIndexSubPass(void) const
@@ -64,18 +63,24 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
+		if (LoadData() == FALSE) {
+			return FALSE;
+		}
+
+		m_indexSubPass = m_data.renderPass.indexSubPass;
+		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
+		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetAttachmentCount());
+
 		BOOL rcode = TRUE;
-
-		if (rcode) rcode = LoadData();
-		if (rcode) rcode = LoadShaders();
-		if (rcode) rcode = LoadRenderPass();
-		if (rcode) rcode = LoadInputAssemblyState();
-		if (rcode) rcode = LoadTessellationState();
-		if (rcode) rcode = LoadRasterizationState();
-		if (rcode) rcode = LoadMultisampleState();
-		if (rcode) rcode = LoadDepthStencilState();
-		if (rcode) rcode = LoadColorBlendState();
-
+		{
+			if (rcode) rcode = LoadShaders();
+			if (rcode) rcode = LoadInputAssemblyState();
+			if (rcode) rcode = LoadTessellationState();
+			if (rcode) rcode = LoadRasterizationState();
+			if (rcode) rcode = LoadMultisampleState();
+			if (rcode) rcode = LoadDepthStencilState();
+			if (rcode) rcode = LoadColorBlendState();
+		}
 		return rcode;
 	}
 
@@ -126,15 +131,6 @@ namespace CrossEngine {
 
 		m_ptrPipeline->SetVertexShader(ptrResVertexShader->GetShader());
 		m_ptrPipeline->SetFragmentShader(ptrResFragmentShader->GetShader());
-
-		return TRUE;
-	}
-
-	BOOL CResGraphics::LoadRenderPass(void)
-	{
-		m_indexSubPass = m_data.renderPass.indexSubPass;
-		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
-		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) return FALSE;
 
 		return TRUE;
 	}

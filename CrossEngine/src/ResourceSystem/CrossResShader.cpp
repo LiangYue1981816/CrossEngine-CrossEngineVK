@@ -28,12 +28,12 @@ namespace CrossEngine {
 	CResShader::CResShader(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrShader = GfxDevice()->NewShader();
+
 	}
 
 	CResShader::~CResShader(void)
 	{
-		m_ptrShader.Release();
+
 	}
 
 	const CGfxShaderPtr& CResShader::GetShader(void) const
@@ -60,6 +60,7 @@ namespace CrossEngine {
 		else if (!stricmp(szExt, ".comp")) m_flags = VK_SHADER_STAGE_COMPUTE_BIT;
 		else return FALSE;
 
+		m_ptrShader = GfxDevice()->NewShader();
 		return m_ptrShader->Precompile((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags, m_words);
 	}
 

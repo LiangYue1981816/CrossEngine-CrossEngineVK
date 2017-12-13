@@ -32,12 +32,12 @@ namespace CrossEngine {
 		, m_mipmapMode(mipmapMode)
 		, m_addressMode(addressMode)
 	{
-		m_ptrTexture = GfxDevice()->NewTexture();
+
 	}
 
 	CResTexture::~CResTexture(void)
 	{
-		m_ptrTexture.Release();
+
 	}
 
 	const CGfxTexturePtr& CResTexture::GetTexture(void) const
@@ -66,6 +66,7 @@ namespace CrossEngine {
 			return TRUE;
 		}
 
+		m_ptrTexture = GfxDevice()->NewTexture();
 		BOOL rcode = m_ptrTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		{
 			m_stream.Free();

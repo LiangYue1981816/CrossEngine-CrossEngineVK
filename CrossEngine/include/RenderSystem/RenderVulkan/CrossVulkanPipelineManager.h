@@ -44,7 +44,7 @@ namespace CrossEngine {
 
 	protected:
 		CGfxPipelineComputePtr AllocPipelineCompute(void);
-		CGfxPipelineGraphicsPtr AllocPipelineGraphics(void);
+		CGfxPipelineGraphicsPtr AllocPipelineGraphics(uint32_t numAttachments);
 
 	protected:
 		VkPipelineCache GetPipelineCache(void) const;

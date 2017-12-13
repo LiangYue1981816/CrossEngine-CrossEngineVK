@@ -28,12 +28,12 @@ namespace CrossEngine {
 	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrMaterial = GfxDevice()->NewMaterial();
+
 	}
 
 	CResMaterial::~CResMaterial(void)
 	{
-		m_ptrMaterial.Release();
+
 	}
 
 	const CGfxMaterialPtr& CResMaterial::GetMaterial(void) const
@@ -53,24 +53,25 @@ namespace CrossEngine {
 		}
 
 		TiXmlDocument xmlDoc;
+		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
+			if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
+				m_ptrMaterial = GfxDevice()->NewMaterial();
 
-		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize()) == FALSE) {
-			return FALSE;
+				do {
+					const char *szName = pPassNode->ToElement()->AttributeString("name");
+					const uint32_t dwName = HashValue(szName);
+
+					CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetPass(dwName);
+					LoadPassPipeline(ptrPass, pPassNode, bSync);
+					LoadPassTextures(ptrPass, pPassNode, bSync);
+					LoadPassUniforms(ptrPass, pPassNode, bSync);
+				} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
+
+				return TRUE;
+			}
 		}
 
-		if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
-			do {
-				const char *szName = pPassNode->ToElement()->AttributeString("name");
-				const uint32_t dwName = HashValue(szName);
-
-				CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetPass(dwName);
-				LoadPassPipeline(ptrPass, pPassNode, bSync);
-				LoadPassTextures(ptrPass, pPassNode, bSync);
-				LoadPassUniforms(ptrPass, pPassNode, bSync);
-			} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
-		}
-
-		return TRUE;
+		return FALSE;
 	}
 
 	BOOL CResMaterial::LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)

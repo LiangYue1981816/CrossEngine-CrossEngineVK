@@ -67,7 +67,7 @@ void CreateMesh(void)
 	Mesh.ptrShaderVertex = ShaderManager()->LoadResource("texture.vert", TRUE);
 	Mesh.ptrShaderFragment = ShaderManager()->LoadResource("texture.frag", TRUE);
 
-	Mesh.ptrGraphics = GfxDevice()->NewPipelineGraphics();
+	Mesh.ptrGraphics = GfxDevice()->NewPipelineGraphics(Renderer.ptrRenderPass->GetAttachmentCount());
 	Mesh.ptrGraphics->SetVertexShader(Mesh.ptrShaderVertex->GetShader());
 	Mesh.ptrGraphics->SetFragmentShader(Mesh.ptrShaderFragment->GetShader());
 	Mesh.ptrGraphics->SetDepthTest(FALSE, FALSE, VK_COMPARE_OP_ALWAYS);
@@ -122,7 +122,7 @@ void CreateScreen(void)
 	Screen.ptrShaderVertex = ShaderManager()->LoadResource("composition.vert", TRUE);
 	Screen.ptrShaderFragment = ShaderManager()->LoadResource("composition.frag", TRUE);
 
-	Screen.ptrGraphics = GfxDevice()->NewPipelineGraphics();
+	Screen.ptrGraphics = GfxDevice()->NewPipelineGraphics(Renderer.ptrRenderPass->GetAttachmentCount());
 	Screen.ptrGraphics->SetVertexShader(Screen.ptrShaderVertex->GetShader());
 	Screen.ptrGraphics->SetFragmentShader(Screen.ptrShaderFragment->GetShader());
 	Screen.ptrGraphics->SetDepthTest(FALSE, FALSE, VK_COMPARE_OP_ALWAYS);
