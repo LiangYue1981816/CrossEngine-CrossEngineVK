@@ -25,65 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static BOOL SaveShaderBinary(const char *szFileName, const std::vector<uint32_t> &words)
-	{
-		FILE *pFile = fopen(szFileName, "wb");
-		if (pFile == NULL) return FALSE;
-
-		uint32_t dwHashValue = HashValue((uint8_t *)words.data(), sizeof(uint32_t) * words.size());
-
-		fwrite(&dwHashValue, sizeof(dwHashValue), 1, pFile);
-		fwrite(words.data(), sizeof(uint32_t), words.size(), pFile);
-		fclose(pFile);
-
-		return TRUE;
-	}
-
-	static BOOL LoadShaderBinary(const char *szFileName, std::vector<uint32_t> &words)
-	{
-		FILE *pFile = fopen(szFileName, "rb");
-		if (pFile == NULL) return FALSE;
-
-		uint32_t dwHashValue;
-
-		words.clear();
-		words.resize((fsize(pFile) - sizeof(dwHashValue)) / sizeof(uint32_t));
-
-		fread(&dwHashValue, sizeof(dwHashValue), 1, pFile);
-		fread(words.data(), sizeof(uint32_t), words.size(), pFile);
-		fclose(pFile);
-
-		return HashValue((uint8_t *)words.data(), sizeof(uint32_t) * words.size()) == dwHashValue ? TRUE : FALSE;
-	}
-
-	static shaderc_shader_kind GetShaderKind(VkShaderStageFlagBits flags)
-	{
-		switch (flags) {
-		case VK_SHADER_STAGE_VERTEX_BIT: return shaderc_glsl_default_vertex_shader;
-		case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT: return shaderc_glsl_default_tess_control_shader;
-		case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: return shaderc_glsl_default_tess_evaluation_shader;
-		case VK_SHADER_STAGE_GEOMETRY_BIT: return shaderc_glsl_default_geometry_shader;
-		case VK_SHADER_STAGE_FRAGMENT_BIT: return shaderc_glsl_default_fragment_shader;
-		case VK_SHADER_STAGE_COMPUTE_BIT: return shaderc_glsl_default_compute_shader;
-		}
-
-		return shaderc_glsl_infer_from_source;
-	}
-
-	static BOOL CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::Compiler &compiler, const shaderc::CompileOptions &options, std::vector<uint32_t> &words)
-	{
-		shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, length, kind, "SPIR-V Compiler", options);
-
-		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
-			LOGW(module.GetErrorMessage().c_str());
-			return FALSE;
-		}
-
-		words = { module.cbegin(), module.cend() };
-		return TRUE;
-	}
-
-
 	CVulkanShader::CVulkanShader(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
 		: CGfxShader(pResourceManager)
 		, m_pDevice(pDevice)
@@ -113,27 +54,10 @@ namespace CrossEngine {
 		return m_pShaderCompiler;
 	}
 
-	BOOL CVulkanShader::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words)
-	{
-		char szFileName[_MAX_STRING];
-		sprintf(szFileName, "%s/%x", ((CVulkanShaderManager *)m_pResourceManager)->GetCachePath(), HashValue((const uint8_t *)szSource, length));
-
-		if (LoadShaderBinary(szFileName, words) == FALSE) {
-			if (CompileShader(szSource, length, GetShaderKind(flags), ((CVulkanShaderManager *)m_pResourceManager)->GetCompiler(), ((CVulkanShaderManager *)m_pResourceManager)->GetCompileOptions(), words) == FALSE) {
-				return FALSE;
-			}
-
-			SaveShaderBinary(szFileName, words);
-		}
-
-		return TRUE;
-	}
-
 	BOOL CVulkanShader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
 		std::vector<uint32_t> words;
-		Precompile(szSource, length, flags, words);
-
+		((CVulkanShaderManager *)m_pResourceManager)->Precompile(szSource, length, flags, words);
 		return Create(words.data(), words.size(), flags);
 	}
 

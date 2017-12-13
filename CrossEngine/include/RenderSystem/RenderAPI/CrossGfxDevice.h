@@ -94,6 +94,7 @@ namespace CrossEngine {
 		virtual void AddShaderIncludePath(const char *szPath) = 0;
 		virtual void AddShaderMacroDefinition(const char *szName) = 0;
 		virtual void AddShaderMacroDefinition(const char *szName, const char *szValue) = 0;
+		virtual BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words) = 0;
 
 	public:
 		virtual int WaitIdle(void) const = 0;

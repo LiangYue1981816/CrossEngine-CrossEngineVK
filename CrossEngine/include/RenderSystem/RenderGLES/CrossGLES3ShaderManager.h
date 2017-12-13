@@ -49,7 +49,7 @@ namespace CrossEngine {
 		void AddIncludePath(const char *szPath);
 		void AddMacroDefinition(const char *szName);
 		void AddMacroDefinition(const char *szName, const char *szValue);
-		const std::vector<std::string>& GetMacroDefinitions(void) const;
+		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words);
 
 
 	protected:

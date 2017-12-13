@@ -329,6 +329,11 @@ namespace CrossEngine {
 		m_pShaderManager->AddMacroDefinition(szName, szValue);
 	}
 
+	BOOL CGLES3Device::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words)
+	{
+		return m_pShaderManager->Precompile(szSource, length, flags, words);
+	}
+
 	int CGLES3Device::WaitIdle(void) const
 	{
 		glFinish();
