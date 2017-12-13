@@ -65,6 +65,7 @@ namespace CrossEngine {
 		}
 
 		m_ptrShader = GfxDevice()->NewShader();
+
 		return TRUE;
 	}
 

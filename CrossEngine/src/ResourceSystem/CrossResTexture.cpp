@@ -60,6 +60,7 @@ namespace CrossEngine {
 		if (m_texture.empty()) return FALSE;
 
 		m_ptrTexture = GfxDevice()->NewTexture();
+
 		return TRUE;
 	}
 
