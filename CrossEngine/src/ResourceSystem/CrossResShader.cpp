@@ -56,12 +56,8 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResShader::Load(BOOL bSync)
+	BOOL CResShader::InternalLoad(BOOL bSync)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		char szExt[_MAX_EXT];
 		splitfilename(m_stream.GetName(), NULL, szExt);
 
@@ -73,12 +69,8 @@ namespace CrossEngine {
 		return GfxDevice()->PrecompileShader((const char *)m_stream.GetAddress(), m_stream.GetFullSize(), m_flags, m_words);
 	}
 
-	BOOL CResShader::PostLoad(void)
+	BOOL CResShader::InternalPostLoad(void)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		BOOL rcode = m_ptrShader->Create(m_words.data(), m_words.size(), m_flags);
 		{
 			m_stream.Free();

@@ -56,23 +56,15 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResCompute::Load(BOOL bSync)
+	BOOL CResCompute::InternalLoad(BOOL bSync)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		// ...
 
 		return TRUE;
 	}
 
-	BOOL CResCompute::PostLoad(void)
+	BOOL CResCompute::InternalPostLoad(void)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		m_stream.Free();
 		m_bIsLoaded = TRUE;
 

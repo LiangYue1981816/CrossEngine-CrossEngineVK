@@ -56,12 +56,8 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResMaterial::Load(BOOL bSync)
+	BOOL CResMaterial::InternalLoad(BOOL bSync)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
@@ -169,12 +165,8 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResMaterial::PostLoad(void)
+	BOOL CResMaterial::InternalPostLoad(void)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		for (auto &itPass : m_ptrMaterial->GetPasses()) {
 			itPass.second->UpdateDescriptorSet(0);
 		}

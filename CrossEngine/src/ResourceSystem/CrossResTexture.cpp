@@ -60,22 +60,14 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResTexture::Load(BOOL bSync)
+	BOOL CResTexture::InternalLoad(BOOL bSync)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		m_texture = (gli::texture2d)gli::load((const char *)m_stream.GetAddress(), m_stream.GetFullSize());
 		return m_texture.empty() ? FALSE : TRUE;
 	}
 
-	BOOL CResTexture::PostLoad(void)
+	BOOL CResTexture::InternalPostLoad(void)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		BOOL rcode = m_ptrTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		{
 			m_stream.Free();

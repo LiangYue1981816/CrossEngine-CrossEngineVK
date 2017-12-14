@@ -67,12 +67,8 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResGraphics::Load(BOOL bSync)
+	BOOL CResGraphics::InternalLoad(BOOL bSync)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		if (LoadData() == FALSE) {
 			return FALSE;
 		}
@@ -94,12 +90,8 @@ namespace CrossEngine {
 		return rcode;
 	}
 
-	BOOL CResGraphics::PostLoad(void)
+	BOOL CResGraphics::InternalPostLoad(void)
 	{
-		if (IsLoaded()) {
-			return TRUE;
-		}
-
 		BOOL rcode = m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
 		{
 			m_stream.Free();

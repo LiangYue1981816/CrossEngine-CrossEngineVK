@@ -69,9 +69,10 @@ namespace CrossEngine {
 		virtual BOOL LoadFromFile(const char *szFileName, BOOL bSync);
 		virtual BOOL LoadFromPack(const char *szPackName, const char *szFileName, BOOL bSync);
 		virtual BOOL LoadFromPack(ZZIP_DIR *pPack, const char *szFileName, BOOL bSync);
+		virtual BOOL PostLoad(void);
 
-		virtual BOOL Load(BOOL bSync) = 0;
-		virtual BOOL PostLoad(void) = 0;
+		virtual BOOL InternalLoad(BOOL bSync) = 0;
+		virtual BOOL InternalPostLoad(void) = 0;
 
 	public:
 		virtual BOOL IsValid(void) const = 0;

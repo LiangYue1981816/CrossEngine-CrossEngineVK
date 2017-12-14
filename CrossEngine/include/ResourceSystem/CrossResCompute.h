@@ -47,8 +47,8 @@ namespace CrossEngine {
 		virtual void Free(void);
 
 	protected:
-		virtual BOOL Load(BOOL bSync);
-		virtual BOOL PostLoad(void);
+		virtual BOOL InternalLoad(BOOL bSync);
+		virtual BOOL InternalPostLoad(void);
 
 	public:
 		virtual BOOL IsValid(void) const;
