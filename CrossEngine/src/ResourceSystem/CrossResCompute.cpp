@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CResCompute::CResCompute(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrPipeline = GfxDevice()->NewPipelineCompute();
+
 	}
 
 	CResCompute::~CResCompute(void)
@@ -52,7 +52,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrPipeline->GetHandle() == NULL) {
+		if (m_ptrPipeline.IsNull() || m_ptrPipeline->GetHandle() == NULL) {
 			return FALSE;
 		}
 
@@ -66,6 +66,7 @@ namespace CrossEngine {
 
 	void CResCompute::Free(void)
 	{
+		m_ptrPipeline.Release();
 		CResource::Free();
 	}
 

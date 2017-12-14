@@ -29,7 +29,7 @@ namespace CrossEngine {
 		: CResource(pResourceManager)
 		, m_indexSubPass(0)
 	{
-		m_ptrPipeline = GfxDevice()->NewPipelineGraphics();
+
 	}
 
 	CResGraphics::~CResGraphics(void)
@@ -53,7 +53,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrPipeline->GetHandle() == NULL) {
+		if (m_ptrPipeline.IsNull() || m_ptrPipeline->GetHandle() == NULL) {
 			return FALSE;
 		}
 
@@ -67,39 +67,33 @@ namespace CrossEngine {
 
 	void CResGraphics::Free(void)
 	{
+		m_ptrPipeline.Release();
+		m_ptrRenderPass.Release();
+
 		CResource::Free();
 	}
 
 	BOOL CResGraphics::InternalLoad(BOOL bSync)
 	{
-		if (LoadData() == FALSE) {
-			return FALSE;
-		}
-
-		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
-		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) return FALSE;
-
-		BOOL rcode = TRUE;
-		{
-			if (rcode) rcode = LoadShaders();
-			if (rcode) rcode = LoadSubPassIndex();
-			if (rcode) rcode = LoadInputAssemblyState();
-			if (rcode) rcode = LoadTessellationState();
-			if (rcode) rcode = LoadRasterizationState();
-			if (rcode) rcode = LoadMultisampleState();
-			if (rcode) rcode = LoadDepthStencilState();
-			if (rcode) rcode = LoadColorBlendState();
-		}
-		return rcode;
+		return LoadData();
 	}
 
 	BOOL CResGraphics::InternalPostLoad(void)
 	{
-		BOOL rcode = m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
+		m_stream.Free();
+
+		m_ptrPipeline = GfxDevice()->NewPipelineGraphics();
 		{
-			m_stream.Free();
+			if (SetShaders() == FALSE) return FALSE;
+			if (SetRenderPass() == FALSE) return FALSE;
+			if (SetInputAssemblyState() == FALSE) return FALSE;
+			if (SetTessellationState() == FALSE) return FALSE;
+			if (SetRasterizationState() == FALSE) return FALSE;
+			if (SetMultisampleState() == FALSE) return FALSE;
+			if (SetDepthStencilState() == FALSE) return FALSE;
+			if (SetColorBlendState() == FALSE) return FALSE;
 		}
-		return rcode;
+		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
 	}
 
 	BOOL CResGraphics::LoadData(void)
@@ -126,37 +120,39 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadShaders(void)
+	BOOL CResGraphics::SetShaders(void)
 	{
-		const CResShaderPtr &ptrResVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
-		const CResShaderPtr &ptrResFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
-		if (ptrResVertexShader.IsNull() || ptrResVertexShader->IsValid() == FALSE) return FALSE;
-		if (ptrResFragmentShader.IsNull() || ptrResFragmentShader->IsValid() == FALSE) return FALSE;
+		const CResShaderPtr &ptrVertexShader = ShaderManager()->LoadResource(m_data.shader.vertex);
+		if (ptrVertexShader.IsNull() || ptrVertexShader->IsValid() == FALSE) return FALSE;
 
-		m_ptrPipeline->SetVertexShader(ptrResVertexShader->GetShader());
-		m_ptrPipeline->SetFragmentShader(ptrResFragmentShader->GetShader());
+		const CResShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(m_data.shader.fragment);
+		if (ptrFragmentShader.IsNull() || ptrFragmentShader->IsValid() == FALSE) return FALSE;
+
+		m_ptrPipeline->SetVertexShader(ptrVertexShader->GetShader());
+		m_ptrPipeline->SetFragmentShader(ptrFragmentShader->GetShader());
 
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadSubPassIndex(void)
+	BOOL CResGraphics::SetRenderPass(void)
 	{
 		m_indexSubPass = m_data.renderPass.indexSubPass;
-		return TRUE;
+		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
+		return m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL ? FALSE : TRUE;
 	}
 
-	BOOL CResGraphics::LoadInputAssemblyState(void)
+	BOOL CResGraphics::SetInputAssemblyState(void)
 	{
 		m_ptrPipeline->SetPrimitiveTopology((VkPrimitiveTopology)m_data.inputAssembly.topology, FALSE);
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadTessellationState(void)
+	BOOL CResGraphics::SetTessellationState(void)
 	{
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadRasterizationState(void)
+	BOOL CResGraphics::SetRasterizationState(void)
 	{
 		m_ptrPipeline->SetPolygonMode((VkPolygonMode)m_data.rasterization.polygonMode);
 		m_ptrPipeline->SetCullMode((VkCullModeFlags)m_data.rasterization.cullMode);
@@ -164,30 +160,27 @@ namespace CrossEngine {
 		m_ptrPipeline->SetDepthClamp(FALSE);
 		m_ptrPipeline->SetDepthBias(m_data.rasterization.depthBiasEnable, m_data.rasterization.depthBiasConstantFactor, 0.0f, m_data.rasterization.depthBiasSlopeFactor);
 		m_ptrPipeline->SetRasterizerDiscard(FALSE);
-
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadMultisampleState(void)
+	BOOL CResGraphics::SetMultisampleState(void)
 	{
 		m_ptrPipeline->SetSampleCounts((VkSampleCountFlagBits)m_data.multisample.rasterizationSamples);
 		m_ptrPipeline->SetSampleShading(FALSE, 0.0f);
 		m_ptrPipeline->SetSampleAlphaToCoverage(m_data.multisample.alphaToCoverageEnable);
 		m_ptrPipeline->SetSampleAlphaToOne(m_data.multisample.alphaToOneEnable);
-
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadDepthStencilState(void)
+	BOOL CResGraphics::SetDepthStencilState(void)
 	{
 		m_ptrPipeline->SetDepthBoundsTest(FALSE, 0.0f, 0.0f);
 		m_ptrPipeline->SetDepthTest(m_data.depth.depthTestEnable, m_data.depth.depthWriteEnable, (VkCompareOp)m_data.depth.depthCompareOp);
 		m_ptrPipeline->SetStencilTest(m_data.stencil.stencilTestEnable, (VkStencilOp)m_data.stencil.frontFailOp, (VkStencilOp)m_data.stencil.frontPassOp, (VkStencilOp)m_data.stencil.frontDepthFailOp, (VkCompareOp)m_data.stencil.frontCompareOp, m_data.stencil.frontCompareMask, m_data.stencil.frontWriteMask, m_data.stencil.frontReference, (VkStencilOp)m_data.stencil.backFailOp, (VkStencilOp)m_data.stencil.backPassOp, (VkStencilOp)m_data.stencil.backDepthFailOp, (VkCompareOp)m_data.stencil.backCompareOp, m_data.stencil.backCompareMask, m_data.stencil.backWriteMask, m_data.stencil.backReference);
-
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadColorBlendState(void)
+	BOOL CResGraphics::SetColorBlendState(void)
 	{
 		m_ptrPipeline->SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
 		m_ptrPipeline->SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
