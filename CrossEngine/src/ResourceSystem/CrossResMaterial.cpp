@@ -36,14 +36,14 @@ namespace CrossEngine {
 
 	}
 
-	const CGfxMaterialPtr& CResMaterial::GetMaterial(void) const
-	{
-		return m_ptrMaterial;
-	}
-
 	RESOURCE_TYPE CResMaterial::GetType(void) const
 	{
 		return RESOURCE_TYPE_MATERIAL;
+	}
+
+	const CGfxMaterialPtr& CResMaterial::GetMaterial(void) const
+	{
+		return m_ptrMaterial;
 	}
 
 	BOOL CResMaterial::IsValid(void) const
@@ -52,7 +52,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrMaterial->GetHandle() == NULL) {
+		if (m_ptrMaterial.IsNull() || m_ptrMaterial->GetHandle() == NULL) {
 			return FALSE;
 		}
 
@@ -66,6 +66,7 @@ namespace CrossEngine {
 
 	void CResMaterial::Free(void)
 	{
+		m_ptrMaterial.Release();
 		CResource::Free();
 	}
 
@@ -89,6 +90,20 @@ namespace CrossEngine {
 		}
 
 		return FALSE;
+	}
+
+	BOOL CResMaterial::InternalPostLoad(void)
+	{
+		for (auto &itPass : m_ptrMaterial->GetPasses()) {
+			itPass.second->UpdateDescriptorSet(0);
+		}
+
+		return TRUE;
+	}
+
+	void CResMaterial::InternalCleanup(void)
+	{
+		m_stream.Free();
 	}
 
 	BOOL CResMaterial::LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)
@@ -174,17 +189,6 @@ namespace CrossEngine {
 				ptrPass->SetUniform(dwName, ptrUniform);
 			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
 		}
-
-		return TRUE;
-	}
-
-	BOOL CResMaterial::InternalPostLoad(void)
-	{
-		for (auto &itPass : m_ptrMaterial->GetPasses()) {
-			itPass.second->UpdateDescriptorSet(0);
-		}
-
-		m_stream.Free();
 
 		return TRUE;
 	}

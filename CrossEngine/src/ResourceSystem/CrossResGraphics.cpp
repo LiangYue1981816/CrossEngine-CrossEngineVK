@@ -37,14 +37,14 @@ namespace CrossEngine {
 
 	}
 
-	const CGfxPipelineGraphicsPtr& CResGraphics::GetPipeline(void) const
-	{
-		return m_ptrPipeline;
-	}
-
 	RESOURCE_TYPE CResGraphics::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
+	}
+
+	const CGfxPipelineGraphicsPtr& CResGraphics::GetPipeline(void) const
+	{
+		return m_ptrPipeline;
 	}
 
 	BOOL CResGraphics::IsValid(void) const
@@ -69,7 +69,6 @@ namespace CrossEngine {
 	{
 		m_ptrPipeline.Release();
 		m_ptrRenderPass.Release();
-
 		CResource::Free();
 	}
 
@@ -80,8 +79,6 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::InternalPostLoad(void)
 	{
-		m_stream.Free();
-
 		m_ptrPipeline = GfxDevice()->NewPipelineGraphics();
 		{
 			if (SetShaders() == FALSE) return FALSE;
@@ -94,6 +91,11 @@ namespace CrossEngine {
 			if (SetColorBlendState() == FALSE) return FALSE;
 		}
 		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
+	}
+
+	void CResGraphics::InternalCleanup(void)
+	{
+		m_stream.Free();
 	}
 
 	BOOL CResGraphics::LoadData(void)

@@ -50,6 +50,7 @@ namespace CrossEngine {
 	protected:
 		virtual BOOL InternalLoad(BOOL bSync);
 		virtual BOOL InternalPostLoad(void);
+		virtual void InternalCleanup(void);
 
 
 	protected:

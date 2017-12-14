@@ -36,14 +36,14 @@ namespace CrossEngine {
 
 	}
 
-	const CGfxPipelineComputePtr& CResCompute::GetPipeline(void) const
-	{
-		return m_ptrPipeline;
-	}
-
 	RESOURCE_TYPE CResCompute::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE;
+	}
+
+	const CGfxPipelineComputePtr& CResCompute::GetPipeline(void) const
+	{
+		return m_ptrPipeline;
 	}
 
 	BOOL CResCompute::IsValid(void) const
@@ -79,11 +79,14 @@ namespace CrossEngine {
 
 	BOOL CResCompute::InternalPostLoad(void)
 	{
-		m_stream.Free();
-
 		// ...
 
 		return TRUE;
+	}
+
+	void CResCompute::InternalCleanup(void)
+	{
+		m_stream.Free();
 	}
 
 }

@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CResShader::CResShader(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrShader = GfxDevice()->NewShader();
+
 	}
 
 	CResShader::~CResShader(void)
@@ -36,14 +36,14 @@ namespace CrossEngine {
 
 	}
 
-	const CGfxShaderPtr& CResShader::GetShader(void) const
-	{
-		return m_ptrShader;
-	}
-
 	RESOURCE_TYPE CResShader::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
+	}
+
+	const CGfxShaderPtr& CResShader::GetShader(void) const
+	{
+		return m_ptrShader;
 	}
 
 	BOOL CResShader::IsValid(void) const
@@ -52,7 +52,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrShader->GetHandle() == NULL) {
+		if (m_ptrShader.IsNull() || m_ptrShader->GetHandle() == NULL) {
 			return FALSE;
 		}
 
@@ -66,6 +66,7 @@ namespace CrossEngine {
 
 	void CResShader::Free(void)
 	{
+		m_ptrShader.Release();
 		CResource::Free();
 	}
 
@@ -84,12 +85,14 @@ namespace CrossEngine {
 
 	BOOL CResShader::InternalPostLoad(void)
 	{
-		BOOL rcode = m_ptrShader->Create(m_words.data(), m_words.size(), m_flags);
-		{
-			m_stream.Free();
-			m_words.clear();
-		}
-		return rcode;
+		m_ptrShader = GfxDevice()->NewShader();
+		return m_ptrShader->Create(m_words.data(), m_words.size(), m_flags);
+	}
+
+	void CResShader::InternalCleanup(void)
+	{
+		m_stream.Free();
+		m_words.clear();
 	}
 
 }
