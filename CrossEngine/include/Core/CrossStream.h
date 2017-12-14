@@ -130,10 +130,10 @@ namespace CrossEngine {
 	template<typename T>
 	inline CStream& operator << (CStream &stream, std::vector<T> &values)
 	{
+		values.clear();
+
 		size_t count;
 		stream << count;
-
-		values.clear();
 
 		for (size_t index = 0; index < count; index++) {
 			T value;
@@ -147,10 +147,10 @@ namespace CrossEngine {
 	template<typename K, typename T>
 	inline CStream& operator << (CStream &stream, std::map<K, T> &values)
 	{
+		values.clear();
+
 		size_t count;
 		stream << count;
-
-		values.clear();
 
 		for (size_t index = 0; index < count; index++) {
 			K key;
