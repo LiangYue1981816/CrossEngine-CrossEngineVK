@@ -50,6 +50,16 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE;
 	}
 
+	void CResTexture::Init(void)
+	{
+		CResource::Init();
+	}
+
+	void CResTexture::Free(void)
+	{
+		CResource::Free();
+	}
+
 	BOOL CResTexture::Load(BOOL bSync)
 	{
 		if (IsLoaded()) {

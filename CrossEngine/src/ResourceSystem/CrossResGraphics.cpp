@@ -57,6 +57,16 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
 	}
 
+	void CResGraphics::Init(void)
+	{
+		CResource::Init();
+	}
+
+	void CResGraphics::Free(void)
+	{
+		CResource::Free();
+	}
+
 	BOOL CResGraphics::Load(BOOL bSync)
 	{
 		if (IsLoaded()) {

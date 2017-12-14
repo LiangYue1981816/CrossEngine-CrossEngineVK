@@ -46,6 +46,16 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE;
 	}
 
+	void CResCompute::Init(void)
+	{
+		CResource::Init();
+	}
+
+	void CResCompute::Free(void)
+	{
+		CResource::Free();
+	}
+
 	BOOL CResCompute::Load(BOOL bSync)
 	{
 		if (IsLoaded()) {

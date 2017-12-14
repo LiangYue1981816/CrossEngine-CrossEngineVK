@@ -46,6 +46,16 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
 	}
 
+	void CResShader::Init(void)
+	{
+		CResource::Init();
+	}
+
+	void CResShader::Free(void)
+	{
+		CResource::Free();
+	}
+
 	BOOL CResShader::Load(BOOL bSync)
 	{
 		if (IsLoaded()) {

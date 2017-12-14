@@ -46,6 +46,16 @@ namespace CrossEngine {
 		return RESOURCE_TYPE_MATERIAL;
 	}
 
+	void CResMaterial::Init(void)
+	{
+		CResource::Init();
+	}
+
+	void CResMaterial::Free(void)
+	{
+		CResource::Free();
+	}
+
 	BOOL CResMaterial::Load(BOOL bSync)
 	{
 		if (IsLoaded()) {
