@@ -54,12 +54,12 @@ namespace CrossEngine {
 		virtual void Release(void);
 
 
-	public:
-		virtual RESOURCE_TYPE GetType(void) const = 0;
-
 	protected:
 		virtual void Init(void);
 		virtual void Free(void);
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const = 0;
 
 	public:
 		virtual const CStream* GetStream(void) const;
