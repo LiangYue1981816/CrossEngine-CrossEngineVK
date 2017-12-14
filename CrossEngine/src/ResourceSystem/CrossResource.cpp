@@ -50,8 +50,6 @@ namespace CrossEngine {
 	void CResource::Free(void)
 	{
 		m_stream.Free();
-		InternalCleanup();
-
 		Init();
 	}
 
@@ -93,7 +91,11 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromFile(\"%s\"): %s\n", szFileName ? szFileName : "NULL", szError);
+
+			InternalCleanup();
 			Free();
+
+			m_bIsLoaded = TRUE;
 
 			return FALSE;
 		}
@@ -126,7 +128,11 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(\"%s\", \"%s\"): %s\n", szPackName ? szPackName : "NULL", szFileName ? szFileName : "NULL", szError);
+
+			InternalCleanup();
 			Free();
+
+			m_bIsLoaded = TRUE;
 
 			return FALSE;
 		}
@@ -159,7 +165,11 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(0x%016x, \"%s\"): %s\n", pPack, szFileName ? szFileName : "NULL", szError);
+
+			InternalCleanup();
 			Free();
+
+			m_bIsLoaded = TRUE;
 
 			return FALSE;
 		}
@@ -184,7 +194,11 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::PostLoad(): %s\n", szError);
+
+			InternalCleanup();
 			Free();
+
+			m_bIsLoaded = TRUE;
 
 			return FALSE;
 		}
