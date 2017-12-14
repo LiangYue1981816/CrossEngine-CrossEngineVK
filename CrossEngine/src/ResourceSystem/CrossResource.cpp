@@ -50,6 +50,8 @@ namespace CrossEngine {
 	void CResource::Free(void)
 	{
 		m_stream.Free();
+		InternalCleanup();
+
 		Init();
 	}
 
@@ -173,6 +175,8 @@ namespace CrossEngine {
 			if (InternalPostLoad() == FALSE) {
 				throw "InternalPostLoad failed.";
 			}
+
+			InternalCleanup();
 
 			m_bIsLoaded = TRUE;
 

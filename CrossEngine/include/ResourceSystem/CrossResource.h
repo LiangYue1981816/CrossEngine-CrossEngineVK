@@ -77,6 +77,7 @@ namespace CrossEngine {
 
 		virtual BOOL InternalLoad(BOOL bSync) = 0;
 		virtual BOOL InternalPostLoad(void) = 0;
+		virtual void InternalCleanup(void) = 0;
 
 
 	protected:
