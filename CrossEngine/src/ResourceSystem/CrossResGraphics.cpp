@@ -37,16 +37,6 @@ namespace CrossEngine {
 
 	}
 
-	const uint32_t CResGraphics::GetIndexSubPass(void) const
-	{
-		return m_indexSubPass;
-	}
-
-	const CGfxRenderPassPtr& CResGraphics::GetRenderPass(void) const
-	{
-		return m_ptrRenderPass;
-	}
-
 	const CGfxPipelineGraphicsPtr& CResGraphics::GetPipeline(void) const
 	{
 		return m_ptrPipeline;
@@ -55,6 +45,19 @@ namespace CrossEngine {
 	RESOURCE_TYPE CResGraphics::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
+	}
+
+	BOOL CResGraphics::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrPipeline->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	void CResGraphics::Init(void)
@@ -95,7 +98,6 @@ namespace CrossEngine {
 		BOOL rcode = m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
 		{
 			m_stream.Free();
-			m_bIsLoaded = TRUE;
 		}
 		return rcode;
 	}
@@ -195,24 +197,6 @@ namespace CrossEngine {
 		}
 
 		return TRUE;
-	}
-
-	BOOL CResGraphics::IsValid(void) const
-	{
-		if (IsLoaded() == FALSE) {
-			return FALSE;
-		}
-
-		if (m_ptrPipeline->GetHandle() == NULL) {
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResGraphics::IsLoaded(void) const
-	{
-		return m_bIsLoaded;
 	}
 
 }

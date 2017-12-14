@@ -41,6 +41,7 @@ namespace CrossEngine {
 
 	public:
 		virtual RESOURCE_TYPE GetType(void) const;
+		virtual BOOL IsValid(void) const;
 
 	protected:
 		virtual void Init(void);
@@ -50,15 +51,13 @@ namespace CrossEngine {
 		virtual BOOL InternalLoad(BOOL bSync);
 		virtual BOOL InternalPostLoad(void);
 
-	public:
-		virtual BOOL IsValid(void) const;
-		virtual BOOL IsLoaded(void) const;
-
 
 	protected:
 		std::vector<uint32_t> m_words;
-		CGfxShaderPtr m_ptrShader;
 		VkShaderStageFlagBits m_flags;
+
+	protected:
+		CGfxShaderPtr m_ptrShader;
 	};
 
 }

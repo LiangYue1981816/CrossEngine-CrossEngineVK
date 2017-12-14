@@ -46,6 +46,19 @@ namespace CrossEngine {
 		return RESOURCE_TYPE_MATERIAL;
 	}
 
+	BOOL CResMaterial::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrMaterial->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
 	void CResMaterial::Init(void)
 	{
 		CResource::Init();
@@ -172,27 +185,8 @@ namespace CrossEngine {
 		}
 
 		m_stream.Free();
-		m_bIsLoaded = TRUE;
 
 		return TRUE;
-	}
-
-	BOOL CResMaterial::IsValid(void) const
-	{
-		if (IsLoaded() == FALSE) {
-			return FALSE;
-		}
-
-		if (m_ptrMaterial->GetHandle() == NULL) {
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResMaterial::IsLoaded(void) const
-	{
-		return m_bIsLoaded;
 	}
 
 }

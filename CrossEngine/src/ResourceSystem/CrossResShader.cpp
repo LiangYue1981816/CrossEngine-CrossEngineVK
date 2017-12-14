@@ -46,6 +46,19 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_SHADER;
 	}
 
+	BOOL CResShader::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrShader->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
 	void CResShader::Init(void)
 	{
 		CResource::Init();
@@ -75,27 +88,8 @@ namespace CrossEngine {
 		{
 			m_stream.Free();
 			m_words.clear();
-			m_bIsLoaded = TRUE;
 		}
 		return rcode;
-	}
-
-	BOOL CResShader::IsValid(void) const
-	{
-		if (IsLoaded() == FALSE) {
-			return FALSE;
-		}
-
-		if (m_ptrShader->GetHandle() == NULL) {
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResShader::IsLoaded(void) const
-	{
-		return m_bIsLoaded;
 	}
 
 }

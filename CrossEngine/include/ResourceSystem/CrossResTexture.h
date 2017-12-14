@@ -41,6 +41,7 @@ namespace CrossEngine {
 
 	public:
 		virtual RESOURCE_TYPE GetType(void) const;
+		virtual BOOL IsValid(void) const;
 
 	protected:
 		virtual void Init(void);
@@ -50,10 +51,6 @@ namespace CrossEngine {
 		virtual BOOL InternalLoad(BOOL bSync);
 		virtual BOOL InternalPostLoad(void);
 
-	public:
-		virtual BOOL IsValid(void) const;
-		virtual BOOL IsLoaded(void) const;
-
 
 	protected:
 		VkFilter m_minFilter;
@@ -62,6 +59,8 @@ namespace CrossEngine {
 		VkSamplerAddressMode m_addressMode;
 
 		gli::texture2d m_texture;
+
+	protected:
 		CGfxTexturePtr m_ptrTexture;
 	};
 

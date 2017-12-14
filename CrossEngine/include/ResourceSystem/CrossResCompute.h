@@ -41,6 +41,7 @@ namespace CrossEngine {
 
 	public:
 		virtual RESOURCE_TYPE GetType(void) const;
+		virtual BOOL IsValid(void) const;
 
 	protected:
 		virtual void Init(void);
@@ -49,10 +50,6 @@ namespace CrossEngine {
 	protected:
 		virtual BOOL InternalLoad(BOOL bSync);
 		virtual BOOL InternalPostLoad(void);
-
-	public:
-		virtual BOOL IsValid(void) const;
-		virtual BOOL IsLoaded(void) const;
 
 
 	protected:

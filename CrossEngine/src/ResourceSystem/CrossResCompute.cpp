@@ -46,6 +46,19 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE;
 	}
 
+	BOOL CResCompute::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrPipeline->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
 	void CResCompute::Init(void)
 	{
 		CResource::Init();
@@ -66,29 +79,10 @@ namespace CrossEngine {
 	BOOL CResCompute::InternalPostLoad(void)
 	{
 		m_stream.Free();
-		m_bIsLoaded = TRUE;
 
 		// ...
 
 		return TRUE;
-	}
-
-	BOOL CResCompute::IsValid(void) const
-	{
-		if (IsLoaded() == FALSE) {
-			return FALSE;
-		}
-
-		if (m_ptrPipeline->GetHandle() == NULL) {
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResCompute::IsLoaded(void) const
-	{
-		return m_bIsLoaded;
 	}
 
 }

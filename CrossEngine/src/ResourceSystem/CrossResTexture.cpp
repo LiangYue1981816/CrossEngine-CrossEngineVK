@@ -50,6 +50,19 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE;
 	}
 
+	BOOL CResTexture::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrTexture->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
 	void CResTexture::Init(void)
 	{
 		CResource::Init();
@@ -72,27 +85,8 @@ namespace CrossEngine {
 		{
 			m_stream.Free();
 			m_texture.clear();
-			m_bIsLoaded = TRUE;
 		}
 		return rcode;
-	}
-
-	BOOL CResTexture::IsValid(void) const
-	{
-		if (IsLoaded() == FALSE) {
-			return FALSE;
-		}
-
-		if (m_ptrTexture->GetHandle() == NULL) {
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResTexture::IsLoaded(void) const
-	{
-		return m_bIsLoaded;
 	}
 
 }

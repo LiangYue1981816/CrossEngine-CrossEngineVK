@@ -114,12 +114,11 @@ namespace CrossEngine {
 
 
 	public:
-		const uint32_t GetIndexSubPass(void) const;
-		const CGfxRenderPassPtr& GetRenderPass(void) const;
 		const CGfxPipelineGraphicsPtr& GetPipeline(void) const;
 
 	public:
 		virtual RESOURCE_TYPE GetType(void) const;
+		virtual BOOL IsValid(void) const;
 
 	protected:
 		virtual void Init(void);
@@ -140,10 +139,6 @@ namespace CrossEngine {
 		BOOL LoadDepthStencilState(void);
 		BOOL LoadColorBlendState(void);
 
-	public:
-		virtual BOOL IsValid(void) const;
-		virtual BOOL IsLoaded(void) const;
-
 
 	protected:
 		PipelineGraphicsData m_data;
@@ -151,6 +146,8 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_indexSubPass;
 		CGfxRenderPassPtr m_ptrRenderPass;
+
+	protected:
 		CGfxPipelineGraphicsPtr m_ptrPipeline;
 	};
 
