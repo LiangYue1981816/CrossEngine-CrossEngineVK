@@ -134,7 +134,6 @@ namespace CrossEngine {
 		stream << count;
 
 		values.clear();
-		values.resize(count);
 
 		for (size_t index = 0; index < count; index++) {
 			T value;
