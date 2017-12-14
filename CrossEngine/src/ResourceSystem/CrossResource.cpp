@@ -63,6 +63,11 @@ namespace CrossEngine {
 		return m_pResourceManager;
 	}
 
+	BOOL CResource::IsLoaded(void) const
+	{
+		return m_bIsLoaded;
+	}
+
 	BOOL CResource::LoadFromFile(const char *szFileName, BOOL bSync)
 	{
 		try {
@@ -168,6 +173,8 @@ namespace CrossEngine {
 			if (InternalPostLoad() == FALSE) {
 				throw "InternalPostLoad failed.";
 			}
+
+			m_bIsLoaded = TRUE;
 
 			return TRUE;
 		}
