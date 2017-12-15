@@ -92,9 +92,8 @@ namespace CrossEngine {
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromFile(\"%s\"): %s\n", szFileName ? szFileName : "NULL", szError);
 
-			InternalCleanup();
 			Free();
-
+			InternalCleanup();
 			m_bIsLoaded = TRUE;
 
 			return FALSE;
@@ -129,9 +128,8 @@ namespace CrossEngine {
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(\"%s\", \"%s\"): %s\n", szPackName ? szPackName : "NULL", szFileName ? szFileName : "NULL", szError);
 
-			InternalCleanup();
 			Free();
-
+			InternalCleanup();
 			m_bIsLoaded = TRUE;
 
 			return FALSE;
@@ -166,9 +164,8 @@ namespace CrossEngine {
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(0x%016x, \"%s\"): %s\n", pPack, szFileName ? szFileName : "NULL", szError);
 
-			InternalCleanup();
 			Free();
-
+			InternalCleanup();
 			m_bIsLoaded = TRUE;
 
 			return FALSE;
@@ -187,7 +184,6 @@ namespace CrossEngine {
 			}
 
 			InternalCleanup();
-
 			m_bIsLoaded = TRUE;
 
 			return TRUE;
@@ -195,9 +191,8 @@ namespace CrossEngine {
 		catch (const char *szError) {
 			LOGE("CResource::PostLoad(): %s\n", szError);
 
-			InternalCleanup();
 			Free();
-
+			InternalCleanup();
 			m_bIsLoaded = TRUE;
 
 			return FALSE;
