@@ -55,7 +55,7 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
 		BOOL LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
-		BOOL LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
+		BOOL LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode);
 
 
 	protected:

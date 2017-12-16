@@ -82,7 +82,7 @@ namespace CrossEngine {
 					CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetPass(dwName);
 					LoadPassPipeline(ptrPass, pPassNode, bSync);
 					LoadPassTextures(ptrPass, pPassNode, bSync);
-					LoadPassUniforms(ptrPass, pPassNode, bSync);
+					LoadPassUniforms(ptrPass, pPassNode);
 				} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
 
 				return TRUE;
@@ -148,7 +148,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResMaterial::LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterial::LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode)
 	{
 		if (TiXmlNode *pFloatNode = pPassNode->FirstChild("Float")) {
 			do {
