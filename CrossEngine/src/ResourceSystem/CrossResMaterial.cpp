@@ -67,6 +67,11 @@ namespace CrossEngine {
 	void CResMaterial::Free(void)
 	{
 		m_ptrMaterial.Release();
+		m_graphices.clear();
+		m_floats.clear();
+		m_vectors.clear();
+		m_textures.clear();
+
 		CResource::Free();
 	}
 
@@ -158,9 +163,8 @@ namespace CrossEngine {
 	BOOL CResMaterial::LoadPassPipeline(TiXmlNode *pPassNode, BOOL bSyncPostLoad)
 	{
 		const char *szPassName = pPassNode->ToElement()->AttributeString("name");
-		const uint32_t dwPassName = HashValue(szPassName);
-
 		const char *szName = pPassNode->ToElement()->AttributeString("graphics");
+		const uint32_t dwPassName = HashValue(szPassName);
 		const uint32_t dwName = HashValue(szName);
 
 		m_graphices[dwPassName] = GraphicsManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
