@@ -53,10 +53,16 @@ namespace CrossEngine {
 		virtual void InternalCleanup(void);
 
 	protected:
-		BOOL LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad);
-		BOOL LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad);
-		BOOL LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode);
+		BOOL LoadPassPipeline(TiXmlNode *pPassNode, BOOL bSyncPostLoad);
+		BOOL LoadPassTextures(TiXmlNode *pPassNode, BOOL bSyncPostLoad);
+		BOOL LoadPassUniforms(TiXmlNode *pPassNode);
 
+
+	protected:
+		std::map<uint32_t, CResGraphicsPtr> m_graphices;
+		std::map<uint32_t, std::map<uint32_t, float>> m_floats;
+		std::map<uint32_t, std::map<uint32_t, glm::vec4>> m_vectors;
+		std::map<uint32_t, std::map<uint32_t, CResTexturePtr>> m_textures;
 
 	protected:
 		CGfxMaterialPtr m_ptrMaterial;

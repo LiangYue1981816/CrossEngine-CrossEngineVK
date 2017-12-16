@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CResMaterial::CResMaterial(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
-		m_ptrMaterial = GfxDevice()->NewMaterial();
+
 	}
 
 	CResMaterial::~CResMaterial(void)
@@ -76,13 +76,9 @@ namespace CrossEngine {
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
 				do {
-					const char *szName = pPassNode->ToElement()->AttributeString("name");
-					const uint32_t dwName = HashValue(szName);
-
-					CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetPass(dwName);
-					LoadPassPipeline(ptrPass, pPassNode, bSyncPostLoad);
-					LoadPassTextures(ptrPass, pPassNode, bSyncPostLoad);
-					LoadPassUniforms(ptrPass, pPassNode);
+					if (LoadPassPipeline(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
+					if (LoadPassTextures(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
+					if (LoadPassUniforms(pPassNode) == FALSE) return FALSE;
 				} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
 
 				return TRUE;
@@ -94,6 +90,59 @@ namespace CrossEngine {
 
 	BOOL CResMaterial::InternalPostLoad(void)
 	{
+		m_ptrMaterial = GfxDevice()->NewMaterial();
+
+		for (const auto &itGraphics : m_graphices) {
+			if (itGraphics.second->IsValid() == FALSE) {
+				return FALSE;
+			}
+
+			uint32_t dwPassName = itGraphics.first;
+			m_ptrMaterial->GetPass(dwPassName)->SetPipeline(itGraphics.second->GetPipeline());
+		}
+
+		for (const auto &itTextures : m_textures) {
+			for (const auto &itTexture : itTextures.second) {
+				if (itTexture.second->IsValid() == FALSE) {
+					return FALSE;
+				}
+
+				uint32_t dwPassName = itTextures.first;
+				uint32_t dwTextureName = itTexture.first;
+				m_ptrMaterial->GetPass(dwPassName)->SetTexture(dwTextureName, itTexture.second->GetTexture());
+			}
+		}
+
+		for (const auto &itFloats : m_floats) {
+			for (const auto &itFloat : itFloats.second) {
+				uint32_t dwPassName = itFloats.first;
+				uint32_t dwUniformName = itFloat.first;
+				uint32_t binding = m_ptrMaterial->GetPass(dwPassName)->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwUniformName);
+				if (binding == -1) return FALSE;
+
+				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+				ptrUniform->Create(sizeof(itFloat.second), &itFloat.second, FALSE);
+				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itFloat.second));
+
+				m_ptrMaterial->GetPass(dwPassName)->SetUniform(dwUniformName, ptrUniform);
+			}
+		}
+
+		for (const auto &itVectors : m_vectors) {
+			for (const auto &itVector : itVectors.second) {
+				uint32_t dwPassName = itVectors.first;
+				uint32_t dwUniformName = itVector.first;
+				uint32_t binding = m_ptrMaterial->GetPass(dwPassName)->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwUniformName);
+				if (binding == -1) return FALSE;
+
+				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+				ptrUniform->Create(sizeof(itVector.second), &itVector.second, FALSE);
+				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itVector.second));
+
+				m_ptrMaterial->GetPass(dwPassName)->SetUniform(dwUniformName, ptrUniform);
+			}
+		}
+
 		for (auto &itPass : m_ptrMaterial->GetPasses()) {
 			itPass.second->UpdateDescriptorSet(0);
 		}
@@ -106,30 +155,30 @@ namespace CrossEngine {
 		m_stream.Free();
 	}
 
-	BOOL CResMaterial::LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad)
+	BOOL CResMaterial::LoadPassPipeline(TiXmlNode *pPassNode, BOOL bSyncPostLoad)
 	{
-		const char *szName = pPassNode->ToElement()->AttributeString("pipeline");
+		const char *szPassName = pPassNode->ToElement()->AttributeString("name");
+		const uint32_t dwPassName = HashValue(szPassName);
+
+		const char *szName = pPassNode->ToElement()->AttributeString("graphics");
 		const uint32_t dwName = HashValue(szName);
 
-		const CResGraphicsPtr &ptrGraphics = GraphicsManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
-		if (ptrGraphics.IsNull()) return FALSE;
-
-		ptrPass->SetPipeline(ptrGraphics->GetPipeline());
-
-		return TRUE;
+		m_graphices[dwPassName] = GraphicsManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
+		return m_graphices[dwPassName].IsNull() ? FALSE : TRUE;
 	}
 
-	BOOL CResMaterial::LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad)
+	BOOL CResMaterial::LoadPassTextures(TiXmlNode *pPassNode, BOOL bSyncPostLoad)
 	{
+		const char *szPassName = pPassNode->ToElement()->AttributeString("name");
+		const uint32_t dwPassName = HashValue(szPassName);
+
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
 			do {
 				const char *szName = pTextureNode->ToElement()->AttributeString("name");
 				const uint32_t dwName = HashValue(szName);
 
-				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
-				if (ptrTexture.IsNull()) return FALSE;
-
-				ptrPass->SetTexture(dwName, ptrTexture->GetTexture());
+				m_textures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
+				if (m_textures[dwPassName][dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pTextureNode->IterateChildren("Texture2D", pTextureNode));
 		}
 
@@ -138,35 +187,28 @@ namespace CrossEngine {
 				const char *szName = pTextureNode->ToElement()->AttributeString("name");
 				const uint32_t dwName = HashValue(szName);
 
-				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
-				if (ptrTexture.IsNull()) return FALSE;
-
-				ptrPass->SetTexture(dwName, ptrTexture->GetTexture());
+				m_textures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
+				if (m_textures[dwPassName][dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pTextureNode->IterateChildren("TextureCube", pTextureNode));
 		}
 
 		return TRUE;
 	}
 
-	BOOL CResMaterial::LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode)
+	BOOL CResMaterial::LoadPassUniforms(TiXmlNode *pPassNode)
 	{
+		const char *szPassName = pPassNode->ToElement()->AttributeString("name");
+		const uint32_t dwPassName = HashValue(szPassName);
+
 		if (TiXmlNode *pFloatNode = pPassNode->FirstChild("Float")) {
 			do {
 				const char *szName = pFloatNode->ToElement()->AttributeString("name");
 				const char *szValue = pFloatNode->ToElement()->AttributeString("value");
-
 				const uint32_t dwName = HashValue(szName);
-				const uint32_t binding = ptrPass->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwName);
-				if (binding == -1) return FALSE;
 
 				float value;
 				scanf(szValue, "%f", &value);
-
-				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-				ptrUniform->Create(sizeof(value), &value, FALSE);
-				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(value));
-
-				ptrPass->SetUniform(dwName, ptrUniform);
+				m_floats[dwPassName][dwName] = value;
 			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
 		}
 
@@ -174,19 +216,11 @@ namespace CrossEngine {
 			do {
 				const char *szName = pVectorNode->ToElement()->AttributeString("name");
 				const char *szValue = pVectorNode->ToElement()->AttributeString("value");
-
 				const uint32_t dwName = HashValue(szName);
-				const uint32_t binding = ptrPass->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwName);
-				if (binding == -1) return FALSE;
 
 				glm::vec4 value;
 				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);
-
-				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-				ptrUniform->Create(sizeof(value), &value, FALSE);
-				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(value));
-
-				ptrPass->SetUniform(dwName, ptrUniform);
+				m_vectors[dwPassName][dwName] = value;
 			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
 		}
 
