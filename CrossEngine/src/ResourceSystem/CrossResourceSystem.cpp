@@ -130,10 +130,12 @@ namespace CrossEngine {
 	{
 		mutex_autolock mutex(m_mutexPostLoadList);
 
-		for (std::list<CResourceHandle*>::const_iterator itResource = m_postLoadList.begin(); itResource != m_postLoadList.end(); ++itResource) {
-			if (CResourceHandle *pResourceHandle = *itResource) {
+		while (m_postLoadList.size()) {
+			if (CResourceHandle *pResourceHandle = m_postLoadList.front()) {
 				pResourceHandle->PostLoad();
 			}
+
+			m_postLoadList.pop_front();
 		}
 	}
 
