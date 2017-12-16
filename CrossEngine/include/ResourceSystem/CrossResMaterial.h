@@ -48,13 +48,13 @@ namespace CrossEngine {
 		virtual void Free(void);
 
 	protected:
-		virtual BOOL InternalLoad(BOOL bSync);
+		virtual BOOL InternalLoad(BOOL bSyncPostLoad);
 		virtual BOOL InternalPostLoad(void);
 		virtual void InternalCleanup(void);
 
 	protected:
-		BOOL LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
-		BOOL LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync);
+		BOOL LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad);
+		BOOL LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad);
 		BOOL LoadPassUniforms(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode);
 
 

@@ -72,7 +72,7 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResGraphics::InternalLoad(BOOL bSync)
+	BOOL CResGraphics::InternalLoad(BOOL bSyncPostLoad)
 	{
 		return LoadData();
 	}

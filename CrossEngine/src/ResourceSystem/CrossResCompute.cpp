@@ -70,7 +70,7 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResCompute::InternalLoad(BOOL bSync)
+	BOOL CResCompute::InternalLoad(BOOL bSyncPostLoad)
 	{
 		// ...
 

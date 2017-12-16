@@ -125,7 +125,7 @@ namespace CrossEngine {
 		virtual void Free(void);
 
 	protected:
-		virtual BOOL InternalLoad(BOOL bSync);
+		virtual BOOL InternalLoad(BOOL bSyncPostLoad);
 		virtual BOOL InternalPostLoad(void);
 		virtual void InternalCleanup(void);
 

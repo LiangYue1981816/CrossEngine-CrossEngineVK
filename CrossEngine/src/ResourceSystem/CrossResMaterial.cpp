@@ -70,7 +70,7 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResMaterial::InternalLoad(BOOL bSync)
+	BOOL CResMaterial::InternalLoad(BOOL bSyncPostLoad)
 	{
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
@@ -80,8 +80,8 @@ namespace CrossEngine {
 					const uint32_t dwName = HashValue(szName);
 
 					CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetPass(dwName);
-					LoadPassPipeline(ptrPass, pPassNode, bSync);
-					LoadPassTextures(ptrPass, pPassNode, bSync);
+					LoadPassPipeline(ptrPass, pPassNode, bSyncPostLoad);
+					LoadPassTextures(ptrPass, pPassNode, bSyncPostLoad);
 					LoadPassUniforms(ptrPass, pPassNode);
 				} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
 
@@ -106,12 +106,12 @@ namespace CrossEngine {
 		m_stream.Free();
 	}
 
-	BOOL CResMaterial::LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterial::LoadPassPipeline(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad)
 	{
 		const char *szName = pPassNode->ToElement()->AttributeString("pipeline");
 		const uint32_t dwName = HashValue(szName);
 
-		const CResGraphicsPtr &ptrGraphics = GraphicsManager()->LoadResource(dwName, bSync);
+		const CResGraphicsPtr &ptrGraphics = GraphicsManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
 		if (ptrGraphics.IsNull()) return FALSE;
 
 		ptrPass->SetPipeline(ptrGraphics->GetPipeline());
@@ -119,14 +119,14 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResMaterial::LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSync)
+	BOOL CResMaterial::LoadPassTextures(CGfxMaterialPassPtr &ptrPass, TiXmlNode *pPassNode, BOOL bSyncPostLoad)
 	{
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
 			do {
 				const char *szName = pTextureNode->ToElement()->AttributeString("name");
 				const uint32_t dwName = HashValue(szName);
 
-				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, bSync);
+				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
 				if (ptrTexture.IsNull()) return FALSE;
 
 				ptrPass->SetTexture(dwName, ptrTexture->GetTexture());
@@ -138,7 +138,7 @@ namespace CrossEngine {
 				const char *szName = pTextureNode->ToElement()->AttributeString("name");
 				const uint32_t dwName = HashValue(szName);
 
-				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, bSync);
+				const CResTexturePtr &ptrTexture = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
 				if (ptrTexture.IsNull()) return FALSE;
 
 				ptrPass->SetTexture(dwName, ptrTexture->GetTexture());

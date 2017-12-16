@@ -74,7 +74,7 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResTexture::InternalLoad(BOOL bSync)
+	BOOL CResTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
 		m_texture = (gli::texture2d)gli::load((const char *)m_stream.GetAddress(), m_stream.GetFullSize());
 		return m_texture.empty() ? FALSE : TRUE;

@@ -70,7 +70,7 @@ namespace CrossEngine {
 		CResource::Free();
 	}
 
-	BOOL CResShader::InternalLoad(BOOL bSync)
+	BOOL CResShader::InternalLoad(BOOL bSyncPostLoad)
 	{
 		char szExt[_MAX_EXT];
 		splitfilename(m_stream.GetName(), NULL, szExt);

@@ -87,7 +87,7 @@ namespace CrossEngine {
 			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 
 			if (bSyncLoad) {
-				if (Load(TRUE) == FALSE) {
+				if (Load(bSyncPostLoad) == FALSE) {
 					return FALSE;
 				}
 
@@ -106,13 +106,13 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResourceHandle::Load(BOOL bSync)
+	BOOL CResourceHandle::Load(BOOL bSyncPostLoad)
 	{
 		if (m_pPack) {
-			return m_ptrResource->LoadFromPack(m_pPack, m_szFileName, bSync);
+			return m_ptrResource->LoadFromPack(m_pPack, m_szFileName, bSyncPostLoad);
 		}
 		else {
-			return m_ptrResource->LoadFromFile(m_szFileName, bSync);
+			return m_ptrResource->LoadFromFile(m_szFileName, bSyncPostLoad);
 		}
 	}
 

@@ -68,7 +68,7 @@ namespace CrossEngine {
 		return m_bIsLoaded;
 	}
 
-	BOOL CResource::LoadFromFile(const char *szFileName, BOOL bSync)
+	BOOL CResource::LoadFromFile(const char *szFileName, BOOL bSyncPostLoad)
 	{
 		try {
 			if (IsLoaded()) {
@@ -83,7 +83,7 @@ namespace CrossEngine {
 				throw "Load stream from file failed.";
 			}
 
-			if (InternalLoad(bSync) == FALSE) {
+			if (InternalLoad(bSyncPostLoad) == FALSE) {
 				throw "InternalLoad failed.";
 			}
 
@@ -100,7 +100,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CResource::LoadFromPack(const char *szPackName, const char *szFileName, BOOL bSync)
+	BOOL CResource::LoadFromPack(const char *szPackName, const char *szFileName, BOOL bSyncPostLoad)
 	{
 		try {
 			if (IsLoaded()) {
@@ -119,7 +119,7 @@ namespace CrossEngine {
 				throw "Load stream from pack failed.";
 			}
 
-			if (InternalLoad(bSync) == FALSE) {
+			if (InternalLoad(bSyncPostLoad) == FALSE) {
 				throw "InternalLoad failed.";
 			}
 
@@ -136,7 +136,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CResource::LoadFromPack(ZZIP_DIR *pPack, const char *szFileName, BOOL bSync)
+	BOOL CResource::LoadFromPack(ZZIP_DIR *pPack, const char *szFileName, BOOL bSyncPostLoad)
 	{
 		try {
 			if (IsLoaded()) {
@@ -155,7 +155,7 @@ namespace CrossEngine {
 				throw "Load stream from pack failed.";
 			}
 
-			if (InternalLoad(bSync) == FALSE) {
+			if (InternalLoad(bSyncPostLoad) == FALSE) {
 				throw "InternalLoad failed.";
 			}
 

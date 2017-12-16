@@ -74,7 +74,7 @@ namespace CrossEngine {
 
 	BOOL CResShaderManager::PreLoad(CResourceHandle *pResourceHandle)
 	{
-		return pResourceHandle->LoadResource(TRUE);
+		return pResourceHandle->LoadResource(TRUE, TRUE);
 	}
 
 	void CResShaderManager::GarbageCollection(void)
