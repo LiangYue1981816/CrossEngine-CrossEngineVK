@@ -522,9 +522,9 @@ namespace CrossEngine {
 		return m_pMaterialManager->AllocMaterial();
 	}
 
-	CGfxRenderPassPtr CVulkanDevice::NewRenderPass(void)
+	CGfxRenderPassPtr CVulkanDevice::NewRenderPass(uint32_t numAttachments, uint32_t numSubpasses)
 	{
-		return m_pRenderPassManager->AllocRenderPass();
+		return m_pRenderPassManager->AllocRenderPass(numAttachments, numSubpasses);
 	}
 
 	CGfxFrameBufferPtr CVulkanDevice::NewFrameBuffer(uint32_t numAttachments)

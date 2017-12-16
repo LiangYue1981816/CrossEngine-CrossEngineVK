@@ -299,9 +299,9 @@ namespace CrossEngine {
 		return m_pMaterialManager->AllocMaterial();
 	}
 
-	CGfxRenderPassPtr CGLES3Device::NewRenderPass(void)
+	CGfxRenderPassPtr CGLES3Device::NewRenderPass(uint32_t numAttachments, uint32_t numSubpasses)
 	{
-		return m_pRenderPassManager->AllocRenderPass();
+		return m_pRenderPassManager->AllocRenderPass(numAttachments, numSubpasses);
 	}
 
 	CGfxFrameBufferPtr CGLES3Device::NewFrameBuffer(uint32_t numAttachments)

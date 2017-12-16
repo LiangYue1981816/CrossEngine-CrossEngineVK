@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 	}
 
-	CGfxRenderPassPtr CVulkanRenderPassManager::AllocRenderPass(void)
+	CGfxRenderPassPtr CVulkanRenderPassManager::AllocRenderPass(uint32_t numAttachments, uint32_t numSubpasses)
 	{
 		CVulkanRenderPass *pRenderPass = SAFE_NEW CVulkanRenderPass(m_pDevice, this);
 		{

@@ -91,7 +91,7 @@ namespace CrossEngine {
 		CGfxPipelineComputePtr NewPipelineCompute(void);
 		CGfxPipelineGraphicsPtr NewPipelineGraphics(void);
 		CGfxMaterialPtr NewMaterial(void);
-		CGfxRenderPassPtr NewRenderPass(void);
+		CGfxRenderPassPtr NewRenderPass(uint32_t numAttachments, uint32_t numSubpasses);
 		CGfxFrameBufferPtr NewFrameBuffer(uint32_t numAttachments);
 
 	public:

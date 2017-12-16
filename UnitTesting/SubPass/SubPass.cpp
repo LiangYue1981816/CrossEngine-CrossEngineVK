@@ -32,7 +32,7 @@ struct {
 
 void CreateRenderer(void)
 {
-	Renderer.ptrRenderPass = GfxDevice()->NewRenderPass();
+	Renderer.ptrRenderPass = GfxDevice()->NewRenderPass(2, 2);
 	Renderer.ptrRenderPass->SetPresentAttachment(0, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, { 1.0f, 0.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
 	Renderer.ptrRenderPass->SetColorAttachment(1, VK_FORMAT_B8G8R8A8_UNORM, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, { 0.0f, 1.0f, 0.0f, 1.0f }, VK_SAMPLE_COUNT_1_BIT);
 	Renderer.ptrRenderPass->SetSubpassOutputColorReference(0, 1);

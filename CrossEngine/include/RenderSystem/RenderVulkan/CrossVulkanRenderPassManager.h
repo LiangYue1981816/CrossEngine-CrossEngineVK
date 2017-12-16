@@ -37,7 +37,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGfxRenderPassPtr AllocRenderPass(void);
+		CGfxRenderPassPtr AllocRenderPass(uint32_t numAttachments, uint32_t numSubpasses);
 
 
 	protected:
