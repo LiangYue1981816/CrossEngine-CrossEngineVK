@@ -101,6 +101,14 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CResourceSystem::RequestPostLoad(CResourceHandle *pResourceHandle)
+	{
+		mutex_autolock mutex(m_mutexPostLoadList);
+		m_postLoadList.push_back(pResourceHandle);
+
+		return TRUE;
+	}
+
 	void CResourceSystem::Load(void)
 	{
 		CResourceHandle *pResourceHandle = NULL;
@@ -114,8 +122,7 @@ namespace CrossEngine {
 		}
 
 		if (pResourceHandle && pResourceHandle->Load(FALSE)) {
-			mutex_autolock mutex(m_mutexPostLoadList);
-			m_postLoadList.push_back(pResourceHandle);
+			RequestPostLoad(pResourceHandle);
 		}
 	}
 
