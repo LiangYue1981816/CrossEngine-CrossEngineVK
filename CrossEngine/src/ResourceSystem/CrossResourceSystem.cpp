@@ -50,6 +50,7 @@ namespace CrossEngine {
 		// ...
 
 		pthread_create(&m_thread, NULL, WorkThread, this);
+
 		return TRUE;
 	}
 
@@ -121,7 +122,7 @@ namespace CrossEngine {
 			}
 		}
 
-		if (pResourceHandle && pResourceHandle->Load(FALSE)) {
+		if (pResourceHandle && pResourceHandle->Load(TRUE)) {
 			RequestPostLoad(pResourceHandle);
 		}
 	}
