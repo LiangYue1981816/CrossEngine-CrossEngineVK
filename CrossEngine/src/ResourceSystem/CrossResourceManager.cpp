@@ -86,16 +86,21 @@ namespace CrossEngine {
 		if (m_ptrResource.IsNull()) {
 			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 
-			/*
-			if (bSync) {
-				if (Load(TRUE) == FALSE) return FALSE;
-				if (PostLoad() == FALSE) return FALSE;
-				return TRUE;
+			if (bSyncLoad) {
+				if (Load(TRUE) == FALSE) {
+					return FALSE;
+				}
+
+				if (bSyncPostLoad) {
+					return PostLoad();
+				}
+				else {
+					return ResourceSystem()->RequestPostLoad(this);
+				}
 			}
 			else {
 				return ResourceSystem()->RequestLoad(this);
 			}
-			*/
 		}
 
 		return TRUE;
