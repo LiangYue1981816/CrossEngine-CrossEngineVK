@@ -122,7 +122,7 @@ namespace CrossEngine {
 			}
 		}
 
-		if (pResourceHandle && pResourceHandle->Load(TRUE)) {
+		if (pResourceHandle && pResourceHandle->Load(FALSE)) {
 			RequestPostLoad(pResourceHandle);
 		}
 	}
