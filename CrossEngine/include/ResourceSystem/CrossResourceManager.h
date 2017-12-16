@@ -50,7 +50,7 @@ namespace CrossEngine {
 		CResourcePtr<CResource>& GetResourcePtr(void);
 
 	protected:
-		BOOL LoadResource(BOOL bSync);
+		BOOL LoadResource(BOOL bSyncLoad, BOOL bSyncPostLoad);
 		BOOL Load(BOOL bSync);
 		BOOL PostLoad(void);
 
@@ -89,8 +89,8 @@ namespace CrossEngine {
 		virtual void DestroyResource(CResource *pResource);
 
 	public:
-		virtual const CResourcePtr<CResource>& LoadResource(const char *szName, BOOL bSync = FALSE);
-		virtual const CResourcePtr<CResource>& LoadResource(uint32_t dwName, BOOL bSync = FALSE);
+		virtual const CResourcePtr<CResource>& LoadResource(const char *szName, BOOL bSyncLoad = FALSE, BOOL bSyncPostLoad = FALSE);
+		virtual const CResourcePtr<CResource>& LoadResource(uint32_t dwName, BOOL bSyncLoad = FALSE, BOOL bSyncPostLoad = FALSE);
 
 	public:
 		virtual BOOL PreLoadFromFile(const char *szFileName) = 0;

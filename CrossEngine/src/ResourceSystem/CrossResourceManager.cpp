@@ -79,13 +79,14 @@ namespace CrossEngine {
 		return m_ptrResource;
 	}
 
-	BOOL CResourceHandle::LoadResource(BOOL bSync)
+	BOOL CResourceHandle::LoadResource(BOOL bSyncLoad, BOOL bSyncPostLoad)
 	{
 		m_bIsWaste = FALSE;
 
 		if (m_ptrResource.IsNull()) {
 			m_ptrResource = CResourcePtr<CResource>(m_pResourceManager->CreateResource());
 
+			/*
 			if (bSync) {
 				if (Load(TRUE) == FALSE) return FALSE;
 				if (PostLoad() == FALSE) return FALSE;
@@ -94,6 +95,7 @@ namespace CrossEngine {
 			else {
 				return ResourceSystem()->RequestLoad(this);
 			}
+			*/
 		}
 
 		return TRUE;
@@ -162,12 +164,12 @@ namespace CrossEngine {
 		SAFE_DELETE(pResource);
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::LoadResource(const char *szName, BOOL bSync)
+	const CResourcePtr<CResource>& CResourceManager::LoadResource(const char *szName, BOOL bSyncLoad, BOOL bSyncPostLoad)
 	{
-		return LoadResource(HashValue(szName), bSync);
+		return LoadResource(HashValue(szName), bSyncLoad, bSyncPostLoad);
 	}
 
-	const CResourcePtr<CResource>& CResourceManager::LoadResource(uint32_t dwName, BOOL bSync)
+	const CResourcePtr<CResource>& CResourceManager::LoadResource(uint32_t dwName, BOOL bSyncLoad, BOOL bSyncPostLoad)
 	{
 		CResourceHandle *pResourceHandle = NULL;
 		{
@@ -180,7 +182,7 @@ namespace CrossEngine {
 			return ptrResourceNull;
 		}
 
-		if (pResourceHandle->LoadResource(bSync) == FALSE) {
+		if (pResourceHandle->LoadResource(bSyncLoad, bSyncPostLoad) == FALSE) {
 			return ptrResourceNull;
 		}
 
