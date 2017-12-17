@@ -306,9 +306,9 @@ namespace CrossEngine {
 		return m_indexImage;
 	}
 
-	HANDLE CVulkanSwapchain::GetImageHandle(int indexImage) const
+	HANDLE CVulkanSwapchain::GetImageHandle(uint32_t indexImage) const
 	{
-		return m_vkImageViews[indexImage];
+		return indexImage < SWAPCHAIN_IMAGE_COUNT ? m_vkImageViews[indexImage] : NULL;
 	}
 
 	uint32_t CVulkanSwapchain::GetWidth(void) const

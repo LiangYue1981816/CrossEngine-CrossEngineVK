@@ -73,7 +73,7 @@ namespace CrossEngine {
 		glBindVertexArray(m_vao);
 		glBindVertexBuffer(bindingindex, m_buffer, 0, stride);
 		{
-			for (int indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
+			for (GLuint indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 				GLuint attribute = (1 << indexAttribute);
 
 				if (m_vertexFormat & attribute) {

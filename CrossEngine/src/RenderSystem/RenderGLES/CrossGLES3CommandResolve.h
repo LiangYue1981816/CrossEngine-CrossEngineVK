@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandResolve(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, int indexPass)
+		CGLES3CommandResolve(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexPass)
 			: m_indexPass(indexPass)
 		{
 			m_ptrFrameBuffer = ptrFrameBuffer;
@@ -76,7 +76,7 @@ namespace CrossEngine {
 			}
 		}
 
-		BOOL IsNeedResolve(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass) const
+		BOOL IsNeedResolve(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				return pSubPass->resolveAttachments.size() ? TRUE : FALSE;
@@ -85,7 +85,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, int indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const
+		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				for (const auto &itResolveAttachment : pSubPass->resolveAttachments) {
@@ -160,7 +160,7 @@ namespace CrossEngine {
 	protected:
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		CGfxRenderPassPtr m_ptrRenderPass;
-		int m_indexPass;
+		uint32_t m_indexPass;
 	};
 
 }

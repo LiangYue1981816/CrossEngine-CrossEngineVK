@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindDescriptorSet(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxRenderPassPtr &ptrRenderPass, int indexPass)
+		CGLES3CommandBindDescriptorSet(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexPass)
 			: m_indexPass(indexPass)
 		{
 			m_ptrDescriptorSet = ptrDescriptorSet;
@@ -111,7 +111,7 @@ namespace CrossEngine {
 	protected:
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxRenderPassPtr m_ptrRenderPass;
-		int m_indexPass;
+		uint32_t m_indexPass;
 	};
 
 }

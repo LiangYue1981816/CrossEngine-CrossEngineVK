@@ -49,7 +49,7 @@ namespace CrossEngine {
 	public:
 		virtual uint32_t GetImageCount(void) const = 0;
 		virtual uint32_t GetImageIndex(void) const = 0;
-		virtual HANDLE GetImageHandle(int indexImage) const = 0;
+		virtual HANDLE GetImageHandle(uint32_t indexImage) const = 0;
 
 	public:
 		virtual uint32_t GetWidth(void) const = 0;

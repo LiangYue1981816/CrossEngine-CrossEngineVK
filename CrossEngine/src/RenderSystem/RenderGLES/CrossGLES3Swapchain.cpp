@@ -168,7 +168,7 @@ namespace CrossEngine {
 		return 0;
 	}
 
-	HANDLE CGLES3Swapchain::GetImageHandle(int indexImage) const
+	HANDLE CGLES3Swapchain::GetImageHandle(uint32_t indexImage) const
 	{
 		return (HANDLE)m_surface;
 	}

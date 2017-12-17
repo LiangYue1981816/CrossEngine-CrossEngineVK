@@ -61,7 +61,7 @@ namespace CrossEngine {
 	public:
 		uint32_t GetImageCount(void) const;
 		uint32_t GetImageIndex(void) const;
-		HANDLE GetImageHandle(int indexImage) const;
+		HANDLE GetImageHandle(uint32_t indexImage) const;
 
 	public:
 		uint32_t GetWidth(void) const;
