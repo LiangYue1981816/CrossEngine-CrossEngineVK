@@ -507,19 +507,19 @@ namespace CrossEngine {
 		return m_pShaderManager->AllocShader();
 	}
 
+	CGfxMaterialPtr CVulkanDevice::NewMaterial(void)
+	{
+		return m_pMaterialManager->AllocMaterial();
+	}
+
 	CGfxPipelineComputePtr CVulkanDevice::NewPipelineCompute(void)
 	{
 		return m_pPipelineManager->AllocPipelineCompute();
 	}
 
-	CGfxPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(void)
+	CGfxPipelineGraphicsPtr CVulkanDevice::NewPipelineGraphics(uint32_t numAttachments)
 	{
-		return m_pPipelineManager->AllocPipelineGraphics();
-	}
-
-	CGfxMaterialPtr CVulkanDevice::NewMaterial(void)
-	{
-		return m_pMaterialManager->AllocMaterial();
+		return m_pPipelineManager->AllocPipelineGraphics(numAttachments);
 	}
 
 	CGfxRenderPassPtr CVulkanDevice::NewRenderPass(uint32_t numAttachments, uint32_t numSubpasses)

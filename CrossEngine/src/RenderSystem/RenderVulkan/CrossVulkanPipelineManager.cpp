@@ -71,7 +71,7 @@ namespace CrossEngine {
 		return CGfxPipelineComputePtr(pPipelineCompute);
 	}
 
-	CGfxPipelineGraphicsPtr CVulkanPipelineManager::AllocPipelineGraphics(void)
+	CGfxPipelineGraphicsPtr CVulkanPipelineManager::AllocPipelineGraphics(uint32_t numAttachments)
 	{
 		CVulkanPipelineGraphics *pPipelineGraphics = SAFE_NEW CVulkanPipelineGraphics(m_pDevice, this);
 		{

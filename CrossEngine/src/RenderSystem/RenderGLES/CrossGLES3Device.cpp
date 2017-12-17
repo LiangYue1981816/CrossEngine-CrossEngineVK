@@ -284,19 +284,19 @@ namespace CrossEngine {
 		return m_pShaderManager->AllocShader();
 	}
 
+	CGfxMaterialPtr CGLES3Device::NewMaterial(void)
+	{
+		return m_pMaterialManager->AllocMaterial();
+	}
+
 	CGfxPipelineComputePtr CGLES3Device::NewPipelineCompute(void)
 	{
 		return m_pPipelineManager->AllocPipelineCompute();
 	}
 
-	CGfxPipelineGraphicsPtr CGLES3Device::NewPipelineGraphics(void)
+	CGfxPipelineGraphicsPtr CGLES3Device::NewPipelineGraphics(uint32_t numAttachments)
 	{
-		return m_pPipelineManager->AllocPipelineGraphics();
-	}
-
-	CGfxMaterialPtr CGLES3Device::NewMaterial(void)
-	{
-		return m_pMaterialManager->AllocMaterial();
+		return m_pPipelineManager->AllocPipelineGraphics(numAttachments);
 	}
 
 	CGfxRenderPassPtr CGLES3Device::NewRenderPass(uint32_t numAttachments, uint32_t numSubpasses)
