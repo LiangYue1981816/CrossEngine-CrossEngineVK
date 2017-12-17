@@ -67,7 +67,7 @@ void CreatePipeline(void)
 	ptrShaderFragment = GfxDevice()->NewShader();
 	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_FRAGMENT_BIT);
 
-	ptrPipeline = GfxDevice()->NewPipelineGraphics();
+	ptrPipeline = GfxDevice()->NewPipelineGraphics(1);
 	ptrPipeline->SetVertexShader(ptrShaderVertex);
 	ptrPipeline->SetFragmentShader(ptrShaderFragment);
 	ptrPipeline->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
