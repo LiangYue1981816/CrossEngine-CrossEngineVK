@@ -81,7 +81,7 @@ namespace CrossEngine {
 	{
 		m_indexSubPass = m_data.renderPass.indexSubPass;
 		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_data.renderPass.dwName);
-		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetAttachmentCount());
+		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetSubpassOutputAttachmentCount(m_indexSubPass));
 		{
 			if (SetShaders() == FALSE) return FALSE;
 			if (SetInputAssemblyState() == FALSE) return FALSE;

@@ -200,6 +200,11 @@ namespace CrossEngine {
 		return m_subpasses.size();
 	}
 
+	uint32_t CGLES3RenderPass::GetSubpassOutputAttachmentCount(uint32_t indexSubpass) const
+	{
+		return indexSubpass < m_subpasses.size() ? m_subpasses[indexSubpass].colorAttachments.size() : 0;
+	}
+
 	const GLSubpassInformation* CGLES3RenderPass::GetSubpass(uint32_t indexSubpass) const
 	{
 		return indexSubpass < m_subpasses.size() ? &m_subpasses[indexSubpass] : NULL;

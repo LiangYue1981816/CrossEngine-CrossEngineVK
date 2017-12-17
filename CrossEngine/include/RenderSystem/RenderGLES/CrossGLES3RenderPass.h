@@ -60,6 +60,7 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetSubpassCount(void) const;
+		uint32_t GetSubpassOutputAttachmentCount(uint32_t indexSubpass) const;
 		const GLSubpassInformation* GetSubpass(uint32_t indexSubpass) const;
 
 		uint32_t GetAttachmentCount(void) const;
