@@ -72,13 +72,13 @@ namespace CrossEngine {
 
 
 	protected:
-		VkRenderPass m_vkRenderPass;
-
-	protected:
 		std::vector<VkClearValue> m_clears;
 		std::vector<VkAttachmentDescription> m_attachments;
 		std::vector<VkSubpassInformation> m_subpasses;
 		std::vector<VkSubpassDependency> m_dependencies;
+
+	protected:
+		VkRenderPass m_vkRenderPass;
 
 	protected:
 		CVulkanDevice *m_pDevice;

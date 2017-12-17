@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
+		CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments);
 		virtual ~CGLES3PipelineGraphics(void);
 
 
@@ -47,7 +47,6 @@ namespace CrossEngine {
 
 	protected:
 		BOOL CreateVertexInputState(void);
-		BOOL CreateColorBlendState(void);
 
 	public:
 		void SetDefault(void);
@@ -74,7 +73,7 @@ namespace CrossEngine {
 		BOOL SetStencilTest(BOOL stencilTestEnable, VkStencilOp frontFailOp, VkStencilOp frontPassOp, VkStencilOp frontDepthFailOp, VkCompareOp frontCompareOp, uint32_t frontCompareMask, uint32_t frontWriteMask, uint32_t frontReference, VkStencilOp backFailOp, VkStencilOp backPassOp, VkStencilOp backDepthFailOp, VkCompareOp backCompareOp, uint32_t backCompareMask, uint32_t backWriteMask, uint32_t backReference);
 		BOOL SetColorBlendLogic(BOOL logicOpEnable, VkLogicOp logicOp);
 		BOOL SetColorBlendConstants(float r, float g, float b, float a);
-		BOOL SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
+		BOOL SetColorBlendAttachment(uint32_t indexAttachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask);
 
 		const VkPipelineInputAssemblyStateCreateInfo& GetInputAssemblyState(void) const;
 		const VkPipelineTessellationStateCreateInfo& GetTessellationState(void) const;
@@ -100,7 +99,6 @@ namespace CrossEngine {
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
 		std::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
-		std::map<uint32_t, VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStateMap;
 	};
 
 }

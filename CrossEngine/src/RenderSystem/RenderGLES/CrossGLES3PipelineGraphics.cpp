@@ -25,11 +25,13 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3PipelineGraphics::CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
+	CGLES3PipelineGraphics::CGLES3PipelineGraphics(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments)
 		: CGLES3Pipeline(pDevice)
 		, CGfxPipelineGraphics(pResourceManager)
 		, m_vertexFormat(0)
 	{
+		m_colorBlendAttachmentStates.resize(numAttachments);
+
 		m_inputAssemblyState = {};
 		m_inputAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		m_inputAssemblyState.pNext = NULL;
@@ -60,6 +62,8 @@ namespace CrossEngine {
 		m_colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		m_colorBlendState.pNext = NULL;
 		m_colorBlendState.flags = 0;
+		m_colorBlendState.attachmentCount = m_colorBlendAttachmentStates.size();
+		m_colorBlendState.pAttachments = m_colorBlendAttachmentStates.data();
 
 		SetDefault();
 	}
@@ -96,7 +100,6 @@ namespace CrossEngine {
 
 		CreateDescriptorSetLayouts();
 		CreateVertexInputState();
-		CreateColorBlendState();
 
 		return TRUE;
 	}
@@ -121,20 +124,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CGLES3PipelineGraphics::CreateColorBlendState(void)
-	{
-		m_colorBlendAttachmentStates.clear();
-
-		for (const auto &itColorBlendAttachment : m_colorBlendAttachmentStateMap) {
-			m_colorBlendAttachmentStates.push_back(itColorBlendAttachment.second);
-		}
-
-		m_colorBlendState.attachmentCount = m_colorBlendAttachmentStates.size();
-		m_colorBlendState.pAttachments = m_colorBlendAttachmentStates.data();
-
-		return TRUE;
-	}
-
 	void CGLES3PipelineGraphics::Destroy(void)
 	{
 		CGLES3Pipeline::Destroy();
@@ -150,10 +139,6 @@ namespace CrossEngine {
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
-		m_colorBlendState.attachmentCount = 0;
-		m_colorBlendState.pAttachments = NULL;
-		m_colorBlendAttachmentStates.clear();
-		m_colorBlendAttachmentStateMap.clear();
 
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
 		SetTessellationPatchControlPoints(0);
@@ -335,16 +320,20 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CGLES3PipelineGraphics::SetColorBlendAttachment(uint32_t attachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
+	BOOL CGLES3PipelineGraphics::SetColorBlendAttachment(uint32_t indexAttachment, BOOL blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp, VkColorComponentFlags colorWriteMask)
 	{
-		m_colorBlendAttachmentStateMap[attachment].blendEnable = blendEnable;
-		m_colorBlendAttachmentStateMap[attachment].srcColorBlendFactor = srcColorBlendFactor;
-		m_colorBlendAttachmentStateMap[attachment].dstColorBlendFactor = dstColorBlendFactor;
-		m_colorBlendAttachmentStateMap[attachment].colorBlendOp = colorBlendOp;
-		m_colorBlendAttachmentStateMap[attachment].srcAlphaBlendFactor = srcAlphaBlendFactor;
-		m_colorBlendAttachmentStateMap[attachment].dstAlphaBlendFactor = dstAlphaBlendFactor;
-		m_colorBlendAttachmentStateMap[attachment].alphaBlendOp = alphaBlendOp;
-		m_colorBlendAttachmentStateMap[attachment].colorWriteMask = colorWriteMask;
+		if (indexAttachment >= m_colorBlendAttachmentStates.size()) {
+			return FALSE;
+		}
+
+		m_colorBlendAttachmentStates[indexAttachment].blendEnable = blendEnable;
+		m_colorBlendAttachmentStates[indexAttachment].srcColorBlendFactor = srcColorBlendFactor;
+		m_colorBlendAttachmentStates[indexAttachment].dstColorBlendFactor = dstColorBlendFactor;
+		m_colorBlendAttachmentStates[indexAttachment].colorBlendOp = colorBlendOp;
+		m_colorBlendAttachmentStates[indexAttachment].srcAlphaBlendFactor = srcAlphaBlendFactor;
+		m_colorBlendAttachmentStates[indexAttachment].dstAlphaBlendFactor = dstAlphaBlendFactor;
+		m_colorBlendAttachmentStates[indexAttachment].alphaBlendOp = alphaBlendOp;
+		m_colorBlendAttachmentStates[indexAttachment].colorWriteMask = colorWriteMask;
 
 		return TRUE;
 	}
