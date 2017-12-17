@@ -85,12 +85,12 @@ namespace CrossEngine {
 
 	BOOL CGLES3PipelineGraphics::Create(HANDLE hRenderPass, uint32_t indexSubPass)
 	{
-		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull() ||
-			m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT].IsNull()) {
+		if (CompatibilityCheck((const CGLES3RenderPass *)hRenderPass, indexSubPass) == FALSE) {
 			return FALSE;
 		}
 
-		if (CompatibilityCheck((const CGLES3RenderPass *)hRenderPass, indexSubPass) == FALSE) {
+		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull() ||
+			m_ptrShaders[VK_SHADER_STAGE_FRAGMENT_BIT].IsNull()) {
 			return FALSE;
 		}
 
