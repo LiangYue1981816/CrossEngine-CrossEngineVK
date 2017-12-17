@@ -132,7 +132,6 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadData(void);
 		BOOL SetShaders(void);
-		BOOL SetRenderPass(void);
 		BOOL SetInputAssemblyState(void);
 		BOOL SetTessellationState(void);
 		BOOL SetRasterizationState(void);
