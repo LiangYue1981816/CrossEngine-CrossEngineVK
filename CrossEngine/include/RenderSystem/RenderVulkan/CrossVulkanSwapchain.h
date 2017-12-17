@@ -79,6 +79,8 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_indexImage;
+
+	protected:
 		VkImage m_vkImages[SWAPCHAIN_IMAGE_COUNT];
 		VkImageView m_vkImageViews[SWAPCHAIN_IMAGE_COUNT];
 

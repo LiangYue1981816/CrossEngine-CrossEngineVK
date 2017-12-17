@@ -71,9 +71,6 @@ namespace CrossEngine {
 
 
 	protected:
-		VkDeviceMemory m_vkMemory;
-
-	protected:
 		uint32_t m_type;
 		VkFlags m_flags;
 		VkDeviceSize m_size;
@@ -83,6 +80,9 @@ namespace CrossEngine {
 		rb_root m_root;
 		mem_node *m_nodes;
 		CVulkanMemory *m_pListHead;
+
+	protected:
+		VkDeviceMemory m_vkMemory;
 
 	protected:
 		CVulkanDevice *m_pDevice;

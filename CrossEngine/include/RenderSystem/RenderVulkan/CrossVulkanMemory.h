@@ -60,14 +60,14 @@ namespace CrossEngine {
 
 
 	protected:
-		VkDeviceMemory m_vkMemory;
-		CVulkanMemoryAllocator *m_pAllocator;
-
-	protected:
 		VkFlags m_flags;
 		VkDeviceSize m_size;
 		VkDeviceSize m_offset;
 		VkDeviceSize m_alignment;
+
+	protected:
+		VkDeviceMemory m_vkMemory;
+		CVulkanMemoryAllocator *m_pAllocator;
 
 	protected:
 		CVulkanDevice *m_pDevice;

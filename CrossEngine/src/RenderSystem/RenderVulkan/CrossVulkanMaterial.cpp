@@ -47,6 +47,11 @@ namespace CrossEngine {
 		return (HANDLE)this;
 	}
 
+	void CVulkanMaterial::Destroy(void)
+	{
+		m_passes.clear();
+	}
+
 	CGfxMaterialPassPtr& CVulkanMaterial::GetPass(uint32_t dwName)
 	{
 		if (m_passes.find(dwName) == m_passes.end()) {
@@ -59,11 +64,6 @@ namespace CrossEngine {
 	const std::map<uint32_t, CGfxMaterialPassPtr>& CVulkanMaterial::GetPasses(void) const
 	{
 		return m_passes;
-	}
-
-	void CVulkanMaterial::Destroy(void)
-	{
-		m_passes.clear();
 	}
 
 	void CVulkanMaterial::DumpLog(void) const

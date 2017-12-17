@@ -41,10 +41,12 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		CGfxMaterialPassPtr& GetPass(uint32_t dwName);
-		const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const;
 		void Destroy(void);
 		void DumpLog(void) const;
+
+	public:
+		CGfxMaterialPassPtr& GetPass(uint32_t dwName);
+		const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const;
 
 
 	protected:

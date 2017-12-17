@@ -55,13 +55,15 @@ namespace CrossEngine {
 
 
 	protected:
+		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+
+	protected:
 		uint32_t m_set;
 		std::map<uint32_t, uint32_t> m_names;
 		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
 
 	protected:
 		VkDescriptorSetLayout m_vkDescriptorSetLayout;
-		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
 	protected:
 		CVulkanDevice *m_pDevice;
@@ -88,13 +90,13 @@ namespace CrossEngine {
 
 
 	protected:
+		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
+		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
+
+	protected:
 		VkPipeline m_vkPipeline;
 		VkPipelineLayout m_vkPipelineLayout;
 		std::map<uint32_t, CVulkanDescriptorSetLayout*> m_pDescriptorSetLayouts;
-
-	protected:
-		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
 
 	protected:
 		CVulkanDevice *m_pDevice;

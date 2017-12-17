@@ -55,16 +55,19 @@ namespace CrossEngine {
 
 
 	protected:
-		VkDescriptorSet m_vkDescriptorSet;
 		CVulkanDescriptorPool *m_pDescriptorPool;
 
 	protected:
 		uint32_t m_set;
 		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
+	protected:
 		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
 		std::map<uint32_t, CGfxRenderTexturePtr> m_ptrRenderTextures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
+
+	protected:
+		VkDescriptorSet m_vkDescriptorSet;
 
 	protected:
 		CVulkanDevice *m_pDevice;

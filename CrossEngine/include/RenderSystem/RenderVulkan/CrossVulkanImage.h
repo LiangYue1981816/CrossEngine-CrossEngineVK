@@ -58,12 +58,6 @@ namespace CrossEngine {
 		CVulkanMemory *m_pMemory;
 
 	protected:
-		VkImage m_vkImage;
-		VkImageView m_vkImageView;
-		VkSampler m_vkSampler;
-		VkDescriptorImageInfo m_vkDescriptorImageInfo;
-
-	protected:
 		uint32_t m_width;
 		uint32_t m_height;
 		uint32_t m_depth;
@@ -75,11 +69,16 @@ namespace CrossEngine {
 		VkImageTiling m_tiling;
 		VkSampleCountFlagBits m_samples;
 
-	protected:
 		VkFilter m_minFilter;
 		VkFilter m_magFilter;
 		VkSamplerMipmapMode m_mipmapMode;
 		VkSamplerAddressMode m_addressMode;
+
+	protected:
+		VkImage m_vkImage;
+		VkImageView m_vkImageView;
+		VkSampler m_vkSampler;
+		VkDescriptorImageInfo m_vkDescriptorImageInfo;
 
 	protected:
 		CVulkanDevice *m_pDevice;

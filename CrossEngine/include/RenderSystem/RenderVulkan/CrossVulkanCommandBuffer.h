@@ -84,11 +84,6 @@ namespace CrossEngine {
 
 
 	protected:
-		VkFence m_vkFence;
-		VkCommandBuffer m_vkCommandBuffer;
-		CVulkanCommandPool *m_pCommandPool;
-
-	protected:
 		CGfxRenderPassPtr m_ptrRenderPass;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		CGfxPipelineComputePtr m_ptrPipelineCompute;
@@ -100,6 +95,11 @@ namespace CrossEngine {
 		std::map<HANDLE, CGfxUniformBufferPtr> m_ptrUniformBuffers;
 		std::map<HANDLE, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
 		std::map<HANDLE, CGfxCommandBufferPtr> m_ptrCommandBuffers;
+
+	protected:
+		VkFence m_vkFence;
+		VkCommandBuffer m_vkCommandBuffer;
+		CVulkanCommandPool *m_pCommandPool;
 
 	protected:
 		CVulkanDevice *m_pDevice;
