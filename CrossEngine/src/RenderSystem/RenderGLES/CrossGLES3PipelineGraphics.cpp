@@ -90,6 +90,10 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		if (CompatibilityCheck((const CGLES3RenderPass *)hRenderPass, indexSubPass) == FALSE) {
+			return FALSE;
+		}
+
 		glGenProgramPipelines(1, &m_pipeline);
 		glBindProgramPipeline(m_pipeline);
 		{
@@ -100,6 +104,15 @@ namespace CrossEngine {
 
 		CreateDescriptorSetLayouts();
 		CreateVertexInputState();
+
+		return TRUE;
+	}
+
+	BOOL CGLES3PipelineGraphics::CompatibilityCheck(const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass) const
+	{
+		if (m_colorBlendAttachmentStates.size() != pRenderPass->GetSubpassOutputAttachmentCount(indexSubPass)) {
+			return FALSE;
+		}
 
 		return TRUE;
 	}

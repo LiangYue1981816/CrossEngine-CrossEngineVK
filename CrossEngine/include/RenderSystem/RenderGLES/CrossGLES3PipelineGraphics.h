@@ -46,6 +46,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	protected:
+		BOOL CompatibilityCheck(const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass) const;
 		BOOL CreateVertexInputState(void);
 
 	public:

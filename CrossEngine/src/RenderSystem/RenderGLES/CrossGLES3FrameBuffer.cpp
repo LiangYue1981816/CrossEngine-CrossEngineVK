@@ -59,13 +59,14 @@ namespace CrossEngine {
 
 	BOOL CGLES3FrameBuffer::Create(HANDLE hRenderPass)
 	{
-		if (CompatibilityCheck((const CGLES3RenderPass *)hRenderPass)) {
-			glGenFramebuffers(1, &m_framebuffer);
-			glGenFramebuffers(1, &m_framebufferMSAA);
-			return TRUE;
+		if (CompatibilityCheck((const CGLES3RenderPass *)hRenderPass) == FALSE) {
+			return FALSE;
 		}
 
-		return FALSE;
+		glGenFramebuffers(1, &m_framebuffer);
+		glGenFramebuffers(1, &m_framebufferMSAA);
+
+		return TRUE;
 	}
 
 	BOOL CGLES3FrameBuffer::CompatibilityCheck(const CGLES3RenderPass *pRenderPass) const
