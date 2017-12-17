@@ -171,17 +171,17 @@ namespace CrossEngine {
 
 	GLuint CGLES3FrameBuffer::GetRenderTexture(uint32_t indexAttachment) const
 	{
-		return indexAttachment >= 0 && indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].texture : 0;
+		return indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].texture : 0;
 	}
 
 	GLenum CGLES3FrameBuffer::GetRenderTextureTarget(uint32_t indexAttachment) const
 	{
-		return indexAttachment >= 0 && indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].target : GL_INVALID_ENUM;
+		return indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].target : GL_INVALID_ENUM;
 	}
 
 	GLenum CGLES3FrameBuffer::GetRenderTextureFormat(uint32_t indexAttachment) const
 	{
-		return indexAttachment >= 0 && indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].format : GL_INVALID_ENUM;
+		return indexAttachment < m_attachments.size() ? m_attachments[indexAttachment].format : GL_INVALID_ENUM;
 	}
 
 	void CGLES3FrameBuffer::DumpLog(void) const

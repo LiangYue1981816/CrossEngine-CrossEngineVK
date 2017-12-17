@@ -25,11 +25,13 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3RenderPass::CGLES3RenderPass(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
+	CGLES3RenderPass::CGLES3RenderPass(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments, uint32_t numSubpasses)
 		: CGfxRenderPass(pResourceManager)
 		, m_pDevice(pDevice)
 	{
-
+		m_clears.resize(numAttachments);
+		m_attachments.resize(numAttachments);
+		m_subpasses.resize(numSubpasses);
 	}
 
 	CGLES3RenderPass::~CGLES3RenderPass(void)
@@ -54,14 +56,12 @@ namespace CrossEngine {
 
 	void CGLES3RenderPass::Destroy(void)
 	{
-		m_clears.clear();
-		m_attachments.clear();
-		m_subpasses.clear();
+
 	}
 
 	BOOL CGLES3RenderPass::SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples)
 	{
-		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -78,7 +78,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -95,7 +95,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout)
 	{
-		if (indexAttachment >= (uint32_t)m_pDevice->GetPhysicalDeviceLimits().MAX_COLOR_ATTACHMENTS) {
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -112,7 +112,11 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+		if (indexSubpass >= m_subpasses.size()) {
+			return FALSE;
+		}
+
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -123,7 +127,11 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+		if (indexSubpass >= m_subpasses.size()) {
+			return FALSE;
+		}
+
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -134,7 +142,11 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+		if (indexSubpass >= m_subpasses.size()) {
+			return FALSE;
+		}
+
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -145,7 +157,11 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
 	{
-		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+		if (indexSubpass >= m_subpasses.size()) {
+			return FALSE;
+		}
+
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -156,7 +172,11 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderPass::SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
-		if (m_attachments.find(indexAttachment) == m_attachments.end()) {
+		if (indexSubpass >= m_subpasses.size()) {
+			return FALSE;
+		}
+
+		if (indexAttachment >= m_attachments.size()) {
 			return FALSE;
 		}
 
@@ -182,8 +202,7 @@ namespace CrossEngine {
 
 	const GLSubpassInformation* CGLES3RenderPass::GetSubpass(uint32_t indexSubpass) const
 	{
-		const auto &itSubpass = m_subpasses.find(indexSubpass);
-		return itSubpass != m_subpasses.end() ? &itSubpass->second : NULL;
+		return indexSubpass < m_subpasses.size() ? &m_subpasses[indexSubpass] : NULL;
 	}
 
 	uint32_t CGLES3RenderPass::GetAttachmentCount(void) const
@@ -193,14 +212,12 @@ namespace CrossEngine {
 
 	const VkClearValue* CGLES3RenderPass::GetAttachmentClearValue(uint32_t indexAttachment) const
 	{
-		const auto &itClear = m_clears.find(indexAttachment);
-		return itClear != m_clears.end() ? &itClear->second : NULL;
+		return indexAttachment < m_clears.size() ? &m_clears[indexAttachment] : NULL;
 	}
 
 	const VkAttachmentDescription* CGLES3RenderPass::GetAttachmentDescription(uint32_t indexAttachment) const
 	{
-		const auto &itAttachment = m_attachments.find(indexAttachment);
-		return itAttachment != m_attachments.end() ? &itAttachment->second : NULL;
+		return indexAttachment < m_attachments.size() ? &m_attachments[indexAttachment] : NULL;
 	}
 
 	void CGLES3RenderPass::DumpLog(void) const
@@ -208,30 +225,30 @@ namespace CrossEngine {
 		LOGI("\t\tRenderPass\n");
 
 		LOGI("\t\t\tAttachments:\n");
-		for (const auto &itAttachment : m_attachments) {
+		for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
 			LOGI("\t\t\t\tAttachment %d: loadOp = %s storeOp = %s stencilLoadOp = %s stencilStoreOp = %s\n",
-				itAttachment.first,
-				CGLES3Helper::glAttachmentLoadOpToString(itAttachment.second.loadOp),
-				CGLES3Helper::glAttachmentStoreOpToString(itAttachment.second.storeOp),
-				CGLES3Helper::glAttachmentLoadOpToString(itAttachment.second.stencilLoadOp),
-				CGLES3Helper::glAttachmentStoreOpToString(itAttachment.second.stencilStoreOp));
+				indexAttachment,
+				CGLES3Helper::glAttachmentLoadOpToString(m_attachments[indexAttachment].loadOp),
+				CGLES3Helper::glAttachmentStoreOpToString(m_attachments[indexAttachment].storeOp),
+				CGLES3Helper::glAttachmentLoadOpToString(m_attachments[indexAttachment].stencilLoadOp),
+				CGLES3Helper::glAttachmentStoreOpToString(m_attachments[indexAttachment].stencilStoreOp));
 		}
 
 		LOGI("\t\t\tSubpasses:\n");
-		for (const auto &itSubpass : m_subpasses) {
-			LOGI("\t\t\t\tSubpass %d:\n", itSubpass.first);
+		for (uint32_t indexSubpass = 0; indexSubpass < m_subpasses.size(); indexSubpass++) {
+			LOGI("\t\t\t\tSubpass %d:\n", indexSubpass);
 
 			LOGI("\t\t\t\t\tInputAttachments:\n");
-			for (const auto &itAttachment : itSubpass.second.inputAttachments) {
+			for (const auto &itAttachment : m_subpasses[indexSubpass].inputAttachments) {
 				LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d\n", itAttachment.first);
 			}
 
 			LOGI("\t\t\t\t\tColorAttachments:\n");
-			for (const auto &itAttachment : itSubpass.second.colorAttachments) {
+			for (const auto &itAttachment : m_subpasses[indexSubpass].colorAttachments) {
 				LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d\n", itAttachment.first);
 			}
 
-			LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d\n", itSubpass.second.depthStencilAttachment);
+			LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d\n", m_subpasses[indexSubpass].depthStencilAttachment);
 		}
 	}
 

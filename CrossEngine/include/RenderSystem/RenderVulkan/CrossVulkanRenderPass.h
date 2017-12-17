@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanRenderPass(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager);
+		CVulkanRenderPass(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments, uint32_t numSubpasses);
 		virtual ~CVulkanRenderPass(void);
 
 
@@ -46,9 +46,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	protected:
-		BOOL CreateAttachments(std::vector<VkAttachmentDescription> &attachments);
 		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments, std::map<uint32_t, VkAttachmentReference> &depthStencilAttachment);
-		BOOL CreateDependencies(std::vector<VkSubpassDependency> &dependencies);
 
 	public:
 		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples);
@@ -76,10 +74,10 @@ namespace CrossEngine {
 		VkRenderPass m_vkRenderPass;
 
 	protected:
-		std::map<uint32_t, VkClearValue> m_clears;
-		std::map<uint32_t, VkAttachmentDescription> m_attachments;
-		std::map<uint32_t, VkSubpassInformation> m_subpasses;
-		std::map<uint32_t, VkSubpassDependency> m_dependencies;
+		std::vector<VkClearValue> m_clears;
+		std::vector<VkAttachmentDescription> m_attachments;
+		std::vector<VkSubpassInformation> m_subpasses;
+		std::vector<VkSubpassDependency> m_dependencies;
 
 	protected:
 		CVulkanDevice *m_pDevice;

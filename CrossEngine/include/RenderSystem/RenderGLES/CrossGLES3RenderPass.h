@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3RenderPass(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager);
+		CGLES3RenderPass(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager, uint32_t numAttachments, uint32_t numSubpasses);
 		virtual ~CGLES3RenderPass(void);
 
 
@@ -68,9 +68,9 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, VkClearValue> m_clears;
-		std::map<uint32_t, VkAttachmentDescription> m_attachments;
-		std::map<uint32_t, GLSubpassInformation> m_subpasses;
+		std::vector<VkClearValue> m_clears;
+		std::vector<VkAttachmentDescription> m_attachments;
+		std::vector<GLSubpassInformation> m_subpasses;
 
 	protected:
 		CGLES3Device *m_pDevice;

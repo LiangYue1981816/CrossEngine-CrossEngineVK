@@ -38,7 +38,7 @@ namespace CrossEngine {
 
 	CGfxRenderPassPtr CGLES3RenderPassManager::AllocRenderPass(uint32_t numAttachments, uint32_t numSubpasses)
 	{
-		CGLES3RenderPass *pRenderPass = SAFE_NEW CGLES3RenderPass(m_pDevice, this);
+		CGLES3RenderPass *pRenderPass = SAFE_NEW CGLES3RenderPass(m_pDevice, this, numAttachments, numSubpasses);
 		{
 			mutex_autolock mutex(m_mutex);
 			m_pResources[pRenderPass] = pRenderPass;
