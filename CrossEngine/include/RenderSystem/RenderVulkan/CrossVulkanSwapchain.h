@@ -70,9 +70,6 @@ namespace CrossEngine {
 
 
 	protected:
-		static const int SWAPCHAIN_IMAGE_COUNT = 3;
-
-	protected:
 		uint32_t m_width;
 		uint32_t m_height;
 		VkFormat m_format;
