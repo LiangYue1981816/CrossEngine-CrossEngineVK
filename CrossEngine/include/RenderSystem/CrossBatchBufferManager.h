@@ -25,4 +25,15 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CBatchBufferManager
+	{
+		friend class CRenderSystem;
+
+
+	protected:
+		CBatchBufferManager(void);
+		virtual ~CBatchBufferManager(void);
+	};
+
 }

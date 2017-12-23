@@ -184,10 +184,10 @@ namespace CrossEngine {
 		m_ptrDescriptorSets[vkDescriptorSet] = ptrDescriptorSet;
 	}
 
-	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset)
+	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)
 	{
 		VkBuffer vkBuffer = (VkBuffer)ptrVertexBuffer->GetHandle();
-		vkCmdBindVertexBuffers(m_vkCommandBuffer, 0, 1, &vkBuffer, &offset);
+		vkCmdBindVertexBuffers(m_vkCommandBuffer, binding, 1, &vkBuffer, &offset);
 
 		m_ptrVertexBuffers[vkBuffer] = ptrVertexBuffer;
 	}

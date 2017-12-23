@@ -24,4 +24,15 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	CBatchBufferManager::CBatchBufferManager(void)
+	{
+
+	}
+
+	CBatchBufferManager::~CBatchBufferManager(void)
+	{
+
+	}
+
 }

@@ -69,6 +69,7 @@ namespace CrossEngine {
 
 		CRenderPassManager* GetRenderPassManager(void) const;
 		CFrameBufferManager* GetFrameBufferManager(void) const;
+		CBatchBufferManager* GetBatchBufferManager(void) const;
 
 
 	protected:
@@ -78,6 +79,7 @@ namespace CrossEngine {
 
 		CRenderPassManager *m_pRenderPassManager;
 		CFrameBufferManager *m_pFrameBufferManager;
+		CBatchBufferManager *m_pBatchBufferManager;
 	};
 
 }

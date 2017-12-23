@@ -32,6 +32,7 @@ namespace CrossEngine {
 
 		, m_pRenderPassManager(NULL)
 		, m_pFrameBufferManager(NULL)
+		, m_pBatchBufferManager(NULL)
 	{
 
 	}
@@ -61,6 +62,11 @@ namespace CrossEngine {
 		return m_pFrameBufferManager;
 	}
 
+	CBatchBufferManager* CRenderSystem::GetBatchBufferManager(void) const
+	{
+		return m_pBatchBufferManager;
+	}
+
 	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		switch (api) {
@@ -78,23 +84,28 @@ namespace CrossEngine {
 
 		m_pRenderPassManager = SAFE_NEW CRenderPassManager;
 		m_pFrameBufferManager = SAFE_NEW CFrameBufferManager;
+		m_pBatchBufferManager = SAFE_NEW CBatchBufferManager;
 
 		return TRUE;
 	}
 
 	void CRenderSystem::Destroy(void)
 	{
-		SAFE_DELETE(m_pRenderPassManager);
+		SAFE_DELETE(m_pBatchBufferManager);
 		SAFE_DELETE(m_pFrameBufferManager);
-		m_pRenderPassManager = NULL;
-		m_pFrameBufferManager = NULL;
+		SAFE_DELETE(m_pRenderPassManager);
 
 		m_pGfxInstance->Destroy();
 
 		SAFE_DELETE(m_pGfxInstance);
+
 		m_pGfxInstance = NULL;
 		m_pGfxDevice = NULL;
 		m_pGfxSwapchain = NULL;
+
+		m_pRenderPassManager = NULL;
+		m_pFrameBufferManager = NULL;
+		m_pBatchBufferManager = NULL;
 	}
 
 }
