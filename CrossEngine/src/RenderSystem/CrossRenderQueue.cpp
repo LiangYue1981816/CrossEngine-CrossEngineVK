@@ -35,7 +35,7 @@ namespace CrossEngine {
 
 	}
 
-	void CRenderQueue::Add(CDrawable *pDraw)
+	void CRenderQueue::AddDrawable(CDrawable *pDraw)
 	{
 		for (const auto &itMatPass : pDraw->GetMaterial()->GetPasses()) {
 			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
