@@ -34,15 +34,15 @@ namespace CrossEngine {
 	};
 
 	static const VERTEX_ATTRIBUTE vertexAttributes[VERTEX_ATTRIBUTE_FLAG_COUNT] = {
-		{ VERTEX_ATTRIBUTE_FLAG_POSITION,            3, 0, VK_FORMAT_R32G32B32_SFLOAT,    "inPosition"           },
-		{ VERTEX_ATTRIBUTE_FLAG_NORMAL,              3, 1, VK_FORMAT_R32G32B32_SFLOAT,    "inNormal"             },
-		{ VERTEX_ATTRIBUTE_FLAG_BINORMAL,            3, 2, VK_FORMAT_R32G32B32_SFLOAT,    "inBinormal"           },
-		{ VERTEX_ATTRIBUTE_FLAG_COLOR,               3, 3, VK_FORMAT_R32G32B32_SFLOAT,    "inColor"              },
-		{ VERTEX_ATTRIBUTE_FLAG_SKIN,                4, 4, VK_FORMAT_R32G32B32A32_SFLOAT, "inSkin"               },
-		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD,            4, 5, VK_FORMAT_R32G32B32A32_SFLOAT, "inTexcoord"           },
+		{ VERTEX_ATTRIBUTE_FLAG_POSITION,             3, 0, VK_FORMAT_R32G32B32_SFLOAT,    "inPosition"            },
+		{ VERTEX_ATTRIBUTE_FLAG_NORMAL,               3, 1, VK_FORMAT_R32G32B32_SFLOAT,    "inNormal"              },
+		{ VERTEX_ATTRIBUTE_FLAG_BINORMAL,             3, 2, VK_FORMAT_R32G32B32_SFLOAT,    "inBinormal"            },
+		{ VERTEX_ATTRIBUTE_FLAG_COLOR,                3, 3, VK_FORMAT_R32G32B32_SFLOAT,    "inColor"               },
+		{ VERTEX_ATTRIBUTE_FLAG_SKIN,                 4, 4, VK_FORMAT_R32G32B32A32_SFLOAT, "inSkin"                },
+		{ VERTEX_ATTRIBUTE_FLAG_TEXCOORD,             4, 5, VK_FORMAT_R32G32B32A32_SFLOAT, "inTexcoord"            },
 
-		{ VERTEX_ATTRIBUTE_FLAG_INSTANCE_POSITION,   3, 8, VK_FORMAT_R32G32B32_SFLOAT,    "inInstancePosition"   },
-		{ VERTEX_ATTRIBUTE_FLAG_INSTANCE_ORIETATION, 4, 9, VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceOrietation" },
+		{ VERTEX_ATTRIBUTE_FLAG_INSTANCE_POSITION,    3, 8, VK_FORMAT_R32G32B32_SFLOAT,    "inInstancePosition"    },
+		{ VERTEX_ATTRIBUTE_FLAG_INSTANCE_ORIENTATION, 4, 9, VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceOrientation" },
 	};
 
 
