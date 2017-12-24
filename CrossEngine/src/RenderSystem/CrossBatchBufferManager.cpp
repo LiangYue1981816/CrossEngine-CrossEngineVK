@@ -35,4 +35,9 @@ namespace CrossEngine {
 
 	}
 
+	CBatchBuffer* CBatchBufferManager::GetBuffer(BUFFER_TYPE type, int index)
+	{
+		return index >= 0 && index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT ? &m_buffers[type][index] : NULL;
+	}
+
 }

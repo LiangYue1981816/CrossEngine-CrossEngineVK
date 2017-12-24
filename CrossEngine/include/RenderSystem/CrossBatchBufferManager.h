@@ -31,9 +31,26 @@ namespace CrossEngine {
 		friend class CRenderSystem;
 
 
+	public:
+		typedef enum {
+			BUFFER_TYPE_STATIC_MESH = 0,
+			BUFFER_TYPE_SKIN_MESH,
+			BUFFER_TYPE_PARTICAL,
+			BUFFER_TYPE_COUNT
+		} BUFFER_TYPE;
+
+
 	protected:
 		CBatchBufferManager(void);
 		virtual ~CBatchBufferManager(void);
+
+
+	public:
+		CBatchBuffer* GetBuffer(BUFFER_TYPE type, int index);
+
+
+	protected:
+		CBatchBuffer m_buffers[BUFFER_TYPE_COUNT][CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT];
 	};
 
 }
