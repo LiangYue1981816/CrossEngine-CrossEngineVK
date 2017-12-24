@@ -28,9 +28,28 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatchSkinMesh : public CBatchBase
 	{
+		typedef struct InstanceData {
+			glm::vec3 position;
+			glm::quat orientation;
+		} InstanceData;
+
+
 	public:
 		CBatchSkinMesh(void);
 		virtual ~CBatchSkinMesh(void);
+
+
+	public:
+		virtual void UpdateInstanceData(void);
+
+	public:
+		static void ClearInstanceDataBuffer(void);
+		static void* GetInstanceDataBuffer(void);
+		static size_t GetInstaceDataBufferSize(void);
+
+
+	protected:
+		static std::vector<InstanceData> datas;
 	};
 
 }

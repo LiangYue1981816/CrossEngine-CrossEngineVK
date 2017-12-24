@@ -34,14 +34,16 @@ namespace CrossEngine {
 
 
 	public:
-		uint32_t GetCount(void) const;
-
-		void Clear(void);
-		void AddDrawable(CDrawable *pDrawable);
+		uint32_t GetDrawableCount(void) const;
+		uint32_t GetInstanceBufferOffset(void) const;
 
 	public:
+		virtual void AddDrawable(CDrawable *pDrawable);
 		virtual void UpdateInstanceData(void) = 0;
 
+
+	protected:
+		uint32_t m_instanceDataBufferOffset;
 
 	protected:
 		uint32_t m_count;

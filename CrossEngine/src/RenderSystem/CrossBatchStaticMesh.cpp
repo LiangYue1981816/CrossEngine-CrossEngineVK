@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	std::vector<CBatchStaticMesh::InstanceData> CBatchStaticMesh::datas;
+
 	CBatchStaticMesh::CBatchStaticMesh(void)
 	{
 
@@ -33,6 +35,26 @@ namespace CrossEngine {
 	CBatchStaticMesh::~CBatchStaticMesh(void)
 	{
 
+	}
+
+	void CBatchStaticMesh::UpdateInstanceData(void)
+	{
+
+	}
+
+	void CBatchStaticMesh::ClearInstanceDataBuffer(void)
+	{
+		datas.clear();
+	}
+
+	void* CBatchStaticMesh::GetInstanceDataBuffer(void)
+	{
+		return datas.data();
+	}
+
+	size_t CBatchStaticMesh::GetInstaceDataBufferSize(void)
+	{
+		return datas.size() * sizeof(InstanceData);
 	}
 
 }

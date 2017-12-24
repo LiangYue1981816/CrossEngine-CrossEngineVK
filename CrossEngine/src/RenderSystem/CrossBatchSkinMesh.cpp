@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	std::vector<CBatchSkinMesh::InstanceData> CBatchSkinMesh::datas;
+
 	CBatchSkinMesh::CBatchSkinMesh(void)
 	{
 
@@ -33,6 +35,26 @@ namespace CrossEngine {
 	CBatchSkinMesh::~CBatchSkinMesh(void)
 	{
 
+	}
+
+	void CBatchSkinMesh::UpdateInstanceData(void)
+	{
+
+	}
+
+	void CBatchSkinMesh::ClearInstanceDataBuffer(void)
+	{
+		datas.clear();
+	}
+
+	void* CBatchSkinMesh::GetInstanceDataBuffer(void)
+	{
+		return datas.data();
+	}
+
+	size_t CBatchSkinMesh::GetInstaceDataBufferSize(void)
+	{
+		return datas.size() * sizeof(InstanceData);
 	}
 
 }
