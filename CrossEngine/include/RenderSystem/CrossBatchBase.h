@@ -31,6 +31,17 @@ namespace CrossEngine {
 	public:
 		CBatchBase(void);
 		virtual ~CBatchBase(void);
+
+
+	public:
+		void Clear(void);
+		void AddDrawable(CDrawable *pDrawable);
+		void Draw(void) const;
+
+
+	protected:
+		uint32_t m_count;
+		CDrawable *m_pListHead;
 	};
 
 }

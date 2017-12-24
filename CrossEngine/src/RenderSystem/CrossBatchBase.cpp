@@ -26,11 +26,32 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CBatchBase::CBatchBase(void)
+		: m_pListHead(NULL)
+		, m_count(0)
 	{
 
 	}
 
 	CBatchBase::~CBatchBase(void)
+	{
+
+	}
+
+	void CBatchBase::Clear(void)
+	{
+		m_pListHead = NULL;
+		m_count = 0;
+	}
+
+	void CBatchBase::AddDrawable(CDrawable *pDrawable)
+	{
+		pDrawable->pNext = m_pListHead;
+		m_pListHead = pDrawable;
+
+		m_count++;
+	}
+
+	void CBatchBase::Draw(void) const
 	{
 
 	}
