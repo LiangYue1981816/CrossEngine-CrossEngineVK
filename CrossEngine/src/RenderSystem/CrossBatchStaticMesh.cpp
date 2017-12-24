@@ -24,4 +24,15 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	CBatchStaticMesh::CBatchStaticMesh(void)
+	{
+
+	}
+
+	CBatchStaticMesh::~CBatchStaticMesh(void)
+	{
+
+	}
+
 }
