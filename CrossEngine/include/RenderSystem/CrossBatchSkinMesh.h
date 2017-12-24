@@ -25,4 +25,12 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CBatchSkinMesh : public CBatchBase
+	{
+	public:
+		CBatchSkinMesh(void);
+		virtual ~CBatchSkinMesh(void);
+	};
+
 }

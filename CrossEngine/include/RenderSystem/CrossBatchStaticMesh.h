@@ -25,4 +25,12 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CBatchStaticMesh : public CBatchBase
+	{
+	public:
+		CBatchStaticMesh(void);
+		virtual ~CBatchStaticMesh(void);
+	};
+
 }

@@ -24,4 +24,15 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	CBatchSkinMesh::CBatchSkinMesh(void)
+	{
+
+	}
+
+	CBatchSkinMesh::~CBatchSkinMesh(void)
+	{
+
+	}
+
 }

@@ -25,4 +25,12 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CBatchSkinPartical : public CBatchBase
+	{
+	public:
+		CBatchSkinPartical(void);
+		virtual ~CBatchSkinPartical(void);
+	};
+
 }

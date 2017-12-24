@@ -24,4 +24,15 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	CBatchBase::CBatchBase(void)
+	{
+
+	}
+
+	CBatchBase::~CBatchBase(void)
+	{
+
+	}
+
 }

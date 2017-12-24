@@ -36,6 +36,10 @@ namespace CrossEngine {
 	public:
 		virtual const CGfxMaterialPtr& GetMaterial(void) const = 0;
 		virtual const void Draw(void) const = 0;
+
+
+	public:
+		CDrawable *pNext;
 	};
 
 }
