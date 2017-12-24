@@ -25,33 +25,4 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
-
-	class CROSS_EXPORT CRenderQueue
-	{
-		typedef std::map<const CGfxVertexBuffer*, CBatchBase*> BatchQueue;
-		typedef std::map<const CGfxDescriptorSet*, BatchQueue> DescriptorSetQueue;
-		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;
-		typedef std::map<const uint32_t, PipelineQueue> SubPassQueue;
-		typedef std::map<const CGfxRenderPass*, SubPassQueue> RenderPassQueue;
-
-		
-	protected:
-		CRenderQueue(void);
-		virtual ~CRenderQueue(void);
-
-
-	public:
-		void AddDrawable(CDrawable *pDraw);
-		void Clear(void);
-
-
-	protected:
-		RenderPassQueue m_queue;
-
-	protected:
-		std::vector<CBatchPartical> m_batchParticals;
-		std::vector<CBatchSkinMesh> m_batchSkinMeshs;
-		std::vector<CBatchStaticMesh> m_batchStaticMeshs;
-	};
-
 }

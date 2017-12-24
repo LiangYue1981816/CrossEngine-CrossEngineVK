@@ -37,6 +37,7 @@ namespace CrossEngine {
 
 	void CRenderQueue::AddDrawable(CDrawable *pDraw)
 	{
+		/*
 		for (const auto &itMatPass : pDraw->GetMaterial()->GetPasses()) {
 			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
 			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
@@ -44,11 +45,15 @@ namespace CrossEngine {
 			const CGfxDescriptorSet *pDescriptorSet = itMatPass.second->GetDescriptorSet();
 			m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet].push_back(pDraw);
 		}
+		*/
 	}
 
 	void CRenderQueue::Clear(void)
 	{
 		m_queue.clear();
+		m_batchParticals.clear();
+		m_batchSkinMeshs.clear();
+		m_batchStaticMeshs.clear();
 	}
 
 }
