@@ -35,17 +35,36 @@ namespace CrossEngine {
 
 	}
 
-	void CRenderQueue::AddDrawable(CDrawable *pDraw)
+	void CRenderQueue::AddDrawable(CDrawable *pDrawable)
 	{
-		/*
-		for (const auto &itMatPass : pDraw->GetMaterial()->GetPasses()) {
+		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
 			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
 			const CGfxPipelineGraphics *pPipeline = itMatPass.second->GetPipeline();
 			const CGfxDescriptorSet *pDescriptorSet = itMatPass.second->GetDescriptorSet();
-			m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet].push_back(pDraw);
+			const CGfxVertexBuffer *pVertexBuffer = pDrawable->GetVertexBuffer();
+
+			if (m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] == NULL) {
+				switch (pDrawable->GetType()) {
+				case DRAWABLE_TYPE_PARTICAL:
+					m_batchParticals.push_back(CBatchPartical());
+					m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = &m_batchParticals[m_batchParticals.size() - 1];
+					break;
+
+				case DRAWABLE_TYPE_SKIN_MESH:
+					m_batchSkinMeshs.push_back(CBatchSkinMesh());
+					m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = &m_batchSkinMeshs[m_batchSkinMeshs.size() - 1];
+					break;
+
+				case DRAWABLE_TYPE_STATIC_MESH:
+					m_batchStaticMeshs.push_back(CBatchStaticMesh());
+					m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = &m_batchStaticMeshs[m_batchStaticMeshs.size() - 1];
+					break;
+				}
+			}
+
+			m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]->AddDrawable(pDrawable);
 		}
-		*/
 	}
 
 	void CRenderQueue::Clear(void)

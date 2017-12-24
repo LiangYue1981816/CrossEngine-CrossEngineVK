@@ -26,6 +26,12 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	typedef enum {
+		DRAWABLE_TYPE_PARTICAL = 0,
+		DRAWABLE_TYPE_SKIN_MESH,
+		DRAWABLE_TYPE_STATIC_MESH
+	} DRAWABLE_TYPE;
+
 	class CROSS_EXPORT CDrawable
 	{
 	protected:
@@ -34,6 +40,7 @@ namespace CrossEngine {
 
 
 	public:
+		virtual DRAWABLE_TYPE GetType(void) const = 0;
 		virtual const CGfxMaterialPtr& GetMaterial(void) const = 0;
 		virtual const CGfxIndexBufferPtr& GetIndexBuffer(void) const = 0;
 		virtual const CGfxVertexBufferPtr& GetVertexBuffer(void) const = 0;

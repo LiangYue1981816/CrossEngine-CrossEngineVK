@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CRenderQueue
 	{
-		typedef std::map<const CGfxVertexBuffer*, CBatchBase*> BatchQueue;
+		typedef std::map<const CGfxVertexBuffer*, CBatch*> BatchQueue;
 		typedef std::map<const CGfxDescriptorSet*, BatchQueue> DescriptorSetQueue;
 		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;
 		typedef std::map<const uint32_t, PipelineQueue> SubPassQueue;
@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	public:
-		void AddDrawable(CDrawable *pDraw);
+		void AddDrawable(CDrawable *pDrawable);
 		void Clear(void);
 
 

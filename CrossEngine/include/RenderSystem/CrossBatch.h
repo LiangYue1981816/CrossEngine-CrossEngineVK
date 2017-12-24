@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CBatchBase
+	class CROSS_EXPORT CBatch
 	{
 	public:
-		CBatchBase(void);
-		virtual ~CBatchBase(void);
+		CBatch(void);
+		virtual ~CBatch(void);
 
 
 	public:
