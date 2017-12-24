@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CBatchSkinPartical : public CBatchBase
+	class CROSS_EXPORT CBatchPartical : public CBatchBase
 	{
 		typedef struct InstanceData {
 			glm::vec3 position;
@@ -35,8 +35,8 @@ namespace CrossEngine {
 
 
 	public:
-		CBatchSkinPartical(void);
-		virtual ~CBatchSkinPartical(void);
+		CBatchPartical(void);
+		virtual ~CBatchPartical(void);
 
 
 	public:

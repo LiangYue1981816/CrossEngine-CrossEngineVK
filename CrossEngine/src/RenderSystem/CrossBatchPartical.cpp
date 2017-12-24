@@ -25,34 +25,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	std::vector<CBatchSkinPartical::InstanceData> CBatchSkinPartical::datas;
+	std::vector<CBatchPartical::InstanceData> CBatchPartical::datas;
 
-	CBatchSkinPartical::CBatchSkinPartical(void)
+	CBatchPartical::CBatchPartical(void)
 	{
 
 	}
 
-	CBatchSkinPartical::~CBatchSkinPartical(void)
+	CBatchPartical::~CBatchPartical(void)
 	{
 
 	}
 
-	void CBatchSkinPartical::UpdateInstanceData(void)
+	void CBatchPartical::UpdateInstanceData(void)
 	{
 
 	}
 
-	void CBatchSkinPartical::ClearInstanceDataBuffer(void)
+	void CBatchPartical::ClearInstanceDataBuffer(void)
 	{
 		datas.clear();
 	}
 
-	void* CBatchSkinPartical::GetInstanceDataBuffer(void)
+	void* CBatchPartical::GetInstanceDataBuffer(void)
 	{
 		return datas.data();
 	}
 
-	size_t CBatchSkinPartical::GetInstaceDataBufferSize(void)
+	size_t CBatchPartical::GetInstaceDataBufferSize(void)
 	{
 		return datas.size() * sizeof(InstanceData);
 	}
