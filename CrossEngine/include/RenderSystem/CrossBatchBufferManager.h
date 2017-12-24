@@ -33,9 +33,9 @@ namespace CrossEngine {
 
 	public:
 		typedef enum {
-			BUFFER_TYPE_STATIC_MESH = 0,
+			BUFFER_TYPE_PARTICAL = 0,
 			BUFFER_TYPE_SKIN_MESH,
-			BUFFER_TYPE_PARTICAL,
+			BUFFER_TYPE_STATIC_MESH,
 			BUFFER_TYPE_COUNT
 		} BUFFER_TYPE;
 

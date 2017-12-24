@@ -37,22 +37,22 @@ namespace CrossEngine {
 
 	}
 
-	void CBatchPartical::UpdateInstanceData(void)
+	void CBatchPartical::UpdateInstanceBuffer(void)
 	{
 
 	}
 
-	void CBatchPartical::ClearInstanceDataBuffer(void)
+	void CBatchPartical::ClearInstanceBuffer(void)
 	{
 		datas.clear();
 	}
 
-	void* CBatchPartical::GetInstanceDataBuffer(void)
+	void* CBatchPartical::GetInstanceBuffer(void)
 	{
 		return datas.data();
 	}
 
-	size_t CBatchPartical::GetInstaceDataBufferSize(void)
+	size_t CBatchPartical::GetInstaceBufferSize(void)
 	{
 		return datas.size() * sizeof(InstanceData);
 	}

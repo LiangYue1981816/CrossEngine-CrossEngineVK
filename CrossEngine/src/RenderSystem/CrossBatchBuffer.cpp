@@ -42,17 +42,17 @@ namespace CrossEngine {
 		return m_ptrVertexBuffer;
 	}
 
-	BOOL CBatchBuffer::UpdateData(size_t size, const void *pBuffer)
+	BOOL CBatchBuffer::UpdateBuffer(size_t size, const void *pBuffer)
 	{
 		if (m_ptrVertexBuffer->GetBufferSize() < size) {
 			m_ptrVertexBuffer->Destroy();
-			m_ptrVertexBuffer->Create(BestSize(size), NULL, TRUE, m_format);
+			m_ptrVertexBuffer->Create(BufferSize(size), NULL, TRUE, m_format);
 		}
 
 		return m_ptrVertexBuffer->UpdateData(0, size, pBuffer);
 	}
 
-	const uint32_t CBatchBuffer::BestSize(uint32_t size) const
+	const uint32_t CBatchBuffer::BufferSize(uint32_t size) const
 	{
 		uint32_t index = 0;
 		while ((uint32_t)(1 << index) < size) index++;

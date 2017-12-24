@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CBatch::CBatch(void)
 		: m_pListHead(NULL)
 		, m_count(0)
-		, m_instanceDataBufferOffset(0)
+		, m_instanceBufferOffset(0)
 	{
 
 	}
@@ -45,7 +45,7 @@ namespace CrossEngine {
 
 	uint32_t CBatch::GetInstanceBufferOffset(void) const
 	{
-		return m_instanceDataBufferOffset;
+		return m_instanceBufferOffset;
 	}
 
 	void CBatch::AddDrawable(CDrawable *pDrawable)

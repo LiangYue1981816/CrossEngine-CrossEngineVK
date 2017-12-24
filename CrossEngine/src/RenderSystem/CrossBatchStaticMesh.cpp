@@ -37,22 +37,22 @@ namespace CrossEngine {
 
 	}
 
-	void CBatchStaticMesh::UpdateInstanceData(void)
+	void CBatchStaticMesh::UpdateInstanceBuffer(void)
 	{
 
 	}
 
-	void CBatchStaticMesh::ClearInstanceDataBuffer(void)
+	void CBatchStaticMesh::ClearInstanceBuffer(void)
 	{
 		datas.clear();
 	}
 
-	void* CBatchStaticMesh::GetInstanceDataBuffer(void)
+	void* CBatchStaticMesh::GetInstanceBuffer(void)
 	{
 		return datas.data();
 	}
 
-	size_t CBatchStaticMesh::GetInstaceDataBufferSize(void)
+	size_t CBatchStaticMesh::GetInstaceBufferSize(void)
 	{
 		return datas.size() * sizeof(InstanceData);
 	}

@@ -39,11 +39,11 @@ namespace CrossEngine {
 
 	public:
 		virtual void AddDrawable(CDrawable *pDrawable);
-		virtual void UpdateInstanceData(void) = 0;
+		virtual void UpdateInstanceBuffer(void) = 0;
 
 
 	protected:
-		uint32_t m_instanceDataBufferOffset;
+		uint32_t m_instanceBufferOffset;
 
 	protected:
 		uint32_t m_count;

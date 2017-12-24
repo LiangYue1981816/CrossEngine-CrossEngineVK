@@ -44,6 +44,8 @@ namespace CrossEngine {
 		void AddDrawable(CDrawable *pDrawable);
 		void Clear(void);
 
+		void UpdateInstanceBuffer(void);
+
 
 	protected:
 		RenderPassQueue m_queue;

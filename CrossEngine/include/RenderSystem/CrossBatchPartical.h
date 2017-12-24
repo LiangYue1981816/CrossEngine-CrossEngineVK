@@ -40,12 +40,12 @@ namespace CrossEngine {
 
 
 	public:
-		virtual void UpdateInstanceData(void);
+		virtual void UpdateInstanceBuffer(void);
 
 	public:
-		static void ClearInstanceDataBuffer(void);
-		static void* GetInstanceDataBuffer(void);
-		static size_t GetInstaceDataBufferSize(void);
+		static void ClearInstanceBuffer(void);
+		static void* GetInstanceBuffer(void);
+		static size_t GetInstaceBufferSize(void);
 
 
 	protected:
