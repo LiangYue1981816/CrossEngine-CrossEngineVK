@@ -27,12 +27,34 @@ namespace CrossEngine {
 
 	CBatchBuffer::CBatchBuffer(void)
 	{
-
+		m_ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
 	}
 
 	CBatchBuffer::~CBatchBuffer(void)
 	{
+		m_ptrVertexBuffer.Release();
+	}
 
+	const CGfxVertexBufferPtr& CBatchBuffer::GetBuffer(void) const
+	{
+		return m_ptrVertexBuffer;
+	}
+
+	BOOL CBatchBuffer::UpdateData(size_t size, const void *pBuffer)
+	{
+		if (m_ptrVertexBuffer->GetBufferSize() < size) {
+			m_ptrVertexBuffer->Destroy();
+			m_ptrVertexBuffer->Create(BestSize(size), NULL, TRUE, 0);
+		}
+
+		return m_ptrVertexBuffer->UpdateData(0, size, pBuffer);
+	}
+
+	const uint32_t CBatchBuffer::BestSize(uint32_t size) const
+	{
+		uint32_t index = 0;
+		while ((uint32_t)(1 << index) < size) index++;
+		return (uint32_t)(1 << index);
 	}
 
 }
