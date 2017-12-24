@@ -77,6 +77,7 @@ namespace CrossEngine {
 		CGfxDevice *m_pGfxDevice;
 		CGfxSwapchain *m_pGfxSwapchain;
 
+	protected:
 		CRenderPassManager *m_pRenderPassManager;
 		CFrameBufferManager *m_pFrameBufferManager;
 		CBatchBufferManager *m_pBatchBufferManager;
