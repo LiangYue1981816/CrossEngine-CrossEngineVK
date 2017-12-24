@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CBatchBuffer(void);
+		CBatchBuffer(uint32_t format);
 		virtual ~CBatchBuffer(void);
 
 
@@ -45,6 +45,7 @@ namespace CrossEngine {
 
 
 	protected:
+		uint32_t m_format;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
 	};
 

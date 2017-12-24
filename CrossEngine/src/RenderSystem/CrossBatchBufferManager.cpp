@@ -27,17 +27,25 @@ namespace CrossEngine {
 
 	CBatchBufferManager::CBatchBufferManager(void)
 	{
-
+		for (int index = 0; index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT; index++) {
+			m_pBuffers[BUFFER_TYPE_STATIC_MESH][index] = SAFE_NEW CBatchBuffer(VERTEX_ATTRIBUTE_FLAG_INSTANCE_POSITION | VERTEX_ATTRIBUTE_FLAG_INSTANCE_ORIETATION);
+			m_pBuffers[BUFFER_TYPE_SKIN_MESH][index] = SAFE_NEW CBatchBuffer(VERTEX_ATTRIBUTE_FLAG_INSTANCE_POSITION | VERTEX_ATTRIBUTE_FLAG_INSTANCE_ORIETATION);
+			m_pBuffers[BUFFER_TYPE_PARTICAL][index] = SAFE_NEW CBatchBuffer(VERTEX_ATTRIBUTE_FLAG_INSTANCE_POSITION | VERTEX_ATTRIBUTE_FLAG_INSTANCE_ORIETATION);
+		}
 	}
 
 	CBatchBufferManager::~CBatchBufferManager(void)
 	{
-
+		for (int index = 0; index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT; index++) {
+			SAFE_DELETE(m_pBuffers[BUFFER_TYPE_STATIC_MESH][index]);
+			SAFE_DELETE(m_pBuffers[BUFFER_TYPE_SKIN_MESH][index]);
+			SAFE_DELETE(m_pBuffers[BUFFER_TYPE_PARTICAL][index]);
+		}
 	}
 
-	CBatchBuffer* CBatchBufferManager::GetBuffer(BUFFER_TYPE type, int index)
+	CBatchBuffer* CBatchBufferManager::GetBuffer(BUFFER_TYPE type, int index) const
 	{
-		return index >= 0 && index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT ? &m_buffers[type][index] : NULL;
+		return index >= 0 && index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT ? m_pBuffers[type][index] : NULL;
 	}
 
 }

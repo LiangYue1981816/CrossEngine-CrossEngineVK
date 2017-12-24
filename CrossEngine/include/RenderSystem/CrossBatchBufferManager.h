@@ -46,11 +46,11 @@ namespace CrossEngine {
 
 
 	public:
-		CBatchBuffer* GetBuffer(BUFFER_TYPE type, int index);
+		CBatchBuffer* GetBuffer(BUFFER_TYPE type, int index) const;
 
 
 	protected:
-		CBatchBuffer m_buffers[BUFFER_TYPE_COUNT][CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT];
+		CBatchBuffer *m_pBuffers[BUFFER_TYPE_COUNT][CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT];
 	};
 
 }

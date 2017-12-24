@@ -2,7 +2,7 @@
 
 struct Vertex {
 	float position[3];
-	float texcoord[2];
+	float texcoord[4];
 };
 
 struct {
@@ -80,13 +80,13 @@ void CreateMesh(void)
 	Mesh.ptrTexture->CreateTexture2D((gli::texture2d)gli::load("../Data/Texture/het_kanonschot_rgba8.ktx"), VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE);
 
 	std::vector<Vertex> vertexBuffer = {
-		{ { -1.0f, -1.0f, 0.0f },{ 0.0f, 1.0f } },
-		{ {  1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f } },
-		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 0.0f } },
-		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f } }
+		{ { -1.0f, -1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f, 0.0f } },
+		{ {  1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 0.0f, 0.0f } },
+		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 0.0f, 0.0f, 0.0f } },
+		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f, 0.0f, 0.0f } }
 	};
 	Mesh.ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
-	Mesh.ptrVertexBuffer->Create(vertexBuffer.size() * sizeof(Vertex), vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_FLAG_POSITION | CrossEngine::VERTEX_ATTRIBUTE_FLAG_TEXCOORD0);
+	Mesh.ptrVertexBuffer->Create(vertexBuffer.size() * sizeof(Vertex), vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_FLAG_POSITION | CrossEngine::VERTEX_ATTRIBUTE_FLAG_TEXCOORD);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	Mesh.ptrIndexBuffer = GfxDevice()->NewIndexBuffer();

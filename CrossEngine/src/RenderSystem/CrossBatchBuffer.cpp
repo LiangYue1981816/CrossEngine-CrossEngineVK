@@ -25,9 +25,11 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CBatchBuffer::CBatchBuffer(void)
+	CBatchBuffer::CBatchBuffer(uint32_t format)
+		: m_format(format)
 	{
 		m_ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
+		m_ptrVertexBuffer->Create(32 * 1024, NULL, TRUE, m_format);
 	}
 
 	CBatchBuffer::~CBatchBuffer(void)
@@ -44,7 +46,7 @@ namespace CrossEngine {
 	{
 		if (m_ptrVertexBuffer->GetBufferSize() < size) {
 			m_ptrVertexBuffer->Destroy();
-			m_ptrVertexBuffer->Create(BestSize(size), NULL, TRUE, 0);
+			m_ptrVertexBuffer->Create(BestSize(size), NULL, TRUE, m_format);
 		}
 
 		return m_ptrVertexBuffer->UpdateData(0, size, pBuffer);
