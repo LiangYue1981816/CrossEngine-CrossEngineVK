@@ -37,23 +37,23 @@ namespace CrossEngine {
 
 	}
 
+	uint32_t CBatchBase::GetCount(void) const
+	{
+		return m_count;
+	}
+
 	void CBatchBase::Clear(void)
 	{
-		m_pListHead = NULL;
 		m_count = 0;
+		m_pListHead = NULL;
 	}
 
 	void CBatchBase::AddDrawable(CDrawable *pDrawable)
 	{
+		m_count++;
+
 		pDrawable->pNext = m_pListHead;
 		m_pListHead = pDrawable;
-
-		m_count++;
-	}
-
-	void CBatchBase::Draw(void) const
-	{
-
 	}
 
 }
