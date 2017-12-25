@@ -74,6 +74,9 @@ namespace CrossEngine {
 		CFrameBufferManager* GetFrameBufferManager(void) const;
 		CBatchBufferManager* GetBatchBufferManager(void) const;
 
+	public:
+		void Render(void);
+
 
 	protected:
 		CGfxInstance *m_pGfxInstance;
