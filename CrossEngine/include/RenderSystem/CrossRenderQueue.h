@@ -46,6 +46,9 @@ namespace CrossEngine {
 
 		void UpdateInstanceBuffer(void);
 
+	protected:
+		CBatch* CreateBatch(DRAWABLE_TYPE type);
+
 
 	protected:
 		RenderPassQueue m_queue;

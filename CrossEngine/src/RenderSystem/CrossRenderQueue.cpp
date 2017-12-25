@@ -45,22 +45,7 @@ namespace CrossEngine {
 			const CGfxVertexBuffer *pVertexBuffer = pDrawable->GetVertexBuffer();
 
 			if (m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] == NULL) {
-				switch (pDrawable->GetType()) {
-				case DRAWABLE_TYPE_PARTICAL:
-					m_batchParticals.push_back(CBatchPartical());
-					m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = &m_batchParticals[m_batchParticals.size() - 1];
-					break;
-
-				case DRAWABLE_TYPE_SKIN_MESH:
-					m_batchSkinMeshs.push_back(CBatchSkinMesh());
-					m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = &m_batchSkinMeshs[m_batchSkinMeshs.size() - 1];
-					break;
-
-				case DRAWABLE_TYPE_STATIC_MESH:
-					m_batchStaticMeshs.push_back(CBatchStaticMesh());
-					m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = &m_batchStaticMeshs[m_batchStaticMeshs.size() - 1];
-					break;
-				}
+				m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = CreateBatch(pDrawable->GetType());
 			}
 
 			m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]->AddDrawable(pDrawable);
@@ -73,6 +58,30 @@ namespace CrossEngine {
 		m_batchParticals.clear();
 		m_batchSkinMeshs.clear();
 		m_batchStaticMeshs.clear();
+	}
+
+	CBatch* CRenderQueue::CreateBatch(DRAWABLE_TYPE type)
+	{
+		CBatch *pBatch = NULL;
+
+		switch (type) {
+		case DRAWABLE_TYPE_PARTICAL:
+			m_batchParticals.push_back(CBatchPartical());
+			pBatch = &m_batchParticals[m_batchParticals.size() - 1];
+			break;
+
+		case DRAWABLE_TYPE_SKIN_MESH:
+			m_batchSkinMeshs.push_back(CBatchSkinMesh());
+			pBatch = &m_batchSkinMeshs[m_batchSkinMeshs.size() - 1];
+			break;
+
+		case DRAWABLE_TYPE_STATIC_MESH:
+			m_batchStaticMeshs.push_back(CBatchStaticMesh());
+			pBatch = &m_batchStaticMeshs[m_batchStaticMeshs.size() - 1];
+			break;
+		}
+
+		return pBatch;
 	}
 
 	void CRenderQueue::UpdateInstanceBuffer(void)
