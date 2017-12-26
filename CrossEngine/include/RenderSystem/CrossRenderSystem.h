@@ -35,6 +35,8 @@ THE SOFTWARE.
 #include "CrossBatchStaticMesh.h"
 #include "CrossBatchBuffer.h"
 #include "CrossBatchBufferManager.h"
+#include "CrossCamera.h"
+#include "CrossCameraManager.h"
 #include "CrossRenderQueue.h"
 #include "CrossRenderPassManager.h"
 #include "CrossFrameBufferManager.h"
@@ -70,6 +72,7 @@ namespace CrossEngine {
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
 
+		CCameraManager* GetCameraManager(void) const;
 		CRenderPassManager* GetRenderPassManager(void) const;
 		CFrameBufferManager* GetFrameBufferManager(void) const;
 		CBatchBufferManager* GetBatchBufferManager(void) const;
@@ -84,6 +87,7 @@ namespace CrossEngine {
 		CGfxSwapchain *m_pGfxSwapchain;
 
 	protected:
+		CCameraManager *m_pCameraManager;
 		CRenderPassManager *m_pRenderPassManager;
 		CFrameBufferManager *m_pFrameBufferManager;
 		CBatchBufferManager *m_pBatchBufferManager;

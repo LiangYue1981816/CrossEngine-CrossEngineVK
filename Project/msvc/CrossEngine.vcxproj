@@ -197,6 +197,8 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchPartical.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchSkinMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchStaticMesh.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossCamera.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossCameraManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawable.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawablePartical.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawableSkinMesh.h" />
@@ -380,6 +382,8 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchPartical.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchSkinMesh.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchStaticMesh.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossCamera.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossCameraManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawable.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawablePartical.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawableSkinMesh.cpp" />
