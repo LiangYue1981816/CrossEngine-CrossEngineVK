@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	static const CGfxFrameBufferPtr ptrFrameBufferNull;
+
 	CFrameBufferManager::CFrameBufferManager(void)
 	{
 
@@ -33,6 +35,17 @@ namespace CrossEngine {
 	CFrameBufferManager::~CFrameBufferManager(void)
 	{
 
+	}
+
+	const CGfxFrameBufferPtr& CFrameBufferManager::GetFrameBuffer(const char *szName) const
+	{
+		return GetFrameBuffer(HashValue(szName));
+	}
+
+	const CGfxFrameBufferPtr& CFrameBufferManager::GetFrameBuffer(uint32_t dwName) const
+	{
+		const auto &itFrameBuffer = m_ptrFrameBuffers.find(dwName);
+		return itFrameBuffer != m_ptrFrameBuffers.end() ? itFrameBuffer->second : ptrFrameBufferNull;
 	}
 
 }

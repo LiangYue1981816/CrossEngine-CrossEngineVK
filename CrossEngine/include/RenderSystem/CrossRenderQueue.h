@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CRenderQueue
 	{
+		friend class CCamera;
+
+
 		typedef std::map<const CGfxVertexBuffer*, CBatch*> BatchQueue;
 		typedef std::map<const CGfxDescriptorSet*, BatchQueue> DescriptorSetQueue;
 		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;

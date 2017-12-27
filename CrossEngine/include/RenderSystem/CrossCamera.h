@@ -34,6 +34,11 @@ namespace CrossEngine {
 	protected:
 		CCamera(void);
 		virtual ~CCamera(void);
+
+
+	protected:
+		CRenderQueue m_renderQueue;
+		CGfxFrameBufferPtr m_ptrFrameBuffer;
 	};
 
 }

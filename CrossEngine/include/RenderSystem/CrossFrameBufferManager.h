@@ -34,6 +34,15 @@ namespace CrossEngine {
 	protected:
 		CFrameBufferManager(void);
 		virtual ~CFrameBufferManager(void);
+
+
+	public:
+		const CGfxFrameBufferPtr& GetFrameBuffer(const char *szName) const;
+		const CGfxFrameBufferPtr& GetFrameBuffer(uint32_t dwName) const;
+
+
+	protected:
+		std::map<uint32_t, CGfxFrameBufferPtr> m_ptrFrameBuffers;
 	};
 
 }
