@@ -59,11 +59,9 @@
 #	include "./gtc/type_aligned.hpp"
 #endif
 
-#ifdef GLM_ENABLE_EXPERIMENTAL
 #include "./gtx/associated_min_max.hpp"
 #include "./gtx/bit.hpp"
 #include "./gtx/closest_point.hpp"
-#include "./gtx/color_encoding.hpp"
 #include "./gtx/color_space.hpp"
 #include "./gtx/color_space_YCoCg.hpp"
 #include "./gtx/compatibility.hpp"
@@ -98,14 +96,16 @@
 #include "./gtx/quaternion.hpp"
 #include "./gtx/raw_data.hpp"
 #include "./gtx/rotate_vector.hpp"
+
 #include "./gtx/spline.hpp"
 #include "./gtx/std_based_type.hpp"
+
 #if !(GLM_COMPILER & GLM_COMPILER_CUDA)
 #	include "./gtx/string_cast.hpp"
 #endif
+
 #include "./gtx/transform.hpp"
 #include "./gtx/transform2.hpp"
-#include "./gtx/vec_swizzle.hpp"
 #include "./gtx/vector_angle.hpp"
 #include "./gtx/vector_query.hpp"
 #include "./gtx/wrap.hpp"
@@ -117,4 +117,3 @@
 #if GLM_HAS_RANGE_FOR
 #	include "./gtx/range.hpp"
 #endif
-#endif//GLM_ENABLE_EXPERIMENTAL
