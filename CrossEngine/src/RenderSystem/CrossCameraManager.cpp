@@ -72,16 +72,17 @@ namespace CrossEngine {
 		CBatchPartical::ClearBuffer();
 		CBatchSkinMesh::ClearBuffer();
 		CBatchStaticMesh::ClearBuffer();
+		{
+			for (const auto &itCamera : m_cameras) {
+				itCamera.second->UpdateBatchBuffer();
+			}
+		}
+		BatchBufferManager()->GetBuffer(CBatchBufferManager::BUFFER_TYPE_PARTICAL, GfxSwapChain()->GetImageIndex())->UpdateBuffer(CBatchPartical::GetBufferSize(), CBatchPartical::GetBuffer());
+		BatchBufferManager()->GetBuffer(CBatchBufferManager::BUFFER_TYPE_SKIN_MESH, GfxSwapChain()->GetImageIndex())->UpdateBuffer(CBatchSkinMesh::GetBufferSize(), CBatchSkinMesh::GetBuffer());
+		BatchBufferManager()->GetBuffer(CBatchBufferManager::BUFFER_TYPE_STATIC_MESH, GfxSwapChain()->GetImageIndex())->UpdateBuffer(CBatchStaticMesh::GetBufferSize(), CBatchStaticMesh::GetBuffer());
 
 		for (const auto &itCamera : m_cameras) {
 			itCamera.second->Update();
-		}
-
-		for (const auto &itCamera : m_cameras) {
-			itCamera.second->UpdateBatchBuffer();
-		}
-
-		for (const auto &itCamera : m_cameras) {
 			itCamera.second->Render();
 		}
 	}
