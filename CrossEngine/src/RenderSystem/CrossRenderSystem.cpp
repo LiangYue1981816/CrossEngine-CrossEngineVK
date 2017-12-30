@@ -26,7 +26,9 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CRenderSystem::CRenderSystem(void)
-		: m_pGfxInstance(NULL)
+		: m_nFrameCount(0)
+
+		, m_pGfxInstance(NULL)
 		, m_pGfxDevice(NULL)
 		, m_pGfxSwapchain(NULL)
 
@@ -41,6 +43,11 @@ namespace CrossEngine {
 	CRenderSystem::~CRenderSystem(void)
 	{
 
+	}
+
+	uint32_t CRenderSystem::GetFrameCount(void) const
+	{
+		return m_nFrameCount;
 	}
 
 	CGfxDevice* CRenderSystem::GetDevice(void) const
@@ -116,8 +123,9 @@ namespace CrossEngine {
 		m_pBatchBufferManager = NULL;
 	}
 
-	void CRenderSystem::Render(void) const
+	void CRenderSystem::Render(void)
 	{
+		m_nFrameCount++;
 		m_pCameraManager->Render();
 	}
 

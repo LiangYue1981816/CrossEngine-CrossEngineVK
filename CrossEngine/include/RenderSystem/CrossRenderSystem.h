@@ -69,6 +69,8 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	public:
+		uint32_t GetFrameCount(void) const;
+
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
 
@@ -78,8 +80,11 @@ namespace CrossEngine {
 		CBatchBufferManager* GetBatchBufferManager(void) const;
 
 	public:
-		void Render(void) const;
+		void Render(void);
 
+
+	protected:
+		uint32_t m_nFrameCount;
 
 	protected:
 		CGfxInstance *m_pGfxInstance;
