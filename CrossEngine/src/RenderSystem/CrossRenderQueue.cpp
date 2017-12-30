@@ -99,7 +99,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRenderQueue::Render(void)
+	void CRenderQueue::Render(const CGfxRenderPass *pRenderPass)
 	{
 
 	}

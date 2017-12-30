@@ -40,6 +40,7 @@ namespace CrossEngine {
 		void SetName(const char *szName);
 		const char* GetName(void) const;
 
+	public:
 		void SetEnable(BOOL bEnable);
 		BOOL IsEnable(void) const;
 
@@ -65,6 +66,10 @@ namespace CrossEngine {
 		BOOL IsVisible(const glm::aabb &aabb);
 
 	public:
+		BOOL AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass);
+		BOOL RemoveRenderPass(uint32_t id);
+
+	public:
 		void ClearRenderQueue(void);
 		void AddRenderQueue(const CDrawable *pDrawable);
 
@@ -83,6 +88,9 @@ namespace CrossEngine {
 	protected:
 		CRenderQueue m_renderQueue;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
+
+	protected:
+		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};
 
 }

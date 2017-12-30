@@ -49,7 +49,7 @@ namespace CrossEngine {
 
 	public:
 		void UpdateBuffer(void);
-		void Render(void);
+		void Render(const CGfxRenderPass *pRenderPass);
 
 	protected:
 		CBatch* CreateBatch(DRAWABLE_TYPE type);

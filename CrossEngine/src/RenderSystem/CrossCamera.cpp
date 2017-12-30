@@ -122,6 +122,24 @@ namespace CrossEngine {
 		return m_camera.visible(aabb) ? TRUE : FALSE;
 	}
 
+	BOOL CCamera::AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass)
+	{
+		const auto &itRenderPass = m_ptrRenderPasses.find(id);
+		if (itRenderPass != m_ptrRenderPasses.end()) return FALSE;
+
+		m_ptrRenderPasses[id] = ptrRenderPass;
+		return TRUE;
+	}
+
+	BOOL CCamera::RemoveRenderPass(uint32_t id)
+	{
+		const auto &itRenderPass = m_ptrRenderPasses.find(id);
+		if (itRenderPass == m_ptrRenderPasses.end()) return FALSE;
+
+		m_ptrRenderPasses.erase(itRenderPass);
+		return TRUE;
+	}
+
 	void CCamera::ClearRenderQueue(void)
 	{
 		m_renderQueue.Clear();
@@ -158,7 +176,9 @@ namespace CrossEngine {
 			return;
 		}
 
-		m_renderQueue.Render();
+		for (const auto &itRenderPass : m_ptrRenderPasses) {
+			m_renderQueue.Render(itRenderPass.second);
+		}
 	}
 
 }
