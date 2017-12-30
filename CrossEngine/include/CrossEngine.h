@@ -78,6 +78,7 @@ THE SOFTWARE.
 #include <zzip/zzip.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <gli/gli.hpp>
 #include <gles3/gl31.h>
 #include <vulkan/vulkan.h>

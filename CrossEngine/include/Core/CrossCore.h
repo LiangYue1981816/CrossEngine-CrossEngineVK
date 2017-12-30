@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "CrossMutex.h"
 #include "CrossMemory.h"
 #include "CrossDelegate.h"
+#include "CrossGLM.h"
 #include "CrossUtility.h"
 #include "CrossLog.h"
 #include "CrossStream.h"

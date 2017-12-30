@@ -675,6 +675,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossCameraManager.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossGLM.h">
+      <Filter>Engine\Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
