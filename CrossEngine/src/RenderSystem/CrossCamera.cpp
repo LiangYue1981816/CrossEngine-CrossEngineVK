@@ -35,4 +35,54 @@ namespace CrossEngine {
 
 	}
 
+	void CCamera::SetViewport(float x, float y, float width, float height)
+	{
+		m_camera.setViewport(x, y, width, height);
+	}
+
+	void CCamera::SetPerspective(float fovy, float aspect, float zNear, float zFar)
+	{
+		m_camera.setPerspective(fovy, aspect, zNear, zFar);
+	}
+
+	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
+	{
+		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
+	}
+
+	void CCamera::SetLookat(const glm::vec3 &eye, const glm::vec3 &center, const glm::vec3 &up)
+	{
+		m_camera.setLookat(eye, center, up);
+	}
+
+	glm::vec3 CCamera::WorldToScreen(const glm::vec3 &world)
+	{
+		return m_camera.worldToScreen(world);
+	}
+
+	glm::vec3 CCamera::ScreenToWorld(const glm::vec3 &screen)
+	{
+		return m_camera.screenToWorld(screen);
+	}
+
+	BOOL CCamera::IsVisible(const glm::vec3 &vertex)
+	{
+		return m_camera.visible(vertex) ? TRUE : FALSE;
+	}
+
+	BOOL CCamera::IsVisible(const glm::aabb &aabb)
+	{
+		return m_camera.visible(aabb) ? TRUE : FALSE;
+	}
+
+	void CCamera::ClearRenderQueue(void)
+	{
+		m_renderQueue.Clear();
+	}
+
+	void CCamera::AddRenderQueue(CDrawable *pDrawable)
+	{
+		m_renderQueue.AddDrawable(pDrawable);
+	}
+
 }

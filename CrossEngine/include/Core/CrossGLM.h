@@ -111,7 +111,7 @@ namespace glm {
 
 	typedef struct aabb {
 	public:
-		static aabb create(vec3 *vertices, size_t count)
+		static aabb create(const vec3 *vertices, size_t count)
 		{
 			vec3 minVertex(FLT_MAX, FLT_MAX, FLT_MAX);
 			vec3 maxVertex(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -285,12 +285,12 @@ namespace glm {
 			planes[5][1] = planes[5][0] * mtxCameraToWorld;
 		}
 
-		vec3 worldToScreen(vec3 world)
+		vec3 worldToScreen(const vec3 &world)
 		{
 			return project(world, mtxWorldToCamera, mtxProjection, viewport);
 		}
 
-		vec3 screenToWorld(vec3 screen)
+		vec3 screenToWorld(const vec3 &screen)
 		{
 			return unProject(screen, mtxWorldToCamera, mtxProjection, viewport);
 		}

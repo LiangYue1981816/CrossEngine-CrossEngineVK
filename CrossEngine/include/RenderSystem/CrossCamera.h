@@ -36,6 +36,28 @@ namespace CrossEngine {
 		virtual ~CCamera(void);
 
 
+	public:
+		void SetViewport(float x, float y, float width, float height);
+		void SetPerspective(float fovy, float aspect, float zNear, float zFar);
+		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+		void SetLookat(const glm::vec3 &eye, const glm::vec3 &center, const glm::vec3 &up);
+
+	public:
+		glm::vec3 WorldToScreen(const glm::vec3 &world);
+		glm::vec3 ScreenToWorld(const glm::vec3 &screen);
+
+	public:
+		BOOL IsVisible(const glm::vec3 &vertex);
+		BOOL IsVisible(const glm::aabb &aabb);
+
+	public:
+		void ClearRenderQueue(void);
+		void AddRenderQueue(CDrawable *pDrawable);
+
+
+	protected:
+		glm::camera m_camera;
+
 	protected:
 		CRenderQueue m_renderQueue;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
