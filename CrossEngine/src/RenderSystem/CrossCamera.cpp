@@ -26,6 +26,8 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CCamera::CCamera(void)
+		: m_szName{ 0 }
+		, m_bEnable(TRUE)
 	{
 
 	}
@@ -33,6 +35,26 @@ namespace CrossEngine {
 	CCamera::~CCamera(void)
 	{
 
+	}
+
+	void CCamera::SetName(const char *szName)
+	{
+		strcpy(m_szName, szName);
+	}
+
+	const char* CCamera::GetName(void) const
+	{
+		return m_szName;
+	}
+
+	void CCamera::SetEnable(BOOL bEnable)
+	{
+		m_bEnable = bEnable;
+	}
+
+	BOOL CCamera::IsEnable(void) const
+	{
+		return m_bEnable;
 	}
 
 	void CCamera::SetViewport(float x, float y, float width, float height)
@@ -53,6 +75,31 @@ namespace CrossEngine {
 	void CCamera::SetLookat(const glm::vec3 &eye, const glm::vec3 &center, const glm::vec3 &up)
 	{
 		m_camera.setLookat(eye, center, up);
+	}
+
+	glm::vec3 CCamera::GetPosition(void) const
+	{
+		return m_camera.position;
+	}
+
+	glm::vec3 CCamera::GetDirection(void) const
+	{
+		return m_camera.forward;
+	}
+
+	glm::mat4 CCamera::GetProjectionMatrix(void) const
+	{
+		return m_camera.mtxProjection;
+	}
+
+	glm::mat4 CCamera::GetCameraToWorldMatrix(void) const
+	{
+		return m_camera.mtxCameraToWorld;
+	}
+
+	glm::mat4 CCamera::GetWorldToCameraMatrix(void) const
+	{
+		return m_camera.mtxWorldToCamera;
 	}
 
 	glm::vec3 CCamera::WorldToScreen(const glm::vec3 &world)
@@ -80,7 +127,7 @@ namespace CrossEngine {
 		m_renderQueue.Clear();
 	}
 
-	void CCamera::AddRenderQueue(CDrawable *pDrawable)
+	void CCamera::AddRenderQueue(const CDrawable *pDrawable)
 	{
 		m_renderQueue.AddDrawable(pDrawable);
 	}

@@ -26,7 +26,6 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CDrawable::CDrawable(void)
-		: pNext(NULL)
 	{
 
 	}

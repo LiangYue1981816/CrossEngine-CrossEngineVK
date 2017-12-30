@@ -26,9 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CBatch::CBatch(void)
-		: m_pListHead(NULL)
-		, m_count(0)
-		, m_instanceBufferOffset(0)
+		: m_instanceBufferOffset(0)
 	{
 
 	}
@@ -40,7 +38,7 @@ namespace CrossEngine {
 
 	uint32_t CBatch::GetDrawableCount(void) const
 	{
-		return m_count;
+		return m_drawables.size();
 	}
 
 	uint32_t CBatch::GetInstanceBufferOffset(void) const
@@ -48,12 +46,14 @@ namespace CrossEngine {
 		return m_instanceBufferOffset;
 	}
 
-	void CBatch::AddDrawable(CDrawable *pDrawable)
+	void CBatch::Clear(void)
 	{
-		m_count++;
+		m_drawables.clear();
+	}
 
-		pDrawable->pNext = m_pListHead;
-		m_pListHead = pDrawable;
+	void CBatch::AddDrawable(const CDrawable *pDrawable)
+	{
+		m_drawables.push_back(pDrawable);
 	}
 
 }

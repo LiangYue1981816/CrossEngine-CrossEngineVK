@@ -38,16 +38,15 @@ namespace CrossEngine {
 		uint32_t GetInstanceBufferOffset(void) const;
 
 	public:
-		virtual void AddDrawable(CDrawable *pDrawable);
+		virtual void Clear(void);
+		virtual void AddDrawable(const CDrawable *pDrawable);
+
 		virtual void UpdateInstanceBuffer(void) = 0;
 
 
 	protected:
 		uint32_t m_instanceBufferOffset;
-
-	protected:
-		uint32_t m_count;
-		CDrawable *m_pListHead;
+		std::vector<const CDrawable*> m_drawables;
 	};
 
 }

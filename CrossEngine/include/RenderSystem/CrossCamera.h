@@ -37,10 +37,24 @@ namespace CrossEngine {
 
 
 	public:
+		void SetName(const char *szName);
+		const char* GetName(void) const;
+
+		void SetEnable(BOOL bEnable);
+		BOOL IsEnable(void) const;
+
+	public:
 		void SetViewport(float x, float y, float width, float height);
 		void SetPerspective(float fovy, float aspect, float zNear, float zFar);
 		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
 		void SetLookat(const glm::vec3 &eye, const glm::vec3 &center, const glm::vec3 &up);
+
+		glm::vec3 GetPosition(void) const;
+		glm::vec3 GetDirection(void) const;
+
+		glm::mat4 GetProjectionMatrix(void) const;
+		glm::mat4 GetCameraToWorldMatrix(void) const;
+		glm::mat4 GetWorldToCameraMatrix(void) const;
 
 	public:
 		glm::vec3 WorldToScreen(const glm::vec3 &world);
@@ -52,10 +66,13 @@ namespace CrossEngine {
 
 	public:
 		void ClearRenderQueue(void);
-		void AddRenderQueue(CDrawable *pDrawable);
+		void AddRenderQueue(const CDrawable *pDrawable);
 
 
 	protected:
+		char m_szName[_MAX_STRING];
+		BOOL m_bEnable;
+
 		glm::camera m_camera;
 
 	protected:

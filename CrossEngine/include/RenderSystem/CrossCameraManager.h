@@ -34,6 +34,10 @@ namespace CrossEngine {
 	protected:
 		CCameraManager(void);
 		virtual ~CCameraManager(void);
+
+
+	protected:
+		std::map<uint32_t, CCamera*> m_cameras;
 	};
 
 }

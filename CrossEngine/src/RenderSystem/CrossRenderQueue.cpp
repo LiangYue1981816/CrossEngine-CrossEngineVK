@@ -35,7 +35,15 @@ namespace CrossEngine {
 
 	}
 
-	void CRenderQueue::AddDrawable(CDrawable *pDrawable)
+	void CRenderQueue::Clear(void)
+	{
+		m_queue.clear();
+		m_batchParticals.clear();
+		m_batchSkinMeshs.clear();
+		m_batchStaticMeshs.clear();
+	}
+
+	void CRenderQueue::AddDrawable(const CDrawable *pDrawable)
 	{
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
@@ -50,14 +58,6 @@ namespace CrossEngine {
 
 			m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]->AddDrawable(pDrawable);
 		}
-	}
-
-	void CRenderQueue::Clear(void)
-	{
-		m_queue.clear();
-		m_batchParticals.clear();
-		m_batchSkinMeshs.clear();
-		m_batchStaticMeshs.clear();
 	}
 
 	CBatch* CRenderQueue::CreateBatch(DRAWABLE_TYPE type)
