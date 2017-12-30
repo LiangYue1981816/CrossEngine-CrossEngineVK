@@ -361,7 +361,7 @@ namespace gli
 		this->Storage->copy(
 			*TextureSrc.Storage,
 			LayerSrc, FaceSrc, LevelSrc, OffsetSrc / BlockExtent,
-			LayerDst, FaceDst, LevelDst, OffsetDst / BlockExtent,
+			LayerSrc, FaceSrc, LevelSrc, OffsetSrc / BlockExtent,
 			Extent / BlockExtent);
 	}
 

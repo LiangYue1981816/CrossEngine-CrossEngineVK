@@ -19,6 +19,7 @@ namespace gli
 	/// @param Format Destination Texture format, it must be uncompressed.
 	template <typename texture_type>
 	texture_type convert(texture_type const& Texture, format Format);
+
 }//namespace gli
 
 #include "./core/convert.inl"
