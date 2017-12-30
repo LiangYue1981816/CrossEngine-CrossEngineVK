@@ -116,11 +116,9 @@ namespace CrossEngine {
 		m_pBatchBufferManager = NULL;
 	}
 
-	void CRenderSystem::Render(void)
+	void CRenderSystem::Render(void) const
 	{
-		CBatchPartical::ClearInstanceBuffer();
-		CBatchSkinMesh::ClearInstanceBuffer();
-		CBatchStaticMesh::ClearInstanceBuffer();
+		m_pCameraManager->Render();
 	}
 
 }

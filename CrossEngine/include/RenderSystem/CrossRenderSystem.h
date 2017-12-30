@@ -78,7 +78,7 @@ namespace CrossEngine {
 		CBatchBufferManager* GetBatchBufferManager(void) const;
 
 	public:
-		void Render(void);
+		void Render(void) const;
 
 
 	protected:

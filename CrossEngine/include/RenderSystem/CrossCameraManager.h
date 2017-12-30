@@ -36,6 +36,15 @@ namespace CrossEngine {
 		virtual ~CCameraManager(void);
 
 
+	public:
+		BOOL AddCamera(uint32_t id, const char *szName);
+		BOOL RemoveCamera(uint32_t id);
+		CCamera* GetCamera(uint32_t id) const;
+
+	public:
+		void Render(void) const;
+
+
 	protected:
 		std::map<uint32_t, CCamera*> m_cameras;
 	};

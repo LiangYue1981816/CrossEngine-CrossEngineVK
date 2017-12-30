@@ -56,4 +56,9 @@ namespace CrossEngine {
 		m_drawables.push_back(pDrawable);
 	}
 
+	void CBatch::Render(void)
+	{
+
+	}
+
 }

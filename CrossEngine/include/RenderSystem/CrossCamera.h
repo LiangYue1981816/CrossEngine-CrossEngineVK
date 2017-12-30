@@ -68,6 +68,10 @@ namespace CrossEngine {
 		void ClearRenderQueue(void);
 		void AddRenderQueue(const CDrawable *pDrawable);
 
+	public:
+		void Update(void);
+		void Render(void);
+
 
 	protected:
 		char m_szName[_MAX_STRING];

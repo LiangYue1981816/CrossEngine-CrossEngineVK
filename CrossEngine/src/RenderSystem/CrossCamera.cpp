@@ -132,4 +132,14 @@ namespace CrossEngine {
 		m_renderQueue.AddDrawable(pDrawable);
 	}
 
+	void CCamera::Update(void)
+	{
+		m_renderQueue.UpdateBuffer();
+	}
+
+	void CCamera::Render(void)
+	{
+		m_renderQueue.Render();
+	}
+
 }

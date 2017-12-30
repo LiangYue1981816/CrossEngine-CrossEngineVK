@@ -32,7 +32,54 @@ namespace CrossEngine {
 
 	CCameraManager::~CCameraManager(void)
 	{
+		for (auto &itCamera : m_cameras) {
+			SAFE_DELETE(itCamera.second);
+		}
 
+		m_cameras.clear();
+	}
+
+	BOOL CCameraManager::AddCamera(uint32_t id, const char *szName)
+	{
+		const auto &itCamera = m_cameras.find(id);
+		if (itCamera != m_cameras.end()) return FALSE;
+
+		m_cameras[id] = SAFE_NEW CCamera;
+		m_cameras[id]->SetName(szName);
+
+		return TRUE;
+	}
+
+	BOOL CCameraManager::RemoveCamera(uint32_t id)
+	{
+		const auto &itCamera = m_cameras.find(id);
+		if (itCamera == m_cameras.end()) return FALSE;
+
+		SAFE_DELETE(itCamera->second);
+		m_cameras.erase(itCamera);
+
+		return TRUE;
+	}
+
+	CCamera* CCameraManager::GetCamera(uint32_t id) const
+	{
+		const auto &itCamera = m_cameras.find(id);
+		return itCamera != m_cameras.end() ? itCamera->second : NULL;
+	}
+
+	void CCameraManager::Render(void) const
+	{
+		CBatchPartical::ClearBuffer();
+		CBatchSkinMesh::ClearBuffer();
+		CBatchStaticMesh::ClearBuffer();
+
+		for (const auto &itCamera : m_cameras) {
+			itCamera.second->Update();
+		}
+
+		for (const auto &itCamera : m_cameras) {
+			itCamera.second->Render();
+		}
 	}
 
 }

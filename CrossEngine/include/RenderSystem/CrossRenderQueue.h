@@ -47,7 +47,9 @@ namespace CrossEngine {
 		void Clear(void);
 		void AddDrawable(const CDrawable *pDrawable);
 
-		void UpdateInstanceBuffer(void);
+	public:
+		void UpdateBuffer(void);
+		void Render(void);
 
 	protected:
 		CBatch* CreateBatch(DRAWABLE_TYPE type);

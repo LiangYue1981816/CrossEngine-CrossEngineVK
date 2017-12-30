@@ -84,19 +84,24 @@ namespace CrossEngine {
 		return pBatch;
 	}
 
-	void CRenderQueue::UpdateInstanceBuffer(void)
+	void CRenderQueue::UpdateBuffer(void)
 	{
 		for (int index = 0; index < m_batchParticals.size(); index++) {
-			m_batchParticals[index].UpdateInstanceBuffer();
+			m_batchParticals[index].UpdateBuffer();
 		}
 
 		for (int index = 0; index < m_batchSkinMeshs.size(); index++) {
-			m_batchSkinMeshs[index].UpdateInstanceBuffer();
+			m_batchSkinMeshs[index].UpdateBuffer();
 		}
 
 		for (int index = 0; index < m_batchStaticMeshs.size(); index++) {
-			m_batchStaticMeshs[index].UpdateInstanceBuffer();
+			m_batchStaticMeshs[index].UpdateBuffer();
 		}
+	}
+
+	void CRenderQueue::Render(void)
+	{
+
 	}
 
 }
