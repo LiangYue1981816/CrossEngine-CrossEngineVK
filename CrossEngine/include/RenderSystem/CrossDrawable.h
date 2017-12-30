@@ -41,9 +41,12 @@ namespace CrossEngine {
 
 	public:
 		virtual DRAWABLE_TYPE GetType(void) const = 0;
+
 		virtual const CGfxMaterialPtr& GetMaterial(void) const = 0;
 		virtual const CGfxIndexBufferPtr& GetIndexBuffer(void) const = 0;
 		virtual const CGfxVertexBufferPtr& GetVertexBuffer(void) const = 0;
+
+		virtual const glm::mat4& GetModelToWorldMatrix(void) const = 0;
 	};
 
 }

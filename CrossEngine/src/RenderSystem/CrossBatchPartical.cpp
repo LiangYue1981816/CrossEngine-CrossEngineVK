@@ -39,7 +39,17 @@ namespace CrossEngine {
 
 	void CBatchPartical::UpdateBuffer(void)
 	{
+		m_offset = datas.size() * sizeof(InstanceData);
 
+		for (int index = 0; index < m_drawables.size(); index++) {
+			const glm::mat4 &mtxModelToWorld = m_drawables[index]->GetModelToWorldMatrix();
+
+			InstanceData data;
+			data.position = mtxModelToWorld * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+			data.orientation = glm::toQuat(mtxModelToWorld);
+
+			datas.push_back(data);
+		}
 	}
 
 	void CBatchPartical::ClearBuffer(void)
