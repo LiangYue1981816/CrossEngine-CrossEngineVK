@@ -78,6 +78,10 @@ namespace CrossEngine {
 		}
 
 		for (const auto &itCamera : m_cameras) {
+			itCamera.second->UpdateBatchBuffer();
+		}
+
+		for (const auto &itCamera : m_cameras) {
 			itCamera.second->Render();
 		}
 	}

@@ -70,6 +70,7 @@ namespace CrossEngine {
 
 	public:
 		void Update(void);
+		void UpdateBatchBuffer(void);
 		void Render(void);
 
 
