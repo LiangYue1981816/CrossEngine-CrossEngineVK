@@ -131,7 +131,7 @@ namespace CrossEngine {
 		if (itRenderPassID == m_ptrRenderPassIDs.end()) return FALSE;
 
 		const auto &itRenderPass = m_ptrRenderPasses.find(itRenderPassID->second);
-		if (itRenderPass != m_ptrRenderPasses.end()) return FALSE;
+		if (itRenderPass == m_ptrRenderPasses.end()) return FALSE;
 
 		m_ptrRenderPassIDs.erase(itRenderPassID);
 		m_ptrRenderPasses.erase(itRenderPass);
