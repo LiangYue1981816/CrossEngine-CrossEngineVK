@@ -37,8 +37,8 @@ namespace CrossEngine {
 
 
 	public:
-		BOOL AddCamera(uint32_t id);
-		BOOL RemoveCamera(uint32_t id);
+		BOOL CreateCamera(uint32_t id);
+		BOOL DestroyCamera(uint32_t id);
 		CCamera* GetCamera(uint32_t id) const;
 
 	public:

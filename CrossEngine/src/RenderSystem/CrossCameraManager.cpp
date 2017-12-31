@@ -39,7 +39,7 @@ namespace CrossEngine {
 		m_cameras.clear();
 	}
 
-	BOOL CCameraManager::AddCamera(uint32_t id)
+	BOOL CCameraManager::CreateCamera(uint32_t id)
 	{
 		const auto &itCamera = m_cameras.find(id);
 		if (itCamera != m_cameras.end()) return FALSE;
@@ -48,7 +48,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CCameraManager::RemoveCamera(uint32_t id)
+	BOOL CCameraManager::DestroyCamera(uint32_t id)
 	{
 		const auto &itCamera = m_cameras.find(id);
 		if (itCamera == m_cameras.end()) return FALSE;
