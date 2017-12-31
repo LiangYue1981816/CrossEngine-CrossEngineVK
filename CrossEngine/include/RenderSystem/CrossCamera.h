@@ -37,10 +37,6 @@ namespace CrossEngine {
 
 
 	public:
-		void SetName(const char *szName);
-		const char* GetName(void) const;
-
-	public:
 		void SetEnable(BOOL bEnable);
 		BOOL IsEnable(void) const;
 
@@ -80,12 +76,12 @@ namespace CrossEngine {
 
 
 	protected:
-		char m_szName[_MAX_STRING];
 		BOOL m_bEnable;
+		glm::camera m_camera;
 
 	protected:
-		glm::camera m_camera;
 		CRenderQueue m_renderQueue;
+
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};

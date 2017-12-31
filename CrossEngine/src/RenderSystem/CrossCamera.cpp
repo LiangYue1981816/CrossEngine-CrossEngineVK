@@ -26,8 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CCamera::CCamera(void)
-		: m_szName{ 0 }
-		, m_bEnable(TRUE)
+		: m_bEnable(TRUE)
 	{
 
 	}
@@ -35,16 +34,6 @@ namespace CrossEngine {
 	CCamera::~CCamera(void)
 	{
 
-	}
-
-	void CCamera::SetName(const char *szName)
-	{
-		strcpy(m_szName, szName);
-	}
-
-	const char* CCamera::GetName(void) const
-	{
-		return m_szName;
 	}
 
 	void CCamera::SetEnable(BOOL bEnable)
@@ -151,6 +140,10 @@ namespace CrossEngine {
 			return;
 		}
 
+		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
+			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
+		}
+
 		m_renderQueue.AddDrawable(pDrawable);
 	}
 
@@ -177,7 +170,7 @@ namespace CrossEngine {
 		}
 
 		for (const auto &itRenderPass : m_ptrRenderPasses) {
-			m_renderQueue.Render(itRenderPass.second);
+			m_renderQueue.Render(itRenderPass.second, m_ptrFrameBuffer);
 		}
 	}
 

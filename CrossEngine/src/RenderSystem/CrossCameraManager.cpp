@@ -39,14 +39,12 @@ namespace CrossEngine {
 		m_cameras.clear();
 	}
 
-	BOOL CCameraManager::AddCamera(uint32_t id, const char *szName)
+	BOOL CCameraManager::AddCamera(uint32_t id)
 	{
 		const auto &itCamera = m_cameras.find(id);
 		if (itCamera != m_cameras.end()) return FALSE;
 
 		m_cameras[id] = SAFE_NEW CCamera;
-		m_cameras[id]->SetName(szName);
-
 		return TRUE;
 	}
 
