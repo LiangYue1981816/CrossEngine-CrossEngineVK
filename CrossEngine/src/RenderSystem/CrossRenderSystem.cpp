@@ -50,6 +50,11 @@ namespace CrossEngine {
 		return m_nFrameCount;
 	}
 
+	GFX_API CRenderSystem::GetAPI(void) const
+	{
+		return m_api;
+	}
+
 	CGfxDevice* CRenderSystem::GetDevice(void) const
 	{
 		return m_pGfxDevice;
@@ -82,7 +87,9 @@ namespace CrossEngine {
 
 	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
-		switch (api) {
+		m_api = api;
+
+		switch (m_api) {
 		case GFX_API_GLES31: m_pGfxInstance = SAFE_NEW CGLES3Instance; break;
 		case GFX_API_VULKAN: m_pGfxInstance = SAFE_NEW CVulkanInstance; break;
 		}

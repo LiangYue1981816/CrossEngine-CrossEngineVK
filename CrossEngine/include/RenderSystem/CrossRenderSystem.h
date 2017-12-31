@@ -71,6 +71,7 @@ namespace CrossEngine {
 	public:
 		uint32_t GetFrameCount(void) const;
 
+		GFX_API GetAPI(void) const;
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
 
@@ -87,6 +88,7 @@ namespace CrossEngine {
 		uint32_t m_nFrameCount;
 
 	protected:
+		GFX_API m_api;
 		CGfxInstance *m_pGfxInstance;
 		CGfxDevice *m_pGfxDevice;
 		CGfxSwapchain *m_pGfxSwapchain;

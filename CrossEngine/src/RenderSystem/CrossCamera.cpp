@@ -78,7 +78,8 @@ namespace CrossEngine {
 
 	glm::mat4 CCamera::GetProjectionMatrix(void) const
 	{
-		return m_camera.mtxProjection;
+		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+		return RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	glm::mat4 CCamera::GetCameraToWorldMatrix(void) const
