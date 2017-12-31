@@ -68,6 +68,7 @@ namespace CrossEngine {
 	public:
 		void ClearRenderQueue(void);
 		void AddRenderQueue(const CDrawable *pDrawable);
+		void RemoveRenderQueue(const CDrawable *pDrawable);
 
 	public:
 		void Update(void);

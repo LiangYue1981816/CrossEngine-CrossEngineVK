@@ -60,6 +60,21 @@ namespace CrossEngine {
 		}
 	}
 
+	void CRenderQueue::RemoveDrawable(const CDrawable *pDrawable)
+	{
+		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
+			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
+			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
+			const CGfxPipelineGraphics *pPipeline = itMatPass.second->GetPipeline();
+			const CGfxDescriptorSet *pDescriptorSet = itMatPass.second->GetDescriptorSet();
+			const CGfxVertexBuffer *pVertexBuffer = pDrawable->GetVertexBuffer();
+
+			if (m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]) {
+				m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]->RemoveDrawable(pDrawable);
+			}
+		}
+	}
+
 	CBatch* CRenderQueue::CreateBatch(DRAWABLE_TYPE type)
 	{
 		CBatch *pBatch = NULL;

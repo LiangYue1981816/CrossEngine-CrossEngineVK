@@ -40,6 +40,7 @@ namespace CrossEngine {
 	public:
 		virtual void Clear(void);
 		virtual void AddDrawable(const CDrawable *pDrawable);
+		virtual void RemoveDrawable(const CDrawable *pDrawable);
 
 	public:
 		virtual void UpdateBuffer(void) = 0;
@@ -49,6 +50,7 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_offset;
 		std::vector<const CDrawable*> m_drawables;
+		std::map<const CDrawable*, uint32_t> m_drawableIndices;
 	};
 
 }

@@ -159,6 +159,20 @@ namespace CrossEngine {
 		}
 	}
 
+	void CCamera::RemoveRenderQueue(const CDrawable *pDrawable)
+	{
+		if (m_bEnable == FALSE) {
+			return;
+		}
+
+		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
+			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
+				m_renderQueue.RemoveDrawable(pDrawable);
+				break;
+			}
+		}
+	}
+
 	void CCamera::Update(void)
 	{
 		if (m_bEnable == FALSE) {
