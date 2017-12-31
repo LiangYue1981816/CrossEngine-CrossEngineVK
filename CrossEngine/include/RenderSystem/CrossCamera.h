@@ -83,13 +83,10 @@ namespace CrossEngine {
 		char m_szName[_MAX_STRING];
 		BOOL m_bEnable;
 
-		glm::camera m_camera;
-
 	protected:
+		glm::camera m_camera;
 		CRenderQueue m_renderQueue;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
-
-	protected:
 		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};
 
