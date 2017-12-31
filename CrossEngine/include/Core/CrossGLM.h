@@ -192,13 +192,20 @@ namespace glm {
 
 		void normalize(void)
 		{
-			minVertex.x = min(minVertex.x, maxVertex.x);
-			minVertex.y = min(minVertex.y, maxVertex.y);
-			minVertex.z = min(minVertex.z, maxVertex.z);
+			float minx = minVertex.x;
+			float miny = minVertex.y;
+			float minz = minVertex.z;
+			float maxx = maxVertex.x;
+			float maxy = maxVertex.y;
+			float maxz = maxVertex.z;
 
-			maxVertex.x = max(minVertex.x, maxVertex.x);
-			maxVertex.y = max(minVertex.y, maxVertex.y);
-			maxVertex.z = max(minVertex.z, maxVertex.z);
+			minVertex.x = min(minx, maxx);
+			minVertex.y = min(miny, maxy);
+			minVertex.z = min(minz, maxz);
+
+			maxVertex.x = max(minx, maxx);
+			maxVertex.y = max(miny, maxy);
+			maxVertex.z = max(minz, maxz);
 
 			center.x = (minVertex.x + maxVertex.x) * 0.5f;
 			center.y = (minVertex.y + maxVertex.y) * 0.5f;
