@@ -113,19 +113,29 @@ namespace CrossEngine {
 
 	BOOL CCamera::AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		const auto &itRenderPass = m_ptrRenderPasses.find(id);
+		const auto &itRenderPassID = m_ptrRenderPassIDs.find(id);
+		if (itRenderPassID != m_ptrRenderPassIDs.end()) return FALSE;
+
+		const auto &itRenderPass = m_ptrRenderPasses.find(ptrRenderPass);
 		if (itRenderPass != m_ptrRenderPasses.end()) return FALSE;
 
-		m_ptrRenderPasses[id] = ptrRenderPass;
+		m_ptrRenderPassIDs[id] = ptrRenderPass;
+		m_ptrRenderPasses[ptrRenderPass] = ptrRenderPass;
+
 		return TRUE;
 	}
 
 	BOOL CCamera::RemoveRenderPass(uint32_t id)
 	{
-		const auto &itRenderPass = m_ptrRenderPasses.find(id);
-		if (itRenderPass == m_ptrRenderPasses.end()) return FALSE;
+		const auto &itRenderPassID = m_ptrRenderPassIDs.find(id);
+		if (itRenderPassID == m_ptrRenderPassIDs.end()) return FALSE;
 
+		const auto &itRenderPass = m_ptrRenderPasses.find(itRenderPassID->second);
+		if (itRenderPass != m_ptrRenderPasses.end()) return FALSE;
+
+		m_ptrRenderPassIDs.erase(itRenderPassID);
 		m_ptrRenderPasses.erase(itRenderPass);
+
 		return TRUE;
 	}
 
@@ -141,10 +151,11 @@ namespace CrossEngine {
 		}
 
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
-			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
+			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
+				m_renderQueue.AddDrawable(pDrawable);
+				break;
+			}
 		}
-
-		m_renderQueue.AddDrawable(pDrawable);
 	}
 
 	void CCamera::Update(void)
@@ -169,8 +180,8 @@ namespace CrossEngine {
 			return;
 		}
 
-		for (const auto &itRenderPass : m_ptrRenderPasses) {
-			m_renderQueue.Render(itRenderPass.second, m_ptrFrameBuffer);
+		for (const auto &itRenderPassID : m_ptrRenderPassIDs) {
+			m_renderQueue.Render(itRenderPassID.second, m_ptrFrameBuffer);
 		}
 	}
 

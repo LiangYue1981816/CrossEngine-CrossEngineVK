@@ -83,7 +83,8 @@ namespace CrossEngine {
 		CRenderQueue m_renderQueue;
 
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
-		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPasses;
+		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPassIDs;
+		std::map<CGfxRenderPass*, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};
 
 }
