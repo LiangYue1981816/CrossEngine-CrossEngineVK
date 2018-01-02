@@ -68,7 +68,6 @@ namespace CrossEngine {
 	public:
 		void ClearRenderQueue(void);
 		void AddRenderQueue(const CDrawable *pDrawable);
-		void RemoveRenderQueue(const CDrawable *pDrawable);
 
 	public:
 		void Update(void);
@@ -84,7 +83,7 @@ namespace CrossEngine {
 		CRenderQueue m_renderQueue;
 
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
-		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPassIDs;
+		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPassesOrderByID;
 		std::map<CGfxRenderPass*, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};
 

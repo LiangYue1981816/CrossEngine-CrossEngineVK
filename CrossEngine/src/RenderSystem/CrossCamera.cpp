@@ -114,28 +114,24 @@ namespace CrossEngine {
 
 	BOOL CCamera::AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		const auto &itRenderPassID = m_ptrRenderPassIDs.find(id);
-		if (itRenderPassID != m_ptrRenderPassIDs.end()) return FALSE;
+		if (m_ptrRenderPasses.find(ptrRenderPass) != m_ptrRenderPasses.end()) {
+			return FALSE;
+		}
 
-		const auto &itRenderPass = m_ptrRenderPasses.find(ptrRenderPass);
-		if (itRenderPass != m_ptrRenderPasses.end()) return FALSE;
+		if (m_ptrRenderPassesOrderByID.find(id) != m_ptrRenderPassesOrderByID.end()) {
+			return FALSE;
+		}
 
-		m_ptrRenderPassIDs[id] = ptrRenderPass;
 		m_ptrRenderPasses[ptrRenderPass] = ptrRenderPass;
+		m_ptrRenderPassesOrderByID[id] = ptrRenderPass;
 
 		return TRUE;
 	}
 
 	BOOL CCamera::RemoveRenderPass(uint32_t id)
 	{
-		const auto &itRenderPassID = m_ptrRenderPassIDs.find(id);
-		if (itRenderPassID == m_ptrRenderPassIDs.end()) return FALSE;
-
-		const auto &itRenderPass = m_ptrRenderPasses.find(itRenderPassID->second);
-		if (itRenderPass == m_ptrRenderPasses.end()) return FALSE;
-
-		m_ptrRenderPassIDs.erase(itRenderPassID);
-		m_ptrRenderPasses.erase(itRenderPass);
+		m_ptrRenderPasses.erase(m_ptrRenderPassesOrderByID[id]);
+		m_ptrRenderPassesOrderByID.erase(id);
 
 		return TRUE;
 	}
@@ -154,20 +150,6 @@ namespace CrossEngine {
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
 				m_renderQueue.AddDrawable(pDrawable);
-				break;
-			}
-		}
-	}
-
-	void CCamera::RemoveRenderQueue(const CDrawable *pDrawable)
-	{
-		if (m_bEnable == FALSE) {
-			return;
-		}
-
-		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
-			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
-				m_renderQueue.RemoveDrawable(pDrawable);
 				break;
 			}
 		}
@@ -195,8 +177,8 @@ namespace CrossEngine {
 			return;
 		}
 
-		for (const auto &itRenderPassID : m_ptrRenderPassIDs) {
-			m_renderQueue.Render(itRenderPassID.second, m_ptrFrameBuffer);
+		for (const auto &itRenderPass : m_ptrRenderPassesOrderByID) {
+			m_renderQueue.Render(itRenderPass.second, m_ptrFrameBuffer);
 		}
 	}
 
