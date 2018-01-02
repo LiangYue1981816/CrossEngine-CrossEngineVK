@@ -32,6 +32,11 @@ namespace CrossEngine {
 
 	CCameraManager::~CCameraManager(void)
 	{
+		ClearCamera();
+	}
+
+	void CCameraManager::ClearCamera(void)
+	{
 		for (auto &itCamera : m_cameras) {
 			SAFE_DELETE(itCamera.second);
 		}
@@ -39,30 +44,13 @@ namespace CrossEngine {
 		m_cameras.clear();
 	}
 
-	BOOL CCameraManager::CreateCamera(uint32_t id)
+	CCamera* CCameraManager::GetCamera(uint32_t id)
 	{
-		const auto &itCamera = m_cameras.find(id);
-		if (itCamera != m_cameras.end()) return FALSE;
+		if (m_cameras[id] == NULL) {
+			m_cameras[id] = SAFE_NEW CCamera;
+		}
 
-		m_cameras[id] = SAFE_NEW CCamera;
-		return TRUE;
-	}
-
-	BOOL CCameraManager::DestroyCamera(uint32_t id)
-	{
-		const auto &itCamera = m_cameras.find(id);
-		if (itCamera == m_cameras.end()) return FALSE;
-
-		SAFE_DELETE(itCamera->second);
-		m_cameras.erase(itCamera);
-
-		return TRUE;
-	}
-
-	CCamera* CCameraManager::GetCamera(uint32_t id) const
-	{
-		const auto &itCamera = m_cameras.find(id);
-		return itCamera != m_cameras.end() ? itCamera->second : NULL;
+		return m_cameras[id];
 	}
 
 	void CCameraManager::Render(void) const
