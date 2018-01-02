@@ -41,17 +41,17 @@ namespace CrossEngine {
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
 
-		for (int index = 0; index < m_drawables.size(); index++) {
-			if (m_drawables[index]) {
-				const glm::mat4 &mtxModelToWorld = m_drawables[index]->GetModelToWorldMatrix();
+		for (const auto &itDrawable : m_drawables) {
+			InstanceData data;
+			data.mtxModelToWorld = itDrawable.second->GetModelToWorldMatrix();
 
-				InstanceData data;
-				data.position = mtxModelToWorld * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-				data.orientation = glm::toQuat(mtxModelToWorld);
-
-				datas.push_back(data);
-			}
+			datas.push_back(data);
 		}
+	}
+
+	void CBatchStaticMesh::Render(void)
+	{
+
 	}
 
 	void CBatchStaticMesh::ClearBuffer(void)

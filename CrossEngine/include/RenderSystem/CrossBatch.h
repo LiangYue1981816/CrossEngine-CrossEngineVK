@@ -44,13 +44,16 @@ namespace CrossEngine {
 
 	public:
 		virtual void UpdateBuffer(void) = 0;
-		virtual void Render(void);
+		virtual void Render(void) = 0;
 
 
 	protected:
+		CGfxIndexBufferPtr m_ptrIndexBuffer;
+		CGfxVertexBufferPtr m_ptrVertexBuffer;
+
+	protected:
 		uint32_t m_offset;
-		std::vector<const CDrawable*> m_drawables;
-		std::map<const CDrawable*, uint32_t> m_drawableIndices;
+		std::map<const CDrawable*, const CDrawable*> m_drawables;
 	};
 
 }

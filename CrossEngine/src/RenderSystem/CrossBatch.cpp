@@ -49,32 +49,19 @@ namespace CrossEngine {
 	void CBatch::Clear(void)
 	{
 		m_drawables.clear();
-		m_drawableIndices.clear();
 	}
 
 	void CBatch::AddDrawable(const CDrawable *pDrawable)
 	{
-		const auto &itDrawableIndex = m_drawableIndices.find(pDrawable);
+		m_drawables[pDrawable] = pDrawable;
 
-		if (itDrawableIndex == m_drawableIndices.end()) {
-			m_drawables.push_back(pDrawable);
-			m_drawableIndices[pDrawable] = m_drawables.size() - 1;
-		}
+		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
+		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();
 	}
 
 	void CBatch::RemoveDrawable(const CDrawable *pDrawable)
 	{
-		const auto &itDrawableIndex = m_drawableIndices.find(pDrawable);
-
-		if (itDrawableIndex != m_drawableIndices.end()) {
-			m_drawables[itDrawableIndex->second] = NULL;
-			m_drawableIndices.erase(itDrawableIndex);
-		}
-	}
-
-	void CBatch::Render(void)
-	{
-
+		m_drawables.erase(pDrawable);
 	}
 
 }

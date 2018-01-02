@@ -29,8 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CBatchPartical : public CBatch
 	{
 		typedef struct InstanceData {
-			glm::vec3 position;
-			glm::quat orientation;
+			glm::mat4 mtxModelToWorld;
 		} InstanceData;
 
 
@@ -41,6 +40,7 @@ namespace CrossEngine {
 
 	public:
 		virtual void UpdateBuffer(void);
+		virtual void Render(void);
 
 	public:
 		static void ClearBuffer(void);
