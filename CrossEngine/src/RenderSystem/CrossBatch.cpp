@@ -59,9 +59,4 @@ namespace CrossEngine {
 		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();
 	}
 
-	void CBatch::RemoveDrawable(const CDrawable *pDrawable)
-	{
-		m_drawables.erase(pDrawable);
-	}
-
 }

@@ -31,7 +31,7 @@ namespace CrossEngine {
 		friend class CCamera;
 
 
-		typedef std::map<const CGfxVertexBuffer*, CBatch*> BatchQueue;
+		typedef std::map<const CGfxVertexBuffer*, std::map<const CGfxIndexBuffer*, CBatch*>> BatchQueue;
 		typedef std::map<const CGfxDescriptorSet*, BatchQueue> DescriptorSetQueue;
 		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;
 		typedef std::map<const uint32_t, PipelineQueue> SubPassQueue;
@@ -46,7 +46,6 @@ namespace CrossEngine {
 	public:
 		void Clear(void);
 		void AddDrawable(const CDrawable *pDrawable);
-		void RemoveDrawable(const CDrawable *pDrawable);
 
 	public:
 		void UpdateBuffer(void);
@@ -60,9 +59,16 @@ namespace CrossEngine {
 		RenderPassQueue m_queue;
 
 	protected:
-		std::vector<CBatchPartical> m_batchParticals;
-		std::vector<CBatchSkinMesh> m_batchSkinMeshs;
-		std::vector<CBatchStaticMesh> m_batchStaticMeshs;
+		std::map<const CGfxRenderPass*, CGfxRenderPassPtr> m_ptrRenderPasses;
+		std::map<const CGfxPipelineGraphics*, CGfxPipelineGraphicsPtr> m_ptrPipelines;
+		std::map<const CGfxDescriptorSet*, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
+		std::map<const CGfxVertexBuffer*, CGfxVertexBufferPtr> m_ptrVertexBuffers;
+		std::map<const CGfxIndexBuffer*, CGfxIndexBufferPtr> m_ptrIndexBuffers;
+
+	protected:
+		std::vector<CBatchPartical*> m_batchParticals;
+		std::vector<CBatchSkinMesh*> m_batchSkinMeshs;
+		std::vector<CBatchStaticMesh*> m_batchStaticMeshs;
 	};
 
 }

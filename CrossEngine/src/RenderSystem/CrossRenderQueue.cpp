@@ -37,80 +37,87 @@ namespace CrossEngine {
 
 	void CRenderQueue::Clear(void)
 	{
+		for (int index = 0; index < m_batchParticals.size(); index++) {
+			SAFE_DELETE(m_batchParticals[index]);
+		}
+
+		for (int index = 0; index < m_batchSkinMeshs.size(); index++) {
+			SAFE_DELETE(m_batchSkinMeshs[index]);
+		}
+
+		for (int index = 0; index < m_batchStaticMeshs.size(); index++) {
+			SAFE_DELETE(m_batchStaticMeshs[index]);
+		}
+
 		m_queue.clear();
+
 		m_batchParticals.clear();
 		m_batchSkinMeshs.clear();
 		m_batchStaticMeshs.clear();
+
+		m_ptrRenderPasses.clear();
+		m_ptrPipelines.clear();
+		m_ptrDescriptorSets.clear();
+		m_ptrVertexBuffers.clear();
+		m_ptrIndexBuffers.clear();
 	}
 
 	void CRenderQueue::AddDrawable(const CDrawable *pDrawable)
 	{
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
-			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
-			const CGfxPipelineGraphics *pPipeline = itMatPass.second->GetPipeline();
-			const CGfxDescriptorSet *pDescriptorSet = itMatPass.second->GetDescriptorSet();
-			const CGfxVertexBuffer *pVertexBuffer = pDrawable->GetVertexBuffer();
+			const CGfxRenderPassPtr ptrRenderPass = itMatPass.second->GetRenderPass();
+			const CGfxPipelineGraphicsPtr ptrPipeline = itMatPass.second->GetPipeline();
+			const CGfxDescriptorSetPtr ptrDescriptorSet = itMatPass.second->GetDescriptorSet();
+			const CGfxVertexBufferPtr ptrVertexBuffer = pDrawable->GetVertexBuffer();
+			const CGfxIndexBufferPtr ptrIndexBuffer = pDrawable->GetIndexBuffer();
 
-			if (m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] == NULL) {
-				m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer] = CreateBatch(pDrawable->GetType());
+			m_ptrRenderPasses[ptrRenderPass] = ptrRenderPass;
+			m_ptrPipelines[ptrPipeline] = ptrPipeline;
+			m_ptrDescriptorSets[ptrDescriptorSet] = ptrDescriptorSet;
+			m_ptrVertexBuffers[ptrVertexBuffer] = ptrVertexBuffer;
+			m_ptrIndexBuffers[ptrIndexBuffer] = ptrIndexBuffer;
+
+			if (m_queue[ptrRenderPass][indexSubPass][ptrPipeline][ptrDescriptorSet][ptrVertexBuffer][ptrIndexBuffer] == NULL) {
+				m_queue[ptrRenderPass][indexSubPass][ptrPipeline][ptrDescriptorSet][ptrVertexBuffer][ptrIndexBuffer] = CreateBatch(pDrawable->GetType());
 			}
 
-			m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]->AddDrawable(pDrawable);
-		}
-	}
-
-	void CRenderQueue::RemoveDrawable(const CDrawable *pDrawable)
-	{
-		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
-			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
-			const CGfxRenderPass *pRenderPass = itMatPass.second->GetRenderPass();
-			const CGfxPipelineGraphics *pPipeline = itMatPass.second->GetPipeline();
-			const CGfxDescriptorSet *pDescriptorSet = itMatPass.second->GetDescriptorSet();
-			const CGfxVertexBuffer *pVertexBuffer = pDrawable->GetVertexBuffer();
-
-			if (m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]) {
-				m_queue[pRenderPass][indexSubPass][pPipeline][pDescriptorSet][pVertexBuffer]->RemoveDrawable(pDrawable);
-			}
+			m_queue[ptrRenderPass][indexSubPass][ptrPipeline][ptrDescriptorSet][ptrVertexBuffer][ptrIndexBuffer]->AddDrawable(pDrawable);
 		}
 	}
 
 	CBatch* CRenderQueue::CreateBatch(DRAWABLE_TYPE type)
 	{
-		CBatch *pBatch = NULL;
-
-		switch (type) {
-		case DRAWABLE_TYPE_PARTICAL:
-			m_batchParticals.push_back(CBatchPartical());
-			pBatch = &m_batchParticals[m_batchParticals.size() - 1];
-			break;
-
-		case DRAWABLE_TYPE_SKIN_MESH:
-			m_batchSkinMeshs.push_back(CBatchSkinMesh());
-			pBatch = &m_batchSkinMeshs[m_batchSkinMeshs.size() - 1];
-			break;
-
-		case DRAWABLE_TYPE_STATIC_MESH:
-			m_batchStaticMeshs.push_back(CBatchStaticMesh());
-			pBatch = &m_batchStaticMeshs[m_batchStaticMeshs.size() - 1];
-			break;
+		if (type == DRAWABLE_TYPE_PARTICAL) {
+			m_batchParticals.push_back(SAFE_NEW CBatchPartical);
+			return m_batchParticals[m_batchParticals.size() - 1];
 		}
 
-		return pBatch;
+		if (type == DRAWABLE_TYPE_SKIN_MESH) {
+			m_batchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
+			return m_batchSkinMeshs[m_batchSkinMeshs.size() - 1];
+		}
+
+		if (type == DRAWABLE_TYPE_STATIC_MESH) {
+			m_batchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
+			return m_batchStaticMeshs[m_batchStaticMeshs.size() - 1];
+		}
+
+		return NULL;
 	}
 
 	void CRenderQueue::UpdateBuffer(void)
 	{
 		for (int index = 0; index < m_batchParticals.size(); index++) {
-			m_batchParticals[index].UpdateBuffer();
+			m_batchParticals[index]->UpdateBuffer();
 		}
 
 		for (int index = 0; index < m_batchSkinMeshs.size(); index++) {
-			m_batchSkinMeshs[index].UpdateBuffer();
+			m_batchSkinMeshs[index]->UpdateBuffer();
 		}
 
 		for (int index = 0; index < m_batchStaticMeshs.size(); index++) {
-			m_batchStaticMeshs[index].UpdateBuffer();
+			m_batchStaticMeshs[index]->UpdateBuffer();
 		}
 	}
 

@@ -40,7 +40,6 @@ namespace CrossEngine {
 	public:
 		virtual void Clear(void);
 		virtual void AddDrawable(const CDrawable *pDrawable);
-		virtual void RemoveDrawable(const CDrawable *pDrawable);
 
 	public:
 		virtual void UpdateBuffer(void) = 0;
