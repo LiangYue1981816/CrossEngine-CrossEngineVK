@@ -40,9 +40,6 @@ namespace CrossEngine {
 		void ClearCamera(void);
 		CCamera* GetCamera(uint32_t id);
 
-	public:
-		void Render(void) const;
-
 
 	protected:
 		std::map<uint32_t, CCamera*> m_cameras;

@@ -66,13 +66,13 @@ namespace CrossEngine {
 		BOOL RemoveRenderPass(uint32_t id);
 
 	public:
-		void ClearRenderQueue(void);
-		void AddRenderQueue(const CDrawable *pDrawable);
+		void ClearRenderQueue(uint32_t indexRenderQueue);
+		void AddRenderQueue(uint32_t indexRenderQueue, const CDrawable *pDrawable);
 
 	public:
 		void Update(void);
-		void UpdateBatchBuffer(void);
-		void Render(void);
+		void UpdateBatchBuffer(uint32_t indexRenderQueue);
+		void Render(uint32_t indexRenderQueue);
 
 
 	protected:
@@ -80,7 +80,7 @@ namespace CrossEngine {
 		glm::camera m_camera;
 
 	protected:
-		CRenderQueue m_renderQueue;
+		CRenderQueue m_renderQueue[2];
 
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPassesOrderByID;

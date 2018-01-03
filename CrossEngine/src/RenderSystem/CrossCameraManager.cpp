@@ -53,6 +53,7 @@ namespace CrossEngine {
 		return m_cameras[id];
 	}
 
+	/*
 	void CCameraManager::Render(void) const
 	{
 		CBatchPartical::ClearBuffer();
@@ -72,5 +73,6 @@ namespace CrossEngine {
 			itCamera.second->Render();
 		}
 	}
+	*/
 
 }

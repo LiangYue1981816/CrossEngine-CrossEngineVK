@@ -136,12 +136,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CCamera::ClearRenderQueue(void)
+	void CCamera::ClearRenderQueue(uint32_t indexRenderQueue)
 	{
-		m_renderQueue.Clear();
+		m_renderQueue[indexRenderQueue].Clear();
 	}
 
-	void CCamera::AddRenderQueue(const CDrawable *pDrawable)
+	void CCamera::AddRenderQueue(uint32_t indexRenderQueue, const CDrawable *pDrawable)
 	{
 		if (m_bEnable == FALSE) {
 			return;
@@ -149,7 +149,7 @@ namespace CrossEngine {
 
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
-				m_renderQueue.AddDrawable(pDrawable);
+				m_renderQueue[indexRenderQueue].AddDrawable(pDrawable);
 				return;
 			}
 		}
@@ -162,23 +162,23 @@ namespace CrossEngine {
 		}
 	}
 
-	void CCamera::UpdateBatchBuffer(void)
+	void CCamera::UpdateBatchBuffer(uint32_t indexRenderQueue)
 	{
 		if (m_bEnable == FALSE) {
 			return;
 		}
 
-		m_renderQueue.UpdateBuffer();
+		m_renderQueue[indexRenderQueue].UpdateBuffer();
 	}
 
-	void CCamera::Render(void)
+	void CCamera::Render(uint32_t indexRenderQueue)
 	{
 		if (m_bEnable == FALSE) {
 			return;
 		}
 
 		for (const auto &itRenderPass : m_ptrRenderPassesOrderByID) {
-			m_renderQueue.Render(itRenderPass.second, m_ptrFrameBuffer);
+			m_renderQueue[indexRenderQueue].Render(itRenderPass.second, m_ptrFrameBuffer);
 		}
 	}
 
