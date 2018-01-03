@@ -150,7 +150,7 @@ namespace CrossEngine {
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
 				m_renderQueue.AddDrawable(pDrawable);
-				break;
+				return;
 			}
 		}
 	}
