@@ -133,7 +133,6 @@ namespace CrossEngine {
 	void CRenderSystem::Render(void)
 	{
 		m_nFrameCount++;
-		m_pCameraManager->Render();
 	}
 
 }

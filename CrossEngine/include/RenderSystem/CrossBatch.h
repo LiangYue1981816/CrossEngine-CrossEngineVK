@@ -49,7 +49,6 @@ namespace CrossEngine {
 	protected:
 		CGfxIndexBufferPtr m_ptrIndexBuffer;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
-		CGfxUniformBufferPtr m_ptrUniformBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
 	protected:

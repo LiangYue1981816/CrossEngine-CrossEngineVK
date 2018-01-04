@@ -57,7 +57,6 @@ namespace CrossEngine {
 
 		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
 		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();
-		m_ptrUniformBuffer = pDrawable->GetUniformBuffer();
 		m_ptrDescriptorSet = pDrawable->GetDescriptorSet();
 	}
 
