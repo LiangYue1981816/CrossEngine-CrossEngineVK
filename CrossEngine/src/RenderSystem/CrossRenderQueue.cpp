@@ -66,23 +66,25 @@ namespace CrossEngine {
 	{
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
-			const CGfxRenderPassPtr ptrRenderPass = itMatPass.second->GetRenderPass();
-			const CGfxPipelineGraphicsPtr ptrPipeline = itMatPass.second->GetPipeline();
-			const CGfxDescriptorSetPtr ptrDescriptorSet = itMatPass.second->GetDescriptorSet();
-			const CGfxVertexBufferPtr ptrVertexBuffer = pDrawable->GetVertexBuffer();
-			const CGfxIndexBufferPtr ptrIndexBuffer = pDrawable->GetIndexBuffer();
+			const CGfxRenderPassPtr &ptrRenderPass = itMatPass.second->GetRenderPass();
+			const CGfxPipelineGraphicsPtr &ptrMaterialPipeline = itMatPass.second->GetPipeline();
+			const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet = itMatPass.second->GetDescriptorSet();
+			const CGfxVertexBufferPtr &ptrDrawableVertexBuffer = pDrawable->GetVertexBuffer();
+			const CGfxIndexBufferPtr &ptrDrawableIndexBuffer = pDrawable->GetIndexBuffer();
+			const CGfxDescriptorSetPtr &ptrDrawableDescriptorSet = pDrawable->GetDescriptorSet();
 
 			m_ptrRenderPasses[ptrRenderPass] = ptrRenderPass;
-			m_ptrPipelines[ptrPipeline] = ptrPipeline;
-			m_ptrDescriptorSets[ptrDescriptorSet] = ptrDescriptorSet;
-			m_ptrVertexBuffers[ptrVertexBuffer] = ptrVertexBuffer;
-			m_ptrIndexBuffers[ptrIndexBuffer] = ptrIndexBuffer;
+			m_ptrPipelines[ptrMaterialPipeline] = ptrMaterialPipeline;
+			m_ptrDescriptorSets[ptrMaterialDescriptorSet] = ptrMaterialDescriptorSet;
+			m_ptrVertexBuffers[ptrDrawableVertexBuffer] = ptrDrawableVertexBuffer;
+			m_ptrIndexBuffers[ptrDrawableIndexBuffer] = ptrDrawableIndexBuffer;
+			m_ptrDescriptorSets[ptrDrawableDescriptorSet] = ptrDrawableDescriptorSet;
 
-			if (m_queue[ptrRenderPass][indexSubPass][ptrPipeline][ptrDescriptorSet][ptrVertexBuffer][ptrIndexBuffer] == NULL) {
-				m_queue[ptrRenderPass][indexSubPass][ptrPipeline][ptrDescriptorSet][ptrVertexBuffer][ptrIndexBuffer] = CreateBatch(pDrawable->GetType());
+			if (m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] == NULL) {
+				m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] = CreateBatch(pDrawable->GetType());
 			}
 
-			m_queue[ptrRenderPass][indexSubPass][ptrPipeline][ptrDescriptorSet][ptrVertexBuffer][ptrIndexBuffer]->AddDrawable(pDrawable);
+			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(pDrawable);
 		}
 	}
 

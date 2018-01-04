@@ -31,10 +31,10 @@ namespace CrossEngine {
 		friend class CCamera;
 
 
-		typedef std::map<const CGfxVertexBuffer*, std::map<const CGfxIndexBuffer*, CBatch*>> BatchQueue;
-		typedef std::map<const CGfxDescriptorSet*, BatchQueue> DescriptorSetQueue;
-		typedef std::map<const CGfxPipelineGraphics*, DescriptorSetQueue> PipelineQueue;
-		typedef std::map<const uint32_t, PipelineQueue> SubPassQueue;
+		typedef std::map<const CGfxVertexBuffer*, std::map<const CGfxIndexBuffer*, std::map<const CGfxDescriptorSet*, CBatch*>>> BatchQueue;
+		typedef std::map<const CGfxDescriptorSet*, BatchQueue> MaterialDescriptorSetQueue;
+		typedef std::map<const CGfxPipelineGraphics*, MaterialDescriptorSetQueue> MaterialPipelineQueue;
+		typedef std::map<const uint32_t, MaterialPipelineQueue> SubPassQueue;
 		typedef std::map<const CGfxRenderPass*, SubPassQueue> RenderPassQueue;
 
 		
