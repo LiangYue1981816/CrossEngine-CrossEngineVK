@@ -50,8 +50,13 @@ namespace CrossEngine {
 		, m_pCommandBufferManager(pCommandBufferManager)
 
 		, m_indexPass(0)
+
 		, m_indexOffset(0)
 		, m_indexType(VK_INDEX_TYPE_UINT16)
+		, m_topology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST)
+
+		, m_frontCompareOp(VK_COMPARE_OP_NEVER)
+		, m_backCompareOp(VK_COMPARE_OP_NEVER)
 	{
 
 	}
@@ -70,8 +75,15 @@ namespace CrossEngine {
 	{
 		m_ptrRenderPass.Release();
 		m_ptrFrameBuffer.Release();
-		m_ptrPipelineCompute.Release();
-		m_ptrPipelineGraphics.Release();
+
+		m_indexPass = 0;
+
+		m_indexOffset = 0;
+		m_indexType = VK_INDEX_TYPE_UINT16;
+		m_topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+
+		m_frontCompareOp = VK_COMPARE_OP_NEVER;
+		m_backCompareOp = VK_COMPARE_OP_NEVER;
 	}
 
 	void CGLES3CommandBuffer::ClearCommands(void)
@@ -95,10 +107,6 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::Reset(void)
 	{
-		m_indexPass = 0;
-		m_indexOffset = 0;
-		m_indexType = VK_INDEX_TYPE_UINT16;
-
 		Clearup();
 		ClearCommands();
 	}
@@ -130,6 +138,7 @@ namespace CrossEngine {
 		m_indexPass = 0;
 		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
+
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
@@ -146,14 +155,16 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
-		m_ptrPipelineCompute = ptrPipeline;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineCompute(m_ptrPipelineCompute));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineCompute(ptrPipeline));
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-		m_ptrPipelineGraphics = ptrPipeline;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(m_ptrPipelineGraphics));
+		m_topology = ((CGLES3PipelineGraphics *)&ptrPipeline)->GetInputAssemblyState().topology;
+		m_frontCompareOp = ((CGLES3PipelineGraphics *)&ptrPipeline)->GetDepthStencilState().front.compareOp;
+		m_backCompareOp = ((CGLES3PipelineGraphics *)&ptrPipeline)->GetDepthStencilState().back.compareOp;
+
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(ptrPipeline));
 	}
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
@@ -175,6 +186,7 @@ namespace CrossEngine {
 	{
 		m_indexType = type;
 		m_indexOffset = offset;
+
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindIndexBuffer(ptrIndexBuffer));
 	}
 
@@ -216,20 +228,17 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask)
 	{
-		const VkPipelineDepthStencilStateCreateInfo& depthStencilState = ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetDepthStencilState();
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetStencilReference(faceMask, depthStencilState.front.compareOp, depthStencilState.back.compareOp, reference, compareMask));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetStencilReference(faceMask, m_frontCompareOp, m_backCompareOp, reference, compareMask));
 	}
 
 	void CGLES3CommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState();
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandDraw(inputAssemblyState.topology, vertexCount, instanceCount, firstVertex, firstInstance));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandDraw(m_topology, vertexCount, instanceCount, firstVertex, firstInstance));
 	}
 
 	void CGLES3CommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
 	{
-		const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState();
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandDrawIndexed(inputAssemblyState.topology, m_indexType, indexCount, instanceCount, firstIndex, m_indexOffset));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandDrawIndexed(m_topology, m_indexType, indexCount, instanceCount, firstIndex, m_indexOffset));
 	}
 
 	void CGLES3CommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
