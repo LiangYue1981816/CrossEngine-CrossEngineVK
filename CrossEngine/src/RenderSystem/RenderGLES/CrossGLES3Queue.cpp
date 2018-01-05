@@ -36,14 +36,14 @@ namespace CrossEngine {
 
 	}
 
-	int CGLES3Queue::Submit(const CGfxCommandBuffer *pCommandBuffer) const
+	int CGLES3Queue::Submit(const CGfxCommandBufferPtr &ptrCommandBuffer) const
 	{
-		return Submit(pCommandBuffer, NULL, 0, NULL);
+		return Submit(ptrCommandBuffer, NULL, 0, NULL);
 	}
 
-	int CGLES3Queue::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	int CGLES3Queue::Submit(const CGfxCommandBufferPtr &ptrCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
 	{
-		((CGLES3CommandBuffer *)pCommandBuffer)->Execute();
+		((CGLES3CommandBuffer *)&ptrCommandBuffer)->Execute();
 		return NO_ERROR;
 	}
 

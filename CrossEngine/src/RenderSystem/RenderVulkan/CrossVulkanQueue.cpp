@@ -63,14 +63,14 @@ namespace CrossEngine {
 		return m_queueFamilyIndex;
 	}
 
-	int CVulkanQueue::Submit(const CGfxCommandBuffer *pCommandBuffer) const
+	int CVulkanQueue::Submit(const CGfxCommandBufferPtr &ptrCommandBuffer) const
 	{
-		return Submit(pCommandBuffer, VK_NULL_HANDLE, 0, VK_NULL_HANDLE);
+		return Submit(ptrCommandBuffer, VK_NULL_HANDLE, 0, VK_NULL_HANDLE);
 	}
 
-	int CVulkanQueue::Submit(const CGfxCommandBuffer *pCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
+	int CVulkanQueue::Submit(const CGfxCommandBufferPtr &ptrCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
 	{
-		const CVulkanCommandBuffer *pVkCommandBuffer = (CVulkanCommandBuffer *)pCommandBuffer;
+		const CVulkanCommandBuffer *pVkCommandBuffer = (CVulkanCommandBuffer *)&ptrCommandBuffer;
 		pVkCommandBuffer->FenceWait(UINT64_MAX);
 		pVkCommandBuffer->FenceReset();
 
