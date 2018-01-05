@@ -37,12 +37,29 @@ namespace CrossEngine {
 
 
 	public:
+		const uint32_t GetIndexSubPass(void) const;
+		const CGfxRenderPassPtr& GetRenderPass(void) const;
+		const CGfxPipelineGraphicsPtr& GetPipeline(void) const;
+		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
+
+	public:
 		void SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass);
 		void SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline);
 
 		void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture);
 		void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform);
 		void UpdateDescriptorSet(uint32_t pool);
+
+
+	protected:
+		uint32_t m_indexSubPass;
+		CGfxRenderPassPtr m_ptrRenderPass;
+		CGfxPipelineGraphicsPtr m_ptrPipeline;
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+
+	protected:
+		std::map<uint32_t, CGfxTexturePtr> m_textures;
+		std::map<uint32_t, CGfxUniformBufferPtr> m_uniforms;
 	};
 
 }

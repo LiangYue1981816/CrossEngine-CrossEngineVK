@@ -43,25 +43,10 @@ namespace CrossEngine {
 
 
 	public:
-		const uint32_t GetIndexSubPass(void) const
-		{
-			return m_indexSubPass;
-		}
-
-		const CGfxRenderPassPtr& GetRenderPass(void) const
-		{
-			return m_ptrRenderPass;
-		}
-
-		const CGfxPipelineGraphicsPtr& GetPipeline(void) const
-		{
-			return m_ptrPipeline;
-		}
-
-		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const
-		{
-			return m_ptrDescriptorSet;
-		}
+		virtual const uint32_t GetIndexSubPass(void) const = 0;
+		virtual const CGfxRenderPassPtr& GetRenderPass(void) const = 0;
+		virtual const CGfxPipelineGraphicsPtr& GetPipeline(void) const = 0;
+		virtual const CGfxDescriptorSetPtr& GetDescriptorSet(void) const = 0;
 
 	public:
 		virtual void SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass) = 0;
@@ -70,17 +55,6 @@ namespace CrossEngine {
 		virtual void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture) = 0;
 		virtual void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform) = 0;
 		virtual void UpdateDescriptorSet(uint32_t pool) = 0;
-
-
-	protected:
-		uint32_t m_indexSubPass;
-		CGfxRenderPassPtr m_ptrRenderPass;
-		CGfxPipelineGraphicsPtr m_ptrPipeline;
-		CGfxDescriptorSetPtr m_ptrDescriptorSet;
-
-	protected:
-		std::map<uint32_t, CGfxTexturePtr> m_textures;
-		std::map<uint32_t, CGfxUniformBufferPtr> m_uniforms;
 	};
 
 }

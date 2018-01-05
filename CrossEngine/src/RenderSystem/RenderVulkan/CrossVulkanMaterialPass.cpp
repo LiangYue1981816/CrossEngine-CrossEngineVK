@@ -26,6 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CVulkanMaterialPass::CVulkanMaterialPass(void)
+		: m_indexSubPass(0)
 	{
 
 	}
@@ -33,6 +34,26 @@ namespace CrossEngine {
 	CVulkanMaterialPass::~CVulkanMaterialPass(void)
 	{
 
+	}
+
+	const uint32_t CVulkanMaterialPass::GetIndexSubPass(void) const
+	{
+		return m_indexSubPass;
+	}
+
+	const CGfxRenderPassPtr& CVulkanMaterialPass::GetRenderPass(void) const
+	{
+		return m_ptrRenderPass;
+	}
+
+	const CGfxPipelineGraphicsPtr& CVulkanMaterialPass::GetPipeline(void) const
+	{
+		return m_ptrPipeline;
+	}
+
+	const CGfxDescriptorSetPtr& CVulkanMaterialPass::GetDescriptorSet(void) const
+	{
+		return m_ptrDescriptorSet;
 	}
 
 	void CVulkanMaterialPass::SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass)

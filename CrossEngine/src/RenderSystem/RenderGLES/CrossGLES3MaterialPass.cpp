@@ -26,6 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGLES3MaterialPass::CGLES3MaterialPass(void)
+		: m_indexSubPass(0)
 	{
 
 	}
@@ -33,6 +34,26 @@ namespace CrossEngine {
 	CGLES3MaterialPass::~CGLES3MaterialPass(void)
 	{
 
+	}
+
+	const uint32_t CGLES3MaterialPass::GetIndexSubPass(void) const
+	{
+		return m_indexSubPass;
+	}
+
+	const CGfxRenderPassPtr& CGLES3MaterialPass::GetRenderPass(void) const
+	{
+		return m_ptrRenderPass;
+	}
+
+	const CGfxPipelineGraphicsPtr& CGLES3MaterialPass::GetPipeline(void) const
+	{
+		return m_ptrPipeline;
+	}
+
+	const CGfxDescriptorSetPtr& CGLES3MaterialPass::GetDescriptorSet(void) const
+	{
+		return m_ptrDescriptorSet;
 	}
 
 	void CGLES3MaterialPass::SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass)
