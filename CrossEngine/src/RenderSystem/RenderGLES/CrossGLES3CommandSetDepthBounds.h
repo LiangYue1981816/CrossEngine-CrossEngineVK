@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetDepthBounds(GLclampf zmin, GLclampf zmax)
+		CGLES3CommandSetDepthBounds(float zmin, float zmax)
 			: m_zmin(zmin)
 			, m_zmax(zmax)
 		{

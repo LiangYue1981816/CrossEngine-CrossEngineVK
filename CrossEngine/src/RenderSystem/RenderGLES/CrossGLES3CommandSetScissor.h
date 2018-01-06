@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandSetScissor(GLint x, GLint y, GLsizei width, GLsizei height)
+		CGLES3CommandSetScissor(int x, int y, uint32_t width, uint32_t height)
 			: m_x(x)
 			, m_y(y)
 			, m_width(width)

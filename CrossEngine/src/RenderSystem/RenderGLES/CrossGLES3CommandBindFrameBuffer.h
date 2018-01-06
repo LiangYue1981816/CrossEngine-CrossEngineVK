@@ -43,8 +43,8 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
-			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
+			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)&m_ptrFrameBuffer;
+			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)&m_ptrRenderPass;
 
 			const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
 			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);

@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, GLuint binding)
+		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)
 			: m_offset(offset)
 			, m_binding(binding)
 		{
@@ -43,8 +43,8 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
-			const GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(m_ptrVertexBuffer->GetVertexFormat());
+			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)&m_ptrVertexBuffer;
+			const GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(pVertexBuffer->GetVertexFormat());
 
 			glBindVertexArray((GLuint)pVertexBuffer->GetHandleVAO());
 			glBindVertexBuffer(m_binding, (GLuint)pVertexBuffer->GetHandle(), 0, stride);

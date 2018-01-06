@@ -41,8 +41,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			const CGLES3PipelineCompute *pPipeline = (CGLES3PipelineCompute *)((CGfxPipelineCompute *)m_ptrPipelineCompute);
-			glBindProgramPipeline((GLuint)pPipeline->GetHandle());
+			glBindProgramPipeline((GLuint)((CGLES3PipelineCompute *)&m_ptrPipelineCompute)->GetHandle());
 		}
 
 
