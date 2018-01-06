@@ -43,7 +43,7 @@ namespace CrossEngine {
 
 	int CGLES3Queue::Submit(const CGfxCommandBufferPtr &ptrCommandBuffer, CGfxSemaphore waitSemaphore, VkPipelineStageFlags waitStageFlags, CGfxSemaphore signalSemaphore) const
 	{
-		((CGLES3CommandBuffer *)&ptrCommandBuffer)->Execute();
+		((CGLES3CommandBuffer *)((CGfxCommandBuffer *)ptrCommandBuffer))->Execute();
 		return NO_ERROR;
 	}
 

@@ -45,7 +45,7 @@ namespace CrossEngine {
 		virtual void Execute(void) const
 		{
 			VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)m_ptrDescriptorSet->GetHandle();
-			VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineCompute *)&m_ptrPipelineCompute)->GetPipelineLayout();
+			VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineCompute *)((CGfxPipelineCompute *)m_ptrPipelineCompute))->GetPipelineLayout();
 			vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, NULL);
 		}
 

@@ -45,8 +45,8 @@ namespace CrossEngine {
 		{
 			GLuint indexTexUnit = 0;
 
-			const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)&m_ptrDescriptorSet;
-			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)&m_ptrRenderPass;
+			const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet);
+			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 			const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(m_indexPass);
 			const CGLES3DescriptorSetLayout *pDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
 

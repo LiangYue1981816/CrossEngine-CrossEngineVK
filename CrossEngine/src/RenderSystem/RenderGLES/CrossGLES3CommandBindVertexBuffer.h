@@ -43,7 +43,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)&m_ptrVertexBuffer;
+			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
 			const GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(pVertexBuffer->GetVertexFormat());
 
 			glBindVertexArray((GLuint)pVertexBuffer->GetHandleVAO());
