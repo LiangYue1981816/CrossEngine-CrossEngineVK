@@ -97,7 +97,7 @@ namespace CrossEngine {
 		CGfxRenderPassPtr m_ptrRenderPass;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 
-		std::vector<CGLES3CommandBase*> m_pCommands;
+		std::vector<CGfxCommandBase*> m_pCommands;
 
 	protected:
 		CGLES3CommandBufferManager *m_pCommandBufferManager;

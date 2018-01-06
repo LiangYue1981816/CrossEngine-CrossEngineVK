@@ -393,9 +393,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3PipelineManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Command.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindIndexBuffer.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
     </ClInclude>
@@ -677,6 +674,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossGLM.h">
       <Filter>Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxCommand.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderAPI\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

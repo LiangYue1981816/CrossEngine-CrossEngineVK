@@ -97,6 +97,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGfxRenderPass;
 	class CROSS_EXPORT CGfxFrameBuffer;
 	class CROSS_EXPORT CGfxDescriptorSet;
+	class CROSS_EXPORT CGfxCommandBase;
 	class CROSS_EXPORT CGfxCommandBuffer;
 	class CROSS_EXPORT CGfxDescriptorSetPtr;
 	class CROSS_EXPORT CGfxCommandBufferPtr;

@@ -22,27 +22,25 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossGfxDefinition.h"
-#include "CrossGfxInstance.h"
-#include "CrossGfxQueue.h"
-#include "CrossGfxDevice.h"
-#include "CrossGfxSwapchain.h"
-#include "CrossGfxResource.h"
-#include "CrossGfxResourceManager.h"
-#include "CrossGfxBuffer.h"
-#include "CrossGfxIndexBuffer.h"
-#include "CrossGfxVertexBuffer.h"
-#include "CrossGfxUniformBuffer.h"
-#include "CrossGfxImage.h"
-#include "CrossGfxTexture.h"
-#include "CrossGfxRenderTexture.h"
-#include "CrossGfxShader.h"
-#include "CrossGfxPipelineCompute.h"
-#include "CrossGfxPipelineGraphics.h"
-#include "CrossGfxDescriptorSet.h"
-#include "CrossGfxMaterial.h"
-#include "CrossGfxMaterialPass.h"
-#include "CrossGfxRenderPass.h"
-#include "CrossGfxFrameBuffer.h"
-#include "CrossGfxCommand.h"
-#include "CrossGfxCommandBuffer.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CGfxCommandBase
+	{
+	public:
+		CGfxCommandBase(void)
+		{
+
+		}
+		virtual ~CGfxCommandBase(void)
+		{
+
+		}
+
+
+	public:
+		virtual void Execute(void) const = 0;
+	};
+
+}

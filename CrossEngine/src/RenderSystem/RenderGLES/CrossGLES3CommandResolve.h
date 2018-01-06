@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandResolve : public CGLES3CommandBase
+	class CROSS_EXPORT CGLES3CommandResolve : public CGfxCommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
