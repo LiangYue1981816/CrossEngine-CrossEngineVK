@@ -21,6 +21,27 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "_CrossEngine.h"
+#include "CrossVulkanCommandBindFrameBuffer.h"
+#include "CrossVulkanCommandBindPipelineCompute.h"
+#include "CrossVulkanCommandBindPipelineGraphics.h"
+#include "CrossVulkanCommandBindIndexBuffer.h"
+#include "CrossVulkanCommandBindVertexBuffer.h"
+#include "CrossVulkanCommandBindDescriptorSetCompute.h"
+#include "CrossVulkanCommandBindDescriptorSetGraphics.h"
+#include "CrossVulkanCommandSetViewport.h"
+#include "CrossVulkanCommandSetScissor.h"
+#include "CrossVulkanCommandSetLineWidth.h"
+#include "CrossVulkanCommandSetDepthBias.h"
+#include "CrossVulkanCommandSetDepthRange.h"
+#include "CrossVulkanCommandSetDepthBounds.h"
+#include "CrossVulkanCommandSetBlendConstants.h"
+#include "CrossVulkanCommandSetStencilReference.h"
+#include "CrossVulkanCommandSetStencilWriteMask.h"
+#include "CrossVulkanCommandResolve.h"
+#include "CrossVulkanCommandDraw.h"
+#include "CrossVulkanCommandDrawIndexed.h"
+#include "CrossVulkanCommandDispatch.h"
+#include "CrossVulkanCommandExecuteCommandBuffer.h"
 
 
 namespace CrossEngine {
