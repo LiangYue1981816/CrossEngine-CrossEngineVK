@@ -331,6 +331,9 @@
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\debug_new.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\fast_mutex.h" />
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\static_assert.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBeginCommandBufferPrimary.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBeginCommandBufferSecondary.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBeginRenderPass.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindDescriptorSet.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindFrameBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindIndexBuffer.h" />
@@ -340,7 +343,10 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandDispatch.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandDraw.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandDrawIndexed.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandEndCommandBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandEndRenderPass.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandExecuteCommandBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandNextSubpass.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandResolve.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetBlendConstants.h" />
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetDepthBias.h" />

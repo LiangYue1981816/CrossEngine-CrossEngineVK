@@ -21,6 +21,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "_CrossEngine.h"
+#include "CrossGLES3CommandBeginCommandBufferPrimary.h"
+#include "CrossGLES3CommandBeginCommandBufferSecondary.h"
+#include "CrossGLES3CommandBeginRenderPass.h"
+#include "CrossGLES3CommandNextSubpass.h"
+#include "CrossGLES3CommandEndRenderPass.h"
+#include "CrossGLES3CommandEndCommandBuffer.h"
 #include "CrossGLES3CommandBindFrameBuffer.h"
 #include "CrossGLES3CommandBindPipelineCompute.h"
 #include "CrossGLES3CommandBindPipelineGraphics.h"
@@ -120,17 +126,17 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBeginCommandBufferPrimary(flags));
 	}
 
 	void CGLES3CommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBeginCommandBufferSecondary(flags, indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics));
 	}
 
 	void CGLES3CommandBuffer::End(void)
 	{
-
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandEndCommandBuffer());
 	}
 
 	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
@@ -144,6 +150,7 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandNextSubpass(contents));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, ++m_indexPass));
 	}
@@ -211,7 +218,7 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthBias(depthBiasConstantFactor, depthBiasSlopeFactor));
 	}
 
-	void CGLES3CommandBuffer::void CmdSetBlendConstants(float red, float green, float blue, float alpha)
+	void CGLES3CommandBuffer::CmdSetBlendConstants(float red, float green, float blue, float alpha)
 	{
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetBlendConstants(red, green, blue, alpha));
 	}

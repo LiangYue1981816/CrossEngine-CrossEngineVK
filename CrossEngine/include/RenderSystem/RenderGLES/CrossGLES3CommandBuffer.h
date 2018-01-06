@@ -84,8 +84,6 @@ namespace CrossEngine {
 
 
 	protected:
-		uint32_t m_indexPass;
-
 		uint32_t m_indexOffset;
 		VkIndexType m_indexType;
 		VkPrimitiveTopology m_topology;
@@ -94,6 +92,7 @@ namespace CrossEngine {
 		VkCompareOp m_backCompareOp;
 
 	protected:
+		uint32_t m_indexPass;
 		CGfxRenderPassPtr m_ptrRenderPass;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 
