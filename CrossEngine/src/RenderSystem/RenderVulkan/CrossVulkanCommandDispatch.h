@@ -38,7 +38,7 @@ namespace CrossEngine {
 			, m_groupCountY(groupCountY)
 			, m_groupCountZ(groupCountZ)
 		{
-
+			Execute();
 		}
 
 

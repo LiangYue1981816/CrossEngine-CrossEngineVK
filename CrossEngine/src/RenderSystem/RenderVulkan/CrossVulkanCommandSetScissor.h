@@ -39,7 +39,7 @@ namespace CrossEngine {
 			, m_width(width)
 			, m_height(height)
 		{
-
+			Execute();
 		}
 
 

@@ -681,7 +681,19 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxCommand.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBindFrameBuffer.h">
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBeginCommandBufferPrimary.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBeginCommandBufferSecondary.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBeginRenderPass.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBindDescriptorSetCompute.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBindDescriptorSetGraphics.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBindIndexBuffer.h">
@@ -705,10 +717,16 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandDrawIndexed.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandEndCommandBuffer.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandEndRenderPass.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandExecuteCommandBuffer.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandResolve.h">
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandNextSubpass.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetBlendConstants.h">
@@ -720,13 +738,13 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetDepthBounds.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetDepthRange.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetLineWidth.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetScissor.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetStencilCompareMask.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetStencilReference.h">
@@ -736,12 +754,6 @@
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandSetViewport.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBindDescriptorSetCompute.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandBindDescriptorSetGraphics.h">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Commands</Filter>
     </ClInclude>
   </ItemGroup>

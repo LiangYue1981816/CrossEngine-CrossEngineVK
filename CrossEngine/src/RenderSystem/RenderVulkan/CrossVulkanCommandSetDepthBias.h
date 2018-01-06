@@ -38,7 +38,7 @@ namespace CrossEngine {
 			, m_depthBiasClamp(depthBiasClamp)
 			, m_depthBiasSlopeFactor(depthBiasSlopeFactor)
 		{
-
+			Execute();
 		}
 
 

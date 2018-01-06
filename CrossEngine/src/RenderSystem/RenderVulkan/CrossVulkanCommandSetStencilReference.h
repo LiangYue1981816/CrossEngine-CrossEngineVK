@@ -37,7 +37,7 @@ namespace CrossEngine {
 			, m_faceMask(faceMask)
 			, m_reference(reference)
 		{
-
+			Execute();
 		}
 
 

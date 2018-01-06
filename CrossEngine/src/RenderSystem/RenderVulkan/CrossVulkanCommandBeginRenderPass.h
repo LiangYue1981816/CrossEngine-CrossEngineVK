@@ -26,16 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanCommandBindPipelineCompute : public CGfxCommandBase
+	class CROSS_EXPORT CVulkanCommandBeginRenderPass : public CGfxCommandBase
 	{
 		friend class CVulkanCommandBuffer;
 
 
 	protected:
-		CVulkanCommandBindPipelineCompute(VkCommandBuffer vkCommandBuffer, const CGfxPipelineComputePtr &ptrPipelineCompute)
+		CVulkanCommandBeginRenderPass(VkCommandBuffer vkCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
 			: m_vkCommandBuffer(vkCommandBuffer)
+			, m_contents(contents)
 		{
-			m_ptrPipelineCompute = ptrPipelineCompute;
+			m_ptrFrameBuffer = ptrFrameBuffer;
+			m_ptrRenderPass = ptrRenderPass;
 			Execute();
 		}
 
@@ -43,12 +45,27 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipeline)m_ptrPipelineCompute->GetHandle());
+			std::vector<VkClearValue> clearValues;
+			for (uint32_t indexAttachment = 0; indexAttachment < m_ptrRenderPass->GetAttachmentCount(); indexAttachment++) {
+				clearValues.push_back(*m_ptrRenderPass->GetAttachmentClearValue(indexAttachment));
+			}
+
+			VkRenderPassBeginInfo renderPassBeginInfo = {};
+			renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			renderPassBeginInfo.pNext = nullptr;
+			renderPassBeginInfo.framebuffer = (VkFramebuffer)m_ptrFrameBuffer->GetHandle();
+			renderPassBeginInfo.renderPass = (VkRenderPass)m_ptrRenderPass->GetHandle();
+			renderPassBeginInfo.renderArea = { 0, 0, m_ptrFrameBuffer->GetWidth(),m_ptrFrameBuffer->GetHeight() };
+			renderPassBeginInfo.clearValueCount = clearValues.size();
+			renderPassBeginInfo.pClearValues = clearValues.data();
+			vkCmdBeginRenderPass(m_vkCommandBuffer, &renderPassBeginInfo, m_contents);
 		}
 
 
 	protected:
-		CGfxPipelineComputePtr m_ptrPipelineCompute;
+		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxRenderPassPtr m_ptrRenderPass;
+		VkSubpassContents m_contents;
 
 	protected:
 		VkCommandBuffer m_vkCommandBuffer;

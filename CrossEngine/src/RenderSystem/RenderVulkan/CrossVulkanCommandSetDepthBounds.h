@@ -32,25 +32,25 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandSetDepthBounds(VkCommandBuffer vkCommandBuffer, GLclampf zmin, GLclampf zmax)
+		CVulkanCommandSetDepthBounds(VkCommandBuffer vkCommandBuffer, float minDepthBounds, float maxDepthBounds)
 			: m_vkCommandBuffer(vkCommandBuffer)
-			, m_zmin(zmin)
-			, m_zmax(zmax)
+			, m_minDepthBounds(minDepthBounds)
+			, m_maxDepthBounds(maxDepthBounds)
 		{
-
+			Execute();
 		}
 
 
 	protected:
 		virtual void Execute(void) const
 		{
-			vkCmdSetDepthBounds(m_vkCommandBuffer, m_zmin, m_zmax);
+			vkCmdSetDepthBounds(m_vkCommandBuffer, m_minDepthBounds, m_maxDepthBounds);
 		}
 
 
 	protected:
-		GLclampf m_zmin;
-		GLclampf m_zmax;
+		float m_minDepthBounds;
+		float m_maxDepthBounds;
 
 	protected:
 		VkCommandBuffer m_vkCommandBuffer;

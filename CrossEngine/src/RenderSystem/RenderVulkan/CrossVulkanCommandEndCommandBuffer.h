@@ -26,32 +26,25 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanCommandResolve : public CGfxCommandBase
+	class CROSS_EXPORT CVulkanCommandEndCommandBuffer : public CGfxCommandBase
 	{
 		friend class CVulkanCommandBuffer;
 
 
 	protected:
-		CVulkanCommandResolve(VkCommandBuffer vkCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexPass)
+		CVulkanCommandEndCommandBuffer(VkCommandBuffer vkCommandBuffer)
 			: m_vkCommandBuffer(vkCommandBuffer)
-			, m_indexPass(indexPass)
 		{
-			m_ptrFrameBuffer = ptrFrameBuffer;
-			m_ptrRenderPass = ptrRenderPass;
+			Execute();
 		}
 
 
 	protected:
 		virtual void Execute(void) const
 		{
-
+			vkEndCommandBuffer(m_vkCommandBuffer);
 		}
 
-
-	protected:
-		CGfxFrameBufferPtr m_ptrFrameBuffer;
-		CGfxRenderPassPtr m_ptrRenderPass;
-		uint32_t m_indexPass;
 
 	protected:
 		VkCommandBuffer m_vkCommandBuffer;

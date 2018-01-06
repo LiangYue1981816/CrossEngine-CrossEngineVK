@@ -26,31 +26,41 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanCommandSetDepthRange : public CGfxCommandBase
+	class CROSS_EXPORT CVulkanCommandBeginCommandBufferSecondary : public CGfxCommandBase
 	{
 		friend class CVulkanCommandBuffer;
 
 
 	protected:
-		CVulkanCommandSetDepthRange(VkCommandBuffer vkCommandBuffer, float minDepth, float maxDepth)
+		CVulkanCommandBeginCommandBufferSecondary(VkCommandBuffer vkCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 			: m_vkCommandBuffer(vkCommandBuffer)
-			, m_minDepth(minDepth)
-			, m_maxDepth(maxDepth)
+			, m_flags(flags)
+			, m_indexSubpass(indexSubpass)
+			, m_occlusionQueryEnable(occlusionQueryEnable)
+			, m_queryFlags(queryFlags)
+			, m_pipelineStatistics(pipelineStatistics)
 		{
-
+			m_ptrFrameBuffer = ptrFrameBuffer;
+			m_ptrRenderPass = ptrRenderPass;
+			Execute();
 		}
 
 
 	protected:
 		virtual void Execute(void) const
 		{
-
+			vkBeginCommandBufferSecondary(m_vkCommandBuffer, m_flags, (VkFramebuffer)m_ptrFrameBuffer->GetHandle(), (VkRenderPass)m_ptrRenderPass->GetHandle(), m_indexSubpass, m_occlusionQueryEnable, m_queryFlags, m_pipelineStatistics);
 		}
 
 
 	protected:
-		float m_minDepth;
-		float m_maxDepth;
+		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxRenderPassPtr m_ptrRenderPass;
+		VkCommandBufferUsageFlags m_flags;
+		uint32_t m_indexSubpass;
+		VkBool32 m_occlusionQueryEnable;
+		VkQueryControlFlags m_queryFlags;
+		VkQueryPipelineStatisticFlags m_pipelineStatistics;
 
 	protected:
 		VkCommandBuffer m_vkCommandBuffer;

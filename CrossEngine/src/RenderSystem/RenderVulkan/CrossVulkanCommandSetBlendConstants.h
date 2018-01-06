@@ -39,7 +39,7 @@ namespace CrossEngine {
 			, m_blue(blue)
 			, m_alpha(alpha)
 		{
-
+			Execute();
 		}
 
 

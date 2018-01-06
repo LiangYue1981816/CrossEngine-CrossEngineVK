@@ -26,16 +26,17 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanCommandBindPipelineCompute : public CGfxCommandBase
+	class CROSS_EXPORT CVulkanCommandSetStencilCompareMask : public CGfxCommandBase
 	{
 		friend class CVulkanCommandBuffer;
 
 
 	protected:
-		CVulkanCommandBindPipelineCompute(VkCommandBuffer vkCommandBuffer, const CGfxPipelineComputePtr &ptrPipelineCompute)
+		CVulkanCommandSetStencilCompareMask(VkCommandBuffer vkCommandBuffer, VkStencilFaceFlags faceMask, uint32_t compareMask)
 			: m_vkCommandBuffer(vkCommandBuffer)
+			, m_faceMask(faceMask)
+			, m_compareMask(compareMask)
 		{
-			m_ptrPipelineCompute = ptrPipelineCompute;
 			Execute();
 		}
 
@@ -43,12 +44,13 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, (VkPipeline)m_ptrPipelineCompute->GetHandle());
+			vkCmdSetStencilCompareMask(m_vkCommandBuffer, m_faceMask, m_compareMask);
 		}
 
 
 	protected:
-		CGfxPipelineComputePtr m_ptrPipelineCompute;
+		VkStencilFaceFlags m_faceMask;
+		uint32_t m_compareMask;
 
 	protected:
 		VkCommandBuffer m_vkCommandBuffer;

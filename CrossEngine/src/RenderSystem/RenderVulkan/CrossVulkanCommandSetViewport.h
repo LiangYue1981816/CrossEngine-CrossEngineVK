@@ -41,7 +41,7 @@ namespace CrossEngine {
 			, m_minDepth(minDepth)
 			, m_maxDepth(maxDepth)
 		{
-
+			Execute();
 		}
 
 

@@ -36,6 +36,7 @@ namespace CrossEngine {
 			: m_vkCommandBuffer(vkCommandBuffer)
 		{
 			m_ptrCommandBuffer = ptrCommandBuffer;
+			Execute();
 		}
 
 

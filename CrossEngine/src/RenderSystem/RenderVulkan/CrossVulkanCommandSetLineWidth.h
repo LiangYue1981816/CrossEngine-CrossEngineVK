@@ -36,7 +36,7 @@ namespace CrossEngine {
 			: m_vkCommandBuffer(vkCommandBuffer)
 			, m_lineWidth(lineWidth)
 		{
-
+			Execute();
 		}
 
 

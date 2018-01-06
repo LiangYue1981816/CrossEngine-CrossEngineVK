@@ -39,7 +39,7 @@ namespace CrossEngine {
 			, m_firstVertex(firstVertex)
 			, m_firstInstance(firstInstance)
 		{
-
+			Execute();
 		}
 
 

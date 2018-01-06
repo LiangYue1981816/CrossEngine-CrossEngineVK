@@ -37,6 +37,7 @@ namespace CrossEngine {
 		{
 			m_ptrDescriptorSet = ptrDescriptorSet;
 			m_ptrPipelineCompute = ptrPipelineCompute;
+			Execute();
 		}
 
 

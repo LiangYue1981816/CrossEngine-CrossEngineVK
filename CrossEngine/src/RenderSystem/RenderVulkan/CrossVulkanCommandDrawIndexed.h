@@ -40,7 +40,7 @@ namespace CrossEngine {
 			, m_vertexOffset(vertexOffset)
 			, m_firstInstance(firstInstance)
 		{
-
+			Execute();
 		}
 
 
@@ -55,7 +55,7 @@ namespace CrossEngine {
 		uint32_t m_indexCount;
 		uint32_t m_instanceCount;
 		uint32_t m_firstIndex;
-		uint32_t m_vertexOffset;
+		int32_t m_vertexOffset;
 		uint32_t m_firstInstance;
 
 	protected:
