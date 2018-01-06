@@ -143,7 +143,6 @@ namespace CrossEngine {
 	{
 		m_ptrFrameBuffer = ptrFrameBuffer;
 		m_ptrRenderPass = ptrRenderPass;
-
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginRenderPass(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, contents));
 	}
 

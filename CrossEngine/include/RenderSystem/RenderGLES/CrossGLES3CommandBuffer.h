@@ -86,15 +86,12 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_indexOffset;
 		VkIndexType m_indexType;
-		VkPrimitiveTopology m_topology;
-
-		VkCompareOp m_frontCompareOp;
-		VkCompareOp m_backCompareOp;
 
 	protected:
 		uint32_t m_indexPass;
 		CGfxRenderPassPtr m_ptrRenderPass;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 
 		std::vector<CGfxCommandBase*> m_pCommands;
 
