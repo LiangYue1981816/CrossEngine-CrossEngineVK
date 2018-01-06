@@ -51,9 +51,9 @@ namespace CrossEngine {
 		void Execute(void) const;
 
 	public:
-		int BeginPrimary(VkCommandBufferUsageFlags flags);
-		int BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
-		int End(void);
+		void BeginPrimary(VkCommandBufferUsageFlags flags);
+		void BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
+		void End(void);
 
 	public:
 		void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents);

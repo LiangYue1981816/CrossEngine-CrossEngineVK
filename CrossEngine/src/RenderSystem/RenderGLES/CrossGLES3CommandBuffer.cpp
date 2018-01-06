@@ -118,19 +118,19 @@ namespace CrossEngine {
 		}
 	}
 
-	int CGLES3CommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
+	void CGLES3CommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
 	{
-		return NO_ERROR;
+
 	}
 
-	int CGLES3CommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+	void CGLES3CommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
-		return NO_ERROR;
+
 	}
 
-	int CGLES3CommandBuffer::End(void)
+	void CGLES3CommandBuffer::End(void)
 	{
-		return NO_ERROR;
+
 	}
 
 	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)

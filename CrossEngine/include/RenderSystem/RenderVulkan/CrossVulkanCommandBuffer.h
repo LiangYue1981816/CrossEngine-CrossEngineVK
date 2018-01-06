@@ -39,6 +39,7 @@ namespace CrossEngine {
 	protected:
 		void Release(void);
 		void Clearup(void);
+		void ClearCommands(void);
 
 	public:
 		CVulkanDevice* GetDevice(void) const;
@@ -51,9 +52,9 @@ namespace CrossEngine {
 		void FenceReset(void) const;
 
 	public:
-		int BeginPrimary(VkCommandBufferUsageFlags flags);
-		int BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
-		int End(void);
+		void BeginPrimary(VkCommandBufferUsageFlags flags);
+		void BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
+		void End(void);
 
 	public:
 		void CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents);
@@ -86,15 +87,8 @@ namespace CrossEngine {
 	protected:
 		CGfxRenderPassPtr m_ptrRenderPass;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
-		CGfxPipelineComputePtr m_ptrPipelineCompute;
-		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 
-		std::map<HANDLE, CGfxTexturePtr> m_ptrTextures;
-		std::map<HANDLE, CGfxIndexBufferPtr> m_ptrIndexBuffers;
-		std::map<HANDLE, CGfxVertexBufferPtr> m_ptrVertexBuffers;
-		std::map<HANDLE, CGfxUniformBufferPtr> m_ptrUniformBuffers;
-		std::map<HANDLE, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
-		std::map<HANDLE, CGfxCommandBufferPtr> m_ptrCommandBuffers;
+		std::vector<CGfxCommandBase*> m_pCommands;
 
 	protected:
 		VkFence m_vkFence;

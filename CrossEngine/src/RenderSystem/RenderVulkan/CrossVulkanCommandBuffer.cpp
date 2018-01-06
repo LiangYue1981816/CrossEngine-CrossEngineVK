@@ -78,15 +78,15 @@ namespace CrossEngine {
 	{
 		m_ptrRenderPass.Release();
 		m_ptrFrameBuffer.Release();
-		m_ptrPipelineCompute.Release();
-		m_ptrPipelineGraphics.Release();
+	}
 
-		m_ptrTextures.clear();
-		m_ptrIndexBuffers.clear();
-		m_ptrVertexBuffers.clear();
-		m_ptrUniformBuffers.clear();
-		m_ptrDescriptorSets.clear();
-		m_ptrCommandBuffers.clear();
+	void CVulkanCommandBuffer::ClearCommands(void)
+	{
+		for (auto &itCommand : m_pCommands) {
+			SAFE_DELETE(itCommand);
+		}
+
+		m_pCommands.clear();
 	}
 
 	CVulkanDevice* CVulkanCommandBuffer::GetDevice(void) const
@@ -107,7 +107,10 @@ namespace CrossEngine {
 	void CVulkanCommandBuffer::Reset(void)
 	{
 		FenceWait(UINT64_MAX);
+
 		Clearup();
+		ClearCommands();
+
 		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
 	}
 
@@ -121,184 +124,128 @@ namespace CrossEngine {
 		vkResetFences(m_pDevice->GetDevice(), 1, &m_vkFence);
 	}
 
-	int CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
+	void CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
 	{
-		return vkBeginCommandBufferPrimary(m_vkCommandBuffer, flags);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginCommandBufferPrimary(m_vkCommandBuffer, flags));
 	}
 
-	int CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+	void CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
-		VkFramebuffer vkFramebuffer = (VkFramebuffer)m_ptrFrameBuffer->GetHandle();
-		VkRenderPass vkRenderPass = (VkRenderPass)m_ptrRenderPass->GetHandle();
-		return vkBeginCommandBufferSecondary(m_vkCommandBuffer, flags, vkFramebuffer, vkRenderPass, indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginCommandBufferSecondary(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics));
 	}
 
-	int CVulkanCommandBuffer::End(void)
+	void CVulkanCommandBuffer::End(void)
 	{
-		return vkEndCommandBuffer(m_vkCommandBuffer);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandEndCommandBuffer(m_vkCommandBuffer));
 	}
 
 	void CVulkanCommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
 	{
-		VkRect2D renderArea = { 
-			0, 0, 
-			ptrFrameBuffer->GetWidth(),
-			ptrFrameBuffer->GetHeight()
-		};
-
-		std::vector<VkClearValue> clearValues;
-		for (uint32_t indexAttachment = 0; indexAttachment < ptrRenderPass->GetAttachmentCount(); indexAttachment++) {
-			clearValues.push_back(*ptrRenderPass->GetAttachmentClearValue(indexAttachment));
-		}
-
-		VkRenderPassBeginInfo renderPassBeginInfo = {};
-		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		renderPassBeginInfo.pNext = nullptr;
-		renderPassBeginInfo.framebuffer = (VkFramebuffer)ptrFrameBuffer->GetHandle();
-		renderPassBeginInfo.renderPass = (VkRenderPass)ptrRenderPass->GetHandle();
-		renderPassBeginInfo.renderArea = renderArea;
-		renderPassBeginInfo.clearValueCount = clearValues.size();
-		renderPassBeginInfo.pClearValues = clearValues.data();
-		vkCmdBeginRenderPass(m_vkCommandBuffer, &renderPassBeginInfo, contents);
-
-		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
+		m_ptrRenderPass = ptrRenderPass;
+
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginRenderPass(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, contents));
 	}
 
 	void CVulkanCommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
-		vkCmdNextSubpass(m_vkCommandBuffer, contents);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandNextSubpass(m_vkCommandBuffer, contents));
 	}
 
 	void CVulkanCommandBuffer::CmdEndRenderPass(void)
 	{
-		vkCmdEndRenderPass(m_vkCommandBuffer);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandEndRenderPass(m_vkCommandBuffer));
 	}
 
 	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
-		VkPipeline vkPipeline = (VkPipeline)ptrPipeline->GetHandle();
-		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, vkPipeline);
-
-		m_ptrPipelineCompute = ptrPipeline;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineCompute(m_vkCommandBuffer, ptrPipeline));
 	}
 
 	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-		VkPipeline vkPipeline = (VkPipeline)ptrPipeline->GetHandle();
-		vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, vkPipeline);
-
-		m_ptrPipelineGraphics = ptrPipeline;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineGraphics(m_vkCommandBuffer, ptrPipeline));
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
 	{
-		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
-		VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineCompute *)((CGfxPipelineCompute *)ptrPipeline))->GetPipelineLayout();
-		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, NULL);
-
-		m_ptrDescriptorSets[vkDescriptorSet] = ptrDescriptorSet;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetCompute(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline));
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-		VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)ptrDescriptorSet->GetHandle();
-		VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetPipelineLayout();
-		vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, NULL);
-
-		m_ptrDescriptorSets[vkDescriptorSet] = ptrDescriptorSet;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline));
 	}
 
 	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)
 	{
-		VkBuffer vkBuffer = (VkBuffer)ptrVertexBuffer->GetHandle();
-		vkCmdBindVertexBuffers(m_vkCommandBuffer, binding, 1, &vkBuffer, &offset);
-
-		m_ptrVertexBuffers[vkBuffer] = ptrVertexBuffer;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindVertexBuffer(m_vkCommandBuffer, ptrVertexBuffer, offset, binding));
 	}
 
 	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type)
 	{
-		VkBuffer vkBuffer = (VkBuffer)ptrIndexBuffer->GetHandle();
-		vkCmdBindIndexBuffer(m_vkCommandBuffer, vkBuffer, offset, type);
-
-		m_ptrIndexBuffers[vkBuffer] = ptrIndexBuffer;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindIndexBuffer(m_vkCommandBuffer, ptrIndexBuffer, offset, type));
 	}
 
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
 	{
-		VkViewport viewport = {};
-		viewport.x = x;
-		viewport.y = y;
-		viewport.width = width;
-		viewport.height = height;
-		viewport.minDepth = minDepth;
-		viewport.maxDepth = maxDepth;
-		vkCmdSetViewport(m_vkCommandBuffer, 0, 1, &viewport);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetViewport(m_vkCommandBuffer, x, y, width, height, minDepth, maxDepth));
 	}
 
 	void CVulkanCommandBuffer::CmdSetScissor(int x, int y, uint32_t width, uint32_t height)
 	{
-		VkRect2D scissor = {};
-		scissor.offset.x = x;
-		scissor.offset.y = y;
-		scissor.extent.width = width;
-		scissor.extent.height = height;
-		vkCmdSetScissor(m_vkCommandBuffer, 0, 1, &scissor);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetScissor(m_vkCommandBuffer, x, y, width, height));
 	}
 
 	void CVulkanCommandBuffer::CmdSetLineWidth(float lineWidth)
 	{
-		vkCmdSetLineWidth(m_vkCommandBuffer, lineWidth);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetLineWidth(m_vkCommandBuffer, lineWidth));
 	}
 
 	void CVulkanCommandBuffer::CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor)
 	{
-		vkCmdSetDepthBias(m_vkCommandBuffer, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetDepthBias(m_vkCommandBuffer, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor));
 	}
 
 	void CVulkanCommandBuffer::CmdSetBlendConstants(const float blendConstants[4])
 	{
-		vkCmdSetBlendConstants(m_vkCommandBuffer, blendConstants);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetBlendConstants(m_vkCommandBuffer, blendConstants[0], blendConstants[1], blendConstants[2], blendConstants[3]));
 	}
 
 	void CVulkanCommandBuffer::CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds)
 	{
-		vkCmdSetDepthBounds(m_vkCommandBuffer, minDepthBounds, maxDepthBounds);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetDepthBounds(m_vkCommandBuffer, minDepthBounds, maxDepthBounds));
 	}
 
 	void CVulkanCommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
 	{
-		vkCmdSetStencilWriteMask(m_vkCommandBuffer, faceMask, writeMask);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetStencilWriteMask(m_vkCommandBuffer, faceMask, writeMask));
 	}
 
 	void CVulkanCommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask)
 	{
-		vkCmdSetStencilReference(m_vkCommandBuffer, faceMask, reference);
-		vkCmdSetStencilCompareMask(m_vkCommandBuffer, faceMask, compareMask);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetStencilReference(m_vkCommandBuffer, faceMask, reference));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetStencilCompareMask(m_vkCommandBuffer, faceMask, compareMask));
 	}
 
 	void CVulkanCommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		vkCmdDraw(m_vkCommandBuffer, vertexCount, instanceCount, firstVertex, firstInstance);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandDraw(m_vkCommandBuffer, vertexCount, instanceCount, firstVertex, firstInstance));
 	}
 
 	void CVulkanCommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
 	{
-		vkCmdDrawIndexed(m_vkCommandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandDrawIndexed(m_vkCommandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance));
 	}
 
 	void CVulkanCommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
 	{
-		vkCmdDispatch(m_vkCommandBuffer, groupCountX, groupCountY, groupCountZ);
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandDispatch(m_vkCommandBuffer, groupCountX, groupCountY, groupCountZ));
 	}
 
 	void CVulkanCommandBuffer::CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-		VkCommandBuffer vkCommandBuffer = (VkCommandBuffer)ptrCommandBuffer->GetHandle();
-		vkCmdExecuteCommands(m_vkCommandBuffer, 1, &vkCommandBuffer);
-
-		m_ptrCommandBuffers[vkCommandBuffer] = ptrCommandBuffer;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandExecuteCommandBuffer(m_vkCommandBuffer, ptrCommandBuffer));
 	}
 
 }
