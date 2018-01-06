@@ -211,9 +211,9 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthBias(depthBiasConstantFactor, depthBiasSlopeFactor));
 	}
 
-	void CGLES3CommandBuffer::CmdSetBlendConstants(const float blendConstants[4])
+	void CGLES3CommandBuffer::void CmdSetBlendConstants(float red, float green, float blue, float alpha)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetBlendConstants(blendConstants[0], blendConstants[1], blendConstants[2], blendConstants[2]));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetBlendConstants(red, green, blue, alpha));
 	}
 
 	void CGLES3CommandBuffer::CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds)

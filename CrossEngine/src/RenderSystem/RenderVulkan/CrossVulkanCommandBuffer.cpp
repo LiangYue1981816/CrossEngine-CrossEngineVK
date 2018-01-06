@@ -207,9 +207,9 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetDepthBias(m_vkCommandBuffer, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor));
 	}
 
-	void CVulkanCommandBuffer::CmdSetBlendConstants(const float blendConstants[4])
+	void CVulkanCommandBuffer::CmdSetBlendConstants(float red, float green, float blue, float alpha)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetBlendConstants(m_vkCommandBuffer, blendConstants[0], blendConstants[1], blendConstants[2], blendConstants[3]));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetBlendConstants(m_vkCommandBuffer, red, green, blue, alpha));
 	}
 
 	void CVulkanCommandBuffer::CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds)

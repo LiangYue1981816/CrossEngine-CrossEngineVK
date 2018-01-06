@@ -71,7 +71,7 @@ namespace CrossEngine {
 		virtual void CmdSetScissor(int x, int y, uint32_t width, uint32_t height) = 0;
 		virtual void CmdSetLineWidth(float lineWidth) = 0;
 		virtual void CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor) = 0;
-		virtual void CmdSetBlendConstants(const float blendConstants[4]) = 0;
+		virtual void CmdSetBlendConstants(float red, float green, float blue, float alpha) = 0;
 		virtual void CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds) = 0;
 		virtual void CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask) = 0;
 		virtual void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask) = 0;
