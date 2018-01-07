@@ -137,4 +137,40 @@ namespace CrossEngine {
 		uint32_t *m_pRefCount;
 	};
 
+	template<class T>
+	inline bool operator == (const CSharedPtr<T> &ptrLeft, const CSharedPtr<T> &ptrRight)
+	{
+		return ptrLeft.GetPointer() == ptrRight.GetPointer();
+	}
+
+	template<class T>
+	inline bool operator != (const CSharedPtr<T> &ptrLeft, const CSharedPtr<T> &ptrRight)
+	{
+		return ptrLeft.GetPointer() != ptrRight.GetPointer();
+	}
+
+	template<class T>
+	inline bool operator < (const CSharedPtr<T> &ptrLeft, const CSharedPtr<T> &ptrRight)
+	{
+		return ptrLeft.GetPointer() < ptrRight.GetPointer();
+	}
+
+	template<class T>
+	inline bool operator <= (const CSharedPtr<T> &ptrLeft, const CSharedPtr<T> &ptrRight)
+	{
+		return ptrLeft.GetPointer() <= ptrRight.GetPointer();
+	}
+
+	template<class T>
+	inline bool operator > (const CSharedPtr<T> &ptrLeft, const CSharedPtr<T> &ptrRight)
+	{
+		return ptrLeft.GetPointer() > ptrRight.GetPointer();
+	}
+
+	template<class T>
+	inline bool operator >= (const CSharedPtr<T> &ptrLeft, const CSharedPtr<T> &ptrRight)
+	{
+		return ptrLeft.GetPointer() >= ptrRight.GetPointer();
+	}
+
 }
