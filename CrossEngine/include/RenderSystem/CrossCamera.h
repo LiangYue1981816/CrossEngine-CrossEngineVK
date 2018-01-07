@@ -44,14 +44,14 @@ namespace CrossEngine {
 		void SetViewport(float x, float y, float width, float height);
 		void SetPerspective(float fovy, float aspect, float zNear, float zFar);
 		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
-		void SetLookat(const glm::vec3 &eye, const glm::vec3 &center, const glm::vec3 &up);
+		void SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up);
 
-		glm::vec3 GetPosition(void) const;
-		glm::vec3 GetDirection(void) const;
+		const glm::vec3& GetPosition(void) const;
+		const glm::vec3& GetDirection(void) const;
 
-		glm::mat4 GetProjectionMatrix(void) const;
-		glm::mat4 GetCameraToWorldMatrix(void) const;
-		glm::mat4 GetWorldToCameraMatrix(void) const;
+		const glm::mat4& GetProjectionMatrix(void) const;
+		const glm::mat4& GetCameraToWorldMatrix(void) const;
+		const glm::mat4& GetWorldToCameraMatrix(void) const;
 
 	public:
 		glm::vec3 WorldToScreen(const glm::vec3 &world);
@@ -62,6 +62,8 @@ namespace CrossEngine {
 		BOOL IsVisible(const glm::aabb &aabb);
 
 	public:
+		BOOL SetFrameBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer);
+
 		BOOL AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass);
 		BOOL RemoveRenderPass(uint32_t id);
 
@@ -82,6 +84,7 @@ namespace CrossEngine {
 	protected:
 		CRenderQueue m_renderQueue[2];
 
+	protected:
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPassesOrderByID;
 		std::map<CGfxRenderPassPtr, CGfxRenderPassPtr> m_ptrRenderPasses;

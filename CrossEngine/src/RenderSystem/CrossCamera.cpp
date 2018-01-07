@@ -54,40 +54,45 @@ namespace CrossEngine {
 	void CCamera::SetPerspective(float fovy, float aspect, float zNear, float zFar)
 	{
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
+
+		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+		m_camera.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
+
+		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+		m_camera.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
-	void CCamera::SetLookat(const glm::vec3 &eye, const glm::vec3 &center, const glm::vec3 &up)
+	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
-		m_camera.setLookat(eye, center, up);
+		m_camera.setLookat(position, position + direction, up);
 	}
 
-	glm::vec3 CCamera::GetPosition(void) const
+	const glm::vec3& CCamera::GetPosition(void) const
 	{
 		return m_camera.position;
 	}
 
-	glm::vec3 CCamera::GetDirection(void) const
+	const glm::vec3& CCamera::GetDirection(void) const
 	{
 		return m_camera.forward;
 	}
 
-	glm::mat4 CCamera::GetProjectionMatrix(void) const
+	const glm::mat4& CCamera::GetProjectionMatrix(void) const
 	{
-		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-		return RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		return m_camera.mtxProjection;
 	}
 
-	glm::mat4 CCamera::GetCameraToWorldMatrix(void) const
+	const glm::mat4& CCamera::GetCameraToWorldMatrix(void) const
 	{
 		return m_camera.mtxCameraToWorld;
 	}
 
-	glm::mat4 CCamera::GetWorldToCameraMatrix(void) const
+	const glm::mat4& CCamera::GetWorldToCameraMatrix(void) const
 	{
 		return m_camera.mtxWorldToCamera;
 	}
@@ -110,6 +115,12 @@ namespace CrossEngine {
 	BOOL CCamera::IsVisible(const glm::aabb &aabb)
 	{
 		return m_camera.visible(aabb) ? TRUE : FALSE;
+	}
+
+	BOOL CCamera::SetFrameBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer)
+	{
+		m_ptrFrameBuffer = ptrFrameBuffer;
+		return TRUE;
 	}
 
 	BOOL CCamera::AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass)
