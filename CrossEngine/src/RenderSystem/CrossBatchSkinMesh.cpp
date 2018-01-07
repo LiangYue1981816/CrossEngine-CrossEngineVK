@@ -41,7 +41,7 @@ namespace CrossEngine {
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
 
-		for (const auto &itDrawable : m_drawables) {
+		for (const auto &itDrawable : m_pDrawables) {
 			InstanceData data;
 			data.mtxModelToWorld = itDrawable.second->GetModelToWorldMatrix();
 

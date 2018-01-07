@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, CGfxMaterialPassPtr> m_passes;
+		std::map<uint32_t, CGfxMaterialPassPtr> m_ptrPasses;
 	};
 
 }

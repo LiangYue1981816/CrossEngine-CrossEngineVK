@@ -140,19 +140,19 @@ namespace CrossEngine {
 	{
 		mutex_autolock mutex(m_mutex);
 
-		m_packs.clear();
-		m_resources.clear();
+		m_pPacks.clear();
+		m_pResources.clear();
 	}
 
 	void CResourceManager::Free(void)
 	{
 		mutex_autolock mutex(m_mutex);
 
-		for (auto &itPack : m_packs) {
+		for (auto &itPack : m_pPacks) {
 			zzip_closedir(itPack.second);
 		}
 
-		for (auto &itResource : m_resources) {
+		for (auto &itResource : m_pResources) {
 			if (itResource.second->IsWaste()) {
 				LOGW("Waste Resource: %s\n", itResource.second->GetFileName());
 			}
@@ -160,8 +160,8 @@ namespace CrossEngine {
 			SAFE_DELETE(itResource.second);
 		}
 
-		m_packs.clear();
-		m_resources.clear();
+		m_pPacks.clear();
+		m_pResources.clear();
 	}
 
 	void CResourceManager::DestroyResource(CResource *pResource)
@@ -179,8 +179,8 @@ namespace CrossEngine {
 		CResourceHandle *pResourceHandle = NULL;
 		{
 			mutex_autolock mutex(m_mutex);
-			const auto &itResource = m_resources.find(dwName);
-			if (itResource != m_resources.end()) pResourceHandle = itResource->second;
+			const auto &itResource = m_pResources.find(dwName);
+			if (itResource != m_pResources.end()) pResourceHandle = itResource->second;
 		}
 
 		if (pResourceHandle == NULL) {
@@ -217,8 +217,8 @@ namespace CrossEngine {
 		{
 			mutex_autolock mutex(m_mutex);
 
-			if (m_resources[dwName] == NULL) {
-				m_resources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
+			if (m_pResources[dwName] == NULL) {
+				m_pResources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
 			}
 			else {
 				LOGW("Exist resource : %s\n", szFileName);
@@ -285,8 +285,8 @@ namespace CrossEngine {
 				{
 					mutex_autolock mutex(m_mutex);
 
-					if (m_resources[dwName] == NULL) {
-						m_resources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
+					if (m_pResources[dwName] == NULL) {
+						m_pResources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
 					}
 					else {
 						LOGW("Exist resource : %s\n", szFileName);
@@ -319,11 +319,11 @@ namespace CrossEngine {
 		{
 			mutex_autolock mutex(m_mutex);
 
-			if (m_packs[dwName] == NULL) {
-				m_packs[dwName] = zzip_opendir(szPackName);
+			if (m_pPacks[dwName] == NULL) {
+				m_pPacks[dwName] = zzip_opendir(szPackName);
 			}
 
-			pPack = m_packs[dwName];
+			pPack = m_pPacks[dwName];
 		}
 
 		zzip_seekdir(pPack, 0);
@@ -344,8 +344,8 @@ namespace CrossEngine {
 			{
 				mutex_autolock mutex(m_mutex);
 
-				if (m_resources[dwName] == NULL) {
-					m_resources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName, pPack);
+				if (m_pResources[dwName] == NULL) {
+					m_pResources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName, pPack);
 				}
 				else {
 					LOGW("Exist resource : %s\n", szFileName);
@@ -369,7 +369,7 @@ namespace CrossEngine {
 	{
 		mutex_autolock mutex(m_mutex);
 
-		for (auto &itResource : m_resources) {
+		for (auto &itResource : m_pResources) {
 			if (itResource.second->m_ptrResource.IsNull() == FALSE && itResource.second->m_ptrResource.GetRefCount() == 1) {
 				itResource.second->m_ptrResource.Release();
 			}

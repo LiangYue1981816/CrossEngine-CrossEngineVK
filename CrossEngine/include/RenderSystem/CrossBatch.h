@@ -53,7 +53,7 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_offset;
-		std::map<const CDrawable*, const CDrawable*> m_drawables;
+		std::map<const CDrawable*, const CDrawable*> m_pDrawables;
 	};
 
 }

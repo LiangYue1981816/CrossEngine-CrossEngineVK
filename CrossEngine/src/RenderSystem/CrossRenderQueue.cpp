@@ -37,22 +37,22 @@ namespace CrossEngine {
 
 	void CRenderQueue::Clear(void)
 	{
-		for (int index = 0; index < m_batchParticals.size(); index++) {
-			SAFE_DELETE(m_batchParticals[index]);
+		for (int index = 0; index < m_pBatchParticals.size(); index++) {
+			SAFE_DELETE(m_pBatchParticals[index]);
 		}
 
-		for (int index = 0; index < m_batchSkinMeshs.size(); index++) {
-			SAFE_DELETE(m_batchSkinMeshs[index]);
+		for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
+			SAFE_DELETE(m_pBatchSkinMeshs[index]);
 		}
 
-		for (int index = 0; index < m_batchStaticMeshs.size(); index++) {
-			SAFE_DELETE(m_batchStaticMeshs[index]);
+		for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
+			SAFE_DELETE(m_pBatchStaticMeshs[index]);
 		}
 
 		m_queue.clear();
-		m_batchParticals.clear();
-		m_batchSkinMeshs.clear();
-		m_batchStaticMeshs.clear();
+		m_pBatchParticals.clear();
+		m_pBatchSkinMeshs.clear();
+		m_pBatchStaticMeshs.clear();
 	}
 
 	void CRenderQueue::AddDrawable(const CDrawable *pDrawable)
@@ -77,18 +77,18 @@ namespace CrossEngine {
 	CBatch* CRenderQueue::CreateBatch(DRAWABLE_TYPE type)
 	{
 		if (type == DRAWABLE_TYPE_PARTICAL) {
-			m_batchParticals.push_back(SAFE_NEW CBatchPartical);
-			return m_batchParticals[m_batchParticals.size() - 1];
+			m_pBatchParticals.push_back(SAFE_NEW CBatchPartical);
+			return m_pBatchParticals[m_pBatchParticals.size() - 1];
 		}
 
 		if (type == DRAWABLE_TYPE_SKIN_MESH) {
-			m_batchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
-			return m_batchSkinMeshs[m_batchSkinMeshs.size() - 1];
+			m_pBatchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
+			return m_pBatchSkinMeshs[m_pBatchSkinMeshs.size() - 1];
 		}
 
 		if (type == DRAWABLE_TYPE_STATIC_MESH) {
-			m_batchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
-			return m_batchStaticMeshs[m_batchStaticMeshs.size() - 1];
+			m_pBatchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
+			return m_pBatchStaticMeshs[m_pBatchStaticMeshs.size() - 1];
 		}
 
 		return NULL;
@@ -96,16 +96,16 @@ namespace CrossEngine {
 
 	void CRenderQueue::UpdateBuffer(void)
 	{
-		for (int index = 0; index < m_batchParticals.size(); index++) {
-			m_batchParticals[index]->UpdateBuffer();
+		for (int index = 0; index < m_pBatchParticals.size(); index++) {
+			m_pBatchParticals[index]->UpdateBuffer();
 		}
 
-		for (int index = 0; index < m_batchSkinMeshs.size(); index++) {
-			m_batchSkinMeshs[index]->UpdateBuffer();
+		for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
+			m_pBatchSkinMeshs[index]->UpdateBuffer();
 		}
 
-		for (int index = 0; index < m_batchStaticMeshs.size(); index++) {
-			m_batchStaticMeshs[index]->UpdateBuffer();
+		for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
+			m_pBatchStaticMeshs[index]->UpdateBuffer();
 		}
 	}
 

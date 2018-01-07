@@ -49,21 +49,21 @@ namespace CrossEngine {
 
 	void CGLES3Material::Destroy(void)
 	{
-		m_passes.clear();
+		m_ptrPasses.clear();
 	}
 
 	CGfxMaterialPassPtr& CGLES3Material::GetPass(uint32_t dwName)
 	{
-		if (m_passes.find(dwName) == m_passes.end()) {
-			m_passes[dwName] = CGfxMaterialPassPtr(SAFE_NEW CGLES3MaterialPass);
+		if (m_ptrPasses.find(dwName) == m_ptrPasses.end()) {
+			m_ptrPasses[dwName] = CGfxMaterialPassPtr(SAFE_NEW CGLES3MaterialPass);
 		}
 
-		return m_passes[dwName];
+		return m_ptrPasses[dwName];
 	}
 
 	const std::map<uint32_t, CGfxMaterialPassPtr>& CGLES3Material::GetPasses(void) const
 	{
-		return m_passes;
+		return m_ptrPasses;
 	}
 
 	void CGLES3Material::DumpLog(void) const

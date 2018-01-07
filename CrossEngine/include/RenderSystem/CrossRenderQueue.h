@@ -59,9 +59,9 @@ namespace CrossEngine {
 		RenderPassQueue m_queue;
 
 	protected:
-		std::vector<CBatchPartical*> m_batchParticals;
-		std::vector<CBatchSkinMesh*> m_batchSkinMeshs;
-		std::vector<CBatchStaticMesh*> m_batchStaticMeshs;
+		std::vector<CBatchPartical*> m_pBatchParticals;
+		std::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
+		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
 	};
 
 }

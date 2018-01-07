@@ -97,7 +97,7 @@ namespace CrossEngine {
 	BOOL CResourceSystem::RequestLoad(CResourceHandle *pResourceHandle)
 	{
 		mutex_autolock mutex(m_mutexPendingList);
-		m_pendingList.push_back(pResourceHandle);
+		m_pPendingList.push_back(pResourceHandle);
 
 		return TRUE;
 	}
@@ -105,7 +105,7 @@ namespace CrossEngine {
 	BOOL CResourceSystem::RequestPostLoad(CResourceHandle *pResourceHandle)
 	{
 		mutex_autolock mutex(m_mutexPostLoadList);
-		m_postLoadList.push_back(pResourceHandle);
+		m_pPostLoadList.push_back(pResourceHandle);
 
 		return TRUE;
 	}
@@ -116,9 +116,9 @@ namespace CrossEngine {
 		{
 			mutex_autolock mutex(m_mutexPendingList);
 
-			if (m_pendingList.size()) {
-				pResourceHandle = m_pendingList.front();
-				m_pendingList.pop_front();
+			if (m_pPendingList.size()) {
+				pResourceHandle = m_pPendingList.front();
+				m_pPendingList.pop_front();
 			}
 		}
 
@@ -131,12 +131,12 @@ namespace CrossEngine {
 	{
 		mutex_autolock mutex(m_mutexPostLoadList);
 
-		while (m_postLoadList.size()) {
-			if (CResourceHandle *pResourceHandle = m_postLoadList.front()) {
+		while (m_pPostLoadList.size()) {
+			if (CResourceHandle *pResourceHandle = m_pPostLoadList.front()) {
 				pResourceHandle->PostLoad();
 			}
 
-			m_postLoadList.pop_front();
+			m_pPostLoadList.pop_front();
 		}
 	}
 

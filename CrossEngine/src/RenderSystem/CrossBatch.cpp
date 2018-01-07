@@ -43,17 +43,17 @@ namespace CrossEngine {
 
 	uint32_t CBatch::GetDrawableCount(void) const
 	{
-		return m_drawables.size();
+		return m_pDrawables.size();
 	}
 
 	void CBatch::Clear(void)
 	{
-		m_drawables.clear();
+		m_pDrawables.clear();
 	}
 
 	void CBatch::AddDrawable(const CDrawable *pDrawable)
 	{
-		m_drawables[pDrawable] = pDrawable;
+		m_pDrawables[pDrawable] = pDrawable;
 
 		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
 		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();

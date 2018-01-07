@@ -49,21 +49,21 @@ namespace CrossEngine {
 
 	void CVulkanMaterial::Destroy(void)
 	{
-		m_passes.clear();
+		m_ptrPasses.clear();
 	}
 
 	CGfxMaterialPassPtr& CVulkanMaterial::GetPass(uint32_t dwName)
 	{
-		if (m_passes.find(dwName) == m_passes.end()) {
-			m_passes[dwName] = CGfxMaterialPassPtr(SAFE_NEW CVulkanMaterialPass);
+		if (m_ptrPasses.find(dwName) == m_ptrPasses.end()) {
+			m_ptrPasses[dwName] = CGfxMaterialPassPtr(SAFE_NEW CVulkanMaterialPass);
 		}
 
-		return m_passes[dwName];
+		return m_ptrPasses[dwName];
 	}
 
 	const std::map<uint32_t, CGfxMaterialPassPtr>& CVulkanMaterial::GetPasses(void) const
 	{
-		return m_passes;
+		return m_ptrPasses;
 	}
 
 	void CVulkanMaterial::DumpLog(void) const

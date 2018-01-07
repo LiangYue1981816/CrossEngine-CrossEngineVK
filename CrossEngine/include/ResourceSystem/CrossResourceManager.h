@@ -109,8 +109,8 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, ZZIP_DIR*> m_packs;
-		std::map<uint32_t, CResourceHandle*> m_resources;
+		std::map<uint32_t, ZZIP_DIR*> m_pPacks;
+		std::map<uint32_t, CResourceHandle*> m_pResources;
 
 	protected:
 		pthread_mutex_t m_mutex;

@@ -81,8 +81,8 @@ namespace CrossEngine {
 
 		pthread_mutex_t m_mutexPendingList;
 		pthread_mutex_t m_mutexPostLoadList;
-		std::list<CResourceHandle*> m_pendingList;
-		std::list<CResourceHandle*> m_postLoadList;
+		std::list<CResourceHandle*> m_pPendingList;
+		std::list<CResourceHandle*> m_pPostLoadList;
 
 	protected:
 		CResourceManager *m_pResourceManager[RESOURCE_TYPE::COUNT];
