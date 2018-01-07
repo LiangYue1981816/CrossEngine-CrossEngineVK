@@ -49,6 +49,10 @@ namespace CrossEngine {
 	void CBatch::Clear(void)
 	{
 		m_pDrawables.clear();
+
+		m_ptrIndexBuffer.Release();
+		m_ptrVertexBuffer.Release();
+		m_ptrDescriptorSet.Release();
 	}
 
 	void CBatch::AddDrawable(const CDrawable *pDrawable)

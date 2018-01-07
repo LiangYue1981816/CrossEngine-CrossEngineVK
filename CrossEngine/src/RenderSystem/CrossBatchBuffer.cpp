@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 	CBatchBuffer::~CBatchBuffer(void)
 	{
-		m_ptrVertexBuffer.Release();
+		m_ptrVertexBuffer->Destroy();
 	}
 
 	const CGfxVertexBufferPtr& CBatchBuffer::GetBuffer(void) const
