@@ -31,11 +31,11 @@ namespace CrossEngine {
 		friend class CCamera;
 
 
-		typedef std::map<const CGfxVertexBuffer*, std::map<const CGfxIndexBuffer*, std::map<const CGfxDescriptorSet*, CBatch*>>> BatchQueue;
-		typedef std::map<const CGfxDescriptorSet*, BatchQueue> MaterialDescriptorSetQueue;
-		typedef std::map<const CGfxPipelineGraphics*, MaterialDescriptorSetQueue> MaterialPipelineQueue;
-		typedef std::map<const uint32_t, MaterialPipelineQueue> SubPassQueue;
-		typedef std::map<const CGfxRenderPass*, SubPassQueue> RenderPassQueue;
+		typedef std::map<CGfxVertexBufferPtr, std::map<CGfxIndexBufferPtr, std::map<CGfxDescriptorSetPtr, CBatch*>>> BatchQueue;
+		typedef std::map<CGfxDescriptorSetPtr, BatchQueue> MaterialDescriptorSetQueue;
+		typedef std::map<CGfxPipelineGraphicsPtr, MaterialDescriptorSetQueue> MaterialPipelineQueue;
+		typedef std::map<uint32_t, MaterialPipelineQueue> SubPassQueue;
+		typedef std::map<CGfxRenderPassPtr, SubPassQueue> RenderPassQueue;
 
 		
 	protected:
@@ -57,13 +57,6 @@ namespace CrossEngine {
 
 	protected:
 		RenderPassQueue m_queue;
-
-	protected:
-		std::map<const CGfxRenderPass*, CGfxRenderPassPtr> m_ptrRenderPasses;
-		std::map<const CGfxPipelineGraphics*, CGfxPipelineGraphicsPtr> m_ptrPipelines;
-		std::map<const CGfxDescriptorSet*, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
-		std::map<const CGfxVertexBuffer*, CGfxVertexBufferPtr> m_ptrVertexBuffers;
-		std::map<const CGfxIndexBuffer*, CGfxIndexBufferPtr> m_ptrIndexBuffers;
 
 	protected:
 		std::vector<CBatchPartical*> m_batchParticals;

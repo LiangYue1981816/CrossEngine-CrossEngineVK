@@ -50,16 +50,9 @@ namespace CrossEngine {
 		}
 
 		m_queue.clear();
-
 		m_batchParticals.clear();
 		m_batchSkinMeshs.clear();
 		m_batchStaticMeshs.clear();
-
-		m_ptrRenderPasses.clear();
-		m_ptrPipelines.clear();
-		m_ptrDescriptorSets.clear();
-		m_ptrVertexBuffers.clear();
-		m_ptrIndexBuffers.clear();
 	}
 
 	void CRenderQueue::AddDrawable(const CDrawable *pDrawable)
@@ -72,13 +65,6 @@ namespace CrossEngine {
 			const CGfxVertexBufferPtr &ptrDrawableVertexBuffer = pDrawable->GetVertexBuffer();
 			const CGfxIndexBufferPtr &ptrDrawableIndexBuffer = pDrawable->GetIndexBuffer();
 			const CGfxDescriptorSetPtr &ptrDrawableDescriptorSet = pDrawable->GetDescriptorSet();
-
-			m_ptrRenderPasses[ptrRenderPass] = ptrRenderPass;
-			m_ptrPipelines[ptrMaterialPipeline] = ptrMaterialPipeline;
-			m_ptrDescriptorSets[ptrMaterialDescriptorSet] = ptrMaterialDescriptorSet;
-			m_ptrVertexBuffers[ptrDrawableVertexBuffer] = ptrDrawableVertexBuffer;
-			m_ptrIndexBuffers[ptrDrawableIndexBuffer] = ptrDrawableIndexBuffer;
-			m_ptrDescriptorSets[ptrDrawableDescriptorSet] = ptrDrawableDescriptorSet;
 
 			if (m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] == NULL) {
 				m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] = CreateBatch(pDrawable->GetType());
