@@ -41,7 +41,7 @@ namespace CrossEngine {
 		}
 		virtual ~CGfxResource(void)
 		{
-			Destroy();
+
 		}
 
 		virtual void Release(void);
