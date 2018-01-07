@@ -39,6 +39,7 @@ namespace CrossEngine {
 
 	protected:
 		CGfxShaderPtr AllocShader(void);
+		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words);
 
 	protected:
 		const char* GetCachePath(void) const;
@@ -50,7 +51,6 @@ namespace CrossEngine {
 		void AddIncludePath(const char *szPath);
 		void AddMacroDefinition(const char *szName);
 		void AddMacroDefinition(const char *szName, const char *szValue);
-		BOOL Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words);
 
 
 	protected:

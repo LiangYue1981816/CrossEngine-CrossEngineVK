@@ -110,6 +110,22 @@ namespace CrossEngine {
 		return CGfxShaderPtr(pShader);
 	}
 
+	BOOL CGLES3ShaderManager::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words)
+	{
+		char szFileName[_MAX_STRING];
+		sprintf(szFileName, "%s/%x", GetCachePath(), HashValue((const uint8_t *)szSource, length));
+
+		if (LoadShaderBinary(szFileName, words) == FALSE) {
+			if (CompileShader(szSource, length, GetShaderKind(flags), GetCompiler(), GetCompileOptions(), words) == FALSE) {
+				return FALSE;
+			}
+
+			SaveShaderBinary(szFileName, words);
+		}
+
+		return TRUE;
+	}
+
 	const char* CGLES3ShaderManager::GetCachePath(void) const
 	{
 		return m_szCachePath;
@@ -151,22 +167,6 @@ namespace CrossEngine {
 		char szMacroDefinition[_MAX_STRING];
 		sprintf(szMacroDefinition, "#define %s %s", szName, szValue);
 		m_strMacroDefinitions.push_back(szMacroDefinition);
-	}
-
-	BOOL CGLES3ShaderManager::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words)
-	{
-		char szFileName[_MAX_STRING];
-		sprintf(szFileName, "%s/%x", GetCachePath(), HashValue((const uint8_t *)szSource, length));
-
-		if (LoadShaderBinary(szFileName, words) == FALSE) {
-			if (CompileShader(szSource, length, GetShaderKind(flags), GetCompiler(), GetCompileOptions(), words) == FALSE) {
-				return FALSE;
-			}
-
-			SaveShaderBinary(szFileName, words);
-		}
-
-		return TRUE;
 	}
 
 }
