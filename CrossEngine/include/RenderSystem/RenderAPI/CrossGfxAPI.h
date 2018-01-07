@@ -44,5 +44,5 @@ THE SOFTWARE.
 #include "CrossGfxMaterialPass.h"
 #include "CrossGfxRenderPass.h"
 #include "CrossGfxFrameBuffer.h"
-#include "CrossGfxCommand.h"
+#include "CrossGfxCommandBase.h"
 #include "CrossGfxCommandBuffer.h"

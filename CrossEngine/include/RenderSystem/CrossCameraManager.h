@@ -42,7 +42,7 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, CCamera*> m_cameras;
+		std::map<uint32_t, CCamera*> m_pCamerasOrderByID;
 	};
 
 }

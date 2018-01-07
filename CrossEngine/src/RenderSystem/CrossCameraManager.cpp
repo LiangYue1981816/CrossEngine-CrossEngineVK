@@ -37,20 +37,20 @@ namespace CrossEngine {
 
 	void CCameraManager::ClearCamera(void)
 	{
-		for (auto &itCamera : m_cameras) {
+		for (auto &itCamera : m_pCamerasOrderByID) {
 			SAFE_DELETE(itCamera.second);
 		}
 
-		m_cameras.clear();
+		m_pCamerasOrderByID.clear();
 	}
 
 	CCamera* CCameraManager::GetCamera(uint32_t id)
 	{
-		if (m_cameras[id] == NULL) {
-			m_cameras[id] = SAFE_NEW CCamera;
+		if (m_pCamerasOrderByID[id] == NULL) {
+			m_pCamerasOrderByID[id] = SAFE_NEW CCamera;
 		}
 
-		return m_cameras[id];
+		return m_pCamerasOrderByID[id];
 	}
 
 	/*
@@ -60,7 +60,7 @@ namespace CrossEngine {
 		CBatchSkinMesh::ClearBuffer();
 		CBatchStaticMesh::ClearBuffer();
 		{
-			for (const auto &itCamera : m_cameras) {
+			for (const auto &itCamera : m_pCamerasOrderByID) {
 				itCamera.second->UpdateBatchBuffer();
 			}
 		}
@@ -68,7 +68,7 @@ namespace CrossEngine {
 		BatchBufferManager()->GetBuffer(CBatchBufferManager::BUFFER_TYPE_SKIN_MESH, GfxSwapChain()->GetImageIndex())->UpdateBuffer(CBatchSkinMesh::GetBufferSize(), CBatchSkinMesh::GetBuffer());
 		BatchBufferManager()->GetBuffer(CBatchBufferManager::BUFFER_TYPE_STATIC_MESH, GfxSwapChain()->GetImageIndex())->UpdateBuffer(CBatchStaticMesh::GetBufferSize(), CBatchStaticMesh::GetBuffer());
 
-		for (const auto &itCamera : m_cameras) {
+		for (const auto &itCamera : m_pCamerasOrderByID) {
 			itCamera.second->Update();
 			itCamera.second->Render();
 		}
