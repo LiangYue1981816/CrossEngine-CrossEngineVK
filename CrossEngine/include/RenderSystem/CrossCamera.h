@@ -79,7 +79,12 @@ namespace CrossEngine {
 
 	protected:
 		BOOL m_bEnable;
+
+	protected:
 		glm::camera m_camera;
+		glm::mat4 m_mtxProjection;
+		glm::mat4 m_mtxCameraToWorld;
+		glm::mat4 m_mtxWorldToCamera;
 
 	protected:
 		CRenderQueue m_renderQueue[2];

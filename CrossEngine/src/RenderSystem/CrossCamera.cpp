@@ -53,23 +53,25 @@ namespace CrossEngine {
 
 	void CCamera::SetPerspective(float fovy, float aspect, float zNear, float zFar)
 	{
-		m_camera.setPerspective(fovy, aspect, zNear, zFar);
+		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
-		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-		m_camera.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_camera.setPerspective(fovy, aspect, zNear, zFar);
+		m_mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
-		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
+		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
-		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-		m_camera.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
+		m_mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
 		m_camera.setLookat(position, position + direction, up);
+		m_mtxCameraToWorld = m_camera.mtxCameraToWorld;
+		m_mtxWorldToCamera = m_camera.mtxWorldToCamera;
 	}
 
 	const glm::vec3& CCamera::GetPosition(void) const
@@ -84,17 +86,17 @@ namespace CrossEngine {
 
 	const glm::mat4& CCamera::GetProjectionMatrix(void) const
 	{
-		return m_camera.mtxProjection;
+		return m_mtxProjection;
 	}
 
 	const glm::mat4& CCamera::GetCameraToWorldMatrix(void) const
 	{
-		return m_camera.mtxCameraToWorld;
+		return m_mtxCameraToWorld;
 	}
 
 	const glm::mat4& CCamera::GetWorldToCameraMatrix(void) const
 	{
-		return m_camera.mtxWorldToCamera;
+		return m_mtxWorldToCamera;
 	}
 
 	glm::vec3 CCamera::WorldToScreen(const glm::vec3 &world)
