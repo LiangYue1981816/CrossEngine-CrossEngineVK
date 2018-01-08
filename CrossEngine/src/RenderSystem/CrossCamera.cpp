@@ -151,6 +151,7 @@ namespace CrossEngine {
 
 	void CCamera::ClearRenderQueue(uint32_t indexRenderQueue)
 	{
+		indexRenderQueue = indexRenderQueue % 2;
 		m_renderQueue[indexRenderQueue].Clear();
 	}
 
@@ -159,6 +160,8 @@ namespace CrossEngine {
 		if (m_bEnable == FALSE) {
 			return;
 		}
+
+		indexRenderQueue = indexRenderQueue % 2;
 
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
@@ -181,6 +184,7 @@ namespace CrossEngine {
 			return;
 		}
 
+		indexRenderQueue = indexRenderQueue % 2;
 		m_renderQueue[indexRenderQueue].UpdateBuffer();
 	}
 
@@ -189,6 +193,8 @@ namespace CrossEngine {
 		if (m_bEnable == FALSE) {
 			return;
 		}
+
+		indexRenderQueue = indexRenderQueue % 2;
 
 		for (const auto &itRenderPass : m_ptrRenderPassesOrderByID) {
 			m_renderQueue[indexRenderQueue].Render(itRenderPass.second, m_ptrFrameBuffer);
