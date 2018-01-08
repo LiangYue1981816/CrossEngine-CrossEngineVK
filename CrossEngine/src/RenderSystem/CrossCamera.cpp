@@ -197,7 +197,7 @@ namespace CrossEngine {
 		indexRenderQueue = indexRenderQueue % 2;
 
 		for (const auto &itRenderPass : m_ptrRenderPassesOrderByID) {
-			m_renderQueue[indexRenderQueue].Render(itRenderPass.second, m_ptrFrameBuffer, m_ptrCommandBuffers[itRenderPass.first][indexSwapchainImage]);
+			m_renderQueue[indexRenderQueue].Render(itRenderPass.second, m_ptrFrameBuffer, m_ptrCommandBuffers[indexSwapchainImage][itRenderPass.first]);
 		}
 	}
 
