@@ -49,7 +49,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CBatchPartical::Render(void)
+	void CBatchPartical::BuildCommandBuffer(void)
 	{
 
 	}

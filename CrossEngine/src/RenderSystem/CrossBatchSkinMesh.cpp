@@ -49,7 +49,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CBatchSkinMesh::Render(void)
+	void CBatchSkinMesh::BuildCommandBuffer(void)
 	{
 
 	}

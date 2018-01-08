@@ -49,7 +49,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CBatchStaticMesh::Render(void)
+	void CBatchStaticMesh::BuildCommandBuffer(void)
 	{
 
 	}
