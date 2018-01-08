@@ -46,6 +46,11 @@ namespace CrossEngine {
 		return m_pDrawables.size();
 	}
 
+	const CGfxCommandBufferPtr& CBatch::GetCommandBuffer(void) const
+	{
+		return m_ptrCommandBuffer;
+	}
+
 	void CBatch::Clear(void)
 	{
 		m_pDrawables.clear();
@@ -53,6 +58,7 @@ namespace CrossEngine {
 		m_ptrIndexBuffer.Release();
 		m_ptrVertexBuffer.Release();
 		m_ptrDescriptorSet.Release();
+		m_ptrCommandBuffer.Release();
 	}
 
 	void CBatch::AddDrawable(const CDrawable *pDrawable)

@@ -138,9 +138,9 @@ namespace CrossEngine {
 		m_ptrRenderPasses[ptrRenderPass] = ptrRenderPass;
 		m_ptrRenderPassesOrderByID[id] = ptrRenderPass;
 
-		for (int index = 0; index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT; index++) {
-			m_ptrCommandBuffers[index][id] = GfxDevice()->AllocCommandBuffer(index, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-		}
+		m_ptrCommandBuffers[0][id] = GfxDevice()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		m_ptrCommandBuffers[1][id] = GfxDevice()->AllocCommandBuffer(1, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		m_ptrCommandBuffers[2][id] = GfxDevice()->AllocCommandBuffer(2, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 
 		return TRUE;
 	}
@@ -150,9 +150,9 @@ namespace CrossEngine {
 		m_ptrRenderPasses.erase(m_ptrRenderPassesOrderByID[id]);
 		m_ptrRenderPassesOrderByID.erase(id);
 
-		for (int index = 0; index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT; index++) {
-			m_ptrCommandBuffers[index].erase(id);
-		}
+		m_ptrCommandBuffers[0].erase(id);
+		m_ptrCommandBuffers[1].erase(id);
+		m_ptrCommandBuffers[2].erase(id);
 
 		return TRUE;
 	}

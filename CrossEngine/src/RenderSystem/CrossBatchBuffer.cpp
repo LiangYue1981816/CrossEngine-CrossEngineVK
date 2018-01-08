@@ -28,8 +28,7 @@ namespace CrossEngine {
 	CBatchBuffer::CBatchBuffer(uint32_t format)
 		: m_format(format)
 	{
-		m_ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
-		m_ptrVertexBuffer->Create(32 * 1024, NULL, TRUE, m_format);
+
 	}
 
 	CBatchBuffer::~CBatchBuffer(void)
@@ -44,9 +43,13 @@ namespace CrossEngine {
 
 	BOOL CBatchBuffer::UpdateBuffer(size_t size, const void *pBuffer)
 	{
+		if (m_ptrVertexBuffer.IsNull()) {
+			m_ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
+		}
+
 		if (m_ptrVertexBuffer->GetBufferSize() < size) {
 			m_ptrVertexBuffer->Destroy();
-			m_ptrVertexBuffer->Create(BufferSize(size), NULL, TRUE, m_format);
+			m_ptrVertexBuffer->Create(max(32 * 1024, BufferSize(size)), NULL, TRUE, m_format);
 		}
 
 		return m_ptrVertexBuffer->UpdateData(0, size, pBuffer);

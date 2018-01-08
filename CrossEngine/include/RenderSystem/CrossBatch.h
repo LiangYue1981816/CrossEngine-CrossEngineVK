@@ -36,6 +36,7 @@ namespace CrossEngine {
 	public:
 		uint32_t GetBufferOffset(void) const;
 		uint32_t GetDrawableCount(void) const;
+		const CGfxCommandBufferPtr& GetCommandBuffer(void) const;
 
 	public:
 		virtual void Clear(void);
@@ -43,13 +44,16 @@ namespace CrossEngine {
 
 	public:
 		virtual void UpdateBuffer(void) = 0;
-		virtual void Render(void) = 0;
+
+	public:
+		virtual void BuildCommandBuffer(void) = 0;
 
 
 	protected:
 		CGfxIndexBufferPtr m_ptrIndexBuffer;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+		CGfxCommandBufferPtr m_ptrCommandBuffer;
 
 	protected:
 		uint32_t m_offset;
