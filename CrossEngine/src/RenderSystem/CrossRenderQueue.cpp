@@ -94,7 +94,7 @@ namespace CrossEngine {
 		return NULL;
 	}
 
-	void CRenderQueue::UpdateBuffer(void)
+	void CRenderQueue::UpdateBatchBuffer(void)
 	{
 		for (int index = 0; index < m_pBatchParticals.size(); index++) {
 			m_pBatchParticals[index]->UpdateBuffer();

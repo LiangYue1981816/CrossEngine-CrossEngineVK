@@ -185,7 +185,7 @@ namespace CrossEngine {
 		}
 
 		indexRenderQueue = indexRenderQueue % 2;
-		m_renderQueue[indexRenderQueue].UpdateBuffer();
+		m_renderQueue[indexRenderQueue].UpdateBatchBuffer();
 	}
 
 	void CCamera::Render(uint32_t indexRenderQueue, int indexSwapchainImage)

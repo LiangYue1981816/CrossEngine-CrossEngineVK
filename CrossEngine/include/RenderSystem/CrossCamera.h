@@ -74,6 +74,8 @@ namespace CrossEngine {
 	public:
 		void Update(void);
 		void UpdateBatchBuffer(uint32_t indexRenderQueue);
+
+	public:
 		void Render(uint32_t indexRenderQueue, int indexSwapchainImage);
 
 
