@@ -74,7 +74,7 @@ namespace CrossEngine {
 	public:
 		void Update(void);
 		void UpdateBatchBuffer(uint32_t indexRenderQueue);
-		void Render(uint32_t indexRenderQueue);
+		void Render(uint32_t indexRenderQueue, int indexSwapchainImage);
 
 
 	protected:
@@ -88,6 +88,7 @@ namespace CrossEngine {
 
 	protected:
 		CRenderQueue m_renderQueue[2];
+		std::map<uint32_t, CGfxCommandBufferPtr> m_ptrCommandBuffers[CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT];
 
 	protected:
 		CGfxFrameBufferPtr m_ptrFrameBuffer;

@@ -43,9 +43,9 @@ namespace CrossEngine {
 		}
 	}
 
-	CBatchBuffer* CBatchBufferManager::GetBuffer(BUFFER_TYPE type, int index) const
+	CBatchBuffer* CBatchBufferManager::GetBuffer(BUFFER_TYPE type, int indexSwapchainImage) const
 	{
-		return index >= 0 && index < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT ? m_pBuffers[type][index] : NULL;
+		return indexSwapchainImage >= 0 && indexSwapchainImage < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT ? m_pBuffers[type][indexSwapchainImage] : NULL;
 	}
 
 }

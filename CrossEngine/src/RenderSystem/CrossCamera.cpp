@@ -188,7 +188,7 @@ namespace CrossEngine {
 		m_renderQueue[indexRenderQueue].UpdateBuffer();
 	}
 
-	void CCamera::Render(uint32_t indexRenderQueue)
+	void CCamera::Render(uint32_t indexRenderQueue, int indexSwapchainImage)
 	{
 		if (m_bEnable == FALSE) {
 			return;
@@ -197,7 +197,7 @@ namespace CrossEngine {
 		indexRenderQueue = indexRenderQueue % 2;
 
 		for (const auto &itRenderPass : m_ptrRenderPassesOrderByID) {
-			m_renderQueue[indexRenderQueue].Render(itRenderPass.second, m_ptrFrameBuffer);
+			m_renderQueue[indexRenderQueue].Render(itRenderPass.second, m_ptrFrameBuffer, m_ptrCommandBuffers[itRenderPass.first][indexSwapchainImage]);
 		}
 	}
 

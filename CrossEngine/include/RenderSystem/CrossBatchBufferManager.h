@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 
 	public:
-		CBatchBuffer* GetBuffer(BUFFER_TYPE type, int index) const;
+		CBatchBuffer* GetBuffer(BUFFER_TYPE type, int indexSwapchainImage) const;
 
 
 	protected:
