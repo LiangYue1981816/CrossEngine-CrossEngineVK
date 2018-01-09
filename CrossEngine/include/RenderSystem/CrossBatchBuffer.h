@@ -40,9 +40,6 @@ namespace CrossEngine {
 		const CGfxVertexBufferPtr& GetBuffer(void) const;
 		BOOL UpdateBuffer(size_t size, const void *pBuffer);
 
-	protected:
-		const uint32_t BufferSize(uint32_t size) const;
-
 
 	protected:
 		uint32_t m_format;

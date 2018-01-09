@@ -37,6 +37,21 @@ namespace CrossEngine {
 
 	}
 
+	void CBatchPartical::ClearBuffer(void)
+	{
+		datas.clear();
+	}
+
+	void* CBatchPartical::GetBuffer(void)
+	{
+		return datas.data();
+	}
+
+	size_t CBatchPartical::GetBufferSize(void)
+	{
+		return datas.size() * sizeof(InstanceData);
+	}
+
 	void CBatchPartical::UpdateBuffer(void)
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
@@ -52,21 +67,6 @@ namespace CrossEngine {
 	void CBatchPartical::BuildCommandBuffer(void)
 	{
 
-	}
-
-	void CBatchPartical::ClearBuffer(void)
-	{
-		datas.clear();
-	}
-
-	void* CBatchPartical::GetBuffer(void)
-	{
-		return datas.data();
-	}
-
-	size_t CBatchPartical::GetBufferSize(void)
-	{
-		return datas.size() * sizeof(InstanceData);
 	}
 
 }

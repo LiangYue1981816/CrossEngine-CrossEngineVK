@@ -25,6 +25,13 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	static uint32_t BufferSize(uint32_t size)
+	{
+		uint32_t index = 0;
+		while ((uint32_t)(1 << index) < size) index++;
+		return (uint32_t)(1 << index);
+	}
+
 	CBatchBuffer::CBatchBuffer(uint32_t format)
 		: m_format(format)
 	{
@@ -53,13 +60,6 @@ namespace CrossEngine {
 		}
 
 		return m_ptrVertexBuffer->UpdateData(0, size, pBuffer);
-	}
-
-	const uint32_t CBatchBuffer::BufferSize(uint32_t size) const
-	{
-		uint32_t index = 0;
-		while ((uint32_t)(1 << index) < size) index++;
-		return (uint32_t)(1 << index);
 	}
 
 }

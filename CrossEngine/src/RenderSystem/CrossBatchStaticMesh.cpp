@@ -37,6 +37,21 @@ namespace CrossEngine {
 
 	}
 
+	void CBatchStaticMesh::ClearBuffer(void)
+	{
+		datas.clear();
+	}
+
+	void* CBatchStaticMesh::GetBuffer(void)
+	{
+		return datas.data();
+	}
+
+	size_t CBatchStaticMesh::GetBufferSize(void)
+	{
+		return datas.size() * sizeof(InstanceData);
+	}
+
 	void CBatchStaticMesh::UpdateBuffer(void)
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
@@ -52,21 +67,6 @@ namespace CrossEngine {
 	void CBatchStaticMesh::BuildCommandBuffer(void)
 	{
 
-	}
-
-	void CBatchStaticMesh::ClearBuffer(void)
-	{
-		datas.clear();
-	}
-
-	void* CBatchStaticMesh::GetBuffer(void)
-	{
-		return datas.data();
-	}
-
-	size_t CBatchStaticMesh::GetBufferSize(void)
-	{
-		return datas.size() * sizeof(InstanceData);
 	}
 
 }

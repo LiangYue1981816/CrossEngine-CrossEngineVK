@@ -37,6 +37,21 @@ namespace CrossEngine {
 
 	}
 
+	void CBatchSkinMesh::ClearBuffer(void)
+	{
+		datas.clear();
+	}
+
+	void* CBatchSkinMesh::GetBuffer(void)
+	{
+		return datas.data();
+	}
+
+	size_t CBatchSkinMesh::GetBufferSize(void)
+	{
+		return datas.size() * sizeof(InstanceData);
+	}
+
 	void CBatchSkinMesh::UpdateBuffer(void)
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
@@ -52,21 +67,6 @@ namespace CrossEngine {
 	void CBatchSkinMesh::BuildCommandBuffer(void)
 	{
 
-	}
-
-	void CBatchSkinMesh::ClearBuffer(void)
-	{
-		datas.clear();
-	}
-
-	void* CBatchSkinMesh::GetBuffer(void)
-	{
-		return datas.data();
-	}
-
-	size_t CBatchSkinMesh::GetBufferSize(void)
-	{
-		return datas.size() * sizeof(InstanceData);
 	}
 
 }
