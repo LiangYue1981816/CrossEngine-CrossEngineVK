@@ -302,7 +302,7 @@ namespace CrossEngine {
 		uint32_t *pPointer = NULL;
 		
 		if (pHeapAllocator) {
-			const uint32_t dwMemSize = (uint32_t)ALIGN_4KBYTE(size);
+			const uint32_t dwMemSize = (uint32_t)ALIGN_BYTE(size, BLOCK_UNIT_SIZE);
 
 			do {
 				if (BLOCK_POOL *pBlockPool = pHeapAllocator->pBlockPoolHead) {
