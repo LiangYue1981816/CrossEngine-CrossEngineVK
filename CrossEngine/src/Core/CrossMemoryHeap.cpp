@@ -245,46 +245,32 @@ namespace CrossEngine {
 		return pPointer;
 	}
 
+	static BLOCK* HEAP_Merge(BLOCK_POOL *pBlockPool, BLOCK *pBlock, BLOCK *pBlockNext)
+	{
+		ASSERT((uint8_t *)pBlock + pBlock->dwSize + ALIGN_16BYTE(sizeof(BLOCK)) == (uint8_t *)pBlockNext);
+
+		HEAP_RemoveBlock(pBlockPool, pBlockNext);
+
+		pBlock->dwSize = pBlock->dwSize + pBlockNext->dwSize + ALIGN_16BYTE(sizeof(BLOCK));
+		pBlock->pNext = pBlockNext->pNext;
+
+		if (pBlockNext->pNext) {
+			pBlockNext->pNext->pPrev = pBlock;
+		}
+
+		return pBlock;
+	}
+
 	static void HEAP_PoolFree(BLOCK_POOL *pBlockPool, BLOCK *pBlock)
 	{
 		pBlock->dwInUse = FALSE;
 
-		if (BLOCK *pBlockNext = pBlock->pNext) {
-			if (pBlockNext->dwInUse == FALSE) {
-				if ((uint8_t *)pBlock + pBlock->dwSize + ALIGN_16BYTE(sizeof(BLOCK)) == (uint8_t *)pBlockNext) {
-					HEAP_RemoveBlock(pBlockPool, pBlockNext);
-
-					pBlock->dwSize = pBlock->dwSize + pBlockNext->dwSize + ALIGN_16BYTE(sizeof(BLOCK));
-					pBlock->pNext = pBlockNext->pNext;
-
-					if (pBlockNext->pNext) {
-						pBlockNext->pNext->pPrev = pBlock;
-					}
-				}
-				else {
-					ASSERT(FALSE);
-				}
-			}
+		if (pBlock->pNext && pBlock->pNext->dwInUse == FALSE) {
+			pBlock = HEAP_Merge(pBlockPool, pBlock, pBlock->pNext);
 		}
 
-		if (BLOCK *pBlockPrev = pBlock->pPrev) {
-			if (pBlockPrev->dwInUse == FALSE) {
-				if ((uint8_t *)pBlockPrev + pBlockPrev->dwSize + ALIGN_16BYTE(sizeof(BLOCK)) == (uint8_t *)pBlock) {
-					HEAP_RemoveBlock(pBlockPool, pBlockPrev);
-
-					pBlockPrev->dwSize = pBlockPrev->dwSize + pBlock->dwSize + ALIGN_16BYTE(sizeof(BLOCK));
-					pBlockPrev->pNext = pBlock->pNext;
-
-					if (pBlock->pNext) {
-						pBlock->pNext->pPrev = pBlockPrev;
-					}
-
-					pBlock = pBlockPrev;
-				}
-				else {
-					ASSERT(FALSE);
-				}
-			}
+		if (pBlock->pPrev && pBlock->pPrev->dwInUse == FALSE) {
+			pBlock = HEAP_Merge(pBlockPool, pBlock->pPrev, pBlock);
 		}
 
 		HEAP_InsertBlock(pBlockPool, pBlock);

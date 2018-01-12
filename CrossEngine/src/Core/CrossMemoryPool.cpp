@@ -25,6 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	#define GET_BLOCK(pPointer) (BLOCK *)((uint8_t *)pPointer - ALIGN_16BYTE(sizeof(BLOCK)))
 	#define GET_BLOCK_POOL(pBlock) (BLOCK_POOL *)((uint8_t *)(pBlock) - (pBlock)->dwOffset - ALIGN_16BYTE(sizeof(BLOCK_POOL)))
 	#define GET_BLOCK_NEXT(pBlock) (BLOCK *)((uint8_t *)GET_BLOCK_POOL(pBlock) + (pBlock)->dwOffsetNext + ALIGN_16BYTE(sizeof(BLOCK_POOL)))
 
@@ -169,7 +170,7 @@ namespace CrossEngine {
 			const uint32_t dwIndexPool = dwMemSize / 16;
 
 			if (dwIndexPool < BLOCK_POOL_COUNT) {
-				BLOCK *pBlock = (BLOCK *)((uint8_t *)pPointer - ALIGN_16BYTE(sizeof(BLOCK)));
+				BLOCK *pBlock = GET_BLOCK(pPointer);
 				BLOCK_POOL *pBlockPool = GET_BLOCK_POOL(pBlock);
 				BLOCK_POOL_HEAD *pPoolHead = &pPoolAllocator->pools[dwIndexPool];
 
