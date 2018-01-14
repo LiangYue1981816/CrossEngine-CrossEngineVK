@@ -52,17 +52,17 @@ namespace CrossEngine {
 
 	BOOL CResRenderTextureManager::PreLoadFromFile(const char *szFileName)
 	{
-		return TRUE;
+		return CResourceManager::PreLoadFromFile(szFileName, RENDERTEXTURE_EXT_NAME);
 	}
 
 	BOOL CResRenderTextureManager::PreLoadFromPath(const char *szPathName)
 	{
-		return TRUE;
+		return CResourceManager::PreLoadFromPath(szPathName, RENDERTEXTURE_EXT_NAME);
 	}
 
 	BOOL CResRenderTextureManager::PreLoadFromPack(const char *szPackName)
 	{
-		return TRUE;
+		return CResourceManager::PreLoadFromPack(szPackName, RENDERTEXTURE_EXT_NAME);
 	}
 
 }

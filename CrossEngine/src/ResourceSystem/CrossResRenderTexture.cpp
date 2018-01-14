@@ -27,11 +27,6 @@ namespace CrossEngine {
 
 	CResRenderTexture::CResRenderTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 		: CResource(pResourceManager)
-		, m_type(RENDER_TEXTURE_TYPE_COLOR)
-		, m_width(0)
-		, m_height(0)
-		, m_format(VK_FORMAT_B8G8R8A8_UNORM)
-		, m_samples(VK_SAMPLE_COUNT_1_BIT)
 		, m_minFilter(minFilter)
 		, m_magFilter(magFilter)
 		, m_mipmapMode(mipmapMode)
@@ -81,18 +76,21 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
+		uint32_t size;
 		uint32_t mark;
 
+		m_stream << size;
 		m_stream << mark;
-		if (mark != HashValue("RenderTexture")) {
+
+		if (size != sizeof(RenderTextureParam)) {
 			return FALSE;
 		}
 
-		m_stream << m_type;
-		m_stream << m_width;
-		m_stream << m_height;
-		m_stream << m_format;
-		m_stream << m_samples;
+		if (mark != HashValue("RenderTextureParam")) {
+			return FALSE;
+		}
+
+		m_stream << m_data;
 
 		return TRUE;
 	}
@@ -101,11 +99,11 @@ namespace CrossEngine {
 	{
 		m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
 
-		if (m_type == RENDER_TEXTURE_TYPE_COLOR) {
-			return m_ptrRenderTexture->CreateColorTarget(m_format, m_width, m_height, m_samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
+		if (m_data.type == RENDER_TEXTURE_TYPE_COLOR) {
+			return m_ptrRenderTexture->CreateColorTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		}
 		else {
-			return m_ptrRenderTexture->CreateDepthStencilTarget(m_format, m_width, m_height, m_samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
+			return m_ptrRenderTexture->CreateDepthStencilTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		}
 	}
 
