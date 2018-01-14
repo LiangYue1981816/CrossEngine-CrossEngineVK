@@ -26,83 +26,92 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	struct PipelineGraphicsData {
-		struct Shader {
-			uint32_t vertex;
-			uint32_t fragment;
-		};
-
-		struct RenderPass {
-			uint32_t dwName;
-			uint32_t indexSubPass;
-		};
-
-		struct InputAssembly {
-			uint32_t topology;
-		};
-
-		struct Rasterization {
-			uint32_t polygonMode;
-			uint32_t cullMode;
-			uint32_t depthBiasEnable;
-			float depthBiasConstantFactor;
-			float depthBiasSlopeFactor;
-		};
-
-		struct Multisample {
-			uint32_t rasterizationSamples;
-			uint32_t alphaToCoverageEnable;
-			uint32_t alphaToOneEnable;
-		};
-
-		struct Depth {
-			uint32_t depthTestEnable;
-			uint32_t depthWriteEnable;
-			uint32_t depthCompareOp;
-		};
-
-		struct Stencil {
-			uint32_t stencilTestEnable;
-			uint32_t frontFailOp;
-			uint32_t frontPassOp;
-			uint32_t frontDepthFailOp;
-			uint32_t frontCompareOp;
-			uint32_t frontCompareMask;
-			uint32_t frontWriteMask;
-			uint32_t frontReference;
-			uint32_t backFailOp;
-			uint32_t backPassOp;
-			uint32_t backDepthFailOp;
-			uint32_t backCompareOp;
-			uint32_t backCompareMask;
-			uint32_t backWriteMask;
-			uint32_t backReference;
-		};
-
-		struct ColorBlendAttachment {
-			uint32_t blendEnable;
-			uint32_t srcColorBlendFactor;
-			uint32_t dstColorBlendFactor;
-			uint32_t colorBlendOp;
-			uint32_t srcAlphaBlendFactor;
-			uint32_t dstAlphaBlendFactor;
-			uint32_t alphaBlendOp;
-			uint32_t colorWriteMask;
-		};
-
-		Shader shader;
-		RenderPass renderPass;
-		InputAssembly inputAssembly;
-		Rasterization rasterization;
-		Multisample multisample;
-		Depth depth;
-		Stencil stencil;
-		std::map<uint32_t, ColorBlendAttachment> colorBlendAttachments;
-	};
-
 	class CROSS_EXPORT CResGraphics : public CResource
 	{
 		friend class CResGraphicsManager;
+
+
+	protected:
+		typedef struct ShaderParam {
+			uint32_t dwVertexName;
+			uint32_t dwFragmentName;
+		} ShaderParam;
+
+		typedef struct RenderPassParam {
+			uint32_t dwName;
+			uint32_t indexSubPass;
+		} RenderPassParam;
+
+		typedef struct AssemblyParam {
+			VkPrimitiveTopology topology;
+		} AssemblyParam;
+
+		typedef struct RasterizationParam {
+			VkPolygonMode polygonMode;
+			VkCullModeFlags cullMode;
+
+			VkBool32 bDepthBiasEnable;
+			float depthBiasConstantFactor;
+			float depthBiasSlopeFactor;
+		} RasterizationParam;
+
+		typedef struct MultisampleParam {
+			VkSampleCountFlagBits samples;
+
+			VkBool32 bAlphaToCoverageEnable;
+			VkBool32 bAlphaToOneEnable;
+		} MultisampleParam;
+
+		typedef struct DepthParam {
+			VkBool32 bDepthTestEnable;
+			VkBool32 bDepthWriteEnable;
+			VkCompareOp depthCompareOp;
+		} DepthParam;
+
+		typedef struct StencilParam {
+			VkBool32 bStencilTestEnable;
+
+			VkStencilOp frontFailOp;
+			VkStencilOp frontPassOp;
+			VkStencilOp frontDepthFailOp;
+			VkCompareOp frontCompareOp;
+			uint32_t frontCompareMask;
+			uint32_t frontWriteMask;
+			uint32_t frontReference;
+
+			VkStencilOp backFailOp;
+			VkStencilOp backPassOp;
+			VkStencilOp backDepthFailOp;
+			VkCompareOp backCompareOp;
+			uint32_t backCompareMask;
+			uint32_t backWriteMask;
+			uint32_t backReference;
+		} StencilParam;
+
+		typedef struct BlendParam {
+			VkBool32 bBlendEnable;
+
+			VkBlendFactor srcColorBlendFactor;
+			VkBlendFactor dstColorBlendFactor;
+			VkBlendOp colorBlendOp;
+
+			VkBlendFactor srcAlphaBlendFactor;
+			VkBlendFactor dstAlphaBlendFactor;
+			VkBlendOp alphaBlendOp;
+
+			VkColorComponentFlags colorWriteMask;
+		} BlendParam;
+
+		typedef struct PipelineGraphicsParam {
+			ShaderParam shader;
+			RenderPassParam renderpass;
+			AssemblyParam assembly;
+			RasterizationParam rasterization;
+			MultisampleParam multisample;
+			DepthParam depth;
+			StencilParam stencil;
+			std::map<uint32_t, BlendParam> blends;
+		} PipelineGraphicsParam;
 
 
 	protected:
@@ -138,7 +147,7 @@ namespace CrossEngine {
 
 
 	protected:
-		PipelineGraphicsData m_data;
+		PipelineGraphicsParam m_param;
 
 	protected:
 		uint32_t m_indexSubPass;
