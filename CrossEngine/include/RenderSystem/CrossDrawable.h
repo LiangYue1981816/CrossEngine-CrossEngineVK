@@ -26,14 +26,16 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef enum {
-		DRAWABLE_TYPE_PARTICAL = 0,
-		DRAWABLE_TYPE_SKIN_MESH,
-		DRAWABLE_TYPE_STATIC_MESH
-	} DRAWABLE_TYPE;
-
 	class CROSS_EXPORT CDrawable
 	{
+	public:
+		typedef enum {
+			DRAWABLE_TYPE_PARTICAL = 0,
+			DRAWABLE_TYPE_SKIN_MESH,
+			DRAWABLE_TYPE_STATIC_MESH
+		} DRAWABLE_TYPE;
+
+
 	protected:
 		CDrawable(void);
 		virtual ~CDrawable(void);

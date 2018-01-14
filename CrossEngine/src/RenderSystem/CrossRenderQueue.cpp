@@ -74,19 +74,19 @@ namespace CrossEngine {
 		}
 	}
 
-	CBatch* CRenderQueue::CreateBatch(DRAWABLE_TYPE type)
+	CBatch* CRenderQueue::CreateBatch(CDrawable::DRAWABLE_TYPE type)
 	{
-		if (type == DRAWABLE_TYPE_PARTICAL) {
+		if (type == CDrawable::DRAWABLE_TYPE_PARTICAL) {
 			m_pBatchParticals.push_back(SAFE_NEW CBatchPartical);
 			return m_pBatchParticals[m_pBatchParticals.size() - 1];
 		}
 
-		if (type == DRAWABLE_TYPE_SKIN_MESH) {
+		if (type == CDrawable::DRAWABLE_TYPE_SKIN_MESH) {
 			m_pBatchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
 			return m_pBatchSkinMeshs[m_pBatchSkinMeshs.size() - 1];
 		}
 
-		if (type == DRAWABLE_TYPE_STATIC_MESH) {
+		if (type == CDrawable::DRAWABLE_TYPE_STATIC_MESH) {
 			m_pBatchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
 			return m_pBatchStaticMeshs[m_pBatchStaticMeshs.size() - 1];
 		}

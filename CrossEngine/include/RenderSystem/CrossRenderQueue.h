@@ -52,7 +52,7 @@ namespace CrossEngine {
 		void BuildCommandBuffer(const CGfxRenderPass *pRenderPass, const CGfxFrameBuffer *pFrameBuffer, CGfxCommandBuffer *pCommandBuffer);
 
 	protected:
-		CBatch* CreateBatch(DRAWABLE_TYPE type);
+		CBatch* CreateBatch(CDrawable::DRAWABLE_TYPE type);
 
 
 	protected:
