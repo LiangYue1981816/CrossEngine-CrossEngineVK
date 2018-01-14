@@ -90,9 +90,6 @@ namespace CrossEngine {
 			uint32_t colorWriteMask;
 		};
 
-		uint32_t mark;
-		uint32_t size;
-
 		Shader shader;
 		RenderPass renderPass;
 		InputAssembly inputAssembly;

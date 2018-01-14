@@ -101,13 +101,16 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadData(void)
 	{
-		m_stream << m_data.mark;
-		if (m_data.mark != HashValue("PipelineGraphicsData")) {
+		uint32_t mark;
+		uint32_t size;
+
+		m_stream << mark;
+		if (mark != HashValue("PipelineGraphicsData")) {
 			return FALSE;
 		}
 
-		m_stream << m_data.size;
-		if (m_data.size != sizeof(PipelineGraphicsData)) {
+		m_stream << size;
+		if (size != sizeof(PipelineGraphicsData)) {
 			return FALSE;
 		}
 

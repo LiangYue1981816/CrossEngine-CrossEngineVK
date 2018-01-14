@@ -31,6 +31,13 @@ namespace CrossEngine {
 		friend class CResRenderTextureManager;
 
 
+	public:
+		typedef enum {
+			RENDER_TEXTURE_TYPE_COLOR = 0,
+			RENDER_TEXTURE_TYPE_DEPTH
+		} RENDER_TEXTURE_TYPE;
+
+
 	protected:
 		CResRenderTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		virtual ~CResRenderTexture(void);
@@ -54,6 +61,8 @@ namespace CrossEngine {
 
 
 	protected:
+		RENDER_TEXTURE_TYPE m_type;
+
 		uint32_t m_width;
 		uint32_t m_height;
 		VkFormat m_format;
