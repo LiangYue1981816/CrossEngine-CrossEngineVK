@@ -38,7 +38,7 @@ namespace CrossEngine {
 
 	RESOURCE_TYPE CResMaterial::GetType(void) const
 	{
-		return RESOURCE_TYPE_MATERIAL;
+		return RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL;
 	}
 
 	const CGfxMaterialPtr& CResMaterial::GetMaterial(void) const

@@ -323,6 +323,8 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceDefinition.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResourceSystem.h" />
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResRenderTexture.h" />
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResRenderTextureManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResShader.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResShaderManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResTexture.h" />
@@ -509,6 +511,8 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResource.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResourceSystem.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResRenderTexture.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResRenderTextureManage.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResShader.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResShaderManage.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResTexture.cpp" />
