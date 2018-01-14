@@ -27,7 +27,6 @@ namespace CrossEngine {
 
 	CResGraphics::CResGraphics(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
-		, m_indexSubPass(0)
 	{
 
 	}
@@ -79,19 +78,18 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::InternalPostLoad(void)
 	{
-		m_indexSubPass = m_param.renderpass.indexSubPass;
 		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_param.renderpass.dwName);
 		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
 		{
 			if (SetShaders() == FALSE) return FALSE;
-			if (SetInputAssemblyState() == FALSE) return FALSE;
+			if (SetAssemblyState() == FALSE) return FALSE;
 			if (SetTessellationState() == FALSE) return FALSE;
 			if (SetRasterizationState() == FALSE) return FALSE;
 			if (SetMultisampleState() == FALSE) return FALSE;
 			if (SetDepthStencilState() == FALSE) return FALSE;
 			if (SetColorBlendState() == FALSE) return FALSE;
 		}
-		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_indexSubPass);
+		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_param.renderpass.indexSubPass);
 	}
 
 	void CResGraphics::InternalCleanup(void)
@@ -141,7 +139,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResGraphics::SetInputAssemblyState(void)
+	BOOL CResGraphics::SetAssemblyState(void)
 	{
 		m_ptrPipeline->SetPrimitiveTopology(m_param.assembly.topology, FALSE);
 		return TRUE;

@@ -138,7 +138,7 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadData(void);
 		BOOL SetShaders(void);
-		BOOL SetInputAssemblyState(void);
+		BOOL SetAssemblyState(void);
 		BOOL SetTessellationState(void);
 		BOOL SetRasterizationState(void);
 		BOOL SetMultisampleState(void);
@@ -150,10 +150,7 @@ namespace CrossEngine {
 		PipelineGraphicsParam m_param;
 
 	protected:
-		uint32_t m_indexSubPass;
 		CGfxRenderPassPtr m_ptrRenderPass;
-
-	protected:
 		CGfxPipelineGraphicsPtr m_ptrPipeline;
 	};
 
