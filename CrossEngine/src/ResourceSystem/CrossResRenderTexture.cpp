@@ -52,17 +52,26 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::IsValid(void) const
 	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrRenderTexture.IsNull() || m_ptrRenderTexture->GetHandle() == NULL) {
+			return FALSE;
+		}
+
 		return TRUE;
 	}
 
 	void CResRenderTexture::Init(void)
 	{
-
+		CResource::Init();
 	}
 
 	void CResRenderTexture::Free(void)
 	{
-
+		m_ptrRenderTexture.Release();
+		CResource::Free();
 	}
 
 	BOOL CResRenderTexture::InternalLoad(BOOL bSyncPostLoad)
@@ -72,12 +81,13 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::InternalPostLoad(void)
 	{
+		m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
 		return TRUE;
 	}
 
 	void CResRenderTexture::InternalCleanup(void)
 	{
-
+		m_stream.Free();
 	}
 
 }

@@ -54,6 +54,12 @@ namespace CrossEngine {
 
 
 	protected:
+		uint32_t m_width;
+		uint32_t m_height;
+		VkFormat m_format;
+		VkSampleCountFlagBits m_samples;
+
+	protected:
 		VkFilter m_minFilter;
 		VkFilter m_magFilter;
 		VkSamplerMipmapMode m_mipmapMode;
