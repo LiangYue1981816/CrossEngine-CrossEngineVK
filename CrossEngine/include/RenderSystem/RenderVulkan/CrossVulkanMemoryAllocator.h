@@ -73,7 +73,7 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_type;
 		VkFlags m_flags;
-//		VkDeviceSize m_size;
+		VkDeviceSize m_size;
 		VkDeviceSize m_full;
 		VkDeviceSize m_alignment;
 

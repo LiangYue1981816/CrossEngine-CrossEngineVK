@@ -31,10 +31,11 @@ namespace CrossEngine {
 		: m_pDevice(pDevice)
 		, m_vkMemory(VK_NULL_HANDLE)
 
+		, m_size(memorySize)
 		, m_full(memorySize)
-		, m_alignment(memoryAlignment)
 		, m_type(memoryTypeIndex)
 		, m_flags(memoryPropertyFlags)
+		, m_alignment(memoryAlignment)
 
 		, m_root{ NULL }
 		, m_nodes(NULL)
@@ -59,6 +60,7 @@ namespace CrossEngine {
 
 	CVulkanMemoryAllocator::~CVulkanMemoryAllocator(void)
 	{
+		ASSERT(m_size == m_full);
 		ASSERT(m_pListHead->pNext == NULL);
 		ASSERT(m_pListHead->pPrev == NULL);
 		ASSERT(m_pListHead->m_size == m_full);
@@ -87,27 +89,32 @@ namespace CrossEngine {
 
 		size = ALIGN_BYTE(size, m_alignment);
 
-		if (CVulkanMemory *pMemory = SearchMemory(size)) {
-			RemoveMemory(pMemory);
+		if (m_size > size) {
+			if (CVulkanMemory *pMemory = SearchMemory(size)) {
+				RemoveMemory(pMemory);
 
-			pMemory->bInUse = TRUE;
+				if (pMemory->m_size >= size + m_alignment) {
+					CVulkanMemory *pMemoryNext = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, pMemory->m_size - size, pMemory->m_offset + size, m_alignment);
+					{
+						pMemoryNext->pNext = pMemory->pNext;
+						pMemoryNext->pPrev = pMemory;
+						pMemory->pNext = pMemoryNext;
 
-			if (pMemory->m_size >= size + m_alignment) {
-				CVulkanMemory *pMemoryNext = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, pMemory->m_size - size, pMemory->m_offset + size, m_alignment);
+						if (pMemoryNext->pNext) {
+							pMemoryNext->pNext->pPrev = pMemoryNext;
+						}
 
-				pMemoryNext->pNext = pMemory->pNext;
-				pMemoryNext->pPrev = pMemory;
-				pMemory->pNext = pMemoryNext;
+						InsertMemory(pMemoryNext);
+					}
 
-				if (pMemoryNext->pNext) {
-					pMemoryNext->pNext->pPrev = pMemoryNext;
+					pMemory->m_size = size;
 				}
 
-				pMemory->m_size = size;
-				InsertMemory(pMemoryNext);
-			}
+				pMemory->bInUse = TRUE;
+				m_size -= pMemory->m_size;
 
-			return pMemory;
+				return pMemory;
+			}
 		}
 
 		return NULL;
@@ -116,6 +123,7 @@ namespace CrossEngine {
 	void CVulkanMemoryAllocator::FreeMemory(CVulkanMemory *pMemory)
 	{
 		pMemory->bInUse = FALSE;
+		m_size += pMemory->m_size;
 
 		if (pMemory->pNext && pMemory->pNext->bInUse == FALSE) {
 			RemoveMemory(pMemory->pNext);
@@ -251,7 +259,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanMemoryAllocator::IsEmpty(void) const
 	{
-		return m_pListHead->pNext == NULL && m_pListHead->pPrev == NULL && m_pListHead->m_size == m_full ? TRUE : FALSE;
+		return m_size == m_full ? TRUE : FALSE;
 	}
 
 	uint32_t CVulkanMemoryAllocator::GetMemoryAlignment(void) const
@@ -271,17 +279,7 @@ namespace CrossEngine {
 
 	VkDeviceSize CVulkanMemoryAllocator::GetAllocatedSize(void) const
 	{
-		VkDeviceSize size = 0;
-
-		if (const CVulkanMemory *pMemory = m_pListHead) {
-			do {
-				if (pMemory->bInUse) {
-					size += pMemory->m_size;
-				}
-			} while (pMemory = pMemory->pNext);
-		}
-
-		return size;
+		return m_size;
 	}
 
 	uint32_t CVulkanMemoryAllocator::GetAllocationCount(void) const
