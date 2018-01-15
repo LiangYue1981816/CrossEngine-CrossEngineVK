@@ -282,28 +282,12 @@ namespace CrossEngine {
 		return m_size;
 	}
 
-	uint32_t CVulkanMemoryAllocator::GetAllocationCount(void) const
-	{
-		uint32_t count = 0;
-
-		if (const CVulkanMemory *pMemory = m_pListHead) {
-			do {
-				if (pMemory->bInUse) {
-					count++;
-				}
-			} while (pMemory = pMemory->pNext);
-		}
-
-		return count;
-	}
-
 	void CVulkanMemoryAllocator::DumpLog(void) const
 	{
-		LOGI("\t\t\tAllocator: host = %s coherent = %s cached = %s pointer number = %d size = %d full = %d\n", 
+		LOGI("\t\t\tAllocator: host = %s coherent = %s cached = %s size = %d full = %d\n", 
 			m_flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT ? "true" : "false",
 			m_flags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT ? "true" : "false",
 			m_flags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "true" : "false",
-			GetAllocationCount(), 
 			GetAllocatedSize(), 
 			GetFullSize());
 	}

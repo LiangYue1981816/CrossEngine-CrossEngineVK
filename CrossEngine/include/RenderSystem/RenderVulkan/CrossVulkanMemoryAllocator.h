@@ -64,7 +64,6 @@ namespace CrossEngine {
 	protected:
 		VkDeviceSize GetFullSize(void) const;
 		VkDeviceSize GetAllocatedSize(void) const;
-		uint32_t GetAllocationCount(void) const;
 
 	protected:
 		void DumpLog(void) const;
