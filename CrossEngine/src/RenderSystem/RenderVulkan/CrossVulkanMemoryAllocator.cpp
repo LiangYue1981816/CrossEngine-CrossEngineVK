@@ -117,16 +117,14 @@ namespace CrossEngine {
 	{
 		pMemory->bInUse = FALSE;
 
-		if (CVulkanMemory *pMemoryNext = pMemory->pNext) {
-			if (pMemoryNext->bInUse == FALSE) {
-				pMemory = MergeMemory(pMemory, pMemoryNext);
-			}
+		if (pMemory->pNext && pMemory->pNext->bInUse == FALSE) {
+			RemoveMemory(pMemory->pNext);
+			pMemory = MergeMemory(pMemory, pMemory->pNext);
 		}
 
-		if (CVulkanMemory *pMemoryPrev = pMemory->pPrev) {
-			if (pMemoryPrev->bInUse == FALSE) {
-				pMemory = MergeMemory(pMemoryPrev, pMemory);
-			}
+		if (pMemory->pPrev && pMemory->pPrev->bInUse == FALSE) {
+			RemoveMemory(pMemory->pPrev);
+			pMemory = MergeMemory(pMemory->pPrev, pMemory);
 		}
 
 		InsertMemory(pMemory);
@@ -208,8 +206,6 @@ namespace CrossEngine {
 	CVulkanMemory* CVulkanMemoryAllocator::MergeMemory(CVulkanMemory *pMemory, CVulkanMemory *pMemoryNext)
 	{
 		ASSERT(pMemory->m_offset + pMemory->m_size == pMemoryNext->m_offset);
-
-		RemoveMemory(pMemoryNext);
 
 		pMemory->m_size = pMemory->m_size + pMemoryNext->m_size;
 		pMemory->pNext = pMemoryNext->pNext;
