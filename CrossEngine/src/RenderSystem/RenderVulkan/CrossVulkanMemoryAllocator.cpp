@@ -31,7 +31,7 @@ namespace CrossEngine {
 		: m_pDevice(pDevice)
 		, m_vkMemory(VK_NULL_HANDLE)
 
-		, m_size(memorySize)
+		, m_full(memorySize)
 		, m_alignment(memoryAlignment)
 		, m_type(memoryTypeIndex)
 		, m_flags(memoryPropertyFlags)
@@ -46,14 +46,14 @@ namespace CrossEngine {
 		VkMemoryAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.pNext = NULL;
-		allocInfo.allocationSize = m_size;
+		allocInfo.allocationSize = m_full;
 		allocInfo.memoryTypeIndex = m_type;
 		vkAllocateMemory(m_pDevice->GetDevice(), &allocInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkMemory);
 
-		m_nodes = SAFE_NEW mem_node[m_size / m_alignment];
-		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, m_size, 0, m_alignment);
+		m_nodes = SAFE_NEW mem_node[m_full / m_alignment];
+		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, m_full, 0, m_alignment);
 
-		InitNodes(m_size / m_alignment);
+		InitNodes(m_full / m_alignment);
 		InsertMemory(m_pListHead);
 	}
 
@@ -61,7 +61,7 @@ namespace CrossEngine {
 	{
 		ASSERT(m_pListHead->pNext == NULL);
 		ASSERT(m_pListHead->pPrev == NULL);
-		ASSERT(m_pListHead->m_size == m_size);
+		ASSERT(m_pListHead->m_size == m_full);
 
 		SAFE_DELETE(m_pListHead);
 		SAFE_DELETE_ARRAY(m_nodes);
@@ -251,7 +251,7 @@ namespace CrossEngine {
 
 	BOOL CVulkanMemoryAllocator::IsEmpty(void) const
 	{
-		return m_pListHead->pNext == NULL && m_pListHead->pPrev == NULL && m_pListHead->m_size == m_size ? TRUE : FALSE;
+		return m_pListHead->pNext == NULL && m_pListHead->pPrev == NULL && m_pListHead->m_size == m_full ? TRUE : FALSE;
 	}
 
 	uint32_t CVulkanMemoryAllocator::GetMemoryAlignment(void) const
@@ -266,7 +266,7 @@ namespace CrossEngine {
 
 	VkDeviceSize CVulkanMemoryAllocator::GetFullSize(void) const
 	{
-		return m_size;
+		return m_full;
 	}
 
 	VkDeviceSize CVulkanMemoryAllocator::GetAllocatedSize(void) const
