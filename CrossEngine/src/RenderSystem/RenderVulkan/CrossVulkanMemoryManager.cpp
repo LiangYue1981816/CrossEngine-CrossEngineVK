@@ -135,7 +135,6 @@ namespace CrossEngine {
 
 	void CVulkanMemoryManager::DumpLog(const char *szTitle) const
 	{
-		uint32_t count = 0;
 		VkDeviceSize size = 0;
 
 		LOGI("%s\n", szTitle);
@@ -150,13 +149,12 @@ namespace CrossEngine {
 						do {
 							pAllocator->DumpLog();
 							size += pAllocator->GetFullSize();
-							count += pAllocator->GetAllocationCount();
 						} while (pAllocator = pAllocator->pNext);
 					}
 				}
 			}
 		}
-		LOGI("*** %d objects found, total size %d\n", count, size);
+		LOGI("*** total size %d\n", size);
 		LOGI("\n");
 	}
 
