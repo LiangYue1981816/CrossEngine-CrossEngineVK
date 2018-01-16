@@ -31,6 +31,7 @@ namespace CrossEngine {
 	} VkValueString;
 
 	static VkValueString vkFormatString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_FORMAT_UNDEFINED, "VK_FORMAT_UNDEFINED",
 		VK_FORMAT_R4G4_UNORM_PACK8, "VK_FORMAT_R4G4_UNORM_PACK8",
 		VK_FORMAT_R4G4B4A4_UNORM_PACK16, "VK_FORMAT_R4G4B4A4_UNORM_PACK16",
@@ -218,18 +219,21 @@ namespace CrossEngine {
 		VK_FORMAT_ASTC_12x12_SRGB_BLOCK, "VK_FORMAT_ASTC_12x12_SRGB_BLOCK",
 	};
 
-	static VkValueString VkImageTypeString[] = {
+	static VkValueString vkImageTypeString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_IMAGE_TYPE_1D, "VK_IMAGE_TYPE_1D",
 		VK_IMAGE_TYPE_2D, "VK_IMAGE_TYPE_2D",
 		VK_IMAGE_TYPE_3D, "VK_IMAGE_TYPE_3D",
 	};
 
-	static VkValueString VkImageTilingString[] = {
+	static VkValueString vkImageTilingString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_IMAGE_TILING_OPTIMAL, "VK_IMAGE_TILING_OPTIMAL",
 		VK_IMAGE_TILING_LINEAR, "VK_IMAGE_TILING_LINEAR",
 	};
 
-	static VkValueString VkImageLayoutString[] = {
+	static VkValueString vkImageLayoutString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_IMAGE_LAYOUT_UNDEFINED, "VK_IMAGE_LAYOUT_UNDEFINED",
 		VK_IMAGE_LAYOUT_GENERAL, "VK_IMAGE_LAYOUT_GENERAL",
 		VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, "VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL",
@@ -241,17 +245,20 @@ namespace CrossEngine {
 		VK_IMAGE_LAYOUT_PREINITIALIZED, "VK_IMAGE_LAYOUT_PREINITIALIZED"
 	};
 
-	static VkValueString VkFilterString[] = {
+	static VkValueString vkFilterString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_FILTER_NEAREST, "VK_FILTER_NEAREST",
 		VK_FILTER_LINEAR, "VK_FILTER_LINEAR",
 	};
 
-	static VkValueString VkSamplerMipmapModeString[] = {
+	static VkValueString vkSamplerMipmapModeString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_SAMPLER_MIPMAP_MODE_NEAREST, "VK_SAMPLER_MIPMAP_MODE_NEAREST",
 		VK_SAMPLER_MIPMAP_MODE_LINEAR, "VK_SAMPLER_MIPMAP_MODE_LINEAR",
 	};
 
-	static VkValueString VkSamplerAddressModeString[] = {
+	static VkValueString vkSamplerAddressModeString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_SAMPLER_ADDRESS_MODE_REPEAT, "VK_SAMPLER_ADDRESS_MODE_REPEAT",
 		VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT, "VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT",
 		VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE,  "VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE",
@@ -259,7 +266,8 @@ namespace CrossEngine {
 		VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE, "VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE",
 	};
 
-	static VkValueString VkSampleCountFlagBitsString[] = {
+	static VkValueString vkSampleCountFlagBitsString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_SAMPLE_COUNT_1_BIT, "VK_SAMPLE_COUNT_1_BIT",
 		VK_SAMPLE_COUNT_2_BIT, "VK_SAMPLE_COUNT_2_BIT",
 		VK_SAMPLE_COUNT_4_BIT, "VK_SAMPLE_COUNT_4_BIT",
@@ -269,7 +277,7 @@ namespace CrossEngine {
 		VK_SAMPLE_COUNT_64_BIT, "VK_SAMPLE_COUNT_64_BIT",
 	};
 
-	static VkValueString VkBufferUsageFlagsString[] = {
+	static VkValueString vkBufferUsageFlagsString[] = {
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT, "VK_BUFFER_USAGE_TRANSFER_SRC_BIT",
 		VK_BUFFER_USAGE_TRANSFER_DST_BIT, "VK_BUFFER_USAGE_TRANSFER_DST_BIT",
 		VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT, "VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT",
@@ -281,18 +289,21 @@ namespace CrossEngine {
 		VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT, "VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT"
 	};
 
-	static VkValueString VkAttachmentLoadOpString[] = {
+	static VkValueString vkAttachmentLoadOpString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_ATTACHMENT_LOAD_OP_LOAD, "VK_ATTACHMENT_LOAD_OP_LOAD",
 		VK_ATTACHMENT_LOAD_OP_CLEAR, "VK_ATTACHMENT_LOAD_OP_CLEAR",
 		VK_ATTACHMENT_LOAD_OP_DONT_CARE, "VK_ATTACHMENT_LOAD_OP_DONT_CARE",
 	};
 
-	static VkValueString VkAttachmentStoreOpString[] = {
+	static VkValueString vkAttachmentStoreOpString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_ATTACHMENT_STORE_OP_STORE, "VK_ATTACHMENT_STORE_OP_STORE",
 		VK_ATTACHMENT_STORE_OP_DONT_CARE, "VK_ATTACHMENT_STORE_OP_DONT_CARE",
 	};
 
-	static VkValueString VkPipelineStageFlagsString[] = {
+	static VkValueString vkPipelineStageFlagsString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, "VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT",
 		VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT, "VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT",
 		VK_PIPELINE_STAGE_VERTEX_INPUT_BIT, "VK_PIPELINE_STAGE_VERTEX_INPUT_BIT",
@@ -312,7 +323,8 @@ namespace CrossEngine {
 		VK_PIPELINE_STAGE_ALL_COMMANDS_BIT, "VK_PIPELINE_STAGE_ALL_COMMANDS_BIT",
 	};
 
-	static VkValueString VkAccessFlagsString[] = {
+	static VkValueString vkAccessFlagsString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_ACCESS_INDIRECT_COMMAND_READ_BIT, "VK_ACCESS_INDIRECT_COMMAND_READ_BIT",
 		VK_ACCESS_INDEX_READ_BIT, "VK_ACCESS_INDEX_READ_BIT",
 		VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT, "VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT",
@@ -332,7 +344,8 @@ namespace CrossEngine {
 		VK_ACCESS_MEMORY_WRITE_BIT, "VK_ACCESS_MEMORY_WRITE_BIT",
 	};
 
-	static VkValueString VkDescriptorTypeString[] = {
+	static VkValueString vkDescriptorTypeString[] = {
+		0xFFFFFFFF, "UNKNOWN",
 		VK_DESCRIPTOR_TYPE_SAMPLER, "VK_DESCRIPTOR_TYPE_SAMPLER",
 		VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, "VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER",
 		VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, "VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE",
@@ -347,7 +360,7 @@ namespace CrossEngine {
 	};
 
 
-	static char* strcat_or(char *dst, char *src, BOOL * or )
+	static char* strcat_or(char *dst, const char *src, BOOL *or)
 	{
 		if (*or == TRUE) {
 			strcat(dst, "|");
@@ -493,315 +506,82 @@ namespace CrossEngine {
 
 	const char* CVulkanHelper::vkFormatToString(VkFormat format)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (format) {
-		case VK_FORMAT_UNDEFINED: strcpy(szString, "VK_FORMAT_UNDEFINED"); break;
-		case VK_FORMAT_R4G4_UNORM_PACK8: strcpy(szString, "VK_FORMAT_R4G4_UNORM_PACK8"); break;
-		case VK_FORMAT_R4G4B4A4_UNORM_PACK16: strcpy(szString, "VK_FORMAT_R4G4B4A4_UNORM_PACK16"); break;
-		case VK_FORMAT_B4G4R4A4_UNORM_PACK16: strcpy(szString, "VK_FORMAT_B4G4R4A4_UNORM_PACK16"); break;
-		case VK_FORMAT_R5G6B5_UNORM_PACK16: strcpy(szString, "VK_FORMAT_R5G6B5_UNORM_PACK16"); break;
-		case VK_FORMAT_B5G6R5_UNORM_PACK16: strcpy(szString, "VK_FORMAT_B5G6R5_UNORM_PACK16"); break;
-		case VK_FORMAT_R5G5B5A1_UNORM_PACK16: strcpy(szString, "VK_FORMAT_R5G5B5A1_UNORM_PACK16"); break;
-		case VK_FORMAT_B5G5R5A1_UNORM_PACK16: strcpy(szString, "VK_FORMAT_B5G5R5A1_UNORM_PACK16"); break;
-		case VK_FORMAT_A1R5G5B5_UNORM_PACK16: strcpy(szString, "VK_FORMAT_A1R5G5B5_UNORM_PACK16"); break;
-		case VK_FORMAT_R8_UNORM: strcpy(szString, "VK_FORMAT_R8_UNORM"); break;
-		case VK_FORMAT_R8_SNORM: strcpy(szString, "VK_FORMAT_R8_SNORM"); break;
-		case VK_FORMAT_R8_USCALED: strcpy(szString, "VK_FORMAT_R8_USCALED"); break;
-		case VK_FORMAT_R8_SSCALED: strcpy(szString, "VK_FORMAT_R8_SSCALED"); break;
-		case VK_FORMAT_R8_UINT: strcpy(szString, "VK_FORMAT_R8_UINT"); break;
-		case VK_FORMAT_R8_SINT: strcpy(szString, "VK_FORMAT_R8_SINT"); break;
-		case VK_FORMAT_R8_SRGB: strcpy(szString, "VK_FORMAT_R8_SRGB"); break;
-		case VK_FORMAT_R8G8_UNORM: strcpy(szString, "VK_FORMAT_R8G8_UNORM"); break;
-		case VK_FORMAT_R8G8_SNORM: strcpy(szString, "VK_FORMAT_R8G8_SNORM"); break;
-		case VK_FORMAT_R8G8_USCALED: strcpy(szString, "VK_FORMAT_R8G8_USCALED"); break;
-		case VK_FORMAT_R8G8_SSCALED: strcpy(szString, "VK_FORMAT_R8G8_SSCALED"); break;
-		case VK_FORMAT_R8G8_UINT: strcpy(szString, "VK_FORMAT_R8G8_UINT"); break;
-		case VK_FORMAT_R8G8_SINT: strcpy(szString, "VK_FORMAT_R8G8_SINT"); break;
-		case VK_FORMAT_R8G8_SRGB: strcpy(szString, "VK_FORMAT_R8G8_SRGB"); break;
-		case VK_FORMAT_R8G8B8_UNORM: strcpy(szString, "VK_FORMAT_R8G8B8_UNORM"); break;
-		case VK_FORMAT_R8G8B8_SNORM: strcpy(szString, "VK_FORMAT_R8G8B8_SNORM"); break;
-		case VK_FORMAT_R8G8B8_USCALED: strcpy(szString, "VK_FORMAT_R8G8B8_USCALED"); break;
-		case VK_FORMAT_R8G8B8_SSCALED: strcpy(szString, "VK_FORMAT_R8G8B8_SSCALED"); break;
-		case VK_FORMAT_R8G8B8_UINT: strcpy(szString, "VK_FORMAT_R8G8B8_UINT"); break;
-		case VK_FORMAT_R8G8B8_SINT: strcpy(szString, "VK_FORMAT_R8G8B8_SINT"); break;
-		case VK_FORMAT_R8G8B8_SRGB: strcpy(szString, "VK_FORMAT_R8G8B8_SRGB"); break;
-		case VK_FORMAT_B8G8R8_UNORM: strcpy(szString, "VK_FORMAT_B8G8R8_UNORM"); break;
-		case VK_FORMAT_B8G8R8_SNORM: strcpy(szString, "VK_FORMAT_B8G8R8_SNORM"); break;
-		case VK_FORMAT_B8G8R8_USCALED: strcpy(szString, "VK_FORMAT_B8G8R8_USCALED"); break;
-		case VK_FORMAT_B8G8R8_SSCALED: strcpy(szString, "VK_FORMAT_B8G8R8_SSCALED"); break;
-		case VK_FORMAT_B8G8R8_UINT: strcpy(szString, "VK_FORMAT_B8G8R8_UINT"); break;
-		case VK_FORMAT_B8G8R8_SINT: strcpy(szString, "VK_FORMAT_B8G8R8_SINT"); break;
-		case VK_FORMAT_B8G8R8_SRGB: strcpy(szString, "VK_FORMAT_B8G8R8_SRGB"); break;
-		case VK_FORMAT_R8G8B8A8_UNORM: strcpy(szString, "VK_FORMAT_R8G8B8A8_UNORM"); break;
-		case VK_FORMAT_R8G8B8A8_SNORM: strcpy(szString, "VK_FORMAT_R8G8B8A8_SNORM"); break;
-		case VK_FORMAT_R8G8B8A8_USCALED: strcpy(szString, "VK_FORMAT_R8G8B8A8_USCALED"); break;
-		case VK_FORMAT_R8G8B8A8_SSCALED: strcpy(szString, "VK_FORMAT_R8G8B8A8_SSCALED"); break;
-		case VK_FORMAT_R8G8B8A8_UINT: strcpy(szString, "VK_FORMAT_R8G8B8A8_UINT"); break;
-		case VK_FORMAT_R8G8B8A8_SINT: strcpy(szString, "VK_FORMAT_R8G8B8A8_SINT"); break;
-		case VK_FORMAT_R8G8B8A8_SRGB: strcpy(szString, "VK_FORMAT_R8G8B8A8_SRGB"); break;
-		case VK_FORMAT_B8G8R8A8_UNORM: strcpy(szString, "VK_FORMAT_B8G8R8A8_UNORM"); break;
-		case VK_FORMAT_B8G8R8A8_SNORM: strcpy(szString, "VK_FORMAT_B8G8R8A8_SNORM"); break;
-		case VK_FORMAT_B8G8R8A8_USCALED: strcpy(szString, "VK_FORMAT_B8G8R8A8_USCALED"); break;
-		case VK_FORMAT_B8G8R8A8_SSCALED: strcpy(szString, "VK_FORMAT_B8G8R8A8_SSCALED"); break;
-		case VK_FORMAT_B8G8R8A8_UINT: strcpy(szString, "VK_FORMAT_B8G8R8A8_UINT"); break;
-		case VK_FORMAT_B8G8R8A8_SINT: strcpy(szString, "VK_FORMAT_B8G8R8A8_SINT"); break;
-		case VK_FORMAT_B8G8R8A8_SRGB: strcpy(szString, "VK_FORMAT_B8G8R8A8_SRGB"); break;
-		case VK_FORMAT_A8B8G8R8_UNORM_PACK32: strcpy(szString, "VK_FORMAT_A8B8G8R8_UNORM_PACK32"); break;
-		case VK_FORMAT_A8B8G8R8_SNORM_PACK32: strcpy(szString, "VK_FORMAT_A8B8G8R8_SNORM_PACK32"); break;
-		case VK_FORMAT_A8B8G8R8_USCALED_PACK32: strcpy(szString, "VK_FORMAT_A8B8G8R8_USCALED_PACK32"); break;
-		case VK_FORMAT_A8B8G8R8_SSCALED_PACK32: strcpy(szString, "VK_FORMAT_A8B8G8R8_SSCALED_PACK32"); break;
-		case VK_FORMAT_A8B8G8R8_UINT_PACK32: strcpy(szString, "VK_FORMAT_A8B8G8R8_UINT_PACK32"); break;
-		case VK_FORMAT_A8B8G8R8_SINT_PACK32: strcpy(szString, "VK_FORMAT_A8B8G8R8_SINT_PACK32"); break;
-		case VK_FORMAT_A8B8G8R8_SRGB_PACK32: strcpy(szString, "VK_FORMAT_A8B8G8R8_SRGB_PACK32"); break;
-		case VK_FORMAT_A2R10G10B10_UNORM_PACK32: strcpy(szString, "VK_FORMAT_A2R10G10B10_UNORM_PACK32"); break;
-		case VK_FORMAT_A2R10G10B10_SNORM_PACK32: strcpy(szString, "VK_FORMAT_A2R10G10B10_SNORM_PACK32"); break;
-		case VK_FORMAT_A2R10G10B10_USCALED_PACK32: strcpy(szString, "VK_FORMAT_A2R10G10B10_USCALED_PACK32"); break;
-		case VK_FORMAT_A2R10G10B10_SSCALED_PACK32: strcpy(szString, "VK_FORMAT_A2R10G10B10_SSCALED_PACK32"); break;
-		case VK_FORMAT_A2R10G10B10_UINT_PACK32: strcpy(szString, "VK_FORMAT_A2R10G10B10_UINT_PACK32"); break;
-		case VK_FORMAT_A2R10G10B10_SINT_PACK32: strcpy(szString, "VK_FORMAT_A2R10G10B10_SINT_PACK32"); break;
-		case VK_FORMAT_A2B10G10R10_UNORM_PACK32: strcpy(szString, "VK_FORMAT_A2B10G10R10_UNORM_PACK32"); break;
-		case VK_FORMAT_A2B10G10R10_SNORM_PACK32: strcpy(szString, "VK_FORMAT_A2B10G10R10_SNORM_PACK32"); break;
-		case VK_FORMAT_A2B10G10R10_USCALED_PACK32: strcpy(szString, "VK_FORMAT_A2B10G10R10_USCALED_PACK32"); break;
-		case VK_FORMAT_A2B10G10R10_SSCALED_PACK32: strcpy(szString, "VK_FORMAT_A2B10G10R10_SSCALED_PACK32"); break;
-		case VK_FORMAT_A2B10G10R10_UINT_PACK32: strcpy(szString, "VK_FORMAT_A2B10G10R10_UINT_PACK32"); break;
-		case VK_FORMAT_A2B10G10R10_SINT_PACK32: strcpy(szString, "VK_FORMAT_A2B10G10R10_SINT_PACK32"); break;
-		case VK_FORMAT_R16_UNORM: strcpy(szString, "VK_FORMAT_R16_UNORM"); break;
-		case VK_FORMAT_R16_SNORM: strcpy(szString, "VK_FORMAT_R16_SNORM"); break;
-		case VK_FORMAT_R16_USCALED: strcpy(szString, "VK_FORMAT_R16_USCALED"); break;
-		case VK_FORMAT_R16_SSCALED: strcpy(szString, "VK_FORMAT_R16_SSCALED"); break;
-		case VK_FORMAT_R16_UINT: strcpy(szString, "VK_FORMAT_R16_UINT"); break;
-		case VK_FORMAT_R16_SINT: strcpy(szString, "VK_FORMAT_R16_SINT"); break;
-		case VK_FORMAT_R16_SFLOAT: strcpy(szString, "VK_FORMAT_R16_SFLOAT"); break;
-		case VK_FORMAT_R16G16_UNORM: strcpy(szString, "VK_FORMAT_R16G16_UNORM"); break;
-		case VK_FORMAT_R16G16_SNORM: strcpy(szString, "VK_FORMAT_R16G16_SNORM"); break;
-		case VK_FORMAT_R16G16_USCALED: strcpy(szString, "VK_FORMAT_R16G16_USCALED"); break;
-		case VK_FORMAT_R16G16_SSCALED: strcpy(szString, "VK_FORMAT_R16G16_SSCALED"); break;
-		case VK_FORMAT_R16G16_UINT: strcpy(szString, "VK_FORMAT_R16G16_UINT"); break;
-		case VK_FORMAT_R16G16_SINT: strcpy(szString, "VK_FORMAT_R16G16_SINT"); break;
-		case VK_FORMAT_R16G16_SFLOAT: strcpy(szString, "VK_FORMAT_R16G16_SFLOAT"); break;
-		case VK_FORMAT_R16G16B16_UNORM: strcpy(szString, "VK_FORMAT_R16G16B16_UNORM"); break;
-		case VK_FORMAT_R16G16B16_SNORM: strcpy(szString, "VK_FORMAT_R16G16B16_SNORM"); break;
-		case VK_FORMAT_R16G16B16_USCALED: strcpy(szString, "VK_FORMAT_R16G16B16_USCALED"); break;
-		case VK_FORMAT_R16G16B16_SSCALED: strcpy(szString, "VK_FORMAT_R16G16B16_SSCALED"); break;
-		case VK_FORMAT_R16G16B16_UINT: strcpy(szString, "VK_FORMAT_R16G16B16_UINT"); break;
-		case VK_FORMAT_R16G16B16_SINT: strcpy(szString, "VK_FORMAT_R16G16B16_SINT"); break;
-		case VK_FORMAT_R16G16B16_SFLOAT: strcpy(szString, "VK_FORMAT_R16G16B16_SFLOAT"); break;
-		case VK_FORMAT_R16G16B16A16_UNORM: strcpy(szString, "VK_FORMAT_R16G16B16A16_UNORM"); break;
-		case VK_FORMAT_R16G16B16A16_SNORM: strcpy(szString, "VK_FORMAT_R16G16B16A16_SNORM"); break;
-		case VK_FORMAT_R16G16B16A16_USCALED: strcpy(szString, "VK_FORMAT_R16G16B16A16_USCALED"); break;
-		case VK_FORMAT_R16G16B16A16_SSCALED: strcpy(szString, "VK_FORMAT_R16G16B16A16_SSCALED"); break;
-		case VK_FORMAT_R16G16B16A16_UINT: strcpy(szString, "VK_FORMAT_R16G16B16A16_UINT"); break;
-		case VK_FORMAT_R16G16B16A16_SINT: strcpy(szString, "VK_FORMAT_R16G16B16A16_SINT"); break;
-		case VK_FORMAT_R16G16B16A16_SFLOAT: strcpy(szString, "VK_FORMAT_R16G16B16A16_SFLOAT"); break;
-		case VK_FORMAT_R32_UINT: strcpy(szString, "VK_FORMAT_R32_UINT"); break;
-		case VK_FORMAT_R32_SINT: strcpy(szString, "VK_FORMAT_R32_SINT"); break;
-		case VK_FORMAT_R32_SFLOAT: strcpy(szString, "VK_FORMAT_R32_SFLOAT"); break;
-		case VK_FORMAT_R32G32_UINT: strcpy(szString, "VK_FORMAT_R32G32_UINT"); break;
-		case VK_FORMAT_R32G32_SINT: strcpy(szString, "VK_FORMAT_R32G32_SINT"); break;
-		case VK_FORMAT_R32G32_SFLOAT: strcpy(szString, "VK_FORMAT_R32G32_SFLOAT"); break;
-		case VK_FORMAT_R32G32B32_UINT: strcpy(szString, "VK_FORMAT_R32G32B32_UINT"); break;
-		case VK_FORMAT_R32G32B32_SINT: strcpy(szString, "VK_FORMAT_R32G32B32_SINT"); break;
-		case VK_FORMAT_R32G32B32_SFLOAT: strcpy(szString, "VK_FORMAT_R32G32B32_SFLOAT"); break;
-		case VK_FORMAT_R32G32B32A32_UINT: strcpy(szString, "VK_FORMAT_R32G32B32A32_UINT"); break;
-		case VK_FORMAT_R32G32B32A32_SINT: strcpy(szString, "VK_FORMAT_R32G32B32A32_SINT"); break;
-		case VK_FORMAT_R32G32B32A32_SFLOAT: strcpy(szString, "VK_FORMAT_R32G32B32A32_SFLOAT"); break;
-		case VK_FORMAT_R64_UINT: strcpy(szString, "VK_FORMAT_R64_UINT"); break;
-		case VK_FORMAT_R64_SINT: strcpy(szString, "VK_FORMAT_R64_SINT"); break;
-		case VK_FORMAT_R64_SFLOAT: strcpy(szString, "VK_FORMAT_R64_SFLOAT"); break;
-		case VK_FORMAT_R64G64_UINT: strcpy(szString, "VK_FORMAT_R64G64_UINT"); break;
-		case VK_FORMAT_R64G64_SINT: strcpy(szString, "VK_FORMAT_R64G64_SINT"); break;
-		case VK_FORMAT_R64G64_SFLOAT: strcpy(szString, "VK_FORMAT_R64G64_SFLOAT"); break;
-		case VK_FORMAT_R64G64B64_UINT: strcpy(szString, "VK_FORMAT_R64G64B64_UINT"); break;
-		case VK_FORMAT_R64G64B64_SINT: strcpy(szString, "VK_FORMAT_R64G64B64_SINT"); break;
-		case VK_FORMAT_R64G64B64_SFLOAT: strcpy(szString, "VK_FORMAT_R64G64B64_SFLOAT"); break;
-		case VK_FORMAT_R64G64B64A64_UINT: strcpy(szString, "VK_FORMAT_R64G64B64A64_UINT"); break;
-		case VK_FORMAT_R64G64B64A64_SINT: strcpy(szString, "VK_FORMAT_R64G64B64A64_SINT"); break;
-		case VK_FORMAT_R64G64B64A64_SFLOAT: strcpy(szString, "VK_FORMAT_R64G64B64A64_SFLOAT"); break;
-		case VK_FORMAT_B10G11R11_UFLOAT_PACK32: strcpy(szString, "VK_FORMAT_B10G11R11_UFLOAT_PACK32"); break;
-		case VK_FORMAT_E5B9G9R9_UFLOAT_PACK32: strcpy(szString, "VK_FORMAT_E5B9G9R9_UFLOAT_PACK32"); break;
-		case VK_FORMAT_D16_UNORM: strcpy(szString, "VK_FORMAT_D16_UNORM"); break;
-		case VK_FORMAT_X8_D24_UNORM_PACK32: strcpy(szString, "VK_FORMAT_X8_D24_UNORM_PACK32"); break;
-		case VK_FORMAT_D32_SFLOAT: strcpy(szString, "VK_FORMAT_D32_SFLOAT"); break;
-		case VK_FORMAT_S8_UINT: strcpy(szString, "VK_FORMAT_S8_UINT"); break;
-		case VK_FORMAT_D16_UNORM_S8_UINT: strcpy(szString, "VK_FORMAT_D16_UNORM_S8_UINT"); break;
-		case VK_FORMAT_D24_UNORM_S8_UINT: strcpy(szString, "VK_FORMAT_D24_UNORM_S8_UINT"); break;
-		case VK_FORMAT_D32_SFLOAT_S8_UINT: strcpy(szString, "VK_FORMAT_D32_SFLOAT_S8_UINT"); break;
-		case VK_FORMAT_BC1_RGB_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC1_RGB_UNORM_BLOCK"); break;
-		case VK_FORMAT_BC1_RGB_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_BC1_RGB_SRGB_BLOCK"); break;
-		case VK_FORMAT_BC1_RGBA_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC1_RGBA_UNORM_BLOCK"); break;
-		case VK_FORMAT_BC1_RGBA_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_BC1_RGBA_SRGB_BLOCK"); break;
-		case VK_FORMAT_BC2_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC2_UNORM_BLOCK"); break;
-		case VK_FORMAT_BC2_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_BC2_SRGB_BLOCK"); break;
-		case VK_FORMAT_BC3_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC3_UNORM_BLOCK"); break;
-		case VK_FORMAT_BC3_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_BC3_SRGB_BLOCK"); break;
-		case VK_FORMAT_BC4_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC4_UNORM_BLOCK"); break;
-		case VK_FORMAT_BC4_SNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC4_SNORM_BLOCK"); break;
-		case VK_FORMAT_BC5_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC5_UNORM_BLOCK"); break;
-		case VK_FORMAT_BC5_SNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC5_SNORM_BLOCK"); break;
-		case VK_FORMAT_BC6H_UFLOAT_BLOCK: strcpy(szString, "VK_FORMAT_BC6H_UFLOAT_BLOCK"); break;
-		case VK_FORMAT_BC6H_SFLOAT_BLOCK: strcpy(szString, "VK_FORMAT_BC6H_SFLOAT_BLOCK"); break;
-		case VK_FORMAT_BC7_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_BC7_UNORM_BLOCK"); break;
-		case VK_FORMAT_BC7_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_BC7_SRGB_BLOCK"); break;
-		case VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK"); break;
-		case VK_FORMAT_ETC2_R8G8B8_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ETC2_R8G8B8_SRGB_BLOCK"); break;
-		case VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK"); break;
-		case VK_FORMAT_ETC2_R8G8B8A1_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ETC2_R8G8B8A1_SRGB_BLOCK"); break;
-		case VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK"); break;
-		case VK_FORMAT_ETC2_R8G8B8A8_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ETC2_R8G8B8A8_SRGB_BLOCK"); break;
-		case VK_FORMAT_EAC_R11_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_EAC_R11_UNORM_BLOCK"); break;
-		case VK_FORMAT_EAC_R11_SNORM_BLOCK: strcpy(szString, "VK_FORMAT_EAC_R11_SNORM_BLOCK"); break;
-		case VK_FORMAT_EAC_R11G11_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_EAC_R11G11_UNORM_BLOCK"); break;
-		case VK_FORMAT_EAC_R11G11_SNORM_BLOCK: strcpy(szString, "VK_FORMAT_EAC_R11G11_SNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_4x4_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_4x4_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_4x4_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_4x4_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_5x4_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_5x4_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_5x4_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_5x4_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_5x5_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_5x5_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_5x5_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_5x5_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_6x5_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_6x5_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_6x5_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_6x5_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_6x6_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_6x6_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_6x6_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_6x6_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_8x5_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_8x5_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_8x5_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_8x5_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_8x6_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_8x6_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_8x6_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_8x6_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_8x8_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_8x8_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_8x8_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_8x8_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x5_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x5_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x5_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x5_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x6_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x6_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x6_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x6_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x8_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x8_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x8_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x8_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x10_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x10_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_10x10_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_10x10_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_12x10_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_12x10_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_12x10_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_12x10_SRGB_BLOCK"); break;
-		case VK_FORMAT_ASTC_12x12_UNORM_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_12x12_UNORM_BLOCK"); break;
-		case VK_FORMAT_ASTC_12x12_SRGB_BLOCK: strcpy(szString, "VK_FORMAT_ASTC_12x12_SRGB_BLOCK"); break;
-		case VK_FORMAT_PVRTC1_2BPP_UNORM_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC1_2BPP_UNORM_BLOCK_IMG"); break;
-		case VK_FORMAT_PVRTC1_4BPP_UNORM_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC1_4BPP_UNORM_BLOCK_IMG"); break;
-		case VK_FORMAT_PVRTC2_2BPP_UNORM_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC2_2BPP_UNORM_BLOCK_IMG"); break;
-		case VK_FORMAT_PVRTC2_4BPP_UNORM_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC2_4BPP_UNORM_BLOCK_IMG"); break;
-		case VK_FORMAT_PVRTC1_2BPP_SRGB_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC1_2BPP_SRGB_BLOCK_IMG"); break;
-		case VK_FORMAT_PVRTC1_4BPP_SRGB_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC1_4BPP_SRGB_BLOCK_IMG"); break;
-		case VK_FORMAT_PVRTC2_2BPP_SRGB_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC2_2BPP_SRGB_BLOCK_IMG"); break;
-		case VK_FORMAT_PVRTC2_4BPP_SRGB_BLOCK_IMG: strcpy(szString, "VK_FORMAT_PVRTC2_4BPP_SRGB_BLOCK_IMG"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
+			if (vkFormatString[index].value == format) {
+				return vkFormatString[index].text;
+			}
 		}
-
-		return szString;
+		return vkFormatString[0].text;
 	}
 
 	const char* CVulkanHelper::vkImageTypeToString(VkImageType type)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (type) {
-		case VK_IMAGE_TYPE_1D: strcpy(szString, "VK_IMAGE_TYPE_1D"); break;
-		case VK_IMAGE_TYPE_2D: strcpy(szString, "VK_IMAGE_TYPE_2D"); break;
-		case VK_IMAGE_TYPE_3D: strcpy(szString, "VK_IMAGE_TYPE_3D"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkImageTypeString) / sizeof(VkValueString); index++) {
+			if (vkImageTypeString[index].value == type) {
+				return vkImageTypeString[index].text;
+			}
 		}
-
-		return szString;
+		return vkImageTypeString[0].text;
 	}
 
 	const char* CVulkanHelper::vkImageTilingToString(VkImageTiling tiling)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (tiling) {
-		case VK_IMAGE_TILING_OPTIMAL: strcpy(szString, "VK_IMAGE_TILING_OPTIMAL"); break;
-		case VK_IMAGE_TILING_LINEAR: strcpy(szString, "VK_IMAGE_TILING_LINEAR"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkImageTilingString) / sizeof(VkValueString); index++) {
+			if (vkImageTilingString[index].value == tiling) {
+				return vkImageTilingString[index].text;
+			}
 		}
-
-		return szString;
+		return vkImageTilingString[0].text;
 	}
 
 	const char* CVulkanHelper::vkImageLayoutToString(VkImageLayout layout)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (layout) {
-		case VK_IMAGE_LAYOUT_UNDEFINED: strcpy(szString, "VK_IMAGE_LAYOUT_UNDEFINED"); break;
-		case VK_IMAGE_LAYOUT_GENERAL: strcpy(szString, "VK_IMAGE_LAYOUT_GENERAL"); break;
-		case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL: strcpy(szString, "VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL"); break;
-		case VK_IMAGE_LAYOUT_PREINITIALIZED: strcpy(szString, "VK_IMAGE_LAYOUT_PREINITIALIZED"); break;
-		case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR: strcpy(szString, "VK_IMAGE_LAYOUT_PRESENT_SRC_KHR"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkImageLayoutString) / sizeof(VkValueString); index++) {
+			if (vkImageLayoutString[index].value == layout) {
+				return vkImageLayoutString[index].text;
+			}
 		}
-
-		return szString;
+		return vkImageLayoutString[0].text;
 	}
 
 	const char* CVulkanHelper::vkFilterToString(VkFilter filter)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (filter) {
-		case VK_FILTER_NEAREST: strcpy(szString, "VK_FILTER_NEAREST"); break;
-		case VK_FILTER_LINEAR: strcpy(szString, "VK_FILTER_LINEAR"); break;
-		case VK_FILTER_CUBIC_IMG: strcpy(szString, "VK_FILTER_CUBIC_IMG"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkFilterString) / sizeof(VkValueString); index++) {
+			if (vkFilterString[index].value == filter) {
+				return vkFilterString[index].text;
+			}
 		}
-
-		return szString;
+		return vkFilterString[0].text;
 	}
 
 	const char* CVulkanHelper::vkSamplerMipmapModeToString(VkSamplerMipmapMode mode)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (mode) {
-		case VK_SAMPLER_MIPMAP_MODE_NEAREST: strcpy(szString, "VK_SAMPLER_MIPMAP_MODE_NEAREST"); break;
-		case VK_SAMPLER_MIPMAP_MODE_LINEAR: strcpy(szString, "VK_SAMPLER_MIPMAP_MODE_LINEAR"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkSamplerMipmapModeString) / sizeof(VkValueString); index++) {
+			if (vkSamplerMipmapModeString[index].value == mode) {
+				return vkSamplerMipmapModeString[index].text;
+			}
 		}
-
-		return szString;
+		return vkSamplerMipmapModeString[0].text;
 	}
 
 	const char* CVulkanHelper::vkSamplerAddressModeToString(VkSamplerAddressMode mode)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (mode) {
-		case VK_SAMPLER_ADDRESS_MODE_REPEAT: strcpy(szString, "VK_SAMPLER_ADDRESS_MODE_REPEAT"); break;
-		case VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT: strcpy(szString, "VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT"); break;
-		case VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE: strcpy(szString, "VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE"); break;
-		case VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER: strcpy(szString, "VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER"); break;
-		case VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE: strcpy(szString, "VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkSamplerAddressModeString) / sizeof(VkValueString); index++) {
+			if (vkSamplerAddressModeString[index].value == mode) {
+				return vkSamplerAddressModeString[index].text;
+			}
 		}
-
-		return szString;
+		return vkSamplerAddressModeString[0].text;
 	}
 
 	const char* CVulkanHelper::vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (sample) {
-		case VK_SAMPLE_COUNT_1_BIT: strcpy(szString, "VK_SAMPLE_COUNT_1_BIT"); break;
-		case VK_SAMPLE_COUNT_2_BIT: strcpy(szString, "VK_SAMPLE_COUNT_2_BIT"); break;
-		case VK_SAMPLE_COUNT_4_BIT: strcpy(szString, "VK_SAMPLE_COUNT_4_BIT"); break;
-		case VK_SAMPLE_COUNT_8_BIT: strcpy(szString, "VK_SAMPLE_COUNT_8_BIT"); break;
-		case VK_SAMPLE_COUNT_16_BIT: strcpy(szString, "VK_SAMPLE_COUNT_16_BIT"); break;
-		case VK_SAMPLE_COUNT_32_BIT: strcpy(szString, "VK_SAMPLE_COUNT_32_BIT"); break;
-		case VK_SAMPLE_COUNT_64_BIT: strcpy(szString, "VK_SAMPLE_COUNT_64_BIT"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkSampleCountFlagBitsString) / sizeof(VkValueString); index++) {
+			if (vkSampleCountFlagBitsString[index].value == sample) {
+				return vkSampleCountFlagBitsString[index].text;
+			}
 		}
-
-		return szString;
+		return vkSampleCountFlagBitsString[0].text;
 	}
 
 	const char* CVulkanHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage)
@@ -826,29 +606,22 @@ namespace CrossEngine {
 
 	const char* CVulkanHelper::vkAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (loadOp) {
-		case VK_ATTACHMENT_LOAD_OP_LOAD: strcpy(szString, "VK_ATTACHMENT_LOAD_OP_LOAD"); break;
-		case VK_ATTACHMENT_LOAD_OP_CLEAR: strcpy(szString, "VK_ATTACHMENT_LOAD_OP_CLEAR"); break;
-		case VK_ATTACHMENT_LOAD_OP_DONT_CARE: strcpy(szString, "VK_ATTACHMENT_LOAD_OP_DONT_CARE"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkAttachmentLoadOpString) / sizeof(VkValueString); index++) {
+			if (vkAttachmentLoadOpString[index].value == loadOp) {
+				return vkAttachmentLoadOpString[index].text;
+			}
 		}
-
-		return szString;
+		return vkAttachmentLoadOpString[0].text;
 	}
 
 	const char* CVulkanHelper::vkAttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (storeOp) {
-		case VK_ATTACHMENT_STORE_OP_STORE: strcpy(szString, "VK_ATTACHMENT_STORE_OP_STORE"); break;
-		case VK_ATTACHMENT_STORE_OP_DONT_CARE: strcpy(szString, "VK_ATTACHMENT_STORE_OP_DONT_CARE"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkAttachmentStoreOpString) / sizeof(VkValueString); index++) {
+			if (vkAttachmentStoreOpString[index].value == storeOp) {
+				return vkAttachmentStoreOpString[index].text;
+			}
 		}
-
-		return szString;
+		return vkAttachmentStoreOpString[0].text;
 	}
 
 	const char* CVulkanHelper::vkPipelineStageFlagsToString(VkPipelineStageFlags flags)
@@ -909,25 +682,12 @@ namespace CrossEngine {
 
 	const char* CVulkanHelper::vkDescriptorTypeToString(VkDescriptorType type)
 	{
-		static char szString[_MAX_STRING];
-
-		switch (type)
-		{
-		case VK_DESCRIPTOR_TYPE_SAMPLER: strcpy(szString, "VK_DESCRIPTOR_TYPE_SAMPLER"); break;
-		case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER: strcpy(szString, "VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER"); break;
-		case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE: strcpy(szString, "VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE"); break;
-		case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE: strcpy(szString, "VK_DESCRIPTOR_TYPE_STORAGE_IMAGE"); break;
-		case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER: strcpy(szString, "VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER"); break;
-		case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER: strcpy(szString, "VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER"); break;
-		case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER: strcpy(szString, "VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER"); break;
-		case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER: strcpy(szString, "VK_DESCRIPTOR_TYPE_STORAGE_BUFFER"); break;
-		case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC: strcpy(szString, "VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC"); break;
-		case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC: strcpy(szString, "VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC"); break;
-		case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT: strcpy(szString, "VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT"); break;
-		default: strcpy(szString, "unknown"); break;
+		for (int index = 0; index < sizeof(vkDescriptorTypeString) / sizeof(VkValueString); index++) {
+			if (vkDescriptorTypeString[index].value == type) {
+				return vkDescriptorTypeString[index].text;
+			}
 		}
-
-		return szString;
+		return vkDescriptorTypeString[0].text;
 	}
 
 }
