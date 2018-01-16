@@ -397,14 +397,18 @@ namespace CrossEngine {
 
 			LOGI("\t\t\tDependencies:\n");
 			for (uint32_t indexDependency = 0; indexDependency < m_dependencies.size(); indexDependency++) {
+				char szSrcStageMask[_MAX_STRING];
+				char szDstStageMask[_MAX_STRING];
+				char szSrcAccessMask[_MAX_STRING];
+				char szDstAccessMask[_MAX_STRING];
 				LOGI("\t\t\t\tDependency %d: srcSubpass = %d dstSubpass = %d srcStageMask = %s dstStageMask = %s srcAccessMask = %s dstAccessMask = %s\n",
 					indexDependency,
 					m_dependencies[indexDependency].srcSubpass,
 					m_dependencies[indexDependency].dstSubpass,
-					CVulkanHelper::vkPipelineStageFlagsToString(m_dependencies[indexDependency].srcStageMask),
-					CVulkanHelper::vkPipelineStageFlagsToString(m_dependencies[indexDependency].dstStageMask),
-					CVulkanHelper::vkAccessFlagsToString(m_dependencies[indexDependency].srcAccessMask),
-					CVulkanHelper::vkAccessFlagsToString(m_dependencies[indexDependency].dstAccessMask));
+					CVulkanHelper::vkPipelineStageFlagsToString(m_dependencies[indexDependency].srcStageMask, szSrcStageMask),
+					CVulkanHelper::vkPipelineStageFlagsToString(m_dependencies[indexDependency].dstStageMask, szDstStageMask),
+					CVulkanHelper::vkAccessFlagsToString(m_dependencies[indexDependency].srcAccessMask, szSrcAccessMask),
+					CVulkanHelper::vkAccessFlagsToString(m_dependencies[indexDependency].dstAccessMask, szDstAccessMask));
 			}
 		}
 	}

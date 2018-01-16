@@ -48,11 +48,11 @@ namespace CrossEngine {
 		static const char* vkSamplerMipmapModeToString(VkSamplerMipmapMode mode);
 		static const char* vkSamplerAddressModeToString(VkSamplerAddressMode mode);
 		static const char* vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample);
-		static const char* vkBufferUsageFlagsToString(VkBufferUsageFlags usage);
+		static const char* vkBufferUsageFlagsToString(VkBufferUsageFlags usage, char *szString);
 		static const char* vkAttachmentLoadOpToString(VkAttachmentLoadOp loadOp);
 		static const char* vkAttachmentStoreOpToString(VkAttachmentStoreOp storeOp);
-		static const char* vkPipelineStageFlagsToString(VkPipelineStageFlags flags);
-		static const char* vkAccessFlagsToString(VkAccessFlags flags);
+		static const char* vkPipelineStageFlagsToString(VkPipelineStageFlags flags, char *szString);
+		static const char* vkAccessFlagsToString(VkAccessFlags flags, char *szString);
 		static const char* vkDescriptorTypeToString(VkDescriptorType type);
 
 	protected:

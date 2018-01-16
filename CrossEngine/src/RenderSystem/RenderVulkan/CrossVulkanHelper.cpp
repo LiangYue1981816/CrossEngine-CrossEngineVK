@@ -582,22 +582,16 @@ namespace CrossEngine {
 		return vkSampleCountFlagBitsString[0].text;
 	}
 
-	const char* CVulkanHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage)
+	const char* CVulkanHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage, char *szString)
 	{
-		static char szString[_MAX_STRING];
-		BOOL or = FALSE;
-
 		szString[0] = 0;
-		if (usage&VK_BUFFER_USAGE_TRANSFER_SRC_BIT) strcat_or(szString, "VK_BUFFER_USAGE_TRANSFER_SRC_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_TRANSFER_DST_BIT) strcat_or(szString, "VK_BUFFER_USAGE_TRANSFER_DST_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_STORAGE_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_STORAGE_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_INDEX_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_INDEX_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_VERTEX_BUFFER_BIT", &or);
-		if (usage&VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT) strcat_or(szString, "VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT", &or);
-		if (or == FALSE) strcpy(szString, "unknown");
+
+		BOOL or = FALSE;
+		for (int index = 0; index < sizeof(vkBufferUsageFlagsString) / sizeof(VkValueString); index++) {
+			if (vkBufferUsageFlagsString[index].value & usage) {
+				strcat_or(szString, vkBufferUsageFlagsString[index].text, &or);
+			}
+		}
 
 		return szString;
 	}
@@ -622,58 +616,30 @@ namespace CrossEngine {
 		return vkAttachmentStoreOpString[0].text;
 	}
 
-	const char* CVulkanHelper::vkPipelineStageFlagsToString(VkPipelineStageFlags flags)
+	const char* CVulkanHelper::vkPipelineStageFlagsToString(VkPipelineStageFlags flags, char *szString)
 	{
-		static char szString[_MAX_STRING];
-		BOOL or = FALSE;
-
 		szString[0] = 0;
-		if (flags&VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_VERTEX_INPUT_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_VERTEX_INPUT_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_VERTEX_SHADER_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_VERTEX_SHADER_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_TESSELLATION_CONTROL_SHADER_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_TESSELLATION_CONTROL_SHADER_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_TESSELLATION_EVALUATION_SHADER_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_TESSELLATION_EVALUATION_SHADER_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_GEOMETRY_SHADER_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_GEOMETRY_SHADER_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_TRANSFER_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_TRANSFER_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_HOST_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_HOST_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT", &or);
-		if (flags&VK_PIPELINE_STAGE_ALL_COMMANDS_BIT) strcat_or(szString, "VK_PIPELINE_STAGE_ALL_COMMANDS_BIT", &or);
-		if (or == FALSE) strcpy(szString, "unknown");
+
+		BOOL or = FALSE;
+		for (int index = 0; index < sizeof(vkPipelineStageFlagsString) / sizeof(VkValueString); index++) {
+			if (vkPipelineStageFlagsString[index].value & flags) {
+				strcat_or(szString, vkPipelineStageFlagsString[index].text, &or);
+			}
+		}
 
 		return szString;
 	}
 
-	const char* CVulkanHelper::vkAccessFlagsToString(VkAccessFlags flags)
+	const char* CVulkanHelper::vkAccessFlagsToString(VkAccessFlags flags, char *szString)
 	{
-		static char szString[_MAX_STRING];
-		BOOL or = FALSE;
-
 		szString[0] = 0;
-		if (flags&VK_ACCESS_INDIRECT_COMMAND_READ_BIT) strcat_or(szString, "VK_ACCESS_INDIRECT_COMMAND_READ_BIT", &or);
-		if (flags&VK_ACCESS_INDEX_READ_BIT) strcat_or(szString, "VK_ACCESS_INDEX_READ_BIT", &or);
-		if (flags&VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT) strcat_or(szString, "VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT", &or);
-		if (flags&VK_ACCESS_UNIFORM_READ_BIT) strcat_or(szString, "VK_ACCESS_UNIFORM_READ_BIT", &or);
-		if (flags&VK_ACCESS_INPUT_ATTACHMENT_READ_BIT) strcat_or(szString, "VK_ACCESS_INPUT_ATTACHMENT_READ_BIT", &or);
-		if (flags&VK_ACCESS_SHADER_READ_BIT) strcat_or(szString, "VK_ACCESS_SHADER_READ_BIT", &or);
-		if (flags&VK_ACCESS_SHADER_WRITE_BIT) strcat_or(szString, "VK_ACCESS_SHADER_WRITE_BIT", &or);
-		if (flags&VK_ACCESS_COLOR_ATTACHMENT_READ_BIT) strcat_or(szString, "VK_ACCESS_COLOR_ATTACHMENT_READ_BIT", &or);
-		if (flags&VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT) strcat_or(szString, "VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT", &or);
-		if (flags&VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT) strcat_or(szString, "VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT", &or);
-		if (flags&VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT) strcat_or(szString, "VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT", &or);
-		if (flags&VK_ACCESS_TRANSFER_READ_BIT) strcat_or(szString, "VK_ACCESS_TRANSFER_READ_BIT", &or);
-		if (flags&VK_ACCESS_TRANSFER_WRITE_BIT) strcat_or(szString, "VK_ACCESS_TRANSFER_WRITE_BIT", &or);
-		if (flags&VK_ACCESS_HOST_READ_BIT) strcat_or(szString, "VK_ACCESS_HOST_READ_BIT", &or);
-		if (flags&VK_ACCESS_HOST_WRITE_BIT) strcat_or(szString, "VK_ACCESS_HOST_WRITE_BIT", &or);
-		if (flags&VK_ACCESS_MEMORY_READ_BIT) strcat_or(szString, "VK_ACCESS_MEMORY_READ_BIT", &or);
-		if (flags&VK_ACCESS_MEMORY_WRITE_BIT) strcat_or(szString, "VK_ACCESS_MEMORY_WRITE_BIT", &or);
-		if (or == FALSE) strcpy(szString, "unknown");
+
+		BOOL or = FALSE;
+		for (int index = 0; index < sizeof(vkAccessFlagsString) / sizeof(VkValueString); index++) {
+			if (vkAccessFlagsString[index].value & flags) {
+				strcat_or(szString, vkAccessFlagsString[index].text, &or );
+			}
+		}
 
 		return szString;
 	}

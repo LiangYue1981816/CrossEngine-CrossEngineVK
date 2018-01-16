@@ -77,7 +77,8 @@ namespace CrossEngine {
 	void CVulkanIndexBuffer::DumpLog(void) const
 	{
 		if (m_vkBuffer) {
-			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_size, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage));
+			char szUsage[_MAX_STRING];
+			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_size, m_pMemory->GetSize(), CVulkanHelper::vkBufferUsageFlagsToString(m_usage, szUsage));
 		}
 	}
 
