@@ -55,6 +55,21 @@ namespace CrossEngine {
 		static const char* vkAccessFlagsToString(VkAccessFlags flags, char *szString);
 		static const char* vkDescriptorTypeToString(VkDescriptorType type);
 
+		static VkFormat vkStringToFormat(const char *szString);
+		static VkImageType vkStringToImageType(const char *szString);
+		static VkImageTiling vkStringToImageTiling(const char *szString);
+		static VkImageLayout vkStringToImageLayout(const char *szString);
+		static VkFilter vkStringToFilter(const char *szString);
+		static VkSamplerMipmapMode vkStringToSamplerMipmapMode(const char *szString);
+		static VkSamplerAddressMode vkStringToSamplerAddressMode(const char *szString);
+		static VkSampleCountFlagBits vkStringToSampleCountFlagBits(const char *szString);
+		static VkBufferUsageFlags vkStringToBufferUsageFlags(const char *szString);
+		static VkAttachmentLoadOp vkStringToAttachmentLoadOp(const char *szString);
+		static VkAttachmentStoreOp vkStringToAttachmentStoreOp(const char *szString);
+		static VkPipelineStageFlags vkStringToPipelineStageFlags(const char *szString);
+		static VkAccessFlags vkStringToAccessFlags(const char *szString);
+		static VkDescriptorType vkStringToDescriptorType(const char *szString);
+
 	protected:
 		static VkFormatProperties vkFormatProperties[VK_FORMAT_RANGE_SIZE];
 		static VkComponentMapping vkFormatComponentMapping[VK_FORMAT_RANGE_SIZE];
