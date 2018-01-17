@@ -357,6 +357,92 @@ namespace CrossEngine {
 		VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, "VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT",
 	};
 
+	static VkValueString vkPrimitiveTopologyString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_PRIMITIVE_TOPOLOGY_POINT_LIST, "VK_PRIMITIVE_TOPOLOGY_POINT_LIST",
+		VK_PRIMITIVE_TOPOLOGY_LINE_LIST, "VK_PRIMITIVE_TOPOLOGY_LINE_LIST",
+		VK_PRIMITIVE_TOPOLOGY_LINE_STRIP, "VK_PRIMITIVE_TOPOLOGY_LINE_STRIP",
+		VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, "VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
+		VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP, "VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP",
+		VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN, "VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN",
+		VK_PRIMITIVE_TOPOLOGY_LINE_LIST_WITH_ADJACENCY, "VK_PRIMITIVE_TOPOLOGY_LINE_LIST_WITH_ADJACENCY",
+		VK_PRIMITIVE_TOPOLOGY_LINE_STRIP_WITH_ADJACENCY, "VK_PRIMITIVE_TOPOLOGY_LINE_STRIP_WITH_ADJACENCY",
+		VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST_WITH_ADJACENCY, "VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST_WITH_ADJACENCY",
+		VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP_WITH_ADJACENCY, "VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP_WITH_ADJACENCY",
+		VK_PRIMITIVE_TOPOLOGY_PATCH_LIST, "VK_PRIMITIVE_TOPOLOGY_PATCH_LIST",
+	};
+
+	static VkValueString vkPolygonModeString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_POLYGON_MODE_FILL, "VK_POLYGON_MODE_FILL",
+		VK_POLYGON_MODE_LINE, "VK_POLYGON_MODE_LINE",
+		VK_POLYGON_MODE_POINT, "VK_POLYGON_MODE_POINT",
+	};
+
+	static VkValueString vkCullModeFlagsString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_CULL_MODE_NONE, "VK_CULL_MODE_NONE",
+		VK_CULL_MODE_FRONT_BIT, "VK_CULL_MODE_FRONT_BIT",
+		VK_CULL_MODE_BACK_BIT, "VK_CULL_MODE_BACK_BIT",
+		VK_CULL_MODE_FRONT_AND_BACK, "VK_CULL_MODE_FRONT_AND_BACK",
+	};
+
+	static VkValueString vkCompareOpString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_COMPARE_OP_NEVER, "VK_COMPARE_OP_NEVER",
+		VK_COMPARE_OP_LESS, "VK_COMPARE_OP_LESS",
+		VK_COMPARE_OP_EQUAL, "VK_COMPARE_OP_EQUAL",
+		VK_COMPARE_OP_LESS_OR_EQUAL, "VK_COMPARE_OP_LESS_OR_EQUAL",
+		VK_COMPARE_OP_GREATER, "VK_COMPARE_OP_GREATER",
+		VK_COMPARE_OP_NOT_EQUAL, "VK_COMPARE_OP_NOT_EQUAL",
+		VK_COMPARE_OP_GREATER_OR_EQUAL, "VK_COMPARE_OP_GREATER_OR_EQUAL",
+		VK_COMPARE_OP_ALWAYS, "VK_COMPARE_OP_ALWAYS",
+	};
+
+	static VkValueString vkStencilOpString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_STENCIL_OP_KEEP, "VK_STENCIL_OP_KEEP",
+		VK_STENCIL_OP_ZERO, "VK_STENCIL_OP_ZERO",
+		VK_STENCIL_OP_REPLACE, "VK_STENCIL_OP_REPLACE",
+		VK_STENCIL_OP_INCREMENT_AND_CLAMP, "VK_STENCIL_OP_INCREMENT_AND_CLAMP",
+		VK_STENCIL_OP_DECREMENT_AND_CLAMP, "VK_STENCIL_OP_DECREMENT_AND_CLAMP",
+		VK_STENCIL_OP_INVERT, "VK_STENCIL_OP_INVERT",
+		VK_STENCIL_OP_INCREMENT_AND_WRAP, "VK_STENCIL_OP_INCREMENT_AND_WRAP",
+		VK_STENCIL_OP_DECREMENT_AND_WRAP, "VK_STENCIL_OP_DECREMENT_AND_WRAP",
+	};
+
+	static VkValueString vkBlendFactorString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_BLEND_FACTOR_ZERO, "VK_BLEND_FACTOR_ZERO",
+		VK_BLEND_FACTOR_ONE, "VK_BLEND_FACTOR_ONE",
+		VK_BLEND_FACTOR_SRC_COLOR, "VK_BLEND_FACTOR_SRC_COLOR",
+		VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR, "VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR",
+		VK_BLEND_FACTOR_DST_COLOR, "VK_BLEND_FACTOR_DST_COLOR",
+		VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR, "VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR",
+		VK_BLEND_FACTOR_SRC_ALPHA, "VK_BLEND_FACTOR_SRC_ALPHA",
+		VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA, "VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA",
+		VK_BLEND_FACTOR_DST_ALPHA, "VK_BLEND_FACTOR_DST_ALPHA",
+		VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA, "VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA",
+		VK_BLEND_FACTOR_CONSTANT_COLOR, "VK_BLEND_FACTOR_CONSTANT_COLOR",
+		VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_COLOR, "VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_COLOR",
+		VK_BLEND_FACTOR_CONSTANT_ALPHA, "VK_BLEND_FACTOR_CONSTANT_ALPHA",
+		VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_ALPHA, "VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_ALPHA",
+		VK_BLEND_FACTOR_SRC_ALPHA_SATURATE, "VK_BLEND_FACTOR_SRC_ALPHA_SATURATE",
+		VK_BLEND_FACTOR_SRC1_COLOR, "VK_BLEND_FACTOR_SRC1_COLOR",
+		VK_BLEND_FACTOR_ONE_MINUS_SRC1_COLOR, "VK_BLEND_FACTOR_ONE_MINUS_SRC1_COLOR",
+		VK_BLEND_FACTOR_SRC1_ALPHA, "VK_BLEND_FACTOR_SRC1_ALPHA",
+		VK_BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA, "VK_BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA",
+	};
+
+	static VkValueString vkBlendOpString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_BLEND_OP_ADD, "VK_BLEND_OP_ADD",
+		VK_BLEND_OP_SUBTRACT, "VK_BLEND_OP_SUBTRACT",
+		VK_BLEND_OP_REVERSE_SUBTRACT, "VK_BLEND_OP_REVERSE_SUBTRACT",
+		VK_BLEND_OP_MIN, "VK_BLEND_OP_MIN",
+		VK_BLEND_OP_MAX, "VK_BLEND_OP_MAX",
+	};
+
 
 	static char* strcat_or(char *dst, const char *src, BOOL *or)
 	{
@@ -652,6 +738,76 @@ namespace CrossEngine {
 			}
 		}
 		return vkDescriptorTypeString[0].text;
+	}
+
+	const char* CVulkanHelper::vkPrimitiveTopologyToString(VkPrimitiveTopology topology)
+	{
+		for (int index = 0; index < sizeof(vkPrimitiveTopologyString) / sizeof(VkValueString); index++) {
+			if (vkPrimitiveTopologyString[index].value == topology) {
+				return vkPrimitiveTopologyString[index].text;
+			}
+		}
+		return vkPrimitiveTopologyString[0].text;
+	}
+
+	const char* CVulkanHelper::vkPolygonModeToString(VkPolygonMode mode)
+	{
+		for (int index = 0; index < sizeof(vkPolygonModeString) / sizeof(VkValueString); index++) {
+			if (vkPolygonModeString[index].value == mode) {
+				return vkPolygonModeString[index].text;
+			}
+		}
+		return vkPolygonModeString[0].text;
+	}
+
+	const char* CVulkanHelper::vkCullModeFlagsToString(VkCullModeFlags mode)
+	{
+		for (int index = 0; index < sizeof(vkCullModeFlagsString) / sizeof(VkValueString); index++) {
+			if (vkCullModeFlagsString[index].value == mode) {
+				return vkCullModeFlagsString[index].text;
+			}
+		}
+		return vkCullModeFlagsString[0].text;
+	}
+
+	const char* CVulkanHelper::vkCompareOpToString(VkCompareOp compareOp)
+	{
+		for (int index = 0; index < sizeof(vkCompareOpString) / sizeof(VkValueString); index++) {
+			if (vkCompareOpString[index].value == compareOp) {
+				return vkCompareOpString[index].text;
+			}
+		}
+		return vkCompareOpString[0].text;
+	}
+
+	const char* CVulkanHelper::vkStencilOpToString(VkStencilOp stencilOp)
+	{
+		for (int index = 0; index < sizeof(vkStencilOpString) / sizeof(VkValueString); index++) {
+			if (vkStencilOpString[index].value == stencilOp) {
+				return vkStencilOpString[index].text;
+			}
+		}
+		return vkStencilOpString[0].text;
+	}
+
+	const char* CVulkanHelper::vkBlendFactorToString(VkBlendFactor factor)
+	{
+		for (int index = 0; index < sizeof(vkBlendFactorString) / sizeof(VkValueString); index++) {
+			if (vkBlendFactorString[index].value == factor) {
+				return vkBlendFactorString[index].text;
+			}
+		}
+		return vkBlendFactorString[0].text;
+	}
+
+	const char* CVulkanHelper::vkBlendOpToString(VkBlendOp blendOp)
+	{
+		for (int index = 0; index < sizeof(vkBlendOpString) / sizeof(VkValueString); index++) {
+			if (vkBlendOpString[index].value == blendOp) {
+				return vkBlendOpString[index].text;
+			}
+		}
+		return vkBlendOpString[0].text;
 	}
 
 	VkFormat CVulkanHelper::vkStringToFormat(const char *szString)

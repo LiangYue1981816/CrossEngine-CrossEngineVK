@@ -54,6 +54,13 @@ namespace CrossEngine {
 		static const char* vkPipelineStageFlagsToString(VkPipelineStageFlags flags, char *szString);
 		static const char* vkAccessFlagsToString(VkAccessFlags flags, char *szString);
 		static const char* vkDescriptorTypeToString(VkDescriptorType type);
+		static const char* vkPrimitiveTopologyToString(VkPrimitiveTopology topology);
+		static const char* vkPolygonModeToString(VkPolygonMode mode);
+		static const char* vkCullModeFlagsToString(VkCullModeFlags mode);
+		static const char* vkCompareOpToString(VkCompareOp compareOp);
+		static const char* vkStencilOpToString(VkStencilOp stencilOp);
+		static const char* vkBlendFactorToString(VkBlendFactor factor);
+		static const char* vkBlendOpToString(VkBlendOp blendOp);
 
 		static VkFormat vkStringToFormat(const char *szString);
 		static VkImageType vkStringToImageType(const char *szString);
