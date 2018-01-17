@@ -76,23 +76,24 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
-		uint32_t size;
-		uint32_t mark;
+		TiXmlDocument xmlDoc;
+		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
+			if (TiXmlNode *pRenderTargetNode = xmlDoc.FirstChild("RenderTarget")) {
+				const char *szType = pRenderTargetNode->ToElement()->AttributeString("type");
+				if      (stricmp(szType, "color") == 0) m_data.type = RENDER_TEXTURE_TYPE_COLOR;
+				else if (stricmp(szType, "depth") == 0) m_data.type = RENDER_TEXTURE_TYPE_DEPTH;
+				else return FALSE;
 
-		m_stream << size;
-		m_stream << mark;
+				m_data.width = pRenderTargetNode->ToElement()->AttributeInt("width");
+				m_data.height = pRenderTargetNode->ToElement()->AttributeInt("height");
+				m_data.format = CVulkanHelper::vkStringToFormat(pRenderTargetNode->ToElement()->AttributeString("format"));
+				m_data.samples = CVulkanHelper::vkStringToSampleCountFlagBits(pRenderTargetNode->ToElement()->AttributeString("samples"));
 
-		if (size != sizeof(RenderTextureParam)) {
-			return FALSE;
+				return TRUE;
+			}
 		}
 
-		if (mark != HashValue("RenderTextureParam")) {
-			return FALSE;
-		}
-
-		m_stream << m_data;
-
-		return TRUE;
+		return FALSE;
 	}
 
 	BOOL CResRenderTexture::InternalPostLoad(void)
