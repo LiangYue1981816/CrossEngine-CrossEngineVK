@@ -1114,14 +1114,4 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CGLES3Helper::glAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
-	{
-		return CVulkanHelper::vkAttachmentLoadOpToString(loadOp);
-	}
-
-	const char* CGLES3Helper::glAttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
-	{
-		return CVulkanHelper::vkAttachmentStoreOpToString(storeOp);
-	}
-
 }

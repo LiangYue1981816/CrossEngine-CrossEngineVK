@@ -233,10 +233,10 @@ namespace CrossEngine {
 		for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
 			LOGI("\t\t\t\tAttachment %d: loadOp = %s storeOp = %s stencilLoadOp = %s stencilStoreOp = %s\n",
 				indexAttachment,
-				CGLES3Helper::glAttachmentLoadOpToString(m_attachments[indexAttachment].loadOp),
-				CGLES3Helper::glAttachmentStoreOpToString(m_attachments[indexAttachment].storeOp),
-				CGLES3Helper::glAttachmentLoadOpToString(m_attachments[indexAttachment].stencilLoadOp),
-				CGLES3Helper::glAttachmentStoreOpToString(m_attachments[indexAttachment].stencilStoreOp));
+				CVulkanHelper::vkAttachmentLoadOpToString(m_attachments[indexAttachment].loadOp),
+				CVulkanHelper::vkAttachmentStoreOpToString(m_attachments[indexAttachment].storeOp),
+				CVulkanHelper::vkAttachmentLoadOpToString(m_attachments[indexAttachment].stencilLoadOp),
+				CVulkanHelper::vkAttachmentStoreOpToString(m_attachments[indexAttachment].stencilStoreOp));
 		}
 
 		LOGI("\t\t\tSubpasses:\n");
