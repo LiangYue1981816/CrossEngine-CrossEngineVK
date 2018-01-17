@@ -162,7 +162,7 @@ namespace CrossEngine {
 		if (m_vkFrameBuffer) {
 			LOGI("\t\tFrameBuffer 0x%x: width = %d height = %d\n", m_vkFrameBuffer, m_width, m_height);
 			for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
-				LOGI("\t\t\tAttachment %d: view = 0x%x format = %s\n", indexAttachment, m_attachments[indexAttachment].vkImageView, CVulkanHelper::vkFormatToString(m_attachments[indexAttachment].foramt));
+				LOGI("\t\t\tAttachment %d: view = 0x%x format = %s\n", indexAttachment, m_attachments[indexAttachment].vkImageView, CVulkanHelper::FormatToString(m_attachments[indexAttachment].foramt));
 			}
 		}
 	}

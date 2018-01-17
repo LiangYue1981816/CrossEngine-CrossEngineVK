@@ -185,15 +185,15 @@ namespace CrossEngine {
 				m_vkImageView,
 				m_vkSampler,
 				m_pMemory->GetSize(),
-				CVulkanHelper::vkImageTypeToString(m_type),
-				CVulkanHelper::vkFormatToString(m_format),
+				CVulkanHelper::ImageTypeToString(m_type),
+				CVulkanHelper::FormatToString(m_format),
 				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
-				CVulkanHelper::vkSampleCountFlagBitsToString(m_samples),
-				CVulkanHelper::vkImageTilingToString(m_tiling),
-				CVulkanHelper::vkFilterToString(m_minFilter),
-				CVulkanHelper::vkFilterToString(m_magFilter),
-				CVulkanHelper::vkSamplerMipmapModeToString(m_mipmapMode),
-				CVulkanHelper::vkSamplerAddressModeToString(m_addressMode));
+				CVulkanHelper::SampleCountFlagBitsToString(m_samples),
+				CVulkanHelper::ImageTilingToString(m_tiling),
+				CVulkanHelper::FilterToString(m_minFilter),
+				CVulkanHelper::FilterToString(m_magFilter),
+				CVulkanHelper::SamplerMipmapModeToString(m_mipmapMode),
+				CVulkanHelper::SamplerAddressModeToString(m_addressMode));
 		}
 	}
 

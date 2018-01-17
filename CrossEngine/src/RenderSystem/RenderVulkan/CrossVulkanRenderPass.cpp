@@ -353,14 +353,14 @@ namespace CrossEngine {
 			for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
 				LOGI("\t\t\t\tAttachment %d: format = %s samples = %s loadOp = %s storeOp = %s stencilLoadOp = %s stencilStoreOp = %s initialLayout = %s finalLayout = %s\n",
 					indexAttachment,
-					CVulkanHelper::vkFormatToString(m_attachments[indexAttachment].format),
-					CVulkanHelper::vkSampleCountFlagBitsToString(m_attachments[indexAttachment].samples),
-					CVulkanHelper::vkAttachmentLoadOpToString(m_attachments[indexAttachment].loadOp),
-					CVulkanHelper::vkAttachmentStoreOpToString(m_attachments[indexAttachment].storeOp),
-					CVulkanHelper::vkAttachmentLoadOpToString(m_attachments[indexAttachment].stencilLoadOp),
-					CVulkanHelper::vkAttachmentStoreOpToString(m_attachments[indexAttachment].stencilStoreOp),
-					CVulkanHelper::vkImageLayoutToString(m_attachments[indexAttachment].initialLayout),
-					CVulkanHelper::vkImageLayoutToString(m_attachments[indexAttachment].finalLayout));
+					CVulkanHelper::FormatToString(m_attachments[indexAttachment].format),
+					CVulkanHelper::SampleCountFlagBitsToString(m_attachments[indexAttachment].samples),
+					CVulkanHelper::AttachmentLoadOpToString(m_attachments[indexAttachment].loadOp),
+					CVulkanHelper::AttachmentStoreOpToString(m_attachments[indexAttachment].storeOp),
+					CVulkanHelper::AttachmentLoadOpToString(m_attachments[indexAttachment].stencilLoadOp),
+					CVulkanHelper::AttachmentStoreOpToString(m_attachments[indexAttachment].stencilStoreOp),
+					CVulkanHelper::ImageLayoutToString(m_attachments[indexAttachment].initialLayout),
+					CVulkanHelper::ImageLayoutToString(m_attachments[indexAttachment].finalLayout));
 			}
 
 			LOGI("\t\t\tSubpasses:\n");
@@ -369,17 +369,17 @@ namespace CrossEngine {
 
 				LOGI("\t\t\t\t\tInputAttachments:\n");
 				for (const auto &itAttachment : m_subpasses[indexSubpass].inputAttachments) {
-					LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::vkImageLayoutToString(itAttachment.second));
+					LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::ImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tColorAttachments:\n");
 				for (const auto &itAttachment : m_subpasses[indexSubpass].colorAttachments) {
-					LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::vkImageLayoutToString(itAttachment.second));
+					LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::ImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tResolveAttachments:\n");
 				for (const auto &itAttachment : m_subpasses[indexSubpass].resolveAttachments) {
-					LOGI("\t\t\t\t\t\tResolveAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::vkImageLayoutToString(itAttachment.second));
+					LOGI("\t\t\t\t\t\tResolveAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::ImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tPreserveAttachments:\n");
@@ -391,7 +391,7 @@ namespace CrossEngine {
 					LOGI("\t\t\t\t\tDepthStencilAttachment: NULL\n");
 				}
 				else {
-					LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d layout = %s\n", m_subpasses[indexSubpass].depthStencilAttachment.attachment, CVulkanHelper::vkImageLayoutToString(m_subpasses[indexSubpass].depthStencilAttachment.layout));
+					LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d layout = %s\n", m_subpasses[indexSubpass].depthStencilAttachment.attachment, CVulkanHelper::ImageLayoutToString(m_subpasses[indexSubpass].depthStencilAttachment.layout));
 				}
 			}
 
@@ -405,10 +405,10 @@ namespace CrossEngine {
 					indexDependency,
 					m_dependencies[indexDependency].srcSubpass,
 					m_dependencies[indexDependency].dstSubpass,
-					CVulkanHelper::vkPipelineStageFlagsToString(m_dependencies[indexDependency].srcStageMask, szSrcStageMask),
-					CVulkanHelper::vkPipelineStageFlagsToString(m_dependencies[indexDependency].dstStageMask, szDstStageMask),
-					CVulkanHelper::vkAccessFlagsToString(m_dependencies[indexDependency].srcAccessMask, szSrcAccessMask),
-					CVulkanHelper::vkAccessFlagsToString(m_dependencies[indexDependency].dstAccessMask, szDstAccessMask));
+					CVulkanHelper::PipelineStageFlagsToString(m_dependencies[indexDependency].srcStageMask, szSrcStageMask),
+					CVulkanHelper::PipelineStageFlagsToString(m_dependencies[indexDependency].dstStageMask, szDstStageMask),
+					CVulkanHelper::AccessFlagsToString(m_dependencies[indexDependency].srcAccessMask, szSrcAccessMask),
+					CVulkanHelper::AccessFlagsToString(m_dependencies[indexDependency].dstAccessMask, szDstAccessMask));
 			}
 		}
 	}

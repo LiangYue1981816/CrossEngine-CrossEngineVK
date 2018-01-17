@@ -49,7 +49,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (CVulkanHelper::vkIsFormatDepthOnly(format) || CVulkanHelper::vkIsFormatStencilOnly(format) || CVulkanHelper::vkIsFormatDepthStencil(format)) {
+		if (CVulkanHelper::IsFormatDepthOnly(format) || CVulkanHelper::IsFormatStencilOnly(format) || CVulkanHelper::IsFormatDepthStencil(format)) {
 			return FALSE;
 		}
 
@@ -65,7 +65,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3RenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (CVulkanHelper::vkIsFormatDepthOnly(format) == FALSE && CVulkanHelper::vkIsFormatStencilOnly(format) == FALSE && CVulkanHelper::vkIsFormatDepthStencil(format) == FALSE) {
+		if (CVulkanHelper::IsFormatDepthOnly(format) == FALSE && CVulkanHelper::IsFormatStencilOnly(format) == FALSE && CVulkanHelper::IsFormatDepthStencil(format) == FALSE) {
 			return FALSE;
 		}
 

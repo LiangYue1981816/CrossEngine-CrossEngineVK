@@ -175,7 +175,7 @@ namespace CrossEngine {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 
-			if (CVulkanHelper::vkIsFormatDepthOnly(format) || CVulkanHelper::vkIsFormatStencilOnly(format) || CVulkanHelper::vkIsFormatDepthStencil(format)) {
+			if (CVulkanHelper::IsFormatDepthOnly(format) || CVulkanHelper::IsFormatStencilOnly(format) || CVulkanHelper::IsFormatDepthStencil(format)) {
 				createInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 				createInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 			}
@@ -227,7 +227,7 @@ namespace CrossEngine {
 		createInfo.viewType = viewType;
 		createInfo.image = m_vkImage;
 		createInfo.format = m_format;
-		createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(m_format);
+		createInfo.components = CVulkanHelper::GetFormatComponentMapping(m_format);
 		createInfo.subresourceRange.aspectMask = aspectMask;
 		createInfo.subresourceRange.baseMipLevel = 0;
 		createInfo.subresourceRange.levelCount = m_mipLevels;

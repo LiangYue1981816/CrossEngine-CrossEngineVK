@@ -458,7 +458,7 @@ namespace CrossEngine {
 	VkFormatProperties CVulkanHelper::vkFormatProperties[VK_FORMAT_RANGE_SIZE];
 	VkComponentMapping CVulkanHelper::vkFormatComponentMapping[VK_FORMAT_RANGE_SIZE];
 
-	void CVulkanHelper::vkSetupFormat(VkPhysicalDevice vkPhysicalDevice)
+	void CVulkanHelper::SetupFormat(VkPhysicalDevice vkPhysicalDevice)
 	{
 		for (uint32_t indexFormat = 0; indexFormat < VK_FORMAT_RANGE_SIZE; indexFormat++) {
 			vkGetPhysicalDeviceFormatProperties(vkPhysicalDevice, (VkFormat)indexFormat, &vkFormatProperties[indexFormat]);
@@ -516,17 +516,17 @@ namespace CrossEngine {
 		vkFormatComponentMapping[VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK] = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
 	}
 
-	const VkComponentMapping& CVulkanHelper::vkGetFormatComponentMapping(VkFormat format)
+	const VkComponentMapping& CVulkanHelper::GetFormatComponentMapping(VkFormat format)
 	{
 		return vkFormatComponentMapping[format];
 	}
 
-	VkBool32 CVulkanHelper::vkIsFormatSupported(VkFormat format)
+	VkBool32 CVulkanHelper::IsFormatSupported(VkFormat format)
 	{
 		return vkFormatProperties[format].bufferFeatures || vkFormatProperties[format].linearTilingFeatures || vkFormatProperties[format].optimalTilingFeatures ? VK_TRUE : VK_FALSE;
 	}
 
-	VkBool32 CVulkanHelper::vkIsFormatDepthOnly(VkFormat format)
+	VkBool32 CVulkanHelper::IsFormatDepthOnly(VkFormat format)
 	{
 		switch (format) {
 		case VK_FORMAT_D16_UNORM: return VK_TRUE;
@@ -535,7 +535,7 @@ namespace CrossEngine {
 		}
 	}
 
-	VkBool32 CVulkanHelper::vkIsFormatStencilOnly(VkFormat format)
+	VkBool32 CVulkanHelper::IsFormatStencilOnly(VkFormat format)
 	{
 		switch (format) {
 		case VK_FORMAT_S8_UINT: return VK_TRUE;
@@ -543,7 +543,7 @@ namespace CrossEngine {
 		}
 	}
 
-	VkBool32 CVulkanHelper::vkIsFormatDepthStencil(VkFormat format)
+	VkBool32 CVulkanHelper::IsFormatDepthStencil(VkFormat format)
 	{
 		switch (format) {
 		case VK_FORMAT_D16_UNORM_S8_UINT: return VK_TRUE;
@@ -553,7 +553,7 @@ namespace CrossEngine {
 		}
 	}
 
-	VkAccessFlags CVulkanHelper::vkGetAccessMask(VkImageLayout layout)
+	VkAccessFlags CVulkanHelper::GetAccessMask(VkImageLayout layout)
 	{
 		switch (layout) {
 		case VK_IMAGE_LAYOUT_PREINITIALIZED: return VK_ACCESS_HOST_WRITE_BIT;
@@ -566,7 +566,7 @@ namespace CrossEngine {
 		}
 	}
 
-	VkPipelineStageFlags CVulkanHelper::vkGetPipelineStageFlags(VkAccessFlags access)
+	VkPipelineStageFlags CVulkanHelper::GetPipelineStageFlags(VkAccessFlags access)
 	{
 		switch (access) {
 		case VK_ACCESS_INDIRECT_COMMAND_READ_BIT: return VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT;
@@ -588,7 +588,7 @@ namespace CrossEngine {
 		}
 	}
 
-	const char* CVulkanHelper::vkFormatToString(VkFormat format)
+	const char* CVulkanHelper::FormatToString(VkFormat format)
 	{
 		for (int index = 0; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
 			if (vkFormatString[index].value == format) {
@@ -598,7 +598,7 @@ namespace CrossEngine {
 		return vkFormatString[0].text;
 	}
 
-	const char* CVulkanHelper::vkImageTypeToString(VkImageType type)
+	const char* CVulkanHelper::ImageTypeToString(VkImageType type)
 	{
 		for (int index = 0; index < sizeof(vkImageTypeString) / sizeof(VkValueString); index++) {
 			if (vkImageTypeString[index].value == type) {
@@ -608,7 +608,7 @@ namespace CrossEngine {
 		return vkImageTypeString[0].text;
 	}
 
-	const char* CVulkanHelper::vkImageTilingToString(VkImageTiling tiling)
+	const char* CVulkanHelper::ImageTilingToString(VkImageTiling tiling)
 	{
 		for (int index = 0; index < sizeof(vkImageTilingString) / sizeof(VkValueString); index++) {
 			if (vkImageTilingString[index].value == tiling) {
@@ -618,7 +618,7 @@ namespace CrossEngine {
 		return vkImageTilingString[0].text;
 	}
 
-	const char* CVulkanHelper::vkImageLayoutToString(VkImageLayout layout)
+	const char* CVulkanHelper::ImageLayoutToString(VkImageLayout layout)
 	{
 		for (int index = 0; index < sizeof(vkImageLayoutString) / sizeof(VkValueString); index++) {
 			if (vkImageLayoutString[index].value == layout) {
@@ -628,7 +628,7 @@ namespace CrossEngine {
 		return vkImageLayoutString[0].text;
 	}
 
-	const char* CVulkanHelper::vkFilterToString(VkFilter filter)
+	const char* CVulkanHelper::FilterToString(VkFilter filter)
 	{
 		for (int index = 0; index < sizeof(vkFilterString) / sizeof(VkValueString); index++) {
 			if (vkFilterString[index].value == filter) {
@@ -638,7 +638,7 @@ namespace CrossEngine {
 		return vkFilterString[0].text;
 	}
 
-	const char* CVulkanHelper::vkSamplerMipmapModeToString(VkSamplerMipmapMode mode)
+	const char* CVulkanHelper::SamplerMipmapModeToString(VkSamplerMipmapMode mode)
 	{
 		for (int index = 0; index < sizeof(vkSamplerMipmapModeString) / sizeof(VkValueString); index++) {
 			if (vkSamplerMipmapModeString[index].value == mode) {
@@ -648,7 +648,7 @@ namespace CrossEngine {
 		return vkSamplerMipmapModeString[0].text;
 	}
 
-	const char* CVulkanHelper::vkSamplerAddressModeToString(VkSamplerAddressMode mode)
+	const char* CVulkanHelper::SamplerAddressModeToString(VkSamplerAddressMode mode)
 	{
 		for (int index = 0; index < sizeof(vkSamplerAddressModeString) / sizeof(VkValueString); index++) {
 			if (vkSamplerAddressModeString[index].value == mode) {
@@ -658,7 +658,7 @@ namespace CrossEngine {
 		return vkSamplerAddressModeString[0].text;
 	}
 
-	const char* CVulkanHelper::vkSampleCountFlagBitsToString(VkSampleCountFlagBits sample)
+	const char* CVulkanHelper::SampleCountFlagBitsToString(VkSampleCountFlagBits sample)
 	{
 		for (int index = 0; index < sizeof(vkSampleCountFlagBitsString) / sizeof(VkValueString); index++) {
 			if (vkSampleCountFlagBitsString[index].value == sample) {
@@ -668,7 +668,7 @@ namespace CrossEngine {
 		return vkSampleCountFlagBitsString[0].text;
 	}
 
-	const char* CVulkanHelper::vkBufferUsageFlagsToString(VkBufferUsageFlags usage, char *szString)
+	const char* CVulkanHelper::BufferUsageFlagsToString(VkBufferUsageFlags usage, char *szString)
 	{
 		szString[0] = 0;
 
@@ -682,7 +682,7 @@ namespace CrossEngine {
 		return szString;
 	}
 
-	const char* CVulkanHelper::vkAttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
+	const char* CVulkanHelper::AttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
 		for (int index = 0; index < sizeof(vkAttachmentLoadOpString) / sizeof(VkValueString); index++) {
 			if (vkAttachmentLoadOpString[index].value == loadOp) {
@@ -692,7 +692,7 @@ namespace CrossEngine {
 		return vkAttachmentLoadOpString[0].text;
 	}
 
-	const char* CVulkanHelper::vkAttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
+	const char* CVulkanHelper::AttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
 	{
 		for (int index = 0; index < sizeof(vkAttachmentStoreOpString) / sizeof(VkValueString); index++) {
 			if (vkAttachmentStoreOpString[index].value == storeOp) {
@@ -702,7 +702,7 @@ namespace CrossEngine {
 		return vkAttachmentStoreOpString[0].text;
 	}
 
-	const char* CVulkanHelper::vkPipelineStageFlagsToString(VkPipelineStageFlags flags, char *szString)
+	const char* CVulkanHelper::PipelineStageFlagsToString(VkPipelineStageFlags flags, char *szString)
 	{
 		szString[0] = 0;
 
@@ -716,7 +716,7 @@ namespace CrossEngine {
 		return szString;
 	}
 
-	const char* CVulkanHelper::vkAccessFlagsToString(VkAccessFlags flags, char *szString)
+	const char* CVulkanHelper::AccessFlagsToString(VkAccessFlags flags, char *szString)
 	{
 		szString[0] = 0;
 
@@ -730,7 +730,7 @@ namespace CrossEngine {
 		return szString;
 	}
 
-	const char* CVulkanHelper::vkDescriptorTypeToString(VkDescriptorType type)
+	const char* CVulkanHelper::DescriptorTypeToString(VkDescriptorType type)
 	{
 		for (int index = 0; index < sizeof(vkDescriptorTypeString) / sizeof(VkValueString); index++) {
 			if (vkDescriptorTypeString[index].value == type) {
@@ -740,7 +740,7 @@ namespace CrossEngine {
 		return vkDescriptorTypeString[0].text;
 	}
 
-	const char* CVulkanHelper::vkPrimitiveTopologyToString(VkPrimitiveTopology topology)
+	const char* CVulkanHelper::PrimitiveTopologyToString(VkPrimitiveTopology topology)
 	{
 		for (int index = 0; index < sizeof(vkPrimitiveTopologyString) / sizeof(VkValueString); index++) {
 			if (vkPrimitiveTopologyString[index].value == topology) {
@@ -750,7 +750,7 @@ namespace CrossEngine {
 		return vkPrimitiveTopologyString[0].text;
 	}
 
-	const char* CVulkanHelper::vkPolygonModeToString(VkPolygonMode mode)
+	const char* CVulkanHelper::PolygonModeToString(VkPolygonMode mode)
 	{
 		for (int index = 0; index < sizeof(vkPolygonModeString) / sizeof(VkValueString); index++) {
 			if (vkPolygonModeString[index].value == mode) {
@@ -760,7 +760,7 @@ namespace CrossEngine {
 		return vkPolygonModeString[0].text;
 	}
 
-	const char* CVulkanHelper::vkCullModeFlagsToString(VkCullModeFlags mode)
+	const char* CVulkanHelper::CullModeFlagsToString(VkCullModeFlags mode)
 	{
 		for (int index = 0; index < sizeof(vkCullModeFlagsString) / sizeof(VkValueString); index++) {
 			if (vkCullModeFlagsString[index].value == mode) {
@@ -770,7 +770,7 @@ namespace CrossEngine {
 		return vkCullModeFlagsString[0].text;
 	}
 
-	const char* CVulkanHelper::vkCompareOpToString(VkCompareOp compareOp)
+	const char* CVulkanHelper::CompareOpToString(VkCompareOp compareOp)
 	{
 		for (int index = 0; index < sizeof(vkCompareOpString) / sizeof(VkValueString); index++) {
 			if (vkCompareOpString[index].value == compareOp) {
@@ -780,7 +780,7 @@ namespace CrossEngine {
 		return vkCompareOpString[0].text;
 	}
 
-	const char* CVulkanHelper::vkStencilOpToString(VkStencilOp stencilOp)
+	const char* CVulkanHelper::StencilOpToString(VkStencilOp stencilOp)
 	{
 		for (int index = 0; index < sizeof(vkStencilOpString) / sizeof(VkValueString); index++) {
 			if (vkStencilOpString[index].value == stencilOp) {
@@ -790,7 +790,7 @@ namespace CrossEngine {
 		return vkStencilOpString[0].text;
 	}
 
-	const char* CVulkanHelper::vkBlendFactorToString(VkBlendFactor factor)
+	const char* CVulkanHelper::BlendFactorToString(VkBlendFactor factor)
 	{
 		for (int index = 0; index < sizeof(vkBlendFactorString) / sizeof(VkValueString); index++) {
 			if (vkBlendFactorString[index].value == factor) {
@@ -800,7 +800,7 @@ namespace CrossEngine {
 		return vkBlendFactorString[0].text;
 	}
 
-	const char* CVulkanHelper::vkBlendOpToString(VkBlendOp blendOp)
+	const char* CVulkanHelper::BlendOpToString(VkBlendOp blendOp)
 	{
 		for (int index = 0; index < sizeof(vkBlendOpString) / sizeof(VkValueString); index++) {
 			if (vkBlendOpString[index].value == blendOp) {
@@ -810,7 +810,7 @@ namespace CrossEngine {
 		return vkBlendOpString[0].text;
 	}
 
-	VkFormat CVulkanHelper::vkStringToFormat(const char *szString)
+	VkFormat CVulkanHelper::StringToFormat(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkFormatString[index].text, szString) == 0) {
@@ -820,7 +820,7 @@ namespace CrossEngine {
 		return (VkFormat)vkFormatString[0].value;
 	}
 
-	VkImageType CVulkanHelper::vkStringToImageType(const char *szString)
+	VkImageType CVulkanHelper::StringToImageType(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkImageTypeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkImageTypeString[index].text, szString) == 0) {
@@ -830,7 +830,7 @@ namespace CrossEngine {
 		return (VkImageType)vkImageTypeString[0].value;
 	}
 
-	VkImageTiling CVulkanHelper::vkStringToImageTiling(const char *szString)
+	VkImageTiling CVulkanHelper::StringToImageTiling(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkImageTilingString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkImageTilingString[index].text, szString) == 0) {
@@ -840,7 +840,7 @@ namespace CrossEngine {
 		return (VkImageTiling)vkImageTilingString[0].value;
 	}
 
-	VkImageLayout CVulkanHelper::vkStringToImageLayout(const char *szString)
+	VkImageLayout CVulkanHelper::StringToImageLayout(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkImageLayoutString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkImageLayoutString[index].text, szString) == 0) {
@@ -850,7 +850,7 @@ namespace CrossEngine {
 		return (VkImageLayout)vkImageLayoutString[0].value;
 	}
 
-	VkFilter CVulkanHelper::vkStringToFilter(const char *szString)
+	VkFilter CVulkanHelper::StringToFilter(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkFilterString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkFilterString[index].text, szString) == 0) {
@@ -860,7 +860,7 @@ namespace CrossEngine {
 		return (VkFilter)vkFilterString[0].value;
 	}
 
-	VkSamplerMipmapMode CVulkanHelper::vkStringToSamplerMipmapMode(const char *szString)
+	VkSamplerMipmapMode CVulkanHelper::StringToSamplerMipmapMode(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkSamplerMipmapModeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkSamplerMipmapModeString[index].text, szString) == 0) {
@@ -870,7 +870,7 @@ namespace CrossEngine {
 		return (VkSamplerMipmapMode)vkSamplerMipmapModeString[0].value;
 	}
 
-	VkSamplerAddressMode CVulkanHelper::vkStringToSamplerAddressMode(const char *szString)
+	VkSamplerAddressMode CVulkanHelper::StringToSamplerAddressMode(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkSamplerAddressModeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkSamplerAddressModeString[index].text, szString) == 0) {
@@ -880,7 +880,7 @@ namespace CrossEngine {
 		return (VkSamplerAddressMode)vkSamplerAddressModeString[0].value;
 	}
 
-	VkSampleCountFlagBits CVulkanHelper::vkStringToSampleCountFlagBits(const char *szString)
+	VkSampleCountFlagBits CVulkanHelper::StringToSampleCountFlagBits(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkSampleCountFlagBitsString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkSampleCountFlagBitsString[index].text, szString) == 0) {
@@ -890,7 +890,7 @@ namespace CrossEngine {
 		return (VkSampleCountFlagBits)vkSampleCountFlagBitsString[0].value;
 	}
 
-	VkBufferUsageFlags CVulkanHelper::vkStringToBufferUsageFlags(const char *szString)
+	VkBufferUsageFlags CVulkanHelper::StringToBufferUsageFlags(const char *szString)
 	{
 		VkBufferUsageFlags flags = 0;
 		for (int index = 0; index < sizeof(vkBufferUsageFlagsString) / sizeof(VkValueString); index++) {
@@ -901,7 +901,7 @@ namespace CrossEngine {
 		return flags;
 	}
 
-	VkAttachmentLoadOp CVulkanHelper::vkStringToAttachmentLoadOp(const char *szString)
+	VkAttachmentLoadOp CVulkanHelper::StringToAttachmentLoadOp(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkAttachmentLoadOpString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkAttachmentLoadOpString[index].text, szString) == 0) {
@@ -911,7 +911,7 @@ namespace CrossEngine {
 		return (VkAttachmentLoadOp)vkAttachmentLoadOpString[0].value;
 	}
 
-	VkAttachmentStoreOp CVulkanHelper::vkStringToAttachmentStoreOp(const char *szString)
+	VkAttachmentStoreOp CVulkanHelper::StringToAttachmentStoreOp(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkAttachmentStoreOpString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkAttachmentStoreOpString[index].text, szString) == 0) {
@@ -921,7 +921,7 @@ namespace CrossEngine {
 		return (VkAttachmentStoreOp)vkAttachmentStoreOpString[0].value;
 	}
 
-	VkPipelineStageFlags CVulkanHelper::vkStringToPipelineStageFlags(const char *szString)
+	VkPipelineStageFlags CVulkanHelper::StringToPipelineStageFlags(const char *szString)
 	{
 		VkPipelineStageFlags flags = 0;
 		for (int index = 0; index < sizeof(vkPipelineStageFlagsString) / sizeof(VkValueString); index++) {
@@ -932,7 +932,7 @@ namespace CrossEngine {
 		return flags;
 	}
 
-	VkAccessFlags CVulkanHelper::vkStringToAccessFlags(const char *szString)
+	VkAccessFlags CVulkanHelper::StringToAccessFlags(const char *szString)
 	{
 		VkAccessFlags flags = 0;
 		for (int index = 0; index < sizeof(vkAccessFlagsString) / sizeof(VkValueString); index++) {
@@ -943,7 +943,7 @@ namespace CrossEngine {
 		return flags;
 	}
 
-	VkDescriptorType CVulkanHelper::vkStringToDescriptorType(const char *szString)
+	VkDescriptorType CVulkanHelper::StringToDescriptorType(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkDescriptorTypeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkDescriptorTypeString[index].text, szString) == 0) {
@@ -951,6 +951,76 @@ namespace CrossEngine {
 			}
 		}
 		return (VkDescriptorType)vkDescriptorTypeString[0].value;
+	}
+
+	VkPrimitiveTopology CVulkanHelper::StringToPrimitiveTopology(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkPrimitiveTopologyString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkPrimitiveTopologyString[index].text, szString) == 0) {
+				return (VkPrimitiveTopology)vkPrimitiveTopologyString[index].value;
+			}
+		}
+		return (VkPrimitiveTopology)vkPrimitiveTopologyString[0].value;
+	}
+
+	VkPolygonMode CVulkanHelper::StringToPolygonMode(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkPolygonModeString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkPolygonModeString[index].text, szString) == 0) {
+				return (VkPolygonMode)vkPolygonModeString[index].value;
+			}
+		}
+		return (VkPolygonMode)vkPolygonModeString[0].value;
+	}
+
+	VkCullModeFlags CVulkanHelper::StringToCullModeFlags(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkCullModeFlagsString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkCullModeFlagsString[index].text, szString) == 0) {
+				return (VkCullModeFlags)vkCullModeFlagsString[index].value;
+			}
+		}
+		return (VkCullModeFlags)vkCullModeFlagsString[0].value;
+	}
+
+	VkCompareOp CVulkanHelper::StringToCompareOp(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkCompareOpString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkCompareOpString[index].text, szString) == 0) {
+				return (VkCompareOp)vkCompareOpString[index].value;
+			}
+		}
+		return (VkCompareOp)vkCompareOpString[0].value;
+	}
+
+	VkStencilOp CVulkanHelper::StringToStencilOp(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkStencilOpString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkStencilOpString[index].text, szString) == 0) {
+				return (VkStencilOp)vkStencilOpString[index].value;
+			}
+		}
+		return (VkStencilOp)vkStencilOpString[0].value;
+	}
+
+	VkBlendFactor CVulkanHelper::StringToBlendFactor(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkBlendFactorString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkBlendFactorString[index].text, szString) == 0) {
+				return (VkBlendFactor)vkBlendFactorString[index].value;
+			}
+		}
+		return (VkBlendFactor)vkBlendFactorString[0].value;
+	}
+
+	VkBlendOp CVulkanHelper::StringToBlendOp(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkBlendOpString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkBlendOpString[index].text, szString) == 0) {
+				return (VkBlendOp)vkBlendOpString[index].value;
+			}
+		}
+		return (VkBlendOp)vkBlendOpString[0].value;
 	}
 
 }

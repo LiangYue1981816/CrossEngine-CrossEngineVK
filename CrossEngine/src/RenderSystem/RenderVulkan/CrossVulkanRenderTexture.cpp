@@ -49,15 +49,15 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
+		if (CVulkanHelper::IsFormatDepthOnly(format)) {
 			return FALSE;
 		}
 
-		if (CVulkanHelper::vkIsFormatStencilOnly(format)) {
+		if (CVulkanHelper::IsFormatStencilOnly(format)) {
 			return FALSE;
 		}
 
-		if (CVulkanHelper::vkIsFormatDepthStencil(format)) {
+		if (CVulkanHelper::IsFormatDepthStencil(format)) {
 			return FALSE;
 		}
 
@@ -66,15 +66,15 @@ namespace CrossEngine {
 
 	BOOL CVulkanRenderTexture::CreateDepthStencilTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (CVulkanHelper::vkIsFormatDepthOnly(format)) {
+		if (CVulkanHelper::IsFormatDepthOnly(format)) {
 			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT, width, height, 1, 1, 1, samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT, minFilter, magFilter, mipmapMode, addressMode);
 		}
 
-		if (CVulkanHelper::vkIsFormatStencilOnly(format)) {
+		if (CVulkanHelper::IsFormatStencilOnly(format)) {
 			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT, minFilter, magFilter, mipmapMode, addressMode);
 		}
 
-		if (CVulkanHelper::vkIsFormatDepthStencil(format)) {
+		if (CVulkanHelper::IsFormatDepthStencil(format)) {
 			return Create(VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT, width, height, 1, 1, 1, samples, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT, minFilter, magFilter, mipmapMode, addressMode);
 		}
 
@@ -119,15 +119,15 @@ namespace CrossEngine {
 				m_vkImageView,
 				m_vkSampler,
 				m_pMemory->GetSize(),
-				CVulkanHelper::vkImageTypeToString(m_type),
-				CVulkanHelper::vkFormatToString(m_format),
+				CVulkanHelper::ImageTypeToString(m_type),
+				CVulkanHelper::FormatToString(m_format),
 				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
-				CVulkanHelper::vkSampleCountFlagBitsToString(m_samples),
-				CVulkanHelper::vkImageTilingToString(m_tiling),
-				CVulkanHelper::vkFilterToString(m_minFilter),
-				CVulkanHelper::vkFilterToString(m_magFilter),
-				CVulkanHelper::vkSamplerMipmapModeToString(m_mipmapMode),
-				CVulkanHelper::vkSamplerAddressModeToString(m_addressMode));
+				CVulkanHelper::SampleCountFlagBitsToString(m_samples),
+				CVulkanHelper::ImageTilingToString(m_tiling),
+				CVulkanHelper::FilterToString(m_minFilter),
+				CVulkanHelper::FilterToString(m_magFilter),
+				CVulkanHelper::SamplerMipmapModeToString(m_mipmapMode),
+				CVulkanHelper::SamplerAddressModeToString(m_addressMode));
 		}
 	}
 

@@ -86,8 +86,8 @@ namespace CrossEngine {
 
 				m_data.width = pRenderTargetNode->ToElement()->AttributeInt("width");
 				m_data.height = pRenderTargetNode->ToElement()->AttributeInt("height");
-				m_data.format = CVulkanHelper::vkStringToFormat(pRenderTargetNode->ToElement()->AttributeString("format"));
-				m_data.samples = CVulkanHelper::vkStringToSampleCountFlagBits(pRenderTargetNode->ToElement()->AttributeString("samples"));
+				m_data.format = CVulkanHelper::StringToFormat(pRenderTargetNode->ToElement()->AttributeString("format"));
+				m_data.samples = CVulkanHelper::StringToSampleCountFlagBits(pRenderTargetNode->ToElement()->AttributeString("samples"));
 
 				return TRUE;
 			}

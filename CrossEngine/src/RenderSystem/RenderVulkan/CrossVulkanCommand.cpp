@@ -60,8 +60,8 @@ namespace CrossEngine {
 		VkImageMemoryBarrier barrier = {};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
 		barrier.pNext = NULL;
-		barrier.srcAccessMask = CVulkanHelper::vkGetAccessMask(oldLayout);
-		barrier.dstAccessMask = CVulkanHelper::vkGetAccessMask(newLayout);
+		barrier.srcAccessMask = CVulkanHelper::GetAccessMask(oldLayout);
+		barrier.dstAccessMask = CVulkanHelper::GetAccessMask(newLayout);
 		barrier.oldLayout = oldLayout;
 		barrier.newLayout = newLayout;
 		barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
@@ -69,8 +69,8 @@ namespace CrossEngine {
 		barrier.image = vkImage;
 		barrier.subresourceRange = range;
 
-		VkPipelineStageFlags srcStageMask = CVulkanHelper::vkGetPipelineStageFlags(barrier.srcAccessMask);
-		VkPipelineStageFlags dstStageMask = CVulkanHelper::vkGetPipelineStageFlags(barrier.dstAccessMask);
+		VkPipelineStageFlags srcStageMask = CVulkanHelper::GetPipelineStageFlags(barrier.srcAccessMask);
+		VkPipelineStageFlags dstStageMask = CVulkanHelper::GetPipelineStageFlags(barrier.dstAccessMask);
 
 		if (oldLayout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR) {
 			srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;

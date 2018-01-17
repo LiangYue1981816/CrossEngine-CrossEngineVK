@@ -112,7 +112,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(CreateRenderPassManager());
 		CALL_VK_FUNCTION_RETURN(CreateFrameBufferManager());
 
-		CVulkanHelper::vkSetupFormat(m_vkPhysicalDevice);
+		CVulkanHelper::SetupFormat(m_vkPhysicalDevice);
 
 		return VK_SUCCESS;
 	}

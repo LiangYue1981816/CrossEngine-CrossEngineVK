@@ -224,7 +224,7 @@ namespace CrossEngine {
 		createInfo.flags = 0;
 		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 		createInfo.format = m_format;
-		createInfo.components = CVulkanHelper::vkGetFormatComponentMapping(m_format);
+		createInfo.components = CVulkanHelper::GetFormatComponentMapping(m_format);
 		createInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
 
 		createInfo.image = m_vkImages[0];

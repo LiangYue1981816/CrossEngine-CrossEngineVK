@@ -137,7 +137,7 @@ namespace CrossEngine {
 	{
 		LOGI("\t\tDescriptorSet = %d/%d\n", m_numDescriptorSets, m_maxDescriptorSets);
 		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
-			LOGI("\t\t\t%s = %d/%d\n", CVulkanHelper::vkDescriptorTypeToString((VkDescriptorType)index), m_numAllocatedTypes[index], m_maxAllocatedTypes[index]);
+			LOGI("\t\t\t%s = %d/%d\n", CVulkanHelper::DescriptorTypeToString((VkDescriptorType)index), m_numAllocatedTypes[index], m_maxAllocatedTypes[index]);
 		}
 	}
 
