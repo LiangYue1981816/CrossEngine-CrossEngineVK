@@ -27,21 +27,21 @@ THE SOFTWARE.
 class mutex_autolock
 {
 public:
-	mutex_autolock(pthread_mutex_t &mutex)
+	mutex_autolock(pthread_mutex_t *mutex)
 		: m_mutex(mutex)
 	{
 		if (m_mutex) {
-			pthread_mutex_lock(&m_mutex);
+			pthread_mutex_lock(m_mutex);
 		}	
 	}
 
 	~mutex_autolock(void)
 	{
 		if (m_mutex) {
-			pthread_mutex_unlock(&m_mutex);
+			pthread_mutex_unlock(m_mutex);
 		}
 	}
 
 private:
-	pthread_mutex_t m_mutex;
+	pthread_mutex_t *m_mutex;
 };

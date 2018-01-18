@@ -52,7 +52,7 @@ namespace CrossEngine {
 
 
 	protected:
-		pthread_mutex_t m_mutex;
+		pthread_mutex_t *m_mutex;
 		POOL_ALLOCATOR *m_pPoolAllocator;
 		HEAP_ALLOCATOR *m_pHeapAllocator;
 		STACK_ALLOCATOR *m_pStackAllocator;

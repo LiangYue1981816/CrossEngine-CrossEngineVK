@@ -339,7 +339,7 @@ CROSS_EXPORT int dump_memory_objects()
 		total_size += ptr->size;
     }
 
-    LOGI("*** %d objects found, total size %d\n", object_cnt, total_size);
+    LOGI("*** %d objects found, total size %llu\n", object_cnt, total_size);
     return object_cnt;
 }
 

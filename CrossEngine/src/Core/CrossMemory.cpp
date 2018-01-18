@@ -55,7 +55,8 @@ namespace CrossEngine {
 #endif
 
 		if (bMultiThread) {
-			pthread_mutex_init(&m_mutex, NULL);
+			m_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+			pthread_mutex_init(m_mutex, NULL);
 		}
 	}
 
@@ -86,7 +87,8 @@ namespace CrossEngine {
 		}
 
 		if (m_mutex) {
-			pthread_mutex_destroy(&m_mutex);
+			pthread_mutex_destroy(m_mutex);
+			free(m_mutex);
 		}
 	}
 
