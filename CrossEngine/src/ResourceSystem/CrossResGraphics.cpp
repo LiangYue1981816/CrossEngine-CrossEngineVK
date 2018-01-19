@@ -99,6 +99,7 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadData(void)
 	{
+		/*
 		uint32_t size;
 		uint32_t mark;
 
@@ -122,6 +123,106 @@ namespace CrossEngine {
 		m_stream << m_param.stencil;
 		m_stream << m_param.blends;
 
+		return TRUE;
+		*/
+		TiXmlDocument xmlDoc;
+		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
+			if (TiXmlNode *pShaderNode = xmlDoc.FirstChild("Shader")) {
+				if (LoadShader(pShaderNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pRenderPassNode = xmlDoc.FirstChild("RenderPass")) {
+				if (LoadRenderPass(pRenderPassNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pAssemblyNode = xmlDoc.FirstChild("Assembly")) {
+				if (LoadAssembly(pAssemblyNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pRasterizationNode = xmlDoc.FirstChild("Rasterization")) {
+				if (LoadRasterization(pRasterizationNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pMultisampleNode = xmlDoc.FirstChild("Multisample")) {
+				if (LoadMultisample(pMultisampleNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pDepthNode = xmlDoc.FirstChild("Depth")) {
+				if (LoadDepth(pDepthNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pStencilNode = xmlDoc.FirstChild("Stencil")) {
+				if (LoadStencil(pStencilNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pBlendNode = xmlDoc.FirstChild("Blend")) {
+				if (LoadBlend(pBlendNode) == FALSE) {
+					return FALSE;
+				}
+			}
+		}
+
+		return FALSE;
+	}
+
+	BOOL CResGraphics::LoadShader(TiXmlNode *pShaderNode)
+	{
+		m_param.shader.dwVertexName = HashValue(pShaderNode->ToElement()->AttributeString("vertex"));
+		m_param.shader.dwFragmentName = HashValue(pShaderNode->ToElement()->AttributeString("fragment"));
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadRenderPass(TiXmlNode *pRenderPassNode)
+	{
+		m_param.renderpass.dwName = HashValue(pRenderPassNode->ToElement()->AttributeString("renderpass"));
+		m_param.renderpass.indexSubPass = pRenderPassNode->ToElement()->AttributeInt("subpass");
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadAssembly(TiXmlNode *pAssemblyNode)
+	{
+		m_param.assembly.topology = CVulkanHelper::StringToPrimitiveTopology(pAssemblyNode->ToElement()->AttributeString("topology"));
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadRasterization(TiXmlNode *pRasterizationNode)
+	{
+		m_param.rasterization.cullMode = CVulkanHelper::StringToCullModeFlags(pRasterizationNode->ToElement()->AttributeString("cullmode"));
+		m_param.rasterization.polygonMode = CVulkanHelper::StringToPolygonMode(pRasterizationNode->ToElement()->AttributeString("polygonmode"));
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadMultisample(TiXmlNode *pMultisampleNode)
+	{
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadDepth(TiXmlNode *pDepthNode)
+	{
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadStencil(TiXmlNode *pStencilNode)
+	{
+		return TRUE;
+	}
+
+	BOOL CResGraphics::LoadBlend(TiXmlNode *pBlendNode)
+	{
 		return TRUE;
 	}
 

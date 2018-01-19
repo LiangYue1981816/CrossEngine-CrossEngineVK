@@ -137,6 +137,15 @@ namespace CrossEngine {
 
 	protected:
 		BOOL LoadData(void);
+		BOOL LoadShader(TiXmlNode *pShaderNode);
+		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
+		BOOL LoadAssembly(TiXmlNode *pAssemblyNode);
+		BOOL LoadRasterization(TiXmlNode *pRasterizationNode);
+		BOOL LoadMultisample(TiXmlNode *pMultisampleNode);
+		BOOL LoadDepth(TiXmlNode *pDepthNode);
+		BOOL LoadStencil(TiXmlNode *pStencilNode);
+		BOOL LoadBlend(TiXmlNode *pBlendNode);
+
 		BOOL SetShaders(void);
 		BOOL SetAssemblyState(void);
 		BOOL SetTessellationState(void);
