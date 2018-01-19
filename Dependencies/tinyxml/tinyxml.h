@@ -725,14 +725,16 @@ public:
 		A specialized but useful call. Note that for success it returns 0,
 		which is the opposite of almost all other TinyXml calls.
 		*/
+	int QueryBoolValue(int* _value) const;
 	int QueryIntValue(int* _value) const;
 	int QueryFloatValue(float* _value) const;
 	int QueryDoubleValue(double* _value) const;
 
 	void SetName(const char* _name)	{ name = _name; }				///< Set the name of this attribute.
-	void SetValue(const char* _value)	{ value = _value; }				///< Set the value.
-	void SetIntValue(int _value);										///< Set the value from an integer.
-	void SetFloatValue(float _value);                                 ///< Set the value from a float.
+	void SetValue(const char* _value)	{ value = _value; }			///< Set the value.
+	void SetBoolValue(int _value);                                  ///< Set the value form bool
+	void SetIntValue(int _value);									///< Set the value from an integer.
+	void SetFloatValue(float _value);                               ///< Set the value from a float.
 	void SetDoubleValue(double _value);								///< Set the value from a double.
 
 	/// Get the next sibling attribute in the DOM. Returns null at end.
@@ -840,6 +842,14 @@ public:
 	const char* AttributeString(const char* name) const;
 
 	/** Given an attribute name, Attribute() returns the value
+	for the attribute of that name, or null if none exists.
+	If the attribute exists and can be converted to an bool,
+	the integer value will be put in the return 'b', if 'b'
+	is non-null.
+	*/
+	int AttributeBool(const char* name) const;
+
+	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
 		If the attribute exists and can be converted to an integer,
 		the integer value will be put in the return 'i', if 'i'
@@ -893,6 +903,7 @@ public:
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 		*/
+	void SetAttributeBool(const char * name, int value);
 	void SetAttributeInt(const char * name, int value);
 	void SetAttributeFloat(const char * name, float value);
 	void SetAttributeDouble(const char * name, double value);

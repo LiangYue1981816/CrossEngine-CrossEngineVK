@@ -567,6 +567,18 @@ const char* TiXmlElement::AttributeString(const char* name) const
 }
 
 
+int TiXmlElement::AttributeBool(const char* name) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	int result = 0;
+
+	if (attrib) {
+		attrib->QueryBoolValue(&result);
+	}
+	return result;
+}
+
+
 int TiXmlElement::AttributeInt(const char* name) const
 {
 	const TiXmlAttribute* attrib = attributeSet.Find(name);
@@ -656,6 +668,15 @@ int TiXmlElement::QueryDoubleAttribute(const char* name, double* dval) const
 	if (!attrib)
 		return TIXML_NO_ATTRIBUTE;
 	return attrib->QueryDoubleValue(dval);
+}
+
+
+void TiXmlElement::SetAttributeBool(const char * name, int val)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetBoolValue(val);
+	}
 }
 
 
@@ -1134,6 +1155,21 @@ void TiXmlAttribute::Print(FILE* cfile, int /*depth*/, TIXML_STRING* str) const
 }
 
 
+int TiXmlAttribute::QueryBoolValue(int* _value) const
+{
+	if (stricmp(value.c_str(), "true") == 0) {
+		*_value = 1;
+		return TIXML_SUCCESS;
+	}
+
+	if (stricmp(value.c_str(), "false") == 0) {
+		*_value = 0;
+		return TIXML_SUCCESS;
+	}
+
+	return TIXML_WRONG_TYPE;
+}
+
 int TiXmlAttribute::QueryIntValue(int* ival) const
 {
 	if (TIXML_SSCANF(value.c_str(), "%d", ival) == 1)
@@ -1153,6 +1189,27 @@ int TiXmlAttribute::QueryDoubleValue(double* dval) const
 	if (TIXML_SSCANF(value.c_str(), "%lf", dval) == 1)
 		return TIXML_SUCCESS;
 	return TIXML_WRONG_TYPE;
+}
+
+void TiXmlAttribute::SetBoolValue(int _value)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)		
+	if (_value) {
+		TIXML_SNPRINTF(buf, sizeof(buf), "true");
+	}
+	else {
+		TIXML_SNPRINTF(buf, sizeof(buf), "false");
+	}
+#else
+	if (_value) {
+		sprintf(buf, sizeof(buf), "true");
+	}
+	else {
+		sprintf(buf, sizeof(buf), "false");
+	}
+#endif
+	SetValue(buf);
 }
 
 void TiXmlAttribute::SetIntValue(int _value)
