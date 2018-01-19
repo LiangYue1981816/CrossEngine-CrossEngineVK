@@ -99,32 +99,6 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadData(void)
 	{
-		/*
-		uint32_t size;
-		uint32_t mark;
-
-		m_stream << size;
-		m_stream << mark;
-
-		if (size != sizeof(PipelineGraphicsParam)) {
-			return FALSE;
-		}
-
-		if (mark != HashValue("PipelineGraphicsParam")) {
-			return FALSE;
-		}
-
-		m_stream << m_param.shader;
-		m_stream << m_param.renderpass;
-		m_stream << m_param.assembly;
-		m_stream << m_param.rasterization;
-		m_stream << m_param.multisample;
-		m_stream << m_param.depth;
-		m_stream << m_param.stencil;
-		m_stream << m_param.blends;
-
-		return TRUE;
-		*/
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pShaderNode = xmlDoc.FirstChild("Shader")) {
@@ -169,8 +143,8 @@ namespace CrossEngine {
 				}
 			}
 
-			if (TiXmlNode *pBlendNode = xmlDoc.FirstChild("Blend")) {
-				if (LoadBlend(pBlendNode) == FALSE) {
+			if (TiXmlNode *pBlendNodes = xmlDoc.FirstChild("Blend")) {
+				if (LoadBlend(pBlendNodes) == FALSE) {
 					return FALSE;
 				}
 			}
@@ -219,16 +193,46 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadDepth(TiXmlNode *pDepthNode)
 	{
+		m_param.depth.bDepthTestEnable = pDepthNode->ToElement()->AttributeBool("enable_depth_test");
+		m_param.depth.bDepthWriteEnable = pDepthNode->ToElement()->AttributeBool("enable_depth_write");
+		m_param.depth.depthCompareOp = CVulkanHelper::StringToCompareOp(pDepthNode->ToElement()->AttributeString("depth_compare_op"));
 		return TRUE;
 	}
 
 	BOOL CResGraphics::LoadStencil(TiXmlNode *pStencilNode)
 	{
+		m_param.stencil.bStencilTestEnable = pStencilNode->ToElement()->AttributeBool("enable_stencil_test");
+		m_param.stencil.frontPassOp = CVulkanHelper::StringToStencilOp(pStencilNode->ToElement()->AttributeString("front_pass_op"));
+		m_param.stencil.frontFailOp = CVulkanHelper::StringToStencilOp(pStencilNode->ToElement()->AttributeString("front_fail_op"));
+		m_param.stencil.frontDepthFailOp = CVulkanHelper::StringToStencilOp(pStencilNode->ToElement()->AttributeString("front_depth_fail_op"));
+		m_param.stencil.frontCompareOp = CVulkanHelper::StringToCompareOp(pStencilNode->ToElement()->AttributeString("front_compare_op"));
+		m_param.stencil.frontCompareMask = pStencilNode->ToElement()->AttributeInt("front_compare_mask");
+		m_param.stencil.frontWriteMask = pStencilNode->ToElement()->AttributeInt("front_write_mask");
+		m_param.stencil.frontReference = pStencilNode->ToElement()->AttributeInt("front_reference");
+		m_param.stencil.backPassOp = CVulkanHelper::StringToStencilOp(pStencilNode->ToElement()->AttributeString("back_pass_op"));
+		m_param.stencil.backFailOp = CVulkanHelper::StringToStencilOp(pStencilNode->ToElement()->AttributeString("back_fail_op"));
+		m_param.stencil.backDepthFailOp = CVulkanHelper::StringToStencilOp(pStencilNode->ToElement()->AttributeString("back_depth_fail_op"));
+		m_param.stencil.backCompareOp = CVulkanHelper::StringToCompareOp(pStencilNode->ToElement()->AttributeString("back_compare_op"));
+		m_param.stencil.backCompareMask = pStencilNode->ToElement()->AttributeInt("back_compare_mask");
+		m_param.stencil.backWriteMask = pStencilNode->ToElement()->AttributeInt("back_write_mask");
+		m_param.stencil.backReference = pStencilNode->ToElement()->AttributeInt("back_reference");
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadBlend(TiXmlNode *pBlendNode)
+	BOOL CResGraphics::LoadBlend(TiXmlNode *pBlendNodes)
 	{
+		if (TiXmlNode *pBlendNode = pBlendNodes->FirstChild("Attachment")) {
+			do {
+				int indexAttachment = pBlendNode->ToElement()->AttributeInt("attachment");
+				m_param.blends[indexAttachment].bBlendEnable = pBlendNode->ToElement()->AttributeBool("enable");
+				m_param.blends[indexAttachment].srcColorBlendFactor = CVulkanHelper::StringToBlendFactor(pBlendNode->ToElement()->AttributeString("src_color_blend_factor"));
+				m_param.blends[indexAttachment].dstColorBlendFactor = CVulkanHelper::StringToBlendFactor(pBlendNode->ToElement()->AttributeString("dst_color_blend_factor"));
+				m_param.blends[indexAttachment].colorBlendOp = CVulkanHelper::StringToBlendOp(pBlendNode->ToElement()->AttributeString("color_blend_op"));
+				m_param.blends[indexAttachment].srcAlphaBlendFactor = CVulkanHelper::StringToBlendFactor(pBlendNode->ToElement()->AttributeString("src_alpha_blend_factor"));
+				m_param.blends[indexAttachment].dstAlphaBlendFactor = CVulkanHelper::StringToBlendFactor(pBlendNode->ToElement()->AttributeString("dst_alpha_blend_factor"));
+				m_param.blends[indexAttachment].alphaBlendOp = CVulkanHelper::StringToBlendOp(pBlendNode->ToElement()->AttributeString("alpha_blend_op"));
+			} while (pBlendNode = pBlendNode->IterateChildren("Attachment", pBlendNode));
+		}
 		return TRUE;
 	}
 
