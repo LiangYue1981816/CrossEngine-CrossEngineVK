@@ -65,7 +65,7 @@ namespace CrossEngine {
 	{
 		CVulkanPipelineCompute *pPipelineCompute = SAFE_NEW CVulkanPipelineCompute(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pPipelineCompute] = pPipelineCompute;
 		}
 		return CGfxPipelineComputePtr(pPipelineCompute);
@@ -75,7 +75,7 @@ namespace CrossEngine {
 	{
 		CVulkanPipelineGraphics *pPipelineGraphics = SAFE_NEW CVulkanPipelineGraphics(m_pDevice, this, numAttachments);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pPipelineGraphics] = pPipelineGraphics;
 		}
 		return CGfxPipelineGraphicsPtr(pPipelineGraphics);

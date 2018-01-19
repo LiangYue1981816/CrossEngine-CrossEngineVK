@@ -40,7 +40,7 @@ namespace CrossEngine {
 	{
 		CGLES3PipelineCompute *pPipelineCompute = SAFE_NEW CGLES3PipelineCompute(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pPipelineCompute] = pPipelineCompute;
 		}
 		return CGfxPipelineComputePtr(pPipelineCompute);
@@ -50,7 +50,7 @@ namespace CrossEngine {
 	{
 		CGLES3PipelineGraphics *pPipelineGraphics = SAFE_NEW CGLES3PipelineGraphics(m_pDevice, this, numAttachments);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pPipelineGraphics] = pPipelineGraphics;
 		}
 		return CGfxPipelineGraphicsPtr(pPipelineGraphics);

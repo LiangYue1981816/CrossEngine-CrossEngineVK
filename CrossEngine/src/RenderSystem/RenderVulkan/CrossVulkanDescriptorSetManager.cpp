@@ -58,7 +58,7 @@ namespace CrossEngine {
 
 	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
 	{
-		mutex_autolock mutex(m_mutex);
+		mutex_autolock mutex(&m_mutex);
 
 		do {
 			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {

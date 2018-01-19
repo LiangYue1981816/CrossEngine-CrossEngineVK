@@ -138,7 +138,7 @@ namespace CrossEngine {
 
 	void CResourceManager::Init(void)
 	{
-		mutex_autolock mutex(m_mutex);
+		mutex_autolock mutex(&m_mutex);
 
 		m_pPacks.clear();
 		m_pResources.clear();
@@ -146,7 +146,7 @@ namespace CrossEngine {
 
 	void CResourceManager::Free(void)
 	{
-		mutex_autolock mutex(m_mutex);
+		mutex_autolock mutex(&m_mutex);
 
 		for (auto &itPack : m_pPacks) {
 			zzip_closedir(itPack.second);
@@ -178,7 +178,7 @@ namespace CrossEngine {
 	{
 		CResourceHandle *pResourceHandle = NULL;
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			const auto &itResource = m_pResources.find(dwName);
 			if (itResource != m_pResources.end()) pResourceHandle = itResource->second;
 		}
@@ -215,7 +215,7 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szName);
 		CResourceHandle *pResourceHandle = NULL;
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 
 			if (m_pResources[dwName] == NULL) {
 				m_pResources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
@@ -283,7 +283,7 @@ namespace CrossEngine {
 				uint32_t dwName = HashValue(szName);
 				CResourceHandle *pResourceHandle = NULL;
 				{
-					mutex_autolock mutex(m_mutex);
+					mutex_autolock mutex(&m_mutex);
 
 					if (m_pResources[dwName] == NULL) {
 						m_pResources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName);
@@ -317,7 +317,7 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szPackName);
 		ZZIP_DIR *pPack = NULL;
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 
 			if (m_pPacks[dwName] == NULL) {
 				m_pPacks[dwName] = zzip_opendir(szPackName);
@@ -342,7 +342,7 @@ namespace CrossEngine {
 			uint32_t dwName = HashValue(szName);
 			CResourceHandle *pResourceHandle = NULL;
 			{
-				mutex_autolock mutex(m_mutex);
+				mutex_autolock mutex(&m_mutex);
 
 				if (m_pResources[dwName] == NULL) {
 					m_pResources[dwName] = pResourceHandle = SAFE_NEW CResourceHandle(this, szFileName, pPack);
@@ -367,7 +367,7 @@ namespace CrossEngine {
 
 	void CResourceManager::GarbageCollection(void)
 	{
-		mutex_autolock mutex(m_mutex);
+		mutex_autolock mutex(&m_mutex);
 
 		for (auto &itResource : m_pResources) {
 			if (itResource.second->m_ptrResource.IsNull() == FALSE && itResource.second->m_ptrResource.GetRefCount() == 1) {

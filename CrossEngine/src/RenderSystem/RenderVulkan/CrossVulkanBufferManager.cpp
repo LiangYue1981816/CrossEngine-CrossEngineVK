@@ -40,7 +40,7 @@ namespace CrossEngine {
 	{
 		CVulkanIndexBuffer *pIndexBuffer = SAFE_NEW CVulkanIndexBuffer(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pIndexBuffer] = pIndexBuffer;
 		}
 		return CGfxIndexBufferPtr(pIndexBuffer);
@@ -50,7 +50,7 @@ namespace CrossEngine {
 	{
 		CVulkanVertexBuffer *pVertexBuffer = SAFE_NEW CVulkanVertexBuffer(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pVertexBuffer] = pVertexBuffer;
 		}
 		return CGfxVertexBufferPtr(pVertexBuffer);
@@ -60,7 +60,7 @@ namespace CrossEngine {
 	{
 		CVulkanUniformBuffer *pUniformBuffer = SAFE_NEW CVulkanUniformBuffer(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pUniformBuffer] = pUniformBuffer;
 		}
 		return CGfxUniformBufferPtr(pUniformBuffer);

@@ -40,7 +40,7 @@ namespace CrossEngine {
 	{
 		CGLES3Texture *pTexture = SAFE_NEW CGLES3Texture(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pTexture] = pTexture;
 		}
 		return CGfxTexturePtr(pTexture);
@@ -50,7 +50,7 @@ namespace CrossEngine {
 	{
 		CGLES3RenderTexture *pRenderTexture = SAFE_NEW CGLES3RenderTexture(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pRenderTexture] = pRenderTexture;
 		}
 		return CGfxRenderTexturePtr(pRenderTexture);

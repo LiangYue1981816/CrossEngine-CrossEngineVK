@@ -40,7 +40,7 @@ namespace CrossEngine {
 	{
 		CGLES3FrameBuffer *pFrameBuffer = SAFE_NEW CGLES3FrameBuffer(m_pDevice, this, numAttachments);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pFrameBuffer] = pFrameBuffer;
 		}
 		return CGfxFrameBufferPtr(pFrameBuffer);

@@ -104,7 +104,7 @@ namespace CrossEngine {
 	{
 		CGLES3Shader *pShader = SAFE_NEW CGLES3Shader(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pShader] = pShader;
 		}
 		return CGfxShaderPtr(pShader);

@@ -61,7 +61,7 @@ namespace CrossEngine {
 		virtual void FreeResource(CGfxResource *pResource)
 		{
 			{
-				mutex_autolock mutex(m_mutex);
+				mutex_autolock mutex(&m_mutex);
 				m_pResources.erase(pResource);
 			}
 			

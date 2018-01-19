@@ -40,7 +40,7 @@ namespace CrossEngine {
 	{
 		CGLES3IndexBuffer *pIndexBuffer = SAFE_NEW CGLES3IndexBuffer(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pIndexBuffer] = pIndexBuffer;
 		}
 		return CGfxIndexBufferPtr(pIndexBuffer);
@@ -50,7 +50,7 @@ namespace CrossEngine {
 	{
 		CGLES3VertexBuffer *pVertexBuffer = SAFE_NEW CGLES3VertexBuffer(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pVertexBuffer] = pVertexBuffer;
 		}
 		return CGfxVertexBufferPtr(pVertexBuffer);
@@ -60,7 +60,7 @@ namespace CrossEngine {
 	{
 		CGLES3UniformBuffer *pUniformBuffer = SAFE_NEW CGLES3UniformBuffer(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pUniformBuffer] = pUniformBuffer;
 		}
 		return CGfxUniformBufferPtr(pUniformBuffer);

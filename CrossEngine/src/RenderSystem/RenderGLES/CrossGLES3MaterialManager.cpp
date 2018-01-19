@@ -40,7 +40,7 @@ namespace CrossEngine {
 	{
 		CGLES3Material *pMaterial = SAFE_NEW CGLES3Material(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pMaterial] = pMaterial;
 		}
 		return CGfxMaterialPtr(pMaterial);

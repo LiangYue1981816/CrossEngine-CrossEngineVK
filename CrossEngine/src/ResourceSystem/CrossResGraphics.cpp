@@ -201,13 +201,19 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadRasterization(TiXmlNode *pRasterizationNode)
 	{
-		m_param.rasterization.cullMode = CVulkanHelper::StringToCullModeFlags(pRasterizationNode->ToElement()->AttributeString("cullmode"));
-		m_param.rasterization.polygonMode = CVulkanHelper::StringToPolygonMode(pRasterizationNode->ToElement()->AttributeString("polygonmode"));
+		m_param.rasterization.cullMode = CVulkanHelper::StringToCullModeFlags(pRasterizationNode->ToElement()->AttributeString("cull_mode"));
+		m_param.rasterization.polygonMode = CVulkanHelper::StringToPolygonMode(pRasterizationNode->ToElement()->AttributeString("polygon_mode"));
+		m_param.rasterization.bDepthBiasEnable = pRasterizationNode->ToElement()->AttributeBool("enable_depth_bias");
+		m_param.rasterization.depthBiasSlopeFactor = pRasterizationNode->ToElement()->AttributeBool("depth_bias_slope_factor");
+		m_param.rasterization.depthBiasConstantFactor = pRasterizationNode->ToElement()->AttributeBool("depth_bias_constant_factor");
 		return TRUE;
 	}
 
 	BOOL CResGraphics::LoadMultisample(TiXmlNode *pMultisampleNode)
 	{
+		m_param.multisample.samples = CVulkanHelper::StringToSampleCountFlagBits(pMultisampleNode->ToElement()->AttributeString("samples"));
+		m_param.multisample.bAlphaToCoverageEnable = pMultisampleNode->ToElement()->AttributeBool("enable_alpha_to_Coverage");
+		m_param.multisample.bAlphaToOneEnable = pMultisampleNode->ToElement()->AttributeBool("enable_alpha_to_one");
 		return TRUE;
 	}
 

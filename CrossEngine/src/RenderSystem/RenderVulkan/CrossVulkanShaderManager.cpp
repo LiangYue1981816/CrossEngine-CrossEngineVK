@@ -104,7 +104,7 @@ namespace CrossEngine {
 	{
 		CVulkanShader *pShader = SAFE_NEW CVulkanShader(m_pDevice, this);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pShader] = pShader;
 		}
 		return CGfxShaderPtr(pShader);

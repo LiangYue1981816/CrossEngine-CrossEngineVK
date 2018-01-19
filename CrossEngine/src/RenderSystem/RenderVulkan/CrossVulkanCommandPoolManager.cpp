@@ -52,7 +52,7 @@ namespace CrossEngine {
 
 	CGfxCommandBufferPtr CVulkanCommandPoolManager::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
-		mutex_autolock mutex(m_mutex);
+		mutex_autolock mutex(&m_mutex);
 
 		if (m_pCommandPools[pool] == NULL) {
 			m_pCommandPools[pool] = SAFE_NEW CVulkanCommandPool(m_pDevice);

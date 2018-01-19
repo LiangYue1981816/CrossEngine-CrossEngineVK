@@ -76,7 +76,7 @@ namespace CrossEngine {
 		uint32_t memoryTypeIndex = GetMemoryTypeIndex(memoryTypeBits, memoryPropertyFlags);
 		if (memoryTypeIndex == -1) return NULL;
 
-		mutex_autolock mutex(m_mutex);
+		mutex_autolock mutex(&m_mutex);
 
 		do {
 			if (CVulkanMemoryAllocator *pAllocator = m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment]) {
@@ -107,7 +107,7 @@ namespace CrossEngine {
 	void CVulkanMemoryManager::FreeMemory(CVulkanMemory *pMemory)
 	{
 		if (pMemory) {
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 
 			CVulkanMemoryAllocator *pAllocator = pMemory->GetAllocator();
 			pAllocator->FreeMemory(pMemory);

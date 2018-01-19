@@ -54,7 +54,7 @@ namespace CrossEngine {
 	{
 		CGLES3DescriptorSet *pDescriptorSet = SAFE_NEW CGLES3DescriptorSet(m_pDevice, this, const_cast<CGLES3DescriptorSetLayout *>(pSetLayout));
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
 		}
 		return CGfxDescriptorSetPtr(pDescriptorSet);
@@ -63,7 +63,7 @@ namespace CrossEngine {
 	void CGLES3DescriptorSetManager::FreeDescriptorSet(CGLES3DescriptorSet *pDescriptorSet)
 	{
 		if (pDescriptorSet) {
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pDescriptorSets.erase(pDescriptorSet);
 			SAFE_DELETE(pDescriptorSet);
 		}

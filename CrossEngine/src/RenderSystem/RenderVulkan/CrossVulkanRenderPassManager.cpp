@@ -40,7 +40,7 @@ namespace CrossEngine {
 	{
 		CVulkanRenderPass *pRenderPass = SAFE_NEW CVulkanRenderPass(m_pDevice, this, numAttachments, numSubpasses);
 		{
-			mutex_autolock mutex(m_mutex);
+			mutex_autolock mutex(&m_mutex);
 			m_pResources[pRenderPass] = pRenderPass;
 		}
 		return CGfxRenderPassPtr(pRenderPass);
