@@ -59,17 +59,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResRenderPass::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResRenderPass::Free(void)
-	{
-		m_ptrRenderPass.Release();
-		CResource::Free();
-	}
-
 	BOOL CResRenderPass::InternalLoad(BOOL bSyncPostLoad)
 	{
 		return TRUE;
@@ -80,9 +69,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResRenderPass::InternalCleanup(void)
+	void CResRenderPass::InternalLoadFail(void)
 	{
-		m_stream.Free();
+		m_ptrRenderPass.Release();
+		CResource::InternalLoadFail();
+	}
+
+	void CResRenderPass::InternalLoadSuccess(void)
+	{
+		CResource::InternalLoadSuccess();
 	}
 
 }

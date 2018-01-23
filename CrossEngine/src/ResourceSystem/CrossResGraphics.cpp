@@ -59,18 +59,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResGraphics::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResGraphics::Free(void)
-	{
-		m_ptrPipeline.Release();
-		m_ptrRenderPass.Release();
-		CResource::Free();
-	}
-
 	BOOL CResGraphics::InternalLoad(BOOL bSyncPostLoad)
 	{
 		TiXmlDocument xmlDoc;
@@ -143,9 +131,16 @@ namespace CrossEngine {
 		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_param.renderpass.indexSubPass);
 	}
 
-	void CResGraphics::InternalCleanup(void)
+	void CResGraphics::InternalLoadFail(void)
 	{
-		m_stream.Free();
+		m_ptrPipeline.Release();
+		m_ptrRenderPass.Release();
+		CResource::InternalLoadFail();
+	}
+
+	void CResGraphics::InternalLoadSuccess(void)
+	{
+		CResource::InternalLoadSuccess();
 	}
 
 	BOOL CResGraphics::LoadShader(TiXmlNode *pShaderNode)

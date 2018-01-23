@@ -63,17 +63,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResRenderTexture::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResRenderTexture::Free(void)
-	{
-		m_ptrRenderTexture.Release();
-		CResource::Free();
-	}
-
 	BOOL CResRenderTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
 		TiXmlDocument xmlDoc;
@@ -108,9 +97,15 @@ namespace CrossEngine {
 		}
 	}
 
-	void CResRenderTexture::InternalCleanup(void)
+	void CResRenderTexture::InternalLoadFail(void)
 	{
-		m_stream.Free();
+		m_ptrRenderTexture.Release();
+		CResource::InternalLoadFail();
+	}
+
+	void CResRenderTexture::InternalLoadSuccess(void)
+	{
+		CResource::InternalLoadSuccess();
 	}
 
 }

@@ -59,17 +59,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResShader::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResShader::Free(void)
-	{
-		m_ptrShader.Release();
-		CResource::Free();
-	}
-
 	BOOL CResShader::InternalLoad(BOOL bSyncPostLoad)
 	{
 		char szExt[_MAX_EXT];
@@ -89,10 +78,17 @@ namespace CrossEngine {
 		return m_ptrShader->Create(m_words.data(), m_words.size(), m_flags);
 	}
 
-	void CResShader::InternalCleanup(void)
+	void CResShader::InternalLoadFail(void)
 	{
-		m_stream.Free();
+		m_ptrShader.Release();
 		m_words.clear();
+		CResource::InternalLoadFail();
+	}
+
+	void CResShader::InternalLoadSuccess(void)
+	{
+		m_words.clear();
+		CResource::InternalLoadSuccess();
 	}
 
 }

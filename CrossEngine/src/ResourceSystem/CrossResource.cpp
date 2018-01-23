@@ -29,28 +29,17 @@ namespace CrossEngine {
 		: m_pResourceManager(pResourceManager)
 		, m_bIsLoaded(FALSE)
 	{
-		Init();
+
 	}
 
 	CResource::~CResource(void)
 	{
-		Free();
+		m_stream.Free();
 	}
 
 	void CResource::Release(void)
 	{
 		m_pResourceManager->DestroyResource(this);
-	}
-
-	void CResource::Init(void)
-	{
-		m_stream.Init();
-	}
-
-	void CResource::Free(void)
-	{
-		m_stream.Free();
-		Init();
 	}
 
 	const CStream* CResource::GetStream(void) const
@@ -91,10 +80,7 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromFile(\"%s\"): %s\n", szFileName ? szFileName : "NULL", szError);
-
-			Free();
-			InternalCleanup();
-			m_bIsLoaded = TRUE;
+			InternalLoadFail();
 
 			return FALSE;
 		}
@@ -127,10 +113,7 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(\"%s\", \"%s\"): %s\n", szPackName ? szPackName : "NULL", szFileName ? szFileName : "NULL", szError);
-
-			Free();
-			InternalCleanup();
-			m_bIsLoaded = TRUE;
+			InternalLoadFail();
 
 			return FALSE;
 		}
@@ -163,10 +146,7 @@ namespace CrossEngine {
 		}
 		catch (const char *szError) {
 			LOGE("CResource::LoadFromPack(0x%016x, \"%s\"): %s\n", pPack, szFileName ? szFileName : "NULL", szError);
-
-			Free();
-			InternalCleanup();
-			m_bIsLoaded = TRUE;
+			InternalLoadFail();
 
 			return FALSE;
 		}
@@ -183,20 +163,28 @@ namespace CrossEngine {
 				throw "InternalPostLoad failed.";
 			}
 
-			InternalCleanup();
-			m_bIsLoaded = TRUE;
+			InternalLoadSuccess();
 
 			return TRUE;
 		}
 		catch (const char *szError) {
 			LOGE("CResource::PostLoad(): %s\n", szError);
-
-			Free();
-			InternalCleanup();
-			m_bIsLoaded = TRUE;
+			InternalLoadFail();
 
 			return FALSE;
 		}
+	}
+
+	void CResource::InternalLoadFail(void)
+	{
+		m_stream.Free();
+		m_bIsLoaded = TRUE;
+	}
+
+	void CResource::InternalLoadSuccess(void)
+	{
+		m_stream.Free();
+		m_bIsLoaded = TRUE;
 	}
 
 }

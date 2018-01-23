@@ -63,17 +63,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResTexture::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResTexture::Free(void)
-	{
-		m_ptrTexture.Release();
-		CResource::Free();
-	}
-
 	BOOL CResTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
 		m_texture = (gli::texture2d)gli::load((const char *)m_stream.GetAddress(), m_stream.GetFullSize());
@@ -86,10 +75,17 @@ namespace CrossEngine {
 		return m_ptrTexture->CreateTexture2D(m_texture, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 	}
 
-	void CResTexture::InternalCleanup(void)
+	void CResTexture::InternalLoadFail(void)
 	{
-		m_stream.Free();
+		m_ptrTexture.Release();
 		m_texture.clear();
+		CResource::InternalLoadFail();
+	}
+
+	void CResTexture::InternalLoadSuccess(void)
+	{
+		m_texture.clear();
+		CResource::InternalLoadSuccess();
 	}
 
 }

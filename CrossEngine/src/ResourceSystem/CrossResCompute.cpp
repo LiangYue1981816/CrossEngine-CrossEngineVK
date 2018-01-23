@@ -59,17 +59,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResCompute::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResCompute::Free(void)
-	{
-		m_ptrPipeline.Release();
-		CResource::Free();
-	}
-
 	BOOL CResCompute::InternalLoad(BOOL bSyncPostLoad)
 	{
 		// ...
@@ -84,9 +73,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResCompute::InternalCleanup(void)
+	void CResCompute::InternalLoadFail(void)
 	{
-		m_stream.Free();
+		m_ptrPipeline.Release();
+		CResource::InternalLoadFail();
+	}
+
+	void CResCompute::InternalLoadSuccess(void)
+	{
+		CResource::InternalLoadSuccess();
 	}
 
 }

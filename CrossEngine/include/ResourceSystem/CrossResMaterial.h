@@ -44,13 +44,10 @@ namespace CrossEngine {
 		virtual BOOL IsValid(void) const;
 
 	protected:
-		virtual void Init(void);
-		virtual void Free(void);
-
-	protected:
 		virtual BOOL InternalLoad(BOOL bSyncPostLoad);
 		virtual BOOL InternalPostLoad(void);
-		virtual void InternalCleanup(void);
+		virtual void InternalLoadFail(void);
+		virtual void InternalLoadSuccess(void);
 
 	protected:
 		BOOL LoadPassPipeline(TiXmlNode *pPassNode, BOOL bSyncPostLoad);

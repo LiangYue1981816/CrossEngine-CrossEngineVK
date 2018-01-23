@@ -59,22 +59,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResMaterial::Init(void)
-	{
-		CResource::Init();
-	}
-
-	void CResMaterial::Free(void)
-	{
-		m_ptrMaterial.Release();
-		m_ptrGraphices.clear();
-		m_ptrTextures.clear();
-		m_floats.clear();
-		m_vectors.clear();
-
-		CResource::Free();
-	}
-
 	BOOL CResMaterial::InternalLoad(BOOL bSyncPostLoad)
 	{
 		TiXmlDocument xmlDoc;
@@ -155,9 +139,19 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CResMaterial::InternalCleanup(void)
+	void CResMaterial::InternalLoadFail(void)
 	{
-		m_stream.Free();
+		m_ptrMaterial.Release();
+		m_ptrGraphices.clear();
+		m_ptrTextures.clear();
+		m_floats.clear();
+		m_vectors.clear();
+		CResource::InternalLoadFail();
+	}
+
+	void CResMaterial::InternalLoadSuccess(void)
+	{
+		CResource::InternalLoadSuccess();
 	}
 
 	BOOL CResMaterial::LoadPassPipeline(TiXmlNode *pPassNode, BOOL bSyncPostLoad)

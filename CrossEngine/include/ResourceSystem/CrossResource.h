@@ -56,10 +56,6 @@ namespace CrossEngine {
 		virtual void Release(void);
 
 
-	protected:
-		virtual void Init(void);
-		virtual void Free(void);
-
 	public:
 		virtual RESOURCE_TYPE GetType(void) const = 0;
 
@@ -79,7 +75,8 @@ namespace CrossEngine {
 
 		virtual BOOL InternalLoad(BOOL bSyncPostLoad) = 0;
 		virtual BOOL InternalPostLoad(void) = 0;
-		virtual void InternalCleanup(void) = 0;
+		virtual void InternalLoadFail(void);
+		virtual void InternalLoadSuccess(void);
 
 
 	protected:
