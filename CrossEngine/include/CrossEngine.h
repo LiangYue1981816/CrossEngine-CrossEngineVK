@@ -100,6 +100,7 @@ THE SOFTWARE.
 #define TAG_NAME "CrossEngine"
 
 
+#define RENDERPASS_EXT_NAME  ".renderpass"
 #define SHADER_EXT_NAME0     ".vert"
 #define SHADER_EXT_NAME1     ".frag"
 #define SHADER_EXT_NAME2     ".comp"

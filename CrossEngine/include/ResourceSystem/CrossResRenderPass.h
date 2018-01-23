@@ -25,4 +25,36 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CResRenderPass : public CResource
+	{
+		friend class CResRenderPassManager;
+
+
+	protected:
+		CResRenderPass(CResourceManager *pResourceManager);
+		virtual ~CResRenderPass(void);
+
+
+	public:
+		const CGfxRenderPassPtr& GetRenderPass(void) const;
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
+		virtual BOOL IsValid(void) const;
+
+	protected:
+		virtual void Init(void);
+		virtual void Free(void);
+
+	protected:
+		virtual BOOL InternalLoad(BOOL bSyncPostLoad);
+		virtual BOOL InternalPostLoad(void);
+		virtual void InternalCleanup(void);
+
+
+	protected:
+		CGfxRenderPassPtr m_ptrRenderPass;
+	};
+
 }
