@@ -136,7 +136,6 @@ namespace CrossEngine {
 		virtual void InternalCleanup(void);
 
 	protected:
-		BOOL LoadData(void);
 		BOOL LoadShader(TiXmlNode *pShaderNode);
 		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
 		BOOL LoadAssembly(TiXmlNode *pAssemblyNode);

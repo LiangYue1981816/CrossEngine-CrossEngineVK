@@ -73,32 +73,6 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::InternalLoad(BOOL bSyncPostLoad)
 	{
-		return LoadData();
-	}
-
-	BOOL CResGraphics::InternalPostLoad(void)
-	{
-		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_param.renderpass.dwName);
-		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
-		{
-			if (SetShaders() == FALSE) return FALSE;
-			if (SetAssemblyState() == FALSE) return FALSE;
-			if (SetTessellationState() == FALSE) return FALSE;
-			if (SetRasterizationState() == FALSE) return FALSE;
-			if (SetMultisampleState() == FALSE) return FALSE;
-			if (SetDepthStencilState() == FALSE) return FALSE;
-			if (SetColorBlendState() == FALSE) return FALSE;
-		}
-		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_param.renderpass.indexSubPass);
-	}
-
-	void CResGraphics::InternalCleanup(void)
-	{
-		m_stream.Free();
-	}
-
-	BOOL CResGraphics::LoadData(void)
-	{
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pShaderNode = xmlDoc.FirstChild("Shader")) {
@@ -151,6 +125,27 @@ namespace CrossEngine {
 		}
 
 		return FALSE;
+	}
+
+	BOOL CResGraphics::InternalPostLoad(void)
+	{
+		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_param.renderpass.dwName);
+		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
+		{
+			if (SetShaders() == FALSE) return FALSE;
+			if (SetAssemblyState() == FALSE) return FALSE;
+			if (SetTessellationState() == FALSE) return FALSE;
+			if (SetRasterizationState() == FALSE) return FALSE;
+			if (SetMultisampleState() == FALSE) return FALSE;
+			if (SetDepthStencilState() == FALSE) return FALSE;
+			if (SetColorBlendState() == FALSE) return FALSE;
+		}
+		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_param.renderpass.indexSubPass);
+	}
+
+	void CResGraphics::InternalCleanup(void)
+	{
+		m_stream.Free();
 	}
 
 	BOOL CResGraphics::LoadShader(TiXmlNode *pShaderNode)

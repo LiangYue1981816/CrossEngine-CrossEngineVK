@@ -36,29 +36,38 @@ namespace CrossEngine {
 
 	}
 
-	const CGfxRenderPassPtr& CResRenderPass::GetRenderPass(void) const
-	{
-		return m_ptrRenderPass;
-	}
-
 	RESOURCE_TYPE CResRenderPass::GetType(void) const
 	{
 		return RESOURCE_TYPE::RESOURCE_TYPE_RENDERPASS;
 	}
 
+	const CGfxRenderPassPtr& CResRenderPass::GetRenderPass(void) const
+	{
+		return m_ptrRenderPass;
+	}
+
 	BOOL CResRenderPass::IsValid(void) const
 	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) {
+			return FALSE;
+		}
+
 		return TRUE;
 	}
 
 	void CResRenderPass::Init(void)
 	{
-
+		CResource::Init();
 	}
 
 	void CResRenderPass::Free(void)
 	{
-
+		m_ptrRenderPass.Release();
+		CResource::Free();
 	}
 
 	BOOL CResRenderPass::InternalLoad(BOOL bSyncPostLoad)
@@ -73,7 +82,7 @@ namespace CrossEngine {
 
 	void CResRenderPass::InternalCleanup(void)
 	{
-
+		m_stream.Free();
 	}
 
 }
