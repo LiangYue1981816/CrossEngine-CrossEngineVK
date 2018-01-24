@@ -61,6 +61,21 @@ namespace CrossEngine {
 
 	BOOL CResRenderPass::InternalLoad(BOOL bSyncPostLoad)
 	{
+		TiXmlDocument xmlDoc;
+		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
+			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Attachment")) {
+				if (LoadAttachments(pAttachmentsNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			if (TiXmlNode *pSubPassesNode = xmlDoc.FirstChild("SubPass")) {
+				if (LoadSubPasses(pSubPassesNode) == FALSE) {
+					return FALSE;
+				}
+			}
+		}
+
 		return TRUE;
 	}
 
@@ -78,6 +93,16 @@ namespace CrossEngine {
 	void CResRenderPass::InternalLoadSuccess(void)
 	{
 		CResource::InternalLoadSuccess();
+	}
+
+	BOOL CResRenderPass::LoadAttachments(TiXmlNode *pAttachmentsNode)
+	{
+		return TRUE;
+	}
+
+	BOOL CResRenderPass::LoadSubPasses(TiXmlNode *pSubPassesNode)
+	{
+		return TRUE;
 	}
 
 }

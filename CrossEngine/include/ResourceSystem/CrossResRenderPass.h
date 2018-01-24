@@ -49,6 +49,10 @@ namespace CrossEngine {
 		virtual void InternalLoadFail(void);
 		virtual void InternalLoadSuccess(void);
 
+	protected:
+		BOOL LoadAttachments(TiXmlNode *pAttachmentsNode);
+		BOOL LoadSubPasses(TiXmlNode *pSubPassesNode);
+
 
 	protected:
 		CGfxRenderPassPtr m_ptrRenderPass;
