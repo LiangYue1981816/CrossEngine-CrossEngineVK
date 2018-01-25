@@ -105,12 +105,28 @@ namespace CrossEngine {
 
 	BOOL CResRenderPass::LoadAttachments(TiXmlNode *pAttachmentsNode)
 	{
-		return TRUE;
+		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+			do {
+
+			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	BOOL CResRenderPass::LoadSubPasses(TiXmlNode *pSubPassesNode)
 	{
-		return TRUE;
+		if (TiXmlNode *pSubPassNode = pSubPassesNode->FirstChild("SubPass")) {
+			do {
+
+			} while (pSubPassNode = pSubPassNode->IterateChildren("SubPass", pSubPassNode));
+
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 }
