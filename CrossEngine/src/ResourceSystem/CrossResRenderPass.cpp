@@ -63,20 +63,28 @@ namespace CrossEngine {
 	{
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
-			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Attachment")) {
+			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Attachments")) {
 				if (LoadAttachments(pAttachmentsNode) == FALSE) {
 					return FALSE;
 				}
 			}
+			else {
+				return FALSE;
+			}
 
-			if (TiXmlNode *pSubPassesNode = xmlDoc.FirstChild("SubPass")) {
+			if (TiXmlNode *pSubPassesNode = xmlDoc.FirstChild("SubPasses")) {
 				if (LoadSubPasses(pSubPassesNode) == FALSE) {
 					return FALSE;
 				}
 			}
+			else {
+				return FALSE;
+			}
+
+			return TRUE;
 		}
 
-		return TRUE;
+		return FALSE;
 	}
 
 	BOOL CResRenderPass::InternalPostLoad(void)

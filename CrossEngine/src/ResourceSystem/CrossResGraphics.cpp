@@ -68,11 +68,17 @@ namespace CrossEngine {
 					return FALSE;
 				}
 			}
+			else {
+				return FALSE;
+			}
 
 			if (TiXmlNode *pRenderPassNode = xmlDoc.FirstChild("RenderPass")) {
 				if (LoadRenderPass(pRenderPassNode) == FALSE) {
 					return FALSE;
 				}
+			}
+			else {
+				return FALSE;
 			}
 
 			if (TiXmlNode *pAssemblyNode = xmlDoc.FirstChild("Assembly")) {
@@ -110,6 +116,8 @@ namespace CrossEngine {
 					return FALSE;
 				}
 			}
+
+			return TRUE;
 		}
 
 		return FALSE;
