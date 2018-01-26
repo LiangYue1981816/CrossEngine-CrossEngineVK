@@ -39,8 +39,8 @@ namespace CrossEngine {
 		} AttachmentType;
 
 		typedef struct AttachmentParam {
-			AttachmentType type;
 			uint32_t indexAttachment;
+			AttachmentType type;
 			VkFormat format;
 			VkAttachmentLoadOp loadOp;
 			VkAttachmentStoreOp storeOp;
@@ -52,6 +52,7 @@ namespace CrossEngine {
 		} AttachmentParam;
 
 		typedef struct SubPassParam {
+			uint32_t indexSubPass;
 			uint32_t inputColorReference;
 			uint32_t inputDepthStencilReference;
 			uint32_t outputColorReference;
