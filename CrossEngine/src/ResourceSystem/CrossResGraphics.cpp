@@ -125,8 +125,8 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::InternalPostLoad(void)
 	{
-		m_ptrRenderPass = RenderPassManager()->GetRenderPass(m_param.renderpass.dwName);
-		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
+		m_ptrRenderPass = RenderPassManager()->LoadResource(m_param.renderpass.dwName);
+		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetRenderPass()->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
 		{
 			if (SetShaders() == FALSE) return FALSE;
 			if (SetAssemblyState() == FALSE) return FALSE;
@@ -136,7 +136,7 @@ namespace CrossEngine {
 			if (SetDepthStencilState() == FALSE) return FALSE;
 			if (SetColorBlendState() == FALSE) return FALSE;
 		}
-		return m_ptrPipeline->Create(m_ptrRenderPass->GetHandle(), m_param.renderpass.indexSubPass);
+		return m_ptrPipeline->Create(m_ptrRenderPass->GetRenderPass()->GetHandle(), m_param.renderpass.indexSubPass);
 	}
 
 	void CResGraphics::InternalLoadFail(void)

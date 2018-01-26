@@ -155,7 +155,7 @@ namespace CrossEngine {
 		PipelineGraphicsParam m_param;
 
 	protected:
-		CGfxRenderPassPtr m_ptrRenderPass;
+		CResRenderPassPtr m_ptrRenderPass;
 		CGfxPipelineGraphicsPtr m_ptrPipeline;
 	};
 

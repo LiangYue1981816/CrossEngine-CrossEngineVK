@@ -204,8 +204,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawablePartical.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawableSkinMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawableStaticMesh.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFrameBufferManager.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderPassManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderQueue.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\glslc\file_includer.h" />
@@ -424,8 +422,6 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawablePartical.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawableSkinMesh.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawableStaticMesh.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossFrameBufferManager.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderPassManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderQueue.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.cc" />

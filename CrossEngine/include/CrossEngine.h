@@ -124,7 +124,6 @@ THE SOFTWARE.
 #define GfxDevice()          CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetDevice()
 #define GfxSwapChain()       CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetSwapchain()
 #define CameraManager()      CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetCameraManager();
-#define FrameBufferManager() CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetFrameBufferManager()
 #define BatchBufferManager() CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetBatchBufferManager()
 
 #define ResourceSystem()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()

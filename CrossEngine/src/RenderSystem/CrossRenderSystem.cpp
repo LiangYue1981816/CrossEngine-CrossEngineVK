@@ -33,8 +33,6 @@ namespace CrossEngine {
 		, m_pGfxSwapchain(NULL)
 
 		, m_pCameraManager(NULL)
-		, m_pRenderPassManager(NULL)
-		, m_pFrameBufferManager(NULL)
 		, m_pBatchBufferManager(NULL)
 	{
 
@@ -70,16 +68,6 @@ namespace CrossEngine {
 		return m_pCameraManager;
 	}
 
-	CRenderPassManager* CRenderSystem::GetRenderPassManager(void) const
-	{
-		return m_pRenderPassManager;
-	}
-
-	CFrameBufferManager* CRenderSystem::GetFrameBufferManager(void) const
-	{
-		return m_pFrameBufferManager;
-	}
-
 	CBatchBufferManager* CRenderSystem::GetBatchBufferManager(void) const
 	{
 		return m_pBatchBufferManager;
@@ -103,8 +91,6 @@ namespace CrossEngine {
 		m_pGfxSwapchain = m_pGfxInstance->GetSwapchain();
 
 		m_pCameraManager = SAFE_NEW CCameraManager;
-		m_pRenderPassManager = SAFE_NEW CRenderPassManager;
-		m_pFrameBufferManager = SAFE_NEW CFrameBufferManager;
 		m_pBatchBufferManager = SAFE_NEW CBatchBufferManager;
 
 		return TRUE;
@@ -114,8 +100,6 @@ namespace CrossEngine {
 	{
 		SAFE_DELETE(m_pCameraManager);
 		SAFE_DELETE(m_pBatchBufferManager);
-		SAFE_DELETE(m_pFrameBufferManager);
-		SAFE_DELETE(m_pRenderPassManager);
 
 		m_pGfxInstance->Destroy();
 
@@ -125,8 +109,7 @@ namespace CrossEngine {
 		m_pGfxDevice = NULL;
 		m_pGfxSwapchain = NULL;
 
-		m_pRenderPassManager = NULL;
-		m_pFrameBufferManager = NULL;
+		m_pCameraManager = NULL;
 		m_pBatchBufferManager = NULL;
 	}
 
