@@ -32,6 +32,54 @@ namespace CrossEngine {
 
 
 	protected:
+		typedef enum AttachmentType {
+			ATTACHMENT_TYPE_PRESENT,
+			ATTACHMENT_TYPE_COLOR,
+			ATTACHMENT_TYPE_DEPTHSTENCIL
+		} AttachmentType;
+
+		typedef struct AttachmentParam {
+			AttachmentType type;
+			uint32_t indexAttachment;
+			VkFormat format;
+			VkAttachmentLoadOp loadOp;
+			VkAttachmentStoreOp storeOp;
+			VkAttachmentLoadOp stencilLoadOp;
+			VkAttachmentStoreOp stencilStoreOp;
+			VkClearValue clearValue;
+			VkSampleCountFlagBits samples;
+			VkImageLayout finalLayout;
+		} AttachmentParam;
+
+		typedef struct SubPassParam {
+			uint32_t inputColorReference;
+			uint32_t inputDepthStencilReference;
+			uint32_t outputColorReference;
+			uint32_t outputDepthStencilReference;
+			uint32_t preserveReference;
+			uint32_t resolveColorReference;
+			VkImageLayout resolveColorImageLayout;
+		} SubPassParam;
+
+		typedef struct DependencyParam {
+			uint32_t indexDependency;
+			uint32_t indexSrcSubpass;
+			uint32_t indexDstSubpass;
+			VkPipelineStageFlags srcStageMask;
+			VkPipelineStageFlags dstStageMask;
+			VkAccessFlags srcAccessMask;
+			VkAccessFlags dstAccessMask;
+			VkDependencyFlags dependencyFlags;
+		} DependencyParam;
+
+		typedef struct RenderPassParam {
+			std::vector<AttachmentParam> attachments;
+			std::vector<SubPassParam> subpasses;
+			std::vector<DependencyParam> dependencies;
+		} RenderPassParam;
+
+
+	protected:
 		CResRenderPass(CResourceManager *pResourceManager);
 		virtual ~CResRenderPass(void);
 
@@ -53,6 +101,9 @@ namespace CrossEngine {
 		BOOL LoadAttachments(TiXmlNode *pAttachmentsNode);
 		BOOL LoadSubPasses(TiXmlNode *pSubPassesNode);
 
+
+	protected:
+		RenderPassParam m_param;
 
 	protected:
 		CGfxRenderPassPtr m_ptrRenderPass;
