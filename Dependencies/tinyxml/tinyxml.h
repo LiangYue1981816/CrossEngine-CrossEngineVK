@@ -710,8 +710,6 @@ public:
 
 	const char*		Name()  const		{ return name.c_str(); }		///< Return the name of this attribute.
 	const char*		Value() const		{ return value.c_str(); }		///< Return the value of this attribute.
-	int				IntValue() const;									///< Return the value of this attribute, converted to an integer.
-	double			DoubleValue() const;								///< Return the value of this attribute, converted to a double.
 
 	// Get the tinyxml string representation
 	const TIXML_STRING& NameTStr() const { return name; }
@@ -726,16 +724,34 @@ public:
 		which is the opposite of almost all other TinyXml calls.
 		*/
 	int QueryBoolValue(int* _value) const;
-	int QueryIntValue(int* _value) const;
-	int QueryFloatValue(float* _value) const;
-	int QueryDoubleValue(double* _value) const;
+	int QueryIntValue1(int* _value1) const;
+	int QueryIntValue2(int* _value1, int* _value2) const;
+	int QueryIntValue3(int* _value1, int* _value2, int* _value3) const;
+	int QueryIntValue4(int* _value1, int* _value2, int* _value3, int* _value4) const;
+	int QueryFloatValue1(float* _value1) const;
+	int QueryFloatValue2(float* _value1, float *_value2) const;
+	int QueryFloatValue3(float* _value1, float *_value2, float *_value3) const;
+	int QueryFloatValue4(float* _value1, float *_value2, float *_value3, float *_value4) const;
+	int QueryDoubleValue1(double* _value1) const;
+	int QueryDoubleValue2(double* _value1, double* _value2) const;
+	int QueryDoubleValue3(double* _value1, double* _value2, double* _value3) const;
+	int QueryDoubleValue4(double* _value1, double* _value2, double* _value3, double* _value4) const;
 
-	void SetName(const char* _name)	{ name = _name; }				///< Set the name of this attribute.
-	void SetValue(const char* _value)	{ value = _value; }			///< Set the value.
-	void SetBoolValue(int _value);                                  ///< Set the value form bool
-	void SetIntValue(int _value);									///< Set the value from an integer.
-	void SetFloatValue(float _value);                               ///< Set the value from a float.
-	void SetDoubleValue(double _value);								///< Set the value from a double.
+	void SetName(const char* _name)	{ name = _name; }
+	void SetValue(const char* _value)	{ value = _value; }
+	void SetBoolValue(int _value);
+	void SetIntValue1(int _value1);
+	void SetIntValue2(int _value1, int _value2);
+	void SetIntValue3(int _value1, int _value2, int _value3);
+	void SetIntValue4(int _value1, int _value2, int _value3, int _value4);
+	void SetFloatValue1(float _value1);
+	void SetFloatValue2(float _value1, float _value2);
+	void SetFloatValue3(float _value1, float _value2, float _value3);
+	void SetFloatValue4(float _value1, float _value2, float _value3, float _value4);
+	void SetDoubleValue1(double _value1);
+	void SetDoubleValue2(double _value1, double _value2);
+	void SetDoubleValue3(double _value1, double _value2, double _value3);
+	void SetDoubleValue4(double _value1, double _value2, double _value3, double _value4);
 
 	/// Get the next sibling attribute in the DOM. Returns null at end.
 	const TiXmlAttribute* Next() const;
@@ -855,7 +871,10 @@ public:
 		the integer value will be put in the return 'i', if 'i'
 		is non-null.
 		*/
-	int AttributeInt(const char* name) const;
+	int AttributeInt1(const char* name) const;
+	int* AttributeInt2(const char* name, int *result) const;
+	int* AttributeInt3(const char* name, int *result) const;
+	int* AttributeInt4(const char* name, int *result) const;
 
 	/** Given an attribute name, Attribute() returns the value
 	for the attribute of that name, or null if none exists.
@@ -863,7 +882,10 @@ public:
 	the float value will be put in the return 'f', if 'f'
 	is non-null.
 	*/
-	float AttributeFloat(const char* name) const;
+	float AttributeFloat1(const char* name) const;
+	float* AttributeFloat2(const char* name, float *result) const;
+	float* AttributeFloat3(const char* name, float *result) const;
+	float* AttributeFloat4(const char* name, float *result) const;
 
 	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
@@ -871,51 +893,36 @@ public:
 		the double value will be put in the return 'd', if 'd'
 		is non-null.
 		*/
-	double AttributeDouble(const char* name) const;
-
-	/** QueryIntAttribute examines the attribute - it is an alternative to the
-		Attribute() method with richer error checking.
-		If the attribute is an integer, it is stored in 'value' and
-		the call returns TIXML_SUCCESS. If it is not
-		an integer, it returns TIXML_WRONG_TYPE. If the attribute
-		does not exist, then TIXML_NO_ATTRIBUTE is returned.
-		*/
-	int QueryIntAttribute(const char* name, int* _value) const;
-	/// QueryUnsignedAttribute examines the attribute - see QueryIntAttribute().
-	int QueryUnsignedAttribute(const char* name, unsigned* _value) const;
-	/** QueryBoolAttribute examines the attribute - see QueryIntAttribute().
-		Note that '1', 'true', or 'yes' are considered true, while '0', 'false'
-		and 'no' are considered false.
-		*/
-	int QueryBoolAttribute(const char* name, bool* _value) const;
-	/// QueryDoubleAttribute examines the attribute - see QueryIntAttribute().
-	int QueryDoubleAttribute(const char* name, double* _value) const;
-	/// QueryFloatAttribute examines the attribute - see QueryIntAttribute().
-	int QueryFloatAttribute(const char* name, float* _value) const {
-		double d;
-		int result = QueryDoubleAttribute(name, &d);
-		if (result == TIXML_SUCCESS) {
-			*_value = (float)d;
-		}
-		return result;
-	}
+	double AttributeDouble1(const char* name) const;
+	double* AttributeDouble2(const char* name, double *result) const;
+	double* AttributeDouble3(const char* name, double *result) const;
+	double* AttributeDouble4(const char* name, double *result) const;
 
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 		*/
 	void SetAttributeBool(const char * name, int value);
-	void SetAttributeInt(const char * name, int value);
-	void SetAttributeFloat(const char * name, float value);
-	void SetAttributeDouble(const char * name, double value);
+	void SetAttributeInt1(const char * name, int value1);
+	void SetAttributeInt2(const char * name, int value1, int value2);
+	void SetAttributeInt3(const char * name, int value1, int value2, int value3);
+	void SetAttributeInt4(const char * name, int value1, int value2, int value3, int value4);
+	void SetAttributeFloat1(const char * name, float value1);
+	void SetAttributeFloat2(const char * name, float value1, float value2);
+	void SetAttributeFloat3(const char * name, float value1, float value2, float value3);
+	void SetAttributeFloat4(const char * name, float value1, float value2, float value3, float value4);
+	void SetAttributeDouble1(const char * name, double value1);
+	void SetAttributeDouble2(const char * name, double value1, double value2);
+	void SetAttributeDouble3(const char * name, double value1, double value2, double value3);
+	void SetAttributeDouble4(const char * name, double value1, double value2, double value3, double value4);
 	void SetAttributeString(const char* name, const char * format, ...);
 
 	/** Deletes an attribute with the given name.
 	*/
 	void RemoveAttribute(const char * name);
 
-	const TiXmlAttribute* FirstAttribute() const	{ return attributeSet.First(); }		///< Access the first attribute in this element.
+	const TiXmlAttribute* FirstAttribute() const	{ return attributeSet.First(); }	///< Access the first attribute in this element.
 	TiXmlAttribute* FirstAttribute() 				{ return attributeSet.First(); }
-	const TiXmlAttribute* LastAttribute()	const 	{ return attributeSet.Last(); }		///< Access the last attribute in this element.
+	const TiXmlAttribute* LastAttribute() const 	{ return attributeSet.Last(); }		///< Access the last attribute in this element.
 	TiXmlAttribute* LastAttribute()					{ return attributeSet.Last(); }
 
 	/** Convenience function for easy access to the text inside an element. Although easy

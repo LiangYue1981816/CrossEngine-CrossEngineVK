@@ -107,7 +107,51 @@ namespace CrossEngine {
 	{
 		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
 			do {
+				AttachmentParam param;
 
+				const char *szType = pAttachmentNode->ToElement()->AttributeString("type");
+				if (stricmp(szType, "present") == 0) {
+					param.type = ATTACHMENT_TYPE_PRESENT;
+					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+					param.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));
+					param.loadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("loadop"));
+					param.storeOp = CVulkanHelper::StringToAttachmentStoreOp(pAttachmentNode->ToElement()->AttributeString("storeop"));
+					param.samples = CVulkanHelper::StringToSampleCountFlagBits(pAttachmentNode->ToElement()->AttributeString("samples"));
+					param.clearValue.depthStencil.depth = pAttachmentNode->ToElement()->AttributeFloat1("clear_depth");
+					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
+					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
+				}
+				else if (stricmp(szType, "color") == 0) {
+					param.type = ATTACHMENT_TYPE_COLOR;
+					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+					param.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));
+					param.loadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("loadop"));
+					param.storeOp = CVulkanHelper::StringToAttachmentStoreOp(pAttachmentNode->ToElement()->AttributeString("storeop"));
+					param.samples = CVulkanHelper::StringToSampleCountFlagBits(pAttachmentNode->ToElement()->AttributeString("samples"));
+					param.finalLayout = CVulkanHelper::StringToImageLayout(pAttachmentNode->ToElement()->AttributeString("layout"));
+					param.clearValue.depthStencil.depth = pAttachmentNode->ToElement()->AttributeFloat1("clear_depth");
+					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
+					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
+				}
+				else if (stricmp(szType, "depthstencil") == 0) {
+					param.type = ATTACHMENT_TYPE_DEPTHSTENCIL;
+					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+					param.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));
+					param.loadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("loadop"));
+					param.storeOp = CVulkanHelper::StringToAttachmentStoreOp(pAttachmentNode->ToElement()->AttributeString("storeop"));
+					param.stencilLoadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("stencil_loadop"));
+					param.stencilStoreOp = CVulkanHelper::StringToAttachmentStoreOp(pAttachmentNode->ToElement()->AttributeString("stencil_storeop"));
+					param.samples = CVulkanHelper::StringToSampleCountFlagBits(pAttachmentNode->ToElement()->AttributeString("samples"));
+					param.finalLayout = CVulkanHelper::StringToImageLayout(pAttachmentNode->ToElement()->AttributeString("layout"));
+					param.clearValue.depthStencil.depth = pAttachmentNode->ToElement()->AttributeFloat1("clear_depth");
+					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
+					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
+				}
+				else {
+					return FALSE;
+				}
+
+				m_param.attachments.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
 
 			return TRUE;

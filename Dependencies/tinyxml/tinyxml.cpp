@@ -563,6 +563,7 @@ const char* TiXmlElement::AttributeString(const char* name) const
 	if (attrib) {
 		result = attrib->Value();
 	}
+
 	return result;
 }
 
@@ -575,99 +576,164 @@ int TiXmlElement::AttributeBool(const char* name) const
 	if (attrib) {
 		attrib->QueryBoolValue(&result);
 	}
+
 	return result;
 }
 
 
-int TiXmlElement::AttributeInt(const char* name) const
+int TiXmlElement::AttributeInt1(const char* name) const
 {
 	const TiXmlAttribute* attrib = attributeSet.Find(name);
 	int result = 0;
 
 	if (attrib) {
-		attrib->QueryIntValue(&result);
+		attrib->QueryIntValue1(&result);
 	}
+
 	return result;
 }
 
 
-float TiXmlElement::AttributeFloat(const char* name) const
+int* TiXmlElement::AttributeInt2(const char* name, int *result) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	memset(result, 0, sizeof(int) * 2);
+
+	if (attrib) {
+		attrib->QueryIntValue2(&result[0], &result[1]);
+	}
+
+	return result;
+}
+
+
+int* TiXmlElement::AttributeInt3(const char* name, int *result) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	memset(result, 0, sizeof(int) * 3);
+
+	if (attrib) {
+		attrib->QueryIntValue3(&result[0], &result[1], &result[2]);
+	}
+
+	return result;
+}
+
+
+int* TiXmlElement::AttributeInt4(const char* name, int *result) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	memset(result, 0, sizeof(int) * 4);
+
+	if (attrib) {
+		attrib->QueryIntValue4(&result[0], &result[1], &result[2], &result[3]);
+	}
+
+	return result;
+}
+
+
+float TiXmlElement::AttributeFloat1(const char* name) const
 {
 	const TiXmlAttribute* attrib = attributeSet.Find(name);
 	float result = 0.0f;
 
 	if (attrib) {
-		attrib->QueryFloatValue(&result);
+		attrib->QueryFloatValue1(&result);
 	}
+
 	return result;
 }
 
 
-double TiXmlElement::AttributeDouble(const char* name) const
+float* TiXmlElement::AttributeFloat2(const char* name, float *result) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	memset(result, 0, sizeof(float) * 2);
+
+	if (attrib) {
+		attrib->QueryFloatValue2(&result[0], &result[1]);
+	}
+
+	return result;
+}
+
+
+float* TiXmlElement::AttributeFloat3(const char* name, float *result) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	memset(result, 0, sizeof(float) * 3);
+
+	if (attrib) {
+		attrib->QueryFloatValue3(&result[0], &result[1], &result[2]);
+	}
+
+	return result;
+}
+
+
+float* TiXmlElement::AttributeFloat4(const char* name, float *result) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	memset(result, 0, sizeof(float) * 4);
+
+	if (attrib) {
+		attrib->QueryFloatValue4(&result[0], &result[1], &result[2], &result[3]);
+	}
+
+	return result;
+}
+
+
+double TiXmlElement::AttributeDouble1(const char* name) const
 {
 	const TiXmlAttribute* attrib = attributeSet.Find(name);
 	double result = 0.0;
 
 	if (attrib) {
-		attrib->QueryDoubleValue(&result);
+		attrib->QueryDoubleValue1(&result);
 	}
+
 	return result;
 }
 
 
-int TiXmlElement::QueryIntAttribute(const char* name, int* ival) const
+double* TiXmlElement::AttributeDouble2(const char* name, double *result) const
 {
 	const TiXmlAttribute* attrib = attributeSet.Find(name);
-	if (!attrib)
-		return TIXML_NO_ATTRIBUTE;
-	return attrib->QueryIntValue(ival);
-}
+	memset(result, 0, sizeof(double) * 2);
 
+	if (attrib) {
+		attrib->QueryDoubleValue2(&result[0], &result[1]);
+	}
 
-int TiXmlElement::QueryUnsignedAttribute(const char* name, unsigned* value) const
-{
-	const TiXmlAttribute* node = attributeSet.Find(name);
-	if (!node)
-		return TIXML_NO_ATTRIBUTE;
-
-	int ival = 0;
-	int result = node->QueryIntValue(&ival);
-	*value = (unsigned)ival;
 	return result;
 }
 
 
-int TiXmlElement::QueryBoolAttribute(const char* name, bool* bval) const
-{
-	const TiXmlAttribute* node = attributeSet.Find(name);
-	if (!node)
-		return TIXML_NO_ATTRIBUTE;
-
-	int result = TIXML_WRONG_TYPE;
-	if (StringEqual(node->Value(), "true", true, TIXML_ENCODING_UNKNOWN)
-		|| StringEqual(node->Value(), "yes", true, TIXML_ENCODING_UNKNOWN)
-		|| StringEqual(node->Value(), "1", true, TIXML_ENCODING_UNKNOWN))
-	{
-		*bval = true;
-		result = TIXML_SUCCESS;
-	}
-	else if (StringEqual(node->Value(), "false", true, TIXML_ENCODING_UNKNOWN)
-		|| StringEqual(node->Value(), "no", true, TIXML_ENCODING_UNKNOWN)
-		|| StringEqual(node->Value(), "0", true, TIXML_ENCODING_UNKNOWN))
-	{
-		*bval = false;
-		result = TIXML_SUCCESS;
-	}
-	return result;
-}
-
-
-int TiXmlElement::QueryDoubleAttribute(const char* name, double* dval) const
+double* TiXmlElement::AttributeDouble3(const char* name, double *result) const
 {
 	const TiXmlAttribute* attrib = attributeSet.Find(name);
-	if (!attrib)
-		return TIXML_NO_ATTRIBUTE;
-	return attrib->QueryDoubleValue(dval);
+	memset(result, 0, sizeof(double) * 3);
+
+	if (attrib) {
+		attrib->QueryDoubleValue3(&result[0], &result[1], &result[2]);
+	}
+
+	return result;
+}
+
+
+double* TiXmlElement::AttributeDouble4(const char* name, double *result) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find(name);
+	memset(result, 0, sizeof(double) * 4);
+
+	if (attrib) {
+		attrib->QueryDoubleValue4(&result[0], &result[1], &result[2], &result[3]);
+	}
+
+	return result;
 }
 
 
@@ -680,29 +746,102 @@ void TiXmlElement::SetAttributeBool(const char * name, int val)
 }
 
 
-void TiXmlElement::SetAttributeInt(const char * name, int val)
+void TiXmlElement::SetAttributeInt1(const char * name, int val1)
 {
 	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
 	if (attrib) {
-		attrib->SetIntValue(val);
+		attrib->SetIntValue1(val1);
 	}
 }
 
 
-void TiXmlElement::SetAttributeFloat(const char * name, float val)
+void TiXmlElement::SetAttributeInt2(const char * name, int val1, int val2)
 {
 	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
 	if (attrib) {
-		attrib->SetFloatValue(val);
+		attrib->SetIntValue2(val1, val2);
+	}
+}
+
+void TiXmlElement::SetAttributeInt3(const char * name, int val1, int val2, int val3)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetIntValue3(val1, val2, val3);
+	}
+}
+
+void TiXmlElement::SetAttributeInt4(const char * name, int val1, int val2, int val3, int val4)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetIntValue4(val1, val2, val3, val4);
 	}
 }
 
 
-void TiXmlElement::SetAttributeDouble(const char * name, double val)
+void TiXmlElement::SetAttributeFloat1(const char * name, float val1)
 {
 	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
 	if (attrib) {
-		attrib->SetDoubleValue(val);
+		attrib->SetFloatValue1(val1);
+	}
+}
+
+void TiXmlElement::SetAttributeFloat2(const char * name, float val1, float val2)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetFloatValue2(val1, val2);
+	}
+}
+
+void TiXmlElement::SetAttributeFloat3(const char * name, float val1, float val2, float val3)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetFloatValue3(val1, val2, val3);
+	}
+}
+
+void TiXmlElement::SetAttributeFloat4(const char * name, float val1, float val2, float val3, float val4)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetFloatValue4(val1, val2, val3, val4);
+	}
+}
+
+
+void TiXmlElement::SetAttributeDouble1(const char * name, double val1)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetDoubleValue1(val1);
+	}
+}
+
+void TiXmlElement::SetAttributeDouble2(const char * name, double val1, double val2)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetDoubleValue2(val1, val2);
+	}
+}
+
+void TiXmlElement::SetAttributeDouble3(const char * name, double val1, double val2, double val3)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetDoubleValue3(val1, val2, val3);
+	}
+}
+
+void TiXmlElement::SetAttributeDouble4(const char * name, double val1, double val2, double val3, double val4)
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate(name);
+	if (attrib) {
+		attrib->SetDoubleValue4(val1, val2, val3, val4);
 	}
 }
 
@@ -1157,8 +1296,28 @@ void TiXmlAttribute::Print(FILE* cfile, int /*depth*/, TIXML_STRING* str) const
 
 int TiXmlAttribute::QueryBoolValue(int* _value) const
 {
+	if (stricmp(value.c_str(), "1") == 0) {
+		*_value = 1;
+		return TIXML_SUCCESS;
+	}
+
+	if (stricmp(value.c_str(), "yes") == 0) {
+		*_value = 1;
+		return TIXML_SUCCESS;
+	}
+
 	if (stricmp(value.c_str(), "true") == 0) {
 		*_value = 1;
+		return TIXML_SUCCESS;
+	}
+
+	if (stricmp(value.c_str(), "0") == 0) {
+		*_value = 0;
+		return TIXML_SUCCESS;
+	}
+
+	if (stricmp(value.c_str(), "no") == 0) {
+		*_value = 0;
 		return TIXML_SUCCESS;
 	}
 
@@ -1170,23 +1329,86 @@ int TiXmlAttribute::QueryBoolValue(int* _value) const
 	return TIXML_WRONG_TYPE;
 }
 
-int TiXmlAttribute::QueryIntValue(int* ival) const
+int TiXmlAttribute::QueryIntValue1(int* ival1) const
 {
-	if (TIXML_SSCANF(value.c_str(), "%d", ival) == 1)
+	if (TIXML_SSCANF(value.c_str(), "%d", ival1) == 1)
 		return TIXML_SUCCESS;
 	return TIXML_WRONG_TYPE;
 }
 
-int TiXmlAttribute::QueryFloatValue(float* fval) const
+int TiXmlAttribute::QueryIntValue2(int* ival1, int* ival2) const
 {
-	if (TIXML_SSCANF(value.c_str(), "%f", fval) == 1)
+	if (TIXML_SSCANF(value.c_str(), "%d %d", ival1, ival2) == 1)
 		return TIXML_SUCCESS;
 	return TIXML_WRONG_TYPE;
 }
 
-int TiXmlAttribute::QueryDoubleValue(double* dval) const
+int TiXmlAttribute::QueryIntValue3(int* ival1, int* ival2, int* ival3) const
 {
-	if (TIXML_SSCANF(value.c_str(), "%lf", dval) == 1)
+	if (TIXML_SSCANF(value.c_str(), "%d %d %d", ival1, ival2, ival3) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryIntValue4(int* ival1, int* ival2, int* ival3, int* ival4) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%d %d %d %d", ival1, ival2, ival3, ival4) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryFloatValue1(float* fval1) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%f", fval1) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryFloatValue2(float* fval1, float *fval2) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%f %f", fval1, fval2) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryFloatValue3(float* fval1, float *fval2, float *fval3) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%f %f %f", fval1, fval2, fval3) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryFloatValue4(float* fval1, float *fval2, float *fval3, float *fval4) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%f %f %f %f", fval1, fval2, fval3, fval4) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryDoubleValue1(double* dval1) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%lf", dval1) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryDoubleValue2(double* dval1, double* dval2) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%lf %lf", dval1, dval2) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryDoubleValue3(double* dval1, double* dval2, double* dval3) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%lf %lf %lf", dval1, dval2, dval3) == 1)
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryDoubleValue4(double* dval1, double* dval2, double* dval3, double* dval4) const
+{
+	if (TIXML_SSCANF(value.c_str(), "%lf %lf %lf %lf", dval1, dval2, dval3, dval4) == 1)
 		return TIXML_SUCCESS;
 	return TIXML_WRONG_TYPE;
 }
@@ -1212,47 +1434,136 @@ void TiXmlAttribute::SetBoolValue(int _value)
 	SetValue(buf);
 }
 
-void TiXmlAttribute::SetIntValue(int _value)
+void TiXmlAttribute::SetIntValue1(int _value1)
 {
 	char buf[256];
 #if defined(TIXML_SNPRINTF)		
-	TIXML_SNPRINTF(buf, sizeof(buf), "%d", _value);
+	TIXML_SNPRINTF(buf, sizeof(buf), "%d", _value1);
 #else
-	sprintf (buf, "%d", _value);
+	sprintf (buf, "%d", _value1);
 #endif
 	SetValue(buf);
 }
 
-void TiXmlAttribute::SetFloatValue(float _value)
+void TiXmlAttribute::SetIntValue2(int _value1, int _value2)
 {
 	char buf[256];
 #if defined(TIXML_SNPRINTF)		
-	TIXML_SNPRINTF(buf, sizeof(buf), "%f", _value);
+	TIXML_SNPRINTF(buf, sizeof(buf), "%d %d", _value1, _value2);
 #else
-	sprintf(buf, "%f", _value);
+	sprintf(buf, "%d %d", _value1, _value2);
 #endif
 	SetValue(buf);
 }
 
-void TiXmlAttribute::SetDoubleValue(double _value)
+void TiXmlAttribute::SetIntValue3(int _value1, int _value2, int _value3)
 {
 	char buf[256];
 #if defined(TIXML_SNPRINTF)		
-	TIXML_SNPRINTF(buf, sizeof(buf), "%g", _value);
+	TIXML_SNPRINTF(buf, sizeof(buf), "%d %d %d", _value1, _value2, _value3);
 #else
-	sprintf (buf, "%g", _value);
+	sprintf(buf, "%d %d %d", _value1, _value2, _value3);
 #endif
 	SetValue(buf);
 }
 
-int TiXmlAttribute::IntValue() const
+void TiXmlAttribute::SetIntValue4(int _value1, int _value2, int _value3, int _value4)
 {
-	return atoi(value.c_str());
+	char buf[256];
+#if defined(TIXML_SNPRINTF)		
+	TIXML_SNPRINTF(buf, sizeof(buf), "%d %d %d %d", _value1, _value2, _value3, _value4);
+#else
+	sprintf(buf, "%d %d %d %d", _value1, _value2, _value3, _value4);
+#endif
+	SetValue(buf);
 }
 
-double  TiXmlAttribute::DoubleValue() const
+void TiXmlAttribute::SetFloatValue1(float _value1)
 {
-	return atof(value.c_str());
+	char buf[256];
+#if defined(TIXML_SNPRINTF)		
+	TIXML_SNPRINTF(buf, sizeof(buf), "%f", _value1);
+#else
+	sprintf(buf, "%f", _value1);
+#endif
+	SetValue(buf);
+}
+
+void TiXmlAttribute::SetFloatValue2(float _value1, float _value2)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)		
+	TIXML_SNPRINTF(buf, sizeof(buf), "%f %f", _value1, _value2);
+#else
+	sprintf(buf, "%f %f", _value1, _value2);
+#endif
+	SetValue(buf);
+}
+
+void TiXmlAttribute::SetFloatValue3(float _value1, float _value2, float _value3)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)		
+	TIXML_SNPRINTF(buf, sizeof(buf), "%f %f %f", _value1, _value2, _value3);
+#else
+	sprintf(buf, "%f %f %f", _value1, _value2, _value3);
+#endif
+	SetValue(buf);
+}
+
+void TiXmlAttribute::SetFloatValue4(float _value1, float _value2, float _value3, float _value4)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)		
+	TIXML_SNPRINTF(buf, sizeof(buf), "%f %f %f %f", _value1, _value2, _value3, _value4);
+#else
+	sprintf(buf, "%f %f %f %f", _value1, _value2, _value3, _value4);
+#endif
+	SetValue(buf);
+}
+
+void TiXmlAttribute::SetDoubleValue1(double _value1)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)
+	TIXML_SNPRINTF(buf, sizeof(buf), "%g", _value1);
+#else
+	sprintf (buf, "%g", _value1);
+#endif
+	SetValue(buf);
+}
+
+void TiXmlAttribute::SetDoubleValue2(double _value1, double _value2)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)
+	TIXML_SNPRINTF(buf, sizeof(buf), "%g %g", _value1, _value2);
+#else
+	sprintf(buf, "%g %g", _value1, _value2);
+#endif
+	SetValue(buf);
+}
+
+void TiXmlAttribute::SetDoubleValue3(double _value1, double _value2, double _value3)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)
+	TIXML_SNPRINTF(buf, sizeof(buf), "%g %g %g", _value1, _value2, _value3);
+#else
+	sprintf(buf, "%g %g %g", _value1, _value2, _value3);
+#endif
+	SetValue(buf);
+}
+
+void TiXmlAttribute::SetDoubleValue4(double _value1, double _value2, double _value3, double _value4)
+{
+	char buf[256];
+#if defined(TIXML_SNPRINTF)
+	TIXML_SNPRINTF(buf, sizeof(buf), "%g %g %g %g", _value1, _value2, _value3, _value4);
+#else
+	sprintf(buf, "%g %g %g %g", _value1, _value2, _value3, _value4);
+#endif
+	SetValue(buf);
 }
 
 

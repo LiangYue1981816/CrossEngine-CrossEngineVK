@@ -73,8 +73,8 @@ namespace CrossEngine {
 				else if (stricmp(szType, "depth") == 0) m_data.type = RENDER_TEXTURE_TYPE_DEPTH;
 				else return FALSE;
 
-				m_data.width = pRenderTargetNode->ToElement()->AttributeInt("width");
-				m_data.height = pRenderTargetNode->ToElement()->AttributeInt("height");
+				m_data.width = pRenderTargetNode->ToElement()->AttributeInt1("width");
+				m_data.height = pRenderTargetNode->ToElement()->AttributeInt1("height");
 				m_data.format = CVulkanHelper::StringToFormat(pRenderTargetNode->ToElement()->AttributeString("format"));
 				m_data.samples = CVulkanHelper::StringToSampleCountFlagBits(pRenderTargetNode->ToElement()->AttributeString("samples"));
 
