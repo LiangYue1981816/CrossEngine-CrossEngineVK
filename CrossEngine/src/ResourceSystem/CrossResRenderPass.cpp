@@ -81,6 +81,12 @@ namespace CrossEngine {
 				return FALSE;
 			}
 
+			if (TiXmlNode *pDependenciesNode = xmlDoc.FirstChild("Dependencies")) {
+				if (LoadDependencies(pDependenciesNode) == FALSE) {
+					return FALSE;
+				}
+			}
+
 			return TRUE;
 		}
 
@@ -89,7 +95,68 @@ namespace CrossEngine {
 
 	BOOL CResRenderPass::InternalPostLoad(void)
 	{
-		return TRUE;
+		m_ptrRenderPass = GfxDevice()->NewRenderPass(m_param.attachments.size(), m_param.subpasses.size());
+
+		for (int index = 0; index < m_param.attachments.size(); index++) {
+			switch (m_param.attachments[index].type) {
+			case ATTACHMENT_TYPE_PRESENT:
+				m_ptrRenderPass->SetPresentAttachment(
+					m_param.attachments[index].indexAttachment, 
+					m_param.attachments[index].format, 
+					m_param.attachments[index].loadOp, 
+					m_param.attachments[index].storeOp, 
+					m_param.attachments[index].clearValue, 
+					m_param.attachments[index].samples);
+				break;
+
+			case ATTACHMENT_TYPE_COLOR:
+				m_ptrRenderPass->SetColorAttachment(
+					m_param.attachments[index].indexAttachment, 
+					m_param.attachments[index].format, 
+					m_param.attachments[index].loadOp, 
+					m_param.attachments[index].storeOp, 
+					m_param.attachments[index].clearValue, 
+					m_param.attachments[index].samples, 
+					m_param.attachments[index].finalLayout);
+				break;
+
+			case ATTACHMENT_TYPE_DEPTHSTENCIL:
+				m_ptrRenderPass->SetDepthStencilAttachment(
+					m_param.attachments[index].indexAttachment, 
+					m_param.attachments[index].format, 
+					m_param.attachments[index].loadOp, 
+					m_param.attachments[index].storeOp, 
+					m_param.attachments[index].stencilLoadOp, 
+					m_param.attachments[index].stencilStoreOp, 
+					m_param.attachments[index].clearValue, 
+					m_param.attachments[index].samples, 
+					m_param.attachments[index].finalLayout);
+				break;
+			}
+		}
+
+		for (int index = 0; index < m_param.subpasses.size(); index++) {
+			m_ptrRenderPass->SetSubpassInputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputColorReference);
+			m_ptrRenderPass->SetSubpassInputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputDepthStencilReference);
+			m_ptrRenderPass->SetSubpassOutputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputColorReference);
+			m_ptrRenderPass->SetSubpassOutputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputDepthStencilReference);
+			m_ptrRenderPass->SetSubpassResolveColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].resolveColorReference, m_param.subpasses[index].resolveColorImageLayout);
+			m_ptrRenderPass->SetSubpassPreserveReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].preserveReference);
+		}
+
+		for (int index = 0; index < m_param.dependencies.size(); index++) {
+			m_ptrRenderPass->SetSubpassDependency(
+				m_param.dependencies[index].indexDependency,
+				m_param.dependencies[index].indexSrcSubpass,
+				m_param.dependencies[index].indexDstSubpass,
+				m_param.dependencies[index].srcStageMask,
+				m_param.dependencies[index].dstStageMask,
+				m_param.dependencies[index].srcAccessMask,
+				m_param.dependencies[index].dstAccessMask,
+				m_param.dependencies[index].dependencyFlags);
+		}
+		
+		return m_ptrRenderPass->Create();
 	}
 
 	void CResRenderPass::InternalLoadFail(void)
@@ -164,8 +231,43 @@ namespace CrossEngine {
 	{
 		if (TiXmlNode *pSubPassNode = pSubPassesNode->FirstChild("SubPass")) {
 			do {
+				SubPassParam param;
 
+				param.indexSubPass = pSubPassNode->ToElement()->AttributeInt1("index");
+				param.inputColorReference = pSubPassesNode->ToElement()->AttributeInt1("input_color_reference");
+				param.inputDepthStencilReference = pSubPassesNode->ToElement()->AttributeInt1("input_depth_stencil_reference");
+				param.outputColorReference = pSubPassesNode->ToElement()->AttributeInt1("output_color_reference");
+				param.outputDepthStencilReference = pSubPassesNode->ToElement()->AttributeInt1("output_depth_stencil_reference");
+				param.preserveReference = pSubPassesNode->ToElement()->AttributeInt1("preserve_reference");
+				param.resolveColorReference = pSubPassesNode->ToElement()->AttributeInt1("resolve_color_reference");
+				param.resolveColorImageLayout = CVulkanHelper::StringToImageLayout(pSubPassesNode->ToElement()->AttributeString("resolve_color_image_layout"));
+
+				m_param.subpasses.push_back(param);
 			} while (pSubPassNode = pSubPassNode->IterateChildren("SubPass", pSubPassNode));
+
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	BOOL CResRenderPass::LoadDependencies(TiXmlNode *pDependenciesNode)
+	{
+		if (TiXmlNode *pDependencyNode = pDependenciesNode->FirstChild("Dependency")) {
+			do {
+				DependencyParam param;
+
+				param.indexDependency = pDependencyNode->ToElement()->AttributeInt1("index");
+				param.indexSrcSubpass = pDependencyNode->ToElement()->AttributeInt1("index_src_subpass");
+				param.indexDstSubpass = pDependencyNode->ToElement()->AttributeInt1("index_dst_subpass");
+				param.srcStageMask = CVulkanHelper::StringToPipelineStageFlags(pDependencyNode->ToElement()->AttributeString("src_stage_mask"));
+				param.dstStageMask = CVulkanHelper::StringToPipelineStageFlags(pDependencyNode->ToElement()->AttributeString("dst_stage_mask"));
+				param.srcAccessMask = CVulkanHelper::StringToAccessFlags(pDependencyNode->ToElement()->AttributeString("src_access_mask"));
+				param.dstAccessMask = CVulkanHelper::StringToAccessFlags(pDependencyNode->ToElement()->AttributeString("dst_access_mask"));
+				param.dependencyFlags = CVulkanHelper::StringToDependencyFlags(pDependencyNode->ToElement()->AttributeString("flags"));
+
+				m_param.dependencies.push_back(param);
+			} while (pDependencyNode = pDependencyNode->IterateChildren("Dependency", pDependencyNode));
 
 			return TRUE;
 		}

@@ -101,6 +101,7 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadAttachments(TiXmlNode *pAttachmentsNode);
 		BOOL LoadSubPasses(TiXmlNode *pSubPassesNode);
+		BOOL LoadDependencies(TiXmlNode *pDependenciesNode);
 
 
 	protected:

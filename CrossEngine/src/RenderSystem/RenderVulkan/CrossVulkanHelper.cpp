@@ -443,6 +443,13 @@ namespace CrossEngine {
 		VK_BLEND_OP_MAX, "VK_BLEND_OP_MAX",
 	};
 
+	static VkValueString vkDependencyFlagsString[] = {
+		0xFFFFFFFF, "UNKNOWN",
+		VK_DEPENDENCY_BY_REGION_BIT, "VK_DEPENDENCY_BY_REGION_BIT",
+		VK_DEPENDENCY_VIEW_LOCAL_BIT_KHX, "VK_DEPENDENCY_VIEW_LOCAL_BIT_KHX",
+		VK_DEPENDENCY_DEVICE_GROUP_BIT_KHX, "VK_DEPENDENCY_DEVICE_GROUP_BIT_KHX",
+	};
+
 
 	static char* strcat_or(char *dst, const char *src, BOOL *or)
 	{
@@ -810,6 +817,16 @@ namespace CrossEngine {
 		return vkBlendOpString[0].text;
 	}
 
+	const char* CVulkanHelper::DependencyFlagsToString(VkDependencyFlags flags)
+	{
+		for (int index = 0; index < sizeof(vkDependencyFlagsString) / sizeof(VkValueString); index++) {
+			if (vkDependencyFlagsString[index].value == flags) {
+				return vkDependencyFlagsString[index].text;
+			}
+		}
+		return vkDependencyFlagsString[0].text;
+	}
+
 	VkFormat CVulkanHelper::StringToFormat(const char *szString)
 	{
 		for (int index = 0; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
@@ -1021,6 +1038,16 @@ namespace CrossEngine {
 			}
 		}
 		return (VkBlendOp)vkBlendOpString[0].value;
+	}
+
+	VkDependencyFlags CVulkanHelper::StringToDependencyFlags(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkDependencyFlagsString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkDependencyFlagsString[index].text, szString) == 0) {
+				return (VkDependencyFlags)vkDependencyFlagsString[index].value;
+			}
+		}
+		return (VkDependencyFlags)vkDependencyFlagsString[0].value;
 	}
 
 }

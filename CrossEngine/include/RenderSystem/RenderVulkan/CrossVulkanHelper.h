@@ -61,6 +61,7 @@ namespace CrossEngine {
 		static const char* StencilOpToString(VkStencilOp stencilOp);
 		static const char* BlendFactorToString(VkBlendFactor factor);
 		static const char* BlendOpToString(VkBlendOp blendOp);
+		static const char* DependencyFlagsToString(VkDependencyFlags flags);
 
 		static VkFormat StringToFormat(const char *szString);
 		static VkImageType StringToImageType(const char *szString);
@@ -83,6 +84,7 @@ namespace CrossEngine {
 		static VkStencilOp StringToStencilOp(const char *szString);
 		static VkBlendFactor StringToBlendFactor(const char *szString);
 		static VkBlendOp StringToBlendOp(const char *szString);
+		static VkDependencyFlags StringToDependencyFlags(const char *szString);
 
 	protected:
 		static VkFormatProperties vkFormatProperties[VK_FORMAT_RANGE_SIZE];
