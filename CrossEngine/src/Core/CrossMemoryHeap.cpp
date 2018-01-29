@@ -222,7 +222,7 @@ namespace CrossEngine {
 	{
 		uint32_t *pPointer = NULL;
 
-		if (pBlockPool->dwSize > dwMemSize) {
+		if (pBlockPool->dwSize >= dwMemSize) {
 			if (BLOCK *pBlock = HEAP_SearchBlock(pBlockPool, dwMemSize)) {
 				HEAP_RemoveBlock(pBlockPool, pBlock);
 

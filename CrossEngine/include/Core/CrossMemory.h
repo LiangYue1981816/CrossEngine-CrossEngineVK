@@ -41,6 +41,7 @@ namespace CrossEngine {
 
 	public:
 		void* Alloc(size_t size, MEMTYPE memType);
+		void* Realloc(void *ptr, size_t size, MEMTYPE memType);
 		void Free(void *ptr);
 
 	public:
@@ -69,6 +70,7 @@ namespace CrossEngine {
 	};
 
 	CROSS_EXPORT void* Alloc(size_t size, MEMTYPE memType);
+	CROSS_EXPORT void* Realloc(void *ptr, size_t size, MEMTYPE memType);
 	CROSS_EXPORT void  Free(void *ptr);
 
 	CROSS_EXPORT void** AllocMatrix(size_t cols, size_t rows, size_t size, MEMTYPE memType);
@@ -87,6 +89,7 @@ namespace CrossEngine {
 
 
 #define SAFE_ALLOC(s, t) CrossEngine::Alloc((s), (t))
+#define SAFE_REALLOC(p, s, t) CrossEngine::Realloc((p), (s), (t))
 #define SAFE_FREE(p) do { if ((p)) { CrossEngine::Free((p)); (p) = NULL; } } while (0);
 
 

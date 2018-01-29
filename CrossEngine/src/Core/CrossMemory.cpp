@@ -134,6 +134,18 @@ namespace CrossEngine {
 		return pPointer;
 	}
 
+	void* CMemAllocator::Realloc(void *ptr, size_t size, MEMTYPE memType)
+	{
+		void *ptrNew = Alloc(size, memType);
+		{
+			const unsigned int dwMemSize = MEM_SIZE(ptr);
+			memcpy(ptrNew, ptr, min(dwMemSize, size));
+		}
+		Free(ptr);
+
+		return ptrNew;
+	}
+
 	void CMemAllocator::Free(void *ptr)
 	{
 		if (ptr) {
@@ -200,6 +212,11 @@ namespace CrossEngine {
 	CROSS_EXPORT void* Alloc(size_t size, MEMTYPE memType)
 	{
 		return memAllocator.Alloc(size, memType);
+	}
+
+	CROSS_EXPORT void* Realloc(void *ptr, size_t size, MEMTYPE memType)
+	{
+		return memAllocator.Realloc(ptr, size, memType);
 	}
 
 	CROSS_EXPORT void Free(void *ptr)
