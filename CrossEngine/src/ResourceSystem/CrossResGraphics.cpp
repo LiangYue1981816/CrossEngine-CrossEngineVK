@@ -126,6 +126,8 @@ namespace CrossEngine {
 	BOOL CResGraphics::InternalPostLoad(void)
 	{
 		m_ptrRenderPass = RenderPassManager()->LoadResource(m_param.renderpass.dwName);
+		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->IsValid() == FALSE) return FALSE;
+
 		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetRenderPass()->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
 		{
 			if (SetShaders() == FALSE) return FALSE;
