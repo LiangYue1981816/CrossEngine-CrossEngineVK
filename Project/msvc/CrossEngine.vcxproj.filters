@@ -780,6 +780,12 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResRenderPassManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResFrameBuffer.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResFrameBufferManager.h">
+      <Filter>Engine\Header Files\ResourceSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -1251,6 +1257,12 @@
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResTextureManager.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResFrameBuffer.cpp">
+      <Filter>Engine\Source Files\ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResFrameBufferManager.cpp">
       <Filter>Engine\Source Files\ResourceSystem</Filter>
     </ClCompile>
   </ItemGroup>

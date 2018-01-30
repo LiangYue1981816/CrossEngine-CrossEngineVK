@@ -101,6 +101,7 @@ THE SOFTWARE.
 
 
 #define RENDERPASS_EXT_NAME  ".renderpass"
+#define FRAMEBUFFER_EXT_NAME ".framebuffer"
 #define SHADER_EXT_NAME0     ".vert"
 #define SHADER_EXT_NAME1     ".frag"
 #define SHADER_EXT_NAME2     ".comp"
@@ -127,7 +128,7 @@ THE SOFTWARE.
 #define BatchBufferManager() CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetBatchBufferManager()
 
 #define ResourceSystem()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()
-#define RenderPassManager()  CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_RENDERPASS)
+#define RenderPassManager()  CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS)
 #define ShaderManager()      CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SHADER)
 #define TextureManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE)
 #define ComputeManager()     CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE)

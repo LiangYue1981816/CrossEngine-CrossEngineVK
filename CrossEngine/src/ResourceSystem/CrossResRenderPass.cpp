@@ -38,7 +38,7 @@ namespace CrossEngine {
 
 	RESOURCE_TYPE CResRenderPass::GetType(void) const
 	{
-		return RESOURCE_TYPE::RESOURCE_TYPE_RENDERPASS;
+		return RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS;
 	}
 
 	const CGfxRenderPassPtr& CResRenderPass::GetRenderPass(void) const

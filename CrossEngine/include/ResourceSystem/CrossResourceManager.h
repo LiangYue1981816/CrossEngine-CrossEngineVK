@@ -31,10 +31,12 @@ namespace CrossEngine {
 		friend class CResourceSystem;
 		friend class CResourceManager;
 		friend class CResRenderPassManager;
+		friend class CResFrameBufferManager;
 		friend class CResShaderManager;
-		friend class CResTextureManager;
 		friend class CResComputeManager;
 		friend class CResGraphicsManager;
+		friend class CResTextureManager;
+		friend class CResRenderTextureManager;
 		friend class CResMaterialManager;
 
 

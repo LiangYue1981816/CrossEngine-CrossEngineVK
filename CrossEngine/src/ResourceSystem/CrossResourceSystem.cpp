@@ -42,7 +42,8 @@ namespace CrossEngine {
 
 	BOOL CResourceSystem::Create(void)
 	{
-		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDERPASS] = SAFE_NEW CResRenderPassManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS] = SAFE_NEW CResRenderPassManager;
+		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER] = SAFE_NEW CResFrameBufferManager;
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER] = SAFE_NEW CResShaderManager;
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE] = SAFE_NEW CResTextureManager;
 		m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDER_TEXTURE] = SAFE_NEW CResRenderTextureManager;
@@ -61,7 +62,8 @@ namespace CrossEngine {
 		event_signal(&m_eventExit);
 		pthread_join(m_thread, NULL);
 
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDERPASS]);
+		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS]);
+		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER]);
 		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER]);
 		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE]);
 		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDER_TEXTURE]);

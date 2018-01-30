@@ -20,54 +20,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "_CrossEngine.h"
+#pragma once
+#include "CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	CResRenderPassManager::CResRenderPassManager(void)
+	class CROSS_EXPORT CResFrameBuffer : public CResource
 	{
+		friend class CResFrameBufferManager;
 
-	}
 
-	CResRenderPassManager::~CResRenderPassManager(void)
-	{
+	protected:
+		CResFrameBuffer(CResourceManager *pResourceManager);
+		virtual ~CResFrameBuffer(void);
 
-	}
 
-	RESOURCE_TYPE CResRenderPassManager::GetType(void) const
-	{
-		return RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS;
-	}
+	public:
+		const CGfxFrameBufferPtr& GetFrameBuffer(void) const;
 
-	CResource* CResRenderPassManager::CreateResource(void)
-	{
-		return SAFE_NEW CResRenderPass(this);
-	}
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
+		virtual BOOL IsValid(void) const;
 
-	BOOL CResRenderPassManager::PreLoadFromFile(const char *szFileName)
-	{
-		return CResourceManager::PreLoadFromFile(szFileName, RENDERPASS_EXT_NAME);
-	}
+	protected:
+		virtual BOOL InternalLoad(BOOL bSyncPostLoad);
+		virtual BOOL InternalPostLoad(void);
+		virtual void InternalLoadFail(void);
+		virtual void InternalLoadSuccess(void);
 
-	BOOL CResRenderPassManager::PreLoadFromPath(const char *szPathName)
-	{
-		return CResourceManager::PreLoadFromPath(szPathName, RENDERPASS_EXT_NAME);
-	}
 
-	BOOL CResRenderPassManager::PreLoadFromPack(const char *szPackName)
-	{
-		return CResourceManager::PreLoadFromPack(szPackName, RENDERPASS_EXT_NAME);
-	}
-
-	BOOL CResRenderPassManager::PreLoad(CResourceHandle *pResourceHandle)
-	{
-		return pResourceHandle->LoadResource(TRUE, TRUE);
-	}
-
-	void CResRenderPassManager::GarbageCollection(void)
-	{
-
-	}
+	protected:
+		CGfxFrameBufferPtr m_ptrFrameBuffer;
+	};
 
 }

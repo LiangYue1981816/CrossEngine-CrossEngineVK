@@ -25,49 +25,59 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CResRenderPassManager::CResRenderPassManager(void)
+	CResFrameBuffer::CResFrameBuffer(CResourceManager *pResourceManager)
+		: CResource(pResourceManager)
 	{
 
 	}
 
-	CResRenderPassManager::~CResRenderPassManager(void)
+	CResFrameBuffer::~CResFrameBuffer(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CResRenderPassManager::GetType(void) const
+	RESOURCE_TYPE CResFrameBuffer::GetType(void) const
 	{
-		return RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS;
+		return RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER;
 	}
 
-	CResource* CResRenderPassManager::CreateResource(void)
+	const CGfxFrameBufferPtr& CResFrameBuffer::GetFrameBuffer(void) const
 	{
-		return SAFE_NEW CResRenderPass(this);
+		return m_ptrFrameBuffer;
 	}
 
-	BOOL CResRenderPassManager::PreLoadFromFile(const char *szFileName)
+	BOOL CResFrameBuffer::IsValid(void) const
 	{
-		return CResourceManager::PreLoadFromFile(szFileName, RENDERPASS_EXT_NAME);
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrFrameBuffer.IsNull() || m_ptrFrameBuffer->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
-	BOOL CResRenderPassManager::PreLoadFromPath(const char *szPathName)
+	BOOL CResFrameBuffer::InternalLoad(BOOL bSyncPostLoad)
 	{
-		return CResourceManager::PreLoadFromPath(szPathName, RENDERPASS_EXT_NAME);
+		return FALSE;
 	}
 
-	BOOL CResRenderPassManager::PreLoadFromPack(const char *szPackName)
+	BOOL CResFrameBuffer::InternalPostLoad(void)
 	{
-		return CResourceManager::PreLoadFromPack(szPackName, RENDERPASS_EXT_NAME);
+		return FALSE;
 	}
 
-	BOOL CResRenderPassManager::PreLoad(CResourceHandle *pResourceHandle)
+	void CResFrameBuffer::InternalLoadFail(void)
 	{
-		return pResourceHandle->LoadResource(TRUE, TRUE);
+		m_ptrFrameBuffer.Release();
+		CResource::InternalLoadFail();
 	}
 
-	void CResRenderPassManager::GarbageCollection(void)
+	void CResFrameBuffer::InternalLoadSuccess(void)
 	{
-
+		CResource::InternalLoadSuccess();
 	}
 
 }

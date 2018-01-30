@@ -25,47 +25,47 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CResRenderPassManager::CResRenderPassManager(void)
+	CResFrameBufferManager::CResFrameBufferManager(void)
 	{
 
 	}
 
-	CResRenderPassManager::~CResRenderPassManager(void)
+	CResFrameBufferManager::~CResFrameBufferManager(void)
 	{
 
 	}
 
-	RESOURCE_TYPE CResRenderPassManager::GetType(void) const
+	RESOURCE_TYPE CResFrameBufferManager::GetType(void) const
 	{
-		return RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS;
+		return RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER;
 	}
 
-	CResource* CResRenderPassManager::CreateResource(void)
+	CResource* CResFrameBufferManager::CreateResource(void)
 	{
-		return SAFE_NEW CResRenderPass(this);
+		return SAFE_NEW CResFrameBuffer(this);
 	}
 
-	BOOL CResRenderPassManager::PreLoadFromFile(const char *szFileName)
+	BOOL CResFrameBufferManager::PreLoadFromFile(const char *szFileName)
 	{
-		return CResourceManager::PreLoadFromFile(szFileName, RENDERPASS_EXT_NAME);
+		return CResourceManager::PreLoadFromFile(szFileName, FRAMEBUFFER_EXT_NAME);
 	}
 
-	BOOL CResRenderPassManager::PreLoadFromPath(const char *szPathName)
+	BOOL CResFrameBufferManager::PreLoadFromPath(const char *szPathName)
 	{
-		return CResourceManager::PreLoadFromPath(szPathName, RENDERPASS_EXT_NAME);
+		return CResourceManager::PreLoadFromPath(szPathName, FRAMEBUFFER_EXT_NAME);
 	}
 
-	BOOL CResRenderPassManager::PreLoadFromPack(const char *szPackName)
+	BOOL CResFrameBufferManager::PreLoadFromPack(const char *szPackName)
 	{
-		return CResourceManager::PreLoadFromPack(szPackName, RENDERPASS_EXT_NAME);
+		return CResourceManager::PreLoadFromPack(szPackName, FRAMEBUFFER_EXT_NAME);
 	}
 
-	BOOL CResRenderPassManager::PreLoad(CResourceHandle *pResourceHandle)
+	BOOL CResFrameBufferManager::PreLoad(CResourceHandle *pResourceHandle)
 	{
 		return pResourceHandle->LoadResource(TRUE, TRUE);
 	}
 
-	void CResRenderPassManager::GarbageCollection(void)
+	void CResFrameBufferManager::GarbageCollection(void)
 	{
 
 	}

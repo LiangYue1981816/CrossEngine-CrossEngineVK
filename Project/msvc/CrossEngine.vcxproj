@@ -313,6 +313,8 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResCompute.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResComputeManager.h" />
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResFrameBuffer.h" />
+    <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResFrameBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResGraphics.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResGraphicsManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterial.h" />
@@ -502,6 +504,8 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanVertexBuffer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResCompute.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResComputeManager.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResFrameBuffer.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResFrameBufferManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResGraphics.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResGraphicsManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResMaterial.cpp" />
