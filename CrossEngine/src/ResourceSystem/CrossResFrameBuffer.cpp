@@ -61,23 +61,85 @@ namespace CrossEngine {
 
 	BOOL CResFrameBuffer::InternalLoad(BOOL bSyncPostLoad)
 	{
-		return FALSE;
+		BOOL rcode = FALSE;
+
+		TiXmlDocument xmlDoc;
+		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
+			if (TiXmlNode *pRenderNode = xmlDoc.FirstChild("RenderPass")) {
+				if (LoadRenderPass(pRenderNode) == FALSE) {
+					return FALSE;
+				}
+			}
+			else {
+				return FALSE;
+			}
+
+			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Presents")) {
+				if (LoadAttachmentPresents(pAttachmentsNode) == FALSE) {
+					return FALSE;
+				}
+
+				rcode = TRUE;
+			}
+
+			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Colors")) {
+				if (LoadAttachmentColors(pAttachmentsNode, bSyncPostLoad) == FALSE) {
+					return FALSE;
+				}
+
+				rcode = TRUE;
+			}
+
+			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("DepthStencils")) {
+				if (LoadAttachmentDepthStencils(pAttachmentsNode, bSyncPostLoad) == FALSE) {
+					return FALSE;
+				}
+
+				rcode = TRUE;
+			}
+		}
+
+		return rcode;
 	}
 
 	BOOL CResFrameBuffer::InternalPostLoad(void)
 	{
-		return FALSE;
+		m_ptrRenderPass = RenderPassManager()->LoadResource(m_param.dwRenderPassName);
+		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->IsValid() == FALSE) return FALSE;
+
+		m_ptrFrameBuffer = GfxDevice()->NewFrameBuffer(m_ptrRenderPass->GetRenderPass()->GetAttachmentCount());
+
+		for (int index = 0; index < m_param.presents.size(); index++) {
+			m_ptrFrameBuffer->SetPresentAttachment(m_param.presents[index].indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.presents[index].indexSurface));
+		}
+
+		for (int index = 0; index < m_param.colors.size(); index++) {
+			m_ptrFrameBuffer->SetColorAttachment(m_param.colors[index].indexAttachment, m_param.colors[index].ptrRenderTexture->GetRenderTexture());
+		}
+
+		for (int index = 0; index < m_param.depthStencils.size(); index++) {
+			m_ptrFrameBuffer->SetDepthStencilAttachment(m_param.depthStencils[index].indexAttachment, m_param.depthStencils[index].ptrRenderTexture->GetRenderTexture());
+		}
+
+		return m_ptrFrameBuffer->Create(m_ptrRenderPass->GetRenderPass()->GetHandle());
 	}
 
 	void CResFrameBuffer::InternalLoadFail(void)
 	{
 		m_ptrFrameBuffer.Release();
+		m_ptrRenderPass.Release();
 		CResource::InternalLoadFail();
 	}
 
 	void CResFrameBuffer::InternalLoadSuccess(void)
 	{
 		CResource::InternalLoadSuccess();
+	}
+
+	BOOL CResFrameBuffer::LoadRenderPass(TiXmlNode *pRenderPassNode)
+	{
+		m_param.dwRenderPassName = HashValue(pRenderPassNode->ToElement()->AttributeString("render_pass"));
+		return TRUE;
 	}
 
 	BOOL CResFrameBuffer::LoadAttachmentPresents(TiXmlNode *pAttachmentsNode)
@@ -96,14 +158,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResFrameBuffer::LoadAttachmentColors(TiXmlNode *pAttachmentsNode)
+	BOOL CResFrameBuffer::LoadAttachmentColors(TiXmlNode *pAttachmentsNode, BOOL bSyncPostLoad)
 	{
 		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
 			do {
 				AttachmentColorParam param;
 
 				param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
-				param.dwName = HashValue(pAttachmentNode->ToElement()->AttributeString("color_render_texture"));
+				param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
+				if (param.ptrRenderTexture.IsNull()) return FALSE;
 
 				m_param.colors.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
@@ -112,14 +175,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResFrameBuffer::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode)
+	BOOL CResFrameBuffer::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode, BOOL bSyncPostLoad)
 	{
 		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
 			do {
 				AttachmentDepthStencilParam param;
 
 				param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
-				param.dwName = HashValue(pAttachmentNode->ToElement()->AttributeString("depthstencil_render_texture"));
+				param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
+				if (param.ptrRenderTexture.IsNull()) return FALSE;
 
 				m_param.depthStencils.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
