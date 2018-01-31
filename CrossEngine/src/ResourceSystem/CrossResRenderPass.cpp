@@ -63,31 +63,33 @@ namespace CrossEngine {
 	{
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
-			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Attachments")) {
-				if (LoadAttachments(pAttachmentsNode) == FALSE) {
+			if (TiXmlNode *pRenderPassNode = xmlDoc.FirstChild("RenderPass")) {
+				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("Attachments")) {
+					if (LoadAttachments(pAttachmentsNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
-			else {
-				return FALSE;
-			}
 
-			if (TiXmlNode *pSubPassesNode = xmlDoc.FirstChild("SubPasses")) {
-				if (LoadSubPasses(pSubPassesNode) == FALSE) {
+				if (TiXmlNode *pSubPassesNode = pRenderPassNode->FirstChild("SubPasses")) {
+					if (LoadSubPasses(pSubPassesNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
-			else {
-				return FALSE;
-			}
 
-			if (TiXmlNode *pDependenciesNode = xmlDoc.FirstChild("Dependencies")) {
-				if (LoadDependencies(pDependenciesNode) == FALSE) {
-					return FALSE;
+				if (TiXmlNode *pDependenciesNode = pRenderPassNode->FirstChild("Dependencies")) {
+					if (LoadDependencies(pDependenciesNode) == FALSE) {
+						return FALSE;
+					}
 				}
-			}
 
-			return TRUE;
+				return TRUE;
+			}
 		}
 
 		return FALSE;
@@ -136,12 +138,29 @@ namespace CrossEngine {
 		}
 
 		for (int index = 0; index < m_param.subpasses.size(); index++) {
-			m_ptrRenderPass->SetSubpassInputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputColorReference);
-			m_ptrRenderPass->SetSubpassInputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputDepthStencilReference);
-			m_ptrRenderPass->SetSubpassOutputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputColorReference);
-			m_ptrRenderPass->SetSubpassOutputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputDepthStencilReference);
-			m_ptrRenderPass->SetSubpassResolveColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].resolveColorReference, m_param.subpasses[index].resolveColorImageLayout);
-			m_ptrRenderPass->SetSubpassPreserveReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].preserveReference);
+			if (m_param.subpasses[index].inputColorReference >= 0) {
+				m_ptrRenderPass->SetSubpassInputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputColorReference);
+			}
+
+			if (m_param.subpasses[index].inputDepthStencilReference >= 0) {
+				m_ptrRenderPass->SetSubpassInputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputDepthStencilReference);
+			}
+
+			if (m_param.subpasses[index].outputColorReference >= 0) {
+				m_ptrRenderPass->SetSubpassOutputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputColorReference);
+			}
+
+			if (m_param.subpasses[index].outputDepthStencilReference >= 0) {
+				m_ptrRenderPass->SetSubpassOutputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputDepthStencilReference);
+			}
+
+			if (m_param.subpasses[index].resolveColorReference >= 0) {
+				m_ptrRenderPass->SetSubpassResolveColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].resolveColorReference, m_param.subpasses[index].resolveColorImageLayout);
+			}
+
+			if (m_param.subpasses[index].preserveReference >= 0) {
+				m_ptrRenderPass->SetSubpassPreserveReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].preserveReference);
+			}
 		}
 
 		for (int index = 0; index < m_param.dependencies.size(); index++) {
@@ -200,7 +219,7 @@ namespace CrossEngine {
 					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
-				else if (stricmp(szType, "depthstencil") == 0) {
+				else if (stricmp(szType, "depth_stencil") == 0) {
 					param.type = ATTACHMENT_TYPE_DEPTHSTENCIL;
 					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
 					param.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));

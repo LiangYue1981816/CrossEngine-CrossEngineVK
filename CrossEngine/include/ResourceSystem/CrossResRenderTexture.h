@@ -34,7 +34,7 @@ namespace CrossEngine {
 	protected:
 		typedef enum {
 			RENDER_TEXTURE_TYPE_COLOR = 0,
-			RENDER_TEXTURE_TYPE_DEPTH
+			RENDER_TEXTURE_TYPE_DEPTH_STENCIL
 		} RENDER_TEXTURE_TYPE;
 
 		typedef struct RenderTextureParam {
