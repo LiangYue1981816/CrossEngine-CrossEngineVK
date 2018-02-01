@@ -61,6 +61,24 @@ namespace CrossEngine {
 
 	BOOL CResRenderPass::InternalLoad(BOOL bSyncPostLoad)
 	{
+		/*
+		<RenderPass>
+			<Attachments>
+				<Attachment type="present" index="0" format="VK_FORMAT_R8G8B8_UNORM" loadop="VK_ATTACHMENT_LOAD_OP_CLEAR" storeop="VK_ATTACHMENT_STORE_OP_DONT_CARE" samples="VK_SAMPLE_COUNT_1_BIT" clear_depth="1.0" clear_stencil="0" clear_color="0.0 0.0 0.0 1.0" />
+				<Attachment type="color" index="1" format="VK_FORMAT_R8G8B8_UNORM" loadop="VK_ATTACHMENT_LOAD_OP_CLEAR" storeop="VK_ATTACHMENT_STORE_OP_DONT_CARE" samples="VK_SAMPLE_COUNT_1_BIT" clear_depth="1.0" layout="VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL" clear_stencil="0" clear_color="0.0 0.0 0.0 1.0" />
+				<Attachment type="depth_stencil" index="2" format="VK_FORMAT_R8G8B8_UNORM" loadop="VK_ATTACHMENT_LOAD_OP_CLEAR" storeop="VK_ATTACHMENT_STORE_OP_DONT_CARE" stencil_loadop="VK_ATTACHMENT_LOAD_OP_CLEAR" stencil_storeop="VK_ATTACHMENT_STORE_OP_DONT_CARE" samples="VK_SAMPLE_COUNT_1_BIT" clear_depth="1.0" layout="VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL" clear_stencil="0" clear_color="0.0 0.0 0.0 1.0" />
+			</Attachments>
+
+			<SubPasses>
+				<SubPass index="0" input_color_reference="-1" input_depth_stencil_reference="-1" output_color_reference="0" output_depth_stencil_reference="-1" preserve_reference="-1" resolve_color_reference="-1" resolve_color_image_layout="VK_IMAGE_LAYOUT_PRESENT_SRC_KHR" />
+			</SubPasses>
+
+			<Dependencies>
+				<Dependency index="0" index_src_subpass="0" index_dst_subpass="1" src_stage_mask="VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT" dst_stage_mask="VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT" src_access_mask="VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT" dst_access_mask="VK_ACCESS_SHADER_READ_BIT" flags="VK_DEPENDENCY_BY_REGION_BIT" />
+			</Dependencies>
+		</RenderPass>
+		*/
+
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pRenderPassNode = xmlDoc.FirstChild("RenderPass")) {

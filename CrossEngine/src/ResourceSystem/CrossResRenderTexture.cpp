@@ -65,8 +65,9 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
-		// <RenderTarget type="color" width="100" height="100" format="VK_FORMAT_R8G8B8_UNORM" samples="VK_SAMPLE_COUNT_1_BIT" />
-		// <RenderTarget type="depth_stencil" width="100" height="100" format="VK_FORMAT_R8G8B8_UNORM" samples="VK_SAMPLE_COUNT_1_BIT" />
+		/*
+		<RenderTarget type="color"/"depth_stencil" width="100" height="100" format="VK_FORMAT_R8G8B8_UNORM" samples="VK_SAMPLE_COUNT_1_BIT" />
+		*/
 
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {

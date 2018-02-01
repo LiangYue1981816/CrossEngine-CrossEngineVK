@@ -63,14 +63,16 @@ namespace CrossEngine {
 	{
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
-			if (TiXmlNode *pPassNode = xmlDoc.FirstChild("Pass")) {
-				do {
-					if (LoadPassPipeline(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
-					if (LoadPassTextures(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
-					if (LoadPassUniforms(pPassNode) == FALSE) return FALSE;
-				} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
+			if (TiXmlNode *pMaterialNode = xmlDoc.FirstChild("Material")) {
+				if (TiXmlNode *pPassNode = pMaterialNode->FirstChild("Pass")) {
+					do {
+						if (LoadPassPipeline(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
+						if (LoadPassTextures(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
+						if (LoadPassUniforms(pPassNode) == FALSE) return FALSE;
+					} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
 
-				return TRUE;
+					return TRUE;
+				}
 			}
 		}
 
@@ -162,7 +164,7 @@ namespace CrossEngine {
 		const uint32_t dwName = HashValue(szName);
 
 		m_ptrGraphices[dwPassName] = GraphicsManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
-		return m_ptrGraphices[dwPassName].IsNull() ? FALSE : TRUE;
+		return m_ptrGraphices[dwPassName].IsNull() || m_ptrGraphices[dwPassName]->IsValid() == FALSE ? FALSE : TRUE;
 	}
 
 	BOOL CResMaterial::LoadPassTextures(TiXmlNode *pPassNode, BOOL bSyncPostLoad)
