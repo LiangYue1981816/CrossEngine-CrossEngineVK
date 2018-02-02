@@ -68,61 +68,81 @@ namespace CrossEngine {
 	{
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
-			if (TiXmlNode *pShaderNode = xmlDoc.FirstChild("Shader")) {
-				if (LoadShader(pShaderNode) == FALSE) {
+			if (TiXmlNode *pGraphicsNode = xmlDoc.FirstChild("Graphics")) {
+				if (TiXmlNode *pRenderPassNode = pGraphicsNode->FirstChild("RenderPass")) {
+					if (LoadRenderPass(pRenderPassNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
-			else {
-				return FALSE;
-			}
 
-			if (TiXmlNode *pRenderPassNode = xmlDoc.FirstChild("RenderPass")) {
-				if (LoadRenderPass(pRenderPassNode) == FALSE) {
+				if (TiXmlNode *pShaderNode = pGraphicsNode->FirstChild("Shader")) {
+					if (LoadShader(pShaderNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
-			else {
-				return FALSE;
-			}
 
-			if (TiXmlNode *pAssemblyNode = xmlDoc.FirstChild("Assembly")) {
-				if (LoadAssembly(pAssemblyNode) == FALSE) {
+				if (TiXmlNode *pAssemblyNode = pGraphicsNode->FirstChild("Assembly")) {
+					if (LoadAssembly(pAssemblyNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
 
-			if (TiXmlNode *pRasterizationNode = xmlDoc.FirstChild("Rasterization")) {
-				if (LoadRasterization(pRasterizationNode) == FALSE) {
+				if (TiXmlNode *pRasterizationNode = pGraphicsNode->FirstChild("Rasterization")) {
+					if (LoadRasterization(pRasterizationNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
 
-			if (TiXmlNode *pMultisampleNode = xmlDoc.FirstChild("Multisample")) {
-				if (LoadMultisample(pMultisampleNode) == FALSE) {
+				if (TiXmlNode *pMultisampleNode = pGraphicsNode->FirstChild("Multisample")) {
+					if (LoadMultisample(pMultisampleNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
 
-			if (TiXmlNode *pDepthNode = xmlDoc.FirstChild("Depth")) {
-				if (LoadDepth(pDepthNode) == FALSE) {
+				if (TiXmlNode *pDepthNode = pGraphicsNode->FirstChild("Depth")) {
+					if (LoadDepth(pDepthNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
 
-			if (TiXmlNode *pStencilNode = xmlDoc.FirstChild("Stencil")) {
-				if (LoadStencil(pStencilNode) == FALSE) {
+				if (TiXmlNode *pStencilNode = pGraphicsNode->FirstChild("Stencil")) {
+					if (LoadStencil(pStencilNode) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
 
-			if (TiXmlNode *pBlendNodes = xmlDoc.FirstChild("Blend")) {
-				if (LoadBlend(pBlendNodes) == FALSE) {
+				if (TiXmlNode *pBlendNodes = pGraphicsNode->FirstChild("Blend")) {
+					if (LoadBlend(pBlendNodes) == FALSE) {
+						return FALSE;
+					}
+				}
+				else {
 					return FALSE;
 				}
-			}
 
-			return TRUE;
+				return TRUE;
+			}
 		}
 
 		return FALSE;
@@ -167,7 +187,7 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadRenderPass(TiXmlNode *pRenderPassNode)
 	{
-		m_param.renderpass.dwName = HashValue(pRenderPassNode->ToElement()->AttributeString("renderpass"));
+		m_param.renderpass.dwName = HashValue(pRenderPassNode->ToElement()->AttributeString("name"));
 		m_param.renderpass.indexSubPass = pRenderPassNode->ToElement()->AttributeInt1("subpass");
 		return TRUE;
 	}
@@ -191,7 +211,7 @@ namespace CrossEngine {
 	BOOL CResGraphics::LoadMultisample(TiXmlNode *pMultisampleNode)
 	{
 		m_param.multisample.samples = CVulkanHelper::StringToSampleCountFlagBits(pMultisampleNode->ToElement()->AttributeString("samples"));
-		m_param.multisample.bAlphaToCoverageEnable = pMultisampleNode->ToElement()->AttributeBool("enable_alpha_to_Coverage");
+		m_param.multisample.bAlphaToCoverageEnable = pMultisampleNode->ToElement()->AttributeBool("enable_alpha_to_coverage");
 		m_param.multisample.bAlphaToOneEnable = pMultisampleNode->ToElement()->AttributeBool("enable_alpha_to_one");
 		return TRUE;
 	}
