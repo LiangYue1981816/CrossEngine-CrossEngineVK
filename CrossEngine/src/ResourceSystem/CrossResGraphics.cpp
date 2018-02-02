@@ -41,6 +41,11 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS;
 	}
 
+	const CGfxRenderPassPtr& CResGraphics::GetRenderPass(void) const
+	{
+		return m_ptrRenderPass->GetRenderPass();
+	}
+
 	const CGfxPipelineGraphicsPtr& CResGraphics::GetPipeline(void) const
 	{
 		return m_ptrPipeline;

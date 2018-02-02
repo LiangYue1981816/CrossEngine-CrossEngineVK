@@ -37,21 +37,16 @@ namespace CrossEngine {
 			uint32_t indexSurface;
 		} AttachmentPresentParam;
 
-		typedef struct AttachmentColorParam {
+		typedef struct AttachmentRenderTextureParam {
 			uint32_t indexAttachment;
 			CResRenderTexturePtr ptrRenderTexture;
-		} AttachmentColorParam;
-
-		typedef struct AttachmentDepthStencilParam {
-			uint32_t indexAttachment;
-			CResRenderTexturePtr ptrRenderTexture;
-		} AttachmentDepthStencilParam;
+		} AttachmentRenderTextureParam;
 
 		typedef struct FrameBufferParam {
 			uint32_t dwRenderPassName;
 			std::vector<AttachmentPresentParam> presents;
-			std::vector<AttachmentColorParam> colors;
-			std::vector<AttachmentDepthStencilParam> depthStencils;
+			std::vector<AttachmentRenderTextureParam> colors;
+			std::vector<AttachmentRenderTextureParam> depthStencils;
 		} FrameBufferParam;
 
 
@@ -61,6 +56,7 @@ namespace CrossEngine {
 
 
 	public:
+		const CGfxRenderPassPtr& GetRenderPass(void) const;
 		const CGfxFrameBufferPtr& GetFrameBuffer(void) const;
 
 	public:

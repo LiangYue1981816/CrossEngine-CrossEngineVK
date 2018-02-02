@@ -41,6 +41,11 @@ namespace CrossEngine {
 		return RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER;
 	}
 
+	const CGfxRenderPassPtr& CResFrameBuffer::GetRenderPass(void) const
+	{
+		return m_ptrRenderPass->GetRenderPass();
+	}
+
 	const CGfxFrameBufferPtr& CResFrameBuffer::GetFrameBuffer(void) const
 	{
 		return m_ptrFrameBuffer;
@@ -61,41 +66,57 @@ namespace CrossEngine {
 
 	BOOL CResFrameBuffer::InternalLoad(BOOL bSyncPostLoad)
 	{
+		/*
+		<FrameBuffer>
+			<RenderPass name="forward.renderpass" />
+			<Presents>
+				<Attachment index="0" index_surface="0" />
+			</Presents>
+			<Colors>
+				<Attachment index="0" render_texture="color.rendertexture" />
+			</Colors>
+			<DepthStencils>
+				<Attachment index="0" render_texture="depth.rendertexture" />
+			</DepthStencils>
+		</FrameBuffer>
+		*/
 		BOOL rcode = FALSE;
 
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
-			if (TiXmlNode *pRenderNode = xmlDoc.FirstChild("RenderPass")) {
-				if (LoadRenderPass(pRenderNode) == FALSE) {
-					return FALSE;
+			if (TiXmlNode *pFrameBufferNode = xmlDoc.FirstChild("FrameBuffer")) {
+				if (TiXmlNode *pRenderPassNode = pFrameBufferNode->FirstChild("RenderPass")) {
+					if (LoadRenderPass(pRenderPassNode) == FALSE) {
+						return FALSE;
+					}
 				}
-			}
-			else {
-				return FALSE;
-			}
-
-			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Presents")) {
-				if (LoadAttachmentPresents(pAttachmentsNode) == FALSE) {
+				else {
 					return FALSE;
 				}
 
-				rcode = TRUE;
-			}
+				if (TiXmlNode *pAttachmentsNode = pFrameBufferNode->FirstChild("Presents")) {
+					if (LoadAttachmentPresents(pAttachmentsNode) == FALSE) {
+						return FALSE;
+					}
 
-			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("Colors")) {
-				if (LoadAttachmentColors(pAttachmentsNode, bSyncPostLoad) == FALSE) {
-					return FALSE;
+					rcode = TRUE;
 				}
 
-				rcode = TRUE;
-			}
+				if (TiXmlNode *pAttachmentsNode = pFrameBufferNode->FirstChild("Colors")) {
+					if (LoadAttachmentColors(pAttachmentsNode, bSyncPostLoad) == FALSE) {
+						return FALSE;
+					}
 
-			if (TiXmlNode *pAttachmentsNode = xmlDoc.FirstChild("DepthStencils")) {
-				if (LoadAttachmentDepthStencils(pAttachmentsNode, bSyncPostLoad) == FALSE) {
-					return FALSE;
+					rcode = TRUE;
 				}
 
-				rcode = TRUE;
+				if (TiXmlNode *pAttachmentsNode = pFrameBufferNode->FirstChild("DepthStencils")) {
+					if (LoadAttachmentDepthStencils(pAttachmentsNode, bSyncPostLoad) == FALSE) {
+						return FALSE;
+					}
+
+					rcode = TRUE;
+				}
 			}
 		}
 
@@ -108,19 +129,33 @@ namespace CrossEngine {
 		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->IsValid() == FALSE) return FALSE;
 
 		m_ptrFrameBuffer = GfxDevice()->NewFrameBuffer(m_ptrRenderPass->GetRenderPass()->GetAttachmentCount());
+		{
+			for (int index = 0; index < m_param.presents.size(); index++) {
+				if (m_ptrFrameBuffer->SetPresentAttachment(m_param.presents[index].indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.presents[index].indexSurface)) == FALSE) {
+					return FALSE;
+				}
+			}
 
-		for (int index = 0; index < m_param.presents.size(); index++) {
-			m_ptrFrameBuffer->SetPresentAttachment(m_param.presents[index].indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.presents[index].indexSurface));
+			for (int index = 0; index < m_param.colors.size(); index++) {
+				if (m_param.colors[index].ptrRenderTexture->IsValid() == FALSE) {
+					return FALSE;
+				}
+
+				if (m_ptrFrameBuffer->SetColorAttachment(m_param.colors[index].indexAttachment, m_param.colors[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
+					return FALSE;
+				}
+			}
+
+			for (int index = 0; index < m_param.depthStencils.size(); index++) {
+				if (m_param.depthStencils[index].ptrRenderTexture->IsValid() == FALSE) {
+					return FALSE;
+				}
+
+				if (m_ptrFrameBuffer->SetDepthStencilAttachment(m_param.depthStencils[index].indexAttachment, m_param.depthStencils[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
+					return FALSE;
+				}
+			}
 		}
-
-		for (int index = 0; index < m_param.colors.size(); index++) {
-			m_ptrFrameBuffer->SetColorAttachment(m_param.colors[index].indexAttachment, m_param.colors[index].ptrRenderTexture->GetRenderTexture());
-		}
-
-		for (int index = 0; index < m_param.depthStencils.size(); index++) {
-			m_ptrFrameBuffer->SetDepthStencilAttachment(m_param.depthStencils[index].indexAttachment, m_param.depthStencils[index].ptrRenderTexture->GetRenderTexture());
-		}
-
 		return m_ptrFrameBuffer->Create(m_ptrRenderPass->GetRenderPass()->GetHandle());
 	}
 
@@ -138,7 +173,7 @@ namespace CrossEngine {
 
 	BOOL CResFrameBuffer::LoadRenderPass(TiXmlNode *pRenderPassNode)
 	{
-		m_param.dwRenderPassName = HashValue(pRenderPassNode->ToElement()->AttributeString("render_pass"));
+		m_param.dwRenderPassName = HashValue(pRenderPassNode->ToElement()->AttributeString("name"));
 		return TRUE;
 	}
 
@@ -147,10 +182,10 @@ namespace CrossEngine {
 		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
 			do {
 				AttachmentPresentParam param;
-
-				param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
-				param.indexSurface = pAttachmentNode->ToElement()->AttributeInt1("index_surface");
-
+				{
+					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+					param.indexSurface = pAttachmentNode->ToElement()->AttributeInt1("index_surface");
+				}
 				m_param.presents.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
 		}
@@ -162,12 +197,12 @@ namespace CrossEngine {
 	{
 		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
 			do {
-				AttachmentColorParam param;
-
-				param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
-				param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
-				if (param.ptrRenderTexture.IsNull()) return FALSE;
-
+				AttachmentRenderTextureParam param;
+				{
+					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+					param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
+					if (param.ptrRenderTexture.IsNull()) return FALSE;
+				}
 				m_param.colors.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
 		}
@@ -179,12 +214,12 @@ namespace CrossEngine {
 	{
 		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
 			do {
-				AttachmentDepthStencilParam param;
-
-				param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
-				param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
-				if (param.ptrRenderTexture.IsNull()) return FALSE;
-
+				AttachmentRenderTextureParam param;
+				{
+					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+					param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
+					if (param.ptrRenderTexture.IsNull()) return FALSE;
+				}
 				m_param.depthStencils.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
 		}
