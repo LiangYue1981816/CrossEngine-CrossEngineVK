@@ -120,6 +120,7 @@ namespace CrossEngine {
 
 
 	public:
+		const uint32_t GetSubpassIndex(void) const;
 		const CGfxRenderPassPtr& GetRenderPass(void) const;
 		const CGfxPipelineGraphicsPtr& GetPipeline(void) const;
 

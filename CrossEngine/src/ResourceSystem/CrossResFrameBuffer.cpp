@@ -66,20 +66,6 @@ namespace CrossEngine {
 
 	BOOL CResFrameBuffer::InternalLoad(BOOL bSyncPostLoad)
 	{
-		/*
-		<FrameBuffer>
-			<RenderPass name="forward.renderpass" />
-			<Presents>
-				<Attachment index="0" index_surface="0" />
-			</Presents>
-			<Colors>
-				<Attachment index="0" render_texture="color.rendertexture" />
-			</Colors>
-			<DepthStencils>
-				<Attachment index="0" render_texture="depth.rendertexture" />
-			</DepthStencils>
-		</FrameBuffer>
-		*/
 		BOOL rcode = FALSE;
 
 		TiXmlDocument xmlDoc;
@@ -130,28 +116,28 @@ namespace CrossEngine {
 
 		m_ptrFrameBuffer = GfxDevice()->NewFrameBuffer(m_ptrRenderPass->GetRenderPass()->GetAttachmentCount());
 		{
-			for (int index = 0; index < m_param.presents.size(); index++) {
-				if (m_ptrFrameBuffer->SetPresentAttachment(m_param.presents[index].indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.presents[index].indexSurface)) == FALSE) {
+			for (int index = 0; index < m_param.attachmentPresents.size(); index++) {
+				if (m_ptrFrameBuffer->SetPresentAttachment(m_param.attachmentPresents[index].indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.attachmentPresents[index].indexSurface)) == FALSE) {
 					return FALSE;
 				}
 			}
 
-			for (int index = 0; index < m_param.colors.size(); index++) {
-				if (m_param.colors[index].ptrRenderTexture->IsValid() == FALSE) {
+			for (int index = 0; index < m_param.attachmentColors.size(); index++) {
+				if (m_param.attachmentColors[index].ptrRenderTexture->IsValid() == FALSE) {
 					return FALSE;
 				}
 
-				if (m_ptrFrameBuffer->SetColorAttachment(m_param.colors[index].indexAttachment, m_param.colors[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
+				if (m_ptrFrameBuffer->SetColorAttachment(m_param.attachmentColors[index].indexAttachment, m_param.attachmentColors[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
 					return FALSE;
 				}
 			}
 
-			for (int index = 0; index < m_param.depthStencils.size(); index++) {
-				if (m_param.depthStencils[index].ptrRenderTexture->IsValid() == FALSE) {
+			for (int index = 0; index < m_param.attachmentDepthStencils.size(); index++) {
+				if (m_param.attachmentDepthStencils[index].ptrRenderTexture->IsValid() == FALSE) {
 					return FALSE;
 				}
 
-				if (m_ptrFrameBuffer->SetDepthStencilAttachment(m_param.depthStencils[index].indexAttachment, m_param.depthStencils[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
+				if (m_ptrFrameBuffer->SetDepthStencilAttachment(m_param.attachmentDepthStencils[index].indexAttachment, m_param.attachmentDepthStencils[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
 					return FALSE;
 				}
 			}
@@ -161,8 +147,13 @@ namespace CrossEngine {
 
 	void CResFrameBuffer::InternalLoadFail(void)
 	{
-		m_ptrFrameBuffer.Release();
 		m_ptrRenderPass.Release();
+		m_ptrFrameBuffer.Release();
+
+		m_param.attachmentPresents.clear();
+		m_param.attachmentColors.clear();
+		m_param.attachmentDepthStencils.clear();
+
 		CResource::InternalLoadFail();
 	}
 
@@ -186,7 +177,7 @@ namespace CrossEngine {
 					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
 					param.indexSurface = pAttachmentNode->ToElement()->AttributeInt1("index_surface");
 				}
-				m_param.presents.push_back(param);
+				m_param.attachmentPresents.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
 		}
 
@@ -203,7 +194,7 @@ namespace CrossEngine {
 					param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
 					if (param.ptrRenderTexture.IsNull()) return FALSE;
 				}
-				m_param.colors.push_back(param);
+				m_param.attachmentColors.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
 		}
 
@@ -220,7 +211,7 @@ namespace CrossEngine {
 					param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
 					if (param.ptrRenderTexture.IsNull()) return FALSE;
 				}
-				m_param.depthStencils.push_back(param);
+				m_param.attachmentDepthStencils.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
 		}
 

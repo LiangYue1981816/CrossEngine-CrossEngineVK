@@ -90,6 +90,7 @@ namespace CrossEngine {
 
 			uint32_t dwPassName = itGraphics.first;
 			m_ptrMaterial->GetPass(dwPassName)->SetPipeline(itGraphics.second->GetPipeline());
+			m_ptrMaterial->GetPass(dwPassName)->SetRenderPass(itGraphics.second->GetRenderPass(), itGraphics.second->GetSubpassIndex());
 		}
 
 		for (const auto &itTextures : m_ptrTextures) {
@@ -104,31 +105,31 @@ namespace CrossEngine {
 			}
 		}
 
-		for (const auto &itFloats : m_floats) {
-			for (const auto &itFloat : itFloats.second) {
-				uint32_t dwPassName = itFloats.first;
-				uint32_t dwUniformName = itFloat.first;
+		for (const auto &itUniformFloats : m_uniformFloats) {
+			for (const auto &itUniformFloat : itUniformFloats.second) {
+				uint32_t dwPassName = itUniformFloats.first;
+				uint32_t dwUniformName = itUniformFloat.first;
 				uint32_t binding = m_ptrMaterial->GetPass(dwPassName)->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwUniformName);
 				if (binding == -1) return FALSE;
 
 				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-				ptrUniform->Create(sizeof(itFloat.second), &itFloat.second, FALSE);
-				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itFloat.second));
+				ptrUniform->Create(sizeof(itUniformFloat.second), &itUniformFloat.second, FALSE);
+				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformFloat.second));
 
 				m_ptrMaterial->GetPass(dwPassName)->SetUniform(dwUniformName, ptrUniform);
 			}
 		}
 
-		for (const auto &itVectors : m_vectors) {
-			for (const auto &itVector : itVectors.second) {
-				uint32_t dwPassName = itVectors.first;
-				uint32_t dwUniformName = itVector.first;
+		for (const auto &itUniformVectors : m_uniformVectors) {
+			for (const auto &itUniformVector : itUniformVectors.second) {
+				uint32_t dwPassName = itUniformVectors.first;
+				uint32_t dwUniformName = itUniformVector.first;
 				uint32_t binding = m_ptrMaterial->GetPass(dwPassName)->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwUniformName);
 				if (binding == -1) return FALSE;
 
 				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-				ptrUniform->Create(sizeof(itVector.second), &itVector.second, FALSE);
-				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itVector.second));
+				ptrUniform->Create(sizeof(itUniformVector.second), &itUniformVector.second, FALSE);
+				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformVector.second));
 
 				m_ptrMaterial->GetPass(dwPassName)->SetUniform(dwUniformName, ptrUniform);
 			}
@@ -146,8 +147,9 @@ namespace CrossEngine {
 		m_ptrMaterial.Release();
 		m_ptrGraphices.clear();
 		m_ptrTextures.clear();
-		m_floats.clear();
-		m_vectors.clear();
+		m_uniformFloats.clear();
+		m_uniformVectors.clear();
+
 		CResource::InternalLoadFail();
 	}
 
@@ -208,7 +210,7 @@ namespace CrossEngine {
 
 				float value;
 				scanf(szValue, "%f", &value);
-				m_floats[dwPassName][dwName] = value;
+				m_uniformFloats[dwPassName][dwName] = value;
 			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
 		}
 
@@ -220,7 +222,7 @@ namespace CrossEngine {
 
 				glm::vec4 value;
 				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);
-				m_vectors[dwPassName][dwName] = value;
+				m_uniformVectors[dwPassName][dwName] = value;
 			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
 		}
 

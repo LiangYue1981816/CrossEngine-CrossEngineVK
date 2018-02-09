@@ -57,8 +57,8 @@ namespace CrossEngine {
 
 	protected:
 		std::map<uint32_t, CResGraphicsPtr> m_ptrGraphices;
-		std::map<uint32_t, std::map<uint32_t, float>> m_floats;
-		std::map<uint32_t, std::map<uint32_t, glm::vec4>> m_vectors;
+		std::map<uint32_t, std::map<uint32_t, float>> m_uniformFloats;
+		std::map<uint32_t, std::map<uint32_t, glm::vec4>> m_uniformVectors;
 		std::map<uint32_t, std::map<uint32_t, CResTexturePtr>> m_ptrTextures;
 
 	protected:

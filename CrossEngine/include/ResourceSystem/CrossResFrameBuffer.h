@@ -44,9 +44,9 @@ namespace CrossEngine {
 
 		typedef struct FrameBufferParam {
 			uint32_t dwRenderPassName;
-			std::vector<AttachmentPresentParam> presents;
-			std::vector<AttachmentRenderTextureParam> colors;
-			std::vector<AttachmentRenderTextureParam> depthStencils;
+			std::vector<AttachmentPresentParam> attachmentPresents;
+			std::vector<AttachmentRenderTextureParam> attachmentColors;
+			std::vector<AttachmentRenderTextureParam> attachmentDepthStencils;
 		} FrameBufferParam;
 
 
