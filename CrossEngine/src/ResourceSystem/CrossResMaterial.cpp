@@ -145,6 +145,7 @@ namespace CrossEngine {
 	void CResMaterial::InternalLoadFail(void)
 	{
 		m_ptrMaterial.Release();
+
 		m_ptrGraphices.clear();
 		m_ptrTextures.clear();
 		m_uniformFloats.clear();
@@ -155,6 +156,11 @@ namespace CrossEngine {
 
 	void CResMaterial::InternalLoadSuccess(void)
 	{
+		m_ptrGraphices.clear();
+		m_ptrTextures.clear();
+		m_uniformFloats.clear();
+		m_uniformVectors.clear();
+
 		CResource::InternalLoadSuccess();
 	}
 

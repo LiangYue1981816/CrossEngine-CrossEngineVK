@@ -32,15 +32,27 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef enum AttachmentType {
-			ATTACHMENT_TYPE_PRESENT,
-			ATTACHMENT_TYPE_COLOR,
-			ATTACHMENT_TYPE_DEPTHSTENCIL
-		} AttachmentType;
-
-		typedef struct AttachmentParam {
+		typedef struct AttachmentPresentParam {
 			uint32_t indexAttachment;
-			AttachmentType type;
+			VkFormat format;
+			VkAttachmentLoadOp loadOp;
+			VkAttachmentStoreOp storeOp;
+			VkClearValue clearValue;
+			VkSampleCountFlagBits samples;
+		} AttachmentPresentParam;
+
+		typedef struct AttachmentColorTextureParam {
+			uint32_t indexAttachment;
+			VkFormat format;
+			VkAttachmentLoadOp loadOp;
+			VkAttachmentStoreOp storeOp;
+			VkClearValue clearValue;
+			VkSampleCountFlagBits samples;
+			VkImageLayout finalLayout;
+		} AttachmentColorTextureParam;
+
+		typedef struct AttachmentDepthStencilTextureParam {
+			uint32_t indexAttachment;
 			VkFormat format;
 			VkAttachmentLoadOp loadOp;
 			VkAttachmentStoreOp storeOp;
@@ -49,7 +61,7 @@ namespace CrossEngine {
 			VkClearValue clearValue;
 			VkSampleCountFlagBits samples;
 			VkImageLayout finalLayout;
-		} AttachmentParam;
+		} AttachmentDepthStencilTextureParam;
 
 		typedef struct SubPassParam {
 			uint32_t indexSubPass;
@@ -74,7 +86,9 @@ namespace CrossEngine {
 		} DependencyParam;
 
 		typedef struct RenderPassParam {
-			std::vector<AttachmentParam> attachments;
+			std::vector<AttachmentPresentParam> attachmentPresents;
+			std::vector<AttachmentColorTextureParam> attachmentColors;
+			std::vector<AttachmentDepthStencilTextureParam> attachmentDepthStencils;
 			std::vector<SubPassParam> subpasses;
 			std::vector<DependencyParam> dependencies;
 		} RenderPassParam;
@@ -99,7 +113,9 @@ namespace CrossEngine {
 		virtual void InternalLoadSuccess(void);
 
 	protected:
-		BOOL LoadAttachments(TiXmlNode *pAttachmentsNode);
+		BOOL LoadAttachmentPresents(TiXmlNode *pAttachmentsNode);
+		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentsNode);
+		BOOL LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode);
 		BOOL LoadSubPasses(TiXmlNode *pSubPassesNode);
 		BOOL LoadDependencies(TiXmlNode *pDependenciesNode);
 

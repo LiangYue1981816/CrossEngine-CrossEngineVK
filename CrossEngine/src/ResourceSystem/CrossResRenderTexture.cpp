@@ -65,13 +65,9 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
-		/*
-		<RenderTarget type="color"/"depth_stencil" width="100" height="100" format="VK_FORMAT_R8G8B8_UNORM" samples="VK_SAMPLE_COUNT_1_BIT" />
-		*/
-
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
-			if (TiXmlNode *pRenderTargetNode = xmlDoc.FirstChild("RenderTarget")) {
+			if (TiXmlNode *pRenderTargetNode = xmlDoc.FirstChild("RenderTexture")) {
 				const char *szType = pRenderTargetNode->ToElement()->AttributeString("type");
 				if      (stricmp(szType, "color"        ) == 0) m_data.type = RENDER_TEXTURE_TYPE_COLOR;
 				else if (stricmp(szType, "depth_stencil") == 0) m_data.type = RENDER_TEXTURE_TYPE_DEPTH_STENCIL;
@@ -91,12 +87,12 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::InternalPostLoad(void)
 	{
-		m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
-
 		if (m_data.type == RENDER_TEXTURE_TYPE_COLOR) {
+			m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
 			return m_ptrRenderTexture->CreateColorTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		}
 		else {
+			m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
 			return m_ptrRenderTexture->CreateDepthStencilTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
 		}
 	}

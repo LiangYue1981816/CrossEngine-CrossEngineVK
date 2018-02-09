@@ -159,6 +159,10 @@ namespace CrossEngine {
 
 	void CResFrameBuffer::InternalLoadSuccess(void)
 	{
+		m_param.attachmentPresents.clear();
+		m_param.attachmentColors.clear();
+		m_param.attachmentDepthStencils.clear();
+
 		CResource::InternalLoadSuccess();
 	}
 

@@ -79,6 +79,7 @@ namespace CrossEngine {
 	{
 		m_ptrTexture.Release();
 		m_texture.clear();
+
 		CResource::InternalLoadFail();
 	}
 

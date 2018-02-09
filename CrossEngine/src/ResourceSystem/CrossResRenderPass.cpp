@@ -61,18 +61,11 @@ namespace CrossEngine {
 
 	BOOL CResRenderPass::InternalLoad(BOOL bSyncPostLoad)
 	{
+		BOOL rcode = FALSE;
+
 		TiXmlDocument xmlDoc;
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pRenderPassNode = xmlDoc.FirstChild("RenderPass")) {
-				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("Attachments")) {
-					if (LoadAttachments(pAttachmentsNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
 				if (TiXmlNode *pSubPassesNode = pRenderPassNode->FirstChild("SubPasses")) {
 					if (LoadSubPasses(pSubPassesNode) == FALSE) {
 						return FALSE;
@@ -88,53 +81,71 @@ namespace CrossEngine {
 					}
 				}
 
-				return TRUE;
+				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("Presents")) {
+					if (LoadAttachmentPresents(pAttachmentsNode) == FALSE) {
+						return FALSE;
+					}
+
+					rcode = TRUE;
+				}
+
+				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("Colors")) {
+					if (LoadAttachmentColors(pAttachmentsNode) == FALSE) {
+						return FALSE;
+					}
+
+					rcode = TRUE;
+				}
+
+				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("DepthStencils")) {
+					if (LoadAttachmentDepthStencils(pAttachmentsNode) == FALSE) {
+						return FALSE;
+					}
+
+					rcode = TRUE;
+				}
 			}
 		}
 
-		return FALSE;
+		return rcode;
 	}
 
 	BOOL CResRenderPass::InternalPostLoad(void)
 	{
-		m_ptrRenderPass = GfxDevice()->NewRenderPass(m_param.attachments.size(), m_param.subpasses.size());
+		m_ptrRenderPass = GfxDevice()->NewRenderPass(m_param.attachmentPresents.size() + m_param.attachmentColors.size() + m_param.attachmentDepthStencils.size(), m_param.subpasses.size());
 		{
-			for (int index = 0; index < m_param.attachments.size(); index++) {
-				switch (m_param.attachments[index].type) {
-				case ATTACHMENT_TYPE_PRESENT:
-					m_ptrRenderPass->SetPresentAttachment(
-						m_param.attachments[index].indexAttachment,
-						m_param.attachments[index].format,
-						m_param.attachments[index].loadOp,
-						m_param.attachments[index].storeOp,
-						m_param.attachments[index].clearValue,
-						m_param.attachments[index].samples);
-					break;
+			for (int index = 0; index < m_param.attachmentPresents.size(); index++) {
+				m_ptrRenderPass->SetPresentAttachment(
+					m_param.attachmentPresents[index].indexAttachment, 
+					m_param.attachmentPresents[index].format, 
+					m_param.attachmentPresents[index].loadOp, 
+					m_param.attachmentPresents[index].storeOp, 
+					m_param.attachmentPresents[index].clearValue, 
+					m_param.attachmentPresents[index].samples);
+			}
 
-				case ATTACHMENT_TYPE_COLOR:
-					m_ptrRenderPass->SetColorAttachment(
-						m_param.attachments[index].indexAttachment,
-						m_param.attachments[index].format,
-						m_param.attachments[index].loadOp,
-						m_param.attachments[index].storeOp,
-						m_param.attachments[index].clearValue,
-						m_param.attachments[index].samples,
-						m_param.attachments[index].finalLayout);
-					break;
+			for (int index = 0; index < m_param.attachmentColors.size(); index++) {
+				m_ptrRenderPass->SetColorAttachment(
+					m_param.attachmentColors[index].indexAttachment, 
+					m_param.attachmentColors[index].format, 
+					m_param.attachmentColors[index].loadOp, 
+					m_param.attachmentColors[index].storeOp, 
+					m_param.attachmentColors[index].clearValue, 
+					m_param.attachmentColors[index].samples, 
+					m_param.attachmentColors[index].finalLayout);
+			}
 
-				case ATTACHMENT_TYPE_DEPTHSTENCIL:
-					m_ptrRenderPass->SetDepthStencilAttachment(
-						m_param.attachments[index].indexAttachment,
-						m_param.attachments[index].format,
-						m_param.attachments[index].loadOp,
-						m_param.attachments[index].storeOp,
-						m_param.attachments[index].stencilLoadOp,
-						m_param.attachments[index].stencilStoreOp,
-						m_param.attachments[index].clearValue,
-						m_param.attachments[index].samples,
-						m_param.attachments[index].finalLayout);
-					break;
-				}
+			for (int index = 0; index < m_param.attachmentDepthStencils.size(); index++) {
+				m_ptrRenderPass->SetDepthStencilAttachment(
+					m_param.attachmentDepthStencils[index].indexAttachment, 
+					m_param.attachmentDepthStencils[index].format, 
+					m_param.attachmentDepthStencils[index].loadOp, 
+					m_param.attachmentDepthStencils[index].storeOp, 
+					m_param.attachmentDepthStencils[index].stencilLoadOp, 
+					m_param.attachmentDepthStencils[index].stencilStoreOp, 
+					m_param.attachmentDepthStencils[index].clearValue, 
+					m_param.attachmentDepthStencils[index].samples, 
+					m_param.attachmentDepthStencils[index].finalLayout);
 			}
 
 			for (int index = 0; index < m_param.subpasses.size(); index++) {
@@ -181,23 +192,33 @@ namespace CrossEngine {
 	void CResRenderPass::InternalLoadFail(void)
 	{
 		m_ptrRenderPass.Release();
+
+		m_param.attachmentPresents.clear();
+		m_param.attachmentColors.clear();
+		m_param.attachmentDepthStencils.clear();
+		m_param.subpasses.clear();
+		m_param.dependencies.clear();
+
 		CResource::InternalLoadFail();
 	}
 
 	void CResRenderPass::InternalLoadSuccess(void)
 	{
+		m_param.attachmentPresents.clear();
+		m_param.attachmentColors.clear();
+		m_param.attachmentDepthStencils.clear();
+		m_param.subpasses.clear();
+		m_param.dependencies.clear();
+
 		CResource::InternalLoadSuccess();
 	}
 
-	BOOL CResRenderPass::LoadAttachments(TiXmlNode *pAttachmentsNode)
+	BOOL CResRenderPass::LoadAttachmentPresents(TiXmlNode *pAttachmentsNode)
 	{
 		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
 			do {
-				AttachmentParam param;
-
-				const char *szType = pAttachmentNode->ToElement()->AttributeString("type");
-				if (stricmp(szType, "present") == 0) {
-					param.type = ATTACHMENT_TYPE_PRESENT;
+				AttachmentPresentParam param;
+				{
 					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
 					param.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));
 					param.loadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("loadop"));
@@ -207,8 +228,19 @@ namespace CrossEngine {
 					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
-				else if (stricmp(szType, "color") == 0) {
-					param.type = ATTACHMENT_TYPE_COLOR;
+				m_param.attachmentPresents.push_back(param);
+			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResRenderPass::LoadAttachmentColors(TiXmlNode *pAttachmentsNode)
+	{
+		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+			do {
+				AttachmentColorTextureParam param;
+				{
 					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
 					param.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));
 					param.loadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("loadop"));
@@ -219,8 +251,19 @@ namespace CrossEngine {
 					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
-				else if (stricmp(szType, "depth_stencil") == 0) {
-					param.type = ATTACHMENT_TYPE_DEPTHSTENCIL;
+				m_param.attachmentColors.push_back(param);
+			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResRenderPass::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode)
+	{
+		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+			do {
+				AttachmentDepthStencilTextureParam param;
+				{
 					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
 					param.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));
 					param.loadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("loadop"));
@@ -233,17 +276,11 @@ namespace CrossEngine {
 					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
-				else {
-					return FALSE;
-				}
-
-				m_param.attachments.push_back(param);
+				m_param.attachmentDepthStencils.push_back(param);
 			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
-
-			return TRUE;
 		}
 
-		return FALSE;
+		return TRUE;
 	}
 
 	BOOL CResRenderPass::LoadSubPasses(TiXmlNode *pSubPassesNode)

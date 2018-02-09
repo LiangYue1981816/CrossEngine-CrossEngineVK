@@ -176,11 +176,13 @@ namespace CrossEngine {
 		m_ptrPipeline.Release();
 		m_ptrRenderPass.Release();
 
+		m_param.blends.clear();
 		CResource::InternalLoadFail();
 	}
 
 	void CResGraphics::InternalLoadSuccess(void)
 	{
+		m_param.blends.clear();
 		CResource::InternalLoadSuccess();
 	}
 

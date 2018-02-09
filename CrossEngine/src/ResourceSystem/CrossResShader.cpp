@@ -82,6 +82,7 @@ namespace CrossEngine {
 	{
 		m_ptrShader.Release();
 		m_words.clear();
+
 		CResource::InternalLoadFail();
 	}
 
