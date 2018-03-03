@@ -61,23 +61,6 @@ namespace CrossEngine {
 		BOOL IsVisible(const glm::vec3 &vertex);
 		BOOL IsVisible(const glm::aabb &aabb);
 
-	public:
-		BOOL SetFrameBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer);
-
-		BOOL AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass);
-		BOOL RemoveRenderPass(uint32_t id);
-
-	public:
-		void ClearRenderQueue(uint32_t indexRenderQueue);
-		void AddRenderQueue(uint32_t indexRenderQueue, const CDrawable *pDrawable);
-
-	public:
-		void Update(void);
-		void UpdateBatchBuffer(uint32_t indexRenderQueue);
-
-	public:
-		void BuildCommandBuffers(uint32_t indexRenderQueue, int indexSwapchainImage);
-
 
 	protected:
 		BOOL m_bEnable;
@@ -87,15 +70,6 @@ namespace CrossEngine {
 		glm::mat4 m_mtxProjection;
 		glm::mat4 m_mtxCameraToWorld;
 		glm::mat4 m_mtxWorldToCamera;
-
-	protected:
-		CRenderQueue m_renderQueue[2];
-		std::map<uint32_t, CGfxCommandBufferPtr> m_ptrCommandBuffers[CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT];
-
-	protected:
-		CGfxFrameBufferPtr m_ptrFrameBuffer;
-		std::map<uint32_t, CGfxRenderPassPtr> m_ptrRenderPassesOrderByID;
-		std::map<CGfxRenderPassPtr, CGfxRenderPassPtr> m_ptrRenderPasses;
 	};
 
 }

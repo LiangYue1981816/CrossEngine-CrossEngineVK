@@ -111,106 +111,12 @@ namespace CrossEngine {
 
 	BOOL CCamera::IsVisible(const glm::vec3 &vertex)
 	{
-		return m_camera.visible(vertex) ? TRUE : FALSE;
+		return m_bEnable && m_camera.visible(vertex) ? TRUE : FALSE;
 	}
 
 	BOOL CCamera::IsVisible(const glm::aabb &aabb)
 	{
-		return m_camera.visible(aabb) ? TRUE : FALSE;
-	}
-
-	BOOL CCamera::SetFrameBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer)
-	{
-		m_ptrFrameBuffer = ptrFrameBuffer;
-		return TRUE;
-	}
-
-	BOOL CCamera::AddRenderPass(uint32_t id, const CGfxRenderPassPtr &ptrRenderPass)
-	{
-		if (m_ptrRenderPasses.find(ptrRenderPass) != m_ptrRenderPasses.end()) {
-			return FALSE;
-		}
-
-		if (m_ptrRenderPassesOrderByID.find(id) != m_ptrRenderPassesOrderByID.end()) {
-			return FALSE;
-		}
-
-		m_ptrRenderPasses[ptrRenderPass] = ptrRenderPass;
-		m_ptrRenderPassesOrderByID[id] = ptrRenderPass;
-
-		m_ptrCommandBuffers[0][id] = GfxDevice()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-		m_ptrCommandBuffers[1][id] = GfxDevice()->AllocCommandBuffer(1, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-		m_ptrCommandBuffers[2][id] = GfxDevice()->AllocCommandBuffer(2, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-
-		return TRUE;
-	}
-
-	BOOL CCamera::RemoveRenderPass(uint32_t id)
-	{
-		m_ptrRenderPasses.erase(m_ptrRenderPassesOrderByID[id]);
-		m_ptrRenderPassesOrderByID.erase(id);
-
-		m_ptrCommandBuffers[0].erase(id);
-		m_ptrCommandBuffers[1].erase(id);
-		m_ptrCommandBuffers[2].erase(id);
-
-		return TRUE;
-	}
-
-	void CCamera::ClearRenderQueue(uint32_t indexRenderQueue)
-	{
-		indexRenderQueue = indexRenderQueue % 2;
-		m_renderQueue[indexRenderQueue].Clear();
-	}
-
-	void CCamera::AddRenderQueue(uint32_t indexRenderQueue, const CDrawable *pDrawable)
-	{
-		if (m_bEnable == FALSE) {
-			return;
-		}
-
-		indexRenderQueue = indexRenderQueue % 2;
-
-		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
-			if (m_ptrRenderPasses.find(itMatPass.second->GetRenderPass()) != m_ptrRenderPasses.end()) {
-				m_renderQueue[indexRenderQueue].AddDrawable(pDrawable);
-				return;
-			}
-		}
-	}
-
-	void CCamera::Update(void)
-	{
-		if (m_bEnable == FALSE) {
-			return;
-		}
-	}
-
-	void CCamera::UpdateBatchBuffer(uint32_t indexRenderQueue)
-	{
-		if (m_bEnable == FALSE) {
-			return;
-		}
-
-		indexRenderQueue = indexRenderQueue % 2;
-		m_renderQueue[indexRenderQueue].UpdateBatchBuffer();
-	}
-
-	void CCamera::BuildCommandBuffers(uint32_t indexRenderQueue, int indexSwapchainImage)
-	{
-		if (m_bEnable == FALSE) {
-			return;
-		}
-
-		if (indexSwapchainImage < 0 || indexSwapchainImage >= CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT) {
-			return;
-		}
-
-		indexRenderQueue = indexRenderQueue % 2;
-
-		for (const auto &itRenderPass : m_ptrRenderPassesOrderByID) {
-			m_renderQueue[indexRenderQueue].BuildCommandBuffer(itRenderPass.second, m_ptrFrameBuffer, m_ptrCommandBuffers[indexSwapchainImage][itRenderPass.first]);
-		}
+		return m_bEnable && m_camera.visible(aabb) ? TRUE : FALSE;
 	}
 
 }
