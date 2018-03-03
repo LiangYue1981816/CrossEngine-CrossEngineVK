@@ -52,7 +52,7 @@ namespace CrossEngine {
 		return datas.size() * sizeof(InstanceData);
 	}
 
-	void CBatchStaticMesh::UpdateBuffer(void)
+	void CBatchStaticMesh::UpdateInstanceBuffer(void)
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
 

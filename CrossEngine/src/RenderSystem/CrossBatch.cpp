@@ -36,16 +36,6 @@ namespace CrossEngine {
 
 	}
 
-	uint32_t CBatch::GetBufferOffset(void) const
-	{
-		return m_offset;
-	}
-
-	uint32_t CBatch::GetDrawableCount(void) const
-	{
-		return m_pDrawables.size();
-	}
-
 	const CGfxCommandBufferPtr& CBatch::GetCommandBuffer(void) const
 	{
 		return m_ptrCommandBuffer;

@@ -39,7 +39,7 @@ namespace CrossEngine {
 
 
 	public:
-		virtual void UpdateBuffer(void);
+		virtual void UpdateInstanceBuffer(void);
 		virtual void BuildCommandBuffer(void);
 
 	public:

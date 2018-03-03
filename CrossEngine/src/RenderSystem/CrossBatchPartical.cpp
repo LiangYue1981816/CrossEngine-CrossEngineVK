@@ -52,7 +52,7 @@ namespace CrossEngine {
 		return datas.size() * sizeof(InstanceData);
 	}
 
-	void CBatchPartical::UpdateBuffer(void)
+	void CBatchPartical::UpdateInstanceBuffer(void)
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
 

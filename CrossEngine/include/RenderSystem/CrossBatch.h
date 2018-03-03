@@ -34,8 +34,6 @@ namespace CrossEngine {
 
 
 	public:
-		uint32_t GetBufferOffset(void) const;
-		uint32_t GetDrawableCount(void) const;
 		const CGfxCommandBufferPtr& GetCommandBuffer(void) const;
 
 	public:
@@ -43,9 +41,7 @@ namespace CrossEngine {
 		virtual void AddDrawable(const CDrawable *pDrawable);
 
 	public:
-		virtual void UpdateBuffer(void) = 0;
-
-	public:
+		virtual void UpdateInstanceBuffer(void) = 0;
 		virtual void BuildCommandBuffer(void) = 0;
 
 

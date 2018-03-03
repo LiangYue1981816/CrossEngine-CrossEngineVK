@@ -52,7 +52,7 @@ namespace CrossEngine {
 		return datas.size() * sizeof(InstanceData);
 	}
 
-	void CBatchSkinMesh::UpdateBuffer(void)
+	void CBatchSkinMesh::UpdateInstanceBuffer(void)
 	{
 		m_offset = datas.size() * sizeof(InstanceData);
 
