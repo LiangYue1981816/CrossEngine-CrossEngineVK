@@ -68,8 +68,6 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	public:
-		uint32_t GetFrameCount(void) const;
-
 		GFX_API GetAPI(void) const;
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
@@ -79,6 +77,7 @@ namespace CrossEngine {
 
 	public:
 		void Render(void);
+		uint32_t GetFrameCount(void) const;
 
 
 	protected:

@@ -43,11 +43,6 @@ namespace CrossEngine {
 
 	}
 
-	uint32_t CRenderSystem::GetFrameCount(void) const
-	{
-		return m_nFrameCount;
-	}
-
 	GFX_API CRenderSystem::GetAPI(void) const
 	{
 		return m_api;
@@ -116,6 +111,11 @@ namespace CrossEngine {
 	void CRenderSystem::Render(void)
 	{
 		m_nFrameCount++;
+	}
+
+	uint32_t CRenderSystem::GetFrameCount(void) const
+	{
+		return m_nFrameCount;
 	}
 
 }
