@@ -56,19 +56,25 @@ namespace CrossEngine {
 		m_pDescriptorPoolListHeads.clear();
 	}
 
-	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
+	void CVulkanDescriptorSetManager::AllocDescriptorSetPool(uint32_t pool)
 	{
 		mutex_autolock mutex(&m_mutex);
 
+		if (m_pDescriptorPoolListHeads[pool] == NULL) {
+			m_pDescriptorPoolListHeads[pool] = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
+		}
+	}
+
+	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
+	{
 		do {
-			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
-				if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(pSetLayout)) {
-					return CGfxDescriptorSetPtr(pDescriptorSet);
-				}
+			ASSERT(m_pDescriptorPoolListHeads[pool] != NULL);
+
+			if (CVulkanDescriptorSet *pDescriptorSet = m_pDescriptorPoolListHeads[pool]->AllocDescriptorSet(pSetLayout)) {
+				return CGfxDescriptorSetPtr(pDescriptorSet);
 			}
 
 			CVulkanDescriptorPool *pDescriptorPool = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
-
 			pDescriptorPool->pNext = m_pDescriptorPoolListHeads[pool];
 			m_pDescriptorPoolListHeads[pool] = pDescriptorPool;
 		} while (TRUE);

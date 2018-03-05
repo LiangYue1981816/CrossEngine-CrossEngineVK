@@ -71,7 +71,10 @@ namespace CrossEngine {
 		virtual CGfxQueue* GetTransferQueue(void) const = 0;
 
 	public:
+		virtual void AllocCommandBufferPool(uint32_t pool) = 0;
 		virtual CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level) = 0;
+
+		virtual void AllocDescriptorSetPool(uint32_t pool) = 0;
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline) = 0;
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
 

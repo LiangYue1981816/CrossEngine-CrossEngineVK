@@ -462,9 +462,19 @@ namespace CrossEngine {
 		return m_vkPhysicalDeviceMemoryProperties;
 	}
 
+	void CVulkanDevice::AllocCommandBufferPool(uint32_t pool)
+	{
+		m_pCommandPoolManager->AllocCommandBufferPool(pool);
+	}
+
 	CGfxCommandBufferPtr CVulkanDevice::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
 		return m_pCommandPoolManager->AllocCommandBuffer(pool, level);
+	}
+
+	void CVulkanDevice::AllocDescriptorSetPool(uint32_t pool)
+	{
+		m_pDescriptorSetManager->AllocDescriptorSetPool(pool);
 	}
 
 	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)

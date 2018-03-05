@@ -50,14 +50,18 @@ namespace CrossEngine {
 		m_pCommandPools.clear();
 	}
 
-	CGfxCommandBufferPtr CVulkanCommandPoolManager::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
+	void CVulkanCommandPoolManager::AllocCommandBufferPool(uint32_t pool)
 	{
 		mutex_autolock mutex(&m_mutex);
 
 		if (m_pCommandPools[pool] == NULL) {
 			m_pCommandPools[pool] = SAFE_NEW CVulkanCommandPool(m_pDevice);
 		}
+	}
 
+	CGfxCommandBufferPtr CVulkanCommandPoolManager::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
+	{
+		ASSERT(m_pCommandPools[pool] != NULL);
 		return CGfxCommandBufferPtr(m_pCommandPools[pool]->AllocCommandBuffer(level));
 	}
 

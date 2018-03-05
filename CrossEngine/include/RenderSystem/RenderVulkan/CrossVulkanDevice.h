@@ -118,7 +118,10 @@ namespace CrossEngine {
 		const VkPhysicalDeviceMemoryProperties& GetPhysicalDeviceMemoryProperties(void) const;
 
 	public:
+		void AllocCommandBufferPool(uint32_t pool);
 		CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
+
+		void AllocDescriptorSetPool(uint32_t pool);
 		CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline);
 		CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline);
 
