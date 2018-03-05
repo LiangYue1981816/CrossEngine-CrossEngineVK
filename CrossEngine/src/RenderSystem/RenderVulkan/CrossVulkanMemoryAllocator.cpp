@@ -89,7 +89,7 @@ namespace CrossEngine {
 
 		size = ALIGN_BYTE(size, m_alignment);
 
-		if (m_size > size) {
+		if (m_size >= size) {
 			if (CVulkanMemory *pMemory = SearchMemory(size)) {
 				RemoveMemory(pMemory);
 
