@@ -131,7 +131,9 @@ void DestroyBuffer(void)
 
 void CreateDescriptorSet(void)
 {
-	ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, 0, ptrPipeline);
+	GfxDevice()->AllocDescriptorSetPool(thread_id());
+
+	ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), 0, ptrPipeline);
 	ptrDescriptorSet->SetUniformBuffer(0, ptrUniformBuffer);
 	ptrDescriptorSet->SetTexture(1, ptrTexture);
 	ptrDescriptorSet->UpdateDescriptorSets();
@@ -144,6 +146,8 @@ void DestroyDescriptorSet(void)
 
 void CreateCommandBuffer(void)
 {
+	GfxDevice()->AllocCommandBufferPool(thread_id());
+
 	for (int indexView = 0; indexView < (int)GfxSwapChain()->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);

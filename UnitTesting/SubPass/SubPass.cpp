@@ -96,7 +96,8 @@ void CreateMesh(void)
 	Mesh.ptrUniformBuffer->Create(sizeof(glm::mat4), NULL, TRUE);
 	Mesh.ptrUniformBuffer->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 
-	Mesh.ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, 0, Mesh.ptrGraphics);
+	GfxDevice()->AllocDescriptorSetPool(thread_id());
+	Mesh.ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), 0, Mesh.ptrGraphics);
 	Mesh.ptrDescriptorSet->SetUniformBuffer(0, Mesh.ptrUniformBuffer);
 	Mesh.ptrDescriptorSet->SetTexture(1, Mesh.ptrTexture);
 	Mesh.ptrDescriptorSet->UpdateDescriptorSets();
@@ -130,7 +131,8 @@ void CreateScreen(void)
 	Screen.ptrGraphics->SetColorBlendAttachment(0, VK_FALSE, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, VK_BLEND_FACTOR_ZERO, VK_BLEND_FACTOR_ZERO, VK_BLEND_OP_ADD, 0xf);
 	Screen.ptrGraphics->Create(Renderer.ptrRenderPass->GetHandle(), 1);
 
-	Screen.ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(0, 0, Screen.ptrGraphics);
+	GfxDevice()->AllocDescriptorSetPool(thread_id());
+	Screen.ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), 0, Screen.ptrGraphics);
 	Screen.ptrDescriptorSet->SetRenderTexture(0, Renderer.ptrColorTexture);
 	Screen.ptrDescriptorSet->UpdateDescriptorSets();
 }
@@ -145,6 +147,8 @@ void DestroyScreen(void)
 
 void CreateCommandBuffer(void)
 {
+	GfxDevice()->AllocCommandBufferPool(thread_id());
+
 	for (int index = 0; index < (int)GfxSwapChain()->GetImageCount(); index++) {
 		Renderer.ptrCommandBuffers[index] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		Renderer.ptrCommandBuffers[index]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);

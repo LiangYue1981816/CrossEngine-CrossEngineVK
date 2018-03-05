@@ -90,17 +90,21 @@ void CreateBuffer(void)
 
 void CreateDescriptorSet(void)
 {
-	ptrDescriptorSetA = GfxDevice()->AllocDescriptorSet(0, 0, ptrPipeline);
+	GfxDevice()->AllocDescriptorSetPool(thread_id());
+
+	ptrDescriptorSetA = GfxDevice()->AllocDescriptorSet(thread_id(), 0, ptrPipeline);
 	ptrDescriptorSetA->SetUniformBuffer(0, ptrUniformBufferA);
 	ptrDescriptorSetA->UpdateDescriptorSets();
 
-	ptrDescriptorSetB = GfxDevice()->AllocDescriptorSet(0, 0, ptrPipeline);
+	ptrDescriptorSetB = GfxDevice()->AllocDescriptorSet(thread_id(), 0, ptrPipeline);
 	ptrDescriptorSetB->SetUniformBuffer(0, ptrUniformBufferB);
 	ptrDescriptorSetB->UpdateDescriptorSets();
 }
 
 void CreateCommandBuffer(void)
 {
+	GfxDevice()->AllocCommandBufferPool(thread_id());
+
 	for (int indexView = 0; indexView < (int)GfxSwapChain()->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
