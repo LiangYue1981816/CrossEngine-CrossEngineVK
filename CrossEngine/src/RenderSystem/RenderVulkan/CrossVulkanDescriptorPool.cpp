@@ -128,6 +128,11 @@ namespace CrossEngine {
 		}
 	}
 
+	void CVulkanDescriptorPool::ResetDescriptorSetPool(void)
+	{
+		vkResetDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, 0);
+	}
+
 	uint32_t CVulkanDescriptorPool::GetDescriptorSetCount(void) const
 	{
 		return m_numDescriptorSets;
