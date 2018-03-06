@@ -74,4 +74,9 @@ namespace CrossEngine {
 		}
 	}
 
+	void CVulkanCommandPool::ResetCommandBufferPool(void)
+	{
+		vkResetCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, VK_COMMAND_POOL_RESET_RELEASE_RESOURCES_BIT);
+	}
+
 }

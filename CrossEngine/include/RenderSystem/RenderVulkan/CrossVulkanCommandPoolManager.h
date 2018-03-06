@@ -41,6 +41,7 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
+		void ResetCommandBufferPool(uint32_t pool);
 		void AllocCommandBufferPool(uint32_t pool);
 		CGfxCommandBufferPtr AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level);
 

@@ -41,6 +41,7 @@ namespace CrossEngine {
 	protected:
 		CGfxCommandBuffer* AllocCommandBuffer(VkCommandBufferLevel level);
 		void FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer);
+		void ResetCommandBufferPool(void);
 
 
 	protected:
