@@ -239,6 +239,11 @@ namespace CrossEngine {
 		return m_properties.GetPhysicalDeviceLimits();
 	}
 
+	void CGLES3Device::ResetCommandBufferPool(uint32_t pool)
+	{
+
+	}
+
 	void CGLES3Device::AllocCommandBufferPool(uint32_t pool)
 	{
 
@@ -247,6 +252,11 @@ namespace CrossEngine {
 	CGfxCommandBufferPtr CGLES3Device::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
 		return m_pCommandBufferManager->AllocCommandBuffer();
+	}
+
+	void CGLES3Device::ResetDescriptorSetPool(uint32_t pool)
+	{
+
 	}
 
 	void CGLES3Device::AllocDescriptorSetPool(uint32_t pool)
