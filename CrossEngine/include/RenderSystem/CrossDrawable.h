@@ -45,6 +45,11 @@ namespace CrossEngine {
 		virtual DRAWABLE_TYPE GetType(void) const = 0;
 
 	public:
+		virtual uint32_t GetIndexCount(void) const = 0;
+		virtual uint32_t GetFirstIndex(void) const = 0;
+		virtual uint32_t GetVertexOffset(void) const = 0;
+
+	public:
 		virtual const CGfxMaterialPtr& GetMaterial(void) const = 0;
 		virtual const CGfxIndexBufferPtr& GetIndexBuffer(void) const = 0;
 		virtual const CGfxVertexBufferPtr& GetVertexBuffer(void) const = 0;
