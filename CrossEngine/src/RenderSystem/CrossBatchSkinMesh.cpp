@@ -54,7 +54,7 @@ namespace CrossEngine {
 
 	void CBatchSkinMesh::UpdateInstanceBuffer(void)
 	{
-		m_offset = datas.size() * sizeof(InstanceData);
+		m_firstInstance = datas.size();
 
 		for (const auto &itDrawable : m_pDrawables) {
 			InstanceData data;

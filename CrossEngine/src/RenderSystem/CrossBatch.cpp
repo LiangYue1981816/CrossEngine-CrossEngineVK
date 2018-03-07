@@ -26,7 +26,10 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CBatch::CBatch(void)
-		: m_offset(0)
+		: m_indexCount(0)
+		, m_firstIndex(0)
+		, m_vertexOffset(0)
+		, m_firstInstance(0)
 	{
 
 	}
@@ -38,6 +41,11 @@ namespace CrossEngine {
 
 	void CBatch::Clear(void)
 	{
+		m_indexCount = 0;
+		m_firstIndex = 0;
+		m_vertexOffset = 0;
+		m_firstInstance = 0;
+
 		m_pDrawables.clear();
 
 		m_ptrIndexBuffer.Release();
@@ -49,6 +57,10 @@ namespace CrossEngine {
 	void CBatch::AddDrawable(const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
 		m_pDrawables[pDrawable] = pDrawable;
+
+		m_indexCount = pDrawable->GetIndexCount();
+		m_firstIndex = pDrawable->GetFirstIndex();
+		m_vertexOffset = pDrawable->GetVertexOffset();
 
 		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
 		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();

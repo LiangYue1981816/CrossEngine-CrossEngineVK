@@ -54,7 +54,7 @@ namespace CrossEngine {
 
 	void CBatchStaticMesh::UpdateInstanceBuffer(void)
 	{
-		m_offset = datas.size() * sizeof(InstanceData);
+		m_firstInstance = datas.size();
 
 		for (const auto &itDrawable : m_pDrawables) {
 			InstanceData data;
@@ -71,6 +71,7 @@ namespace CrossEngine {
 			ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer, 0, 0);
 			ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
 			ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet, m_ptrPipelineGraphics);
+			ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 		}
 		return ptrCommandBuffer;
 	}

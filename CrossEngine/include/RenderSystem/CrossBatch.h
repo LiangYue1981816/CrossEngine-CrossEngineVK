@@ -43,13 +43,18 @@ namespace CrossEngine {
 
 
 	protected:
+		uint32_t m_indexCount;
+		uint32_t m_firstIndex;
+		uint32_t m_vertexOffset;
+		uint32_t m_firstInstance;
+
+	protected:
 		CGfxIndexBufferPtr m_ptrIndexBuffer;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 
 	protected:
-		uint32_t m_offset;
 		std::map<const CDrawable*, const CDrawable*> m_pDrawables;
 	};
 
