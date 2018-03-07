@@ -34,22 +34,19 @@ namespace CrossEngine {
 
 
 	public:
-		const CGfxCommandBufferPtr& GetCommandBuffer(void) const;
-
-	public:
 		virtual void Clear(void);
-		virtual void AddDrawable(const CDrawable *pDrawable);
+		virtual void AddDrawable(const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics);
 
 	public:
 		virtual void UpdateInstanceBuffer(void) = 0;
-		virtual void BuildCommandBuffer(void) = 0;
+		virtual CGfxCommandBufferPtr BuildCommandBuffer(void) = 0;
 
 
 	protected:
 		CGfxIndexBufferPtr m_ptrIndexBuffer;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
-		CGfxCommandBufferPtr m_ptrCommandBuffer;
+		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 
 	protected:
 		uint32_t m_offset;

@@ -64,9 +64,13 @@ namespace CrossEngine {
 		}
 	}
 
-	void CBatchSkinMesh::BuildCommandBuffer(void)
+	CGfxCommandBufferPtr CBatchSkinMesh::BuildCommandBuffer(void)
 	{
+		CGfxCommandBufferPtr ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_SECONDARY);
+		{
 
+		}
+		return ptrCommandBuffer;
 	}
 
 }

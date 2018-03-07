@@ -64,9 +64,15 @@ namespace CrossEngine {
 		}
 	}
 
-	void CBatchStaticMesh::BuildCommandBuffer(void)
+	CGfxCommandBufferPtr CBatchStaticMesh::BuildCommandBuffer(void)
 	{
-
+		CGfxCommandBufferPtr ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_SECONDARY);
+		{
+			ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer, 0, 0);
+			ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+			ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet, m_ptrPipelineGraphics);
+		}
+		return ptrCommandBuffer;
 	}
 
 }

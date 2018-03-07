@@ -70,7 +70,7 @@ namespace CrossEngine {
 				m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] = CreateBatch(pDrawable->GetType());
 			}
 
-			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(pDrawable);
+			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(pDrawable, ptrMaterialPipeline);
 		}
 	}
 
