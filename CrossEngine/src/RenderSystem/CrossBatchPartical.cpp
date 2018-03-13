@@ -26,6 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	std::vector<CBatchPartical::InstanceData> CBatchPartical::datas;
+	CGfxVertexBufferPtr CBatchPartical::ptrInstanceBuffer;
 
 	CBatchPartical::CBatchPartical(void)
 	{
@@ -37,19 +38,19 @@ namespace CrossEngine {
 
 	}
 
-	void CBatchPartical::ClearBuffer(void)
+	void CBatchPartical::ClearInstanceBuffer(void)
 	{
 		datas.clear();
 	}
 
-	void* CBatchPartical::GetBuffer(void)
+	void CBatchPartical::CreateInstanceBuffer(void)
 	{
-		return datas.data();
+
 	}
 
-	size_t CBatchPartical::GetBufferSize(void)
+	CGfxVertexBufferPtr& CBatchPartical::GetInstanceBuffer(void)
 	{
-		return datas.size() * sizeof(InstanceData);
+		return ptrInstanceBuffer;
 	}
 
 	void CBatchPartical::UpdateInstanceBuffer(void)

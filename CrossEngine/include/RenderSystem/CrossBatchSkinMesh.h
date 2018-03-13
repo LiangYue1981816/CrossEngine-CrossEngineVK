@@ -43,13 +43,14 @@ namespace CrossEngine {
 		virtual CGfxCommandBufferPtr BuildCommandBuffer(void);
 
 	public:
-		static void ClearBuffer(void);
-		static void* GetBuffer(void);
-		static size_t GetBufferSize(void);
+		static void ClearInstanceBuffer(void);
+		static void CreateInstanceBuffer(void);
+		static CGfxVertexBufferPtr& GetInstanceBuffer(void);
 
 
 	protected:
 		static std::vector<InstanceData> datas;
+		static CGfxVertexBufferPtr ptrInstanceBuffer;
 	};
 
 }
