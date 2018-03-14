@@ -45,7 +45,22 @@ namespace CrossEngine {
 
 	void CBatchSkinMesh::CreateInstanceBuffer(void)
 	{
+		if (ptrInstanceBuffer.IsNull()) {
+			ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
+		}
 
+		size_t dataBufferSize = datas.size() * sizeof(InstanceData);
+		if (ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
+			size_t dataInstanceBufferSize = 64 * 1024;
+			while (dataInstanceBufferSize < dataBufferSize) {
+				dataInstanceBufferSize <<= 1;
+			}
+
+			ptrInstanceBuffer->Destroy();
+			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, 0);
+		}
+
+		ptrInstanceBuffer->UpdateData(0, dataBufferSize, datas.data());
 	}
 
 	CGfxVertexBufferPtr& CBatchSkinMesh::GetInstanceBuffer(void)
