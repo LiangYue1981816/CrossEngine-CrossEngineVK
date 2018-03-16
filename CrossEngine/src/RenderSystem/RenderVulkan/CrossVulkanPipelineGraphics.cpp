@@ -29,6 +29,7 @@ namespace CrossEngine {
 		: CVulkanPipeline(pDevice)
 		, CGfxPipelineGraphics(pResourceManager)
 		, m_vertexFormat(0)
+		, m_instanceFormat(0)
 	{
 		m_colorBlendAttachmentStates.resize(numAttachments);
 
@@ -166,6 +167,7 @@ namespace CrossEngine {
 	BOOL CVulkanPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
 	{
 		m_vertexFormat = 0;
+		m_instanceFormat = 0;
 		m_vertexInputState.vertexBindingDescriptionCount = 0;
 		m_vertexInputState.pVertexBindingDescriptions = NULL;
 		m_vertexInputState.vertexAttributeDescriptionCount = 0;
@@ -229,6 +231,7 @@ namespace CrossEngine {
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
+		m_instanceFormat = 0;
 
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
 		SetTessellationPatchControlPoints(0);
@@ -477,6 +480,11 @@ namespace CrossEngine {
 	uint32_t CVulkanPipelineGraphics::GetVertexFormat(void) const
 	{
 		return m_vertexFormat;
+	}
+
+	uint32_t CVulkanPipelineGraphics::GetInstanceFormat(void) const
+	{
+		return m_instanceFormat;
 	}
 
 	uint32_t CVulkanPipelineGraphics::GetBinding(uint32_t set, const char *szName) const

@@ -29,6 +29,7 @@ namespace CrossEngine {
 		: CGLES3Pipeline(pDevice)
 		, CGfxPipelineGraphics(pResourceManager)
 		, m_vertexFormat(0)
+		, m_instanceFormat(0)
 	{
 		m_colorBlendAttachmentStates.resize(numAttachments);
 
@@ -120,6 +121,7 @@ namespace CrossEngine {
 	BOOL CGLES3PipelineGraphics::CreateVertexInputState(void)
 	{
 		m_vertexFormat = 0;
+		m_instanceFormat = 0;
 
 		if (m_ptrShaders[VK_SHADER_STAGE_VERTEX_BIT].IsNull()) {
 			return FALSE;
@@ -152,6 +154,7 @@ namespace CrossEngine {
 		back.compareOp = front.compareOp = VK_COMPARE_OP_ALWAYS;
 
 		m_vertexFormat = 0;
+		m_instanceFormat = 0;
 
 		SetPrimitiveTopology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, FALSE);
 		SetTessellationPatchControlPoints(0);
@@ -384,6 +387,11 @@ namespace CrossEngine {
 	uint32_t CGLES3PipelineGraphics::GetVertexFormat(void) const
 	{
 		return m_vertexFormat;
+	}
+
+	uint32_t CGLES3PipelineGraphics::GetInstanceFormat(void) const
+	{
+		return m_instanceFormat;
 	}
 
 	uint32_t CGLES3PipelineGraphics::GetBinding(uint32_t set, const char *szName) const
