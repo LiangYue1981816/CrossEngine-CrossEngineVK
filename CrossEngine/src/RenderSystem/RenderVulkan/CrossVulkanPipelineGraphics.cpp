@@ -193,7 +193,7 @@ namespace CrossEngine {
 			for (const auto &itInput : shaderResources.stage_inputs) {
 				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(itInput.name.c_str())) {
 					VkVertexInputAttributeDescription inputAttributeDescription;
-					inputAttributeDescription.binding = pShaderCompiler->get_decoration(itInput.id, spv::DecorationBinding);
+					inputAttributeDescription.binding = 0;
 					inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
 					inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
 					inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
