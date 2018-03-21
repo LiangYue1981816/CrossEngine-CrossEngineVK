@@ -185,27 +185,54 @@ namespace CrossEngine {
 
 		for (const auto &itInput : shaderResources.stage_inputs) {
 			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(itInput.name.c_str())) {
-				m_vertexFormat |= attribute;
+				if (attribute & VERTEX_ATTRIBUTE_MASK) {
+					m_vertexFormat |= attribute;
+				}
+				
+				if (attribute & VERTEX_INSTANCE_ATTRIBUTE_MASK) {
+					m_instanceFormat |= attribute;
+				}
 			}
 		}
 
-		if (m_vertexFormat) {
+		if (m_vertexFormat || m_instanceFormat) {
 			for (const auto &itInput : shaderResources.stage_inputs) {
 				if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(itInput.name.c_str())) {
-					VkVertexInputAttributeDescription inputAttributeDescription;
-					inputAttributeDescription.binding = 0;
-					inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
-					inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
-					inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
-					inputAttributeDescriptions.push_back(inputAttributeDescription);
+					if (attribute & VERTEX_ATTRIBUTE_MASK) {
+						VkVertexInputAttributeDescription inputAttributeDescription;
+						inputAttributeDescription.binding = 0;
+						inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
+						inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
+						inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
+						inputAttributeDescriptions.push_back(inputAttributeDescription);
+					}
+
+					if (attribute & VERTEX_INSTANCE_ATTRIBUTE_MASK) {
+						VkVertexInputAttributeDescription inputAttributeDescription;
+						inputAttributeDescription.binding = 1;
+						inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
+						inputAttributeDescription.format = m_pDevice->GetVertexAttributeFormat(attribute);
+						inputAttributeDescription.offset = m_pDevice->GetVertexAttributeOffset(m_instanceFormat, attribute);
+						inputAttributeDescriptions.push_back(inputAttributeDescription);
+					}
 				}
 			}
 
-			VkVertexInputBindingDescription inputBindingDescription;
-			inputBindingDescription.binding = 0;
-			inputBindingDescription.stride = m_pDevice->GetVertexStride(m_vertexFormat);
-			inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-			inputBindingDescriptions.push_back(inputBindingDescription);
+			if (m_vertexFormat) {
+				VkVertexInputBindingDescription inputBindingDescription;
+				inputBindingDescription.binding = 0;
+				inputBindingDescription.stride = m_pDevice->GetVertexStride(m_vertexFormat);
+				inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+				inputBindingDescriptions.push_back(inputBindingDescription);
+			}
+
+			if (m_instanceFormat) {
+				VkVertexInputBindingDescription inputBindingDescription;
+				inputBindingDescription.binding = 1;
+				inputBindingDescription.stride = m_pDevice->GetVertexStride(m_instanceFormat);
+				inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
+				inputBindingDescriptions.push_back(inputBindingDescription);
+			}
 
 			m_vertexInputState.vertexBindingDescriptionCount = inputBindingDescriptions.size();
 			m_vertexInputState.pVertexBindingDescriptions = inputBindingDescriptions.data();

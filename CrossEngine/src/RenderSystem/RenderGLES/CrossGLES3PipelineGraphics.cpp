@@ -132,7 +132,13 @@ namespace CrossEngine {
 
 		for (const auto &itInput : shaderResources.stage_inputs) {
 			if (uint32_t attribute = m_pDevice->GetVertexAttributeFlag(itInput.name.c_str())) {
-				m_vertexFormat |= attribute;
+				if (attribute & VERTEX_ATTRIBUTE_MASK) {
+					m_vertexFormat |= attribute;
+				}
+
+				if (attribute & VERTEX_INSTANCE_ATTRIBUTE_MASK) {
+					m_instanceFormat |= attribute;
+				}
 			}
 		}
 
