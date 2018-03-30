@@ -84,7 +84,6 @@ namespace CrossEngine {
 
 		switch (m_target) {
 		case GL_TEXTURE_2D:
-		case GL_TEXTURE_CUBE_MAP:
 			m_samples = 1;
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
@@ -105,12 +104,36 @@ namespace CrossEngine {
 			break;
 
 		case GL_TEXTURE_2D_ARRAY:
+			m_samples = 1;
+			glGenTextures(1, &m_texture);
+			glBindTexture(m_target, m_texture);
+			{
+				glTexStorage3D(m_target, m_mipLevels, m_internalFormat, m_width, m_height, m_arrayLayers);
+			}
+			glBindTexture(m_target, 0);
+			break;
+
 		case GL_TEXTURE_3D:
 			m_samples = 1;
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
 			{
-				glTexStorage3D(m_target, m_mipLevels, m_internalFormat, m_width, m_height, m_target == GL_TEXTURE_3D ? m_depth : m_arrayLayers);
+				glTexStorage3D(m_target, m_mipLevels, m_internalFormat, m_width, m_height, m_depth);
+			}
+			glBindTexture(m_target, 0);
+			break;
+
+		case GL_TEXTURE_CUBE_MAP:
+			m_samples = 1;
+			glGenTextures(1, &m_texture);
+			glBindTexture(m_target, m_texture);
+			{
+				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, m_mipLevels, m_internalFormat, m_width, m_height);
+				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, m_mipLevels, m_internalFormat, m_width, m_height);
+				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, m_mipLevels, m_internalFormat, m_width, m_height);
+				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, m_mipLevels, m_internalFormat, m_width, m_height);
+				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, m_mipLevels, m_internalFormat, m_width, m_height);
+				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, m_mipLevels, m_internalFormat, m_width, m_height);
 			}
 			glBindTexture(m_target, 0);
 			break;
