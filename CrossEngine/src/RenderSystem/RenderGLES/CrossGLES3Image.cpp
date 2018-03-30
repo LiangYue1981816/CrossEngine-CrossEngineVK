@@ -88,7 +88,7 @@ namespace CrossEngine {
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
 			{
-				glTexStorage2D(m_target, m_mipLevels, m_internalFormat, m_width, m_height);
+				glTexStorage2D(GL_TEXTURE_2D, m_mipLevels, m_internalFormat, m_width, m_height);
 			}
 			glBindTexture(m_target, 0);
 			break;
@@ -98,7 +98,7 @@ namespace CrossEngine {
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
 			{
-				glTexStorage2DMultisample(m_target, m_samples, m_internalFormat, m_width, m_height, GL_TRUE);
+				glTexStorage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, m_samples, m_internalFormat, m_width, m_height, GL_TRUE);
 			}
 			glBindTexture(m_target, 0);
 			break;
@@ -108,7 +108,7 @@ namespace CrossEngine {
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
 			{
-				glTexStorage3D(m_target, m_mipLevels, m_internalFormat, m_width, m_height, m_arrayLayers);
+				glTexStorage3D(GL_TEXTURE_2D_ARRAY, m_mipLevels, m_internalFormat, m_width, m_height, m_arrayLayers);
 			}
 			glBindTexture(m_target, 0);
 			break;
@@ -118,7 +118,7 @@ namespace CrossEngine {
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
 			{
-				glTexStorage3D(m_target, m_mipLevels, m_internalFormat, m_width, m_height, m_depth);
+				glTexStorage3D(GL_TEXTURE_3D, m_mipLevels, m_internalFormat, m_width, m_height, m_depth);
 			}
 			glBindTexture(m_target, 0);
 			break;

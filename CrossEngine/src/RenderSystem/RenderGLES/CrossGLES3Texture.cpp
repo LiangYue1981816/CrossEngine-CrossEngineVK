@@ -73,6 +73,19 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CGLES3Texture::CreateTexture3D(const gli::texture3d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		gli::gl GL(gli::gl::PROFILE_ES30);
+		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
+
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_3D, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+		CALL_BOOL_FUNCTION_RETURN(TransferTexture3D(texture, format));
+
+		m_size = texture.size();
+
+		return TRUE;
+	}
+
 	BOOL CGLES3Texture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		gli::gl GL(gli::gl::PROFILE_ES30);
@@ -95,16 +108,12 @@ namespace CrossEngine {
 	{
 		glBindTexture(m_target, m_texture);
 		{
-			for (int layer = 0; layer < texture.layers(); layer++) {
-				for (int face = 0; face < texture.faces(); face++) {
-					for (int level = 0; level < texture.levels(); level++) {
-						if (gli::is_compressed(texture.format())) {
-							glCompressedTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
-						}
-						else {
-							glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
-						}
-					}
+			for (int level = 0; level < texture.levels(); level++) {
+				if (gli::is_compressed(texture.format())) {
+					glCompressedTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(0, 0, level));
+				}
+				else {
+					glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(0, 0, level));
 				}
 			}
 		}
@@ -118,14 +127,32 @@ namespace CrossEngine {
 		glBindTexture(m_target, m_texture);
 		{
 			for (int layer = 0; layer < texture.layers(); layer++) {
-				for (int face = 0; face < texture.faces(); face++) {
-					for (int level = 0; level < texture.levels(); level++) {
-						if (gli::is_compressed(texture.format())) {
-							glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.Internal, texture.size(level), texture.data(layer, face, level));
-						}
-						else {
-							glTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.External, format.Type, texture.data(layer, face, level));
-						}
+				for (int level = 0; level < texture.levels(); level++) {
+					if (gli::is_compressed(texture.format())) {
+						glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.Internal, texture.size(level), texture.data(layer, 0, level));
+					}
+					else {
+						glTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.External, format.Type, texture.data(layer, 0, level));
+					}
+				}
+			}
+		}
+		glBindTexture(m_target, 0);
+
+		return TRUE;
+	}
+
+	BOOL CGLES3Texture::TransferTexture3D(const gli::texture3d &texture, const gli::gl::format &format)
+	{
+		glBindTexture(m_target, m_texture);
+		{
+			for (int layer = 0; layer < texture.layers(); layer++) {
+				for (int level = 0; level < texture.levels(); level++) {
+					if (gli::is_compressed(texture.format())) {
+						glCompressedTexSubImage3D(GL_TEXTURE_3D, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.Internal, texture.size(level), texture.data(layer, 0, level));
+					}
+					else {
+						glTexSubImage3D(GL_TEXTURE_3D, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.External, format.Type, texture.data(layer, 0, level));
 					}
 				}
 			}
@@ -139,16 +166,22 @@ namespace CrossEngine {
 	{
 		glBindTexture(m_target, m_texture);
 		{
-			for (int layer = 0; layer < texture.layers(); layer++) {
-				for (int face = 0; face < texture.faces(); face++) {
-					for (int level = 0; level < texture.levels(); level++) {
-						if (gli::is_compressed(texture.format())) {
-							glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(layer, face, level));
-						}
-						else {
-							glTexSubImage2D(GL_TEXTURE_CUBE_MAP, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(layer, face, level));
-						}
-					}
+			for (int level = 0; level < texture.levels(); level++) {
+				if (gli::is_compressed(texture.format())) {
+					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(0, 0, level));
+					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(0, 1, level));
+					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(0, 2, level));
+					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(0, 3, level));
+					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(0, 4, level));
+					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.Internal, texture.size(level), texture.data(0, 5, level));
+				}
+				else {
+					glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(0, 0, level));
+					glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(0, 1, level));
+					glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(0, 2, level));
+					glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(0, 3, level));
+					glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(0, 4, level));
+					glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, level, 0, 0, texture.extent(level).x, texture.extent(level).y, format.External, format.Type, texture.data(0, 5, level));
 				}
 			}
 		}
