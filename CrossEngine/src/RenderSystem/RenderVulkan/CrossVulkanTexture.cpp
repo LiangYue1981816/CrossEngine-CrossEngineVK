@@ -147,7 +147,7 @@ namespace CrossEngine {
 		}
 
 		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
-		CALL_VK_FUNCTION_RETURN_BOOL(ptrStagingBuffer->TransferImage(m_vkImage, texture.levels(), 6, regions.size(), regions.data(), texture.size(), texture.data()));
+		CALL_VK_FUNCTION_RETURN_BOOL(ptrStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.faces(), regions.size(), regions.data(), texture.size(), texture.data()));
 
 		return TRUE;
 	}
