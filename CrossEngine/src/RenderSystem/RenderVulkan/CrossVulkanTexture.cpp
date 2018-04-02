@@ -131,7 +131,7 @@ namespace CrossEngine {
 		uint32_t offset = 0;
 		std::vector<VkBufferImageCopy> regions;
 
-		for (uint32_t face = 0; face < 6; face++) {
+		for (uint32_t face = 0; face < texture.faces(); face++) {
 			for (uint32_t level = 0; level < texture.levels(); level++) {
 				VkBufferImageCopy region;
 				region.bufferOffset = offset;
