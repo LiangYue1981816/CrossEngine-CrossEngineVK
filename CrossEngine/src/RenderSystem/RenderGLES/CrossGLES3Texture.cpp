@@ -52,7 +52,7 @@ namespace CrossEngine {
 		gli::gl GL(gli::gl::PROFILE_ES30);
 		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
 
-		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D, format.External, format.Internal, texture.extent().x, texture.extent().y, 1, texture.levels(), 1, 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
 		CALL_BOOL_FUNCTION_RETURN(TransferTexture2D(texture, format));
 
 		m_size = texture.size();
@@ -65,7 +65,7 @@ namespace CrossEngine {
 		gli::gl GL(gli::gl::PROFILE_ES30);
 		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
 
-		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D_ARRAY, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), texture.layers(), 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_2D_ARRAY, format.External, format.Internal, texture.extent().x, texture.extent().y, 1, texture.levels(), texture.layers(), 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
 		CALL_BOOL_FUNCTION_RETURN(TransferTexture2DArray(texture, format));
 
 		m_size = texture.size();
@@ -78,7 +78,7 @@ namespace CrossEngine {
 		gli::gl GL(gli::gl::PROFILE_ES30);
 		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
 
-		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_3D, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_3D, format.External, format.Internal, texture.extent().x, texture.extent().y, texture.extent().z, texture.levels(), 1, 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
 		CALL_BOOL_FUNCTION_RETURN(TransferTexture3D(texture, format));
 
 		m_size = texture.size();
@@ -91,7 +91,7 @@ namespace CrossEngine {
 		gli::gl GL(gli::gl::PROFILE_ES30);
 		gli::gl::format format = GL.translate(texture.format(), texture.swizzles());
 
-		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_CUBE_MAP, format.External, format.Internal, texture.extent(0).x, texture.extent(0).y, 1, texture.levels(), 1, 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
+		CALL_BOOL_FUNCTION_RETURN(Create(GL_TEXTURE_CUBE_MAP, format.External, format.Internal, texture.extent().x, texture.extent().y, 1, texture.levels(), texture.faces(), 1, CGLES3Helper::glTranslateMinFilter(minFilter, mipmapMode), CGLES3Helper::glTranslateMagFilter(magFilter), CGLES3Helper::glTranslateAddressMode(addressMode)));
 		CALL_BOOL_FUNCTION_RETURN(TransferTextureCube(texture, format));
 
 		m_size = texture.size();
