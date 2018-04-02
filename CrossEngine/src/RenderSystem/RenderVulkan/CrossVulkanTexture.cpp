@@ -69,6 +69,17 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CVulkanTexture::CreateTexture3D(const gli::texture3d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	{
+		if (texture.target() == gli::TARGET_3D)
+			return FALSE;
+
+		CALL_BOOL_FUNCTION_RETURN(Create(VK_IMAGE_VIEW_TYPE_3D, (VkFormat)texture.format(), VK_IMAGE_ASPECT_COLOR_BIT, texture.extent().x, texture.extent().y, texture.extent().z, texture.levels(), 1, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT, minFilter, magFilter, mipmapMode, addressMode));
+		CALL_BOOL_FUNCTION_RETURN(TransferTexture3D(texture));
+
+		return TRUE;
+	}
+
 	BOOL CVulkanTexture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		if (texture.target() == gli::TARGET_CUBE)
@@ -131,6 +142,30 @@ namespace CrossEngine {
 
 		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
 		CALL_VK_FUNCTION_RETURN_BOOL(ptrStagingBuffer->TransferImage(m_vkImage, texture.levels(), texture.layers(), regions.size(), regions.data(), texture.size(), texture.data()));
+
+		return TRUE;
+	}
+
+	BOOL CVulkanTexture::TransferTexture3D(const gli::texture3d &texture)
+	{
+		uint32_t offset = 0;
+		std::vector<VkBufferImageCopy> regions;
+
+		for (uint32_t level = 0; level < texture.levels(); level++) {
+			VkBufferImageCopy region;
+			region.bufferOffset = offset;
+			region.bufferRowLength = 0;
+			region.bufferImageHeight = 0;
+			region.imageSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, level, 0, 1 };
+			region.imageOffset = { 0, 0, 0 };
+			region.imageExtent = { (uint32_t)texture.extent(level).x, (uint32_t)texture.extent(level).y, (uint32_t)texture.extent(level).z };
+
+			regions.push_back(region);
+			offset += texture.size(level);
+		}
+
+		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(m_pMemory->GetSize());
+		CALL_VK_FUNCTION_RETURN_BOOL(ptrStagingBuffer->TransferImage(m_vkImage, texture.levels(), 1, regions.size(), regions.data(), texture.size(), texture.data()));
 
 		return TRUE;
 	}
