@@ -49,7 +49,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3Texture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (texture.target() == gli::TARGET_2D)
+		if (texture.target() != gli::TARGET_2D)
 			return FALSE;
 
 		gli::gl GL(gli::gl::PROFILE_ES30);
@@ -65,7 +65,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3Texture::CreateTexture2DArray(const gli::texture2d_array &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (texture.target() == gli::TARGET_2D_ARRAY)
+		if (texture.target() != gli::TARGET_2D_ARRAY)
 			return FALSE;
 
 		gli::gl GL(gli::gl::PROFILE_ES30);
@@ -81,7 +81,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3Texture::CreateTexture3D(const gli::texture3d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (texture.target() == gli::TARGET_3D)
+		if (texture.target() != gli::TARGET_3D)
 			return FALSE;
 
 		gli::gl GL(gli::gl::PROFILE_ES30);
@@ -97,7 +97,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3Texture::CreateTextureCube(const gli::texture_cube &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
-		if (texture.target() == gli::TARGET_CUBE)
+		if (texture.target() != gli::TARGET_CUBE)
 			return FALSE;
 
 		gli::gl GL(gli::gl::PROFILE_ES30);

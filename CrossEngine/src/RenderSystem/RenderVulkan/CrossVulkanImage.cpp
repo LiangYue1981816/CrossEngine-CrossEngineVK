@@ -132,26 +132,21 @@ namespace CrossEngine {
 
 		case VK_IMAGE_VIEW_TYPE_2D:
 		case VK_IMAGE_VIEW_TYPE_2D_ARRAY:
-			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D || 
-				height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
-			createInfo.flags = VK_IMAGE_CREATE_2D_ARRAY_COMPATIBLE_BIT;
 			createInfo.imageType = VK_IMAGE_TYPE_2D;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_3D:
-			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D || 
-				height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D || 
-				depth > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D || depth > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension3D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_3D;
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_CUBE:
-			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube || 
-				height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
