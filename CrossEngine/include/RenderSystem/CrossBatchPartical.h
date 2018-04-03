@@ -40,7 +40,7 @@ namespace CrossEngine {
 
 	public:
 		virtual void UpdateInstanceBuffer(void);
-		virtual CGfxCommandBufferPtr BuildCommandBuffer(void);
+		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
 
 	public:
 		static void ClearInstanceBuffer(void);
