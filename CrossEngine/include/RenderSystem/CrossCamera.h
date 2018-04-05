@@ -61,6 +61,9 @@ namespace CrossEngine {
 		BOOL IsVisible(const glm::vec3 &vertex);
 		BOOL IsVisible(const glm::aabb &aabb);
 
+	public:
+		CRenderQueue* GetRenderQueue(void);
+
 
 	protected:
 		BOOL m_bEnable;
@@ -70,6 +73,9 @@ namespace CrossEngine {
 		glm::mat4 m_mtxProjection;
 		glm::mat4 m_mtxCameraToWorld;
 		glm::mat4 m_mtxWorldToCamera;
+
+	protected:
+		CRenderQueue m_renderQueue;
 	};
 
 }

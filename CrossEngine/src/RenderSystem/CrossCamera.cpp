@@ -119,4 +119,9 @@ namespace CrossEngine {
 		return m_bEnable && m_camera.visible(aabb) ? TRUE : FALSE;
 	}
 
+	CRenderQueue* CCamera::GetRenderQueue(void)
+	{
+		return &m_renderQueue;
+	}
+
 }
