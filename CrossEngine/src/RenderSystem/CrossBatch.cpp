@@ -39,6 +39,11 @@ namespace CrossEngine {
 
 	}
 
+	const CGfxCommandBufferPtr& CBatch::GetCommandBuffer(void) const
+	{
+		return m_ptrCommandBuffer;
+	}
+
 	void CBatch::Clear(void)
 	{
 		m_indexCount = 0;
@@ -52,6 +57,7 @@ namespace CrossEngine {
 		m_ptrVertexBuffer.Release();
 		m_ptrDescriptorSet.Release();
 		m_ptrPipelineGraphics.Release();
+		m_ptrCommandBuffer.Release();
 	}
 
 	void CBatch::AddDrawable(const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)

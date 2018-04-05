@@ -34,6 +34,9 @@ namespace CrossEngine {
 
 
 	public:
+		const CGfxCommandBufferPtr& GetCommandBuffer(void) const;
+
+	public:
 		virtual void Clear(void);
 		virtual void AddDrawable(const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics);
 
@@ -53,6 +56,7 @@ namespace CrossEngine {
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
+		CGfxCommandBufferPtr m_ptrCommandBuffer;
 
 	protected:
 		std::map<const CDrawable*, const CDrawable*> m_pDrawables;

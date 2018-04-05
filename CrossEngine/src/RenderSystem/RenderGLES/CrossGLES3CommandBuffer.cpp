@@ -72,6 +72,22 @@ namespace CrossEngine {
 		m_pCommandBufferManager->FreeCommandBuffer(this);
 	}
 
+	CGLES3Device* CGLES3CommandBuffer::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
+	HANDLE CGLES3CommandBuffer::GetHandle(void) const
+	{
+		return (HANDLE)this;
+	}
+
+	void CGLES3CommandBuffer::Reset(void)
+	{
+		Clearup();
+		ClearCommands();
+	}
+
 	void CGLES3CommandBuffer::Clearup(void)
 	{
 		m_indexPass = 0;
@@ -90,22 +106,6 @@ namespace CrossEngine {
 		}
 
 		m_pCommands.clear();
-	}
-
-	CGLES3Device* CGLES3CommandBuffer::GetDevice(void) const
-	{
-		return m_pDevice;
-	}
-
-	HANDLE CGLES3CommandBuffer::GetHandle(void) const
-	{
-		return (HANDLE)this;
-	}
-
-	void CGLES3CommandBuffer::Reset(void)
-	{
-		Clearup();
-		ClearCommands();
 	}
 
 	void CGLES3CommandBuffer::Execute(void) const

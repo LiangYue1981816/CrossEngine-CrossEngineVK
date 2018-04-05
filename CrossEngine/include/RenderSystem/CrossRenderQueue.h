@@ -31,11 +31,35 @@ namespace CrossEngine {
 		friend class CCamera;
 
 
+	protected:
+		static const int THREAD_COUNT = 4;
+
+		typedef struct ThreadParam {
+			uint32_t indexThread;
+			CRenderQueue *pRenderQueue;
+		} ThreadParam;
+
+		typedef struct ThreadCluster {
+			event_t eventExit;
+			event_t eventReady;
+			event_t eventFinish;
+			event_t eventDispatch;
+			pthread_t threads[THREAD_COUNT];
+			ThreadParam params[THREAD_COUNT];
+		} ThreadCluster;
+
+	protected:
 		typedef std::map<CGfxVertexBufferPtr, std::map<CGfxIndexBufferPtr, std::map<CGfxDescriptorSetPtr, CBatch*>>> BatchQueue;
 		typedef std::map<CGfxDescriptorSetPtr, BatchQueue> MaterialDescriptorSetQueue;
 		typedef std::map<CGfxPipelineGraphicsPtr, MaterialDescriptorSetQueue> MaterialPipelineQueue;
 		typedef std::map<uint32_t, MaterialPipelineQueue> SubPassQueue;
 		typedef std::map<CGfxRenderPassPtr, SubPassQueue> RenderPassQueue;
+
+	protected:
+		typedef std::vector<CGfxCommandBufferPtr> CommandBufferSet;
+		typedef std::map<uint32_t, CGfxCommandBufferPtr> CommandBufferMap;
+		typedef std::map<CGfxRenderPassPtr, std::map<CGfxFrameBufferPtr, CommandBufferMap>> MainCommandBufferMap;
+		typedef std::map<uint32_t, std::map<uint32_t, CommandBufferSet>> SecondaryCommandBufferMap;
 
 		
 	protected:
@@ -43,25 +67,39 @@ namespace CrossEngine {
 		virtual ~CRenderQueue(void);
 
 
+	protected:
+		void CreateThread(void);
+		void DestroyThread(void);
+		void DispatchThread(BOOL bWait);
+		void WaitThread(void);
+
 	public:
 		void Clear(void);
 		void AddDrawable(const CDrawable *pDrawable);
+		void UpdateInstanceBuffer(void);
 
 	public:
-		void UpdateInstanceBuffer(void);
-		void BuildCommandBuffer(const CGfxRenderPass *pRenderPass, const CGfxFrameBuffer *pFrameBuffer, CGfxCommandBuffer *pCommandBuffer);
+		void BuildSecondaryCommandBuffer(BOOL bWait);
+		void BuildMainCommandBuffer(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
+		void Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 
 	protected:
-		CBatch* CreateBatch(CDrawable::DRAWABLE_TYPE type);
+		static void* WorkThread(void *pParams);
 
 
 	protected:
 		RenderPassQueue m_queue;
 
-	protected:
 		std::vector<CBatchPartical*> m_pBatchParticals;
 		std::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
 		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
+
+	protected:
+		MainCommandBufferMap m_ptrMainCommandBuffers;
+		SecondaryCommandBufferMap m_ptrSecondaryCommandBuffers;
+
+	protected:
+		ThreadCluster m_threadCluster;
 	};
 
 }

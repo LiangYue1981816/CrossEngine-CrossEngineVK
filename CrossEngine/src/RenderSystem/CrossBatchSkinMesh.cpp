@@ -82,7 +82,7 @@ namespace CrossEngine {
 
 	void CBatchSkinMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-
+		m_ptrCommandBuffer = ptrCommandBuffer;
 	}
 
 }

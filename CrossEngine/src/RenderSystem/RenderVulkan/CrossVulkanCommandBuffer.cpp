@@ -74,21 +74,6 @@ namespace CrossEngine {
 		m_pCommandPool->FreeCommandBuffer(this);
 	}
 
-	void CVulkanCommandBuffer::Clearup(void)
-	{
-		m_ptrRenderPass.Release();
-		m_ptrFrameBuffer.Release();
-	}
-
-	void CVulkanCommandBuffer::ClearCommands(void)
-	{
-		for (auto &itCommand : m_pCommands) {
-			SAFE_DELETE(itCommand);
-		}
-
-		m_pCommands.clear();
-	}
-
 	CVulkanDevice* CVulkanCommandBuffer::GetDevice(void) const
 	{
 		return m_pDevice;
@@ -112,6 +97,21 @@ namespace CrossEngine {
 		ClearCommands();
 
 		vkResetCommandBuffer(m_vkCommandBuffer, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
+	}
+
+	void CVulkanCommandBuffer::Clearup(void)
+	{
+		m_ptrRenderPass.Release();
+		m_ptrFrameBuffer.Release();
+	}
+
+	void CVulkanCommandBuffer::ClearCommands(void)
+	{
+		for (auto &itCommand : m_pCommands) {
+			SAFE_DELETE(itCommand);
+		}
+
+		m_pCommands.clear();
 	}
 
 	BOOL CVulkanCommandBuffer::FenceWait(uint64_t timeout) const

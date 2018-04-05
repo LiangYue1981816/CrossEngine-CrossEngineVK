@@ -49,6 +49,8 @@ namespace CrossEngine {
 
 	public:
 		virtual void Reset(void) = 0;
+		virtual void Clearup(void) = 0;
+		virtual void ClearCommands(void) = 0;
 
 	public:
 		virtual void BeginPrimary(VkCommandBufferUsageFlags flags) = 0;
@@ -67,7 +69,7 @@ namespace CrossEngine {
 		virtual void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding) = 0;
 		virtual void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type) = 0;
 
-		virtual void CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth) = 0;
+		virtual void CmdSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f) = 0;
 		virtual void CmdSetScissor(int x, int y, uint32_t width, uint32_t height) = 0;
 		virtual void CmdSetLineWidth(float lineWidth) = 0;
 		virtual void CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor) = 0;

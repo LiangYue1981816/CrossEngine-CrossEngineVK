@@ -38,8 +38,7 @@ namespace CrossEngine {
 
 	protected:
 		void Release(void);
-		void Clearup(void);
-		void ClearCommands(void);
+
 
 	public:
 		CVulkanDevice* GetDevice(void) const;
@@ -48,6 +47,9 @@ namespace CrossEngine {
 
 	public:
 		void Reset(void);
+		void Clearup(void);
+		void ClearCommands(void);
+
 		BOOL FenceWait(uint64_t timeout) const;
 		void FenceReset(void) const;
 
@@ -68,7 +70,7 @@ namespace CrossEngine {
 		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding);
 		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type);
 
-		void CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth);
+		void CmdSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f);
 		void CmdSetScissor(int x, int y, uint32_t width, uint32_t height);
 		void CmdSetLineWidth(float lineWidth);
 		void CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor);

@@ -82,7 +82,7 @@ namespace CrossEngine {
 
 	void CBatchPartical::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-
+		m_ptrCommandBuffer = ptrCommandBuffer;
 	}
 
 }
