@@ -52,8 +52,6 @@ namespace CrossEngine {
 		uint32_t m_firstInstance;
 
 	protected:
-		CGfxIndexBufferPtr m_ptrIndexBuffer;
-		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 		CGfxCommandBufferPtr m_ptrCommandBuffer;

@@ -53,8 +53,6 @@ namespace CrossEngine {
 
 		m_pDrawables.clear();
 
-		m_ptrIndexBuffer.Release();
-		m_ptrVertexBuffer.Release();
 		m_ptrDescriptorSet.Release();
 		m_ptrPipelineGraphics.Release();
 		m_ptrCommandBuffer.Release();
@@ -68,8 +66,6 @@ namespace CrossEngine {
 		m_firstIndex = pDrawable->GetFirstIndex();
 		m_vertexOffset = pDrawable->GetVertexOffset();
 
-		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
-		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();
 		m_ptrDescriptorSet = pDrawable->GetDescriptorSet();
 		m_ptrPipelineGraphics = ptrPipelineGraphics;
 	}
