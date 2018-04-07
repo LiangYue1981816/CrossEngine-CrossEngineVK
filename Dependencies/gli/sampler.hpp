@@ -34,7 +34,6 @@ namespace gli
 	{
 	public:
 		sampler(wrap Wrap, filter Mip, filter Min);
-		virtual ~sampler() = default;
 
 	protected:
 		typedef float(*wrap_type)(float const & SamplerCoord);
