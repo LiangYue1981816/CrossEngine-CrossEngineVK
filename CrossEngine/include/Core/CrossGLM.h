@@ -69,15 +69,15 @@ namespace glm {
 
 		plane& operator * (const mat4 &_mat4)
 		{
-			vertex = _mat4 * vec4(vertex, 1.0f);
-			normal = _mat4 * vec4(normal, 0.0f);
+			vertex = vec3(_mat4 * vec4(vertex, 1.0f));
+			normal = vec3(_mat4 * vec4(normal, 0.0f));
 			return *this;
 		}
 
 		plane& operator *= (const mat4 &_mat4)
 		{
-			vertex = _mat4 * vec4(vertex, 1.0f);
-			normal = _mat4 * vec4(normal, 0.0f);
+			vertex = vec3(_mat4 * vec4(vertex, 1.0f));
+			normal = vec3(_mat4 * vec4(normal, 0.0f));
 			return *this;
 		}
 
@@ -174,8 +174,8 @@ namespace glm {
 
 		aabb& operator * (const mat4 &_mat4)
 		{
-			minVertex = _mat4 * vec4(minVertex, 1.0f);
-			maxVertex = _mat4 * vec4(maxVertex, 1.0f);
+			minVertex = vec3(_mat4 * vec4(minVertex, 1.0f));
+			maxVertex = vec3(_mat4 * vec4(maxVertex, 1.0f));
 			normalize();
 
 			return *this;
@@ -183,8 +183,8 @@ namespace glm {
 
 		aabb& operator *= (const mat4 &_mat4)
 		{
-			minVertex = _mat4 * vec4(minVertex, 1.0f);
-			maxVertex = _mat4 * vec4(maxVertex, 1.0f);
+			minVertex = vec3(_mat4 * vec4(minVertex, 1.0f));
+			maxVertex = vec3(_mat4 * vec4(maxVertex, 1.0f));
 			normalize();
 
 			return *this;
