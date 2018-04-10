@@ -99,18 +99,18 @@ void CreateBuffer(void)
 {
 	struct Vertex {
 		float position[3];
-		float texcoord[4];
+		float texcoord[2];
 	};
 
 	std::vector<Vertex> vertexBuffer = {
-		{ { -1.0f, -1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f, 0.0f } },
-		{ {  1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 0.0f, 0.0f } },
-		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 0.0f, 0.0f, 0.0f } },
-		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f, 0.0f, 0.0f } }
+		{ { -1.0f, -1.0f, 0.0f },{ 0.0f, 1.0f } },
+		{ {  1.0f, -1.0f, 0.0f },{ 1.0f, 1.0f } },
+		{ {  1.0f,  1.0f, 0.0f },{ 1.0f, 0.0f } },
+		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f } }
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
-	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD);
+	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_UV0);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
