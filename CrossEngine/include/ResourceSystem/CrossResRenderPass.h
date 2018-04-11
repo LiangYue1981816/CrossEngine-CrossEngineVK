@@ -65,12 +65,12 @@ namespace CrossEngine {
 
 		typedef struct SubPassParam {
 			uint32_t indexSubPass;
-			uint32_t inputColorReference;
-			uint32_t inputDepthStencilReference;
-			uint32_t outputColorReference;
-			uint32_t outputDepthStencilReference;
-			uint32_t preserveReference;
-			uint32_t resolveColorReference;
+			int inputColorReference;
+			int inputDepthStencilReference;
+			int outputColorReference;
+			int outputDepthStencilReference;
+			int preserveReference;
+			int resolveColorReference;
 			VkImageLayout resolveColorImageLayout;
 		} SubPassParam;
 
@@ -113,11 +113,12 @@ namespace CrossEngine {
 		virtual void InternalLoadSuccess(void);
 
 	protected:
-		BOOL LoadAttachmentPresents(TiXmlNode *pAttachmentsNode);
-		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentsNode);
-		BOOL LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode);
-		BOOL LoadSubPasses(TiXmlNode *pSubPassesNode);
-		BOOL LoadDependencies(TiXmlNode *pDependenciesNode);
+		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
+		BOOL LoadAttachmentPresents(TiXmlNode *pAttachmentNodes);
+		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentNodes);
+		BOOL LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes);
+		BOOL LoadSubPasses(TiXmlNode *pSubPassNodes);
+		BOOL LoadDependencies(TiXmlNode *pDependencyNodes);
 
 
 	protected:

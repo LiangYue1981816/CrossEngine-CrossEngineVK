@@ -142,7 +142,7 @@ namespace CrossEngine {
 		BOOL LoadMultisample(TiXmlNode *pMultisampleNode);
 		BOOL LoadDepth(TiXmlNode *pDepthNode);
 		BOOL LoadStencil(TiXmlNode *pStencilNode);
-		BOOL LoadBlend(TiXmlNode *pBlendNode);
+		BOOL LoadBlend(TiXmlNode *pBlendNodes);
 
 		BOOL SetShaders(void);
 		BOOL SetAssemblyState(void);

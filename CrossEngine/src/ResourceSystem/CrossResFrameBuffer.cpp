@@ -80,24 +80,24 @@ namespace CrossEngine {
 					return FALSE;
 				}
 
-				if (TiXmlNode *pAttachmentsNode = pFrameBufferNode->FirstChild("Presents")) {
-					if (LoadAttachmentPresents(pAttachmentsNode) == FALSE) {
+				if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Presents")) {
+					if (LoadAttachmentPresents(pAttachmentNodes) == FALSE) {
 						return FALSE;
 					}
 
 					rcode = TRUE;
 				}
 
-				if (TiXmlNode *pAttachmentsNode = pFrameBufferNode->FirstChild("Colors")) {
-					if (LoadAttachmentColors(pAttachmentsNode, bSyncPostLoad) == FALSE) {
+				if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Colors")) {
+					if (LoadAttachmentColors(pAttachmentNodes, bSyncPostLoad) == FALSE) {
 						return FALSE;
 					}
 
 					rcode = TRUE;
 				}
 
-				if (TiXmlNode *pAttachmentsNode = pFrameBufferNode->FirstChild("DepthStencils")) {
-					if (LoadAttachmentDepthStencils(pAttachmentsNode, bSyncPostLoad) == FALSE) {
+				if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("DepthStencils")) {
+					if (LoadAttachmentDepthStencils(pAttachmentNodes, bSyncPostLoad) == FALSE) {
 						return FALSE;
 					}
 
@@ -172,9 +172,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResFrameBuffer::LoadAttachmentPresents(TiXmlNode *pAttachmentsNode)
+	BOOL CResFrameBuffer::LoadAttachmentPresents(TiXmlNode *pAttachmentNodes)
 	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
 			do {
 				AttachmentPresentParam param;
 				{
@@ -182,15 +182,15 @@ namespace CrossEngine {
 					param.indexSurface = pAttachmentNode->ToElement()->AttributeInt1("index_surface");
 				}
 				m_param.attachmentPresents.push_back(param);
-			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 		}
 
 		return TRUE;
 	}
 
-	BOOL CResFrameBuffer::LoadAttachmentColors(TiXmlNode *pAttachmentsNode, BOOL bSyncPostLoad)
+	BOOL CResFrameBuffer::LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad)
 	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
 			do {
 				AttachmentRenderTextureParam param;
 				{
@@ -199,15 +199,15 @@ namespace CrossEngine {
 					if (param.ptrRenderTexture.IsNull()) return FALSE;
 				}
 				m_param.attachmentColors.push_back(param);
-			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 		}
 
 		return TRUE;
 	}
 
-	BOOL CResFrameBuffer::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode, BOOL bSyncPostLoad)
+	BOOL CResFrameBuffer::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad)
 	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
 			do {
 				AttachmentRenderTextureParam param;
 				{
@@ -216,7 +216,7 @@ namespace CrossEngine {
 					if (param.ptrRenderTexture.IsNull()) return FALSE;
 				}
 				m_param.attachmentDepthStencils.push_back(param);
-			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 		}
 
 		return TRUE;

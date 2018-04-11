@@ -71,9 +71,9 @@ namespace CrossEngine {
 
 	protected:
 		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
-		BOOL LoadAttachmentPresents(TiXmlNode *pAttachmentsNode);
-		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentsNode, BOOL bSyncPostLoad);
-		BOOL LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode, BOOL bSyncPostLoad);
+		BOOL LoadAttachmentPresents(TiXmlNode *pAttachmentNodes);
+		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad);
+		BOOL LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad);
 
 
 	protected:

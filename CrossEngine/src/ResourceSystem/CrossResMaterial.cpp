@@ -69,7 +69,7 @@ namespace CrossEngine {
 						if (LoadPassPipeline(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
 						if (LoadPassTextures(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
 						if (LoadPassUniforms(pPassNode) == FALSE) return FALSE;
-					} while (pPassNode = pPassNode->IterateChildren("Pass", pPassNode));
+					} while (pPassNode = pMaterialNode->IterateChildren("Pass", pPassNode));
 
 					return TRUE;
 				}
@@ -187,7 +187,7 @@ namespace CrossEngine {
 
 				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
 				if (m_ptrTextures[dwPassName][dwName].IsNull()) return FALSE;
-			} while (pTextureNode = pTextureNode->IterateChildren("Texture2D", pTextureNode));
+			} while (pTextureNode = pPassNode->IterateChildren("Texture2D", pTextureNode));
 		}
 
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("TextureCube")) {
@@ -197,7 +197,7 @@ namespace CrossEngine {
 
 				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
 				if (m_ptrTextures[dwPassName][dwName].IsNull()) return FALSE;
-			} while (pTextureNode = pTextureNode->IterateChildren("TextureCube", pTextureNode));
+			} while (pTextureNode = pPassNode->IterateChildren("TextureCube", pTextureNode));
 		}
 
 		return TRUE;
@@ -217,7 +217,7 @@ namespace CrossEngine {
 				float value;
 				scanf(szValue, "%f", &value);
 				m_uniformFloats[dwPassName][dwName] = value;
-			} while (pFloatNode = pFloatNode->IterateChildren("Float", pFloatNode));
+			} while (pFloatNode = pPassNode->IterateChildren("Float", pFloatNode));
 		}
 
 		if (TiXmlNode *pVectorNode = pPassNode->FirstChild("Vector")) {
@@ -229,7 +229,7 @@ namespace CrossEngine {
 				glm::vec4 value;
 				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);
 				m_uniformVectors[dwPassName][dwName] = value;
-			} while (pVectorNode = pVectorNode->IterateChildren("Vector", pVectorNode));
+			} while (pVectorNode = pPassNode->IterateChildren("Vector", pVectorNode));
 		}
 
 		return TRUE;

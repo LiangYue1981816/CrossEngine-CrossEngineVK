@@ -264,7 +264,7 @@ namespace CrossEngine {
 				m_param.blends[indexAttachment].srcAlphaBlendFactor = CVulkanHelper::StringToBlendFactor(pBlendNode->ToElement()->AttributeString("src_alpha_blend_factor"));
 				m_param.blends[indexAttachment].dstAlphaBlendFactor = CVulkanHelper::StringToBlendFactor(pBlendNode->ToElement()->AttributeString("dst_alpha_blend_factor"));
 				m_param.blends[indexAttachment].alphaBlendOp = CVulkanHelper::StringToBlendOp(pBlendNode->ToElement()->AttributeString("alpha_blend_op"));
-			} while (pBlendNode = pBlendNode->IterateChildren("Attachment", pBlendNode));
+			} while (pBlendNode = pBlendNodes->IterateChildren("Attachment", pBlendNode));
 		}
 		return TRUE;
 	}

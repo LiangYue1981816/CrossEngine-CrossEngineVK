@@ -61,53 +61,15 @@ namespace CrossEngine {
 
 	BOOL CResRenderPass::InternalLoad(BOOL bSyncPostLoad)
 	{
-		BOOL rcode = FALSE;
-
 		TiXmlDocument xmlDoc;
+
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pRenderPassNode = xmlDoc.FirstChild("RenderPass")) {
-				if (TiXmlNode *pSubPassesNode = pRenderPassNode->FirstChild("SubPasses")) {
-					if (LoadSubPasses(pSubPassesNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pDependenciesNode = pRenderPassNode->FirstChild("Dependencies")) {
-					if (LoadDependencies(pDependenciesNode) == FALSE) {
-						return FALSE;
-					}
-				}
-
-				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("Presents")) {
-					if (LoadAttachmentPresents(pAttachmentsNode) == FALSE) {
-						return FALSE;
-					}
-
-					rcode = TRUE;
-				}
-
-				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("Colors")) {
-					if (LoadAttachmentColors(pAttachmentsNode) == FALSE) {
-						return FALSE;
-					}
-
-					rcode = TRUE;
-				}
-
-				if (TiXmlNode *pAttachmentsNode = pRenderPassNode->FirstChild("DepthStencils")) {
-					if (LoadAttachmentDepthStencils(pAttachmentsNode) == FALSE) {
-						return FALSE;
-					}
-
-					rcode = TRUE;
-				}
+				return LoadRenderPass(pRenderPassNode);
 			}
 		}
 
-		return rcode;
+		return FALSE;
 	}
 
 	BOOL CResRenderPass::InternalPostLoad(void)
@@ -213,9 +175,49 @@ namespace CrossEngine {
 		CResource::InternalLoadSuccess();
 	}
 
-	BOOL CResRenderPass::LoadAttachmentPresents(TiXmlNode *pAttachmentsNode)
+	BOOL CResRenderPass::LoadRenderPass(TiXmlNode *pRenderPassNode)
 	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+		BOOL rcode = FALSE;
+
+		if (TiXmlNode *pSubPassNodes = pRenderPassNode->FirstChild("SubPasses")) {
+			if (LoadSubPasses(pSubPassNodes) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pDependencyNodes = pRenderPassNode->FirstChild("Dependencies")) {
+			if (LoadDependencies(pDependencyNodes) == FALSE) {
+				return FALSE;
+			}
+		}
+
+		if (TiXmlNode *pAttachmentNodes = pRenderPassNode->FirstChild("Presents")) {
+			if (LoadAttachmentPresents(pAttachmentNodes)) {
+				rcode = TRUE;
+			}
+		}
+
+		if (TiXmlNode *pAttachmentNodes = pRenderPassNode->FirstChild("Colors")) {
+			if (LoadAttachmentColors(pAttachmentNodes)) {
+				rcode = TRUE;
+			}
+		}
+
+		if (TiXmlNode *pAttachmentNodes = pRenderPassNode->FirstChild("DepthStencils")) {
+			if (LoadAttachmentDepthStencils(pAttachmentNodes)) {
+				rcode = TRUE;
+			}
+		}
+
+		return rcode;
+	}
+
+	BOOL CResRenderPass::LoadAttachmentPresents(TiXmlNode *pAttachmentNodes)
+	{
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
 			do {
 				AttachmentPresentParam param;
 				{
@@ -224,20 +226,20 @@ namespace CrossEngine {
 					param.loadOp = CVulkanHelper::StringToAttachmentLoadOp(pAttachmentNode->ToElement()->AttributeString("loadop"));
 					param.storeOp = CVulkanHelper::StringToAttachmentStoreOp(pAttachmentNode->ToElement()->AttributeString("storeop"));
 					param.samples = CVulkanHelper::StringToSampleCountFlagBits(pAttachmentNode->ToElement()->AttributeString("samples"));
-					param.clearValue.depthStencil.depth = pAttachmentNode->ToElement()->AttributeFloat1("clear_depth");
-					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
 				m_param.attachmentPresents.push_back(param);
-			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
+
+			return TRUE;
 		}
 
-		return TRUE;
+		return FALSE;
 	}
 
-	BOOL CResRenderPass::LoadAttachmentColors(TiXmlNode *pAttachmentsNode)
+	BOOL CResRenderPass::LoadAttachmentColors(TiXmlNode *pAttachmentNodes)
 	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
 			do {
 				AttachmentColorTextureParam param;
 				{
@@ -247,20 +249,20 @@ namespace CrossEngine {
 					param.storeOp = CVulkanHelper::StringToAttachmentStoreOp(pAttachmentNode->ToElement()->AttributeString("storeop"));
 					param.samples = CVulkanHelper::StringToSampleCountFlagBits(pAttachmentNode->ToElement()->AttributeString("samples"));
 					param.finalLayout = CVulkanHelper::StringToImageLayout(pAttachmentNode->ToElement()->AttributeString("layout"));
-					param.clearValue.depthStencil.depth = pAttachmentNode->ToElement()->AttributeFloat1("clear_depth");
-					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
 				m_param.attachmentColors.push_back(param);
-			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
+			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
+
+			return TRUE;
 		}
 
-		return TRUE;
+		return FALSE;
 	}
 
-	BOOL CResRenderPass::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentsNode)
+	BOOL CResRenderPass::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes)
 	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentsNode->FirstChild("Attachment")) {
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
 			do {
 				AttachmentDepthStencilTextureParam param;
 				{
@@ -274,32 +276,9 @@ namespace CrossEngine {
 					param.finalLayout = CVulkanHelper::StringToImageLayout(pAttachmentNode->ToElement()->AttributeString("layout"));
 					param.clearValue.depthStencil.depth = pAttachmentNode->ToElement()->AttributeFloat1("clear_depth");
 					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
-					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
 				m_param.attachmentDepthStencils.push_back(param);
-			} while (pAttachmentNode = pAttachmentNode->IterateChildren("Attachment", pAttachmentNode));
-		}
-
-		return TRUE;
-	}
-
-	BOOL CResRenderPass::LoadSubPasses(TiXmlNode *pSubPassesNode)
-	{
-		if (TiXmlNode *pSubPassNode = pSubPassesNode->FirstChild("SubPass")) {
-			do {
-				SubPassParam param;
-
-				param.indexSubPass = pSubPassNode->ToElement()->AttributeInt1("index");
-				param.inputColorReference = pSubPassesNode->ToElement()->AttributeInt1("input_color_reference");
-				param.inputDepthStencilReference = pSubPassesNode->ToElement()->AttributeInt1("input_depth_stencil_reference");
-				param.outputColorReference = pSubPassesNode->ToElement()->AttributeInt1("output_color_reference");
-				param.outputDepthStencilReference = pSubPassesNode->ToElement()->AttributeInt1("output_depth_stencil_reference");
-				param.preserveReference = pSubPassesNode->ToElement()->AttributeInt1("preserve_reference");
-				param.resolveColorReference = pSubPassesNode->ToElement()->AttributeInt1("resolve_color_reference");
-				param.resolveColorImageLayout = CVulkanHelper::StringToImageLayout(pSubPassesNode->ToElement()->AttributeString("resolve_color_image_layout"));
-
-				m_param.subpasses.push_back(param);
-			} while (pSubPassNode = pSubPassNode->IterateChildren("SubPass", pSubPassNode));
+			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 
 			return TRUE;
 		}
@@ -307,23 +286,47 @@ namespace CrossEngine {
 		return FALSE;
 	}
 
-	BOOL CResRenderPass::LoadDependencies(TiXmlNode *pDependenciesNode)
+	BOOL CResRenderPass::LoadSubPasses(TiXmlNode *pSubPassNodes)
 	{
-		if (TiXmlNode *pDependencyNode = pDependenciesNode->FirstChild("Dependency")) {
+		if (TiXmlNode *pSubPassNode = pSubPassNodes->FirstChild("SubPass")) {
+			do {
+				SubPassParam param;
+				{
+					param.indexSubPass = pSubPassNode->ToElement()->AttributeInt1("index");
+					param.inputColorReference = pSubPassNode->ToElement()->AttributeInt1("input_color_reference");
+					param.inputDepthStencilReference = pSubPassNode->ToElement()->AttributeInt1("input_depth_stencil_reference");
+					param.outputColorReference = pSubPassNode->ToElement()->AttributeInt1("output_color_reference");
+					param.outputDepthStencilReference = pSubPassNode->ToElement()->AttributeInt1("output_depth_stencil_reference");
+					param.preserveReference = pSubPassNode->ToElement()->AttributeInt1("preserve_reference");
+					param.resolveColorReference = pSubPassNode->ToElement()->AttributeInt1("resolve_color_reference");
+					param.resolveColorImageLayout = CVulkanHelper::StringToImageLayout(pSubPassNode->ToElement()->AttributeString("resolve_color_image_layout"));
+				}
+				m_param.subpasses.push_back(param);
+			} while (pSubPassNode = pSubPassNodes->IterateChildren("SubPass", pSubPassNode));
+
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	BOOL CResRenderPass::LoadDependencies(TiXmlNode *pDependencyNodes)
+	{
+		if (TiXmlNode *pDependencyNode = pDependencyNodes->FirstChild("Dependency")) {
 			do {
 				DependencyParam param;
-
-				param.indexDependency = pDependencyNode->ToElement()->AttributeInt1("index");
-				param.indexSrcSubpass = pDependencyNode->ToElement()->AttributeInt1("index_src_subpass");
-				param.indexDstSubpass = pDependencyNode->ToElement()->AttributeInt1("index_dst_subpass");
-				param.srcStageMask = CVulkanHelper::StringToPipelineStageFlags(pDependencyNode->ToElement()->AttributeString("src_stage_mask"));
-				param.dstStageMask = CVulkanHelper::StringToPipelineStageFlags(pDependencyNode->ToElement()->AttributeString("dst_stage_mask"));
-				param.srcAccessMask = CVulkanHelper::StringToAccessFlags(pDependencyNode->ToElement()->AttributeString("src_access_mask"));
-				param.dstAccessMask = CVulkanHelper::StringToAccessFlags(pDependencyNode->ToElement()->AttributeString("dst_access_mask"));
-				param.dependencyFlags = CVulkanHelper::StringToDependencyFlags(pDependencyNode->ToElement()->AttributeString("flags"));
-
+				{
+					param.indexDependency = pDependencyNode->ToElement()->AttributeInt1("index");
+					param.indexSrcSubpass = pDependencyNode->ToElement()->AttributeInt1("index_src_subpass");
+					param.indexDstSubpass = pDependencyNode->ToElement()->AttributeInt1("index_dst_subpass");
+					param.srcStageMask = CVulkanHelper::StringToPipelineStageFlags(pDependencyNode->ToElement()->AttributeString("src_stage_mask"));
+					param.dstStageMask = CVulkanHelper::StringToPipelineStageFlags(pDependencyNode->ToElement()->AttributeString("dst_stage_mask"));
+					param.srcAccessMask = CVulkanHelper::StringToAccessFlags(pDependencyNode->ToElement()->AttributeString("src_access_mask"));
+					param.dstAccessMask = CVulkanHelper::StringToAccessFlags(pDependencyNode->ToElement()->AttributeString("dst_access_mask"));
+					param.dependencyFlags = CVulkanHelper::StringToDependencyFlags(pDependencyNode->ToElement()->AttributeString("flags"));
+				}
 				m_param.dependencies.push_back(param);
-			} while (pDependencyNode = pDependencyNode->IterateChildren("Dependency", pDependencyNode));
+			} while (pDependencyNode = pDependencyNodes->IterateChildren("Dependency", pDependencyNode));
 
 			return TRUE;
 		}
