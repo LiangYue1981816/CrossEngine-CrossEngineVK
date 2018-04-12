@@ -66,47 +66,15 @@ namespace CrossEngine {
 
 	BOOL CResFrameBuffer::InternalLoad(BOOL bSyncPostLoad)
 	{
-		BOOL rcode = FALSE;
-
 		TiXmlDocument xmlDoc;
+
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pFrameBufferNode = xmlDoc.FirstChild("FrameBuffer")) {
-				if (TiXmlNode *pRenderPassNode = pFrameBufferNode->FirstChild("RenderPass")) {
-					if (LoadRenderPass(pRenderPassNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Presents")) {
-					if (LoadAttachmentPresents(pAttachmentNodes) == FALSE) {
-						return FALSE;
-					}
-
-					rcode = TRUE;
-				}
-
-				if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Colors")) {
-					if (LoadAttachmentColors(pAttachmentNodes, bSyncPostLoad) == FALSE) {
-						return FALSE;
-					}
-
-					rcode = TRUE;
-				}
-
-				if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("DepthStencils")) {
-					if (LoadAttachmentDepthStencils(pAttachmentNodes, bSyncPostLoad) == FALSE) {
-						return FALSE;
-					}
-
-					rcode = TRUE;
-				}
+				return LoadFrameBuffer(pFrameBufferNode, bSyncPostLoad);
 			}
 		}
 
-		return rcode;
+		return FALSE;
 	}
 
 	BOOL CResFrameBuffer::InternalPostLoad(void)
@@ -164,6 +132,40 @@ namespace CrossEngine {
 		m_param.attachmentDepthStencils.clear();
 
 		CResource::InternalLoadSuccess();
+	}
+
+	BOOL CResFrameBuffer::LoadFrameBuffer(TiXmlNode *pFrameBufferNode, BOOL bSyncPostLoad)
+	{
+		BOOL rcode = FALSE;
+
+		if (TiXmlNode *pRenderPassNode = pFrameBufferNode->FirstChild("RenderPass")) {
+			if (LoadRenderPass(pRenderPassNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Presents")) {
+			if (LoadAttachmentPresents(pAttachmentNodes)) {
+				rcode = TRUE;
+			}
+		}
+
+		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Colors")) {
+			if (LoadAttachmentColors(pAttachmentNodes, bSyncPostLoad)) {
+				rcode = TRUE;
+			}
+		}
+
+		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("DepthStencils")) {
+			if (LoadAttachmentDepthStencils(pAttachmentNodes, bSyncPostLoad)) {
+				rcode = TRUE;
+			}
+		}
+
+		return rcode;
 	}
 
 	BOOL CResFrameBuffer::LoadRenderPass(TiXmlNode *pRenderPassNode)

@@ -43,11 +43,15 @@ namespace CrossEngine {
 			uint32_t height;
 			VkFormat format;
 			VkSampleCountFlagBits samples;
+			VkFilter minFilter;
+			VkFilter magFilter;
+			VkSamplerMipmapMode mipmapMode;
+			VkSamplerAddressMode addressMode;
 		} RenderTextureParam;
 
 
 	protected:
-		CResRenderTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		CResRenderTexture(CResourceManager *pResourceManager);
 		virtual ~CResRenderTexture(void);
 
 
@@ -64,15 +68,12 @@ namespace CrossEngine {
 		virtual void InternalLoadFail(void);
 		virtual void InternalLoadSuccess(void);
 
+	protected:
+		BOOL LoadRenderTexture(TiXmlNode *pRenderTextureNode);
+
 
 	protected:
 		RenderTextureParam m_data;
-
-	protected:
-		VkFilter m_minFilter;
-		VkFilter m_magFilter;
-		VkSamplerMipmapMode m_mipmapMode;
-		VkSamplerAddressMode m_addressMode;
 
 	protected:
 		CGfxRenderTexturePtr m_ptrRenderTexture;

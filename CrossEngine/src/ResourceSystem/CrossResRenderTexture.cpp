@@ -25,12 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CResRenderTexture::CResRenderTexture(CResourceManager *pResourceManager, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	CResRenderTexture::CResRenderTexture(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
-		, m_minFilter(minFilter)
-		, m_magFilter(magFilter)
-		, m_mipmapMode(mipmapMode)
-		, m_addressMode(addressMode)
 	{
 
 	}
@@ -66,19 +62,10 @@ namespace CrossEngine {
 	BOOL CResRenderTexture::InternalLoad(BOOL bSyncPostLoad)
 	{
 		TiXmlDocument xmlDoc;
+
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
-			if (TiXmlNode *pRenderTargetNode = xmlDoc.FirstChild("RenderTexture")) {
-				const char *szType = pRenderTargetNode->ToElement()->AttributeString("type");
-				if      (stricmp(szType, "color"        ) == 0) m_data.type = RENDER_TEXTURE_TYPE_COLOR;
-				else if (stricmp(szType, "depth_stencil") == 0) m_data.type = RENDER_TEXTURE_TYPE_DEPTH_STENCIL;
-				else return FALSE;
-
-				m_data.width = pRenderTargetNode->ToElement()->AttributeInt1("width");
-				m_data.height = pRenderTargetNode->ToElement()->AttributeInt1("height");
-				m_data.format = CVulkanHelper::StringToFormat(pRenderTargetNode->ToElement()->AttributeString("format"));
-				m_data.samples = CVulkanHelper::StringToSampleCountFlagBits(pRenderTargetNode->ToElement()->AttributeString("samples"));
-
-				return TRUE;
+			if (TiXmlNode *pRenderTextureNode = xmlDoc.FirstChild("RenderTexture")) {
+				return LoadRenderTexture(pRenderTextureNode);
 			}
 		}
 
@@ -89,11 +76,11 @@ namespace CrossEngine {
 	{
 		if (m_data.type == RENDER_TEXTURE_TYPE_COLOR) {
 			m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
-			return m_ptrRenderTexture->CreateColorTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
+			return m_ptrRenderTexture->CreateColorTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_data.minFilter, m_data.magFilter, m_data.mipmapMode, m_data.addressMode);
 		}
 		else {
 			m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
-			return m_ptrRenderTexture->CreateDepthStencilTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_minFilter, m_magFilter, m_mipmapMode, m_addressMode);
+			return m_ptrRenderTexture->CreateDepthStencilTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_data.minFilter, m_data.magFilter, m_data.mipmapMode, m_data.addressMode);
 		}
 	}
 
@@ -106,6 +93,26 @@ namespace CrossEngine {
 	void CResRenderTexture::InternalLoadSuccess(void)
 	{
 		CResource::InternalLoadSuccess();
+	}
+
+	BOOL CResRenderTexture::LoadRenderTexture(TiXmlNode *pRenderTextureNode)
+	{
+		const char *szType = pRenderTextureNode->ToElement()->AttributeString("type");
+
+		if      (stricmp(szType, "color")         == 0) m_data.type = RENDER_TEXTURE_TYPE_COLOR;
+		else if (stricmp(szType, "depth_stencil") == 0) m_data.type = RENDER_TEXTURE_TYPE_DEPTH_STENCIL;
+		else return FALSE;
+
+		m_data.width = pRenderTextureNode->ToElement()->AttributeInt1("width");
+		m_data.height = pRenderTextureNode->ToElement()->AttributeInt1("height");
+		m_data.format = CVulkanHelper::StringToFormat(pRenderTextureNode->ToElement()->AttributeString("format"));
+		m_data.samples = CVulkanHelper::StringToSampleCountFlagBits(pRenderTextureNode->ToElement()->AttributeString("samples"));
+		m_data.minFilter = CVulkanHelper::StringToFilter(pRenderTextureNode->ToElement()->AttributeString("min_filter"));
+		m_data.magFilter = CVulkanHelper::StringToFilter(pRenderTextureNode->ToElement()->AttributeString("mag_filter"));
+		m_data.mipmapMode = CVulkanHelper::StringToSamplerMipmapMode(pRenderTextureNode->ToElement()->AttributeString("mipmap_mode"));
+		m_data.addressMode = CVulkanHelper::StringToSamplerAddressMode(pRenderTextureNode->ToElement()->AttributeString("address_mode"));
+
+		return TRUE;
 	}
 
 }

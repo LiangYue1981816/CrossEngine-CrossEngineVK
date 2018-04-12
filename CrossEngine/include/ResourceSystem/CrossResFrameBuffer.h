@@ -70,6 +70,7 @@ namespace CrossEngine {
 		virtual void InternalLoadSuccess(void);
 
 	protected:
+		BOOL LoadFrameBuffer(TiXmlNode *pFrameBufferNode, BOOL bSyncPostLoad);
 		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
 		BOOL LoadAttachmentPresents(TiXmlNode *pAttachmentNodes);
 		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad);

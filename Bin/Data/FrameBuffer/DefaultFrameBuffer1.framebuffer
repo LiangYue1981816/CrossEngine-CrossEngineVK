@@ -1,0 +1,9 @@
+<FrameBuffer>
+	<RenderPass name="Default.renderpass" />
+	<Presents>
+		<Attachment index="" index_surface="1" />
+	</Presents>
+	<DepthStencils>
+		<Attachment index="" render_texture="DefauleDepth720P.rendertexture" />
+	</DepthStencils>
+</FrameBuffer>
