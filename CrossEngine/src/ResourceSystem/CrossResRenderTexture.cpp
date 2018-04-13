@@ -74,14 +74,11 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::InternalPostLoad(void)
 	{
-		if (m_data.type == RENDER_TEXTURE_TYPE_COLOR) {
-			m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
-			return m_ptrRenderTexture->CreateColorTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_data.minFilter, m_data.magFilter, m_data.mipmapMode, m_data.addressMode);
-		}
-		else {
-			m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
-			return m_ptrRenderTexture->CreateDepthStencilTarget(m_data.format, m_data.width, m_data.height, m_data.samples, m_data.minFilter, m_data.magFilter, m_data.mipmapMode, m_data.addressMode);
-		}
+		m_ptrRenderTexture = GfxDevice()->NewRenderTexture();
+		return 
+			m_param.renderTarget.type == RENDER_TEXTURE_TYPE_COLOR ?
+			m_ptrRenderTexture->CreateColorTarget(m_param.renderTarget.format, m_param.renderTarget.width, m_param.renderTarget.height, m_param.renderTarget.samples, m_param.sampler.minFilter, m_param.sampler.magFilter, m_param.sampler.mipmapMode, m_param.sampler.addressMode) :
+			m_ptrRenderTexture->CreateDepthStencilTarget(m_param.renderTarget.format, m_param.renderTarget.width, m_param.renderTarget.height, m_param.renderTarget.samples, m_param.sampler.minFilter, m_param.sampler.magFilter, m_param.sampler.mipmapMode, m_param.sampler.addressMode);
 	}
 
 	void CResRenderTexture::InternalLoadFail(void)
@@ -97,20 +94,45 @@ namespace CrossEngine {
 
 	BOOL CResRenderTexture::LoadRenderTexture(TiXmlNode *pRenderTextureNode)
 	{
+		if (LoadRenderTarget(pRenderTextureNode) == FALSE) {
+			return FALSE;
+		}
+
+		if (LoadSampler(pRenderTextureNode) == FALSE) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResRenderTexture::LoadRenderTarget(TiXmlNode *pRenderTextureNode)
+	{
 		const char *szType = pRenderTextureNode->ToElement()->AttributeString("type");
 
-		if      (stricmp(szType, "color")         == 0) m_data.type = RENDER_TEXTURE_TYPE_COLOR;
-		else if (stricmp(szType, "depth_stencil") == 0) m_data.type = RENDER_TEXTURE_TYPE_DEPTH_STENCIL;
-		else return FALSE;
+		if (stricmp(szType, "color") == 0) {
+			m_param.renderTarget.type = RENDER_TEXTURE_TYPE_COLOR;
+		}
+		else if (stricmp(szType, "depth_stencil") == 0) {
+			m_param.renderTarget.type = RENDER_TEXTURE_TYPE_DEPTH_STENCIL;
+		}
+		else {
+			return FALSE;
+		}
 
-		m_data.width = pRenderTextureNode->ToElement()->AttributeInt1("width");
-		m_data.height = pRenderTextureNode->ToElement()->AttributeInt1("height");
-		m_data.format = CVulkanHelper::StringToFormat(pRenderTextureNode->ToElement()->AttributeString("format"));
-		m_data.samples = CVulkanHelper::StringToSampleCountFlagBits(pRenderTextureNode->ToElement()->AttributeString("samples"));
-		m_data.minFilter = CVulkanHelper::StringToFilter(pRenderTextureNode->ToElement()->AttributeString("min_filter"));
-		m_data.magFilter = CVulkanHelper::StringToFilter(pRenderTextureNode->ToElement()->AttributeString("mag_filter"));
-		m_data.mipmapMode = CVulkanHelper::StringToSamplerMipmapMode(pRenderTextureNode->ToElement()->AttributeString("mipmap_mode"));
-		m_data.addressMode = CVulkanHelper::StringToSamplerAddressMode(pRenderTextureNode->ToElement()->AttributeString("address_mode"));
+		m_param.renderTarget.width = pRenderTextureNode->ToElement()->AttributeInt1("width");
+		m_param.renderTarget.height = pRenderTextureNode->ToElement()->AttributeInt1("height");
+		m_param.renderTarget.format = CVulkanHelper::StringToFormat(pRenderTextureNode->ToElement()->AttributeString("format"));
+		m_param.renderTarget.samples = CVulkanHelper::StringToSampleCountFlagBits(pRenderTextureNode->ToElement()->AttributeString("samples"));
+
+		return TRUE;
+	}
+
+	BOOL CResRenderTexture::LoadSampler(TiXmlNode *pRenderTextureNode)
+	{
+		m_param.sampler.minFilter = CVulkanHelper::StringToFilter(pRenderTextureNode->ToElement()->AttributeString("min_filter"));
+		m_param.sampler.magFilter = CVulkanHelper::StringToFilter(pRenderTextureNode->ToElement()->AttributeString("mag_filter"));
+		m_param.sampler.mipmapMode = CVulkanHelper::StringToSamplerMipmapMode(pRenderTextureNode->ToElement()->AttributeString("mipmap_mode"));
+		m_param.sampler.addressMode = CVulkanHelper::StringToSamplerAddressMode(pRenderTextureNode->ToElement()->AttributeString("address_mode"));
 
 		return TRUE;
 	}

@@ -185,9 +185,11 @@ namespace CrossEngine {
 				}
 				m_param.attachmentPresents.push_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
+
+			return TRUE;
 		}
 
-		return TRUE;
+		return FALSE;
 	}
 
 	BOOL CResFrameBuffer::LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad)
@@ -202,9 +204,11 @@ namespace CrossEngine {
 				}
 				m_param.attachmentColors.push_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
+
+			return TRUE;
 		}
 
-		return TRUE;
+		return FALSE;
 	}
 
 	BOOL CResFrameBuffer::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad)
@@ -219,9 +223,11 @@ namespace CrossEngine {
 				}
 				m_param.attachmentDepthStencils.push_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
+
+			return TRUE;
 		}
 
-		return TRUE;
+		return FALSE;
 	}
 
 }

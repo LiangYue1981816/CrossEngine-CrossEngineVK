@@ -37,16 +37,24 @@ namespace CrossEngine {
 			RENDER_TEXTURE_TYPE_DEPTH_STENCIL
 		} RENDER_TEXTURE_TYPE;
 
-		typedef struct RenderTextureParam {
+		typedef struct RenderTargetParam {
 			RENDER_TEXTURE_TYPE type;
 			uint32_t width;
 			uint32_t height;
 			VkFormat format;
 			VkSampleCountFlagBits samples;
+		} RenderTargetParam;
+
+		typedef struct SamplerParam {
 			VkFilter minFilter;
 			VkFilter magFilter;
 			VkSamplerMipmapMode mipmapMode;
 			VkSamplerAddressMode addressMode;
+		};
+
+		typedef struct RenderTextureParam {
+			RenderTargetParam renderTarget;
+			SamplerParam sampler;
 		} RenderTextureParam;
 
 
@@ -70,10 +78,12 @@ namespace CrossEngine {
 
 	protected:
 		BOOL LoadRenderTexture(TiXmlNode *pRenderTextureNode);
+		BOOL LoadRenderTarget(TiXmlNode *pRenderTextureNode);
+		BOOL LoadSampler(TiXmlNode *pRenderTextureNode);
 
 
 	protected:
-		RenderTextureParam m_data;
+		RenderTextureParam m_param;
 
 	protected:
 		CGfxRenderTexturePtr m_ptrRenderTexture;
