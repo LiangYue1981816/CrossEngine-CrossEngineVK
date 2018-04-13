@@ -50,7 +50,7 @@ namespace CrossEngine {
 			VkFilter magFilter;
 			VkSamplerMipmapMode mipmapMode;
 			VkSamplerAddressMode addressMode;
-		};
+		} SamplerParam;
 
 		typedef struct RenderTextureParam {
 			RenderTargetParam renderTarget;
