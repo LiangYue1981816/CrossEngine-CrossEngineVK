@@ -80,9 +80,8 @@ namespace CrossEngine {
 
 	void CResShader::InternalLoadFail(void)
 	{
-		m_ptrShader.Release();
 		m_words.clear();
-
+		m_ptrShader.Release();
 		CResource::InternalLoadFail();
 	}
 

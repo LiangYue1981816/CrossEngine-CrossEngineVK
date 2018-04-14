@@ -77,9 +77,8 @@ namespace CrossEngine {
 
 	void CResTexture::InternalLoadFail(void)
 	{
-		m_ptrTexture.Release();
 		m_texture.clear();
-
+		m_ptrTexture.Release();
 		CResource::InternalLoadFail();
 	}
 

@@ -117,20 +117,11 @@ namespace CrossEngine {
 	{
 		m_ptrRenderPass.Release();
 		m_ptrFrameBuffer.Release();
-
-		m_param.attachmentPresents.clear();
-		m_param.attachmentColors.clear();
-		m_param.attachmentDepthStencils.clear();
-
 		CResource::InternalLoadFail();
 	}
 
 	void CResFrameBuffer::InternalLoadSuccess(void)
 	{
-		m_param.attachmentPresents.clear();
-		m_param.attachmentColors.clear();
-		m_param.attachmentDepthStencils.clear();
-
 		CResource::InternalLoadSuccess();
 	}
 

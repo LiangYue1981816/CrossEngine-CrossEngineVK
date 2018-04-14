@@ -154,24 +154,11 @@ namespace CrossEngine {
 	void CResRenderPass::InternalLoadFail(void)
 	{
 		m_ptrRenderPass.Release();
-
-		m_param.attachmentPresents.clear();
-		m_param.attachmentColors.clear();
-		m_param.attachmentDepthStencils.clear();
-		m_param.subpasses.clear();
-		m_param.dependencies.clear();
-
 		CResource::InternalLoadFail();
 	}
 
 	void CResRenderPass::InternalLoadSuccess(void)
 	{
-		m_param.attachmentPresents.clear();
-		m_param.attachmentColors.clear();
-		m_param.attachmentDepthStencils.clear();
-		m_param.subpasses.clear();
-		m_param.dependencies.clear();
-
 		CResource::InternalLoadSuccess();
 	}
 
