@@ -181,8 +181,9 @@ namespace CrossEngine {
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
 			do {
 				const uint32_t dwName = HashValue(pTextureNode->ToElement()->AttributeString("name"));
+				const uint32_t dwTexName = HashValue(pTextureNode->ToElement()->AttributeString("value"));
 
-				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
+				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwTexName, TRUE, bSyncPostLoad);
 				if (m_ptrTextures[dwPassName][dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pPassNode->IterateChildren("Texture2D", pTextureNode));
 		}
@@ -190,8 +191,9 @@ namespace CrossEngine {
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("TextureCube")) {
 			do {
 				const uint32_t dwName = HashValue(pTextureNode->ToElement()->AttributeString("name"));
+				const uint32_t dwTexName = HashValue(pTextureNode->ToElement()->AttributeString("value"));
 
-				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
+				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwTexName, TRUE, bSyncPostLoad);
 				if (m_ptrTextures[dwPassName][dwName].IsNull()) return FALSE;
 			} while (pTextureNode = pPassNode->IterateChildren("TextureCube", pTextureNode));
 		}

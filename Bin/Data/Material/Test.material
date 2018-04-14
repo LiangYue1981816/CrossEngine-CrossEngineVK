@@ -1,5 +1,5 @@
 <Material>
 	<Pass name="RenderOpaque" graphics="DiffuseForwardOpaquePresent.graphics">
-		<Texture2D name="het_kanonschot_rgba8.ktx" />
+		<Texture2D name="diffuse" value="het_kanonschot_rgba8.ktx" />
 	</Pass>
 </Material>
