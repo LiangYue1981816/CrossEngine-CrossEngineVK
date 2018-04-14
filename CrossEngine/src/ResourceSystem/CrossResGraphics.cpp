@@ -104,14 +104,11 @@ namespace CrossEngine {
 	{
 		m_ptrPipeline.Release();
 		m_ptrRenderPass.Release();
-
-		m_param.blends.clear();
 		CResource::InternalLoadFail();
 	}
 
 	void CResGraphics::InternalLoadSuccess(void)
 	{
-		m_param.blends.clear();
 		CResource::InternalLoadSuccess();
 	}
 
@@ -192,13 +189,6 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CResGraphics::LoadShader(TiXmlNode *pShaderNode)
-	{
-		m_param.shader.dwVertexName = HashValue(pShaderNode->ToElement()->AttributeString("vertex"));
-		m_param.shader.dwFragmentName = HashValue(pShaderNode->ToElement()->AttributeString("fragment"));
-		return TRUE;
-	}
-
 	BOOL CResGraphics::LoadRenderPass(TiXmlNode *pRenderPassNode)
 	{
 		m_param.renderpass.dwName = HashValue(pRenderPassNode->ToElement()->AttributeString("name"));
@@ -206,9 +196,17 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CResGraphics::LoadShader(TiXmlNode *pShaderNode)
+	{
+		m_param.shader.dwVertexName = HashValue(pShaderNode->ToElement()->AttributeString("vertex"));
+		m_param.shader.dwFragmentName = HashValue(pShaderNode->ToElement()->AttributeString("fragment"));
+		return TRUE;
+	}
+
 	BOOL CResGraphics::LoadAssembly(TiXmlNode *pAssemblyNode)
 	{
 		m_param.assembly.topology = CVulkanHelper::StringToPrimitiveTopology(pAssemblyNode->ToElement()->AttributeString("topology"));
+		m_param.assembly.bPrimitiveRestartEnable = pAssemblyNode->ToElement()->AttributeBool("enable_primitive_restart");
 		return TRUE;
 	}
 
@@ -216,15 +214,20 @@ namespace CrossEngine {
 	{
 		m_param.rasterization.cullMode = CVulkanHelper::StringToCullModeFlags(pRasterizationNode->ToElement()->AttributeString("cull_mode"));
 		m_param.rasterization.polygonMode = CVulkanHelper::StringToPolygonMode(pRasterizationNode->ToElement()->AttributeString("polygon_mode"));
+		m_param.rasterization.bDepthClampEnable = pRasterizationNode->ToElement()->AttributeBool("enable_depth_clamp");
 		m_param.rasterization.bDepthBiasEnable = pRasterizationNode->ToElement()->AttributeBool("enable_depth_bias");
+		m_param.rasterization.depthBiasClamp = pRasterizationNode->ToElement()->AttributeBool("depth_bias_clamp");
 		m_param.rasterization.depthBiasSlopeFactor = pRasterizationNode->ToElement()->AttributeFloat1("depth_bias_slope_factor");
 		m_param.rasterization.depthBiasConstantFactor = pRasterizationNode->ToElement()->AttributeFloat1("depth_bias_constant_factor");
+		m_param.rasterization.bRasterizerDiscardEnable = pRasterizationNode->ToElement()->AttributeFloat1("enable_rasterizer_discard");
 		return TRUE;
 	}
 
 	BOOL CResGraphics::LoadMultisample(TiXmlNode *pMultisampleNode)
 	{
 		m_param.multisample.samples = CVulkanHelper::StringToSampleCountFlagBits(pMultisampleNode->ToElement()->AttributeString("samples"));
+		m_param.multisample.bSampleShadingEnable = pMultisampleNode->ToElement()->AttributeBool("enable_sample_shading");
+		m_param.multisample.minSampleShading = pMultisampleNode->ToElement()->AttributeFloat1("min_sample_shading");
 		m_param.multisample.bAlphaToCoverageEnable = pMultisampleNode->ToElement()->AttributeBool("enable_alpha_to_coverage");
 		m_param.multisample.bAlphaToOneEnable = pMultisampleNode->ToElement()->AttributeBool("enable_alpha_to_one");
 		return TRUE;
@@ -232,6 +235,9 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadDepth(TiXmlNode *pDepthNode)
 	{
+		m_param.depth.bDepthBoundsTestEnable = pDepthNode->ToElement()->AttributeBool("enable_depth_bounds_test");
+		m_param.depth.minDepthBounds = pDepthNode->ToElement()->AttributeFloat1 ("min_depth_bound");
+		m_param.depth.maxDepthBounds = pDepthNode->ToElement()->AttributeFloat1("max_depth_bound");
 		m_param.depth.bDepthTestEnable = pDepthNode->ToElement()->AttributeBool("enable_depth_test");
 		m_param.depth.bDepthWriteEnable = pDepthNode->ToElement()->AttributeBool("enable_depth_write");
 		m_param.depth.depthCompareOp = CVulkanHelper::StringToCompareOp(pDepthNode->ToElement()->AttributeString("depth_compare_op"));
@@ -291,7 +297,7 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::SetAssemblyState(void)
 	{
-		m_ptrPipeline->SetPrimitiveTopology(m_param.assembly.topology, FALSE);
+		m_ptrPipeline->SetPrimitiveTopology(m_param.assembly.topology, m_param.assembly.bPrimitiveRestartEnable);
 		return TRUE;
 	}
 
@@ -305,16 +311,16 @@ namespace CrossEngine {
 		m_ptrPipeline->SetPolygonMode(m_param.rasterization.polygonMode);
 		m_ptrPipeline->SetCullMode(m_param.rasterization.cullMode);
 		m_ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
-		m_ptrPipeline->SetDepthClamp(FALSE);
-		m_ptrPipeline->SetDepthBias(m_param.rasterization.bDepthBiasEnable, m_param.rasterization.depthBiasConstantFactor, 0.0f, m_param.rasterization.depthBiasSlopeFactor);
-		m_ptrPipeline->SetRasterizerDiscard(FALSE);
+		m_ptrPipeline->SetDepthClamp(m_param.rasterization.bDepthClampEnable);
+		m_ptrPipeline->SetDepthBias(m_param.rasterization.bDepthBiasEnable, m_param.rasterization.depthBiasConstantFactor, m_param.rasterization.depthBiasClamp, m_param.rasterization.depthBiasSlopeFactor);
+		m_ptrPipeline->SetRasterizerDiscard(m_param.rasterization.bRasterizerDiscardEnable);
 		return TRUE;
 	}
 
 	BOOL CResGraphics::SetMultisampleState(void)
 	{
 		m_ptrPipeline->SetSampleCounts(m_param.multisample.samples);
-		m_ptrPipeline->SetSampleShading(FALSE, 0.0f);
+		m_ptrPipeline->SetSampleShading(m_param.multisample.bSampleShadingEnable, m_param.multisample.minSampleShading);
 		m_ptrPipeline->SetSampleAlphaToCoverage(m_param.multisample.bAlphaToCoverageEnable);
 		m_ptrPipeline->SetSampleAlphaToOne(m_param.multisample.bAlphaToOneEnable);
 		return TRUE;
@@ -322,7 +328,7 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::SetDepthStencilState(void)
 	{
-		m_ptrPipeline->SetDepthBoundsTest(FALSE, 0.0f, 0.0f);
+		m_ptrPipeline->SetDepthBoundsTest(m_param.depth.bDepthBoundsTestEnable, m_param.depth.minDepthBounds, m_param.depth.maxDepthBounds);
 		m_ptrPipeline->SetDepthTest(m_param.depth.bDepthTestEnable, m_param.depth.bDepthWriteEnable, m_param.depth.depthCompareOp);
 		m_ptrPipeline->SetStencilTest(m_param.stencil.bStencilTestEnable, m_param.stencil.frontFailOp, m_param.stencil.frontPassOp, m_param.stencil.frontDepthFailOp, m_param.stencil.frontCompareOp, m_param.stencil.frontCompareMask, m_param.stencil.frontWriteMask, m_param.stencil.frontReference, m_param.stencil.backFailOp, m_param.stencil.backPassOp, m_param.stencil.backDepthFailOp, m_param.stencil.backCompareOp, m_param.stencil.backCompareMask, m_param.stencil.backWriteMask, m_param.stencil.backReference);
 		return TRUE;
@@ -330,11 +336,11 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::SetColorBlendState(void)
 	{
-		m_ptrPipeline->SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
+		m_ptrPipeline->SetColorBlendLogic(FALSE, VK_LOGIC_OP_COPY);
 		m_ptrPipeline->SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 
 		for (std::map<uint32_t, BlendParam>::const_iterator itColorBlendAttachment = m_param.blends.begin(); itColorBlendAttachment != m_param.blends.end(); ++itColorBlendAttachment) {
-			m_ptrPipeline->SetColorBlendAttachment(itColorBlendAttachment->first, itColorBlendAttachment->second.bBlendEnable, itColorBlendAttachment->second.srcColorBlendFactor, itColorBlendAttachment->second.dstColorBlendFactor, itColorBlendAttachment->second.colorBlendOp, itColorBlendAttachment->second.srcAlphaBlendFactor, itColorBlendAttachment->second.dstAlphaBlendFactor, itColorBlendAttachment->second.alphaBlendOp, (VkColorComponentFlags)itColorBlendAttachment->second.colorWriteMask);
+			m_ptrPipeline->SetColorBlendAttachment(itColorBlendAttachment->first, itColorBlendAttachment->second.bBlendEnable, itColorBlendAttachment->second.srcColorBlendFactor, itColorBlendAttachment->second.dstColorBlendFactor, itColorBlendAttachment->second.colorBlendOp, itColorBlendAttachment->second.srcAlphaBlendFactor, itColorBlendAttachment->second.dstAlphaBlendFactor, itColorBlendAttachment->second.alphaBlendOp, VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT);
 		}
 
 		return TRUE;

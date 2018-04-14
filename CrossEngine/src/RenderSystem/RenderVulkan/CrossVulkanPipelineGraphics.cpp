@@ -269,14 +269,14 @@ namespace CrossEngine {
 		SetDepthBias(FALSE, 0.0f, 0.0f, 0.0f);
 		SetRasterizerDiscard(FALSE);
 		SetSampleCounts(VK_SAMPLE_COUNT_1_BIT);
-		SetSampleShading(FALSE, 0.0f);
+		SetSampleShading(FALSE, 1.0f);
 		SetSampleMask(NULL);
 		SetSampleAlphaToCoverage(FALSE);
 		SetSampleAlphaToOne(FALSE);
 		SetDepthTest(TRUE, TRUE, VK_COMPARE_OP_LESS);
 		SetDepthBoundsTest(FALSE, 0.0f, 1.0f);
 		SetStencilTest(FALSE, front.failOp, front.passOp, front.depthFailOp, front.compareOp, front.compareMask, front.writeMask, front.reference, back.failOp, back.passOp, back.depthFailOp, back.compareOp, back.compareMask, back.writeMask, back.reference);
-		SetColorBlendLogic(FALSE, VK_LOGIC_OP_CLEAR);
+		SetColorBlendLogic(FALSE, VK_LOGIC_OP_COPY);
 		SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 

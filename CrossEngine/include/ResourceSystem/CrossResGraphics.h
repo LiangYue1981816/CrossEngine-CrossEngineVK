@@ -44,25 +44,37 @@ namespace CrossEngine {
 
 		typedef struct AssemblyParam {
 			VkPrimitiveTopology topology;
+			VkBool32 bPrimitiveRestartEnable;
 		} AssemblyParam;
 
 		typedef struct RasterizationParam {
 			VkPolygonMode polygonMode;
 			VkCullModeFlags cullMode;
 
+			VkBool32 bDepthClampEnable;
 			VkBool32 bDepthBiasEnable;
+			float depthBiasClamp;
 			float depthBiasConstantFactor;
 			float depthBiasSlopeFactor;
+
+			VkBool32 bRasterizerDiscardEnable;
 		} RasterizationParam;
 
 		typedef struct MultisampleParam {
 			VkSampleCountFlagBits samples;
+
+			VkBool32 bSampleShadingEnable;
+			float minSampleShading;
 
 			VkBool32 bAlphaToCoverageEnable;
 			VkBool32 bAlphaToOneEnable;
 		} MultisampleParam;
 
 		typedef struct DepthParam {
+			VkBool32 bDepthBoundsTestEnable;
+			float minDepthBounds;
+			float maxDepthBounds;
+
 			VkBool32 bDepthTestEnable;
 			VkBool32 bDepthWriteEnable;
 			VkCompareOp depthCompareOp;
@@ -98,8 +110,6 @@ namespace CrossEngine {
 			VkBlendFactor srcAlphaBlendFactor;
 			VkBlendFactor dstAlphaBlendFactor;
 			VkBlendOp alphaBlendOp;
-
-			VkColorComponentFlags colorWriteMask;
 		} BlendParam;
 
 		typedef struct PipelineGraphicsParam {
@@ -136,8 +146,8 @@ namespace CrossEngine {
 
 	protected:
 		BOOL LoadGraphics(TiXmlNode *pGraphicsNode);
-		BOOL LoadShader(TiXmlNode *pShaderNode);
 		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
+		BOOL LoadShader(TiXmlNode *pShaderNode);
 		BOOL LoadAssembly(TiXmlNode *pAssemblyNode);
 		BOOL LoadRasterization(TiXmlNode *pRasterizationNode);
 		BOOL LoadMultisample(TiXmlNode *pMultisampleNode);
