@@ -1,14 +1,12 @@
 <RenderPass>
-	<Presents>
-		<Attachment 
-			index="0" 
-			format="VK_FORMAT_B8G8R8A8_UNORM" 
-			loadop="VK_ATTACHMENT_LOAD_OP_CLEAR" 
-			storeop="VK_ATTACHMENT_STORE_OP_STORE" 
-			samples="VK_SAMPLE_COUNT_1_BIT" 
-			clear_color="0.0 0.0 0.0 0.0" />
-	</Presents>
 	<Colors>
+		<Attachment
+			index="0"
+			format="VK_FORMAT_B8G8R8A8_UNORM"
+			loadop="VK_ATTACHMENT_LOAD_OP_CLEAR"
+			storeop="VK_ATTACHMENT_STORE_OP_DONT_CARE"
+			samples="VK_SAMPLE_COUNT_1_BIT"
+			clear_color="0.0 0.0 0.0 0.0" />
 	</Colors>
 	<DepthStencils>
 		<Attachment
@@ -16,12 +14,12 @@
 			format="VK_FORMAT_D24_UNORM_S8_UINT"
 			loadop="VK_ATTACHMENT_LOAD_OP_CLEAR"
 			storeop="VK_ATTACHMENT_STORE_OP_DONT_CARE"
-			stencil_loadop="VK_ATTACHMENT_LOAD_OP_DONT_CARE"
+			stencil_loadop="VK_ATTACHMENT_LOAD_OP_CLEAR"
 			stencil_storeop="VK_ATTACHMENT_STORE_OP_DONT_CARE"
 			samples="VK_SAMPLE_COUNT_1_BIT"
 			layout="VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL"
-			clear_depth="1.0f"
-			clear_stencil="0.0f" />
+			clear_depth="1.0"
+			clear_stencil="0.0" />
 	</DepthStencils>
 	<SubPasses>
 		<SubPass

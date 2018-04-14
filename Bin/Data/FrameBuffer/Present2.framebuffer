@@ -1,0 +1,6 @@
+<FrameBuffer>
+	<RenderPass name="Present.renderpass" />
+	<Presents>
+		<Attachment index="" index_surface="2" />
+	</Presents>
+</FrameBuffer>

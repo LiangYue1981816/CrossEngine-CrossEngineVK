@@ -1,0 +1,9 @@
+<FrameBuffer>
+	<RenderPass name="Forward.renderpass" />
+	<Colors>
+		<Attachment index="" render_texture="Color720P.rendertexture" />
+	</Colors>
+	<DepthStencils>
+		<Attachment index="" render_texture="Depth720P.rendertexture" />
+	</DepthStencils>
+</FrameBuffer>
