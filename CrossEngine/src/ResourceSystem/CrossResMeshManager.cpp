@@ -20,33 +20,44 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	template<class T>
-	class CROSS_EXPORT CResourcePtr;
-	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CResShader;
-	class CROSS_EXPORT CResRenderPass;
-	class CROSS_EXPORT CResRenderTexture;
-	class CROSS_EXPORT CResFrameBuffer;
-	class CROSS_EXPORT CResCompute;
-	class CROSS_EXPORT CResGraphics;
-	class CROSS_EXPORT CResTexture;
-	class CROSS_EXPORT CResMaterial;
-	class CROSS_EXPORT CResMesh;
+	CResMeshManager::CResMeshManager(void)
+	{
 
-	typedef CResourcePtr<CResShader> CResShaderPtr;
-	typedef CResourcePtr<CResRenderPass> CResRenderPassPtr;
-	typedef CResourcePtr<CResRenderTexture> CResRenderTexturePtr;
-	typedef CResourcePtr<CResFrameBuffer> CResFrameBufferPtr;
-	typedef CResourcePtr<CResCompute> CResComputePtr;
-	typedef CResourcePtr<CResGraphics> CResGraphicsPtr;
-	typedef CResourcePtr<CResTexture> CResTexturePtr;
-	typedef CResourcePtr<CResMaterial> CResMaterialPtr;
-	typedef CResourcePtr<CResMesh> CResMeshPtr;
+	}
+
+	CResMeshManager::~CResMeshManager(void)
+	{
+
+	}
+
+	RESOURCE_TYPE CResMeshManager::GetType(void) const
+	{
+		return RESOURCE_TYPE::RESOURCE_TYPE_MESH;
+	}
+
+	CResource* CResMeshManager::CreateResource(void)
+	{
+		return SAFE_NEW CResMesh(this);
+	}
+
+	BOOL CResMeshManager::PreLoadFromFile(const char *szFileName)
+	{
+		return CResourceManager::PreLoadFromFile(szFileName, MESH_EXT_NAME);
+	}
+
+	BOOL CResMeshManager::PreLoadFromPath(const char *szPathName)
+	{
+		return CResourceManager::PreLoadFromPath(szPathName, MESH_EXT_NAME);
+	}
+
+	BOOL CResMeshManager::PreLoadFromPack(const char *szPackName)
+	{
+		return CResourceManager::PreLoadFromPack(szPackName, MESH_EXT_NAME);
+	}
 
 }

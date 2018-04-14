@@ -20,33 +20,78 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#pragma once
-#include "CrossEngine.h"
+#include "_CrossEngine.h"
 
 
 namespace CrossEngine {
 
-	template<class T>
-	class CROSS_EXPORT CResourcePtr;
-	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CResShader;
-	class CROSS_EXPORT CResRenderPass;
-	class CROSS_EXPORT CResRenderTexture;
-	class CROSS_EXPORT CResFrameBuffer;
-	class CROSS_EXPORT CResCompute;
-	class CROSS_EXPORT CResGraphics;
-	class CROSS_EXPORT CResTexture;
-	class CROSS_EXPORT CResMaterial;
-	class CROSS_EXPORT CResMesh;
+	CResMesh::CResMesh(CResourceManager *pResourceManager)
+		: CResource(pResourceManager)
+	{
 
-	typedef CResourcePtr<CResShader> CResShaderPtr;
-	typedef CResourcePtr<CResRenderPass> CResRenderPassPtr;
-	typedef CResourcePtr<CResRenderTexture> CResRenderTexturePtr;
-	typedef CResourcePtr<CResFrameBuffer> CResFrameBufferPtr;
-	typedef CResourcePtr<CResCompute> CResComputePtr;
-	typedef CResourcePtr<CResGraphics> CResGraphicsPtr;
-	typedef CResourcePtr<CResTexture> CResTexturePtr;
-	typedef CResourcePtr<CResMaterial> CResMaterialPtr;
-	typedef CResourcePtr<CResMesh> CResMeshPtr;
+	}
+
+	CResMesh::~CResMesh(void)
+	{
+
+	}
+
+	RESOURCE_TYPE CResMesh::GetType(void) const
+	{
+		return RESOURCE_TYPE::RESOURCE_TYPE_MESH;
+	}
+
+	const CGfxIndexBufferPtr& CResMesh::GetIndexBuffer(void) const
+	{
+		return m_ptrIndexBuffer;
+	}
+
+	const CGfxVertexBufferPtr& CResMesh::GetVertexBuffer(void) const
+	{
+		return m_ptrVertexBuffer;
+	}
+
+	BOOL CResMesh::IsValid(void) const
+	{
+		if (IsLoaded() == FALSE) {
+			return FALSE;
+		}
+
+		if (m_ptrIndexBuffer.IsNull() || m_ptrIndexBuffer->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		if (m_ptrVertexBuffer.IsNull() || m_ptrVertexBuffer->GetHandle() == NULL) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	BOOL CResMesh::InternalLoad(BOOL bSyncPostLoad)
+	{
+		// ...
+
+		return TRUE;
+	}
+
+	BOOL CResMesh::InternalPostLoad(void)
+	{
+		// ...
+
+		return TRUE;
+	}
+
+	void CResMesh::InternalLoadFail(void)
+	{
+		m_ptrIndexBuffer.Release();
+		m_ptrVertexBuffer.Release();
+		CResource::InternalLoadFail();
+	}
+
+	void CResMesh::InternalLoadSuccess(void)
+	{
+		CResource::InternalLoadSuccess();
+	}
 
 }

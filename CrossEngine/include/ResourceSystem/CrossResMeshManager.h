@@ -26,27 +26,25 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	template<class T>
-	class CROSS_EXPORT CResourcePtr;
-	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CResShader;
-	class CROSS_EXPORT CResRenderPass;
-	class CROSS_EXPORT CResRenderTexture;
-	class CROSS_EXPORT CResFrameBuffer;
-	class CROSS_EXPORT CResCompute;
-	class CROSS_EXPORT CResGraphics;
-	class CROSS_EXPORT CResTexture;
-	class CROSS_EXPORT CResMaterial;
-	class CROSS_EXPORT CResMesh;
+	class CROSS_EXPORT CResMeshManager : public CResourceManager
+	{
+		friend class CResourceSystem;
 
-	typedef CResourcePtr<CResShader> CResShaderPtr;
-	typedef CResourcePtr<CResRenderPass> CResRenderPassPtr;
-	typedef CResourcePtr<CResRenderTexture> CResRenderTexturePtr;
-	typedef CResourcePtr<CResFrameBuffer> CResFrameBufferPtr;
-	typedef CResourcePtr<CResCompute> CResComputePtr;
-	typedef CResourcePtr<CResGraphics> CResGraphicsPtr;
-	typedef CResourcePtr<CResTexture> CResTexturePtr;
-	typedef CResourcePtr<CResMaterial> CResMaterialPtr;
-	typedef CResourcePtr<CResMesh> CResMeshPtr;
+
+	protected:
+		CResMeshManager(void);
+		virtual ~CResMeshManager(void);
+
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
+
+	public:
+		virtual CResource* CreateResource(void);
+
+		virtual BOOL PreLoadFromFile(const char *szFileName);
+		virtual BOOL PreLoadFromPath(const char *szPathName);
+		virtual BOOL PreLoadFromPack(const char *szPackName);
+	};
 
 }

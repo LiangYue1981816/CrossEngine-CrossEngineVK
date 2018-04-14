@@ -100,20 +100,20 @@ THE SOFTWARE.
 #define TAG_NAME "CrossEngine"
 
 
-#define RENDERPASS_EXT_NAME            ".renderpass"
-#define FRAMEBUFFER_EXT_NAME           ".framebuffer"
 #define SHADER_EXT_NAME0               ".vert"
 #define SHADER_EXT_NAME1               ".frag"
 #define SHADER_EXT_NAME2               ".comp"
+#define RENDERPASS_EXT_NAME            ".renderpass"
+#define RENDERTEXTURE_EXT_NAME         ".rendertexture"
+#define FRAMEBUFFER_EXT_NAME           ".framebuffer"
+#define COMPUTE_EXT_NAME               ".compute"
+#define GRAPHICS_EXT_NAME              ".graphics"
 #define TEXTURE_EXT_NAME0              ".dds"
 #define TEXTURE_EXT_NAME1              ".kmg"
 #define TEXTURE_EXT_NAME2              ".ktx"
-#define RENDERTEXTURE_EXT_NAME         ".rendertexture"
-#define COMPUTE_EXT_NAME               ".compute"
-#define GRAPHICS_EXT_NAME              ".graphics"
 #define MATERIAL_EXT_NAME              ".material"
-#define SKELETON_EXT_NAME              ".skeleton"
 #define MESH_EXT_NAME                  ".mesh"
+#define SKELETON_EXT_NAME              ".skeleton"
 #define EFFECT_EXT_NAME                ".effect"
 #define SOUND_EXT_NAME0                ".wav"
 #define SOUND_EXT_NAME1                ".ogg"
@@ -128,13 +128,13 @@ THE SOFTWARE.
 #define BatchBufferManager()           CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetBatchBufferManager()
 
 #define ResourceSystem()               CrossEngine::CEngine::GetEngine()->GetResourceSystem()
-#define RenderPassManager()            CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS)
-#define FrameBufferManager()           CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER)
 #define ShaderManager()                CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SHADER)
-#define TextureManager()               CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE)
+#define RenderPassManager()            CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS)
 #define RenderTextureManager()         CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_RENDER_TEXTURE)
+#define FrameBufferManager()           CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER)
 #define ComputeManager()               CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE)
 #define GraphicsManager()              CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS)
+#define TextureManager()               CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE)
 #define MaterialManager()              CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL)
 #define MeshManager()                  CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_MESH)
 #define SkeletonManager()              CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SKELETON)

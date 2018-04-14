@@ -26,27 +26,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	template<class T>
-	class CROSS_EXPORT CResourcePtr;
-	class CROSS_EXPORT CResource;
-	class CROSS_EXPORT CResShader;
-	class CROSS_EXPORT CResRenderPass;
-	class CROSS_EXPORT CResRenderTexture;
-	class CROSS_EXPORT CResFrameBuffer;
-	class CROSS_EXPORT CResCompute;
-	class CROSS_EXPORT CResGraphics;
-	class CROSS_EXPORT CResTexture;
-	class CROSS_EXPORT CResMaterial;
-	class CROSS_EXPORT CResMesh;
+	class CROSS_EXPORT CResMesh : public CResource
+	{
+		friend class CResMeshManager;
 
-	typedef CResourcePtr<CResShader> CResShaderPtr;
-	typedef CResourcePtr<CResRenderPass> CResRenderPassPtr;
-	typedef CResourcePtr<CResRenderTexture> CResRenderTexturePtr;
-	typedef CResourcePtr<CResFrameBuffer> CResFrameBufferPtr;
-	typedef CResourcePtr<CResCompute> CResComputePtr;
-	typedef CResourcePtr<CResGraphics> CResGraphicsPtr;
-	typedef CResourcePtr<CResTexture> CResTexturePtr;
-	typedef CResourcePtr<CResMaterial> CResMaterialPtr;
-	typedef CResourcePtr<CResMesh> CResMeshPtr;
+
+	protected:
+		CResMesh(CResourceManager *pResourceManager);
+		virtual ~CResMesh(void);
+
+
+	public:
+		const CGfxIndexBufferPtr& GetIndexBuffer(void) const;
+		const CGfxVertexBufferPtr& GetVertexBuffer(void) const;
+
+	public:
+		virtual RESOURCE_TYPE GetType(void) const;
+		virtual BOOL IsValid(void) const;
+
+	protected:
+		virtual BOOL InternalLoad(BOOL bSyncPostLoad);
+		virtual BOOL InternalPostLoad(void);
+		virtual void InternalLoadFail(void);
+		virtual void InternalLoadSuccess(void);
+
+
+	protected:
+		CGfxIndexBufferPtr m_ptrIndexBuffer;
+		CGfxVertexBufferPtr m_ptrVertexBuffer;
+	};
 
 }
