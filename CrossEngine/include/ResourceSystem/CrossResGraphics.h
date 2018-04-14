@@ -135,6 +135,7 @@ namespace CrossEngine {
 		virtual void InternalLoadSuccess(void);
 
 	protected:
+		BOOL LoadGraphics(TiXmlNode *pGraphicsNode);
 		BOOL LoadShader(TiXmlNode *pShaderNode);
 		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
 		BOOL LoadAssembly(TiXmlNode *pAssemblyNode);

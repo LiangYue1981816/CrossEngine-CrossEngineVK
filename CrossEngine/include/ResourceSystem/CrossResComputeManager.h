@@ -47,6 +47,9 @@ namespace CrossEngine {
 		virtual BOOL PreLoadFromPack(const char *szPackName);
 
 	protected:
+		virtual BOOL PreLoad(CResourceHandle *pResourceHandle);
+
+	protected:
 		virtual void GarbageCollection(void);
 	};
 

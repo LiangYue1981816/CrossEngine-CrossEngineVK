@@ -60,6 +60,11 @@ namespace CrossEngine {
 		return CResourceManager::PreLoadFromPack(szPackName, COMPUTE_EXT_NAME);
 	}
 
+	BOOL CResComputeManager::PreLoad(CResourceHandle *pResourceHandle)
+	{
+		return pResourceHandle->LoadResource(TRUE, TRUE);
+	}
+
 	void CResComputeManager::GarbageCollection(void)
 	{
 

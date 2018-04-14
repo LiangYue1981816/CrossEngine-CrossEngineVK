@@ -72,81 +72,10 @@ namespace CrossEngine {
 	BOOL CResGraphics::InternalLoad(BOOL bSyncPostLoad)
 	{
 		TiXmlDocument xmlDoc;
+
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pGraphicsNode = xmlDoc.FirstChild("Graphics")) {
-				if (TiXmlNode *pRenderPassNode = pGraphicsNode->FirstChild("RenderPass")) {
-					if (LoadRenderPass(pRenderPassNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pShaderNode = pGraphicsNode->FirstChild("Shader")) {
-					if (LoadShader(pShaderNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pAssemblyNode = pGraphicsNode->FirstChild("Assembly")) {
-					if (LoadAssembly(pAssemblyNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pRasterizationNode = pGraphicsNode->FirstChild("Rasterization")) {
-					if (LoadRasterization(pRasterizationNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pMultisampleNode = pGraphicsNode->FirstChild("Multisample")) {
-					if (LoadMultisample(pMultisampleNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pDepthNode = pGraphicsNode->FirstChild("Depth")) {
-					if (LoadDepth(pDepthNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pStencilNode = pGraphicsNode->FirstChild("Stencil")) {
-					if (LoadStencil(pStencilNode) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				if (TiXmlNode *pBlendNodes = pGraphicsNode->FirstChild("Blend")) {
-					if (LoadBlend(pBlendNodes) == FALSE) {
-						return FALSE;
-					}
-				}
-				else {
-					return FALSE;
-				}
-
-				return TRUE;
+				return LoadGraphics(pGraphicsNode);
 			}
 		}
 
@@ -184,6 +113,83 @@ namespace CrossEngine {
 	{
 		m_param.blends.clear();
 		CResource::InternalLoadSuccess();
+	}
+
+	BOOL CResGraphics::LoadGraphics(TiXmlNode *pGraphicsNode)
+	{
+		if (TiXmlNode *pRenderPassNode = pGraphicsNode->FirstChild("RenderPass")) {
+			if (LoadRenderPass(pRenderPassNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pShaderNode = pGraphicsNode->FirstChild("Shader")) {
+			if (LoadShader(pShaderNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pAssemblyNode = pGraphicsNode->FirstChild("Assembly")) {
+			if (LoadAssembly(pAssemblyNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pRasterizationNode = pGraphicsNode->FirstChild("Rasterization")) {
+			if (LoadRasterization(pRasterizationNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pMultisampleNode = pGraphicsNode->FirstChild("Multisample")) {
+			if (LoadMultisample(pMultisampleNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pDepthNode = pGraphicsNode->FirstChild("Depth")) {
+			if (LoadDepth(pDepthNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pStencilNode = pGraphicsNode->FirstChild("Stencil")) {
+			if (LoadStencil(pStencilNode) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		if (TiXmlNode *pBlendNodes = pGraphicsNode->FirstChild("Blend")) {
+			if (LoadBlend(pBlendNodes) == FALSE) {
+				return FALSE;
+			}
+		}
+		else {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	BOOL CResGraphics::LoadShader(TiXmlNode *pShaderNode)

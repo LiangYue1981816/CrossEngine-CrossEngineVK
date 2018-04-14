@@ -60,6 +60,11 @@ namespace CrossEngine {
 		return CResourceManager::PreLoadFromPack(szPackName, GRAPHICS_EXT_NAME);
 	}
 
+	BOOL CResGraphicsManager::PreLoad(CResourceHandle *pResourceHandle)
+	{
+		return pResourceHandle->LoadResource(TRUE, TRUE);
+	}
+
 	void CResGraphicsManager::GarbageCollection(void)
 	{
 
