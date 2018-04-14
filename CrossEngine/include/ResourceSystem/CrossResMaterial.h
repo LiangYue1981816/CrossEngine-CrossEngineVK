@@ -50,6 +50,7 @@ namespace CrossEngine {
 		virtual void InternalLoadSuccess(void);
 
 	protected:
+		BOOL LoadMaterial(TiXmlNode *pMaterialNode, BOOL bSyncPostLoad);
 		BOOL LoadPassPipeline(TiXmlNode *pPassNode, BOOL bSyncPostLoad);
 		BOOL LoadPassTextures(TiXmlNode *pPassNode, BOOL bSyncPostLoad);
 		BOOL LoadPassUniforms(TiXmlNode *pPassNode);

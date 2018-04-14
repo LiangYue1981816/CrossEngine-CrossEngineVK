@@ -58,8 +58,6 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorSetManager::ResetDescriptorSetPool(uint32_t pool)
 	{
-		ASSERT(m_pDescriptorPoolListHeads[pool] != NULL);
-		
 		if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 			do {
 				pDescriptorPool->ResetDescriptorSetPool();
@@ -78,8 +76,6 @@ namespace CrossEngine {
 
 	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
 	{
-		ASSERT(m_pDescriptorPoolListHeads[pool] != NULL);
-
 		do {
 			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 				do {

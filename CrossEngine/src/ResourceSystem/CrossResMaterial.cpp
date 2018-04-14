@@ -62,17 +62,10 @@ namespace CrossEngine {
 	BOOL CResMaterial::InternalLoad(BOOL bSyncPostLoad)
 	{
 		TiXmlDocument xmlDoc;
+
 		if (xmlDoc.LoadFile((char *)m_stream.GetAddress(), m_stream.GetFullSize())) {
 			if (TiXmlNode *pMaterialNode = xmlDoc.FirstChild("Material")) {
-				if (TiXmlNode *pPassNode = pMaterialNode->FirstChild("Pass")) {
-					do {
-						if (LoadPassPipeline(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
-						if (LoadPassTextures(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
-						if (LoadPassUniforms(pPassNode) == FALSE) return FALSE;
-					} while (pPassNode = pMaterialNode->IterateChildren("Pass", pPassNode));
-
-					return TRUE;
-				}
+				return LoadMaterial(pMaterialNode, bSyncPostLoad);
 			}
 		}
 
@@ -144,46 +137,50 @@ namespace CrossEngine {
 
 	void CResMaterial::InternalLoadFail(void)
 	{
-		m_ptrMaterial.Release();
-
 		m_ptrGraphices.clear();
 		m_ptrTextures.clear();
 		m_uniformFloats.clear();
 		m_uniformVectors.clear();
-
+		m_ptrMaterial.Release();
 		CResource::InternalLoadFail();
 	}
 
 	void CResMaterial::InternalLoadSuccess(void)
 	{
-		m_ptrGraphices.clear();
-		m_ptrTextures.clear();
-		m_uniformFloats.clear();
-		m_uniformVectors.clear();
-
 		CResource::InternalLoadSuccess();
+	}
+
+	BOOL CResMaterial::LoadMaterial(TiXmlNode *pMaterialNode, BOOL bSyncPostLoad)
+	{
+		if (TiXmlNode *pPassNode = pMaterialNode->FirstChild("Pass")) {
+			do {
+				if (LoadPassPipeline(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
+				if (LoadPassTextures(pPassNode, bSyncPostLoad) == FALSE) return FALSE;
+				if (LoadPassUniforms(pPassNode) == FALSE) return FALSE;
+			} while (pPassNode = pMaterialNode->IterateChildren("Pass", pPassNode));
+
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	BOOL CResMaterial::LoadPassPipeline(TiXmlNode *pPassNode, BOOL bSyncPostLoad)
 	{
-		const char *szPassName = pPassNode->ToElement()->AttributeString("name");
-		const char *szName = pPassNode->ToElement()->AttributeString("graphics");
-		const uint32_t dwPassName = HashValue(szPassName);
-		const uint32_t dwName = HashValue(szName);
+		const uint32_t dwPassName = HashValue(pPassNode->ToElement()->AttributeString("name"));
+		const uint32_t dwName = HashValue(pPassNode->ToElement()->AttributeString("graphics"));
 
-		m_ptrGraphices[dwPassName] = GraphicsManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
+		m_ptrGraphices[dwPassName] = GraphicsManager()->LoadResource(dwName);
 		return m_ptrGraphices[dwPassName].IsNull() || m_ptrGraphices[dwPassName]->IsValid() == FALSE ? FALSE : TRUE;
 	}
 
 	BOOL CResMaterial::LoadPassTextures(TiXmlNode *pPassNode, BOOL bSyncPostLoad)
 	{
-		const char *szPassName = pPassNode->ToElement()->AttributeString("name");
-		const uint32_t dwPassName = HashValue(szPassName);
+		const uint32_t dwPassName = HashValue(pPassNode->ToElement()->AttributeString("name"));
 
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("Texture2D")) {
 			do {
-				const char *szName = pTextureNode->ToElement()->AttributeString("name");
-				const uint32_t dwName = HashValue(szName);
+				const uint32_t dwName = HashValue(pTextureNode->ToElement()->AttributeString("name"));
 
 				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
 				if (m_ptrTextures[dwPassName][dwName].IsNull()) return FALSE;
@@ -192,8 +189,7 @@ namespace CrossEngine {
 
 		if (TiXmlNode *pTextureNode = pPassNode->FirstChild("TextureCube")) {
 			do {
-				const char *szName = pTextureNode->ToElement()->AttributeString("name");
-				const uint32_t dwName = HashValue(szName);
+				const uint32_t dwName = HashValue(pTextureNode->ToElement()->AttributeString("name"));
 
 				m_ptrTextures[dwPassName][dwName] = TextureManager()->LoadResource(dwName, TRUE, bSyncPostLoad);
 				if (m_ptrTextures[dwPassName][dwName].IsNull()) return FALSE;
@@ -205,14 +201,12 @@ namespace CrossEngine {
 
 	BOOL CResMaterial::LoadPassUniforms(TiXmlNode *pPassNode)
 	{
-		const char *szPassName = pPassNode->ToElement()->AttributeString("name");
-		const uint32_t dwPassName = HashValue(szPassName);
+		const uint32_t dwPassName = HashValue(pPassNode->ToElement()->AttributeString("name"));
 
 		if (TiXmlNode *pFloatNode = pPassNode->FirstChild("Float")) {
 			do {
-				const char *szName = pFloatNode->ToElement()->AttributeString("name");
+				const uint32_t dwName = HashValue(pFloatNode->ToElement()->AttributeString("name"));
 				const char *szValue = pFloatNode->ToElement()->AttributeString("value");
-				const uint32_t dwName = HashValue(szName);
 
 				float value;
 				scanf(szValue, "%f", &value);
@@ -222,9 +216,8 @@ namespace CrossEngine {
 
 		if (TiXmlNode *pVectorNode = pPassNode->FirstChild("Vector")) {
 			do {
-				const char *szName = pVectorNode->ToElement()->AttributeString("name");
+				const uint32_t dwName = HashValue(pVectorNode->ToElement()->AttributeString("name"));
 				const char *szValue = pVectorNode->ToElement()->AttributeString("value");
-				const uint32_t dwName = HashValue(szName);
 
 				glm::vec4 value;
 				scanf(szValue, "%f %f %f %f", &value.x, &value.y, &value.z, &value.w);

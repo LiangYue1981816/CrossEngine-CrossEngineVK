@@ -1,6 +1,6 @@
 <Graphics>
 	<RenderPass
-		name="ForwardRenderTexture.renderpass"
+		name="ForwardPresent.renderpass"
 		subpass="0"
 	/>
 	<Shader

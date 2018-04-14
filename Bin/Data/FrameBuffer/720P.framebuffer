@@ -1,5 +1,5 @@
 <FrameBuffer>
-	<RenderPass name="Forward.renderpass" />
+	<RenderPass name="ForwardRenderTexture.renderpass" />
 	<Colors>
 		<Attachment index="0" render_texture="Color720P.rendertexture" />
 	</Colors>

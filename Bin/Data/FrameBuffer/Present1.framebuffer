@@ -1,5 +1,5 @@
 <FrameBuffer>
-	<RenderPass name="Present.renderpass" />
+	<RenderPass name="ForwardPresent.renderpass" />
 	<Presents>
 		<Attachment index="" index_surface="1" />
 	</Presents>
