@@ -138,9 +138,4 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	VkBufferUsageFlags CVulkanBuffer::GetUsage(void) const
-	{
-		return m_usage;
-	}
-
 }

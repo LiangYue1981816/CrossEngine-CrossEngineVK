@@ -60,7 +60,6 @@ namespace CrossEngine {
 		}
 
 		m_buffer = 0;
-
 		m_size = 0;
 		m_usage = GL_STATIC_DRAW;
 	}

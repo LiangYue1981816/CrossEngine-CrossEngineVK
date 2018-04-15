@@ -33,16 +33,18 @@ namespace CrossEngine {
 		virtual ~CGLES3Buffer(void);
 
 
-	public:
+	protected:
 		BOOL Create(GLenum target, size_t size, GLenum usage);
 		void Destroy(void);
+
+	protected:
 		BOOL UpdateData(GLenum target, size_t offset, size_t size, const void *pBuffer) const;
 
 
 	protected:
 		GLuint m_buffer;
+		GLuint m_size;
 		GLenum m_usage;
-		GLsizeiptr m_size;
 
 	protected:
 		CGLES3Device *m_pDevice;
