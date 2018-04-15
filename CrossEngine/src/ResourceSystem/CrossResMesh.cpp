@@ -164,14 +164,14 @@ namespace CrossEngine {
 	BOOL CResMesh::LoadIndexBuffer(CStream *pStream)
 	{
 		pStream->Seek(m_indexBufferOffset, CStream::SEEK_MODE_SET);
-		pStream->Read(m_pIndexBuffer, m_indexBufferSize, 1);
+		m_pIndexBuffer = pStream->GetCurrentAddress();
 		return TRUE;
 	}
 
 	BOOL CResMesh::LoadVertexBuffer(CStream *pStream)
 	{
 		pStream->Seek(m_vertexBufferOffset, CStream::SEEK_MODE_SET);
-		pStream->Read(m_pVertexBuffer, m_vertexBufferSize, 1);
+		m_pVertexBuffer = pStream->GetCurrentAddress();
 		return TRUE;
 	}
 
