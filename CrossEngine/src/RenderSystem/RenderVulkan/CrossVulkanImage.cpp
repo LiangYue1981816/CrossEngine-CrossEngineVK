@@ -39,8 +39,8 @@ namespace CrossEngine {
 		, m_mipLevels(0)
 		, m_arrayLayers(0)
 
-		, m_format(VK_FORMAT_R8G8B8A8_UNORM)
 		, m_type(VK_IMAGE_TYPE_2D)
+		, m_format(VK_FORMAT_R8G8B8A8_UNORM)
 		, m_tiling(VK_IMAGE_TILING_OPTIMAL)
 		, m_samples(VK_SAMPLE_COUNT_1_BIT)
 
@@ -90,8 +90,8 @@ namespace CrossEngine {
 		m_mipLevels = 0;
 		m_arrayLayers = 0;
 
-		m_format = VK_FORMAT_R8G8B8A8_UNORM;
 		m_type = VK_IMAGE_TYPE_2D;
+		m_format = VK_FORMAT_R8G8B8A8_UNORM;
 		m_tiling = VK_IMAGE_TILING_OPTIMAL;
 		m_samples = VK_SAMPLE_COUNT_1_BIT;
 
@@ -122,17 +122,15 @@ namespace CrossEngine {
 		createInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 
 		switch (viewType) {
-		case VK_IMAGE_VIEW_TYPE_1D:
-		case VK_IMAGE_VIEW_TYPE_1D_ARRAY:
-			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension1D) {
+		case VK_IMAGE_VIEW_TYPE_2D:
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
-			createInfo.imageType = VK_IMAGE_TYPE_1D;
+			createInfo.imageType = VK_IMAGE_TYPE_2D;
 			break;
 
-		case VK_IMAGE_VIEW_TYPE_2D:
 		case VK_IMAGE_VIEW_TYPE_2D_ARRAY:
-			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimension2D || arrayLayers > m_pDevice->GetPhysicalDeviceLimits().maxImageArrayLayers) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -146,7 +144,7 @@ namespace CrossEngine {
 			break;
 
 		case VK_IMAGE_VIEW_TYPE_CUBE:
-			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube) {
+			if (width > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube || height > m_pDevice->GetPhysicalDeviceLimits().maxImageDimensionCube || width != height) {
 				return VK_ERROR_VALIDATION_FAILED_EXT;
 			}
 			createInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
@@ -301,11 +299,6 @@ namespace CrossEngine {
 		m_vkSampler = VK_NULL_HANDLE;
 	}
 
-	const VkDescriptorImageInfo& CVulkanImage::GetDescriptorImageInfo(void) const
-	{
-		return m_vkDescriptorImageInfo;
-	}
-
 	VkFormat CVulkanImage::GetFormat(void) const
 	{
 		return m_format;
@@ -314,6 +307,11 @@ namespace CrossEngine {
 	VkImageType CVulkanImage::GetType(void) const
 	{
 		return m_type;
+	}
+
+	const VkDescriptorImageInfo& CVulkanImage::GetDescriptorImageInfo(void) const
+	{
+		return m_vkDescriptorImageInfo;
 	}
 
 }

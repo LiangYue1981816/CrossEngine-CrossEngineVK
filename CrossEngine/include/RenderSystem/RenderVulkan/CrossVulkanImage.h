@@ -48,10 +48,9 @@ namespace CrossEngine {
 		void DestroySampler(void);
 
 	public:
-		const VkDescriptorImageInfo& GetDescriptorImageInfo(void) const;
-
 		VkFormat GetFormat(void) const;
 		VkImageType GetType(void) const;
+		const VkDescriptorImageInfo& GetDescriptorImageInfo(void) const;
 
 
 	protected:

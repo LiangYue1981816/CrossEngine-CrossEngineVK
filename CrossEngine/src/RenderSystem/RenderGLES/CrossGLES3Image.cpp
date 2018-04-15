@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CGLES3Image::CGLES3Image(CGLES3Device *pDevice)
 		: m_pDevice(pDevice)
+		, m_size(0)
 		, m_texture(0)
 		, m_sampler(0)
 
@@ -35,17 +36,15 @@ namespace CrossEngine {
 		, m_depth(0)
 		, m_mipLevels(0)
 		, m_arrayLayers(0)
+
+		, m_target(GL_TEXTURE_2D)
+		, m_format(GL_RGBA)
+		, m_internalFormat(GL_RGBA)
 		, m_samples(1)
 
 		, m_minFilter(GL_NEAREST_MIPMAP_LINEAR)
 		, m_magFilter(GL_LINEAR)
 		, m_addressMode(GL_REPEAT)
-
-		, m_target(GL_TEXTURE_2D)
-		, m_format(GL_RGBA)
-		, m_internalFormat(GL_RGBA)
-
-		, m_size(0)
 	{
 
 	}
@@ -68,6 +67,27 @@ namespace CrossEngine {
 
 			return FALSE;
 		}
+	}
+
+	void CGLES3Image::Destroy(void)
+	{
+		DestroyImage();
+		DestroySampler();
+
+		m_width = 0;
+		m_height = 0;
+		m_depth = 0;
+		m_mipLevels = 0;
+		m_arrayLayers = 0;
+
+		m_target = GL_TEXTURE_2D;
+		m_format = GL_RGBA;
+		m_internalFormat = GL_RGBA;
+		m_samples = 1;
+
+		m_minFilter = GL_NEAREST_MIPMAP_LINEAR;
+		m_magFilter = GL_LINEAR;
+		m_addressMode = GL_REPEAT;
 	}
 
 	int CGLES3Image::CreateImage(GLenum target, GLenum format, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint mipLevels, GLint arrayLayers, GLsizei samples)
@@ -161,35 +181,23 @@ namespace CrossEngine {
 		return NO_ERROR;
 	}
 
-	void CGLES3Image::Destroy(void)
+	void CGLES3Image::DestroyImage(void)
 	{
 		if (m_texture) {
 			glDeleteTextures(1, &m_texture);
 		}
 
+		m_size = 0;
+		m_texture = 0;
+	}
+
+	void CGLES3Image::DestroySampler(void)
+	{
 		if (m_sampler) {
 			glDeleteSamplers(1, &m_sampler);
 		}
 
-		m_texture = 0;
 		m_sampler = 0;
-
-		m_width = 0;
-		m_height = 0;
-		m_depth = 0;
-		m_mipLevels = 0;
-		m_arrayLayers = 0;
-		m_samples = 1;
-
-		m_minFilter = GL_NEAREST_MIPMAP_LINEAR;
-		m_magFilter = GL_LINEAR;
-		m_addressMode = GL_REPEAT;
-
-		m_target = GL_TEXTURE_2D;
-		m_format = GL_RGBA;
-		m_internalFormat = GL_RGBA;
-
-		m_size = 0;
 	}
 
 	GLenum CGLES3Image::GetTarget(void) const
