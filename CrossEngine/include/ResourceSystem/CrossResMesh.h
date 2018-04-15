@@ -37,6 +37,9 @@ namespace CrossEngine {
 
 
 	public:
+		uint32_t GetFormat(void) const;
+		const glm::aabb& GetAABB(void) const;
+
 		const CGfxIndexBufferPtr& GetIndexBuffer(void) const;
 		const CGfxVertexBufferPtr& GetVertexBuffer(void) const;
 
@@ -50,6 +53,27 @@ namespace CrossEngine {
 		virtual void InternalLoadFail(void);
 		virtual void InternalLoadSuccess(void);
 
+	protected:
+		BOOL LoadMesh(CStream *pStream);
+		BOOL LoadHeader(CStream *pStream);
+		BOOL LoadFormat(CStream *pStream);
+		BOOL LoadBounds(CStream *pStream);
+		BOOL LoadIndexBuffer(CStream *pStream);
+		BOOL LoadVertexBuffer(CStream *pStream);
+
+
+	protected:
+		void *m_pIndexBuffer;
+		uint32_t m_indexBufferSize;
+		uint32_t m_indexBufferOffset;
+
+		void *m_pVertexBuffer;
+		uint32_t m_vertexBufferSize;
+		uint32_t m_vertexBufferOffset;
+
+	protected:
+		uint32_t m_format;
+		glm::aabb m_aabb;
 
 	protected:
 		CGfxIndexBufferPtr m_ptrIndexBuffer;
