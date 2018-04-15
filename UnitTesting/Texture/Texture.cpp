@@ -59,11 +59,11 @@ void CreatePipeline(void)
 {
 	static char szSourceCode[1024 * 1024];
 
-	LoadShader("../Data/Shader/texture.vert", szSourceCode, sizeof(szSourceCode));
+	LoadShader("../Data/0.Shader/texture.vert", szSourceCode, sizeof(szSourceCode));
 	ptrShaderVertex = GfxDevice()->NewShader();
 	ptrShaderVertex->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_VERTEX_BIT);
 
-	LoadShader("../Data/Shader/texture.frag", szSourceCode, sizeof(szSourceCode));
+	LoadShader("../Data/0.Shader/texture.frag", szSourceCode, sizeof(szSourceCode));
 	ptrShaderFragment = GfxDevice()->NewShader();
 	ptrShaderFragment->Create(szSourceCode, strlen(szSourceCode), VK_SHADER_STAGE_FRAGMENT_BIT);
 
