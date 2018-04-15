@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrossEngine", "CrossEngine.vcxproj", "{F3C89080-B49C-4FAD-B788-2D22427E2AF9}"
 EndProject
@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubPass", "..\..\UnitTestin
 	ProjectSection(ProjectDependencies) = postProject
 		{F3C89080-B49C-4FAD-B788-2D22427E2AF9} = {F3C89080-B49C-4FAD-B788-2D22427E2AF9}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUnits", "TestUnits", "{F3C37CE2-2F83-4309-BF99-CB7E12F128BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,5 +91,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6BCA1616-5C21-4670-9746-7EB79A36748A} = {F3C37CE2-2F83-4309-BF99-CB7E12F128BD}
+		{0CE401C3-22FB-4444-8B0D-0C5DAE08A5CC} = {F3C37CE2-2F83-4309-BF99-CB7E12F128BD}
+		{4D69C66A-DF4E-4620-9CD8-BAFE017E8A1C} = {F3C37CE2-2F83-4309-BF99-CB7E12F128BD}
+		{80A668E8-3889-4819-B714-C62C36DED74B} = {F3C37CE2-2F83-4309-BF99-CB7E12F128BD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CCD9D0C-5F2E-4E11-BECA-6787DDEFB938}
 	EndGlobalSection
 EndGlobal
