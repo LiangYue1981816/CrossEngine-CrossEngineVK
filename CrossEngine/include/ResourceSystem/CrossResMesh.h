@@ -38,6 +38,8 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetFormat(void) const;
+		uint32_t GetIndexCount(void) const;
+		uint32_t GetVertexCount(void) const;
 		const glm::aabb& GetAABB(void) const;
 
 		const CGfxIndexBufferPtr& GetIndexBuffer(void) const;

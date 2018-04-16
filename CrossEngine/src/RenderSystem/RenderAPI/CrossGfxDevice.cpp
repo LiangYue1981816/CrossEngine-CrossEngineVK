@@ -40,7 +40,7 @@ namespace CrossEngine {
 		{ VERTEX_ATTRIBUTE_COLOR,    3, 3, VK_FORMAT_R32G32B32_SFLOAT,    "inColor"     },
 		{ VERTEX_ATTRIBUTE_UV0,      2, 4, VK_FORMAT_R32G32_SFLOAT,       "inTexcoord0" },
 		{ VERTEX_ATTRIBUTE_UV1,      2, 5, VK_FORMAT_R32G32_SFLOAT,       "inTexcoord1" },
-		{ VERTEX_ATTRIBUTE_INDICES,  4, 6, VK_FORMAT_R16G16B16A16_UINT,   "inIndices"   },
+		{ VERTEX_ATTRIBUTE_INDICES,  4, 6, VK_FORMAT_R32G32B32A32_SFLOAT, "inIndices"   },
 		{ VERTEX_ATTRIBUTE_WEIGHTS,  4, 7, VK_FORMAT_R32G32B32A32_SFLOAT, "inWeights"   },
 
 		{ VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0, 4, 8,  VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceModelToWorldMatrixCol0" },
@@ -56,7 +56,7 @@ namespace CrossEngine {
 
 		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (format & vertexAttributes[indexAttribute].flag) {
-				stride += vertexAttributes[indexAttribute].size * sizeof(float);
+				stride += vertexAttributes[indexAttribute].size * 4;
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace CrossEngine {
 
 		for (uint32_t indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == vertexAttributes[indexAttribute].flag) return offset;
-			if (format & vertexAttributes[indexAttribute].flag) offset += vertexAttributes[indexAttribute].size * sizeof(float);
+			if (format & vertexAttributes[indexAttribute].flag) offset += vertexAttributes[indexAttribute].size * 4;
 		}
 
 		return -1;
