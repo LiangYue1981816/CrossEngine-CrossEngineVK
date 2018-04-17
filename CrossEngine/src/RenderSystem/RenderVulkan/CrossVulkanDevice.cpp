@@ -234,6 +234,12 @@ namespace CrossEngine {
 
 	int CVulkanDevice::CreateDevice(VkPhysicalDevice vkPhysicalDevice, uint32_t queueFamilyIndex)
 	{
+		m_queueFamilyIndex = queueFamilyIndex;
+		m_vkPhysicalDevice = vkPhysicalDevice;
+		vkGetPhysicalDeviceFeatures(m_vkPhysicalDevice, &m_vkPhysicalDeviceFeatures);
+		vkGetPhysicalDeviceProperties(m_vkPhysicalDevice, &m_vkPhysicalDeviceProperties);
+		vkGetPhysicalDeviceMemoryProperties(m_vkPhysicalDevice, &m_vkPhysicalDeviceMemoryProperties);
+
 		float queuePpriorities[3] = { 1.0f, 1.0f, 1.0f };
 		VkDeviceQueueCreateInfo queueCreateInfo[1] = {};
 		queueCreateInfo[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -254,14 +260,8 @@ namespace CrossEngine {
 		deviceCreateInfo.ppEnabledLayerNames = NULL;
 		deviceCreateInfo.enabledExtensionCount = 1;
 		deviceCreateInfo.ppEnabledExtensionNames = &szSwapchainExtension;
-		deviceCreateInfo.pEnabledFeatures = NULL;
+		deviceCreateInfo.pEnabledFeatures = &m_vkPhysicalDeviceFeatures;
 		CALL_VK_FUNCTION_RETURN(vkCreateDevice(vkPhysicalDevice, &deviceCreateInfo, m_pInstance->GetAllocator()->GetAllocationCallbacks(), &m_vkDevice));
-
-		m_queueFamilyIndex = queueFamilyIndex;
-		m_vkPhysicalDevice = vkPhysicalDevice;
-		vkGetPhysicalDeviceFeatures(m_vkPhysicalDevice, &m_vkPhysicalDeviceFeatures);
-		vkGetPhysicalDeviceProperties(m_vkPhysicalDevice, &m_vkPhysicalDeviceProperties);
-		vkGetPhysicalDeviceMemoryProperties(m_vkPhysicalDevice, &m_vkPhysicalDeviceMemoryProperties);
 
 		return VK_SUCCESS;
 	}
