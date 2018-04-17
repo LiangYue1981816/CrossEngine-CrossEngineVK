@@ -40,7 +40,7 @@ namespace CrossEngine {
 	protected:
 		int CreateImage(VkImageViewType viewType, VkFormat format, uint32_t width, uint32_t height, uint32_t depth, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits samples, VkImageTiling tiling, VkImageUsageFlags usage);
 		int CreateImageView(VkImageViewType viewType, VkImageAspectFlags aspectMask);
-		int CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
+		int CreateSampler(uint32_t mipLevels, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode);
 		int CheckParameters(const VkImageCreateInfo &createInfo) const;
 
 		void DestroyImage(void);

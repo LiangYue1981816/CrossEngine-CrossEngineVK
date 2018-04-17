@@ -62,7 +62,7 @@ namespace CrossEngine {
 		try {
 			CALL_VK_FUNCTION_THROW(CreateImage(viewType, format, width, height, depth, mipLevels, arrayLayers, samples, tiling, usage));
 			CALL_VK_FUNCTION_THROW(CreateImageView(viewType, aspectMask));
-			CALL_VK_FUNCTION_THROW(CreateSampler(minFilter, magFilter, mipmapMode, addressMode));
+			CALL_VK_FUNCTION_THROW(CreateSampler(mipLevels, minFilter, magFilter, mipmapMode, addressMode));
 
 			m_vkDescriptorImageInfo.sampler = m_vkSampler;
 			m_vkDescriptorImageInfo.imageView = m_vkImageView;
@@ -221,7 +221,7 @@ namespace CrossEngine {
 		return vkCreateImageView(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkImageView);
 	}
 
-	int CVulkanImage::CreateSampler(VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
+	int CVulkanImage::CreateSampler(uint32_t mipLevels, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)
 	{
 		VkSamplerCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
@@ -239,7 +239,7 @@ namespace CrossEngine {
 		createInfo.compareEnable = VK_FALSE;
 		createInfo.compareOp = VK_COMPARE_OP_NEVER;
 		createInfo.minLod = 0.0f;
-		createInfo.maxLod = 0.0f;
+		createInfo.maxLod = mipLevels;
 		createInfo.borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
 		createInfo.unnormalizedCoordinates = VK_FALSE;
 		CALL_VK_FUNCTION_RETURN(vkCreateSampler(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkSampler));
