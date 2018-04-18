@@ -40,6 +40,21 @@ namespace CrossEngine {
 		return DRAWABLE_TYPE::DRAWABLE_TYPE_STATIC_MESH;
 	}
 
+	void CDrawableStaticMesh::SetTransform(const glm::mat4 &mtxModelToWorld)
+	{
+		m_mtxModelToWorld = mtxModelToWorld;
+	}
+
+	void CDrawableStaticMesh::SetMesh(const CResMeshPtr &ptrMesh)
+	{
+		m_ptrMesh = ptrMesh;
+	}
+
+	void CDrawableStaticMesh::SetMaterial(const CResMaterialPtr &ptrMaterial)
+	{
+		m_ptrMaterial = ptrMaterial;
+	}
+
 	uint32_t CDrawableStaticMesh::GetIndexCount(void) const
 	{
 		return m_ptrMesh->GetIndexCount();

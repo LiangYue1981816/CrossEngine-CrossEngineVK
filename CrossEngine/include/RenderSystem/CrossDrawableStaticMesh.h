@@ -37,6 +37,13 @@ namespace CrossEngine {
 		virtual DRAWABLE_TYPE GetType(void) const;
 
 	public:
+		void SetTransform(const glm::mat4 &mtxModelToWorld);
+
+	public:
+		void SetMesh(const CResMeshPtr &ptrMesh);
+		void SetMaterial(const CResMaterialPtr &ptrMaterial);
+
+	public:
 		virtual uint32_t GetIndexCount(void) const;
 		virtual uint32_t GetFirstIndex(void) const;
 		virtual uint32_t GetVertexOffset(void) const;

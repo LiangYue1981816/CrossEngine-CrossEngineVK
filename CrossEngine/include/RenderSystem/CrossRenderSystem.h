@@ -22,9 +22,6 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossGfxAPI.h"
-#include "CrossGLES3API.h"
-#include "CrossVulkanAPI.h"
 #include "CrossDrawable.h"
 #include "CrossDrawablePartical.h"
 #include "CrossDrawableSkinMesh.h"

@@ -92,8 +92,11 @@ THE SOFTWARE.
 
 
 #include "CrossCore.h"
-#include "CrossRenderSystem.h"
+#include "CrossGfxAPI.h"
+#include "CrossGLES3API.h"
+#include "CrossVulkanAPI.h"
 #include "CrossResourceSystem.h"
+#include "CrossRenderSystem.h"
 #include "CrossEntitySystem.h"
 
 
