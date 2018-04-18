@@ -792,9 +792,6 @@
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMeshManager.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderAPI.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
