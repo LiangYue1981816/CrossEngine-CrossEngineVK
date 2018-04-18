@@ -58,7 +58,7 @@ namespace CrossEngine {
 		virtual const glm::mat4& GetModelToWorldMatrix(void) const = 0;
 
 	public:
-		virtual glm::aabb& GetAABB(void) const = 0;
+		virtual const glm::aabb& GetAABB(void) const = 0;
 	};
 
 }
