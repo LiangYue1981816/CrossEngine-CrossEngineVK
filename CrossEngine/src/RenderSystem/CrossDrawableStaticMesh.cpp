@@ -24,4 +24,70 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	CDrawableStaticMesh::CDrawableStaticMesh(void)
+	{
+
+	}
+
+	CDrawableStaticMesh::~CDrawableStaticMesh(void)
+	{
+
+	}
+
+	CDrawable::DRAWABLE_TYPE CDrawableStaticMesh::GetType(void) const
+	{
+		return DRAWABLE_TYPE::DRAWABLE_TYPE_STATIC_MESH;
+	}
+
+	uint32_t CDrawableStaticMesh::GetIndexCount(void) const
+	{
+		return m_ptrMesh->GetIndexCount();
+	}
+
+	uint32_t CDrawableStaticMesh::GetFirstIndex(void) const
+	{
+		return 0;
+	}
+
+	uint32_t CDrawableStaticMesh::GetVertexOffset(void) const
+	{
+		return 0;
+	}
+
+	const CGfxMaterialPtr& CDrawableStaticMesh::GetMaterial(void) const
+	{
+		return m_ptrMaterial->GetMaterial();
+	}
+
+	const CGfxIndexBufferPtr& CDrawableStaticMesh::GetIndexBuffer(void) const
+	{
+		return m_ptrMesh->GetIndexBuffer();
+	}
+
+	const CGfxVertexBufferPtr& CDrawableStaticMesh::GetVertexBuffer(void) const
+	{
+		return m_ptrMesh->GetVertexBuffer();
+	}
+
+	const CGfxUniformBufferPtr& CDrawableStaticMesh::GetUniformBuffer(void) const
+	{
+		return m_ptrUniformBuffer;
+	}
+
+	const CGfxDescriptorSetPtr& CDrawableStaticMesh::GetDescriptorSet(void) const
+	{
+		return m_ptrDescriptorSet;
+	}
+
+	const glm::mat4& CDrawableStaticMesh::GetModelToWorldMatrix(void) const
+	{
+		return m_mtxModelToWorld;
+	}
+
+	const glm::aabb& CDrawableStaticMesh::GetAABB(void) const
+	{
+		return m_ptrMesh->GetAABB();
+	}
+
 }
