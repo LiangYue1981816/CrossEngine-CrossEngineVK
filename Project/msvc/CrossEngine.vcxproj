@@ -193,7 +193,6 @@
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntitySystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatch.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchPartical.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchSkinMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchStaticMesh.h" />

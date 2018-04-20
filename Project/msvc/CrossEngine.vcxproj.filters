@@ -645,9 +645,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchStaticMesh.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchBufferManager.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatch.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
