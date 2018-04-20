@@ -38,11 +38,12 @@ namespace CrossEngine {
 
 	public:
 		void ClearCamera(void);
-		CCamera* GetCamera(uint32_t id);
+		CCamera* GetCamera(const char *szName);
+		CCamera* GetCamera(uint32_t dwName);
 
 
 	protected:
-		std::map<uint32_t, CCamera*> m_pCamerasOrderByID;
+		std::map<uint32_t, CCamera*> m_pCameras;
 	};
 
 }

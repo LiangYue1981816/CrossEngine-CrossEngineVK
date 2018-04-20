@@ -33,7 +33,6 @@ namespace CrossEngine {
 		, m_pGfxSwapchain(NULL)
 
 		, m_pCameraManager(NULL)
-		, m_pBatchBufferManager(NULL)
 	{
 
 	}
@@ -63,12 +62,15 @@ namespace CrossEngine {
 		return m_pCameraManager;
 	}
 
-	CBatchBufferManager* CRenderSystem::GetBatchBufferManager(void) const
+	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
-		return m_pBatchBufferManager;
+		CALL_BOOL_FUNCTION_RETURN(CreateGfx(api, hInstance, hWnd, hDC, width, height, transform));
+		CALL_BOOL_FUNCTION_RETURN(CreateCameraManager());
+
+		return TRUE;
 	}
 
-	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
+	BOOL CRenderSystem::CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		m_api = api;
 
@@ -77,7 +79,7 @@ namespace CrossEngine {
 		case GFX_API_VULKAN: m_pGfxInstance = SAFE_NEW CVulkanInstance; break;
 		}
 
-		if (m_pGfxInstance == NULL || 
+		if (m_pGfxInstance == NULL ||
 			m_pGfxInstance->Create(hInstance, hWnd, hDC, width, height, transform) == FALSE) {
 			return FALSE;
 		}
@@ -85,27 +87,37 @@ namespace CrossEngine {
 		m_pGfxDevice = m_pGfxInstance->GetDevice();
 		m_pGfxSwapchain = m_pGfxInstance->GetSwapchain();
 
-		m_pCameraManager = SAFE_NEW CCameraManager;
-		m_pBatchBufferManager = SAFE_NEW CBatchBufferManager;
+		return TRUE;
+	}
 
+	BOOL CRenderSystem::CreateCameraManager(void)
+	{
+		m_pCameraManager = SAFE_NEW CCameraManager;
 		return TRUE;
 	}
 
 	void CRenderSystem::Destroy(void)
 	{
-		SAFE_DELETE(m_pCameraManager);
-		SAFE_DELETE(m_pBatchBufferManager);
+		DestroyCameraManager();
+		DestroyGfx();
+	}
 
-		m_pGfxInstance->Destroy();
+	void CRenderSystem::DestroyGfx(void)
+	{
+		if (m_pGfxInstance) {
+			m_pGfxInstance->Destroy();
+		}
 
 		SAFE_DELETE(m_pGfxInstance);
-
 		m_pGfxInstance = NULL;
 		m_pGfxDevice = NULL;
 		m_pGfxSwapchain = NULL;
+	}
 
+	void CRenderSystem::DestroyCameraManager(void)
+	{
+		SAFE_DELETE(m_pCameraManager);
 		m_pCameraManager = NULL;
-		m_pBatchBufferManager = NULL;
 	}
 
 	void CRenderSystem::Render(void)

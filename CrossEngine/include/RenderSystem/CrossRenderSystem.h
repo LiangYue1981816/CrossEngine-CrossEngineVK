@@ -62,15 +62,18 @@ namespace CrossEngine {
 
 	protected:
 		BOOL Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		BOOL CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		BOOL CreateCameraManager(void);
+
 		void Destroy(void);
+		void DestroyGfx(void);
+		void DestroyCameraManager(void);
 
 	public:
 		GFX_API GetAPI(void) const;
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
-
 		CCameraManager* GetCameraManager(void) const;
-		CBatchBufferManager* GetBatchBufferManager(void) const;
 
 	public:
 		void Render(void);
@@ -82,13 +85,13 @@ namespace CrossEngine {
 
 	protected:
 		GFX_API m_api;
+
 		CGfxInstance *m_pGfxInstance;
 		CGfxDevice *m_pGfxDevice;
 		CGfxSwapchain *m_pGfxSwapchain;
 
 	protected:
 		CCameraManager *m_pCameraManager;
-		CBatchBufferManager *m_pBatchBufferManager;
 	};
 
 }
