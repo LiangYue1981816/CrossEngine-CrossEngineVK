@@ -193,7 +193,6 @@
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntitySystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatch.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchBuffer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchBufferManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchPartical.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchSkinMesh.h" />
@@ -415,8 +414,6 @@
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityBase.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\EntitySystem\CrossEntityMesh.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatch.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchBuffer.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchBufferManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchPartical.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchSkinMesh.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchStaticMesh.cpp" />

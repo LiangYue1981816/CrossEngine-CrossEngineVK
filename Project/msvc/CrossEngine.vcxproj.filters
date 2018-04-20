@@ -645,9 +645,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchStaticMesh.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchBuffer.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossBatchBufferManager.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
@@ -1188,12 +1185,6 @@
       <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchStaticMesh.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchBuffer.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatchBufferManager.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossBatch.cpp">

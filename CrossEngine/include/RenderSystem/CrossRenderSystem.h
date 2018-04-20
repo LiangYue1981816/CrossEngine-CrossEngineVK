@@ -30,8 +30,6 @@ THE SOFTWARE.
 #include "CrossBatchPartical.h"
 #include "CrossBatchSkinMesh.h"
 #include "CrossBatchStaticMesh.h"
-#include "CrossBatchBuffer.h"
-#include "CrossBatchBufferManager.h"
 #include "CrossRenderQueue.h"
 #include "CrossCamera.h"
 #include "CrossCameraManager.h"

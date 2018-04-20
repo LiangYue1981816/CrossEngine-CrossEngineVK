@@ -79,8 +79,8 @@ namespace CrossEngine {
 		void UpdateInstanceBuffer(void);
 
 	public:
-		void BuildSecondaryCommandBuffer(BOOL bWait);
-		void BuildMainCommandBuffer(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
+		void BuildCommandBufferStep0(BOOL bWait);
+		void BuildCommandBufferStep1(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 		void Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 
 	protected:
