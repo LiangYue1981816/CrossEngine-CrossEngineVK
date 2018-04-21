@@ -73,13 +73,6 @@ namespace CrossEngine {
 		CGfxSwapchain* GetSwapchain(void) const;
 		CCameraManager* GetCameraManager(void) const;
 
-	public:
-		void Render(void);
-		uint32_t GetFrameCount(void) const;
-
-
-	protected:
-		uint32_t m_nFrameCount;
 
 	protected:
 		GFX_API m_api;
