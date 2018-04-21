@@ -41,6 +41,9 @@ namespace CrossEngine {
 		CCamera* GetCamera(const char *szName);
 		CCamera* GetCamera(uint32_t dwName);
 
+	public:
+		void Update(void);
+
 
 	protected:
 		std::map<uint32_t, CCamera*> m_pCameras;

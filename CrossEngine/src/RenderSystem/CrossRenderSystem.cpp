@@ -117,4 +117,9 @@ namespace CrossEngine {
 		m_pCameraManager = NULL;
 	}
 
+	void CRenderSystem::Update(void)
+	{
+		m_pCameraManager->Update();
+	}
+
 }

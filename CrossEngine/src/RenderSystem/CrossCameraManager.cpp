@@ -58,4 +58,23 @@ namespace CrossEngine {
 		return m_pCameras[dwName];
 	}
 
+	void CCameraManager::Update(void)
+	{
+		CBatchPartical::ClearInstanceBuffer();
+		CBatchSkinMesh::ClearInstanceBuffer();
+		CBatchStaticMesh::ClearInstanceBuffer();
+
+		for (auto &itCamera : m_pCameras) {
+			itCamera.second->Update();
+		}
+
+		CBatchPartical::CreateInstanceBuffer();
+		CBatchSkinMesh::CreateInstanceBuffer();
+		CBatchStaticMesh::CreateInstanceBuffer();
+
+		for (auto &itCamera : m_pCameras) {
+			itCamera.second->BuildCommandBuffer();
+		}
+	}
+
 }

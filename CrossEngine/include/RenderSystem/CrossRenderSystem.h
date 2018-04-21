@@ -73,6 +73,9 @@ namespace CrossEngine {
 		CGfxSwapchain* GetSwapchain(void) const;
 		CCameraManager* GetCameraManager(void) const;
 
+	public:
+		void Update(void);
+
 
 	protected:
 		GFX_API m_api;

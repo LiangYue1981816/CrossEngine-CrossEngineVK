@@ -111,17 +111,54 @@ namespace CrossEngine {
 
 	BOOL CCamera::IsVisible(const glm::vec3 &vertex)
 	{
-		return m_bEnable && m_camera.visible(vertex) ? TRUE : FALSE;
+		if (m_bEnable) {
+			return m_camera.visible(vertex);
+		}
+
+		return FALSE;
 	}
 
 	BOOL CCamera::IsVisible(const glm::aabb &aabb)
 	{
-		return m_bEnable && m_camera.visible(aabb) ? TRUE : FALSE;
+		if (m_bEnable) {
+			return m_camera.visible(aabb);
+		}
+
+		return FALSE;
 	}
 
-	CRenderQueue* CCamera::GetRenderQueue(void)
+	void CCamera::Clear(void)
 	{
-		return &m_renderQueue;
+		m_renderQueue.Clear();
+	}
+
+	void CCamera::AddDrawable(const CDrawable *pDrawable)
+	{
+		if (m_bEnable) {
+			m_renderQueue.AddDrawable(pDrawable);
+		}
+	}
+
+	void CCamera::Update(void)
+	{
+		if (m_bEnable) {
+			m_renderQueue.UpdateInstanceBuffer();
+		}
+	}
+
+	void CCamera::BuildCommandBuffer(void)
+	{
+		if (m_bEnable) {
+			m_renderQueue.BuildCommandBufferStep0(FALSE);
+		}
+	}
+
+	void CCamera::Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	{
+		if (m_bEnable) {
+			m_renderQueue.BuildCommandBufferStep1(ptrRenderPass, ptrFrameBuffer);
+			m_renderQueue.Render(ptrRenderPass, ptrFrameBuffer);
+		}
 	}
 
 }
