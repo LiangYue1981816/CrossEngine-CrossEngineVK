@@ -43,6 +43,8 @@ namespace CrossEngine {
 
 	protected:
 		void Update(void);
+		void UpdateCamera(void);
+		void BuildCommandBuffer(void);
 		void Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 
 
