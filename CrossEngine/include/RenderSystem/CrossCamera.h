@@ -65,7 +65,7 @@ namespace CrossEngine {
 		void Clear(void);
 		void AddDrawable(const CDrawable *pDrawable);
 
-	public:
+	protected:
 		void Update(void);
 		void BuildCommandBuffer(void);
 		void Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);

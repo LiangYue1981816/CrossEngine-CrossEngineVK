@@ -36,12 +36,15 @@ namespace CrossEngine {
 		virtual ~CCameraManager(void);
 
 
-	public:
-		void ClearCamera(void);
+	protected:
 		CCamera* GetCamera(const char *szName);
 		CCamera* GetCamera(uint32_t dwName);
 
-	public:
+		void RemoveCamera(const char *szName);
+		void RemoveCamera(uint32_t dwName);
+		void RemoveCameraAll(void);
+
+	protected:
 		void Update(void);
 
 
