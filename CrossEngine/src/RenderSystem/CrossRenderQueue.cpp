@@ -133,12 +133,8 @@ namespace CrossEngine {
 
 				default:
 					LOGE("Not support drawable type = %d", pDrawable->GetType());
-					break;
+					return;
 				}
-			}
-
-			if (m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] == NULL) {
-				break;
 			}
 
 			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(pDrawable, ptrMaterialPipeline);
