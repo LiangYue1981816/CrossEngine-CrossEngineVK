@@ -195,7 +195,7 @@ namespace CrossEngine {
 											ptrMainCommandBuffer->CmdBindVertexBuffer(itVertexQueue.first, 0, 0);
 											{
 												for (const auto itVertexIndexQueue : itVertexQueue.second) {
-													ptrMainCommandBuffer->CmdBindIndexBuffer(itVertexIndexQueue.first, 0, VK_INDEX_TYPE_UINT32);
+													ptrMainCommandBuffer->CmdBindIndexBuffer(itVertexIndexQueue.first, 0, VK_INDEX_TYPE_UINT16);
 													{
 														for (const auto itVertexIndexDescriptorSet : itVertexIndexQueue.second) {
 															ptrMainCommandBuffer->CmdExecuteCommandBuffer(itVertexIndexDescriptorSet.second->GetCommandBuffer());
