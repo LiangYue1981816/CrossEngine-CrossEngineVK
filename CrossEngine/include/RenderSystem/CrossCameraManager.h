@@ -37,15 +37,13 @@ namespace CrossEngine {
 
 
 	protected:
-		CCamera* GetCamera(const char *szName);
 		CCamera* GetCamera(uint32_t dwName);
-
-		void RemoveCamera(const char *szName);
 		void RemoveCamera(uint32_t dwName);
 		void RemoveCameraAll(void);
 
 	protected:
 		void Update(void);
+		void Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 
 
 	protected:

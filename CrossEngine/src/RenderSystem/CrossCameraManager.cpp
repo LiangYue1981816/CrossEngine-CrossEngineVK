@@ -35,11 +35,6 @@ namespace CrossEngine {
 		RemoveCameraAll();
 	}
 
-	CCamera* CCameraManager::GetCamera(const char *szName)
-	{
-		return GetCamera(HashValue(szName));
-	}
-
 	CCamera* CCameraManager::GetCamera(uint32_t dwName)
 	{
 		if (m_pCameras[dwName] == NULL) {
@@ -47,11 +42,6 @@ namespace CrossEngine {
 		}
 
 		return m_pCameras[dwName];
-	}
-
-	void CCameraManager::RemoveCamera(const char *szName)
-	{
-		RemoveCamera(HashValue(szName));
 	}
 
 	void CCameraManager::RemoveCamera(uint32_t dwName)
@@ -89,6 +79,11 @@ namespace CrossEngine {
 		for (auto &itCamera : m_pCameras) {
 			itCamera.second->BuildCommandBuffer();
 		}
+	}
+
+	void CCameraManager::Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	{
+
 	}
 
 }

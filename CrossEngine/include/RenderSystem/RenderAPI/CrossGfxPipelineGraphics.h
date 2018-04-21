@@ -73,7 +73,6 @@ namespace CrossEngine {
 	public:
 		virtual uint32_t GetVertexFormat(void) const = 0;
 		virtual uint32_t GetInstanceFormat(void) const = 0;
-		virtual uint32_t GetBinding(uint32_t set, const char *szName) const = 0;
 		virtual uint32_t GetBinding(uint32_t set, uint32_t dwName) const = 0;
 	};
 

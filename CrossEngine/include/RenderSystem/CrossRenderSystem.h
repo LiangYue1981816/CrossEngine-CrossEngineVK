@@ -71,10 +71,15 @@ namespace CrossEngine {
 		GFX_API GetAPI(void) const;
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
-		CCameraManager* GetCameraManager(void) const;
+
+	public:
+		CCamera* GetCamera(uint32_t dwName);
+		void RemoveCamera(uint32_t dwName);
+		void RemoveCameraAll(void);
 
 	public:
 		void Update(void);
+		void Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 
 
 	protected:

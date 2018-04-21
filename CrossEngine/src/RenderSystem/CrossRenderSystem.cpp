@@ -54,11 +54,6 @@ namespace CrossEngine {
 		return m_pGfxSwapchain;
 	}
 
-	CCameraManager* CRenderSystem::GetCameraManager(void) const
-	{
-		return m_pCameraManager;
-	}
-
 	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CreateGfx(api, hInstance, hWnd, hDC, width, height, transform));
@@ -117,9 +112,29 @@ namespace CrossEngine {
 		m_pCameraManager = NULL;
 	}
 
+	CCamera* CRenderSystem::GetCamera(uint32_t dwName)
+	{
+		return m_pCameraManager->GetCamera(dwName);
+	}
+
+	void CRenderSystem::RemoveCamera(uint32_t dwName)
+	{
+		m_pCameraManager->RemoveCamera(dwName);
+	}
+
+	void CRenderSystem::RemoveCameraAll(void)
+	{
+		m_pCameraManager->RemoveCameraAll();
+	}
+
 	void CRenderSystem::Update(void)
 	{
 		m_pCameraManager->Update();
+	}
+
+	void CRenderSystem::Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	{
+		m_pCameraManager->Render(dwName, ptrRenderPass, ptrFrameBuffer);
 	}
 
 }

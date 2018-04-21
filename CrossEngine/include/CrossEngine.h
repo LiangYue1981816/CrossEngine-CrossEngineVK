@@ -127,7 +127,7 @@ THE SOFTWARE.
 #define RenderSystem()                 CrossEngine::CEngine::GetEngine()->GetRenderSystem()
 #define GfxDevice()                    CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetDevice()
 #define GfxSwapChain()                 CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetSwapchain()
-#define CameraManager()                CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetCameraManager();
+#define Camera(name)                   CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetCamera(name);
 
 #define ResourceSystem()               CrossEngine::CEngine::GetEngine()->GetResourceSystem()
 #define ShaderManager()                CrossEngine::CEngine::GetEngine()->GetResourceSystem()->GetResourceManager(CrossEngine::RESOURCE_TYPE::RESOURCE_TYPE_SHADER)
