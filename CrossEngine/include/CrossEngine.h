@@ -125,6 +125,7 @@ THE SOFTWARE.
 #define Engine()                       CrossEngine::CEngine::GetEngine()
 
 #define RenderSystem()                 CrossEngine::CEngine::GetEngine()->GetRenderSystem()
+#define GfxAPI()                       CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetAPI()
 #define GfxDevice()                    CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetDevice()
 #define GfxSwapChain()                 CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetSwapchain()
 #define Camera(name)                   CrossEngine::CEngine::GetEngine()->GetRenderSystem()->GetCamera(name);
