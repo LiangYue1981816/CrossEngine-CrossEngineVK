@@ -85,8 +85,8 @@ namespace CrossEngine {
 				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
 			}
 
-			for (const auto &itUniform : m_ptrUniformBuffers) {
-				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniform.first), itUniform.second);
+			for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
+				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
 			}
 		}
 		m_ptrDescriptorSet->UpdateDescriptorSets();

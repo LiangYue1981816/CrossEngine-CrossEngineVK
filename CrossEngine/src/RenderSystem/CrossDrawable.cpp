@@ -64,10 +64,10 @@ namespace CrossEngine {
 
 	void CDrawable::SetUniform(uint32_t dwPassName, uint32_t dwName, uint32_t binding, float value)
 	{
-		const CGfxMaterialPassPtr &ptrMaterialPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
-		if (ptrMaterialPass.IsNull()) return;
+		const CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
+		if (ptrPass.IsNull()) return;
 
-		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrMaterialPass->GetPipeline();
+		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
 		if (ptrPipeline.IsNull()) return;
 
 		{
@@ -82,10 +82,10 @@ namespace CrossEngine {
 
 	void CDrawable::SetUniform(uint32_t dwPassName, uint32_t dwName, uint32_t binding, glm::vec4 &value)
 	{
-		const CGfxMaterialPassPtr &ptrMaterialPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
-		if (ptrMaterialPass.IsNull()) return;
+		const CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
+		if (ptrPass.IsNull()) return;
 
-		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrMaterialPass->GetPipeline();
+		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
 		if (ptrPipeline.IsNull()) return;
 
 		{
@@ -102,8 +102,8 @@ namespace CrossEngine {
 	{
 		m_ptrDescriptorSets[dwPassName] = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_DRAW, ptrPipeline);
 		{
-			for (const auto &itUniform : m_ptrUniformBuffers[dwPassName]) {
-				m_ptrDescriptorSets[dwPassName]->SetUniformBuffer(ptrPipeline->GetBinding(DESCRIPTOR_SET_DRAW, itUniform.first), itUniform.second);
+			for (const auto &itUniformBuffer : m_ptrUniformBuffers[dwPassName]) {
+				m_ptrDescriptorSets[dwPassName]->SetUniformBuffer(ptrPipeline->GetBinding(DESCRIPTOR_SET_DRAW, itUniformBuffer.first), itUniformBuffer.second);
 			}
 		}
 		m_ptrDescriptorSets[dwPassName]->UpdateDescriptorSets();

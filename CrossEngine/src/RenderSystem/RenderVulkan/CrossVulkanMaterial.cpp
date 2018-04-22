@@ -63,9 +63,9 @@ namespace CrossEngine {
 
 	const CGfxMaterialPassPtr& CVulkanMaterial::GetPass(uint32_t dwName) const
 	{
-		static const CGfxMaterialPassPtr ptrMaterialPassNull;
-		const auto &itMaterialPass = m_ptrPasses.find(dwName);
-		return itMaterialPass != m_ptrPasses.end() ? itMaterialPass->second : ptrMaterialPassNull;
+		static const CGfxMaterialPassPtr ptrPassNull;
+		const auto &itPass = m_ptrPasses.find(dwName);
+		return itPass != m_ptrPasses.end() ? itPass->second : ptrPassNull;
 	}
 
 	const std::map<uint32_t, CGfxMaterialPassPtr>& CVulkanMaterial::GetPasses(void) const
