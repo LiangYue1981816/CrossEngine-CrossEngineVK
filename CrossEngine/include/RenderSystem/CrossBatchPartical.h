@@ -28,17 +28,20 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatchPartical : public CBatch
 	{
+		friend class CRenderQueue;
+
+
 		typedef struct InstanceData {
 			glm::mat4 mtxModelToWorld;
 		} InstanceData;
 
 
-	public:
+	protected:
 		CBatchPartical(void);
 		virtual ~CBatchPartical(void);
 
 
-	public:
+	protected:
 		virtual void UpdateInstanceBuffer(void);
 		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
 

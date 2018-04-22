@@ -28,19 +28,22 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatch
 	{
-	public:
+		friend class CRenderQueue;
+
+
+	protected:
 		CBatch(void);
 		virtual ~CBatch(void);
 
 
-	public:
+	protected:
 		const CGfxCommandBufferPtr& GetCommandBuffer(void) const;
 
-	public:
+	protected:
 		virtual void Clear(void);
 		virtual void AddDrawable(const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics);
 
-	public:
+	protected:
 		virtual void UpdateInstanceBuffer(void) = 0;
 		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer) = 0;
 

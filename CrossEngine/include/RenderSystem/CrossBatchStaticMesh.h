@@ -28,17 +28,20 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatchStaticMesh : public CBatch
 	{
+		friend class CRenderQueue;
+
+
 		typedef struct InstanceData {
 			glm::mat4 mtxModelToWorld;
 		} InstanceData;
 
 
-	public:
+	protected:
 		CBatchStaticMesh(void);
 		virtual ~CBatchStaticMesh(void);
 
 
-	public:
+	protected:
 		virtual void UpdateInstanceBuffer(void);
 		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
 
