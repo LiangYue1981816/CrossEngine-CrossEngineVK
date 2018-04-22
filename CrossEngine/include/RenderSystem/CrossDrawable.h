@@ -26,16 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	typedef enum {
+		DRAWABLE_TYPE_PARTICAL = 0,
+		DRAWABLE_TYPE_SKIN_MESH,
+		DRAWABLE_TYPE_STATIC_MESH
+	} DRAWABLE_TYPE;
+
 	class CROSS_EXPORT CDrawable
 	{
-	public:
-		typedef enum {
-			DRAWABLE_TYPE_PARTICAL = 0,
-			DRAWABLE_TYPE_SKIN_MESH,
-			DRAWABLE_TYPE_STATIC_MESH
-		} DRAWABLE_TYPE;
-
-
 	protected:
 		CDrawable(void);
 		virtual ~CDrawable(void);
@@ -49,27 +47,34 @@ namespace CrossEngine {
 		virtual uint32_t GetFirstIndex(void) const = 0;
 		virtual uint32_t GetVertexOffset(void) const = 0;
 
-	public:
-		virtual const CGfxMaterialPtr& GetMaterial(void) const = 0;
 		virtual const CGfxIndexBufferPtr& GetIndexBuffer(void) const = 0;
 		virtual const CGfxVertexBufferPtr& GetVertexBuffer(void) const = 0;
-		virtual const CGfxDescriptorSetPtr& GetDescriptorSet(void) const = 0;
-		virtual const glm::mat4& GetModelToWorldMatrix(void) const = 0;
-
-	public:
 		virtual const glm::aabb& GetAABB(void) const = 0;
 
 	public:
-		void SetUniform(uint32_t dwName, uint32_t binding, float value);
-		void SetUniform(uint32_t dwName, uint32_t binding, glm::vec4 &value);
+		void SetMaterial(const CResMaterialPtr &ptrMaterial);
+		const CGfxMaterialPtr& GetMaterial(void) const;
+		const CGfxDescriptorSetPtr& GetDescriptorSet(uint32_t dwPassName) const;
+
+	public:
+		void SetTransform(const glm::mat4 &mtxModelToWorld);
+		const glm::mat4& GetTransform(void) const;
+
+	public:
+		void SetUniform(uint32_t dwPassName, uint32_t dwName, uint32_t binding, float value);
+		void SetUniform(uint32_t dwPassName, uint32_t dwName, uint32_t binding, glm::vec4 &value);
 
 	protected:
-		virtual void UpdateDescriptorSet(void) = 0;
+		void UpdateDescriptorSet(uint32_t dwPassName);
 
 
 	protected:
-		CGfxDescriptorSetPtr m_ptrDescriptorSet;
-		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniforms;
+		glm::mat4 m_mtxModelToWorld;
+
+	protected:
+		CResMaterialPtr m_ptrMaterial;
+		std::map<uint32_t, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
+		std::map<uint32_t, std::map<uint32_t, CGfxUniformBufferPtr>> m_ptrUniforms;
 	};
 
 }

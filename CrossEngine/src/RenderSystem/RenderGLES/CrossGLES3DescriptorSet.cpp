@@ -25,10 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static const CGfxTexturePtr ptrTextureNull;
-	static const CGfxRenderTexturePtr ptrRenderTextureNull;
-	static const CGfxUniformBufferPtr ptrUniformBufferNull;
-
 	CGLES3DescriptorSet::CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetManager *pDescriptorSetManager, CGLES3DescriptorSetLayout *pDescriptorSetLayout)
 		: m_pDevice(pDevice)
 		, m_pDescriptorSetLayout(pDescriptorSetLayout)
@@ -86,18 +82,21 @@ namespace CrossEngine {
 
 	const CGfxTexturePtr& CGLES3DescriptorSet::GetTexture(uint32_t binding) const
 	{
+		static const CGfxTexturePtr ptrTextureNull;
 		const auto &itTexture = m_ptrTextures.find(binding);
 		return itTexture != m_ptrTextures.end() ? itTexture->second : ptrTextureNull;
 	}
 
 	const CGfxRenderTexturePtr& CGLES3DescriptorSet::GetRenderTexture(uint32_t binding) const
 	{
+		static const CGfxRenderTexturePtr ptrRenderTextureNull;
 		const auto &itRenderTexture = m_ptrRenderTextures.find(binding);
 		return itRenderTexture != m_ptrRenderTextures.end() ? itRenderTexture->second : ptrRenderTextureNull;
 	}
 
 	const CGfxUniformBufferPtr& CGLES3DescriptorSet::GetUniformBuffer(uint32_t binding) const
 	{
+		static const CGfxUniformBufferPtr ptrUniformBufferNull;
 		const auto &itUniformBuffer = m_ptrUniformBuffers.find(binding);
 		return itUniformBuffer != m_ptrUniformBuffers.end() ? itUniformBuffer->second : ptrUniformBufferNull;
 	}

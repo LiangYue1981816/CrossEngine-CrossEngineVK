@@ -112,21 +112,21 @@ namespace CrossEngine {
 			const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet = itMatPass.second->GetDescriptorSet();
 			const CGfxVertexBufferPtr &ptrDrawableVertexBuffer = pDrawable->GetVertexBuffer();
 			const CGfxIndexBufferPtr &ptrDrawableIndexBuffer = pDrawable->GetIndexBuffer();
-			const CGfxDescriptorSetPtr &ptrDrawableDescriptorSet = pDrawable->GetDescriptorSet();
+			const CGfxDescriptorSetPtr &ptrDrawableDescriptorSet = pDrawable->GetDescriptorSet(itMatPass.first);
 
 			if (m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] == NULL) {
 				switch (pDrawable->GetType()) {
-				case CDrawable::DRAWABLE_TYPE_PARTICAL:
+				case DRAWABLE_TYPE_PARTICAL:
 					m_pBatchParticals.push_back(SAFE_NEW CBatchPartical);
 					m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] = m_pBatchParticals[m_pBatchParticals.size() - 1];
 					break;
 
-				case CDrawable::DRAWABLE_TYPE_SKIN_MESH:
+				case DRAWABLE_TYPE_SKIN_MESH:
 					m_pBatchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
 					m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] = m_pBatchSkinMeshs[m_pBatchSkinMeshs.size() - 1];
 					break;
 
-				case CDrawable::DRAWABLE_TYPE_STATIC_MESH:
+				case DRAWABLE_TYPE_STATIC_MESH:
 					m_pBatchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
 					m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet] = m_pBatchStaticMeshs[m_pBatchStaticMeshs.size() - 1];
 					break;
@@ -137,7 +137,7 @@ namespace CrossEngine {
 				}
 			}
 
-			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(pDrawable, ptrMaterialPipeline);
+			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(itMatPass.first, pDrawable, ptrMaterialPipeline);
 		}
 	}
 

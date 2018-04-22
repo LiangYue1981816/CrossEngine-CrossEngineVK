@@ -26,16 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	typedef enum {
+		SEEK_MODE_CUR = SEEK_CUR,
+		SEEK_MODE_END = SEEK_END,
+		SEEK_MODE_SET = SEEK_SET
+	} SEEK_MODE;
+
 	class CROSS_EXPORT CStream
 	{
-	public:
-		typedef enum {
-			SEEK_MODE_CUR = SEEK_CUR,
-			SEEK_MODE_END = SEEK_END,
-			SEEK_MODE_SET = SEEK_SET
-		} SEEK_MODE;
-
-
 	public:
 		CStream(void);
 		virtual ~CStream(void);

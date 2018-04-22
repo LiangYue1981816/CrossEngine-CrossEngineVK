@@ -35,24 +35,9 @@ namespace CrossEngine {
 
 	}
 
-	CDrawable::DRAWABLE_TYPE CDrawableStaticMesh::GetType(void) const
+	DRAWABLE_TYPE CDrawableStaticMesh::GetType(void) const
 	{
-		return DRAWABLE_TYPE::DRAWABLE_TYPE_STATIC_MESH;
-	}
-
-	void CDrawableStaticMesh::SetTransform(const glm::mat4 &mtxModelToWorld)
-	{
-		m_mtxModelToWorld = mtxModelToWorld;
-	}
-
-	void CDrawableStaticMesh::SetMesh(const CResMeshPtr &ptrMesh)
-	{
-		m_ptrMesh = ptrMesh;
-	}
-
-	void CDrawableStaticMesh::SetMaterial(const CResMaterialPtr &ptrMaterial)
-	{
-		m_ptrMaterial = ptrMaterial;
+		return DRAWABLE_TYPE_STATIC_MESH;
 	}
 
 	uint32_t CDrawableStaticMesh::GetIndexCount(void) const
@@ -70,11 +55,6 @@ namespace CrossEngine {
 		return 0;
 	}
 
-	const CGfxMaterialPtr& CDrawableStaticMesh::GetMaterial(void) const
-	{
-		return m_ptrMaterial->GetMaterial();
-	}
-
 	const CGfxIndexBufferPtr& CDrawableStaticMesh::GetIndexBuffer(void) const
 	{
 		return m_ptrMesh->GetIndexBuffer();
@@ -85,19 +65,14 @@ namespace CrossEngine {
 		return m_ptrMesh->GetVertexBuffer();
 	}
 
-	const CGfxDescriptorSetPtr& CDrawableStaticMesh::GetDescriptorSet(void) const
-	{
-		return m_ptrDescriptorSet;
-	}
-
-	const glm::mat4& CDrawableStaticMesh::GetModelToWorldMatrix(void) const
-	{
-		return m_mtxModelToWorld;
-	}
-
 	const glm::aabb& CDrawableStaticMesh::GetAABB(void) const
 	{
 		return m_ptrMesh->GetAABB();
+	}
+
+	void CDrawableStaticMesh::SetMesh(const CResMeshPtr &ptrMesh)
+	{
+		m_ptrMesh = ptrMesh;
 	}
 
 }

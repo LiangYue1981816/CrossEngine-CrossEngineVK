@@ -74,8 +74,7 @@ namespace CrossEngine {
 
 		for (const auto &itDrawable : m_pDrawables) {
 			InstanceData data;
-			data.mtxModelToWorld = itDrawable.second->GetModelToWorldMatrix();
-
+			data.mtxModelToWorld = itDrawable.second->GetTransform();
 			datas.push_back(data);
 		}
 	}
