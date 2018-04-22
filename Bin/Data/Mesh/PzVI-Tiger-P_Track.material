@@ -1,0 +1,5 @@
+<Material>
+	<Pass name="Opaque" graphics="DiffuseForwardOpaquePresent.graphics">
+		<Texture2D name="diffuse" value="PzVI-Tiger-P_Track.dds" />
+	</Pass>
+</Material>
