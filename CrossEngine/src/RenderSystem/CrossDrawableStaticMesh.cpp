@@ -85,11 +85,6 @@ namespace CrossEngine {
 		return m_ptrMesh->GetVertexBuffer();
 	}
 
-	const CGfxUniformBufferPtr& CDrawableStaticMesh::GetUniformBuffer(void) const
-	{
-		return m_ptrUniformBuffer;
-	}
-
 	const CGfxDescriptorSetPtr& CDrawableStaticMesh::GetDescriptorSet(void) const
 	{
 		return m_ptrDescriptorSet;

@@ -52,7 +52,6 @@ namespace CrossEngine {
 		virtual const CGfxMaterialPtr& GetMaterial(void) const;
 		virtual const CGfxIndexBufferPtr& GetIndexBuffer(void) const;
 		virtual const CGfxVertexBufferPtr& GetVertexBuffer(void) const;
-		virtual const CGfxUniformBufferPtr& GetUniformBuffer(void) const;
 		virtual const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 		virtual const glm::mat4& GetModelToWorldMatrix(void) const;
 
@@ -65,9 +64,6 @@ namespace CrossEngine {
 
 		CResMeshPtr m_ptrMesh;
 		CResMaterialPtr m_ptrMaterial;
-
-		CGfxUniformBufferPtr m_ptrUniformBuffer;
-		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 	};
 
 }

@@ -35,4 +35,24 @@ namespace CrossEngine {
 
 	}
 
+	void CDrawable::SetUniform(uint32_t dwName, uint32_t binding, float value)
+	{
+		CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+		ptrUniform->Create(sizeof(value), &value, FALSE);
+		ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
+
+		m_ptrUniforms[dwName] = ptrUniform;
+		UpdateDescriptorSet();
+	}
+
+	void CDrawable::SetUniform(uint32_t dwName, uint32_t binding, glm::vec4 &value)
+	{
+		CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+		ptrUniform->Create(sizeof(value), &value, FALSE);
+		ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
+
+		m_ptrUniforms[dwName] = ptrUniform;
+		UpdateDescriptorSet();
+	}
+
 }

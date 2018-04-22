@@ -129,7 +129,7 @@ namespace CrossEngine {
 		}
 
 		for (auto &itPass : m_ptrMaterial->GetPasses()) {
-			itPass.second->UpdateDescriptorSet(0);
+			itPass.second->UpdateDescriptorSet(thread_id());
 		}
 
 		return TRUE;

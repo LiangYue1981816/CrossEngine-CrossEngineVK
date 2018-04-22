@@ -46,7 +46,7 @@ namespace CrossEngine {
 	typedef enum {
 		DESCRIPTOR_SET_FRAME = 0,
 		DESCRIPTOR_SET_PASS,
-		DESCRIPTOR_SET_MESH
+		DESCRIPTOR_SET_DRAW
 	} DESCRIPTOR_SET_TYPE;
 
 	class CROSS_EXPORT CRenderSystem
