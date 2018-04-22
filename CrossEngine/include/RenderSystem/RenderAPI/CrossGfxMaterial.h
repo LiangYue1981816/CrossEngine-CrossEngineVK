@@ -41,7 +41,8 @@ namespace CrossEngine {
 
 
 	public:
-		virtual CGfxMaterialPassPtr& GetPass(uint32_t dwName) = 0;
+		virtual CGfxMaterialPassPtr& AddPass(uint32_t dwName) = 0;
+		virtual const CGfxMaterialPassPtr& GetPass(uint32_t dwName) const = 0;
 		virtual const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const = 0;
 
 

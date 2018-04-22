@@ -82,8 +82,9 @@ namespace CrossEngine {
 			}
 
 			uint32_t dwPassName = itGraphics.first;
-			m_ptrMaterial->GetPass(dwPassName)->SetPipeline(itGraphics.second->GetPipeline());
-			m_ptrMaterial->GetPass(dwPassName)->SetRenderPass(itGraphics.second->GetRenderPass(), itGraphics.second->GetSubpassIndex());
+			CGfxMaterialPassPtr &ptrMaterialPass = m_ptrMaterial->AddPass(dwPassName);
+			ptrMaterialPass->SetPipeline(itGraphics.second->GetPipeline());
+			ptrMaterialPass->SetRenderPass(itGraphics.second->GetRenderPass(), itGraphics.second->GetSubpassIndex());
 		}
 
 		for (const auto &itTextures : m_ptrTextures) {

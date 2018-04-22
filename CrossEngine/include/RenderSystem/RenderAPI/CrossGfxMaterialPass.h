@@ -53,7 +53,7 @@ namespace CrossEngine {
 		virtual void SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
 
 		virtual void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture) = 0;
-		virtual void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform) = 0;
+		virtual void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer) = 0;
 		virtual void UpdateDescriptorSet(uint32_t pool) = 0;
 	};
 

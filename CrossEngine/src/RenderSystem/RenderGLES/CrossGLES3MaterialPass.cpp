@@ -72,9 +72,9 @@ namespace CrossEngine {
 		m_ptrTextures[dwName] = ptrTexture;
 	}
 
-	void CGLES3MaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform)
+	void CGLES3MaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer)
 	{
-		m_ptrUniforms[dwName] = ptrUniform;
+		m_ptrUniformBuffers[dwName] = ptrUniformBuffer;
 	}
 
 	void CGLES3MaterialPass::UpdateDescriptorSet(uint32_t pool)
@@ -85,7 +85,7 @@ namespace CrossEngine {
 				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
 			}
 
-			for (const auto &itUniform : m_ptrUniforms) {
+			for (const auto &itUniform : m_ptrUniformBuffers) {
 				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniform.first), itUniform.second);
 			}
 		}

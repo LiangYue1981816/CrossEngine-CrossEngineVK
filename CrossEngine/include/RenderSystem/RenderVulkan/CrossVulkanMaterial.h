@@ -45,7 +45,8 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	public:
-		CGfxMaterialPassPtr& GetPass(uint32_t dwName);
+		CGfxMaterialPassPtr& AddPass(uint32_t dwName);
+		const CGfxMaterialPassPtr& GetPass(uint32_t dwName) const;
 		const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const;
 
 

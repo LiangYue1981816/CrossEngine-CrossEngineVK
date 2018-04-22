@@ -65,7 +65,7 @@ namespace CrossEngine {
 		void SetUniform(uint32_t dwPassName, uint32_t dwName, uint32_t binding, glm::vec4 &value);
 
 	protected:
-		void UpdateDescriptorSet(uint32_t dwPassName);
+		void UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipeline);
 
 
 	protected:
@@ -74,7 +74,7 @@ namespace CrossEngine {
 	protected:
 		CResMaterialPtr m_ptrMaterial;
 		std::map<uint32_t, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
-		std::map<uint32_t, std::map<uint32_t, CGfxUniformBufferPtr>> m_ptrUniforms;
+		std::map<uint32_t, std::map<uint32_t, CGfxUniformBufferPtr>> m_ptrUniformBuffers;
 	};
 
 }

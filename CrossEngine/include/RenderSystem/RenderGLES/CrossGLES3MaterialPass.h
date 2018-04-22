@@ -47,7 +47,7 @@ namespace CrossEngine {
 		void SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline);
 
 		void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture);
-		void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniform);
+		void SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer);
 		void UpdateDescriptorSet(uint32_t pool);
 
 
@@ -59,7 +59,7 @@ namespace CrossEngine {
 
 	protected:
 		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
-		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniforms;
+		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
 	};
 
 }
