@@ -62,12 +62,12 @@ namespace CrossEngine {
 		BOOL IsVisible(const glm::aabb &aabb);
 
 	public:
-		void Clear(void);
-		void AddDrawable(const CDrawable *pDrawable);
+		void ClearRenderQueue(void);
+		void AddRenderQueue(const CDrawable *pDrawable);
 
 	protected:
 		void Update(void);
-		void BuildCommandBuffer(void);
+		void PreBuildCommandBuffer(void);
 		void Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 
 

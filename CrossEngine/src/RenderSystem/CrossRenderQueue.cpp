@@ -156,12 +156,12 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRenderQueue::BuildCommandBufferStep0(BOOL bWait)
+	void CRenderQueue::PreBuildCommandBuffer(BOOL bWait)
 	{
 		DispatchThread(bWait);
 	}
 
-	void CRenderQueue::BuildCommandBufferStep1(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	void CRenderQueue::BuildCommandBuffer(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
 	{
 		const auto &itPassQueue = m_queue.find(ptrRenderPass);
 		if (itPassQueue == m_queue.end()) return;

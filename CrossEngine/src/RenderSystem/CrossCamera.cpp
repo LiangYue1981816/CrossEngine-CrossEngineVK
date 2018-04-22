@@ -127,12 +127,12 @@ namespace CrossEngine {
 		return FALSE;
 	}
 
-	void CCamera::Clear(void)
+	void CCamera::ClearRenderQueue(void)
 	{
 		m_renderQueue.Clear();
 	}
 
-	void CCamera::AddDrawable(const CDrawable *pDrawable)
+	void CCamera::AddRenderQueue(const CDrawable *pDrawable)
 	{
 		if (m_bEnable) {
 			m_renderQueue.AddDrawable(pDrawable);
@@ -146,17 +146,17 @@ namespace CrossEngine {
 		}
 	}
 
-	void CCamera::BuildCommandBuffer(void)
+	void CCamera::PreBuildCommandBuffer(void)
 	{
 		if (m_bEnable) {
-			m_renderQueue.BuildCommandBufferStep0(FALSE);
+			m_renderQueue.PreBuildCommandBuffer(FALSE);
 		}
 	}
 
 	void CCamera::Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
 	{
 		if (m_bEnable) {
-			m_renderQueue.BuildCommandBufferStep1(ptrRenderPass, ptrFrameBuffer);
+			m_renderQueue.BuildCommandBuffer(ptrRenderPass, ptrFrameBuffer);
 			m_renderQueue.Render(ptrRenderPass, ptrFrameBuffer);
 		}
 	}

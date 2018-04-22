@@ -38,7 +38,8 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	typedef enum {
-		GFX_API_GLES31 = 0, 
+		GFX_API_NONE = 0,
+		GFX_API_GLES31, 
 		GFX_API_VULKAN
 	} GFX_API;
 

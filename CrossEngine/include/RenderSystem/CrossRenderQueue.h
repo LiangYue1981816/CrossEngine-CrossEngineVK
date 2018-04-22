@@ -73,14 +73,14 @@ namespace CrossEngine {
 		void DispatchThread(BOOL bWait);
 		void WaitThread(void);
 
-	public:
+	protected:
 		void Clear(void);
 		void AddDrawable(const CDrawable *pDrawable);
 		void UpdateInstanceBuffer(void);
 
-	public:
-		void BuildCommandBufferStep0(BOOL bWait);
-		void BuildCommandBufferStep1(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
+	protected:
+		void PreBuildCommandBuffer(BOOL bWait);
+		void BuildCommandBuffer(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 		void Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
 
 	protected:

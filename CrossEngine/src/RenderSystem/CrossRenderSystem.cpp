@@ -26,9 +26,12 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CRenderSystem::CRenderSystem(void)
-		: m_pGfxInstance(NULL)
+		: m_api(GFX_API_NONE)
+
+		, m_pGfxInstance(NULL)
 		, m_pGfxDevice(NULL)
 		, m_pGfxSwapchain(NULL)
+
 		, m_pCameraManager(NULL)
 	{
 
@@ -64,9 +67,7 @@ namespace CrossEngine {
 
 	BOOL CRenderSystem::CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
-		m_api = api;
-
-		switch (m_api) {
+		switch (api) {
 		case GFX_API_GLES31: m_pGfxInstance = SAFE_NEW CGLES3Instance; break;
 		case GFX_API_VULKAN: m_pGfxInstance = SAFE_NEW CVulkanInstance; break;
 		}
@@ -76,6 +77,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		m_api = api;
 		m_pGfxDevice = m_pGfxInstance->GetDevice();
 		m_pGfxSwapchain = m_pGfxInstance->GetSwapchain();
 
@@ -101,7 +103,8 @@ namespace CrossEngine {
 		}
 
 		SAFE_DELETE(m_pGfxInstance);
-		m_pGfxInstance = NULL;
+
+		m_api = GFX_API_NONE;
 		m_pGfxDevice = NULL;
 		m_pGfxSwapchain = NULL;
 	}
@@ -109,7 +112,6 @@ namespace CrossEngine {
 	void CRenderSystem::DestroyCameraManager(void)
 	{
 		SAFE_DELETE(m_pCameraManager);
-		m_pCameraManager = NULL;
 	}
 
 	CCamera* CRenderSystem::GetCamera(uint32_t dwName)
