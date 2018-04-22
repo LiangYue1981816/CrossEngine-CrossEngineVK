@@ -26,70 +26,24 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxResourceManager
+	class CROSS_EXPORT CDrawableManager
 	{
-		friend class CGfxResource;
+		friend class CRenderSystem;
 
 
 	protected:
-		CGfxResourceManager(void)
-		{
-			pthread_mutex_init(&m_mutex, NULL);
-		}
-		virtual ~CGfxResourceManager(void)
-		{
-			pthread_mutex_destroy(&m_mutex);
-		}
+		CDrawableManager(void);
+		virtual ~CDrawableManager(void);
 
 
 	protected:
-		virtual int Create(void)
-		{
-			return NO_ERROR;
-		}
-
-		virtual void Destroy(void)
-		{
-			for (auto &itResource : m_pResources) {
-				itResource.second->Destroy();
-				SAFE_DELETE(itResource.second);
-			}
-
-			m_pResources.clear();
-		}
-
-		virtual void FreeResource(CGfxResource *pResource)
-		{
-			if (pResource) {
-				{
-					mutex_autolock mutex(&m_mutex);
-					m_pResources.erase(pResource);
-				}
-
-				pResource->Destroy();
-				SAFE_DELETE(pResource);
-			}
-		}
-
-		virtual void DumpLog(const char *szTitle) const
-		{
-			uint32_t count = 0;
-
-			LOGI("%s\n", szTitle);
-			{
-				for (const auto &itResource : m_pResources) {
-					itResource.second->DumpLog();
-					count++;
-				}
-			}
-			LOGI("*** %d objects found\n", count);
-			LOGI("\n");
-		}
+		CDrawable* AllocDrawable(DRAWABLE_TYPE type);
+		void FreeDrawable(CDrawable *pDrawable);
+		void FreeDrawableAll(void);
 
 
 	protected:
-		pthread_mutex_t m_mutex;
-		std::map<CGfxResource*, CGfxResource*> m_pResources;
+		std::map<CDrawable*, CDrawable*> m_pDrawables;
 	};
 
 }

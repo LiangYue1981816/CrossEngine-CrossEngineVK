@@ -25,58 +25,51 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3DescriptorSetManager::CGLES3DescriptorSetManager(CGLES3Device *pDevice)
-		: m_pDevice(pDevice)
+	CDrawableManager::CDrawableManager(void)
 	{
-		pthread_mutex_init(&m_mutex, NULL);
+
 	}
 
-	CGLES3DescriptorSetManager::~CGLES3DescriptorSetManager(void)
+	CDrawableManager::~CDrawableManager(void)
 	{
-		pthread_mutex_destroy(&m_mutex);
+		FreeDrawableAll();
 	}
 
-	int CGLES3DescriptorSetManager::Create(void)
+	CDrawable* CDrawableManager::AllocDrawable(DRAWABLE_TYPE type)
 	{
-		return NO_ERROR;
-	}
+		CDrawable *pDrawable = NULL;
 
-	void CGLES3DescriptorSetManager::Destroy(void)
-	{
-		for (auto &itDescriptorSet : m_pDescriptorSets) {
-			SAFE_DELETE(itDescriptorSet.second);
+		switch (type) {
+		case DRAWABLE_TYPE_PARTICAL:
+			break;
+
+		case DRAWABLE_TYPE_SKIN_MESH:
+			break;
+
+		case DRAWABLE_TYPE_STATIC_MESH:
+			pDrawable = SAFE_NEW CDrawableStaticMesh;
+			m_pDrawables[pDrawable] = pDrawable;
+			break;
 		}
 
-		m_pDescriptorSets.clear();
+		return pDrawable;
 	}
 
-	CGfxDescriptorSetPtr CGLES3DescriptorSetManager::AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout)
+	void CDrawableManager::FreeDrawable(CDrawable *pDrawable)
 	{
-		CGLES3DescriptorSet *pDescriptorSet = SAFE_NEW CGLES3DescriptorSet(m_pDevice, this, const_cast<CGLES3DescriptorSetLayout *>(pSetLayout));
-		{
-			mutex_autolock mutex(&m_mutex);
-			m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
-		}
-		return CGfxDescriptorSetPtr(pDescriptorSet);
-	}
-
-	void CGLES3DescriptorSetManager::FreeDescriptorSet(CGLES3DescriptorSet *pDescriptorSet)
-	{
-		if (pDescriptorSet) {
-			{
-				mutex_autolock mutex(&m_mutex);
-				m_pDescriptorSets.erase(pDescriptorSet);
-			}
-
-			SAFE_DELETE(pDescriptorSet);
+		if (pDrawable) {
+			m_pDrawables.erase(pDrawable);
+			SAFE_DELETE(pDrawable);
 		}
 	}
 
-	void CGLES3DescriptorSetManager::DumpLog(const char *szTitle) const
+	void CDrawableManager::FreeDrawableAll(void)
 	{
-		LOGI("%s\n", szTitle);
-		LOGI("*** %d objects found\n", m_pDescriptorSets.size());
-		LOGI("\n");
+		for (auto &itDrawable : m_pDrawables) {
+			SAFE_DELETE(itDrawable.second);
+		}
+
+		m_pDrawables.clear();
 	}
 
 }

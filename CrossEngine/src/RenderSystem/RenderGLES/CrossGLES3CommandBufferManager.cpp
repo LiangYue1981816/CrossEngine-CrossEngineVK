@@ -63,8 +63,11 @@ namespace CrossEngine {
 	void CGLES3CommandBufferManager::FreeCommandBuffer(CGLES3CommandBuffer *pCommandBuffer)
 	{
 		if (pCommandBuffer) {
-			mutex_autolock mutex(&m_mutex);
-			m_pCommandBuffers.erase(pCommandBuffer);
+			{
+				mutex_autolock mutex(&m_mutex);
+				m_pCommandBuffers.erase(pCommandBuffer);
+			}
+
 			SAFE_DELETE(pCommandBuffer);
 		}
 	}

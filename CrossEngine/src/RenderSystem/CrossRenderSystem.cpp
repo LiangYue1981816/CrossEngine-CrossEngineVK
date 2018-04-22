@@ -33,6 +33,7 @@ namespace CrossEngine {
 		, m_pGfxSwapchain(NULL)
 
 		, m_pCameraManager(NULL)
+		, m_pDrawableManager(NULL)
 	{
 
 	}
@@ -61,6 +62,7 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CreateGfx(api, hInstance, hWnd, hDC, width, height, transform));
 		CALL_BOOL_FUNCTION_RETURN(CreateCameraManager());
+		CALL_BOOL_FUNCTION_RETURN(CreateDrawableManager());
 
 		return TRUE;
 	}
@@ -90,8 +92,15 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CRenderSystem::CreateDrawableManager(void)
+	{
+		m_pDrawableManager = SAFE_NEW CDrawableManager;
+		return TRUE;
+	}
+
 	void CRenderSystem::Destroy(void)
 	{
+		DestroyDrawableManager();
 		DestroyCameraManager();
 		DestroyGfx();
 	}
@@ -114,6 +123,11 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pCameraManager);
 	}
 
+	void CRenderSystem::DestroyDrawableManager(void)
+	{
+		SAFE_DELETE(m_pDrawableManager);
+	}
+
 	CCamera* CRenderSystem::GetCamera(uint32_t dwName)
 	{
 		return m_pCameraManager->GetCamera(dwName);
@@ -127,6 +141,21 @@ namespace CrossEngine {
 	void CRenderSystem::RemoveCameraAll(void)
 	{
 		m_pCameraManager->RemoveCameraAll();
+	}
+
+	CDrawable* CRenderSystem::AllocDrawable(DRAWABLE_TYPE type)
+	{
+		return m_pDrawableManager->AllocDrawable(type);
+	}
+
+	void CRenderSystem::FreeDrawable(CDrawable *pDrawable)
+	{
+		m_pDrawableManager->FreeDrawable(pDrawable);
+	}
+
+	void CRenderSystem::FreeDrawableAll(void)
+	{
+		m_pDrawableManager->FreeDrawableAll();
 	}
 
 	void CRenderSystem::Update(void)

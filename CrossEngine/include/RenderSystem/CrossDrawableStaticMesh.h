@@ -28,6 +28,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CDrawableStaticMesh : public CDrawable
 	{
+		friend class CDrawableManager;
+
+
 	protected:
 		CDrawableStaticMesh(void);
 		virtual ~CDrawableStaticMesh(void);

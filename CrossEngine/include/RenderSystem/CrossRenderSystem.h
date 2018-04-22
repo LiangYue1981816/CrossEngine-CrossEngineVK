@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "CrossDrawablePartical.h"
 #include "CrossDrawableSkinMesh.h"
 #include "CrossDrawableStaticMesh.h"
+#include "CrossDrawableManager.h"
 #include "CrossBatch.h"
 #include "CrossBatchPartical.h"
 #include "CrossBatchSkinMesh.h"
@@ -63,10 +64,12 @@ namespace CrossEngine {
 		BOOL Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateCameraManager(void);
+		BOOL CreateDrawableManager(void);
 
 		void Destroy(void);
 		void DestroyGfx(void);
 		void DestroyCameraManager(void);
+		void DestroyDrawableManager(void);
 
 	public:
 		GFX_API GetAPI(void) const;
@@ -77,6 +80,11 @@ namespace CrossEngine {
 		CCamera* GetCamera(uint32_t dwName);
 		void RemoveCamera(uint32_t dwName);
 		void RemoveCameraAll(void);
+
+	public:
+		CDrawable* AllocDrawable(DRAWABLE_TYPE type);
+		void FreeDrawable(CDrawable *pDrawable);
+		void FreeDrawableAll(void);
 
 	public:
 		void Update(void);
@@ -92,6 +100,7 @@ namespace CrossEngine {
 
 	protected:
 		CCameraManager *m_pCameraManager;
+		CDrawableManager *m_pDrawableManager;
 	};
 
 }

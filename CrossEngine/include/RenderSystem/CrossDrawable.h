@@ -34,6 +34,9 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CDrawable
 	{
+		friend class CDrawableManager;
+
+
 	protected:
 		CDrawable(void);
 		virtual ~CDrawable(void);
