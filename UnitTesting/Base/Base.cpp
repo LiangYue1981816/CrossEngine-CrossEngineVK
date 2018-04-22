@@ -36,8 +36,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 //	Engine()->Init(CrossEngine::GFX_API_GLES31, hInstance, hWnd, GetDC(hWnd), rcView, VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR, 4 * 1024 * 1024, 16, NULL, FALSE);
 	Engine()->Init(CrossEngine::GFX_API_VULKAN, hInstance, hWnd, GetDC(hWnd), rcView, VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR, 4 * 1024 * 1024, 16, NULL, FALSE);
-	GfxDevice()->SetShaderCachePath("../Data/0.ShaderCache/");
-	GfxDevice()->AddShaderIncludePath("../Data/0.Shader/");
+	GfxDevice()->SetShaderCachePath("../Data/Cache/");
+	GfxDevice()->AddShaderIncludePath("../Data/Engine/Shader/");
 	ResourceSystem()->PreLoadResourcePath("../Data");
 	Create();
 	{
