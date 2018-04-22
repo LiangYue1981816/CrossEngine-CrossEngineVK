@@ -1,0 +1,6 @@
+<Material>
+	<Pass name="Opaque" graphics="DiffuseForwardOpaquePresent.graphics">
+		<Texture2D name="diffuse" value="PzVI-Tiger-P.bmp" />
+		<Texture2D name="specuar" value="PzVI-Tiger-P_SM.bmp" />
+	</Pass>
+</Material>
