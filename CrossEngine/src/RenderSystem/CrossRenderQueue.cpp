@@ -246,7 +246,7 @@ namespace CrossEngine {
 				{
 					uint32_t thread = thread_id();
 					uint32_t frame = GfxSwapChain()->GetImageIndex();
-					uint32_t pool = thread * 10 + frame;
+					uint32_t pool = ((thread^frame) >> 1) | 0x80000000;
 
 					GfxDevice()->ResetCommandBufferPool(pool);
 

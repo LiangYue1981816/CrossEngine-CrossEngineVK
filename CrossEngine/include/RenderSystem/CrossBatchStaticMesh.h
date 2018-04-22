@@ -31,6 +31,7 @@ namespace CrossEngine {
 		friend class CRenderQueue;
 
 
+	protected:
 		typedef struct InstanceData {
 			glm::mat4 mtxModelToWorld;
 		} InstanceData;
