@@ -32,8 +32,10 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandBindDescriptorSetCompute(VkCommandBuffer vkCommandBuffer, const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipelineCompute)
+		CVulkanCommandBindDescriptorSetCompute(VkCommandBuffer vkCommandBuffer, const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipelineCompute, uint32_t dynamicOffsetCount, uint32_t *pDynamicOffsets)
 			: m_vkCommandBuffer(vkCommandBuffer)
+			, m_dynamicOffsetCount(dynamicOffsetCount)
+			, m_pDynamicOffsets(pDynamicOffsets)
 		{
 			m_ptrDescriptorSet = ptrDescriptorSet;
 			m_ptrPipelineCompute = ptrPipelineCompute;
@@ -46,13 +48,15 @@ namespace CrossEngine {
 		{
 			VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)m_ptrDescriptorSet->GetHandle();
 			VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineCompute *)((CGfxPipelineCompute *)m_ptrPipelineCompute))->GetPipelineLayout();
-			vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, NULL);
+			vkCmdBindDescriptorSets(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, vkPipelineLayout, 0, 1, &vkDescriptorSet, m_dynamicOffsetCount, m_pDynamicOffsets);
 		}
 
 
 	protected:
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxPipelineComputePtr m_ptrPipelineCompute;
+		uint32_t m_dynamicOffsetCount;
+		uint32_t *m_pDynamicOffsets;
 
 	protected:
 		VkCommandBuffer m_vkCommandBuffer;

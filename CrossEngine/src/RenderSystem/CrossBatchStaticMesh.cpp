@@ -82,7 +82,7 @@ namespace CrossEngine {
 	void CBatchStaticMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
 		m_ptrCommandBuffer = ptrCommandBuffer;
-		m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet, m_ptrPipelineGraphics);
+		m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet, m_ptrPipelineGraphics, 0, NULL);
 		m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer, 0, 1);
 		m_ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 	}
