@@ -96,7 +96,11 @@ namespace CrossEngine {
 
 	void CDrawable::UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-		m_ptrDescriptorSets[dwPassName] = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_DRAW, ptrPipeline);
+		uint32_t thread = thread_id();
+		uint32_t frame = GfxSwapChain()->GetImageIndex();
+		uint32_t pool = ((thread^frame) >> 1) | 0x80000000;
+
+		m_ptrDescriptorSets[dwPassName] = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTOR_SET_DRAW, ptrPipeline);
 		{
 			for (const auto &itUniformBuffer : m_ptrUniformBuffers[dwPassName]) {
 				m_ptrDescriptorSets[dwPassName]->SetUniformBuffer(ptrPipeline->GetBinding(DESCRIPTOR_SET_DRAW, itUniformBuffer.first), itUniformBuffer.second);
