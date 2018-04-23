@@ -52,8 +52,6 @@ namespace CrossEngine {
 
 	void CVulkanCommandPoolManager::ResetCommandBufferPool(uint32_t pool)
 	{
-		ASSERT(m_pCommandPools[pool] != NULL);
-
 		if (m_pCommandPools[pool]) {
 			m_pCommandPools[pool]->ResetCommandBufferPool();
 		}
@@ -70,7 +68,6 @@ namespace CrossEngine {
 
 	CGfxCommandBufferPtr CVulkanCommandPoolManager::AllocCommandBuffer(uint32_t pool, VkCommandBufferLevel level)
 	{
-		ASSERT(m_pCommandPools[pool] != NULL);
 		return m_pCommandPools[pool] ? CGfxCommandBufferPtr(m_pCommandPools[pool]->AllocCommandBuffer(level)) : CGfxCommandBufferPtr(NULL);
 	}
 

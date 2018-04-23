@@ -70,12 +70,10 @@ namespace CrossEngine {
 		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
 		if (ptrPipeline.IsNull()) return;
 
-		{
-			CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-			ptrUniform->Create(sizeof(value), &value, FALSE);
-			ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
-			m_ptrUniformBuffers[dwPassName][dwName] = ptrUniform;
-		}
+		CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+		ptrUniform->Create(sizeof(value), &value, TRUE);
+		ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
+		m_ptrUniformBuffers[dwPassName][dwName] = ptrUniform;
 		
 		UpdateDescriptorSet(dwPassName, ptrPipeline);
 	}
@@ -88,12 +86,10 @@ namespace CrossEngine {
 		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
 		if (ptrPipeline.IsNull()) return;
 
-		{
-			CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-			ptrUniform->Create(sizeof(value), &value, FALSE);
-			ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
-			m_ptrUniformBuffers[dwPassName][dwName] = ptrUniform;
-		}
+		CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
+		ptrUniform->Create(sizeof(value), &value, TRUE);
+		ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
+		m_ptrUniformBuffers[dwPassName][dwName] = ptrUniform;
 
 		UpdateDescriptorSet(dwPassName, ptrPipeline);
 	}
