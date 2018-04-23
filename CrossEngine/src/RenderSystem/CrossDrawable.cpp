@@ -62,7 +62,7 @@ namespace CrossEngine {
 		return m_mtxModelToWorld;
 	}
 
-	void CDrawable::SetUniform(uint32_t dwPassName, uint32_t dwName, uint32_t binding, float value)
+	void CDrawable::SetUniformBuffer(uint32_t dwPassName, uint32_t dwName, uint32_t binding, const void *pBuffer, size_t offset, size_t size)
 	{
 		const CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
 		if (ptrPass.IsNull()) return;
@@ -70,27 +70,11 @@ namespace CrossEngine {
 		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
 		if (ptrPipeline.IsNull()) return;
 
-		CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-		ptrUniform->Create(sizeof(value), &value, TRUE);
-		ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
-		m_ptrUniformBuffers[dwPassName][dwName] = ptrUniform;
+		CGfxUniformBufferPtr ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
+		ptrUniformBuffer->Create(size, pBuffer, TRUE);
+		ptrUniformBuffer->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, offset, size);
+		m_ptrUniformBuffers[dwPassName][dwName] = ptrUniformBuffer;
 		
-		UpdateDescriptorSet(dwPassName, ptrPipeline);
-	}
-
-	void CDrawable::SetUniform(uint32_t dwPassName, uint32_t dwName, uint32_t binding, glm::vec4 &value)
-	{
-		const CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
-		if (ptrPass.IsNull()) return;
-
-		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
-		if (ptrPipeline.IsNull()) return;
-
-		CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-		ptrUniform->Create(sizeof(value), &value, TRUE);
-		ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, sizeof(value));
-		m_ptrUniformBuffers[dwPassName][dwName] = ptrUniform;
-
 		UpdateDescriptorSet(dwPassName, ptrPipeline);
 	}
 

@@ -106,11 +106,11 @@ namespace CrossEngine {
 				uint32_t binding = m_ptrMaterial->GetPass(dwPassName)->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwUniformName);
 				if (binding == -1) return FALSE;
 
-				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-				ptrUniform->Create(sizeof(itUniformFloat.second), &itUniformFloat.second, FALSE);
-				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformFloat.second));
+				CGfxUniformBufferPtr ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
+				ptrUniformBuffer->Create(sizeof(itUniformFloat.second), &itUniformFloat.second, FALSE);
+				ptrUniformBuffer->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformFloat.second));
 
-				m_ptrMaterial->GetPass(dwPassName)->SetUniform(dwUniformName, ptrUniform);
+				m_ptrMaterial->GetPass(dwPassName)->SetUniformBuffer(dwUniformName, ptrUniformBuffer);
 			}
 		}
 
@@ -121,11 +121,11 @@ namespace CrossEngine {
 				uint32_t binding = m_ptrMaterial->GetPass(dwPassName)->GetPipeline()->GetBinding(DESCRIPTOR_SET_PASS, dwUniformName);
 				if (binding == -1) return FALSE;
 
-				CGfxUniformBufferPtr ptrUniform = GfxDevice()->NewUniformBuffer();
-				ptrUniform->Create(sizeof(itUniformVector.second), &itUniformVector.second, FALSE);
-				ptrUniform->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformVector.second));
+				CGfxUniformBufferPtr ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
+				ptrUniformBuffer->Create(sizeof(itUniformVector.second), &itUniformVector.second, FALSE);
+				ptrUniformBuffer->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformVector.second));
 
-				m_ptrMaterial->GetPass(dwPassName)->SetUniform(dwUniformName, ptrUniform);
+				m_ptrMaterial->GetPass(dwPassName)->SetUniformBuffer(dwUniformName, ptrUniformBuffer);
 			}
 		}
 

@@ -72,7 +72,7 @@ namespace CrossEngine {
 		m_ptrTextures[dwName] = ptrTexture;
 	}
 
-	void CVulkanMaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer)
+	void CVulkanMaterialPass::SetUniformBuffer(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer)
 	{
 		m_ptrUniformBuffers[dwName] = ptrUniformBuffer;
 	}

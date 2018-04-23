@@ -72,7 +72,7 @@ namespace CrossEngine {
 		m_ptrTextures[dwName] = ptrTexture;
 	}
 
-	void CGLES3MaterialPass::SetUniform(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer)
+	void CGLES3MaterialPass::SetUniformBuffer(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer)
 	{
 		m_ptrUniformBuffers[dwName] = ptrUniformBuffer;
 	}
