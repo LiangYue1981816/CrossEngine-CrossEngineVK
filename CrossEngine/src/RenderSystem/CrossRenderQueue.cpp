@@ -233,6 +233,12 @@ namespace CrossEngine {
 		CRenderQueue *pRenderQueue = pThreadParam->pRenderQueue;
 		int indexThread = pThreadParam->indexThread;
 
+		for (uint32_t frame = 0; frame < GfxSwapChain()->GetImageCount(); frame++) {
+			uint32_t thread = thread_id();
+			uint32_t pool = ((thread^frame) >> 1) | 0x80000000;
+			GfxDevice()->AllocCommandBufferPool(pool);
+		}
+
 		while (TRUE) {
 			event_wait(&pThreadCluster->eventDispatch);
 			{
