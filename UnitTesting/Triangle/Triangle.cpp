@@ -80,11 +80,11 @@ void CreateBuffer(void)
 	ptrIndexBuffer->Create(indexBufferSize, indexBuffer.data(), FALSE);
 
 	ptrUniformBufferA = GfxDevice()->NewUniformBuffer();
-	ptrUniformBufferA->Create(sizeof(glm::mat4), NULL, TRUE);
+	ptrUniformBufferA->Create(GfxSwapChain()->GetImageCount() * 0x100, NULL, TRUE);
 	ptrUniformBufferA->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 
 	ptrUniformBufferB = GfxDevice()->NewUniformBuffer();
-	ptrUniformBufferB->Create(sizeof(glm::mat4), NULL, TRUE);
+	ptrUniformBufferB->Create(GfxSwapChain()->GetImageCount() * 0x100, NULL, TRUE);
 	ptrUniformBufferB->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 }
 
@@ -107,29 +107,33 @@ void CreateCommandBuffer(void)
 
 	for (int indexView = 0; indexView < (int)GfxSwapChain()->GetImageCount(); indexView++) {
 		ptrCommandBuffers[indexView] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-		ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
-		{
-			ptrCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
-			{
-				ptrCommandBuffers[indexView]->CmdSetViewport(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), 0.0f, 1.0f);
-				ptrCommandBuffers[indexView]->CmdSetScissor(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
-
-				ptrCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
-				{
-					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0, 0);
-					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
-
-					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetA, ptrPipeline);
-					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 0);
-
-					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetB, ptrPipeline);
-					ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 0);
-				}
-			}
-			ptrCommandBuffers[indexView]->CmdEndRenderPass();
-		}
-		ptrCommandBuffers[indexView]->End();
 	}
+}
+
+void CreateCommandBuffer(int indexView)
+{
+	ptrCommandBuffers[indexView]->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+	{
+		ptrCommandBuffers[indexView]->CmdBeginRenderPass(ptrFrameBuffers[indexView], ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
+		{
+			ptrCommandBuffers[indexView]->CmdSetViewport(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), 0.0f, 1.0f);
+			ptrCommandBuffers[indexView]->CmdSetScissor(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
+
+			ptrCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
+			{
+				ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0, 0);
+				ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+
+				ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetA, ptrPipeline);
+				ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 0);
+
+				ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetB, ptrPipeline);
+				ptrCommandBuffers[indexView]->CmdDrawIndexed(3, 1, 0, 0, 0);
+			}
+		}
+		ptrCommandBuffers[indexView]->CmdEndRenderPass();
+	}
+	ptrCommandBuffers[indexView]->End();
 }
 
 void DestroyRenderPass(void)
@@ -212,24 +216,25 @@ void Render(void)
 		return;
 	}
 
-	static float angle = 0.0f; angle += 0.05f;
-	static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-
-	glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
-	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	{
-		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
-		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-		ptrUniformBufferA->UpdateData(0, sizeof(glm::mat4), &mtxViewModelProjection);
-	}
-	{
-		glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(-2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), -angle, glm::vec3(0.0f, 0.0f, 1.0f));
-		glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-		ptrUniformBufferB->UpdateData(0, sizeof(glm::mat4), &mtxViewModelProjection);
-	}
-
 	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
 	{
+		static float angle = 0.0f; angle += 0.05f;
+		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+
+		glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
+		glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		{
+			glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+			glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
+			ptrDescriptorSetA->SetUniformBufferData(0, GfxSwapChain()->GetImageIndex() * 0x100, sizeof(glm::mat4), &mtxViewModelProjection);
+		}
+		{
+			glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(-2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), -angle, glm::vec3(0.0f, 0.0f, 1.0f));
+			glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
+			ptrDescriptorSetB->SetUniformBufferData(0, GfxSwapChain()->GetImageIndex() * 0x100, sizeof(glm::mat4), &mtxViewModelProjection);
+		}
+
+		CreateCommandBuffer(GfxSwapChain()->GetImageIndex());
 		GfxDevice()->GetGraphicsQueue()->Submit(ptrCommandBuffers[GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
 	GfxSwapChain()->Present();

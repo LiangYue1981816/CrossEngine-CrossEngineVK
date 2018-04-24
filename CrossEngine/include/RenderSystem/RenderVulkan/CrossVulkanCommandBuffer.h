@@ -29,6 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanCommandBuffer : public CGfxCommandBuffer
 	{
 		friend class CVulkanCommandPool;
+		friend class CVulkanQueue;
 
 
 	protected:
@@ -50,6 +51,7 @@ namespace CrossEngine {
 		void Clearup(void);
 		void ClearCommands(void);
 
+	protected:
 		BOOL FenceWait(uint64_t timeout) const;
 		void FenceReset(void) const;
 
