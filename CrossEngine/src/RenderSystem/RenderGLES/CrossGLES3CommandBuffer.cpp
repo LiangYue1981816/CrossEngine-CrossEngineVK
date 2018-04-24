@@ -82,6 +82,11 @@ namespace CrossEngine {
 		return (HANDLE)this;
 	}
 
+	CGfxFence CGLES3CommandBuffer::GetFence(void) const
+	{
+		return NULL;
+	}
+
 	void CGLES3CommandBuffer::Reset(void)
 	{
 		Clearup();

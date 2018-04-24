@@ -216,7 +216,7 @@ void Render(void)
 		return;
 	}
 
-	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
+	GfxSwapChain()->AcquireNextImage(ptrCommandBuffers[GfxSwapChain()->GetImageIndex()]->GetFence());
 	{
 		static float angle = 0.0f; angle += 0.05f;
 		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));

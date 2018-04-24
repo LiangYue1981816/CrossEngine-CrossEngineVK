@@ -46,6 +46,7 @@ namespace CrossEngine {
 
 	public:
 		virtual HANDLE GetHandle(void) const = 0;
+		virtual CGfxFence GetFence(void) const = 0;
 
 	public:
 		virtual void Reset(void) = 0;

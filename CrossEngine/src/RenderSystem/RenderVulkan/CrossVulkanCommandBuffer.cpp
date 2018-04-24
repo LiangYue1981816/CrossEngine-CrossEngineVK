@@ -84,7 +84,7 @@ namespace CrossEngine {
 		return m_vkCommandBuffer;
 	}
 
-	VkFence CVulkanCommandBuffer::GetFence(void) const
+	CGfxFence CVulkanCommandBuffer::GetFence(void) const
 	{
 		return m_vkFence;
 	}
