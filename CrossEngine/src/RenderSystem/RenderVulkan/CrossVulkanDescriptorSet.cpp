@@ -143,7 +143,7 @@ namespace CrossEngine {
 				write.dstBinding = binding;
 				write.dstArrayElement = 0;
 				write.descriptorCount = 1;
-				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 				write.pImageInfo = NULL;
 				write.pBufferInfo = &((CVulkanUniformBuffer *)((CGfxUniformBuffer *)ptrUniformBuffer))->GetDescriptorBufferInfo(m_set, binding);
 				write.pTexelBufferView = NULL;
@@ -158,6 +158,17 @@ namespace CrossEngine {
 	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
 	{
 		return m_typesUsedCount;
+	}
+
+	const std::vector<uint32_t> CVulkanDescriptorSet::GetUniformBufferOffsets(void) const
+	{
+		std::vector<uint32_t> offsets;
+
+		for (const auto &itOffset : m_uniformBufferOffsets) {
+			offsets.push_back(itOffset.second);
+		}
+
+		return offsets;
 	}
 
 }

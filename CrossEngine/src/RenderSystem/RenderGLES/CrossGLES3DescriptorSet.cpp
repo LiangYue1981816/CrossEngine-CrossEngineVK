@@ -68,6 +68,7 @@ namespace CrossEngine {
 	void CGLES3DescriptorSet::SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer)
 	{
 		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
+		m_uniformBufferOffsets[binding] = 0;
 	}
 
 	void CGLES3DescriptorSet::SetUniformBufferData(uint32_t binding, uint32_t offset, uint32_t size, const void *pBuffer)
@@ -107,6 +108,12 @@ namespace CrossEngine {
 		static const CGfxUniformBufferPtr ptrUniformBufferNull;
 		const auto &itUniformBuffer = m_ptrUniformBuffers.find(binding);
 		return itUniformBuffer != m_ptrUniformBuffers.end() ? itUniformBuffer->second : ptrUniformBufferNull;
+	}
+
+	const uint32_t CGLES3DescriptorSet::GetUniformBufferOffset(uint32_t binding) const
+	{
+		const auto &itUniformBufferOffset = m_uniformBufferOffsets.find(binding);
+		return itUniformBufferOffset != m_uniformBufferOffsets.end() ? itUniformBufferOffset->second : 0;
 	}
 
 }

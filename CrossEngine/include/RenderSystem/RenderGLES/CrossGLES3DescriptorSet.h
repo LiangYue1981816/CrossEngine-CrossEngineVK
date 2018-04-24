@@ -57,6 +57,8 @@ namespace CrossEngine {
 		const CGfxRenderTexturePtr& GetRenderTexture(uint32_t binding) const;
 		const CGfxUniformBufferPtr& GetUniformBuffer(uint32_t binding) const;
 
+		const uint32_t GetUniformBufferOffset(uint32_t binding) const;
+
 
 	protected:
 		CGLES3DescriptorSetLayout *m_pDescriptorSetLayout;

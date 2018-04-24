@@ -53,6 +53,7 @@ namespace CrossEngine {
 
 	public:
 		const uint32_t* GetTypesUsedCount(void) const;
+		const std::vector<uint32_t> GetUniformBufferOffsets(void) const;
 
 
 	protected:

@@ -82,7 +82,7 @@ namespace CrossEngine {
 	BOOL CVulkanDescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
-		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 
 		m_bindings[binding].binding = binding;
 		m_bindings[binding].descriptorType = type;
