@@ -166,14 +166,14 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineGraphics(m_vkCommandBuffer, ptrPipeline));
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline, uint32_t dynamicOffsetCount, uint32_t *pDynamicOffsets)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetCompute(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline, dynamicOffsetCount, pDynamicOffsets));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetCompute(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline));
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline, uint32_t dynamicOffsetCount, uint32_t *pDynamicOffsets)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline, dynamicOffsetCount, pDynamicOffsets));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline));
 	}
 
 	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)

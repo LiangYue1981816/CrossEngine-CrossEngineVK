@@ -33,6 +33,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUnits", "TestUnits", "{F3C37CE2-2F83-4309-BF99-CB7E12F128BD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mesh", "..\..\UnitTesting\Mesh\Mesh.vcxproj", "{421FB6A8-8F28-499B-B058-E6BA10181A05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F3C89080-B49C-4FAD-B788-2D22427E2AF9} = {F3C89080-B49C-4FAD-B788-2D22427E2AF9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

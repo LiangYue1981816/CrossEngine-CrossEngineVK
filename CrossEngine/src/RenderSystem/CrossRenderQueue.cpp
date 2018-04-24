@@ -189,7 +189,7 @@ namespace CrossEngine {
 							ptrMainCommandBuffer->CmdBindPipelineGraphics(itMaterialDescriptorSetQueue.first);
 							{
 								for (const auto itBatchQueue : itMaterialDescriptorSetQueue.second) {
-									ptrMainCommandBuffer->CmdBindDescriptorSetGraphics(itBatchQueue.first, itMaterialDescriptorSetQueue.first, 0, NULL);
+									ptrMainCommandBuffer->CmdBindDescriptorSetGraphics(itBatchQueue.first, itMaterialDescriptorSetQueue.first);
 									{
 										for (const auto itVertexQueue : itBatchQueue.second) {
 											ptrMainCommandBuffer->CmdBindVertexBuffer(itVertexQueue.first, 0, 0);
