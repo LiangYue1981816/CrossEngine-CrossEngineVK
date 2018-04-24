@@ -70,7 +70,15 @@ namespace CrossEngine {
 		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
 	}
 
-	void CGLES3DescriptorSet::UpdateDescriptorSets(void) const
+	void CGLES3DescriptorSet::SetUniformBufferData(uint32_t binding, uint32_t offset, uint32_t size, const void *pBuffer)
+	{
+		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
+			m_ptrUniformBuffers[binding]->UpdateData(offset, size, pBuffer);
+			m_uniformBufferOffsets[binding] = offset;
+		}
+	}
+
+	void CGLES3DescriptorSet::UpdateDescriptorSets(void)
 	{
 
 	}

@@ -30,6 +30,8 @@ namespace CrossEngine {
 		, m_pDescriptorPool(pDescriptorPool)
 		, m_vkDescriptorSet(vkDescriptorSet)
 
+		, m_bNeedUpdate(FALSE)
+
 		, m_set(set)
 		, m_typesUsedCount{ 0 }
 	{
@@ -60,81 +62,97 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
+		m_bNeedUpdate = TRUE;
 		m_ptrTextures[binding] = ptrTexture;
 	}
 
 	void CVulkanDescriptorSet::SetRenderTexture(uint32_t binding, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
+		m_bNeedUpdate = TRUE;
 		m_ptrRenderTextures[binding] = ptrRenderTexture;
 	}
 
 	void CVulkanDescriptorSet::SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer)
 	{
+		m_bNeedUpdate = TRUE;
 		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
+		m_uniformBufferOffsets[binding] = 0;
 	}
 
-	void CVulkanDescriptorSet::UpdateDescriptorSets(void) const
+	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, uint32_t offset, uint32_t size, const void *pBuffer)
 	{
-		std::vector<VkWriteDescriptorSet> writes;
-
-		for (const auto &itTexture : m_ptrTextures) {
-			const uint32_t binding = itTexture.first;
-			const CGfxTexturePtr &ptrTexture = itTexture.second;
-
-			VkWriteDescriptorSet write = {};
-			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-			write.pNext = NULL;
-			write.dstSet = m_vkDescriptorSet;
-			write.dstBinding = binding;
-			write.dstArrayElement = 0;
-			write.descriptorCount = 1;
-			write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-			write.pImageInfo = &((CVulkanTexture *)((CGfxTexture *)ptrTexture))->GetDescriptorImageInfo();
-			write.pBufferInfo = NULL;
-			write.pTexelBufferView = NULL;
-
-			writes.push_back(write);
+		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
+			m_ptrUniformBuffers[binding]->UpdateData(offset, size, pBuffer);
+			m_uniformBufferOffsets[binding] = offset;
 		}
+	}
 
-		for (const auto &itRenderTexture : m_ptrRenderTextures) {
-			const uint32_t binding = itRenderTexture.first;
-			const CGfxRenderTexturePtr &ptrRenderTexture = itRenderTexture.second;
+	void CVulkanDescriptorSet::UpdateDescriptorSets(void)
+	{
+		if (m_bNeedUpdate) {
+			m_bNeedUpdate = TRUE;
 
-			VkWriteDescriptorSet write = {};
-			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-			write.pNext = NULL;
-			write.dstSet = m_vkDescriptorSet;
-			write.dstBinding = binding;
-			write.dstArrayElement = 0;
-			write.descriptorCount = 1;
-			write.descriptorType = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
-			write.pImageInfo = &((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetDescriptorImageInfo();
-			write.pBufferInfo = NULL;
-			write.pTexelBufferView = NULL;
+			std::vector<VkWriteDescriptorSet> writes;
 
-			writes.push_back(write);
+			for (const auto &itTexture : m_ptrTextures) {
+				const uint32_t binding = itTexture.first;
+				const CGfxTexturePtr &ptrTexture = itTexture.second;
+
+				VkWriteDescriptorSet write = {};
+				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+				write.pNext = NULL;
+				write.dstSet = m_vkDescriptorSet;
+				write.dstBinding = binding;
+				write.dstArrayElement = 0;
+				write.descriptorCount = 1;
+				write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+				write.pImageInfo = &((CVulkanTexture *)((CGfxTexture *)ptrTexture))->GetDescriptorImageInfo();
+				write.pBufferInfo = NULL;
+				write.pTexelBufferView = NULL;
+
+				writes.push_back(write);
+			}
+
+			for (const auto &itRenderTexture : m_ptrRenderTextures) {
+				const uint32_t binding = itRenderTexture.first;
+				const CGfxRenderTexturePtr &ptrRenderTexture = itRenderTexture.second;
+
+				VkWriteDescriptorSet write = {};
+				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+				write.pNext = NULL;
+				write.dstSet = m_vkDescriptorSet;
+				write.dstBinding = binding;
+				write.dstArrayElement = 0;
+				write.descriptorCount = 1;
+				write.descriptorType = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
+				write.pImageInfo = &((CVulkanRenderTexture *)((CGfxRenderTexture *)ptrRenderTexture))->GetDescriptorImageInfo();
+				write.pBufferInfo = NULL;
+				write.pTexelBufferView = NULL;
+
+				writes.push_back(write);
+			}
+
+			for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
+				const uint32_t binding = itUniformBuffer.first;
+				const CGfxUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
+
+				VkWriteDescriptorSet write = {};
+				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+				write.pNext = NULL;
+				write.dstSet = m_vkDescriptorSet;
+				write.dstBinding = binding;
+				write.dstArrayElement = 0;
+				write.descriptorCount = 1;
+				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+				write.pImageInfo = NULL;
+				write.pBufferInfo = &((CVulkanUniformBuffer *)((CGfxUniformBuffer *)ptrUniformBuffer))->GetDescriptorBufferInfo(m_set, binding);
+				write.pTexelBufferView = NULL;
+
+				writes.push_back(write);
+			}
+
+			vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);
 		}
-
-		for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
-			const uint32_t binding = itUniformBuffer.first;
-			const CGfxUniformBufferPtr &ptrUniformBuffer = itUniformBuffer.second;
-
-			VkWriteDescriptorSet write = {};
-			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-			write.pNext = NULL;
-			write.dstSet = m_vkDescriptorSet;
-			write.dstBinding = binding;
-			write.dstArrayElement = 0;
-			write.descriptorCount = 1;
-			write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-			write.pImageInfo = NULL;
-			write.pBufferInfo = &((CVulkanUniformBuffer *)((CGfxUniformBuffer *)ptrUniformBuffer))->GetDescriptorBufferInfo(m_set, binding);
-			write.pTexelBufferView = NULL;
-
-			writes.push_back(write);
-		}
-
-		vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);
 	}
 
 	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const

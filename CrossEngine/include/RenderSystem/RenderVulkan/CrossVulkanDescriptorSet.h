@@ -48,7 +48,8 @@ namespace CrossEngine {
 		void SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture);
 		void SetRenderTexture(uint32_t binding, const CGfxRenderTexturePtr &ptrRenderTexture);
 		void SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer);
-		void UpdateDescriptorSets(void) const;
+		void SetUniformBufferData(uint32_t binding, uint32_t offset, uint32_t size, const void *pBuffer);
+		void UpdateDescriptorSets(void);
 
 	public:
 		const uint32_t* GetTypesUsedCount(void) const;
@@ -62,9 +63,11 @@ namespace CrossEngine {
 		uint32_t m_typesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
 	protected:
+		BOOL m_bNeedUpdate;
 		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
 		std::map<uint32_t, CGfxRenderTexturePtr> m_ptrRenderTextures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
+		std::map<uint32_t, uint32_t> m_uniformBufferOffsets;
 
 	protected:
 		VkDescriptorSet m_vkDescriptorSet;
