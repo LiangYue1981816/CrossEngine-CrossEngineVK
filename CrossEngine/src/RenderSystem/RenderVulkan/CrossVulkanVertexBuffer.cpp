@@ -58,8 +58,8 @@ namespace CrossEngine {
 
 	void CVulkanVertexBuffer::Destroy(void)
 	{
-		CVulkanBuffer::Destroy();
 		m_vertexFormat = 0;
+		CVulkanBuffer::Destroy();
 	}
 
 	BOOL CVulkanVertexBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
@@ -67,14 +67,19 @@ namespace CrossEngine {
 		return CVulkanBuffer::SetData(offset, size, pBuffer);
 	}
 
+	BOOL CVulkanVertexBuffer::IsDynamic(void) const
+	{
+		return CVulkanBuffer::IsDynamic();
+	}
+
 	size_t CVulkanVertexBuffer::GetBufferSize(void) const
 	{
-		return m_size;
+		return CVulkanBuffer::GetBufferSize();
 	}
 
 	size_t CVulkanVertexBuffer::GetMemorySize(void) const
 	{
-		return m_pMemory->GetSize();
+		return CVulkanBuffer::GetMemorySize();
 	}
 
 	uint32_t CVulkanVertexBuffer::GetVertexFormat(void) const
@@ -86,7 +91,7 @@ namespace CrossEngine {
 	{
 		if (m_vkBuffer) {
 			char szUsage[_MAX_STRING];
-			LOGI("\t\tVertexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_size, m_pMemory->GetSize(), CVulkanHelper::BufferUsageFlagsToString(m_usage, szUsage));
+			LOGI("\t\tVertexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, GetBufferSize(), GetMemorySize(), CVulkanHelper::BufferUsageFlagsToString(m_usage, szUsage));
 		}
 	}
 

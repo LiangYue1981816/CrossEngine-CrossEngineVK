@@ -56,23 +56,13 @@ namespace CrossEngine {
 
 	void CGLES3UniformBuffer::Destroy(void)
 	{
-		CGLES3Buffer::Destroy();
 		m_vkDescriptorBufferInfos.clear();
+		CGLES3Buffer::Destroy();
 	}
 
 	BOOL CGLES3UniformBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
 	{
 		return CGLES3Buffer::SetData(GL_UNIFORM_BUFFER, offset, size, pBuffer);
-	}
-
-	size_t CGLES3UniformBuffer::GetBufferSize(void) const
-	{
-		return m_size;
-	}
-
-	size_t CGLES3UniformBuffer::GetMemorySize(void) const
-	{
-		return m_size;
 	}
 
 	BOOL CGLES3UniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
@@ -93,10 +83,25 @@ namespace CrossEngine {
 		return m_vkDescriptorBufferInfos[set][binding];
 	}
 
+	BOOL CGLES3UniformBuffer::IsDynamic(void) const
+	{
+		return CGLES3Buffer::IsDynamic();
+	}
+
+	size_t CGLES3UniformBuffer::GetBufferSize(void) const
+	{
+		return CGLES3Buffer::GetBufferSize();
+	}
+
+	size_t CGLES3UniformBuffer::GetMemorySize(void) const
+	{
+		return CGLES3Buffer::GetMemorySize();
+	}
+
 	void CGLES3UniformBuffer::DumpLog(void) const
 	{
 		if (m_buffer) {
-			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, m_size, m_size, CGLES3Helper::glEnumToString(m_usage));
+			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, GetBufferSize(), GetMemorySize(), CGLES3Helper::glEnumToString(m_usage));
 		}
 	}
 

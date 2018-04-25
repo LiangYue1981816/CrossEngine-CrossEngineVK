@@ -42,6 +42,11 @@ namespace CrossEngine {
 		int CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 		int TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 
+	protected:
+		BOOL IsDynamic(void) const;
+		size_t GetBufferSize(void) const;
+		size_t GetMemorySize(void) const;
+
 
 	protected:
 		CVulkanMemory *m_pMemory;

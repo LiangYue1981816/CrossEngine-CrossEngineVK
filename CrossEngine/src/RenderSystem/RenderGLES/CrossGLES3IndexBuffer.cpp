@@ -64,20 +64,25 @@ namespace CrossEngine {
 		return CGLES3Buffer::SetData(GL_ELEMENT_ARRAY_BUFFER, offset, size, pBuffer);
 	}
 
+	BOOL CGLES3IndexBuffer::IsDynamic(void) const
+	{
+		return CGLES3Buffer::IsDynamic();
+	}
+
 	size_t CGLES3IndexBuffer::GetBufferSize(void) const
 	{
-		return m_size;
+		return CGLES3Buffer::GetBufferSize();
 	}
 
 	size_t CGLES3IndexBuffer::GetMemorySize(void) const
 	{
-		return m_size;
+		return CGLES3Buffer::GetMemorySize();
 	}
 
 	void CGLES3IndexBuffer::DumpLog(void) const
 	{
 		if (m_buffer) {
-			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, m_size, m_size, CGLES3Helper::glEnumToString(m_usage));
+			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, GetBufferSize(), GetMemorySize(), CGLES3Helper::glEnumToString(m_usage));
 		}
 	}
 

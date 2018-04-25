@@ -40,6 +40,11 @@ namespace CrossEngine {
 	protected:
 		BOOL SetData(GLenum target, size_t offset, size_t size, const void *pBuffer) const;
 
+	protected:
+		BOOL IsDynamic(void) const;
+		size_t GetBufferSize(void) const;
+		size_t GetMemorySize(void) const;
+
 
 	protected:
 		GLuint m_buffer;

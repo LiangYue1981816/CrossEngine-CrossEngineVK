@@ -41,6 +41,7 @@ namespace CrossEngine {
 
 
 	public:
+		virtual BOOL IsDynamic(void) const = 0;
 		virtual size_t GetBufferSize(void) const = 0;
 		virtual size_t GetMemorySize(void) const = 0;
 	};

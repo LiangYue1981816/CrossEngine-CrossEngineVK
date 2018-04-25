@@ -138,4 +138,19 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
+	BOOL CVulkanBuffer::IsDynamic(void) const
+	{
+		return m_pMemory->IsHostVisible();
+	}
+
+	size_t CVulkanBuffer::GetBufferSize(void) const
+	{
+		return m_size;
+	}
+
+	size_t CVulkanBuffer::GetMemorySize(void) const
+	{
+		return m_pMemory->GetSize();
+	}
+
 }

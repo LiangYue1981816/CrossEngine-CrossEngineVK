@@ -56,23 +56,13 @@ namespace CrossEngine {
 
 	void CVulkanUniformBuffer::Destroy(void)
 	{
-		CVulkanBuffer::Destroy();
 		m_vkDescriptorBufferInfos.clear();
+		CVulkanBuffer::Destroy();
 	}
 
 	BOOL CVulkanUniformBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
 	{
 		return CVulkanBuffer::SetData(offset, size, pBuffer);
-	}
-
-	size_t CVulkanUniformBuffer::GetBufferSize(void) const
-	{
-		return m_size;
-	}
-
-	size_t CVulkanUniformBuffer::GetMemorySize(void) const
-	{
-		return m_pMemory->GetSize();
 	}
 
 	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
@@ -93,11 +83,26 @@ namespace CrossEngine {
 		return m_vkDescriptorBufferInfos[set][binding];
 	}
 
+	BOOL CVulkanUniformBuffer::IsDynamic(void) const
+	{
+		return CVulkanBuffer::IsDynamic();
+	}
+
+	size_t CVulkanUniformBuffer::GetBufferSize(void) const
+	{
+		return CVulkanBuffer::GetBufferSize();
+	}
+
+	size_t CVulkanUniformBuffer::GetMemorySize(void) const
+	{
+		return CVulkanBuffer::GetMemorySize();
+	}
+
 	void CVulkanUniformBuffer::DumpLog(void) const
 	{
 		if (m_vkBuffer) {
 			char szUsage[_MAX_STRING];
-			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_size, m_pMemory->GetSize(), CVulkanHelper::BufferUsageFlagsToString(m_usage, szUsage));
+			LOGI("\t\tUniformBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, GetBufferSize(), GetMemorySize(), CVulkanHelper::BufferUsageFlagsToString(m_usage, szUsage));
 		}
 	}
 

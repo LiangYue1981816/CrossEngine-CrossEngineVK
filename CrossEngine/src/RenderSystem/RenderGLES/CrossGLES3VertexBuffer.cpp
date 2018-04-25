@@ -95,8 +95,12 @@ namespace CrossEngine {
 
 	void CGLES3VertexBuffer::Destroy(void)
 	{
+		DestroyVAO();
 		CGLES3Buffer::Destroy();
+	}
 
+	void CGLES3VertexBuffer::DestroyVAO(void)
+	{
 		if (m_vao) {
 			glDeleteVertexArrays(1, &m_vao);
 		}
@@ -110,14 +114,19 @@ namespace CrossEngine {
 		return CGLES3Buffer::SetData(GL_ARRAY_BUFFER, offset, size, pBuffer);
 	}
 
+	BOOL CGLES3VertexBuffer::IsDynamic(void) const
+	{
+		return CGLES3Buffer::IsDynamic();
+	}
+
 	size_t CGLES3VertexBuffer::GetBufferSize(void) const
 	{
-		return m_size;
+		return CGLES3Buffer::GetBufferSize();
 	}
 
 	size_t CGLES3VertexBuffer::GetMemorySize(void) const
 	{
-		return m_size;
+		return CGLES3Buffer::GetMemorySize();
 	}
 
 	uint32_t CGLES3VertexBuffer::GetVertexFormat(void) const
@@ -128,7 +137,7 @@ namespace CrossEngine {
 	void CGLES3VertexBuffer::DumpLog(void) const
 	{
 		if (m_buffer) {
-			LOGI("\t\tVertexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, m_size, m_size, CGLES3Helper::glEnumToString(m_usage));
+			LOGI("\t\tVertexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_buffer, GetBufferSize(), GetMemorySize(), CGLES3Helper::glEnumToString(m_usage));
 		}
 	}
 

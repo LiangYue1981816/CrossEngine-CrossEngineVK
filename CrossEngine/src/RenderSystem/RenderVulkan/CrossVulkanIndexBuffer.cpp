@@ -64,21 +64,26 @@ namespace CrossEngine {
 		return CVulkanBuffer::SetData(offset, size, pBuffer);
 	}
 
+	BOOL CVulkanIndexBuffer::IsDynamic(void) const
+	{
+		return CVulkanBuffer::IsDynamic();
+	}
+
 	size_t CVulkanIndexBuffer::GetBufferSize(void) const
 	{
-		return m_size;
+		return CVulkanBuffer::GetBufferSize();
 	}
 
 	size_t CVulkanIndexBuffer::GetMemorySize(void) const
 	{
-		return m_pMemory->GetSize();
+		return CVulkanBuffer::GetMemorySize();
 	}
 
 	void CVulkanIndexBuffer::DumpLog(void) const
 	{
 		if (m_vkBuffer) {
 			char szUsage[_MAX_STRING];
-			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, m_size, m_pMemory->GetSize(), CVulkanHelper::BufferUsageFlagsToString(m_usage, szUsage));
+			LOGI("\t\tIndexBuffer 0x%x: buffer size = %d memory size = %d usage = %s\n", m_vkBuffer, GetBufferSize(), GetMemorySize(), CVulkanHelper::BufferUsageFlagsToString(m_usage, szUsage));
 		}
 	}
 

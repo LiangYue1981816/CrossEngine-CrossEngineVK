@@ -73,4 +73,19 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CGLES3Buffer::IsDynamic(void) const
+	{
+		return m_usage == GL_DYNAMIC_DRAW ? TRUE : FALSE;
+	}
+
+	size_t CGLES3Buffer::GetBufferSize(void) const
+	{
+		return m_size;
+	}
+
+	size_t CGLES3Buffer::GetMemorySize(void) const
+	{
+		return m_size;
+	}
+
 }
