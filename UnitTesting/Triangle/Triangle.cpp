@@ -136,6 +136,11 @@ void CreateCommandBuffer(int indexView)
 	ptrCommandBuffers[indexView]->End();
 }
 
+void ResetCommandBuffer(int indexView)
+{
+	ptrCommandBuffers[indexView]->Reset();
+}
+
 void DestroyRenderPass(void)
 {
 	ptrRenderPass.Release();
@@ -216,24 +221,26 @@ void Render(void)
 		return;
 	}
 
-	GfxSwapChain()->AcquireNextImage(ptrCommandBuffers[GfxSwapChain()->GetImageIndex()]->GetFence());
+	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
 	{
-		static float angle = 0.0f; angle += 0.05f;
-		static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-
-		glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
-		glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		ResetCommandBuffer(GfxSwapChain()->GetImageIndex());
 		{
-			glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
-			glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-			ptrDescriptorSetA->SetUniformBufferData(0, GfxSwapChain()->GetImageIndex() * 0x100, sizeof(glm::mat4), &mtxViewModelProjection);
-		}
-		{
-			glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(-2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), -angle, glm::vec3(0.0f, 0.0f, 1.0f));
-			glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-			ptrDescriptorSetB->SetUniformBufferData(0, GfxSwapChain()->GetImageIndex() * 0x100, sizeof(glm::mat4), &mtxViewModelProjection);
-		}
+			static float angle = 0.0f; angle += 0.05f;
+			static glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
+			glm::mat4 mtxProjection = mtxLH2RH * glm::perspective(glm::radians(60.0f), 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
+			glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			{
+				glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+				glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
+				ptrDescriptorSetA->SetUniformBufferData(0, GfxSwapChain()->GetImageIndex() * 0x100, sizeof(glm::mat4), &mtxViewModelProjection);
+			}
+			{
+				glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(-2.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(), -angle, glm::vec3(0.0f, 0.0f, 1.0f));
+				glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
+				ptrDescriptorSetB->SetUniformBufferData(0, GfxSwapChain()->GetImageIndex() * 0x100, sizeof(glm::mat4), &mtxViewModelProjection);
+			}
+		}
 		CreateCommandBuffer(GfxSwapChain()->GetImageIndex());
 		GfxDevice()->GetGraphicsQueue()->Submit(ptrCommandBuffers[GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
