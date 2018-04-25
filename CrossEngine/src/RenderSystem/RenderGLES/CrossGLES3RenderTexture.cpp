@@ -86,27 +86,27 @@ namespace CrossEngine {
 
 	uint32_t CGLES3RenderTexture::GetWidth(void) const
 	{
-		return m_width;
+		return CGLES3Image::GetWidth();
 	}
 
 	uint32_t CGLES3RenderTexture::GetHeight(void) const
 	{
-		return m_height;
+		return CGLES3Image::GetHeight();
 	}
 
 	uint32_t CGLES3RenderTexture::GetDepth(void) const
 	{
-		return m_depth;
+		return CGLES3Image::GetDepth();
 	}
 
 	uint32_t CGLES3RenderTexture::GetSamples(void) const
 	{
-		return m_samples;
+		return CGLES3Image::GetSamples();
 	}
 
 	size_t CGLES3RenderTexture::GetMemorySize(void) const
 	{
-		return m_size;
+		return CGLES3Image::GetMemorySize();
 	}
 
 	void CGLES3RenderTexture::DumpLog(void) const
@@ -115,11 +115,10 @@ namespace CrossEngine {
 			LOGI("\t\tRenderTexture 0x%x: sampler = 0x%x size = %d type = %s format = %s width = %d height = %d depth = %d mips = %d arrays = %d samples = %d min filter = %s mag filter = %s address mode = %s\n",
 				m_texture,
 				m_sampler,
-				m_size,
+				GetMemorySize(),
 				CGLES3Helper::glEnumToString(m_target),
 				CGLES3Helper::glEnumToString(m_format),
-				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
-				m_samples,
+				GetWidth(), GetHeight(), GetDepth(), GetMipLevels(), GetArrayLayers(), GetSamples(),
 				CGLES3Helper::glEnumToString(m_minFilter),
 				CGLES3Helper::glEnumToString(m_magFilter),
 				CGLES3Helper::glEnumToString(m_addressMode));

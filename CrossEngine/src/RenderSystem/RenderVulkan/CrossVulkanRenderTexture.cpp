@@ -88,27 +88,27 @@ namespace CrossEngine {
 
 	uint32_t CVulkanRenderTexture::GetWidth(void) const
 	{
-		return m_width;
+		return CVulkanImage::GetWidth();
 	}
 
 	uint32_t CVulkanRenderTexture::GetHeight(void) const
 	{
-		return m_height;
+		return CVulkanImage::GetHeight();
 	}
 
 	uint32_t CVulkanRenderTexture::GetDepth(void) const
 	{
-		return m_depth;
+		return CVulkanImage::GetDepth();
 	}
 
 	uint32_t CVulkanRenderTexture::GetSamples(void) const
 	{
-		return m_samples;
+		return CVulkanImage::GetSamples();
 	}
 
 	size_t CVulkanRenderTexture::GetMemorySize(void) const
 	{
-		return m_pMemory->GetSize();
+		return CVulkanImage::GetMemorySize();
 	}
 
 	void CVulkanRenderTexture::DumpLog(void) const
@@ -118,10 +118,10 @@ namespace CrossEngine {
 				m_vkImage,
 				m_vkImageView,
 				m_vkSampler,
-				m_pMemory->GetSize(),
+				GetMemorySize(),
 				CVulkanHelper::ImageTypeToString(m_type),
 				CVulkanHelper::FormatToString(m_format),
-				m_width, m_height, m_depth, m_mipLevels, m_arrayLayers,
+				GetWidth(), GetHeight(), GetDepth(), GetMipLevels(), GetArrayLayers(),
 				CVulkanHelper::SampleCountFlagBitsToString(m_samples),
 				CVulkanHelper::ImageTilingToString(m_tiling),
 				CVulkanHelper::FilterToString(m_minFilter),

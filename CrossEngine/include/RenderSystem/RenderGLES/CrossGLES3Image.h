@@ -45,9 +45,20 @@ namespace CrossEngine {
 		void DestroySampler(void);
 
 	public:
+		uint32_t GetWidth(void) const;
+		uint32_t GetHeight(void) const;
+		uint32_t GetDepth(void) const;
+		uint32_t GetSamples(void) const;
+		uint32_t GetMipLevels(void) const;
+		uint32_t GetArrayLayers(void) const;
+
+	public:
 		GLenum GetTarget(void) const;
 		GLenum GetFormat(void) const;
 		GLuint GetSampler(void) const;
+
+	public:
+		size_t GetMemorySize(void) const;
 
 
 	protected:

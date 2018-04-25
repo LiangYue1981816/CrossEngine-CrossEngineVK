@@ -299,6 +299,36 @@ namespace CrossEngine {
 		m_vkSampler = VK_NULL_HANDLE;
 	}
 
+	uint32_t CVulkanImage::GetWidth(void) const
+	{
+		return m_width;
+	}
+
+	uint32_t CVulkanImage::GetHeight(void) const
+	{
+		return m_height;
+	}
+
+	uint32_t CVulkanImage::GetDepth(void) const
+	{
+		return m_depth;
+	}
+
+	uint32_t CVulkanImage::GetSamples(void) const
+	{
+		return m_samples;
+	}
+
+	uint32_t CVulkanImage::GetMipLevels(void) const
+	{
+		return m_mipLevels;
+	}
+
+	uint32_t CVulkanImage::GetArrayLayers(void) const
+	{
+		return m_arrayLayers;
+	}
+
 	VkFormat CVulkanImage::GetFormat(void) const
 	{
 		return m_format;
@@ -312,6 +342,11 @@ namespace CrossEngine {
 	const VkDescriptorImageInfo& CVulkanImage::GetDescriptorImageInfo(void) const
 	{
 		return m_vkDescriptorImageInfo;
+	}
+
+	size_t CVulkanImage::GetMemorySize(void) const
+	{
+		return m_pMemory->GetSize();
 	}
 
 }

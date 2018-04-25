@@ -200,6 +200,36 @@ namespace CrossEngine {
 		m_sampler = 0;
 	}
 
+	uint32_t CGLES3Image::GetWidth(void) const
+	{
+		return m_width;
+	}
+
+	uint32_t CGLES3Image::GetHeight(void) const
+	{
+		return m_height;
+	}
+
+	uint32_t CGLES3Image::GetDepth(void) const
+	{
+		return m_depth;
+	}
+
+	uint32_t CGLES3Image::GetSamples(void) const
+	{
+		return m_samples;
+	}
+
+	uint32_t CGLES3Image::GetMipLevels(void) const
+	{
+		return m_mipLevels;
+	}
+
+	uint32_t CGLES3Image::GetArrayLayers(void) const
+	{
+		return m_arrayLayers;
+	}
+
 	GLenum CGLES3Image::GetTarget(void) const
 	{
 		return m_target;
@@ -213,6 +243,11 @@ namespace CrossEngine {
 	GLuint CGLES3Image::GetSampler(void) const
 	{
 		return m_sampler;
+	}
+
+	size_t CGLES3Image::GetMemorySize(void) const
+	{
+		return m_size;
 	}
 
 }
