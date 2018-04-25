@@ -215,7 +215,7 @@ void Render(void)
 	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 mtxModel = glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
 	glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-	Mesh.ptrUniformBuffer->UpdateData(0, sizeof(glm::mat4), &mtxViewModelProjection);
+	Mesh.ptrUniformBuffer->SetData(0, sizeof(glm::mat4), &mtxViewModelProjection);
 
 	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
 	{

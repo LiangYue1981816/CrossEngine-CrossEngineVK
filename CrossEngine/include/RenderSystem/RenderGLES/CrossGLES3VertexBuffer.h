@@ -44,7 +44,7 @@ namespace CrossEngine {
 	public:
 		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format);
 		void Destroy(void);
-		BOOL UpdateData(size_t offset, size_t size, const void *pBuffer) const;
+		BOOL SetData(size_t offset, size_t size, const void *pBuffer) const;
 		void DumpLog(void) const;
 
 	protected:

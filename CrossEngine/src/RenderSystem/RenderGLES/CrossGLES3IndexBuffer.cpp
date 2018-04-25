@@ -50,7 +50,7 @@ namespace CrossEngine {
 	BOOL CGLES3IndexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ELEMENT_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
-		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::UpdateData(GL_ELEMENT_ARRAY_BUFFER, 0, size, pBuffer));
+		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::SetData(GL_ELEMENT_ARRAY_BUFFER, 0, size, pBuffer));
 		return TRUE;
 	}
 
@@ -59,9 +59,9 @@ namespace CrossEngine {
 		CGLES3Buffer::Destroy();
 	}
 
-	BOOL CGLES3IndexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
+	BOOL CGLES3IndexBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
 	{
-		return CGLES3Buffer::UpdateData(GL_ELEMENT_ARRAY_BUFFER, offset, size, pBuffer);
+		return CGLES3Buffer::SetData(GL_ELEMENT_ARRAY_BUFFER, offset, size, pBuffer);
 	}
 
 	size_t CGLES3IndexBuffer::GetBufferSize(void) const

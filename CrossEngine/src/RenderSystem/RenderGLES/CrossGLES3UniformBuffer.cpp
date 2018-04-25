@@ -50,7 +50,7 @@ namespace CrossEngine {
 	BOOL CGLES3UniformBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_UNIFORM_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
-		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::UpdateData(GL_UNIFORM_BUFFER, 0, size, pBuffer));
+		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::SetData(GL_UNIFORM_BUFFER, 0, size, pBuffer));
 		return TRUE;
 	}
 
@@ -60,9 +60,9 @@ namespace CrossEngine {
 		m_vkDescriptorBufferInfos.clear();
 	}
 
-	BOOL CGLES3UniformBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
+	BOOL CGLES3UniformBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
 	{
-		return CGLES3Buffer::UpdateData(GL_UNIFORM_BUFFER, offset, size, pBuffer);
+		return CGLES3Buffer::SetData(GL_UNIFORM_BUFFER, offset, size, pBuffer);
 	}
 
 	size_t CGLES3UniformBuffer::GetBufferSize(void) const

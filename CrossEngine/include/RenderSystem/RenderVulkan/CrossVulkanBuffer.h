@@ -38,7 +38,7 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		BOOL UpdateData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
+		BOOL SetData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 		int CopyData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 		int TransferData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const;
 

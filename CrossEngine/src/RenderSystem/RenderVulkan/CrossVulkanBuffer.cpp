@@ -89,7 +89,7 @@ namespace CrossEngine {
 		m_vkBuffer = VK_NULL_HANDLE;
 	}
 
-	BOOL CVulkanBuffer::UpdateData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
+	BOOL CVulkanBuffer::SetData(VkDeviceSize offset, VkDeviceSize size, const void *pBuffer) const
 	{
 		try {
 			if (pBuffer) {

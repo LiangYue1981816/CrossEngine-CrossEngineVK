@@ -38,7 +38,7 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		BOOL UpdateData(GLenum target, size_t offset, size_t size, const void *pBuffer) const;
+		BOOL SetData(GLenum target, size_t offset, size_t size, const void *pBuffer) const;
 
 
 	protected:

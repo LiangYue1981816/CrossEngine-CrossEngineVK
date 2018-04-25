@@ -60,7 +60,7 @@ namespace CrossEngine {
 			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, 0);
 		}
 
-		ptrInstanceBuffer->UpdateData(0, dataBufferSize, datas.data());
+		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());
 	}
 
 	CGfxVertexBufferPtr& CBatchStaticMesh::GetInstanceBuffer(void)

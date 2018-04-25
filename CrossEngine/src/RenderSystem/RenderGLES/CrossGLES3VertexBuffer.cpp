@@ -57,7 +57,7 @@ namespace CrossEngine {
 	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
-		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::UpdateData(GL_ARRAY_BUFFER, 0, size, pBuffer));
+		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::SetData(GL_ARRAY_BUFFER, 0, size, pBuffer));
 		CALL_BOOL_FUNCTION_RETURN(CreateVAO(format));
 		return TRUE;
 	}
@@ -105,9 +105,9 @@ namespace CrossEngine {
 		m_vertexFormat = 0;
 	}
 
-	BOOL CGLES3VertexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
+	BOOL CGLES3VertexBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
 	{
-		return CGLES3Buffer::UpdateData(GL_ARRAY_BUFFER, offset, size, pBuffer);
+		return CGLES3Buffer::SetData(GL_ARRAY_BUFFER, offset, size, pBuffer);
 	}
 
 	size_t CGLES3VertexBuffer::GetBufferSize(void) const

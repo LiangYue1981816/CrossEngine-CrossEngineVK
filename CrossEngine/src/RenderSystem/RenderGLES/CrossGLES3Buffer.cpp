@@ -64,7 +64,7 @@ namespace CrossEngine {
 		m_usage = GL_STATIC_DRAW;
 	}
 
-	BOOL CGLES3Buffer::UpdateData(GLenum target, size_t offset, size_t size, const void *pBuffer) const
+	BOOL CGLES3Buffer::SetData(GLenum target, size_t offset, size_t size, const void *pBuffer) const
 	{
 		glBindBuffer(target, m_buffer);
 		glBufferSubData(target, offset, size, pBuffer);

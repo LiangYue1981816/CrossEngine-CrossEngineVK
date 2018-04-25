@@ -51,7 +51,7 @@ namespace CrossEngine {
 	BOOL CVulkanVertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, bDynamic ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
-		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::UpdateData(0, size, pBuffer));
+		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::SetData(0, size, pBuffer));
 		m_vertexFormat = format;
 		return TRUE;
 	}
@@ -62,9 +62,9 @@ namespace CrossEngine {
 		m_vertexFormat = 0;
 	}
 
-	BOOL CVulkanVertexBuffer::UpdateData(size_t offset, size_t size, const void *pBuffer) const
+	BOOL CVulkanVertexBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
 	{
-		return CVulkanBuffer::UpdateData(offset, size, pBuffer);
+		return CVulkanBuffer::SetData(offset, size, pBuffer);
 	}
 
 	size_t CVulkanVertexBuffer::GetBufferSize(void) const
