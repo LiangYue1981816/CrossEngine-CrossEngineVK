@@ -62,7 +62,7 @@ namespace CrossEngine {
 		return m_mtxModelToWorld;
 	}
 
-	void CDrawable::SetUniformBuffer(uint32_t dwPassName, uint32_t dwName, uint32_t binding, const void *pBuffer, size_t offset, size_t size)
+	void CDrawable::SetUniformBuffer(uint32_t dwPassName, uint32_t dwName, uint32_t binding, const void *pBuffer, size_t size)
 	{
 		const CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
 		if (ptrPass.IsNull()) return;
@@ -72,12 +72,12 @@ namespace CrossEngine {
 
 		if (m_ptrUniformBuffers[dwPassName].find(dwName) == m_ptrUniformBuffers[dwPassName].end()) {
 			m_ptrUniformBuffers[dwPassName][dwName] = GfxDevice()->NewUniformBuffer();
-			m_ptrUniformBuffers[dwPassName][dwName]->Create(size, NULL, TRUE);
+			m_ptrUniformBuffers[dwPassName][dwName]->Create(GfxSwapChain()->GetImageCount() * ALIGN_BYTE(size, 0x100), NULL, TRUE);
 			m_ptrUniformBuffers[dwPassName][dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, size);
 			UpdateDescriptorSet(dwPassName, ptrPipeline);
 		}
 
-		m_ptrDescriptorSets[dwPassName]->SetUniformBufferData(binding, offset, size, pBuffer);
+		m_ptrDescriptorSets[dwPassName]->SetUniformBufferData(binding, 0, GfxSwapChain()->GetImageIndex() * ALIGN_BYTE(size, 0x100), pBuffer);
 	}
 
 	void CDrawable::UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipeline)

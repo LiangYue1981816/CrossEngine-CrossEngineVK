@@ -64,7 +64,7 @@ namespace CrossEngine {
 		const glm::mat4& GetTransform(void) const;
 
 	public:
-		void SetUniformBuffer(uint32_t dwPassName, uint32_t dwName, uint32_t binding, const void *pBuffer, size_t offset, size_t size);
+		void SetUniformBuffer(uint32_t dwPassName, uint32_t dwName, uint32_t binding, const void *pBuffer, size_t size);
 
 	protected:
 		void UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipeline);
