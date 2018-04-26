@@ -146,18 +146,11 @@ namespace CrossEngine {
 		}
 	}
 
-	void CCamera::PreBuildCommandBuffer(void)
+	void CCamera::Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		if (m_bEnable) {
-			m_renderQueue.PreBuildCommandBuffer(FALSE);
-		}
-	}
-
-	void CCamera::Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
-	{
-		if (m_bEnable) {
-			m_renderQueue.BuildCommandBuffer(ptrRenderPass, ptrFrameBuffer);
-			m_renderQueue.Render(ptrRenderPass, ptrFrameBuffer);
+			m_renderQueue.BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
+			m_renderQueue.Render();
 		}
 	}
 

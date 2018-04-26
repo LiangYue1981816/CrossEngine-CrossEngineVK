@@ -88,7 +88,7 @@ namespace CrossEngine {
 
 	public:
 		void Update(void);
-		void Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
+		void Render(uint32_t dwName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 
 
 	protected:

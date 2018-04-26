@@ -58,7 +58,7 @@ namespace CrossEngine {
 	protected:
 		typedef std::vector<CGfxCommandBufferPtr> CommandBufferSet;
 		typedef std::map<uint32_t, CGfxCommandBufferPtr> CommandBufferMap;
-		typedef std::map<CGfxRenderPassPtr, std::map<CGfxFrameBufferPtr, CommandBufferMap>> MainCommandBufferMap;
+		typedef std::map<CGfxFrameBufferPtr, std::map<CGfxRenderPassPtr, CommandBufferMap>> MainCommandBufferMap;
 		typedef std::map<uint32_t, std::map<uint32_t, CommandBufferSet>> SecondaryCommandBufferMap;
 
 		
@@ -79,9 +79,8 @@ namespace CrossEngine {
 		void UpdateInstanceBuffer(void);
 
 	protected:
-		void PreBuildCommandBuffer(BOOL bWait);
-		void BuildCommandBuffer(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
-		void Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer);
+		void BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void Render(void);
 
 	protected:
 		static void* WorkThread(void *pParams);
@@ -95,6 +94,8 @@ namespace CrossEngine {
 		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
 
 	protected:
+		CGfxRenderPassPtr m_ptrRenderPass;
+		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		MainCommandBufferMap m_ptrMainCommandBuffers;
 		SecondaryCommandBufferMap m_ptrSecondaryCommandBuffers;
 

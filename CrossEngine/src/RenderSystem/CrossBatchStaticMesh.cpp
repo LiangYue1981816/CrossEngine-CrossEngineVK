@@ -79,10 +79,10 @@ namespace CrossEngine {
 		}
 	}
 
-	void CBatchStaticMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
+	void CBatchStaticMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		m_ptrCommandBuffer = ptrCommandBuffer;
-		m_ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, m_indexSubPass, VK_FALSE, 0, 0);
+		m_ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, ptrFrameBuffer, ptrRenderPass, m_indexSubPass);
 		{
 			if (m_ptrDescriptorSet.IsNull() == FALSE && m_ptrDescriptorSet->GetHandle() != NULL) {
 				m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet, m_ptrPipelineGraphics);

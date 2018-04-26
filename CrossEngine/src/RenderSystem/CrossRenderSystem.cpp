@@ -163,9 +163,9 @@ namespace CrossEngine {
 		m_pCameraManager->Update();
 	}
 
-	void CRenderSystem::Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	void CRenderSystem::Render(uint32_t dwName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		m_pCameraManager->Render(dwName, ptrRenderPass, ptrFrameBuffer);
+		m_pCameraManager->Render(dwName, ptrFrameBuffer, ptrRenderPass);
 	}
 
 }

@@ -64,12 +64,6 @@ namespace CrossEngine {
 
 	void CCameraManager::Update(void)
 	{
-		UpdateCamera();
-		PreBuildCommandBuffer();
-	}
-
-	void CCameraManager::UpdateCamera(void)
-	{
 		CBatchPartical::ClearInstanceBuffer();
 		CBatchSkinMesh::ClearInstanceBuffer();
 		CBatchStaticMesh::ClearInstanceBuffer();
@@ -83,18 +77,11 @@ namespace CrossEngine {
 		CBatchStaticMesh::CreateInstanceBuffer();
 	}
 
-	void CCameraManager::PreBuildCommandBuffer(void)
-	{
-		for (auto &itCamera : m_pCameras) {
-			itCamera.second->PreBuildCommandBuffer();
-		}
-	}
-
-	void CCameraManager::Render(uint32_t dwName, const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	void CCameraManager::Render(uint32_t dwName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		const auto &itCamera = m_pCameras.find(dwName);
 		if (itCamera != m_pCameras.end()) {
-			itCamera->second->Render(ptrRenderPass, ptrFrameBuffer);
+			itCamera->second->Render(ptrFrameBuffer, ptrRenderPass);
 		}
 	}
 

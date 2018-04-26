@@ -101,6 +101,9 @@ namespace CrossEngine {
 		m_pBatchParticals.clear();
 		m_pBatchSkinMeshs.clear();
 		m_pBatchStaticMeshs.clear();
+
+		m_ptrRenderPass.Release();
+		m_ptrFrameBuffer.Release();
 	}
 
 	void CRenderQueue::AddDrawable(const CDrawable *pDrawable)
@@ -156,33 +159,32 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRenderQueue::PreBuildCommandBuffer(BOOL bWait)
-	{
-		DispatchThread(bWait);
-	}
-
-	void CRenderQueue::BuildCommandBuffer(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	void CRenderQueue::BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		const auto &itPassQueue = m_queue.find(ptrRenderPass);
 		if (itPassQueue == m_queue.end()) return;
 
-		WaitThread();
+		m_ptrRenderPass = ptrRenderPass;
+		m_ptrFrameBuffer = ptrFrameBuffer;
 
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
-		if (m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer].find(frame) == m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer].end()) {
-			m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer][frame] = GfxDevice()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		if (m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].end()) {
+			m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		}
 
-		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer][frame];
+		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame];
 		ptrMainCommandBuffer->Reset();
+
+		DispatchThread(TRUE);
+
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
-			ptrMainCommandBuffer->CmdBeginRenderPass(ptrFrameBuffer, ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
+			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
-				ptrMainCommandBuffer->CmdSetScissor(0, 0, ptrFrameBuffer->GetWidth(), ptrFrameBuffer->GetHeight());
-				ptrMainCommandBuffer->CmdSetViewport(0, 0, ptrFrameBuffer->GetWidth(), ptrFrameBuffer->GetHeight());
+				ptrMainCommandBuffer->CmdSetScissor(0, 0, m_ptrFrameBuffer->GetWidth(), m_ptrFrameBuffer->GetHeight());
+				ptrMainCommandBuffer->CmdSetViewport(0, 0, m_ptrFrameBuffer->GetWidth(), m_ptrFrameBuffer->GetHeight());
 
-				for (uint32_t indexPass = 0; indexPass < ptrRenderPass->GetSubpassCount(); indexPass++) {
+				for (uint32_t indexPass = 0; indexPass < m_ptrRenderPass->GetSubpassCount(); indexPass++) {
 					const auto &itMaterialPipelineQueue = itPassQueue->second.find(indexPass);
 					if (itMaterialPipelineQueue != itPassQueue->second.end()) {
 						for (const auto &itMaterialDescriptorSetQueue : itMaterialPipelineQueue->second) {
@@ -217,13 +219,9 @@ namespace CrossEngine {
 		ptrMainCommandBuffer->End();
 	}
 
-	void CRenderQueue::Render(const CGfxRenderPassPtr &ptrRenderPass, const CGfxFrameBufferPtr &ptrFrameBuffer)
+	void CRenderQueue::Render(void)
 	{
-		if (m_ptrMainCommandBuffers.find(ptrRenderPass) == m_ptrMainCommandBuffers.end()) return;
-		if (m_ptrMainCommandBuffers[ptrRenderPass].find(ptrFrameBuffer) == m_ptrMainCommandBuffers[ptrRenderPass].end()) return;
-		if (m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer].find(GfxSwapChain()->GetImageIndex()) == m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer].end()) return;
-
-		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
+		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
 
 	void* CRenderQueue::WorkThread(void *pParams)
@@ -267,7 +265,7 @@ namespace CrossEngine {
 
 						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
 						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderQueue->m_pBatchStaticMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers]);
+						pRenderQueue->m_pBatchStaticMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
 					}
 
 					for (int index = indexThread; index < pRenderQueue->m_pBatchSkinMeshs.size(); index += CRenderQueue::THREAD_COUNT, numCommandBuffers++) {
@@ -277,7 +275,7 @@ namespace CrossEngine {
 
 						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
 						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderQueue->m_pBatchSkinMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers]);
+						pRenderQueue->m_pBatchSkinMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
 					}
 
 					for (int index = indexThread; index < pRenderQueue->m_pBatchParticals.size(); index += CRenderQueue::THREAD_COUNT, numCommandBuffers++) {
@@ -287,7 +285,7 @@ namespace CrossEngine {
 
 						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
 						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderQueue->m_pBatchParticals[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers]);
+						pRenderQueue->m_pBatchParticals[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
 					}
 				}
 			}
