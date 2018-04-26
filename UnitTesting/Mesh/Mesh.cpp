@@ -46,6 +46,10 @@ void Render(void)
 	Camera(dwMainCamera)->ClearRenderQueue();
 	Camera(dwMainCamera)->AddRenderQueue(pMesh);
 
-	RenderSystem()->Update();
-	RenderSystem()->Render(dwMainCamera, ptrRenderPass->GetRenderPass(), ptrFrameBuffer[GfxSwapChain()->GetImageIndex()]->GetFrameBuffer());
+	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
+	{
+		RenderSystem()->Update();
+		RenderSystem()->Render(dwMainCamera, ptrFrameBuffer[GfxSwapChain()->GetImageIndex()]->GetFrameBuffer(), ptrRenderPass->GetRenderPass());
+	}
+	GfxSwapChain()->Present();
 }

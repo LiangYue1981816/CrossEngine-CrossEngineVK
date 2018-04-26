@@ -167,9 +167,11 @@ namespace CrossEngine {
 		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
 
+		GfxDevice()->AllocCommandBufferPool(thread_id());
+
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
 		if (m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].end()) {
-			m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(0, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+			m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		}
 
 		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame];
