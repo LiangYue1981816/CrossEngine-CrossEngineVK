@@ -110,9 +110,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CGLES3RenderPass::SetSubpassInputColorReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -120,14 +120,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
+		m_subpasses[indexSubPass].inputAttachments[indexAttachment] = indexAttachment;
 
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CGLES3RenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -135,14 +135,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = indexAttachment;
+		m_subpasses[indexSubPass].inputAttachments[indexAttachment] = indexAttachment;
 
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CGLES3RenderPass::SetSubpassOutputColorReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -150,14 +150,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = indexAttachment;
+		m_subpasses[indexSubPass].colorAttachments[indexAttachment] = indexAttachment;
 
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CGLES3RenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -165,14 +165,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].depthStencilAttachment = indexAttachment;
+		m_subpasses[indexSubPass].depthStencilAttachment = indexAttachment;
 
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
+	BOOL CGLES3RenderPass::SetSubpassResolveColorReference(uint32_t indexSubPass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -180,12 +180,12 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].resolveAttachments[indexAttachment] = imageLayout;
+		m_subpasses[indexSubPass].resolveAttachments[indexAttachment] = imageLayout;
 
 		return TRUE;
 	}
 
-	BOOL CGLES3RenderPass::SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CGLES3RenderPass::SetSubpassPreserveReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
 		return TRUE;
 	}
@@ -200,14 +200,14 @@ namespace CrossEngine {
 		return m_subpasses.size();
 	}
 
-	uint32_t CGLES3RenderPass::GetSubpassOutputAttachmentCount(uint32_t indexSubpass) const
+	uint32_t CGLES3RenderPass::GetSubpassOutputAttachmentCount(uint32_t indexSubPass) const
 	{
-		return indexSubpass < m_subpasses.size() ? m_subpasses[indexSubpass].colorAttachments.size() : 0;
+		return indexSubPass < m_subpasses.size() ? m_subpasses[indexSubPass].colorAttachments.size() : 0;
 	}
 
-	const GLSubpassInformation* CGLES3RenderPass::GetSubpass(uint32_t indexSubpass) const
+	const GLSubpassInformation* CGLES3RenderPass::GetSubpass(uint32_t indexSubPass) const
 	{
-		return indexSubpass < m_subpasses.size() ? &m_subpasses[indexSubpass] : NULL;
+		return indexSubPass < m_subpasses.size() ? &m_subpasses[indexSubPass] : NULL;
 	}
 
 	uint32_t CGLES3RenderPass::GetAttachmentCount(void) const
@@ -240,20 +240,20 @@ namespace CrossEngine {
 		}
 
 		LOGI("\t\t\tSubpasses:\n");
-		for (uint32_t indexSubpass = 0; indexSubpass < m_subpasses.size(); indexSubpass++) {
-			LOGI("\t\t\t\tSubpass %d:\n", indexSubpass);
+		for (uint32_t indexSubPass = 0; indexSubPass < m_subpasses.size(); indexSubPass++) {
+			LOGI("\t\t\t\tSubpass %d:\n", indexSubPass);
 
 			LOGI("\t\t\t\t\tInputAttachments:\n");
-			for (const auto &itAttachment : m_subpasses[indexSubpass].inputAttachments) {
+			for (const auto &itAttachment : m_subpasses[indexSubPass].inputAttachments) {
 				LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d\n", itAttachment.first);
 			}
 
 			LOGI("\t\t\t\t\tColorAttachments:\n");
-			for (const auto &itAttachment : m_subpasses[indexSubpass].colorAttachments) {
+			for (const auto &itAttachment : m_subpasses[indexSubPass].colorAttachments) {
 				LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d\n", itAttachment.first);
 			}
 
-			LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d\n", m_subpasses[indexSubpass].depthStencilAttachment);
+			LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d\n", m_subpasses[indexSubPass].depthStencilAttachment);
 		}
 	}
 

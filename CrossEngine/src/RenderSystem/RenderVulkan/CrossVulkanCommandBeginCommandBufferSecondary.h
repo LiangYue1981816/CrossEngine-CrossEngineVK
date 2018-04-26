@@ -32,10 +32,10 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandBeginCommandBufferSecondary(VkCommandBuffer vkCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+		CVulkanCommandBeginCommandBufferSecondary(VkCommandBuffer vkCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkCommandBufferUsageFlags flags, uint32_t indexSubPass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 			: m_vkCommandBuffer(vkCommandBuffer)
 			, m_flags(flags)
-			, m_indexSubpass(indexSubpass)
+			, m_indexSubPass(indexSubPass)
 			, m_occlusionQueryEnable(occlusionQueryEnable)
 			, m_queryFlags(queryFlags)
 			, m_pipelineStatistics(pipelineStatistics)
@@ -49,7 +49,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			vkBeginCommandBufferSecondary(m_vkCommandBuffer, m_flags, (VkFramebuffer)m_ptrFrameBuffer->GetHandle(), (VkRenderPass)m_ptrRenderPass->GetHandle(), m_indexSubpass, m_occlusionQueryEnable, m_queryFlags, m_pipelineStatistics);
+			vkBeginCommandBufferSecondary(m_vkCommandBuffer, m_flags, (VkFramebuffer)m_ptrFrameBuffer->GetHandle(), (VkRenderPass)m_ptrRenderPass->GetHandle(), m_indexSubPass, m_occlusionQueryEnable, m_queryFlags, m_pipelineStatistics);
 		}
 
 
@@ -57,7 +57,7 @@ namespace CrossEngine {
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		CGfxRenderPassPtr m_ptrRenderPass;
 		VkCommandBufferUsageFlags m_flags;
-		uint32_t m_indexSubpass;
+		uint32_t m_indexSubPass;
 		VkBool32 m_occlusionQueryEnable;
 		VkQueryControlFlags m_queryFlags;
 		VkQueryPipelineStatisticFlags m_pipelineStatistics;

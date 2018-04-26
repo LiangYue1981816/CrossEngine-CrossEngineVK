@@ -32,7 +32,7 @@ namespace CrossEngine {
 
 
 	protected:
-		static const int THREAD_COUNT = 4;
+		static const int THREAD_COUNT = 1;
 
 		typedef struct ThreadParam {
 			uint32_t indexThread;

@@ -6,8 +6,16 @@ CrossEngine::CResMeshPtr ptrMesh;
 CrossEngine::CResMaterialPtr ptrMaterial;
 CrossEngine::CDrawableStaticMesh *pMesh = NULL;
 
+CrossEngine::CResRenderPassPtr ptrRenderPass;
+CrossEngine::CResFrameBufferPtr ptrFrameBuffer[3];
+
 void Create(void)
 {
+	ptrRenderPass = RenderPassManager()->LoadResource("ForwardPresent.renderpass", TRUE, TRUE);
+	ptrFrameBuffer[0] = FrameBufferManager()->LoadResource("Present0.framebuffer", TRUE, TRUE);
+	ptrFrameBuffer[1] = FrameBufferManager()->LoadResource("Present1.framebuffer", TRUE, TRUE);
+	ptrFrameBuffer[2] = FrameBufferManager()->LoadResource("Present2.framebuffer", TRUE, TRUE);
+
 	ptrMaterial = MaterialManager()->LoadResource("PzVI-Tiger-P_Chassis.material", TRUE, TRUE);
 	ptrMesh = MeshManager()->LoadResource("PzVI-Tiger-P_Body.mesh", TRUE, TRUE);
 
@@ -39,4 +47,5 @@ void Render(void)
 	Camera(dwMainCamera)->AddRenderQueue(pMesh);
 
 	RenderSystem()->Update();
+	RenderSystem()->Render(dwMainCamera, ptrRenderPass->GetRenderPass(), ptrFrameBuffer[GfxSwapChain()->GetImageIndex()]->GetFrameBuffer());
 }

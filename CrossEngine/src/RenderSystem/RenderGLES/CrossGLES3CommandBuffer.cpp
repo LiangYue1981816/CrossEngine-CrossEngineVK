@@ -125,9 +125,9 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBeginCommandBufferPrimary(flags));
 	}
 
-	void CGLES3CommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+	void CGLES3CommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubPass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBeginCommandBufferSecondary(m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBeginCommandBufferSecondary(m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubPass, occlusionQueryEnable, queryFlags, pipelineStatistics));
 	}
 
 	void CGLES3CommandBuffer::End(void)

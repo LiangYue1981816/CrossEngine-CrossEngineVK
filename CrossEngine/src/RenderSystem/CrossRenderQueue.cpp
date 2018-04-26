@@ -137,7 +137,7 @@ namespace CrossEngine {
 				}
 			}
 
-			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(itMatPass.first, pDrawable, ptrMaterialPipeline);
+			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(itMatPass.first, pDrawable, ptrMaterialPipeline, indexSubPass);
 		}
 	}
 
@@ -175,7 +175,7 @@ namespace CrossEngine {
 
 		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[ptrRenderPass][ptrFrameBuffer][frame];
 		ptrMainCommandBuffer->Reset();
-		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
 			ptrMainCommandBuffer->CmdBeginRenderPass(ptrFrameBuffer, ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{

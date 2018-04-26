@@ -48,17 +48,17 @@ namespace CrossEngine {
 		virtual BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL) = 0;
 		virtual BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) = 0;
 
-		virtual BOOL SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
-		virtual BOOL SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
-		virtual BOOL SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
-		virtual BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
-		virtual BOOL SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout) = 0;
-		virtual BOOL SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassInputColorReference(uint32_t indexSubPass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassInputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassOutputColorReference(uint32_t indexSubPass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment) = 0;
+		virtual BOOL SetSubpassResolveColorReference(uint32_t indexSubPass, uint32_t indexAttachment, VkImageLayout imageLayout) = 0;
+		virtual BOOL SetSubpassPreserveReference(uint32_t indexSubPass, uint32_t indexAttachment) = 0;
 		virtual BOOL SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass, VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VkAccessFlags srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VkAccessFlags dstAccessMask = VK_ACCESS_SHADER_READ_BIT, VkDependencyFlags dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT) = 0;
 
 	public:
 		virtual uint32_t GetSubpassCount(void) const = 0;
-		virtual uint32_t GetSubpassOutputAttachmentCount(uint32_t indexSubpass) const = 0;
+		virtual uint32_t GetSubpassOutputAttachmentCount(uint32_t indexSubPass) const = 0;
 
 		virtual uint32_t GetAttachmentCount(void) const = 0;
 		virtual const VkClearValue* GetAttachmentClearValue(uint32_t indexAttachment) const = 0;

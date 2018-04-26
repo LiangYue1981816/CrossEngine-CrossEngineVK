@@ -50,18 +50,18 @@ namespace CrossEngine {
 		BOOL SetColorAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 		BOOL SetDepthStencilAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreOp, VkClearValue clearValue, VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
-		BOOL SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment);
-		BOOL SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment);
-		BOOL SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment);
-		BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment);
-		BOOL SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout);
-		BOOL SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment);
+		BOOL SetSubpassInputColorReference(uint32_t indexSubPass, uint32_t indexAttachment);
+		BOOL SetSubpassInputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment);
+		BOOL SetSubpassOutputColorReference(uint32_t indexSubPass, uint32_t indexAttachment);
+		BOOL SetSubpassOutputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment);
+		BOOL SetSubpassResolveColorReference(uint32_t indexSubPass, uint32_t indexAttachment, VkImageLayout imageLayout);
+		BOOL SetSubpassPreserveReference(uint32_t indexSubPass, uint32_t indexAttachment);
 		BOOL SetSubpassDependency(uint32_t indexDependency, uint32_t indexSrcSubpass, uint32_t indexDstSubpass, VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VkAccessFlags srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VkAccessFlags dstAccessMask = VK_ACCESS_SHADER_READ_BIT, VkDependencyFlags dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT);
 
 	public:
 		uint32_t GetSubpassCount(void) const;
-		uint32_t GetSubpassOutputAttachmentCount(uint32_t indexSubpass) const;
-		const GLSubpassInformation* GetSubpass(uint32_t indexSubpass) const;
+		uint32_t GetSubpassOutputAttachmentCount(uint32_t indexSubPass) const;
+		const GLSubpassInformation* GetSubpass(uint32_t indexSubPass) const;
 
 		uint32_t GetAttachmentCount(void) const;
 		const VkClearValue* GetAttachmentClearValue(uint32_t indexAttachment) const;

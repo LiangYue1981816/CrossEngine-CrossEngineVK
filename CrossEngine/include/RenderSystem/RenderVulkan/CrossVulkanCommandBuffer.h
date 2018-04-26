@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	public:
 		void BeginPrimary(VkCommandBufferUsageFlags flags);
-		void BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
+		void BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubPass, VkBool32 occlusionQueryEnable = VK_FALSE, VkQueryControlFlags queryFlags = 0, VkQueryPipelineStatisticFlags pipelineStatistics = 0);
 		void End(void);
 
 	public:

@@ -91,34 +91,34 @@ namespace CrossEngine {
 		resolveAttachments.clear();
 		preserveAttachments.clear();
 
-		for (uint32_t indexSubpass = 0; indexSubpass < m_subpasses.size(); indexSubpass++) {
-			for (const auto &itAttachment : m_subpasses[indexSubpass].inputAttachments) {
-				inputAttachments[indexSubpass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+		for (uint32_t indexSubPass = 0; indexSubPass < m_subpasses.size(); indexSubPass++) {
+			for (const auto &itAttachment : m_subpasses[indexSubPass].inputAttachments) {
+				inputAttachments[indexSubPass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
-			for (const auto &itAttachment : m_subpasses[indexSubpass].colorAttachments) {
-				colorAttachments[indexSubpass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+			for (const auto &itAttachment : m_subpasses[indexSubPass].colorAttachments) {
+				colorAttachments[indexSubPass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
-			for (const auto &itAttachment : m_subpasses[indexSubpass].resolveAttachments) {
-				resolveAttachments[indexSubpass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+			for (const auto &itAttachment : m_subpasses[indexSubPass].resolveAttachments) {
+				resolveAttachments[indexSubPass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
-			for (const auto &itAttachment : m_subpasses[indexSubpass].preserveAttachments) {
-				preserveAttachments[indexSubpass].push_back(itAttachment.second);
+			for (const auto &itAttachment : m_subpasses[indexSubPass].preserveAttachments) {
+				preserveAttachments[indexSubPass].push_back(itAttachment.second);
 			}
 
 			VkSubpassDescription subpass = {};
 			subpass.flags = 0;
 			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-			subpass.inputAttachmentCount = inputAttachments[indexSubpass].size();
-			subpass.pInputAttachments = inputAttachments[indexSubpass].data();
-			subpass.colorAttachmentCount = colorAttachments[indexSubpass].size();
-			subpass.pColorAttachments = colorAttachments[indexSubpass].data();
-			subpass.pResolveAttachments = resolveAttachments[indexSubpass].data();
-			subpass.preserveAttachmentCount = preserveAttachments[indexSubpass].size();
-			subpass.pPreserveAttachments = preserveAttachments[indexSubpass].data();
-			subpass.pDepthStencilAttachment = m_subpasses[indexSubpass].depthStencilAttachment.layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &m_subpasses[indexSubpass].depthStencilAttachment;
+			subpass.inputAttachmentCount = inputAttachments[indexSubPass].size();
+			subpass.pInputAttachments = inputAttachments[indexSubPass].data();
+			subpass.colorAttachmentCount = colorAttachments[indexSubPass].size();
+			subpass.pColorAttachments = colorAttachments[indexSubPass].data();
+			subpass.pResolveAttachments = resolveAttachments[indexSubPass].data();
+			subpass.preserveAttachmentCount = preserveAttachments[indexSubPass].size();
+			subpass.pPreserveAttachments = preserveAttachments[indexSubPass].data();
+			subpass.pDepthStencilAttachment = m_subpasses[indexSubPass].depthStencilAttachment.layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &m_subpasses[indexSubPass].depthStencilAttachment;
 			subpasses.push_back(subpass);
 		}
 
@@ -197,9 +197,9 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassInputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CVulkanRenderPass::SetSubpassInputColorReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -207,14 +207,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		m_subpasses[indexSubPass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CVulkanRenderPass::SetSubpassInputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -222,14 +222,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+		m_subpasses[indexSubPass].inputAttachments[indexAttachment] = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassOutputColorReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CVulkanRenderPass::SetSubpassOutputColorReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -237,14 +237,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].colorAttachments[indexAttachment] = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		m_subpasses[indexSubPass].colorAttachments[indexAttachment] = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CVulkanRenderPass::SetSubpassOutputDepthStencilReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -252,15 +252,15 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].depthStencilAttachment.attachment = indexAttachment;
-		m_subpasses[indexSubpass].depthStencilAttachment.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		m_subpasses[indexSubPass].depthStencilAttachment.attachment = indexAttachment;
+		m_subpasses[indexSubPass].depthStencilAttachment.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassResolveColorReference(uint32_t indexSubpass, uint32_t indexAttachment, VkImageLayout imageLayout)
+	BOOL CVulkanRenderPass::SetSubpassResolveColorReference(uint32_t indexSubPass, uint32_t indexAttachment, VkImageLayout imageLayout)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -268,14 +268,14 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].resolveAttachments[indexAttachment] = imageLayout;
+		m_subpasses[indexSubPass].resolveAttachments[indexAttachment] = imageLayout;
 
 		return TRUE;
 	}
 
-	BOOL CVulkanRenderPass::SetSubpassPreserveReference(uint32_t indexSubpass, uint32_t indexAttachment)
+	BOOL CVulkanRenderPass::SetSubpassPreserveReference(uint32_t indexSubPass, uint32_t indexAttachment)
 	{
-		if (indexSubpass >= m_subpasses.size()) {
+		if (indexSubPass >= m_subpasses.size()) {
 			return FALSE;
 		}
 
@@ -283,7 +283,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		m_subpasses[indexSubpass].preserveAttachments[indexAttachment] = indexAttachment;
+		m_subpasses[indexSubPass].preserveAttachments[indexAttachment] = indexAttachment;
 
 		return TRUE;
 	}
@@ -319,14 +319,14 @@ namespace CrossEngine {
 		return m_subpasses.size();
 	}
 
-	uint32_t CVulkanRenderPass::GetSubpassOutputAttachmentCount(uint32_t indexSubpass) const
+	uint32_t CVulkanRenderPass::GetSubpassOutputAttachmentCount(uint32_t indexSubPass) const
 	{
-		return indexSubpass < m_subpasses.size() ? m_subpasses[indexSubpass].colorAttachments.size() : 0;
+		return indexSubPass < m_subpasses.size() ? m_subpasses[indexSubPass].colorAttachments.size() : 0;
 	}
 
-	const VkSubpassInformation* CVulkanRenderPass::GetSubpass(uint32_t indexSubpass) const
+	const VkSubpassInformation* CVulkanRenderPass::GetSubpass(uint32_t indexSubPass) const
 	{
-		return indexSubpass < m_subpasses.size() ? &m_subpasses[indexSubpass] : NULL;
+		return indexSubPass < m_subpasses.size() ? &m_subpasses[indexSubPass] : NULL;
 	}
 
 	uint32_t CVulkanRenderPass::GetAttachmentCount(void) const
@@ -364,34 +364,34 @@ namespace CrossEngine {
 			}
 
 			LOGI("\t\t\tSubpasses:\n");
-			for (uint32_t indexSubpass = 0; indexSubpass < m_subpasses.size(); indexSubpass++) {
-				LOGI("\t\t\t\tSubpass %d:\n", indexSubpass);
+			for (uint32_t indexSubPass = 0; indexSubPass < m_subpasses.size(); indexSubPass++) {
+				LOGI("\t\t\t\tSubpass %d:\n", indexSubPass);
 
 				LOGI("\t\t\t\t\tInputAttachments:\n");
-				for (const auto &itAttachment : m_subpasses[indexSubpass].inputAttachments) {
+				for (const auto &itAttachment : m_subpasses[indexSubPass].inputAttachments) {
 					LOGI("\t\t\t\t\t\tInputAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::ImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tColorAttachments:\n");
-				for (const auto &itAttachment : m_subpasses[indexSubpass].colorAttachments) {
+				for (const auto &itAttachment : m_subpasses[indexSubPass].colorAttachments) {
 					LOGI("\t\t\t\t\t\tColorAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::ImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tResolveAttachments:\n");
-				for (const auto &itAttachment : m_subpasses[indexSubpass].resolveAttachments) {
+				for (const auto &itAttachment : m_subpasses[indexSubPass].resolveAttachments) {
 					LOGI("\t\t\t\t\t\tResolveAttachment: attachment = %d layout = %s\n", itAttachment.first, CVulkanHelper::ImageLayoutToString(itAttachment.second));
 				}
 
 				LOGI("\t\t\t\t\tPreserveAttachments:\n");
-				for (const auto &itAttachment : m_subpasses[indexSubpass].preserveAttachments) {
+				for (const auto &itAttachment : m_subpasses[indexSubPass].preserveAttachments) {
 					LOGI("\t\t\t\t\t\tPreserveAttachment: attachment = %d\n", itAttachment.first);
 				}
 
-				if (m_subpasses[indexSubpass].depthStencilAttachment.layout == VK_IMAGE_LAYOUT_UNDEFINED) {
+				if (m_subpasses[indexSubPass].depthStencilAttachment.layout == VK_IMAGE_LAYOUT_UNDEFINED) {
 					LOGI("\t\t\t\t\tDepthStencilAttachment: NULL\n");
 				}
 				else {
-					LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d layout = %s\n", m_subpasses[indexSubpass].depthStencilAttachment.attachment, CVulkanHelper::ImageLayoutToString(m_subpasses[indexSubpass].depthStencilAttachment.layout));
+					LOGI("\t\t\t\t\tDepthStencilAttachment: attachment = %d layout = %s\n", m_subpasses[indexSubPass].depthStencilAttachment.attachment, CVulkanHelper::ImageLayoutToString(m_subpasses[indexSubPass].depthStencilAttachment.layout));
 				}
 			}
 

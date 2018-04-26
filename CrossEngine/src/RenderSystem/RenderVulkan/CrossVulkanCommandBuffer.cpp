@@ -129,9 +129,9 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginCommandBufferPrimary(m_vkCommandBuffer, flags));
 	}
 
-	void CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubpass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
+	void CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, uint32_t indexSubPass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginCommandBufferSecondary(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubpass, occlusionQueryEnable, queryFlags, pipelineStatistics));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginCommandBufferSecondary(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubPass, occlusionQueryEnable, queryFlags, pipelineStatistics));
 	}
 
 	void CVulkanCommandBuffer::End(void)
