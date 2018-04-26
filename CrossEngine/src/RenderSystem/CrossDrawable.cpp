@@ -70,12 +70,14 @@ namespace CrossEngine {
 		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
 		if (ptrPipeline.IsNull()) return;
 
-		CGfxUniformBufferPtr ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		ptrUniformBuffer->Create(size, pBuffer, TRUE);
-		ptrUniformBuffer->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, offset, size);
-		m_ptrUniformBuffers[dwPassName][dwName] = ptrUniformBuffer;
-		
-		UpdateDescriptorSet(dwPassName, ptrPipeline);
+		if (m_ptrUniformBuffers[dwPassName].find(dwName) == m_ptrUniformBuffers[dwPassName].end()) {
+			m_ptrUniformBuffers[dwPassName][dwName] = GfxDevice()->NewUniformBuffer();
+			m_ptrUniformBuffers[dwPassName][dwName]->Create(size, NULL, TRUE);
+			m_ptrUniformBuffers[dwPassName][dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_DRAW, binding, 0, size);
+			UpdateDescriptorSet(dwPassName, ptrPipeline);
+		}
+
+		m_ptrDescriptorSets[dwPassName]->SetUniformBufferData(binding, offset, size, pBuffer);
 	}
 
 	void CDrawable::UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipeline)
