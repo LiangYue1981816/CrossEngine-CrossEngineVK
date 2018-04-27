@@ -56,12 +56,13 @@ namespace CrossEngine {
 		m_firstInstance = 0;
 
 		m_indexSubPass = 0;
-		m_ptrDescriptorSet.Release();
-		m_ptrPipelineGraphics.Release();
+		m_ptrDrawDescriptorSet.Release();
+		m_ptrMaterialDescriptorSet.Release();
+		m_ptrMaterialPipelineGraphics.Release();
 		m_ptrCommandBuffer.Release();
 	}
 
-	void CBatch::AddDrawable(uint32_t dwPassName, const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics, uint32_t indexSubPass)
+	void CBatch::AddDrawable(uint32_t dwPassName, const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrMaterialPipelineGraphics, const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet, uint32_t indexSubPass)
 	{
 		m_pDrawables[pDrawable] = pDrawable;
 
@@ -70,8 +71,9 @@ namespace CrossEngine {
 		m_vertexOffset = pDrawable->GetVertexOffset();
 
 		m_indexSubPass = indexSubPass;
-		m_ptrDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
-		m_ptrPipelineGraphics = ptrPipelineGraphics;
+		m_ptrDrawDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
+		m_ptrMaterialDescriptorSet = ptrMaterialDescriptorSet;
+		m_ptrMaterialPipelineGraphics = ptrMaterialPipelineGraphics;
 	}
 
 }

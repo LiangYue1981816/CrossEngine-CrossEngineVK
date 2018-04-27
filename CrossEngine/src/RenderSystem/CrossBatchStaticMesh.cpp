@@ -84,8 +84,11 @@ namespace CrossEngine {
 		m_ptrCommandBuffer = ptrCommandBuffer;
 		m_ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, ptrFrameBuffer, ptrRenderPass, m_indexSubPass);
 		{
-			if (m_ptrDescriptorSet.IsNull() == FALSE && m_ptrDescriptorSet->GetHandle() != NULL) {
-				m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet, m_ptrPipelineGraphics);
+			m_ptrCommandBuffer->CmdBindPipelineGraphics(m_ptrMaterialPipelineGraphics);
+			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrMaterialDescriptorSet, m_ptrMaterialPipelineGraphics);
+
+			if (m_ptrDrawDescriptorSet.IsNull() == FALSE && m_ptrDrawDescriptorSet->GetHandle() != NULL) {
+				m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet, m_ptrMaterialPipelineGraphics);
 			}
 
 			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer, 0, 1);

@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 	protected:
 		virtual void Clear(void);
-		virtual void AddDrawable(uint32_t dwPassName, const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics, uint32_t indexSubPass);
+		virtual void AddDrawable(uint32_t dwPassName, const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrMaterialPipelineGraphics, const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet, uint32_t indexSubPass);
 
 	protected:
 		virtual void UpdateInstanceBuffer(void) = 0;
@@ -56,8 +56,9 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_indexSubPass;
-		CGfxDescriptorSetPtr m_ptrDescriptorSet;
-		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
+		CGfxDescriptorSetPtr m_ptrDrawDescriptorSet;
+		CGfxDescriptorSetPtr m_ptrMaterialDescriptorSet;
+		CGfxPipelineGraphicsPtr m_ptrMaterialPipelineGraphics;
 		CGfxCommandBufferPtr m_ptrCommandBuffer;
 
 	protected:
