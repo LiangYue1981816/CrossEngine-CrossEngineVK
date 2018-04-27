@@ -56,6 +56,8 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_indexSubPass;
+		CGfxIndexBufferPtr m_ptrIndexBuffer;
+		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxDescriptorSetPtr m_ptrDrawDescriptorSet;
 		CGfxDescriptorSetPtr m_ptrMaterialDescriptorSet;
 		CGfxPipelineGraphicsPtr m_ptrMaterialPipelineGraphics;

@@ -190,23 +190,11 @@ namespace CrossEngine {
 					const auto &itMaterialPipelineQueue = itPassQueue->second.find(indexPass);
 					if (itMaterialPipelineQueue != itPassQueue->second.end()) {
 						for (const auto &itMaterialDescriptorSetQueue : itMaterialPipelineQueue->second) {
-							ptrMainCommandBuffer->CmdBindPipelineGraphics(itMaterialDescriptorSetQueue.first);
-							{
-								for (const auto itBatchQueue : itMaterialDescriptorSetQueue.second) {
-									ptrMainCommandBuffer->CmdBindDescriptorSetGraphics(itBatchQueue.first, itMaterialDescriptorSetQueue.first);
-									{
-										for (const auto itVertexQueue : itBatchQueue.second) {
-											ptrMainCommandBuffer->CmdBindVertexBuffer(itVertexQueue.first, 0, 0);
-											{
-												for (const auto itVertexIndexQueue : itVertexQueue.second) {
-													ptrMainCommandBuffer->CmdBindIndexBuffer(itVertexIndexQueue.first, 0, VK_INDEX_TYPE_UINT16);
-													{
-														for (const auto itVertexIndexDescriptorSet : itVertexIndexQueue.second) {
-															ptrMainCommandBuffer->CmdExecuteCommandBuffer(itVertexIndexDescriptorSet.second->GetCommandBuffer());
-														}
-													}
-												}
-											}
+							for (const auto itBatchQueue : itMaterialDescriptorSetQueue.second) {
+								for (const auto itVertexQueue : itBatchQueue.second) {
+									for (const auto itVertexIndexQueue : itVertexQueue.second) {
+										for (const auto itVertexIndexDescriptorSet : itVertexIndexQueue.second) {
+											ptrMainCommandBuffer->CmdExecuteCommandBuffer(itVertexIndexDescriptorSet.second->GetCommandBuffer());
 										}
 									}
 								}

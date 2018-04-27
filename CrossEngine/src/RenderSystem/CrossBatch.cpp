@@ -56,6 +56,8 @@ namespace CrossEngine {
 		m_firstInstance = 0;
 
 		m_indexSubPass = 0;
+		m_ptrIndexBuffer.Release();
+		m_ptrVertexBuffer.Release();
 		m_ptrDrawDescriptorSet.Release();
 		m_ptrMaterialDescriptorSet.Release();
 		m_ptrMaterialPipelineGraphics.Release();
@@ -71,6 +73,8 @@ namespace CrossEngine {
 		m_vertexOffset = pDrawable->GetVertexOffset();
 
 		m_indexSubPass = indexSubPass;
+		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
+		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();
 		m_ptrDrawDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
 		m_ptrMaterialDescriptorSet = ptrMaterialDescriptorSet;
 		m_ptrMaterialPipelineGraphics = ptrMaterialPipelineGraphics;

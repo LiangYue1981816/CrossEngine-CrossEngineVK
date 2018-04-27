@@ -86,11 +86,10 @@ namespace CrossEngine {
 		{
 			m_ptrCommandBuffer->CmdBindPipelineGraphics(m_ptrMaterialPipelineGraphics);
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrMaterialDescriptorSet, m_ptrMaterialPipelineGraphics);
+			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet, m_ptrMaterialPipelineGraphics);
 
-			if (m_ptrDrawDescriptorSet.IsNull() == FALSE && m_ptrDrawDescriptorSet->GetHandle() != NULL) {
-				m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet, m_ptrMaterialPipelineGraphics);
-			}
-
+			m_ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT16);
+			m_ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer, 0, 0);
 			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer, 0, 1);
 			m_ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 		}
