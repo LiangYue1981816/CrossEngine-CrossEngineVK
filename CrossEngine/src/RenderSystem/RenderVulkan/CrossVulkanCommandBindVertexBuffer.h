@@ -45,6 +45,10 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrVertexBuffer.IsNull() || m_ptrVertexBuffer->GetHandle() == NULL) {
+				return;
+			}
+
 			VkBuffer vkBuffer = (VkBuffer)m_ptrVertexBuffer->GetHandle();
 			vkCmdBindVertexBuffers(m_vkCommandBuffer, m_binding, 1, &vkBuffer, &m_offset);
 		}

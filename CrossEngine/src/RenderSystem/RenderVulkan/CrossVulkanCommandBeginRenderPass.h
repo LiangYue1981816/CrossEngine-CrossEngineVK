@@ -45,6 +45,14 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrFrameBuffer.IsNull() || m_ptrFrameBuffer->GetHandle() == NULL) {
+				return;
+			}
+
+			if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) {
+				return;
+			}
+
 			std::vector<VkClearValue> clearValues;
 			for (uint32_t indexAttachment = 0; indexAttachment < m_ptrRenderPass->GetAttachmentCount(); indexAttachment++) {
 				clearValues.push_back(*m_ptrRenderPass->GetAttachmentClearValue(indexAttachment));

@@ -45,7 +45,12 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			vkCmdBindIndexBuffer(m_vkCommandBuffer, (VkBuffer)m_ptrIndexBuffer->GetHandle(), m_offset, m_indexType);
+			if (m_ptrIndexBuffer.IsNull() || m_ptrIndexBuffer->GetHandle() == NULL) {
+				return;
+			}
+
+			VkBuffer vkBuffer = (VkBuffer)m_ptrIndexBuffer->GetHandle();
+			vkCmdBindIndexBuffer(m_vkCommandBuffer, vkBuffer, m_offset, m_indexType);
 		}
 
 

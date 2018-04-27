@@ -41,6 +41,10 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrIndexBuffer.IsNull() || m_ptrIndexBuffer->GetHandle() == NULL) {
+				return;
+			}
+
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)((CGLES3IndexBuffer *)((CGfxIndexBuffer *)m_ptrIndexBuffer))->GetHandle());
 		}
 

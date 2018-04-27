@@ -43,6 +43,14 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrDescriptorSet.IsNull() || m_ptrDescriptorSet->GetHandle() == NULL) {
+				return;
+			}
+
+			if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) {
+				return;
+			}
+
 			GLuint indexTexUnit = 0;
 
 			const CGLES3DescriptorSet *pDescriptorSet = (CGLES3DescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet);

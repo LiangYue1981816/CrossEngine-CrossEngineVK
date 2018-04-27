@@ -41,6 +41,10 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrPipelineGraphics.IsNull() || m_ptrPipelineGraphics->GetHandle() == NULL) {
+				return;
+			}
+
 			const CGLES3PipelineGraphics *pPipeline = (CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics);
 			const VkPipelineInputAssemblyStateCreateInfo& inputAssemblyState = pPipeline->GetInputAssemblyState();
 			const VkPipelineRasterizationStateCreateInfo& rasterizationState = pPipeline->GetRasterizationState();

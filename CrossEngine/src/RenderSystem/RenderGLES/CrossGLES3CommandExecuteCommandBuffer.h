@@ -41,6 +41,10 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrCommandBuffer.IsNull() || m_ptrCommandBuffer->GetHandle() == NULL) {
+				return;
+			}
+
 			((CGLES3CommandBuffer *)((CGfxCommandBuffer *)m_ptrCommandBuffer))->Execute();
 		}
 

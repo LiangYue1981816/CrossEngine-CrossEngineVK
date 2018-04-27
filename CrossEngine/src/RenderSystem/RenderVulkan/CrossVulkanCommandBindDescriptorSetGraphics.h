@@ -44,6 +44,14 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrDescriptorSet.IsNull() || m_ptrDescriptorSet->GetHandle() == NULL) {
+				return;
+			}
+
+			if (m_ptrPipelineGraphics.IsNull() || m_ptrPipelineGraphics->GetHandle() == NULL) {
+				return;
+			}
+
 			VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)m_ptrDescriptorSet->GetHandle();
 			VkPipelineLayout vkPipelineLayout = ((CVulkanPipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetPipelineLayout();
 			std::vector<uint32_t> offsets = ((CVulkanDescriptorSet *)((CGfxDescriptorSet *)m_ptrDescriptorSet))->GetUniformBufferOffsets();

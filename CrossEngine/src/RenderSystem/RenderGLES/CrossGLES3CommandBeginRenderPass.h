@@ -42,7 +42,13 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrFrameBuffer.IsNull() || m_ptrFrameBuffer->GetHandle() == NULL) {
+				return;
+			}
 
+			if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) {
+				return;
+			}
 		}
 
 

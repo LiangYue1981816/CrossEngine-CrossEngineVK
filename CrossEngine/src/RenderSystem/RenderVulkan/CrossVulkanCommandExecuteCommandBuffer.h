@@ -43,6 +43,10 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrCommandBuffer.IsNull() || m_ptrCommandBuffer->GetHandle() == NULL) {
+				return;
+			}
+
 			VkCommandBuffer vkCommandBuffer = (VkCommandBuffer)m_ptrCommandBuffer->GetHandle();
 			vkCmdExecuteCommands(m_vkCommandBuffer, 1, &vkCommandBuffer);
 		}

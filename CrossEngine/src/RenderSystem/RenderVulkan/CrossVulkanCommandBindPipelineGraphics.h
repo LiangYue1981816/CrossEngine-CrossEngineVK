@@ -43,7 +43,12 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (VkPipeline)m_ptrPipelineGraphics->GetHandle());
+			if (m_ptrPipelineGraphics.IsNull() || m_ptrPipelineGraphics->GetHandle() == NULL) {
+				return;
+			}
+
+			VkPipeline vkPipeline = (VkPipeline)m_ptrPipelineGraphics->GetHandle();
+			vkCmdBindPipeline(m_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, vkPipeline);
 		}
 
 

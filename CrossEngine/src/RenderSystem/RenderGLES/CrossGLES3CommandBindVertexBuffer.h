@@ -43,6 +43,10 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			if (m_ptrVertexBuffer.IsNull() || m_ptrVertexBuffer->GetHandle() == NULL) {
+				return;
+			}
+
 			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
 			const GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(pVertexBuffer->GetVertexFormat());
 

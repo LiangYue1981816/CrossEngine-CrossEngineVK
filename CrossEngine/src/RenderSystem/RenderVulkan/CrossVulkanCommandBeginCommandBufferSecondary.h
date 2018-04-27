@@ -49,7 +49,17 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			vkBeginCommandBufferSecondary(m_vkCommandBuffer, m_flags, (VkFramebuffer)m_ptrFrameBuffer->GetHandle(), (VkRenderPass)m_ptrRenderPass->GetHandle(), m_indexSubPass, m_occlusionQueryEnable, m_queryFlags, m_pipelineStatistics);
+			if (m_ptrFrameBuffer.IsNull() || m_ptrFrameBuffer->GetHandle() == NULL) {
+				return;
+			}
+
+			if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->GetHandle() == NULL) {
+				return;
+			}
+
+			VkFramebuffer vkFrameBuffer = (VkFramebuffer)m_ptrFrameBuffer->GetHandle();
+			VkRenderPass vkRenderPass = (VkRenderPass)m_ptrRenderPass->GetHandle();
+			vkBeginCommandBufferSecondary(m_vkCommandBuffer, m_flags, vkFrameBuffer, vkRenderPass, m_indexSubPass, m_occlusionQueryEnable, m_queryFlags, m_pipelineStatistics);
 		}
 
 
