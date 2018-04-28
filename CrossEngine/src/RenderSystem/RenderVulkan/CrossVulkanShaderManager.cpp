@@ -93,7 +93,6 @@ namespace CrossEngine {
 		m_options.SetWarningsAsErrors();
 		m_options.SetSourceLanguage(shaderc_source_language_glsl);
 		m_options.SetForcedVersionProfile(310, shaderc_profile_es);
-		m_options.AddMacroDefinition("VULKAN");
 	}
 
 	CVulkanShaderManager::~CVulkanShaderManager(void)
