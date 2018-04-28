@@ -8,8 +8,10 @@ CrossEngine::CGfxPipelineGraphicsPtr ptrPipeline;
 CrossEngine::CGfxTexturePtr ptrTexture;
 CrossEngine::CGfxIndexBufferPtr ptrIndexBuffer;
 CrossEngine::CGfxVertexBufferPtr ptrVertexBuffer;
-CrossEngine::CGfxUniformBufferPtr ptrUniformBuffer;
-CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSet;
+CrossEngine::CGfxUniformBufferPtr ptrUniformBufferTransform;
+CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSetTransform;
+CrossEngine::CGfxUniformBufferPtr ptrUniformBufferColor;
+CrossEngine::CGfxDescriptorSetPtr ptrDescriptorSetColor;
 
 CrossEngine::CGfxRenderTexturePtr ptrDepthTexture;
 CrossEngine::CGfxRenderPassPtr ptrRenderPass;
@@ -117,31 +119,40 @@ void CreateBuffer(void)
 	ptrIndexBuffer = GfxDevice()->NewIndexBuffer();
 	ptrIndexBuffer->Create(indexBufferSize, indexBuffer.data(), FALSE);
 
-	ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-	ptrUniformBuffer->Create(sizeof(glm::mat4), NULL, TRUE);
-	ptrUniformBuffer->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
+	ptrUniformBufferTransform = GfxDevice()->NewUniformBuffer();
+	ptrUniformBufferTransform->Create(sizeof(glm::mat4), NULL, TRUE);
+	ptrUniformBufferTransform->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
+
+	ptrUniformBufferColor = GfxDevice()->NewUniformBuffer();
+	ptrUniformBufferColor->Create(sizeof(glm::vec4), NULL, TRUE);
+	ptrUniformBufferColor->SetDescriptorBufferInfo(1, 0, 0, sizeof(glm::vec4));
 }
 
 void DestroyBuffer(void)
 {
 	ptrIndexBuffer.Release();
 	ptrVertexBuffer.Release();
-	ptrUniformBuffer.Release();
+	ptrUniformBufferTransform.Release();
+	ptrUniformBufferColor.Release();
 }
 
 void CreateDescriptorSet(void)
 {
 	GfxDevice()->AllocDescriptorSetPool(thread_id());
 
-	ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), 0, ptrPipeline);
-	ptrDescriptorSet->SetUniformBuffer(0, ptrUniformBuffer);
-	ptrDescriptorSet->SetTexture(1, ptrTexture);
-	ptrDescriptorSet->UpdateDescriptorSets();
+	ptrDescriptorSetTransform = GfxDevice()->AllocDescriptorSet(thread_id(), 0, ptrPipeline);
+	ptrDescriptorSetTransform->SetUniformBuffer(0, ptrUniformBufferTransform);
+	ptrDescriptorSetTransform->SetTexture(1, ptrTexture);
+	ptrDescriptorSetTransform->UpdateDescriptorSets();
+
+	ptrDescriptorSetColor = GfxDevice()->AllocDescriptorSet(thread_id(), 1, ptrPipeline);
+	ptrDescriptorSetColor->SetUniformBuffer(0, ptrUniformBufferColor);
+	ptrDescriptorSetColor->UpdateDescriptorSets();
 }
 
 void DestroyDescriptorSet(void)
 {
-	ptrDescriptorSet.Release();
+	ptrDescriptorSetTransform.Release();
 }
 
 void CreateCommandBuffer(void)
@@ -162,7 +173,8 @@ void CreateCommandBuffer(void)
 					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0, 0);
 					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
-					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSet, ptrPipeline);
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetTransform, ptrPipeline);
+					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetColor, ptrPipeline);
 					ptrCommandBuffers[indexView]->CmdDrawIndexed(6, 1, 0, 0, 0);
 				}
 			}
@@ -226,7 +238,10 @@ void Render(void)
 	glm::mat4 mtxView = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 mtxModel = glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 0.0f, 1.0f));
 	glm::mat4 mtxViewModelProjection = mtxProjection * mtxView * mtxModel;
-	ptrUniformBuffer->SetData(0, sizeof(glm::mat4), &mtxViewModelProjection);
+	ptrUniformBufferTransform->SetData(0, sizeof(glm::mat4), &mtxViewModelProjection);
+
+	static glm::vec4 color(1.0f, 0.0f, 0.0f, 1.0f);
+	ptrUniformBufferColor->SetData(0, sizeof(glm::vec4), &color);
 
 	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
 	{
