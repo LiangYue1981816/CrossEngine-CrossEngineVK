@@ -1,4 +1,5 @@
 precision mediump float;
+#include "define.inc"
 
 layout (location = 0) in vec3 inPosition;
 layout (location = 4) in vec2 inTexcoord0;
@@ -8,7 +9,7 @@ layout (location = 9)  in vec4 inInstanceModelToWorldMatrixCol1;
 layout (location = 10) in vec4 inInstanceModelToWorldMatrixCol2;
 layout (location = 11) in vec4 inInstanceModelToWorldMatrixCol3;
 
-layout (set = 0, binding = 0) uniform Camera
+layout (set = DESCRIPTORSET_FRAME, binding = 0) uniform Camera
 {
 	mat4 viewProjectionMatrix;
 } camera;
