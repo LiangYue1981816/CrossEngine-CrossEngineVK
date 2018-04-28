@@ -1,9 +1,9 @@
 precision mediump float;
 
-layout (location = 0) in vec3 inPosition;
-layout (location = 4) in vec2 inTexcoord0;
+VERTEX_ATTRIBUTE_POSITION;
+VERTEX_ATTRIBUTE_TEXCOORD0;
 
-layout (set = 0, binding = 0) uniform Transform
+DESCRIPTORSET_FRAME(0) uniform Transform
 {
 	mat4 modelViewProjectionMatrix;
 } transform;
