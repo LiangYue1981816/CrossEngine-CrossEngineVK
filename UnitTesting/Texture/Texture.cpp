@@ -125,7 +125,7 @@ void CreateBuffer(void)
 
 	ptrUniformBufferColor = GfxDevice()->NewUniformBuffer();
 	ptrUniformBufferColor->Create(sizeof(glm::vec4), NULL, TRUE);
-	ptrUniformBufferColor->SetDescriptorBufferInfo(1, 0, 0, sizeof(glm::vec4));
+	ptrUniformBufferColor->SetDescriptorBufferInfo(1, 2, 0, sizeof(glm::vec4));
 }
 
 void DestroyBuffer(void)
@@ -146,7 +146,7 @@ void CreateDescriptorSet(void)
 	ptrDescriptorSetTransform->UpdateDescriptorSets();
 
 	ptrDescriptorSetColor = GfxDevice()->AllocDescriptorSet(thread_id(), 1, ptrPipeline);
-	ptrDescriptorSetColor->SetUniformBuffer(0, ptrUniformBufferColor);
+	ptrDescriptorSetColor->SetUniformBuffer(2, ptrUniformBufferColor);
 	ptrDescriptorSetColor->UpdateDescriptorSets();
 }
 
