@@ -1,4 +1,5 @@
 precision mediump float;
+#include "engine.inc"
 
 VERTEX_ATTRIBUTE_POSITION;
 VERTEX_ATTRIBUTE_TEXCOORD0;
