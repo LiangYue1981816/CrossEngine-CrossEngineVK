@@ -155,6 +155,11 @@ namespace CrossEngine {
 		}
 	}
 
+	const uint32_t CVulkanDescriptorSet::GetSet(void) const
+	{
+		return m_set;
+	}
+
 	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
 	{
 		return m_typesUsedCount;

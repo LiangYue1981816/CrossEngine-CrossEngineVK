@@ -52,6 +52,7 @@ namespace CrossEngine {
 		void UpdateDescriptorSets(void);
 
 	public:
+		const uint32_t GetSet(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
 		const std::vector<uint32_t> GetUniformBufferOffsets(void) const;
 
