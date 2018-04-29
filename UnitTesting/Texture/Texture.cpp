@@ -153,6 +153,7 @@ void CreateDescriptorSet(void)
 void DestroyDescriptorSet(void)
 {
 	ptrDescriptorSetTransform.Release();
+	ptrDescriptorSetColor.Release();
 }
 
 void CreateCommandBuffer(void)
