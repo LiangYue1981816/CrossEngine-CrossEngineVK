@@ -193,6 +193,7 @@ namespace CrossEngine {
 
 	const CGLES3DescriptorSetLayout* CGLES3Pipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
+		set = 0; // GLES3 not support DescriptorSet!!!
 		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
 		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : NULL;
 	}

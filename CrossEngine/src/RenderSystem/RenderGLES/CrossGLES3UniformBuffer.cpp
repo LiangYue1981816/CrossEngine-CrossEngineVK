@@ -71,6 +71,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
+		set = 0; // GLES3 not support DescriptorSet!!!
 		m_vkDescriptorBufferInfos[set][binding].buffer = VK_NULL_HANDLE;
 		m_vkDescriptorBufferInfos[set][binding].offset = offset;
 		m_vkDescriptorBufferInfos[set][binding].range = size;
@@ -80,6 +81,7 @@ namespace CrossEngine {
 
 	const VkDescriptorBufferInfo& CGLES3UniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
 	{
+		set = 0; // GLES3 not support DescriptorSet!!!
 		return m_vkDescriptorBufferInfos[set][binding];
 	}
 
