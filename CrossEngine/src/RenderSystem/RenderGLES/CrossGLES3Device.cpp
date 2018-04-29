@@ -264,14 +264,19 @@ namespace CrossEngine {
 
 	}
 
+	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayout *pDescriptorSetLayout)
+	{
+		return m_pDescriptorSetManager->AllocDescriptorSet((CGLES3DescriptorSetLayout *)pDescriptorSetLayout);
+	}
+
 	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)
 	{
-		return m_pDescriptorSetManager->AllocDescriptorSet(((CGLES3PipelineCompute *)((CGfxPipelineCompute *)ptrPipeline))->GetDescriptorSetLayout(set));
+		return AllocDescriptorSet(pool, (CGfxDescriptorSetLayout *)((CGLES3PipelineCompute *)((CGfxPipelineCompute *)ptrPipeline))->GetDescriptorSetLayout(set));
 	}
 
 	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
-		return m_pDescriptorSetManager->AllocDescriptorSet(((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetDescriptorSetLayout(set));
+		return AllocDescriptorSet(pool, (CGfxDescriptorSetLayout *)((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetDescriptorSetLayout(set));
 	}
 
 	CGfxIndexBufferPtr CGLES3Device::NewIndexBuffer(void)
