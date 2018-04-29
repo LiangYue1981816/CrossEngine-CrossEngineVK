@@ -25,4 +25,23 @@ THE SOFTWARE.
 
 
 namespace CrossEngine {
+
+	class CROSS_EXPORT CGfxDescriptorSetLayout
+	{
+	protected:
+		CGfxDescriptorSetLayout(void)
+		{
+
+		}
+		virtual ~CGfxDescriptorSetLayout(void)
+		{
+
+		}
+
+
+	public:
+		virtual uint32_t GetSet(void) const = 0;
+		virtual uint32_t GetBinding(uint32_t dwName) const = 0;
+	};
+
 }
