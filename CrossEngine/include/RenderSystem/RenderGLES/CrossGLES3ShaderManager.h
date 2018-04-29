@@ -61,7 +61,6 @@ namespace CrossEngine {
 
 		shaderc::Compiler m_compiler;
 		shaderc::CompileOptions m_options;
-		std::vector<std::string> m_strMacroDefinitions;
 
 	protected:
 		CGLES3Device *m_pDevice;

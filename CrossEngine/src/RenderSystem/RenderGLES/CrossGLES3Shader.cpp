@@ -86,10 +86,6 @@ namespace CrossEngine {
 		options.es = true;
 		((spirv_cross::CompilerGLSL *)m_pShaderCompiler)->set_options(options);
 
-		for (const auto &itMacroDefinition : ((CGLES3ShaderManager *)m_pResourceManager)->m_strMacroDefinitions) {
-			((spirv_cross::CompilerGLSL *)m_pShaderCompiler)->add_header_line(itMacroDefinition);
-		}
-
 		const std::string strSource = m_pShaderCompiler->compile();
 		const char *szSource = strSource.c_str();
 

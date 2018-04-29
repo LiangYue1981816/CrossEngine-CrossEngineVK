@@ -93,6 +93,7 @@ namespace CrossEngine {
 		m_options.SetWarningsAsErrors();
 		m_options.SetSourceLanguage(shaderc_source_language_glsl);
 		m_options.SetForcedVersionProfile(310, shaderc_profile_es);
+		m_options.AddMacroDefinition("GLES");
 	}
 
 	CGLES3ShaderManager::~CGLES3ShaderManager(void)
@@ -154,19 +155,11 @@ namespace CrossEngine {
 	void CGLES3ShaderManager::AddMacroDefinition(const char *szName)
 	{
 		m_options.AddMacroDefinition(szName);
-
-		char szMacroDefinition[_MAX_STRING];
-		sprintf(szMacroDefinition, "#define %s", szName);
-		m_strMacroDefinitions.push_back(szMacroDefinition);
 	}
 
 	void CGLES3ShaderManager::AddMacroDefinition(const char *szName, const char *szValue)
 	{
 		m_options.AddMacroDefinition(szName, szValue);
-
-		char szMacroDefinition[_MAX_STRING];
-		sprintf(szMacroDefinition, "#define %s %s", szName, szValue);
-		m_strMacroDefinitions.push_back(szMacroDefinition);
 	}
 
 }

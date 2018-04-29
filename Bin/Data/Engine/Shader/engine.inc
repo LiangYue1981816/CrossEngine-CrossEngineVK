@@ -12,12 +12,12 @@
 #define INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 layout (location = 10) in vec4 inInstanceModelToWorldMatrixCol2
 #define INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3 layout (location = 11) in vec4 inInstanceModelToWorldMatrixCol3
 
-#ifdef VULKAN
-	#define DESCRIPTORSET_FRAME(b) layout (set = 0, binding = b)
-	#define DESCRIPTORSET_PASS(b)  layout (set = 1, binding = b)
-	#define DESCRIPTORSET_DRAW(b)  layout (set = 2, binding = b)
-#else // GLES
+#ifdef GLES
 	#define DESCRIPTORSET_FRAME(b) layout (binding = b)
 	#define DESCRIPTORSET_PASS(b)  layout (binding = b)
 	#define DESCRIPTORSET_DRAW(b)  layout (binding = b)
+#else
+	#define DESCRIPTORSET_FRAME(b) layout (set = 0, binding = b)
+	#define DESCRIPTORSET_PASS(b)  layout (set = 1, binding = b)
+	#define DESCRIPTORSET_DRAW(b)  layout (set = 2, binding = b)
 #endif
