@@ -40,6 +40,7 @@ THE SOFTWARE.
 #include "CrossGfxPipelineCompute.h"
 #include "CrossGfxPipelineGraphics.h"
 #include "CrossGfxDescriptorSet.h"
+#include "CrossGfxDescriptorSetLayout.h"
 #include "CrossGfxMaterial.h"
 #include "CrossGfxMaterialPass.h"
 #include "CrossGfxRenderPass.h"

@@ -40,6 +40,7 @@ THE SOFTWARE.
 #include "CrossVulkanCommandPoolManager.h"
 #include "CrossVulkanDescriptorSet.h"
 #include "CrossVulkanDescriptorPool.h"
+#include "CrossVulkanDescriptorSetLayout.h"
 #include "CrossVulkanDescriptorSetManager.h"
 #include "CrossVulkanBuffer.h"
 #include "CrossVulkanIndexBuffer.h"

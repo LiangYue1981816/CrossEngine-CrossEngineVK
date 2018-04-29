@@ -22,38 +22,51 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossGLES3Definition.h"
-#include "CrossGLES3Extent.h"
-#include "CrossGLES3Helper.h"
-#include "CrossGLES3Instance.h"
-#include "CrossGLES3Queue.h"
-#include "CrossGLES3DeviceProperties.h"
-#include "CrossGLES3Device.h"
-#include "CrossGLES3Swapchain.h"
-#include "CrossGLES3CommandBuffer.h"
-#include "CrossGLES3CommandBufferManager.h"
-#include "CrossGLES3DescriptorSet.h"
-#include "CrossGLES3DescriptorSetLayout.h"
-#include "CrossGLES3DescriptorSetManager.h"
-#include "CrossGLES3Buffer.h"
-#include "CrossGLES3IndexBuffer.h"
-#include "CrossGLES3VertexBuffer.h"
-#include "CrossGLES3UniformBuffer.h"
-#include "CrossGLES3BufferManager.h"
-#include "CrossGLES3Image.h"
-#include "CrossGLES3Texture.h"
-#include "CrossGLES3RenderTexture.h"
-#include "CrossGLES3TextureManager.h"
-#include "CrossGLES3Shader.h"
-#include "CrossGLES3ShaderManager.h"
-#include "CrossGLES3Pipeline.h"
-#include "CrossGLES3PipelineCompute.h"
-#include "CrossGLES3PipelineGraphics.h"
-#include "CrossGLES3PipelineManager.h"
-#include "CrossGLES3Material.h"
-#include "CrossGLES3MaterialPass.h"
-#include "CrossGLES3MaterialManager.h"
-#include "CrossGLES3RenderPass.h"
-#include "CrossGLES3RenderPassManager.h"
-#include "CrossGLES3FrameBuffer.h"
-#include "CrossGLES3FrameBufferManager.h"
+
+
+namespace CrossEngine {
+
+	class CROSS_EXPORT CVulkanDescriptorSetLayout
+	{
+		friend class CVulkanPipeline;
+
+
+	protected:
+		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, uint32_t set);
+		virtual ~CVulkanDescriptorSetLayout(void);
+
+
+	protected:
+		BOOL Create(void);
+		void Destroy(void);
+
+	protected:
+		BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
+		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
+		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
+
+	public:
+		uint32_t GetSet(void) const;
+		uint32_t GetBinding(uint32_t dwName) const;
+
+	public:
+		VkDescriptorSetLayout GetLayout(void) const;
+		const uint32_t* GetTypesUsedCount(void) const;
+
+
+	protected:
+		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
+
+	protected:
+		uint32_t m_set;
+		std::map<uint32_t, uint32_t> m_names;
+		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
+
+	protected:
+		VkDescriptorSetLayout m_vkDescriptorSetLayout;
+
+	protected:
+		CVulkanDevice *m_pDevice;
+	};
+
+}

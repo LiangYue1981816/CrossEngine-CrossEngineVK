@@ -25,86 +25,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3DescriptorSetLayout::CGLES3DescriptorSetLayout(uint32_t set)
-		: m_set(set)
-	{
-
-	}
-
-	CGLES3DescriptorSetLayout::~CGLES3DescriptorSetLayout(void)
-	{
-
-	}
-
-	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, GLuint program)
-	{
-		uint32_t dwName = HashValue(szName);
-		GLuint location = glGetUniformBlockIndex(program, szName);
-
-		if (location != GL_INVALID_INDEX) {
-			m_names[dwName] = binding;
-			m_uniformBlockBindings[program][binding] = location;
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	BOOL CGLES3DescriptorSetLayout::SetSampledImageBinding(const char *szName, uint32_t binding, GLuint program)
-	{
-		uint32_t dwName = HashValue(szName);
-		GLuint location = glGetUniformLocation(program, szName);
-
-		if (location != GL_INVALID_INDEX) {
-			m_names[dwName] = binding;
-			m_sampledImageBindings[program][binding] = location;
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	BOOL CGLES3DescriptorSetLayout::SetInputAttachmentBinding(const char *szName, uint32_t binding, GLuint program)
-	{
-		uint32_t dwName = HashValue(szName);
-		GLuint location = glGetUniformLocation(program, szName);
-
-		if (location != GL_INVALID_INDEX) {
-			m_names[dwName] = binding;
-			m_inputAttachmentBindings[program][binding] = location;
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	uint32_t CGLES3DescriptorSetLayout::GetSet(void) const
-	{
-		return m_set;
-	}
-
-	uint32_t CGLES3DescriptorSetLayout::GetBinding(uint32_t dwName) const
-	{
-		const auto &itName = m_names.find(dwName);
-		return itName != m_names.end() ? itName->second : -1;
-	}
-
-	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(void) const
-	{
-		return m_uniformBlockBindings;
-	}
-
-	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetSampledImageBindings(void) const
-	{
-		return m_sampledImageBindings;
-	}
-
-	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetInputAttachmentBindings(void) const
-	{
-		return m_inputAttachmentBindings;
-	}
-
-
 	CGLES3Pipeline::CGLES3Pipeline(CGLES3Device *pDevice)
 		: m_pDevice(pDevice)
 		, m_pipeline(0)
@@ -131,7 +51,7 @@ namespace CrossEngine {
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itUniform.type_id);
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CGLES3DescriptorSetLayout(set);
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CGLES3DescriptorSetLayout(m_pDevice, set);
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
@@ -145,7 +65,7 @@ namespace CrossEngine {
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSampledImage.type_id);
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CGLES3DescriptorSetLayout(set);
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CGLES3DescriptorSetLayout(m_pDevice, set);
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
@@ -159,7 +79,7 @@ namespace CrossEngine {
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSubpassInput.type_id);
 
 				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CGLES3DescriptorSetLayout(set);
+					m_pDescriptorSetLayouts[set] = SAFE_NEW CGLES3DescriptorSetLayout(m_pDevice, set);
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Image) {

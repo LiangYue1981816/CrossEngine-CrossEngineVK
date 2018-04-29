@@ -26,49 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanDescriptorSetLayout
-	{
-		friend class CVulkanPipeline;
-
-
-	protected:
-		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, uint32_t set);
-		virtual ~CVulkanDescriptorSetLayout(void);
-
-
-	protected:
-		BOOL Create(void);
-		void Destroy(void);
-
-	protected:
-		BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
-		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
-		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
-
-	public:
-		uint32_t GetSet(void) const;
-		uint32_t GetBinding(uint32_t dwName) const;
-
-	public:
-		VkDescriptorSetLayout GetLayout(void) const;
-		const uint32_t* GetTypesUsedCount(void) const;
-
-
-	protected:
-		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
-
-	protected:
-		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_names;
-		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
-
-	protected:
-		VkDescriptorSetLayout m_vkDescriptorSetLayout;
-
-	protected:
-		CVulkanDevice *m_pDevice;
-	};
-
 	class CROSS_EXPORT CVulkanPipeline
 	{
 	protected:
