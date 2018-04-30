@@ -111,10 +111,10 @@ namespace CrossEngine {
 		m_pDescriptorSetLayouts.clear();
 	}
 
-	const CGfxShaderPtr& CGLES3Pipeline::GetShader(VkShaderStageFlags flags) const
+	const CGfxShaderPtr& CGLES3Pipeline::GetShader(VkShaderStageFlagBits flag) const
 	{
 		static const CGfxShaderPtr ptrShaderNull;
-		const auto &itShader = m_ptrShaders.find(flags);
+		const auto &itShader = m_ptrShaders.find(flag);
 		return itShader != m_ptrShaders.end() ? itShader->second : ptrShaderNull;
 	}
 

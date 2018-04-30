@@ -40,7 +40,7 @@ namespace CrossEngine {
 		void DestroyDescriptorSetLayouts(void);
 
 	public:
-		const CGfxShaderPtr& GetShader(VkShaderStageFlags flags) const;
+		const CGfxShaderPtr& GetShader(VkShaderStageFlagBits flag) const;
 		const CGfxDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
 
 
