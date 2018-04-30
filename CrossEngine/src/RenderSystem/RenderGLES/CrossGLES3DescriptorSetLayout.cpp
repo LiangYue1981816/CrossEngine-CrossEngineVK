@@ -37,6 +37,16 @@ namespace CrossEngine {
 
 	}
 
+	BOOL CGLES3DescriptorSetLayout::Create(void)
+	{
+		return TRUE;
+	}
+
+	void CGLES3DescriptorSetLayout::Destroy(void)
+	{
+
+	}
+
 	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, GLuint program)
 	{
 		uint32_t dwName = HashValue(szName);

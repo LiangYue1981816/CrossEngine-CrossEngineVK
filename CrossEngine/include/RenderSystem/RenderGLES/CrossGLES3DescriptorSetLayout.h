@@ -26,17 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3DescriptorSetLayout
+	class CROSS_EXPORT CGLES3DescriptorSetLayout : public CGfxDescriptorSetLayout
 	{
-		friend class CGLES3Pipeline;
-
-
-	protected:
+	public:
 		CGLES3DescriptorSetLayout(CGLES3Device *pDevice, uint32_t set);
 		virtual ~CGLES3DescriptorSetLayout(void);
 
 
-	protected:
+	public:
+		BOOL Create(void);
+		void Destroy(void);
+
+	public:
 		BOOL SetUniformBinding(const char *szName, uint32_t binding, GLuint program);
 		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, GLuint program);
 		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, GLuint program);

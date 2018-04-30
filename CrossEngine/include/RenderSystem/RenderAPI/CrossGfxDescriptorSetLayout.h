@@ -40,6 +40,10 @@ namespace CrossEngine {
 
 
 	public:
+		virtual BOOL Create(void) = 0;
+		virtual void Destroy(void) = 0;
+
+	public:
 		virtual uint32_t GetSet(void) const = 0;
 		virtual uint32_t GetBinding(uint32_t dwName) const = 0;
 	};

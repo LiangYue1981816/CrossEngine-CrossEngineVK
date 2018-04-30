@@ -26,21 +26,18 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanDescriptorSetLayout
+	class CROSS_EXPORT CVulkanDescriptorSetLayout : public CGfxDescriptorSetLayout
 	{
-		friend class CVulkanPipeline;
-
-
-	protected:
+	public:
 		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, uint32_t set);
 		virtual ~CVulkanDescriptorSetLayout(void);
 
 
-	protected:
+	public:
 		BOOL Create(void);
 		void Destroy(void);
 
-	protected:
+	public:
 		BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
 		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
 		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
