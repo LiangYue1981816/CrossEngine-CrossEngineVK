@@ -194,7 +194,7 @@ namespace CrossEngine {
 		return m_vkPipelineLayout;
 	}
 
-	const CVulkanDescriptorSetLayout* CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
+	const CGfxDescriptorSetLayout* CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
 		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
 		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : NULL;

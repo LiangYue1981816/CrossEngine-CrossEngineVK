@@ -111,7 +111,14 @@ namespace CrossEngine {
 		m_pDescriptorSetLayouts.clear();
 	}
 
-	const CGLES3DescriptorSetLayout* CGLES3Pipeline::GetDescriptorSetLayout(uint32_t set) const
+	const CGfxShaderPtr& CGLES3Pipeline::GetShader(VkShaderStageFlags flags) const
+	{
+		static const CGfxShaderPtr ptrShaderNull;
+		const auto &itShader = m_ptrShaders.find(flags);
+		return itShader != m_ptrShaders.end() ? itShader->second : ptrShaderNull;
+	}
+
+	const CGfxDescriptorSetLayout* CGLES3Pipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
 		set = 0; // GLES3 not support DescriptorSet!!!
 		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);

@@ -402,7 +402,7 @@ namespace CrossEngine {
 
 	uint32_t CGLES3PipelineGraphics::GetBinding(uint32_t set, uint32_t dwName) const
 	{
-		if (const CGLES3DescriptorSetLayout *pDescriptorSetLayout = GetDescriptorSetLayout(set)) {
+		if (const CGfxDescriptorSetLayout *pDescriptorSetLayout = GetDescriptorSetLayout(set)) {
 			return pDescriptorSetLayout->GetBinding(dwName);
 		}
 
