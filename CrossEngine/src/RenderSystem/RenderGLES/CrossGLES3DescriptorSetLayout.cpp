@@ -53,7 +53,7 @@ namespace CrossEngine {
 		GLuint location = glGetUniformBlockIndex(program, szName);
 
 		if (location != GL_INVALID_INDEX) {
-			m_names[dwName] = binding;
+			m_nameBindings[dwName] = binding;
 			m_uniformBlockBindings[program][binding] = location;
 			return TRUE;
 		}
@@ -67,7 +67,7 @@ namespace CrossEngine {
 		GLuint location = glGetUniformLocation(program, szName);
 
 		if (location != GL_INVALID_INDEX) {
-			m_names[dwName] = binding;
+			m_nameBindings[dwName] = binding;
 			m_sampledImageBindings[program][binding] = location;
 			return TRUE;
 		}
@@ -81,7 +81,7 @@ namespace CrossEngine {
 		GLuint location = glGetUniformLocation(program, szName);
 
 		if (location != GL_INVALID_INDEX) {
-			m_names[dwName] = binding;
+			m_nameBindings[dwName] = binding;
 			m_inputAttachmentBindings[program][binding] = location;
 			return TRUE;
 		}
@@ -96,8 +96,8 @@ namespace CrossEngine {
 
 	uint32_t CGLES3DescriptorSetLayout::GetBinding(uint32_t dwName) const
 	{
-		const auto &itName = m_names.find(dwName);
-		return itName != m_names.end() ? itName->second : -1;
+		const auto &itName = m_nameBindings.find(dwName);
+		return itName != m_nameBindings.end() ? itName->second : -1;
 	}
 
 	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(void) const

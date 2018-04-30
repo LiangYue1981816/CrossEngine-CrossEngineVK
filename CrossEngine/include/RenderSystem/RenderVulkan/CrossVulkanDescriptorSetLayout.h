@@ -56,8 +56,8 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_names;
-		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_bindings;
+		std::map<uint32_t, uint32_t> m_nameBindings;
+		std::map<uint32_t, VkDescriptorSetLayoutBinding> m_layoutBindings;
 
 	protected:
 		VkDescriptorSetLayout m_vkDescriptorSetLayout;

@@ -44,7 +44,7 @@ namespace CrossEngine {
 	{
 		try {
 			std::vector<VkDescriptorSetLayoutBinding> bindings;
-			for (const auto &itBinding : m_bindings) {
+			for (const auto &itBinding : m_layoutBindings) {
 				bindings.push_back(itBinding.second);
 			}
 
@@ -72,8 +72,8 @@ namespace CrossEngine {
 			vkDestroyDescriptorSetLayout(m_pDevice->GetDevice(), m_vkDescriptorSetLayout, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 		}
 
-		m_names.clear();
-		m_bindings.clear();
+		m_nameBindings.clear();
+		m_layoutBindings.clear();
 		m_vkDescriptorSetLayout = VK_NULL_HANDLE;
 
 		memset(m_numTypesUsedCount, 0, sizeof(m_numTypesUsedCount));
@@ -84,13 +84,13 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 
-		m_bindings[binding].binding = binding;
-		m_bindings[binding].descriptorType = type;
-		m_bindings[binding].descriptorCount = 1;
-		m_bindings[binding].stageFlags = flags;
-		m_bindings[binding].pImmutableSamplers = NULL;
+		m_layoutBindings[binding].binding = binding;
+		m_layoutBindings[binding].descriptorType = type;
+		m_layoutBindings[binding].descriptorCount = 1;
+		m_layoutBindings[binding].stageFlags = flags;
+		m_layoutBindings[binding].pImmutableSamplers = NULL;
 
-		m_names[dwName] = binding;
+		m_nameBindings[dwName] = binding;
 		m_numTypesUsedCount[type]++;
 
 		return TRUE;
@@ -101,13 +101,13 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 
-		m_bindings[binding].binding = binding;
-		m_bindings[binding].descriptorType = type;
-		m_bindings[binding].descriptorCount = 1;
-		m_bindings[binding].stageFlags = flags;
-		m_bindings[binding].pImmutableSamplers = NULL;
+		m_layoutBindings[binding].binding = binding;
+		m_layoutBindings[binding].descriptorType = type;
+		m_layoutBindings[binding].descriptorCount = 1;
+		m_layoutBindings[binding].stageFlags = flags;
+		m_layoutBindings[binding].pImmutableSamplers = NULL;
 
-		m_names[dwName] = binding;
+		m_nameBindings[dwName] = binding;
 		m_numTypesUsedCount[type]++;
 
 		return TRUE;
@@ -118,13 +118,13 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
 
-		m_bindings[binding].binding = binding;
-		m_bindings[binding].descriptorType = type;
-		m_bindings[binding].descriptorCount = 1;
-		m_bindings[binding].stageFlags = flags;
-		m_bindings[binding].pImmutableSamplers = NULL;
+		m_layoutBindings[binding].binding = binding;
+		m_layoutBindings[binding].descriptorType = type;
+		m_layoutBindings[binding].descriptorCount = 1;
+		m_layoutBindings[binding].stageFlags = flags;
+		m_layoutBindings[binding].pImmutableSamplers = NULL;
 
-		m_names[dwName] = binding;
+		m_nameBindings[dwName] = binding;
 		m_numTypesUsedCount[type]++;
 
 		return TRUE;
@@ -137,8 +137,8 @@ namespace CrossEngine {
 
 	uint32_t CVulkanDescriptorSetLayout::GetBinding(uint32_t dwName) const
 	{
-		const auto &itName = m_names.find(dwName);
-		return itName != m_names.end() ? itName->second : -1;
+		const auto &itName = m_nameBindings.find(dwName);
+		return itName != m_nameBindings.end() ? itName->second : -1;
 	}
 
 	VkDescriptorSetLayout CVulkanDescriptorSetLayout::GetLayout(void) const

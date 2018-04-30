@@ -54,7 +54,7 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_names;
+		std::map<uint32_t, uint32_t> m_nameBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_uniformBlockBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_sampledImageBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_inputAttachmentBindings;
