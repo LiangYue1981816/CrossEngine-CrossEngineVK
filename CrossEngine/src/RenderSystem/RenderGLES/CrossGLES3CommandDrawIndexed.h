@@ -32,13 +32,13 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandDrawIndexed(VkPrimitiveTopology topology, VkIndexType indexType, uint32_t indexCount, uint32_t instanceCount, uint32_t indexFirst, int32_t indexBufferOffset)
+		CGLES3CommandDrawIndexed(VkPrimitiveTopology topology, uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstVertex, uint32_t firstInstance)
 			: m_topology(topology)
-			, m_indexType(indexType)
 			, m_indexCount(indexCount)
 			, m_instanceCount(instanceCount)
-			, m_indexFirst(indexFirst)
-			, m_indexBufferOffset(indexBufferOffset)
+			, m_firstIndex(firstIndex)
+			, m_firstVertex(firstVertex)
+			, m_firstInstance(firstInstance)
 		{
 
 		}
@@ -47,20 +47,27 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
+			typedef struct {
+				uint32_t indexCount;
+				uint32_t instanceCount;
+				uint32_t firstIndex;
+				uint32_t firstVertex;
+				uint32_t reservedMustBeZero;
+			} DrawElementsIndirectCommand;
+
 			GLenum mode = CGLES3Helper::glTranslatePrimitiveTopology(m_topology);
-			GLenum type = CGLES3Helper::glTranslateIndexType(m_indexType);
-			GLsizei size = CGLES3Helper::glGetIndexTypeSize(m_indexType);
-			glDrawElementsInstanced(mode, m_indexCount, type, (const void *)(m_indexBufferOffset + m_indexFirst * size), m_instanceCount);
+			DrawElementsIndirectCommand cmd = { m_indexCount, m_instanceCount, m_firstIndex, m_firstVertex, 0 };
+			glDrawElementsIndirect(mode, GL_UNSIGNED_INT, &cmd);
 		}
 
 
 	protected:
 		VkPrimitiveTopology m_topology;
-		VkIndexType m_indexType;
 		uint32_t m_indexCount;
 		uint32_t m_instanceCount;
-		uint32_t m_indexFirst;
-		uint32_t m_indexBufferOffset;
+		uint32_t m_firstIndex;
+		uint32_t m_firstVertex;
+		uint32_t m_firstInstance;
 	};
 
 }

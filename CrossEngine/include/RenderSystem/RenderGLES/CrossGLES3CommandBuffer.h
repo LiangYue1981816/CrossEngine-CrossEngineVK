@@ -66,8 +66,8 @@ namespace CrossEngine {
 		void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline);
 		void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet);
 		void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet);
-		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, uint32_t binding);
-		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, VkIndexType type);
+		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer);
+		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer);
 
 		void CmdSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f);
 		void CmdSetScissor(int x, int y, uint32_t width, uint32_t height);
@@ -79,15 +79,11 @@ namespace CrossEngine {
 		void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask);
 
 		void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
-		void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance);
+		void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstVertex, uint32_t firstInstance);
 		void CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
 
 		void CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer);
 
-
-	protected:
-		uint32_t m_indexOffset;
-		VkIndexType m_indexType;
 
 	protected:
 		uint32_t m_indexPass;
@@ -95,7 +91,6 @@ namespace CrossEngine {
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		CGfxPipelineComputePtr m_ptrPipelineCompute;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
-
 		std::vector<CGfxCommandBase*> m_pCommands;
 
 	protected:

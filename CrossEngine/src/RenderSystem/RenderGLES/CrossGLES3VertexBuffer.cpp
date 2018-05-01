@@ -29,6 +29,7 @@ namespace CrossEngine {
 		: CGLES3Buffer(pDevice)
 		, CGfxVertexBuffer(pResourceManager)
 		, m_vao(0)
+		, m_binding(0)
 		, m_vertexFormat(0)
 	{
 
@@ -54,24 +55,23 @@ namespace CrossEngine {
 		return (HANDLE)m_vao;
 	}
 
-	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format)
+	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format, uint32_t binding)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::SetData(GL_ARRAY_BUFFER, 0, size, pBuffer));
-		CALL_BOOL_FUNCTION_RETURN(CreateVAO(format));
+		CALL_BOOL_FUNCTION_RETURN(CreateVAO(format, binding));
 		return TRUE;
 	}
 
-	BOOL CGLES3VertexBuffer::CreateVAO(uint32_t format)
+	BOOL CGLES3VertexBuffer::CreateVAO(uint32_t format, uint32_t binding)
 	{
+		m_vao = 0;
+		m_binding = binding;
 		m_vertexFormat = format;
-
-		GLuint binding = 0;
-		GLuint stride = m_pDevice->GetVertexStride(m_vertexFormat);
 
 		glGenVertexArrays(1, &m_vao);
 		glBindVertexArray(m_vao);
-		glBindVertexBuffer(binding, m_buffer, 0, stride);
+		glBindVertexBuffer(m_binding, m_buffer, 0, m_pDevice->GetVertexStride(m_vertexFormat));
 		{
 			for (GLuint indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 				GLuint attribute = (1 << indexAttribute);
@@ -82,7 +82,7 @@ namespace CrossEngine {
 					GLuint offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
 
 					glEnableVertexAttribArray(location);
-					glVertexAttribBinding(location, binding);
+					glVertexAttribBinding(location, m_binding);
 					glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
 				}
 			}
@@ -106,6 +106,7 @@ namespace CrossEngine {
 		}
 
 		m_vao = 0;
+		m_binding = 0;
 		m_vertexFormat = 0;
 	}
 
@@ -127,6 +128,11 @@ namespace CrossEngine {
 	size_t CGLES3VertexBuffer::GetMemorySize(void) const
 	{
 		return CGLES3Buffer::GetMemorySize();
+	}
+
+	uint32_t CGLES3VertexBuffer::GetBinding(void) const
+	{
+		return m_binding;
 	}
 
 	uint32_t CGLES3VertexBuffer::GetVertexFormat(void) const

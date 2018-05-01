@@ -32,12 +32,12 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandDrawIndexed(VkCommandBuffer vkCommandBuffer, uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
+		CVulkanCommandDrawIndexed(VkCommandBuffer vkCommandBuffer, uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstVertex, uint32_t firstInstance)
 			: m_vkCommandBuffer(vkCommandBuffer)
 			, m_indexCount(indexCount)
 			, m_instanceCount(instanceCount)
 			, m_firstIndex(firstIndex)
-			, m_vertexOffset(vertexOffset)
+			, m_firstVertex(firstVertex)
 			, m_firstInstance(firstInstance)
 		{
 			Execute();
@@ -47,7 +47,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			vkCmdDrawIndexed(m_vkCommandBuffer, m_indexCount, m_instanceCount, m_firstIndex, m_vertexOffset, m_firstInstance);
+			vkCmdDrawIndexed(m_vkCommandBuffer, m_indexCount, m_instanceCount, m_firstIndex, m_firstVertex, m_firstInstance);
 		}
 
 
@@ -55,7 +55,7 @@ namespace CrossEngine {
 		uint32_t m_indexCount;
 		uint32_t m_instanceCount;
 		uint32_t m_firstIndex;
-		int32_t m_vertexOffset;
+		uint32_t m_firstVertex;
 		uint32_t m_firstInstance;
 
 	protected:

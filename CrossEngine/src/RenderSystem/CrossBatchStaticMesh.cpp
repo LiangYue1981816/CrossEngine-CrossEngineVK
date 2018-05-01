@@ -56,8 +56,14 @@ namespace CrossEngine {
 				dataInstanceBufferSize <<= 1;
 			}
 
+			uint32_t format = 
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0 | 
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL1 | 
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 | 
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3;
+
 			ptrInstanceBuffer->Destroy();
-			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, 0);
+			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, format, 1);
 		}
 
 		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());
@@ -88,9 +94,9 @@ namespace CrossEngine {
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrMaterialDescriptorSet);
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet);
 
-			m_ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer, VK_INDEX_TYPE_UINT16);
-			m_ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer, 0);
-			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer, 1);
+			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer);
+			m_ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer);
+			m_ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer);
 			m_ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 		}
 		m_ptrCommandBuffer->End();

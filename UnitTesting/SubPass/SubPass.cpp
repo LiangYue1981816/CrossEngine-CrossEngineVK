@@ -86,7 +86,7 @@ void CreateMesh(void)
 		{ { -1.0f,  1.0f, 0.0f },{ 0.0f, 0.0f } }
 	};
 	Mesh.ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
-	Mesh.ptrVertexBuffer->Create(vertexBuffer.size() * sizeof(Vertex), vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD0);
+	Mesh.ptrVertexBuffer->Create(vertexBuffer.size() * sizeof(Vertex), vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD0, 0);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	Mesh.ptrIndexBuffer = GfxDevice()->NewIndexBuffer();
@@ -160,8 +160,8 @@ void CreateCommandBuffer(void)
 				Renderer.ptrCommandBuffers[index]->CmdBindPipelineGraphics(Mesh.ptrGraphics);
 				{
 					Renderer.ptrCommandBuffers[index]->CmdBindDescriptorSetGraphics(Mesh.ptrDescriptorSet);
-					Renderer.ptrCommandBuffers[index]->CmdBindVertexBuffer(Mesh.ptrVertexBuffer, 0);
-					Renderer.ptrCommandBuffers[index]->CmdBindIndexBuffer(Mesh.ptrIndexBuffer, VK_INDEX_TYPE_UINT32);
+					Renderer.ptrCommandBuffers[index]->CmdBindIndexBuffer(Mesh.ptrIndexBuffer);
+					Renderer.ptrCommandBuffers[index]->CmdBindVertexBuffer(Mesh.ptrVertexBuffer);
 					Renderer.ptrCommandBuffers[index]->CmdDrawIndexed(3, 1, 0, 0, 0);
 				}
 			}

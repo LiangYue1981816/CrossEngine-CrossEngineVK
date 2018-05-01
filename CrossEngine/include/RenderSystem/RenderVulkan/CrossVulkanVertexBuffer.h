@@ -41,7 +41,7 @@ namespace CrossEngine {
 		HANDLE GetHandle(void) const;
 
 	public:
-		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format);
+		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format, uint32_t binding);
 		void Destroy(void);
 		void DumpLog(void) const;
 
@@ -50,12 +50,16 @@ namespace CrossEngine {
 
 	public:
 		BOOL IsDynamic(void) const;
+
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
+
+		uint32_t GetBinding(void) const;
 		uint32_t GetVertexFormat(void) const;
 
 
 	protected:
+		uint32_t m_binding;
 		uint32_t m_vertexFormat;
 	};
 

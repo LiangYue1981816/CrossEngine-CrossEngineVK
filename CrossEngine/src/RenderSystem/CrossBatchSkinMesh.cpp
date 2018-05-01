@@ -56,8 +56,14 @@ namespace CrossEngine {
 				dataInstanceBufferSize <<= 1;
 			}
 
+			uint32_t format =
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0 |
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL1 |
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 |
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3;
+
 			ptrInstanceBuffer->Destroy();
-			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, 0);
+			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, format, 1);
 		}
 
 		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());

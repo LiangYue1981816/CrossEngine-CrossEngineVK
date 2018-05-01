@@ -182,14 +182,14 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineGraphics));
 	}
 
-	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, uint32_t binding)
+	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindVertexBuffer(m_vkCommandBuffer, ptrVertexBuffer, binding));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindVertexBuffer(m_vkCommandBuffer, ptrVertexBuffer));
 	}
 
-	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, VkIndexType type)
+	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindIndexBuffer(m_vkCommandBuffer, ptrIndexBuffer, type));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindIndexBuffer(m_vkCommandBuffer, ptrIndexBuffer));
 	}
 
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
@@ -238,9 +238,9 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandDraw(m_vkCommandBuffer, vertexCount, instanceCount, firstVertex, firstInstance));
 	}
 
-	void CVulkanCommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
+	void CVulkanCommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandDrawIndexed(m_vkCommandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandDrawIndexed(m_vkCommandBuffer, indexCount, instanceCount, firstIndex, firstVertex, firstInstance));
 	}
 
 	void CVulkanCommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)

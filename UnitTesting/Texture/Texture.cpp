@@ -112,7 +112,7 @@ void CreateBuffer(void)
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
-	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD0);
+	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD0, 0);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);
@@ -171,8 +171,8 @@ void CreateCommandBuffer(void)
 
 				ptrCommandBuffers[indexView]->CmdBindPipelineGraphics(ptrPipeline);
 				{
-					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer, 0);
-					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer, VK_INDEX_TYPE_UINT32);
+					ptrCommandBuffers[indexView]->CmdBindIndexBuffer(ptrIndexBuffer);
+					ptrCommandBuffers[indexView]->CmdBindVertexBuffer(ptrVertexBuffer);
 
 					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetTransform);
 					ptrCommandBuffers[indexView]->CmdBindDescriptorSetGraphics(ptrDescriptorSetColor);
