@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGfxDescriptorSetLayout
 	{
-	protected:
+	public:
 		CGfxDescriptorSetLayout(void)
 		{
 
@@ -51,6 +51,36 @@ namespace CrossEngine {
 	public:
 		virtual uint32_t GetSet(void) const = 0;
 		virtual uint32_t GetBinding(uint32_t dwName) const = 0;
+	};
+
+	class CROSS_EXPORT CGfxDescriptorSetLayoutPtr : public CSharedPtr<CGfxDescriptorSetLayout>
+	{
+	public:
+		CGfxDescriptorSetLayoutPtr(void) : CSharedPtr<CGfxDescriptorSetLayout>()
+		{
+
+		}
+		CGfxDescriptorSetLayoutPtr(const CGfxDescriptorSetLayout *p) : CSharedPtr<CGfxDescriptorSetLayout>(p)
+		{
+
+		}
+		CGfxDescriptorSetLayoutPtr(const CGfxDescriptorSetLayoutPtr &ptr) : CSharedPtr<CGfxDescriptorSetLayout>(ptr)
+		{
+
+		}
+		virtual ~CGfxDescriptorSetLayoutPtr(void)
+		{
+			Release();
+		}
+
+
+	protected:
+		virtual void FreePointer(void)
+		{
+			if (m_pPointer) {
+				SAFE_DELETE(m_pPointer);
+			}
+		}
 	};
 
 }
