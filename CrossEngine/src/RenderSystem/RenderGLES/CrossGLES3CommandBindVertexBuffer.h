@@ -51,7 +51,7 @@ namespace CrossEngine {
 			const GLuint stride = pVertexBuffer->GetDevice()->GetVertexStride(pVertexBuffer->GetVertexFormat());
 
 			glBindVertexArray((GLuint)pVertexBuffer->GetHandleVAO());
-			glBindVertexBuffer(m_binding, (GLuint)pVertexBuffer->GetHandle(), 0, stride);
+			glBindVertexBuffer(m_binding, (GLuint)pVertexBuffer->GetHandle(), m_offset, stride);
 		}
 
 

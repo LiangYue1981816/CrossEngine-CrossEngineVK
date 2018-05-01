@@ -66,12 +66,12 @@ namespace CrossEngine {
 	{
 		m_vertexFormat = format;
 
-		GLuint bindingindex = 0;
+		GLuint binding = 0;
 		GLuint stride = m_pDevice->GetVertexStride(m_vertexFormat);
 
 		glGenVertexArrays(1, &m_vao);
 		glBindVertexArray(m_vao);
-		glBindVertexBuffer(bindingindex, m_buffer, 0, stride);
+		glBindVertexBuffer(binding, m_buffer, 0, stride);
 		{
 			for (GLuint indexAttribute = 0; indexAttribute < VERTEX_ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 				GLuint attribute = (1 << indexAttribute);
@@ -82,7 +82,7 @@ namespace CrossEngine {
 					GLuint offset = m_pDevice->GetVertexAttributeOffset(m_vertexFormat, attribute);
 
 					glEnableVertexAttribArray(location);
-					glVertexAttribBinding(location, bindingindex);
+					glVertexAttribBinding(location, binding);
 					glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
 				}
 			}
