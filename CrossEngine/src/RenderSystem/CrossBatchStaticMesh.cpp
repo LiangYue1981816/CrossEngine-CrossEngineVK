@@ -88,9 +88,9 @@ namespace CrossEngine {
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrMaterialDescriptorSet);
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet);
 
-			m_ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT16);
-			m_ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer, 0, 0);
-			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer, 0, 1);
+			m_ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer, VK_INDEX_TYPE_UINT16);
+			m_ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer, 0);
+			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer, 1);
 			m_ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 		}
 		m_ptrCommandBuffer->End();

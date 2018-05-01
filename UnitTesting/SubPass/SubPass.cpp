@@ -160,8 +160,8 @@ void CreateCommandBuffer(void)
 				Renderer.ptrCommandBuffers[index]->CmdBindPipelineGraphics(Mesh.ptrGraphics);
 				{
 					Renderer.ptrCommandBuffers[index]->CmdBindDescriptorSetGraphics(Mesh.ptrDescriptorSet);
-					Renderer.ptrCommandBuffers[index]->CmdBindVertexBuffer(Mesh.ptrVertexBuffer, 0, 0);
-					Renderer.ptrCommandBuffers[index]->CmdBindIndexBuffer(Mesh.ptrIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+					Renderer.ptrCommandBuffers[index]->CmdBindVertexBuffer(Mesh.ptrVertexBuffer, 0);
+					Renderer.ptrCommandBuffers[index]->CmdBindIndexBuffer(Mesh.ptrIndexBuffer, VK_INDEX_TYPE_UINT32);
 					Renderer.ptrCommandBuffers[index]->CmdDrawIndexed(3, 1, 0, 0, 0);
 				}
 			}

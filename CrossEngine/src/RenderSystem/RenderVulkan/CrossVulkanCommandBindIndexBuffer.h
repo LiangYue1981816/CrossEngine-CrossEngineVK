@@ -32,9 +32,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandBindIndexBuffer(VkCommandBuffer vkCommandBuffer, const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType indexType)
+		CVulkanCommandBindIndexBuffer(VkCommandBuffer vkCommandBuffer, const CGfxIndexBufferPtr &ptrIndexBuffer, VkIndexType indexType)
 			: m_vkCommandBuffer(vkCommandBuffer)
-			, m_offset(offset)
 			, m_indexType(indexType)
 		{
 			m_ptrIndexBuffer = ptrIndexBuffer;
@@ -49,13 +48,13 @@ namespace CrossEngine {
 				return;
 			}
 
+			VkDeviceSize offset = 0;
 			VkBuffer vkBuffer = (VkBuffer)m_ptrIndexBuffer->GetHandle();
-			vkCmdBindIndexBuffer(m_vkCommandBuffer, vkBuffer, m_offset, m_indexType);
+			vkCmdBindIndexBuffer(m_vkCommandBuffer, vkBuffer, offset, m_indexType);
 		}
 
 
 	protected:
-		VkDeviceSize m_offset;
 		VkIndexType m_indexType;
 		CGfxIndexBufferPtr m_ptrIndexBuffer;
 

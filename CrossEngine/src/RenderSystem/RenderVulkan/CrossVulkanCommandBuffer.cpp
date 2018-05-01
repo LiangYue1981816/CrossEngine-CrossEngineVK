@@ -182,14 +182,14 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineGraphics));
 	}
 
-	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)
+	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, uint32_t binding)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindVertexBuffer(m_vkCommandBuffer, ptrVertexBuffer, offset, binding));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindVertexBuffer(m_vkCommandBuffer, ptrVertexBuffer, binding));
 	}
 
-	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type)
+	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, VkIndexType type)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindIndexBuffer(m_vkCommandBuffer, ptrIndexBuffer, offset, type));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindIndexBuffer(m_vkCommandBuffer, ptrIndexBuffer, type));
 	}
 
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)

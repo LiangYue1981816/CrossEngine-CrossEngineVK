@@ -32,9 +32,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandBindVertexBuffer(VkCommandBuffer vkCommandBuffer, const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)
+		CVulkanCommandBindVertexBuffer(VkCommandBuffer vkCommandBuffer, const CGfxVertexBufferPtr &ptrVertexBuffer, uint32_t binding)
 			: m_vkCommandBuffer(vkCommandBuffer)
-			, m_offset(offset)
 			, m_binding(binding)
 		{
 			m_ptrVertexBuffer = ptrVertexBuffer;
@@ -49,14 +48,14 @@ namespace CrossEngine {
 				return;
 			}
 
+			VkDeviceSize offset = 0;
 			VkBuffer vkBuffer = (VkBuffer)m_ptrVertexBuffer->GetHandle();
-			vkCmdBindVertexBuffers(m_vkCommandBuffer, m_binding, 1, &vkBuffer, &m_offset);
+			vkCmdBindVertexBuffers(m_vkCommandBuffer, m_binding, 1, &vkBuffer, &offset);
 		}
 
 
 	protected:
 		uint32_t m_binding;
-		VkDeviceSize m_offset;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
 
 	protected:
