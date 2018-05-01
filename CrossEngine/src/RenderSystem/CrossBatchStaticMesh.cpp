@@ -63,7 +63,7 @@ namespace CrossEngine {
 				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3;
 
 			ptrInstanceBuffer->Destroy();
-			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, format, 1);
+			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, format, INSTANCE_BUFFER_BINDING);
 		}
 
 		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());

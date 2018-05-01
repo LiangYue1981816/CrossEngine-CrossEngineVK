@@ -125,7 +125,7 @@ void CreateBuffer(void)
 	};
 	uint32_t vertexBufferSize = vertexBuffer.size() * sizeof(Vertex);
 	ptrVertexBuffer = GfxDevice()->NewVertexBuffer();
-	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD0, 0);
+	ptrVertexBuffer->Create(vertexBufferSize, vertexBuffer.data(), FALSE, CrossEngine::VERTEX_ATTRIBUTE_POSITION | CrossEngine::VERTEX_ATTRIBUTE_TEXCOORD0, VERTEX_BUFFER_BINDING);
 
 	std::vector<uint32_t> indexBuffer = { 0, 1, 2, 2, 3, 0 };
 	uint32_t indexBufferSize = indexBuffer.size() * sizeof(uint32_t);

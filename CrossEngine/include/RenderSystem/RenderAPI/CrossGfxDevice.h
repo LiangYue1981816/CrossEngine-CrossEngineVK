@@ -26,6 +26,9 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	#define VERTEX_BUFFER_BINDING 0
+	#define INSTANCE_BUFFER_BINDING 1
+
 	typedef enum VertexAttributeFlagBits {
 		VERTEX_ATTRIBUTE_POSITION = 0x00000001,
 		VERTEX_ATTRIBUTE_NORMAL = 0x00000002,

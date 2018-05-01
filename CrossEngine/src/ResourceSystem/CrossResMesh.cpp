@@ -111,7 +111,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrVertexBuffer->Create(m_vertexBufferSize, m_pVertexBuffer, FALSE, m_format, 0) == FALSE) {
+		if (m_ptrVertexBuffer->Create(m_vertexBufferSize, m_pVertexBuffer, FALSE, m_format, VERTEX_BUFFER_BINDING) == FALSE) {
 			return FALSE;
 		}
 
