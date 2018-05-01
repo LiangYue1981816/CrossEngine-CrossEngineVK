@@ -44,6 +44,11 @@ namespace CrossEngine {
 		virtual void Destroy(void) = 0;
 
 	public:
+		virtual BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags) = 0;
+		virtual BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags) = 0;
+		virtual BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags) = 0;
+
+	public:
 		virtual uint32_t GetSet(void) const = 0;
 		virtual uint32_t GetBinding(uint32_t dwName) const = 0;
 	};

@@ -38,23 +38,26 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	public:
-		BOOL SetUniformBinding(const char *szName, uint32_t binding, GLuint program);
-		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, GLuint program);
-		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, GLuint program);
+		BOOL SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
+		BOOL SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
+		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
 
 	public:
 		uint32_t GetSet(void) const;
 		uint32_t GetBinding(uint32_t dwName) const;
 
 	public:
-		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetUniformBlockBindings(void) const;
-		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetSampledImageBindings(void) const;
-		const std::map<uint32_t, std::map<uint32_t, uint32_t>>& GetInputAttachmentBindings(void) const;
+		const std::map<uint32_t, uint32_t>& GetUniformBlockBindings(GLuint program);
+		const std::map<uint32_t, uint32_t>& GetSampledImageBindings(GLuint program);
+		const std::map<uint32_t, uint32_t>& GetInputAttachmentBindings(GLuint program);
 
 
 	protected:
 		uint32_t m_set;
 		std::map<uint32_t, uint32_t> m_nameBindings;
+		std::map<std::string, uint32_t> m_uniformBlockNameBindings;
+		std::map<std::string, uint32_t> m_sampledImageNameBindings;
+		std::map<std::string, uint32_t> m_inputAttachmentNameBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_uniformBlockBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_sampledImageBindings;
 		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_inputAttachmentBindings;

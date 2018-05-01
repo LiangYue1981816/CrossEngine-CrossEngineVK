@@ -47,46 +47,40 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, GLuint program)
+	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
-		GLuint location = glGetUniformBlockIndex(program, szName);
 
-		if (location != GL_INVALID_INDEX) {
+		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
 			m_nameBindings[dwName] = binding;
-			m_uniformBlockBindings[program][binding] = location;
-			return TRUE;
+			m_uniformBlockNameBindings[szName] = binding;
 		}
 
-		return FALSE;
+		return TRUE;
 	}
 
-	BOOL CGLES3DescriptorSetLayout::SetSampledImageBinding(const char *szName, uint32_t binding, GLuint program)
+	BOOL CGLES3DescriptorSetLayout::SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
-		GLuint location = glGetUniformLocation(program, szName);
 
-		if (location != GL_INVALID_INDEX) {
+		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
 			m_nameBindings[dwName] = binding;
-			m_sampledImageBindings[program][binding] = location;
-			return TRUE;
+			m_sampledImageNameBindings[szName] = binding;
 		}
 
-		return FALSE;
+		return TRUE;
 	}
 
-	BOOL CGLES3DescriptorSetLayout::SetInputAttachmentBinding(const char *szName, uint32_t binding, GLuint program)
+	BOOL CGLES3DescriptorSetLayout::SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
-		GLuint location = glGetUniformLocation(program, szName);
 
-		if (location != GL_INVALID_INDEX) {
+		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
 			m_nameBindings[dwName] = binding;
-			m_inputAttachmentBindings[program][binding] = location;
-			return TRUE;
+			m_inputAttachmentNameBindings[szName] = binding;
 		}
 
-		return FALSE;
+		return TRUE;
 	}
 
 	uint32_t CGLES3DescriptorSetLayout::GetSet(void) const
@@ -100,19 +94,58 @@ namespace CrossEngine {
 		return itName != m_nameBindings.end() ? itName->second : -1;
 	}
 
-	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(void) const
+	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(GLuint program)
 	{
-		return m_uniformBlockBindings;
+		if (m_uniformBlockBindings.find(program) == m_uniformBlockBindings.end()) {
+			m_uniformBlockBindings[program];
+
+			for (const auto &itNameBinding : m_uniformBlockNameBindings) {
+				GLuint binding = itNameBinding.second;
+				GLuint location = glGetUniformBlockIndex(program, itNameBinding.first.c_str());
+
+				if (location != GL_INVALID_INDEX) {
+					m_uniformBlockBindings[program][binding] = location;
+				}
+			}
+		}
+
+		return m_uniformBlockBindings[program];
 	}
 
-	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetSampledImageBindings(void) const
+	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetSampledImageBindings(GLuint program)
 	{
-		return m_sampledImageBindings;
+		if (m_sampledImageBindings.find(program) == m_sampledImageBindings.end()) {
+			m_sampledImageBindings[program];
+
+			for (const auto &itNameBinding : m_sampledImageNameBindings) {
+				GLuint binding = itNameBinding.second;
+				GLuint location = glGetUniformLocation(program, itNameBinding.first.c_str());
+
+				if (location != GL_INVALID_INDEX) {
+					m_sampledImageBindings[program][binding] = location;
+				}
+			}
+		}
+
+		return m_sampledImageBindings[program];
 	}
 
-	const std::map<uint32_t, std::map<uint32_t, uint32_t>>& CGLES3DescriptorSetLayout::GetInputAttachmentBindings(void) const
+	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetInputAttachmentBindings(GLuint program)
 	{
-		return m_inputAttachmentBindings;
+		if (m_inputAttachmentBindings.find(program) == m_inputAttachmentBindings.end()) {
+			m_inputAttachmentBindings[program];
+
+			for (const auto &itNameBinding : m_inputAttachmentNameBindings) {
+				GLuint binding = itNameBinding.second;
+				GLuint location = glGetUniformLocation(program, itNameBinding.first.c_str());
+
+				if (location != GL_INVALID_INDEX) {
+					m_inputAttachmentBindings[program][binding] = location;
+				}
+			}
+		}
+
+		return m_inputAttachmentBindings[program];
 	}
 
 }
