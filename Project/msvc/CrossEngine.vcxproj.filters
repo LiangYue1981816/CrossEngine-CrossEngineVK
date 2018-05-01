@@ -408,9 +408,6 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindPipelineGraphics.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindDescriptorSet.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandSetBlendConstants.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
     </ClInclude>
@@ -797,6 +794,12 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetLayout.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindDescriptorSetCompute.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindDescriptorSetGraphics.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

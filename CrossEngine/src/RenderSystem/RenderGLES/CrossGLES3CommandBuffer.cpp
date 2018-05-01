@@ -32,7 +32,8 @@ THE SOFTWARE.
 #include "CrossGLES3CommandBindPipelineGraphics.h"
 #include "CrossGLES3CommandBindIndexBuffer.h"
 #include "CrossGLES3CommandBindVertexBuffer.h"
-#include "CrossGLES3CommandBindDescriptorSet.h"
+#include "CrossGLES3CommandBindDescriptorSetCompute.h"
+#include "CrossGLES3CommandBindDescriptorSetGraphics.h"
 #include "CrossGLES3CommandSetViewport.h"
 #include "CrossGLES3CommandSetScissor.h"
 #include "CrossGLES3CommandSetLineWidth.h"
@@ -98,6 +99,7 @@ namespace CrossEngine {
 		m_indexPass = 0;
 		m_ptrRenderPass.Release();
 		m_ptrFrameBuffer.Release();
+		m_ptrPipelineCompute.Release();
 		m_ptrPipelineGraphics.Release();
 
 		m_indexOffset = 0;
@@ -160,6 +162,7 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
+		m_ptrPipelineCompute = ptrPipeline;
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineCompute(ptrPipeline));
 	}
 
@@ -169,14 +172,14 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(ptrPipeline));
 	}
 
-	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
+	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSet(ptrDescriptorSet, m_ptrRenderPass, m_indexPass));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSetCompute(ptrDescriptorSet, m_ptrPipelineCompute));
 	}
 
-	void CGLES3CommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CGLES3CommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSet(ptrDescriptorSet, m_ptrRenderPass, m_indexPass));
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSetGraphics(ptrDescriptorSet, m_ptrPipelineGraphics));
 	}
 
 	void CGLES3CommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)

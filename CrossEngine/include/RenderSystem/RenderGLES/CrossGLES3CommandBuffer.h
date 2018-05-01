@@ -64,8 +64,8 @@ namespace CrossEngine {
 
 		void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline);
 		void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline);
-		void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline);
-		void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline);
+		void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet);
+		void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet);
 		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding);
 		void CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer, size_t offset, VkIndexType type);
 
@@ -93,6 +93,7 @@ namespace CrossEngine {
 		uint32_t m_indexPass;
 		CGfxRenderPassPtr m_ptrRenderPass;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxPipelineComputePtr m_ptrPipelineCompute;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 
 		std::vector<CGfxCommandBase*> m_pCommands;

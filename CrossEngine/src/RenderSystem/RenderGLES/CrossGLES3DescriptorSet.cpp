@@ -84,7 +84,7 @@ namespace CrossEngine {
 
 	}
 
-	const CGLES3DescriptorSetLayout* CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
+	CGLES3DescriptorSetLayout* CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
 	{
 		return m_pDescriptorSetLayout;
 	}

@@ -51,7 +51,7 @@ namespace CrossEngine {
 		void UpdateDescriptorSets(void);
 
 	public:
-		const CGLES3DescriptorSetLayout* GetDescriptorSetLayout(void) const;
+		CGLES3DescriptorSetLayout* GetDescriptorSetLayout(void) const;
 
 		const CGfxTexturePtr& GetTexture(uint32_t binding) const;
 		const CGfxRenderTexturePtr& GetRenderTexture(uint32_t binding) const;

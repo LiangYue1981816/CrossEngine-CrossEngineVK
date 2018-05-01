@@ -26,16 +26,16 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandBindDescriptorSet : public CGfxCommandBase
+	class CROSS_EXPORT CGLES3CommandBindDescriptorSetCompute : public CGfxCommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandBindDescriptorSet(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
+		CGLES3CommandBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipelineCompute)
 		{
 			m_ptrDescriptorSet = ptrDescriptorSet;
-			m_ptrPipelineGraphics = ptrPipelineGraphics;
+			m_ptrPipelineCompute = ptrPipelineCompute;
 		}
 
 
@@ -46,15 +46,17 @@ namespace CrossEngine {
 				return;
 			}
 
-			if (m_ptrPipelineGraphics.IsNull() || m_ptrPipelineGraphics->GetHandle() == NULL) {
+			if (m_ptrPipelineCompute.IsNull() || m_ptrPipelineCompute->GetHandle() == NULL) {
 				return;
 			}
+
+			// ...
 		}
 
 
 	protected:
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
-		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
+		CGfxPipelineComputePtr m_ptrPipelineCompute;
 	};
 
 }

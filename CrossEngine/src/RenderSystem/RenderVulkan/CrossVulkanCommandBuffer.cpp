@@ -103,6 +103,8 @@ namespace CrossEngine {
 	{
 		m_ptrRenderPass.Release();
 		m_ptrFrameBuffer.Release();
+		m_ptrPipelineCompute.Release();
+		m_ptrPipelineGraphics.Release();
 	}
 
 	void CVulkanCommandBuffer::ClearCommands(void)
@@ -160,22 +162,24 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
 	{
+		m_ptrPipelineCompute = ptrPipeline;
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineCompute(m_vkCommandBuffer, ptrPipeline));
 	}
 
 	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
 	{
+		m_ptrPipelineGraphics = ptrPipeline;
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineGraphics(m_vkCommandBuffer, ptrPipeline));
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineComputePtr &ptrPipeline)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetCompute(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetCompute(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineCompute));
 	}
 
-	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet, const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, ptrPipeline));
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineGraphics));
 	}
 
 	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, size_t offset, uint32_t binding)
