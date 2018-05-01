@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	std::vector<CBatchStaticMesh::InstanceData> CBatchStaticMesh::datas;
 	CGfxVertexBufferPtr CBatchStaticMesh::ptrInstanceBuffer;
+	std::vector<CBatchStaticMesh::InstanceData> CBatchStaticMesh::datas;
 
 	CBatchStaticMesh::CBatchStaticMesh(void)
 	{
@@ -50,20 +50,17 @@ namespace CrossEngine {
 		}
 
 		size_t dataBufferSize = datas.size() * sizeof(InstanceData);
-		if (ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
-			size_t dataInstanceBufferSize = 64 * 1024;
-			while (dataInstanceBufferSize < dataBufferSize) {
-				dataInstanceBufferSize <<= 1;
-			}
 
-			uint32_t format = 
-				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0 | 
-				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL1 | 
-				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 | 
+		if (ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
+			size_t instanceBufferSize = FitBufferSize(dataBufferSize);
+			uint32_t format =
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0 |
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL1 |
+				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 |
 				VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3;
 
 			ptrInstanceBuffer->Destroy();
-			ptrInstanceBuffer->Create(dataInstanceBufferSize, NULL, FALSE, format, INSTANCE_BUFFER_BINDING);
+			ptrInstanceBuffer->Create(instanceBufferSize, NULL, TRUE, format, INSTANCE_BUFFER_BINDING);
 		}
 
 		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());

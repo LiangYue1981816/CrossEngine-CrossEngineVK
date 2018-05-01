@@ -80,4 +80,15 @@ namespace CrossEngine {
 		m_ptrMaterialPipelineGraphics = ptrMaterialPipelineGraphics;
 	}
 
+	size_t CBatch::FitBufferSize(size_t size)
+	{
+		size_t bufferSize = 8 * 1024;
+
+		while (bufferSize < size) {
+			bufferSize <<= 1;
+		}
+
+		return bufferSize;
+	}
+
 }

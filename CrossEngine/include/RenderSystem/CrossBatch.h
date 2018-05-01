@@ -47,6 +47,9 @@ namespace CrossEngine {
 		virtual void UpdateInstanceBuffer(void) = 0;
 		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass) = 0;
 
+	protected:
+		static size_t FitBufferSize(size_t size);
+
 
 	protected:
 		uint32_t m_indexCount;
