@@ -96,12 +96,12 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::Clearup(void)
 	{
-		m_indexPass = 0;
 		m_ptrRenderPass.Release();
 		m_ptrFrameBuffer.Release();
 		m_ptrPipelineCompute.Release();
 		m_ptrPipelineGraphics.Release();
 
+		m_indexPass = 0;
 		m_indexOffset = 0;
 		m_indexType = VK_INDEX_TYPE_UINT16;
 	}
