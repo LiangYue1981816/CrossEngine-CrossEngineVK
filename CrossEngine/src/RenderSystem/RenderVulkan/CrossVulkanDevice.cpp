@@ -502,6 +502,11 @@ namespace CrossEngine {
 		return AllocDescriptorSet(pool, ((CVulkanPipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetDescriptorSetLayout(set));
 	}
 
+	CGfxDescriptorSetLayoutPtr CVulkanDevice::AllocDescriptorSetLayout(uint32_t set)
+	{
+		return CGfxDescriptorSetLayoutPtr(SAFE_NEW CVulkanDescriptorSetLayout(this, set));
+	}
+
 	CGfxIndexBufferPtr CVulkanDevice::NewIndexBuffer(void)
 	{
 		return m_pBufferManager->AllocIndexBuffer();

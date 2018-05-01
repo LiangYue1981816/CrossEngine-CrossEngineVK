@@ -98,6 +98,7 @@ namespace CrossEngine {
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayout *pDescriptorSetLayout) = 0;
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline) = 0;
 		virtual CGfxDescriptorSetPtr AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
+		virtual CGfxDescriptorSetLayoutPtr AllocDescriptorSetLayout(uint32_t set) = 0;
 
 		virtual CGfxIndexBufferPtr NewIndexBuffer(void) = 0;
 		virtual CGfxVertexBufferPtr NewVertexBuffer(void) = 0;

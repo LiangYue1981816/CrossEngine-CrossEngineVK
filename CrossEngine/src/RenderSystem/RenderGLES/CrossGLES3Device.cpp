@@ -279,6 +279,11 @@ namespace CrossEngine {
 		return AllocDescriptorSet(pool, ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetDescriptorSetLayout(set));
 	}
 
+	CGfxDescriptorSetLayoutPtr CGLES3Device::AllocDescriptorSetLayout(uint32_t set)
+	{
+		return CGfxDescriptorSetLayoutPtr(SAFE_NEW CGLES3DescriptorSetLayout(this, set));
+	}
+
 	CGfxIndexBufferPtr CGLES3Device::NewIndexBuffer(void)
 	{
 		return m_pBufferManager->AllocIndexBuffer();
