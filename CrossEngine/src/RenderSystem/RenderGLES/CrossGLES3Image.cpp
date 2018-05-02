@@ -106,47 +106,47 @@ namespace CrossEngine {
 		case GL_TEXTURE_2D:
 			m_samples = 1;
 			glGenTextures(1, &m_texture);
-			glBindTexture(m_target, m_texture);
+			glBindTexture(GL_TEXTURE_2D, m_texture);
 			{
 				glTexStorage2D(GL_TEXTURE_2D, m_mipLevels, m_internalFormat, m_width, m_height);
 			}
-			glBindTexture(m_target, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
 			break;
 
 		case GL_TEXTURE_2D_MULTISAMPLE:
 			m_samples = samples;
 			glGenTextures(1, &m_texture);
-			glBindTexture(m_target, m_texture);
+			glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_texture);
 			{
 				glTexStorage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, m_samples, m_internalFormat, m_width, m_height, GL_TRUE);
 			}
-			glBindTexture(m_target, 0);
+			glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 			break;
 
 		case GL_TEXTURE_2D_ARRAY:
 			m_samples = 1;
 			glGenTextures(1, &m_texture);
-			glBindTexture(m_target, m_texture);
+			glBindTexture(GL_TEXTURE_2D_ARRAY, m_texture);
 			{
 				glTexStorage3D(GL_TEXTURE_2D_ARRAY, m_mipLevels, m_internalFormat, m_width, m_height, m_arrayLayers);
 			}
-			glBindTexture(m_target, 0);
+			glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 			break;
 
 		case GL_TEXTURE_3D:
 			m_samples = 1;
 			glGenTextures(1, &m_texture);
-			glBindTexture(m_target, m_texture);
+			glBindTexture(GL_TEXTURE_3D, m_texture);
 			{
 				glTexStorage3D(GL_TEXTURE_3D, m_mipLevels, m_internalFormat, m_width, m_height, m_depth);
 			}
-			glBindTexture(m_target, 0);
+			glBindTexture(GL_TEXTURE_3D, 0);
 			break;
 
 		case GL_TEXTURE_CUBE_MAP:
 			m_samples = 1;
 			glGenTextures(1, &m_texture);
-			glBindTexture(m_target, m_texture);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 			{
 				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, m_mipLevels, m_internalFormat, m_width, m_height);
 				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, m_mipLevels, m_internalFormat, m_width, m_height);
@@ -155,7 +155,7 @@ namespace CrossEngine {
 				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, m_mipLevels, m_internalFormat, m_width, m_height);
 				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, m_mipLevels, m_internalFormat, m_width, m_height);
 			}
-			glBindTexture(m_target, 0);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 			break;
 
 		default:
