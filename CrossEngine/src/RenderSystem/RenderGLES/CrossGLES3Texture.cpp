@@ -118,7 +118,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3Texture::TransferTexture2D(const gli::texture2d &texture, const gli::gl::format &format)
 	{
-		glBindTexture(m_target, m_texture);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 		{
 			for (int level = 0; level < texture.levels(); level++) {
 				if (gli::is_compressed(texture.format())) {
@@ -129,14 +129,14 @@ namespace CrossEngine {
 				}
 			}
 		}
-		glBindTexture(m_target, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		return TRUE;
 	}
 
 	BOOL CGLES3Texture::TransferTexture2DArray(const gli::texture2d_array &texture, const gli::gl::format &format)
 	{
-		glBindTexture(m_target, m_texture);
+		glBindTexture(GL_TEXTURE_2D_ARRAY, m_texture);
 		{
 			for (int layer = 0; layer < texture.layers(); layer++) {
 				for (int level = 0; level < texture.levels(); level++) {
@@ -149,14 +149,14 @@ namespace CrossEngine {
 				}
 			}
 		}
-		glBindTexture(m_target, 0);
+		glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
 		return TRUE;
 	}
 
 	BOOL CGLES3Texture::TransferTexture3D(const gli::texture3d &texture, const gli::gl::format &format)
 	{
-		glBindTexture(m_target, m_texture);
+		glBindTexture(GL_TEXTURE_3D, m_texture);
 		{
 			for (int layer = 0; layer < texture.layers(); layer++) {
 				for (int level = 0; level < texture.levels(); level++) {
@@ -169,14 +169,14 @@ namespace CrossEngine {
 				}
 			}
 		}
-		glBindTexture(m_target, 0);
+		glBindTexture(GL_TEXTURE_3D, 0);
 
 		return TRUE;
 	}
 
 	BOOL CGLES3Texture::TransferTextureCube(const gli::texture_cube &texture, const gli::gl::format &format)
 	{
-		glBindTexture(m_target, m_texture);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 		{
 			for (int level = 0; level < texture.levels(); level++) {
 				if (gli::is_compressed(texture.format())) {
@@ -197,7 +197,7 @@ namespace CrossEngine {
 				}
 			}
 		}
-		glBindTexture(m_target, 0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
 		return TRUE;
 	}
