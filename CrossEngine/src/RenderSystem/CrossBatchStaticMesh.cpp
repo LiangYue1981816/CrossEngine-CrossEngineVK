@@ -87,6 +87,8 @@ namespace CrossEngine {
 		m_ptrCommandBuffer = ptrCommandBuffer;
 		m_ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, ptrFrameBuffer, ptrRenderPass, m_indexSubPass);
 		{
+			m_ptrCommandBuffer->CmdSetViewport(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
+
 			m_ptrCommandBuffer->CmdBindPipelineGraphics(m_ptrMaterialPipelineGraphics);
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrMaterialDescriptorSet);
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet);

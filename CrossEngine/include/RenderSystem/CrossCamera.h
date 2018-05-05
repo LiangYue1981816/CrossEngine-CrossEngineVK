@@ -46,6 +46,11 @@ namespace CrossEngine {
 
 
 	public:
+		float GetViewportX(void) const;
+		float GetViewportY(void) const;
+		float GetViewportWidth(void) const;
+		float GetViewportHeight(void) const;
+
 		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:

@@ -184,9 +184,6 @@ namespace CrossEngine {
 		{
 			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
 			{
-				ptrMainCommandBuffer->CmdSetScissor(0, 0, m_ptrFrameBuffer->GetWidth(), m_ptrFrameBuffer->GetHeight());
-				ptrMainCommandBuffer->CmdSetViewport(0, 0, m_ptrFrameBuffer->GetWidth(), m_ptrFrameBuffer->GetHeight());
-
 				for (uint32_t indexPass = 0; indexPass < m_ptrRenderPass->GetSubpassCount(); indexPass++) {
 					const auto &itMaterialPipelineQueue = itPassQueue->second.find(indexPass);
 					if (itMaterialPipelineQueue != itPassQueue->second.end()) {

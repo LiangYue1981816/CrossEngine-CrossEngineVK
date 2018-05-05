@@ -51,6 +51,26 @@ namespace CrossEngine {
 
 	}
 
+	float CCamera::GetViewportX(void) const
+	{
+		return m_camera.viewport.x;
+	}
+
+	float CCamera::GetViewportY(void) const
+	{
+		return m_camera.viewport.y;
+	}
+
+	float CCamera::GetViewportWidth(void) const
+	{
+		return m_camera.viewport.z;
+	}
+
+	float CCamera::GetViewportHeight(void) const
+	{
+		return m_camera.viewport.w;
+	}
+
 	const CGfxDescriptorSetPtr& CCamera::GetDescriptorSet(void) const
 	{
 		const auto &itDescriptorSet = m_ptrDescriptorSets.find(GfxSwapChain()->GetImageIndex());
