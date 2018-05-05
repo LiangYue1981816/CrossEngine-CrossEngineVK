@@ -14,24 +14,24 @@
 
 
 #ifdef GLES
-	#define DESCRIPTORSET_DRAW(b)  layout (binding = b)
-	#define DESCRIPTORSET_PASS(b)  layout (binding = b)
-	#define DESCRIPTORSET_FRAME(b) layout (binding = b)
+	#define DESCRIPTOR_SET_DRAW(b)  layout (binding = b)
+	#define DESCRIPTOR_SET_PASS(b)  layout (binding = b)
+	#define DESCRIPTOR_SET_FRAME(b) layout (binding = b)
 #else
-	#define DESCRIPTORSET_DRAW(b)  layout (set = 0, binding = b)
-	#define DESCRIPTORSET_PASS(b)  layout (set = 1, binding = b)
-	#define DESCRIPTORSET_FRAME(b) layout (set = 2, binding = b)
+	#define DESCRIPTOR_SET_DRAW(b)  layout (set = 0, binding = b)
+	#define DESCRIPTOR_SET_PASS(b)  layout (set = 1, binding = b)
+	#define DESCRIPTOR_SET_FRAME(b) layout (set = 2, binding = b)
 #endif
 
-#define BIND_CAMERA              0
-#define BIND_TRANSFORM           1
-#define BIND_AMBIENT_LIGHT       2
-#define BIND_POINT_LIGHT         3
-#define BIND_DIRECTION_LIGHT     4
+#define DESCRIPTOR_BIND_CAMERA              0
+#define DESCRIPTOR_BIND_TRANSFORM           1
+#define DESCRIPTOR_BIND_AMBIENT_LIGHT       2
+#define DESCRIPTOR_BIND_POINT_LIGHT         3
+#define DESCRIPTOR_BIND_DIRECTION_LIGHT     4
 
 
 #define USE_ENGINE_CAMERA                                                      \
-	DESCRIPTORSET_FRAME(BIND_CAMERA) uniform Camera                              \
+	DESCRIPTOR_SET_FRAME(DESCRIPTOR_BIND_CAMERA) uniform Camera                  \
 	{                                                                            \
 		vec3 position;                                                             \
 		mat4 projectionMatrix;                                                     \
@@ -40,13 +40,13 @@
 	} engineCamera
 
 #define USE_ENGINE_TRANSFORM                                                   \
-	DESCRIPTORSET_DRAW(BIND_TRANSFORM) uniform Transform                         \
+	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_TRANSFORM) uniform Transform             \
 	{                                                                            \
 		mat4 transformMatrix;                                                      \
 	} engineTransform
 
 #define USE_ENGINE_AMBIENT_LIGHT                                               \
-	DESCRIPTORSET_DRAW(BIND_AMBIENT_LIGHT) uniform AmbientLight                  \
+	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_AMBIENT_LIGHT) uniform AmbientLight      \
 	{                                                                            \
 		vec3 shRed0;                                                               \
 		vec3 shRed1;                                                               \
@@ -62,14 +62,14 @@
 	} engineAmbientLight
 
 #define USE_ENGINE_POINT_LIGHT                                                 \
-	DESCRIPTORSET_DRAW(BIND_POINT_LIGHT) uniform PointLight                      \
+	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_POINT_LIGHT) uniform PointLight          \
 	{                                                                            \
 		vec3 position;                                                             \
 		vec3 color;                                                                \
 	} enginePointLight                                                           \
 
 #define USE_ENGINE_DIRECTION_LIGHT                                             \
-	DESCRIPTORSET_DRAW(BIND_DIRECTION_LIGHT) uniform DirectionLight              \
+	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_DIRECTION_LIGHT) uniform DirectionLight  \
 	{                                                                            \
 		vec3 position;                                                             \
 		vec3 color;                                                                \
