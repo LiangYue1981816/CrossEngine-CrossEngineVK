@@ -182,10 +182,11 @@ namespace CrossEngine {
 
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
-			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_INLINE);
+			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
 			{
 				for (uint32_t indexPass = 0; indexPass < m_ptrRenderPass->GetSubpassCount(); indexPass++) {
 					const auto &itMaterialPipelineQueue = itPassQueue->second.find(indexPass);
+
 					if (itMaterialPipelineQueue != itPassQueue->second.end()) {
 						for (const auto &itMaterialDescriptorSetQueue : itMaterialPipelineQueue->second) {
 							for (const auto itBatchQueue : itMaterialDescriptorSetQueue.second) {
@@ -199,7 +200,10 @@ namespace CrossEngine {
 							}
 						}
 					}
-					ptrMainCommandBuffer->CmdNextSubpass(VK_SUBPASS_CONTENTS_INLINE);
+
+					if (indexPass + 1 < m_ptrRenderPass->GetSubpassCount()) {
+						ptrMainCommandBuffer->CmdNextSubpass(VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
+					}
 				}
 			}
 			ptrMainCommandBuffer->CmdEndRenderPass();
