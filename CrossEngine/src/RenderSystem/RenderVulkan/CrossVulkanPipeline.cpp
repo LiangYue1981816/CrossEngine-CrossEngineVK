@@ -82,6 +82,10 @@ namespace CrossEngine {
 	{
 		layouts.clear();
 
+		m_pDescriptorSetLayouts[DESCRIPTOR_SET_DRAW] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, DESCRIPTOR_SET_DRAW);
+		m_pDescriptorSetLayouts[DESCRIPTOR_SET_PASS] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, DESCRIPTOR_SET_PASS);
+		m_pDescriptorSetLayouts[DESCRIPTOR_SET_FRAME] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, DESCRIPTOR_SET_FRAME);
+
 		for (const auto &itShader : m_ptrShaders) {
 			const VkShaderStageFlags shaderStageFlags = itShader.first;
 			const spirv_cross::Compiler *pShaderCompiler = itShader.second->GetShaderCompiler();
