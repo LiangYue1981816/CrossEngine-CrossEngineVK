@@ -57,7 +57,7 @@ namespace CrossEngine {
 		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
-		m_mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -65,14 +65,15 @@ namespace CrossEngine {
 		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
-		m_mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
 		m_camera.setLookat(position, position + direction, up);
-		m_mtxCameraToWorld = m_camera.mtxCameraToWorld;
-		m_mtxWorldToCamera = m_camera.mtxWorldToCamera;
+		m_params.position = m_camera.position;
+		m_params.mtxWorldToView = m_camera.mtxWorldToCamera;
+		m_params.mtxWorldToViewInverse = m_camera.mtxCameraToWorld;
 	}
 
 	const glm::vec3& CCamera::GetPosition(void) const
@@ -87,17 +88,17 @@ namespace CrossEngine {
 
 	const glm::mat4& CCamera::GetProjectionMatrix(void) const
 	{
-		return m_mtxProjection;
+		return m_camera.mtxProjection;
 	}
 
 	const glm::mat4& CCamera::GetCameraToWorldMatrix(void) const
 	{
-		return m_mtxCameraToWorld;
+		return m_camera.mtxCameraToWorld;
 	}
 
 	const glm::mat4& CCamera::GetWorldToCameraMatrix(void) const
 	{
-		return m_mtxWorldToCamera;
+		return m_camera.mtxWorldToCamera;
 	}
 
 	glm::vec3 CCamera::WorldToScreen(const glm::vec3 &world)

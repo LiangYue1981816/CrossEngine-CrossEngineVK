@@ -32,6 +32,15 @@ namespace CrossEngine {
 
 
 	protected:
+		typedef struct Params {
+			glm::vec3 position;
+			glm::mat4 mtxProjection;
+			glm::mat4 mtxWorldToView;
+			glm::mat4 mtxWorldToViewInverse;
+		} Params;
+
+
+	protected:
 		CCamera(void);
 		virtual ~CCamera(void);
 
@@ -74,10 +83,13 @@ namespace CrossEngine {
 		BOOL m_bEnable;
 
 	protected:
+		Params m_params;
 		glm::camera m_camera;
-		glm::mat4 m_mtxProjection;
-		glm::mat4 m_mtxCameraToWorld;
-		glm::mat4 m_mtxWorldToCamera;
+
+	protected:
+		CGfxUniformBufferPtr m_ptrUniformBuffer;
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
 
 	protected:
 		CRenderer m_renderer;
