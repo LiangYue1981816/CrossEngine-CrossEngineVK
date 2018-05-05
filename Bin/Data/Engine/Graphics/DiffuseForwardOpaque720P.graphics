@@ -4,8 +4,8 @@
 		subpass="0"
 	/>
 	<Shader
-		vertex="diffuse.vert"
-		fragment="diffuse.frag"
+		vertex="default.vert"
+		fragment="default.frag"
 	/>
 	<Assembly
 		topology="VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST"
