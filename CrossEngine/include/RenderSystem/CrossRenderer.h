@@ -63,7 +63,7 @@ namespace CrossEngine {
 
 		
 	protected:
-		CRenderer(void);
+		CRenderer(CCamera *pCamera);
 		virtual ~CRenderer(void);
 
 
@@ -87,8 +87,10 @@ namespace CrossEngine {
 
 
 	protected:
-		RenderPassQueue m_queue;
+		CCamera *m_pCamera;
 
+	protected:
+		RenderPassQueue m_queue;
 		std::vector<CBatchPartical*> m_pBatchParticals;
 		std::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
 		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;

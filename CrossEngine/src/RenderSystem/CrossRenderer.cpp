@@ -25,7 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRenderer::CRenderer(void)
+	CRenderer::CRenderer(CCamera *pCamera)
+		: m_pCamera(pCamera)
 	{
 		CreateThread();
 	}

@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CCamera::CCamera(void)
 		: m_bEnable(TRUE)
+		, m_renderer(this)
 	{
 
 	}
