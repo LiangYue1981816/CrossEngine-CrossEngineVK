@@ -483,9 +483,6 @@
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntitySystem.h">
       <Filter>Engine\Header Files\EntitySystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderQueue.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\ResourceSystem\CrossResMaterial.h">
       <Filter>Engine\Header Files\ResourceSystem</Filter>
     </ClInclude>
@@ -800,6 +797,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandBindDescriptorSetGraphics.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderer.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1166,9 +1166,6 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderQueue.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawable.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
@@ -1288,6 +1285,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetLayout.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderer.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

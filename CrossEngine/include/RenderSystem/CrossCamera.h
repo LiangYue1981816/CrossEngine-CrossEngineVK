@@ -80,7 +80,7 @@ namespace CrossEngine {
 		glm::mat4 m_mtxWorldToCamera;
 
 	protected:
-		CRenderQueue m_renderQueue;
+		CRenderer m_renderer;
 	};
 
 }

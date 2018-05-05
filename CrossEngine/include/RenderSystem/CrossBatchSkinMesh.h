@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatchSkinMesh : public CBatch
 	{
-		friend class CRenderQueue;
+		friend class CRenderer;
 
 
 	protected:

@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRenderQueue
+	class CROSS_EXPORT CRenderer
 	{
 		friend class CCamera;
 
@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 		typedef struct ThreadParam {
 			uint32_t indexThread;
-			CRenderQueue *pRenderQueue;
+			CRenderer *pRenderQueue;
 		} ThreadParam;
 
 		typedef struct ThreadCluster {
@@ -63,8 +63,8 @@ namespace CrossEngine {
 
 		
 	protected:
-		CRenderQueue(void);
-		virtual ~CRenderQueue(void);
+		CRenderer(void);
+		virtual ~CRenderer(void);
 
 
 	protected:

@@ -25,17 +25,17 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRenderQueue::CRenderQueue(void)
+	CRenderer::CRenderer(void)
 	{
 		CreateThread();
 	}
 
-	CRenderQueue::~CRenderQueue(void)
+	CRenderer::~CRenderer(void)
 	{
 		DestroyThread();
 	}
 
-	void CRenderQueue::CreateThread(void)
+	void CRenderer::CreateThread(void)
 	{
 		event_init(&m_threadCluster.eventExit, 0);
 		event_init(&m_threadCluster.eventReady, 1);
@@ -49,7 +49,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRenderQueue::DestroyThread(void)
+	void CRenderer::DestroyThread(void)
 	{
 		event_signal(&m_threadCluster.eventExit);
 		event_signal(&m_threadCluster.eventDispatch);
@@ -64,7 +64,7 @@ namespace CrossEngine {
 		event_destroy(&m_threadCluster.eventDispatch);
 	}
 
-	void CRenderQueue::DispatchThread(BOOL bWait)
+	void CRenderer::DispatchThread(BOOL bWait)
 	{
 		for (int index = 0; index < THREAD_COUNT; index++) {
 			event_unsignal(&m_threadCluster.eventReady);
@@ -78,12 +78,12 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRenderQueue::WaitThread(void)
+	void CRenderer::WaitThread(void)
 	{
 		event_wait(&m_threadCluster.eventFinish);
 	}
 
-	void CRenderQueue::Clear(void)
+	void CRenderer::Clear(void)
 	{
 		for (int index = 0; index < m_pBatchParticals.size(); index++) {
 			SAFE_DELETE(m_pBatchParticals[index]);
@@ -106,7 +106,7 @@ namespace CrossEngine {
 		m_ptrFrameBuffer.Release();
 	}
 
-	void CRenderQueue::AddDrawable(const CDrawable *pDrawable)
+	void CRenderer::AddDrawable(const CDrawable *pDrawable)
 	{
 		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
 			const uint32_t indexSubPass = itMatPass.second->GetIndexSubPass();
@@ -144,7 +144,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRenderQueue::UpdateInstanceBuffer(void)
+	void CRenderer::UpdateInstanceBuffer(void)
 	{
 		for (int index = 0; index < m_pBatchParticals.size(); index++) {
 			m_pBatchParticals[index]->UpdateInstanceBuffer();
@@ -159,7 +159,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CRenderQueue::BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	void CRenderer::BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		const auto &itPassQueue = m_queue.find(ptrRenderPass);
 		if (itPassQueue == m_queue.end()) return;
@@ -209,16 +209,16 @@ namespace CrossEngine {
 		ptrMainCommandBuffer->End();
 	}
 
-	void CRenderQueue::Render(void)
+	void CRenderer::Render(void)
 	{
 		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
 
-	void* CRenderQueue::WorkThread(void *pParams)
+	void* CRenderer::WorkThread(void *pParams)
 	{
-		CRenderQueue::ThreadParam *pThreadParam = (CRenderQueue::ThreadParam *)pParams;
-		CRenderQueue::ThreadCluster *pThreadCluster = &pThreadParam->pRenderQueue->m_threadCluster;
-		CRenderQueue *pRenderQueue = pThreadParam->pRenderQueue;
+		CRenderer::ThreadParam *pThreadParam = (CRenderer::ThreadParam *)pParams;
+		CRenderer::ThreadCluster *pThreadCluster = &pThreadParam->pRenderQueue->m_threadCluster;
+		CRenderer *pRenderQueue = pThreadParam->pRenderQueue;
 		int indexThread = pThreadParam->indexThread;
 
 		for (uint32_t frame = 0; frame < GfxSwapChain()->GetImageCount(); frame++) {
@@ -248,7 +248,7 @@ namespace CrossEngine {
 					int numCommandBuffers = 0;
 					CommandBufferSet &ptrSecondaryCommandBuffers = pRenderQueue->m_ptrSecondaryCommandBuffers[thread][frame];
 
-					for (int index = indexThread; index < pRenderQueue->m_pBatchStaticMeshs.size(); index += CRenderQueue::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = indexThread; index < pRenderQueue->m_pBatchStaticMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
@@ -258,7 +258,7 @@ namespace CrossEngine {
 						pRenderQueue->m_pBatchStaticMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
 					}
 
-					for (int index = indexThread; index < pRenderQueue->m_pBatchSkinMeshs.size(); index += CRenderQueue::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = indexThread; index < pRenderQueue->m_pBatchSkinMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
@@ -268,7 +268,7 @@ namespace CrossEngine {
 						pRenderQueue->m_pBatchSkinMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
 					}
 
-					for (int index = indexThread; index < pRenderQueue->m_pBatchParticals.size(); index += CRenderQueue::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = indexThread; index < pRenderQueue->m_pBatchParticals.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}

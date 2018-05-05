@@ -129,28 +129,28 @@ namespace CrossEngine {
 
 	void CCamera::ClearRenderQueue(void)
 	{
-		m_renderQueue.Clear();
+		m_renderer.Clear();
 	}
 
 	void CCamera::AddRenderQueue(const CDrawable *pDrawable)
 	{
 		if (m_bEnable) {
-			m_renderQueue.AddDrawable(pDrawable);
+			m_renderer.AddDrawable(pDrawable);
 		}
 	}
 
 	void CCamera::Update(void)
 	{
 		if (m_bEnable) {
-			m_renderQueue.UpdateInstanceBuffer();
+			m_renderer.UpdateInstanceBuffer();
 		}
 	}
 
 	void CCamera::Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		if (m_bEnable) {
-			m_renderQueue.BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
-			m_renderQueue.Render();
+			m_renderer.BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
+			m_renderer.Render();
 		}
 	}
 

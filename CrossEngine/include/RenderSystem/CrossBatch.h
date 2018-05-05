@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatch
 	{
-		friend class CRenderQueue;
+		friend class CRenderer;
 
 
 	protected:
