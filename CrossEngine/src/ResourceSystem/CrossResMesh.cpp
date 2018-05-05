@@ -62,7 +62,7 @@ namespace CrossEngine {
 
 	uint32_t CResMesh::GetVertexCount(void) const
 	{
-		return m_vertexBufferSize / GfxDevice()->GetVertexStride(m_format);
+		return m_vertexBufferSize / GfxDevice()->GetStride(m_format);
 	}
 
 	const glm::aabb& CResMesh::GetAABB(void) const

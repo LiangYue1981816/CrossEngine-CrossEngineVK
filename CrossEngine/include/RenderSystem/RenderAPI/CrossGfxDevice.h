@@ -29,7 +29,7 @@ namespace CrossEngine {
 	#define VERTEX_BUFFER_BINDING 0
 	#define INSTANCE_BUFFER_BINDING 1
 
-	typedef enum VertexAttributeFlagBits {
+	typedef enum AttributeFlagBits {
 		VERTEX_ATTRIBUTE_POSITION = 0x00000001,
 		VERTEX_ATTRIBUTE_NORMAL = 0x00000002,
 		VERTEX_ATTRIBUTE_BINORMAL = 0x00000004,
@@ -49,19 +49,19 @@ namespace CrossEngine {
 		VERTEX_ATTRIBUTE_INDICES |
 		VERTEX_ATTRIBUTE_WEIGHTS,
 
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0 = 0x00000100,
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL1 = 0x00000200,
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 = 0x00000400,
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3 = 0x00000800,
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL0 = 0x00000100,
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL1 = 0x00000200,
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL2 = 0x00000400,
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3 = 0x00000800,
 
-		VERTEX_INSTANCE_ATTRIBUTE_MASK = 
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0 | 
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL1 | 
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 | 
-		VERTEX_INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3,
+		INSTANCE_ATTRIBUTE_MASK = 
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL0 |
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL1 |
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL2 |
+		INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3,
 
-		VERTEX_ATTRIBUTE_FLAG_COUNT = 12
-	} VertexAttributeFlagBits;
+		ATTRIBUTE_FLAG_COUNT = 12
+	} AttributeFlagBits;
 
 
 	class CROSS_EXPORT CGfxDevice
@@ -78,12 +78,12 @@ namespace CrossEngine {
 
 
 	public:
-		uint32_t GetVertexStride(uint32_t format) const;
-		uint32_t GetVertexAttributeOffset(uint32_t format, uint32_t attribute) const;
-		uint32_t GetVertexAttributeFlag(const char *szName) const;
-		uint32_t GetVertexAttributeSize(uint32_t attribute) const;
-		uint32_t GetVertexAttributeLocation(uint32_t attribute) const;
-		VkFormat GetVertexAttributeFormat(uint32_t attribute) const;
+		uint32_t GetStride(uint32_t format) const;
+		uint32_t GetAttributeOffset(uint32_t format, uint32_t attribute) const;
+		uint32_t GetAttributeFlag(const char *szName) const;
+		uint32_t GetAttributeSize(uint32_t attribute) const;
+		uint32_t GetAttributeLocation(uint32_t attribute) const;
+		VkFormat GetAttributeFormat(uint32_t attribute) const;
 
 	public:
 		virtual CGfxInstance* GetInstance(void) const = 0;
