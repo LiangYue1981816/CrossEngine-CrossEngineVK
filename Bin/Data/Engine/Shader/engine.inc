@@ -7,10 +7,10 @@
 #define VERTEX_ATTRIBUTE_INDICES   layout (location = 6) in vec4 inIndices
 #define VERTEX_ATTRIBUTE_WEIGHTS   layout (location = 7) in vec4 inWeights
 
-#define INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL0 layout (location = 8)  in vec4 inInstanceModelToWorldMatrixCol0
-#define INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL1 layout (location = 9)  in vec4 inInstanceModelToWorldMatrixCol1
-#define INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL2 layout (location = 10) in vec4 inInstanceModelToWorldMatrixCol2
-#define INSTANCE_ATTRIBUTE_MODEL_TO_WORLD_MATRIX_COL3 layout (location = 11) in vec4 inInstanceModelToWorldMatrixCol3
+#define INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL0 layout (location = 8)  in vec4 inInstanceTransformMatrixCol0
+#define INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL1 layout (location = 9)  in vec4 inInstanceTransformMatrixCol1
+#define INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL2 layout (location = 10) in vec4 inInstanceTransformMatrixCol2
+#define INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3 layout (location = 11) in vec4 inInstanceTransformMatrixCol3
 
 #ifdef GLES
 	#define DESCRIPTORSET_FRAME(b) layout (binding = b)
@@ -21,3 +21,43 @@
 	#define DESCRIPTORSET_PASS(b)  layout (set = 1, binding = b)
 	#define DESCRIPTORSET_DRAW(b)  layout (set = 2, binding = b)
 #endif
+
+DESCRIPTORSET_FRAME(0) uniform Camera
+{
+	vec3 position;
+	mat4 viewProjectionMatrix;
+	mat4 worldViewMatrix;
+	mat4 worldViewInverseMatrix;
+} camera;
+
+DESCRIPTORSET_DRAW(1) uniform Transform
+{
+	mat4 modelWorldMatrix;
+} transform;
+
+DESCRIPTORSET_DRAW(2) uniform AmbientLight
+{
+	vec3 shRed0;
+	vec3 shRed1;
+	vec3 shRed2;
+	
+	vec3 shGreen0;
+	vec3 shGreen1;
+	vec3 shGreen2;
+	
+	vec3 shBlue0;
+	vec3 shBlue1;
+	vec3 shBlue2;
+} ambientLight;
+
+DESCRIPTORSET_DRAW(3) uniform PointLight
+{
+	vec3 position;
+	vec3 color;
+} pointLight;
+
+DESCRIPTORSET_DRAW(4) uniform DirectionLight
+{
+	vec3 position;
+	vec3 color;
+} directionLight;

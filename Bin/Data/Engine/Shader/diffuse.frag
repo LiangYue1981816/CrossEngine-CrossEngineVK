@@ -4,7 +4,7 @@ precision mediump float;
 layout (location = 0) in vec2 inTexcoord0;
 layout (location = 0) out vec4 outFragColor;
 
-DESCRIPTORSET_PASS(0) uniform sampler2D diffuse;
+DESCRIPTORSET_PASS(16) uniform sampler2D diffuse;
 
 void main() 
 {
