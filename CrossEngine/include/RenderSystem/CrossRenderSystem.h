@@ -22,6 +22,7 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
+#include "CrossRenderSystemDefinition.h"
 #include "CrossDrawable.h"
 #include "CrossDrawablePartical.h"
 #include "CrossDrawableSkinMesh.h"

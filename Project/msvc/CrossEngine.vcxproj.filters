@@ -801,6 +801,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderer.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystemDefinition.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">

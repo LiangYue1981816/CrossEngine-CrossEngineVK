@@ -205,6 +205,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawableStaticMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h" />
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystemDefinition.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\glslc\file_includer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxAPI.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxBuffer.h" />
