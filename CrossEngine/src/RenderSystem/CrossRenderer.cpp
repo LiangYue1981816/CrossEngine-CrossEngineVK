@@ -45,7 +45,7 @@ namespace CrossEngine {
 
 		for (int index = 0; index < THREAD_COUNT; index++) {
 			m_threadCluster.params[index].indexThread = index;
-			m_threadCluster.params[index].pRenderQueue = this;
+			m_threadCluster.params[index].pRenderer = this;
 			pthread_create(&m_threadCluster.threads[index], NULL, WorkThread, &m_threadCluster.params[index]);
 		}
 	}
@@ -218,8 +218,8 @@ namespace CrossEngine {
 	void* CRenderer::WorkThread(void *pParams)
 	{
 		CRenderer::ThreadParam *pThreadParam = (CRenderer::ThreadParam *)pParams;
-		CRenderer::ThreadCluster *pThreadCluster = &pThreadParam->pRenderQueue->m_threadCluster;
-		CRenderer *pRenderQueue = pThreadParam->pRenderQueue;
+		CRenderer::ThreadCluster *pThreadCluster = &pThreadParam->pRenderer->m_threadCluster;
+		CRenderer *pRenderer = pThreadParam->pRenderer;
 		int indexThread = pThreadParam->indexThread;
 
 		for (uint32_t frame = 0; frame < GfxSwapChain()->GetImageCount(); frame++) {
@@ -247,36 +247,36 @@ namespace CrossEngine {
 					GfxDevice()->ResetCommandBufferPool(pool);
 
 					int numCommandBuffers = 0;
-					CommandBufferSet &ptrSecondaryCommandBuffers = pRenderQueue->m_ptrSecondaryCommandBuffers[thread][frame];
+					CommandBufferSet &ptrSecondaryCommandBuffers = pRenderer->m_ptrSecondaryCommandBuffers[thread][frame];
 
-					for (int index = indexThread; index < pRenderQueue->m_pBatchStaticMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = indexThread; index < pRenderer->m_pBatchStaticMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
 
 						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
 						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderQueue->m_pBatchStaticMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
+						pRenderer->m_pBatchStaticMeshs[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
 					}
 
-					for (int index = indexThread; index < pRenderQueue->m_pBatchSkinMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = indexThread; index < pRenderer->m_pBatchSkinMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
 
 						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
 						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderQueue->m_pBatchSkinMeshs[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
+						pRenderer->m_pBatchSkinMeshs[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
 					}
 
-					for (int index = indexThread; index < pRenderQueue->m_pBatchParticals.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = indexThread; index < pRenderer->m_pBatchParticals.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
 
 						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
 						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderQueue->m_pBatchParticals[index]->BuildCommandBuffer(ptrSecondaryCommandBuffers[numCommandBuffers], pRenderQueue->m_ptrFrameBuffer, pRenderQueue->m_ptrRenderPass);
+						pRenderer->m_pBatchParticals[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
 					}
 				}
 			}

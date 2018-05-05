@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 		typedef struct ThreadParam {
 			uint32_t indexThread;
-			CRenderer *pRenderQueue;
+			CRenderer *pRenderer;
 		} ThreadParam;
 
 		typedef struct ThreadCluster {

@@ -82,7 +82,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CBatchStaticMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	void CBatchStaticMesh::BuildCommandBuffer(const CCamera *pCamera, CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		m_ptrCommandBuffer = ptrCommandBuffer;
 		m_ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, ptrFrameBuffer, ptrRenderPass, m_indexSubPass);
