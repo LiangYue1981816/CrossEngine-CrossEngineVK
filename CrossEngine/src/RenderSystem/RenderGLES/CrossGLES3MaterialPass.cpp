@@ -79,14 +79,14 @@ namespace CrossEngine {
 
 	void CGLES3MaterialPass::UpdateDescriptorSet(uint32_t pool)
 	{
-		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTOR_SET_PASS, m_ptrPipeline);
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTORSET_PASS, m_ptrPipeline);
 		{
 			for (const auto &itTexture : m_ptrTextures) {
-				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
+				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTORSET_PASS, itTexture.first), itTexture.second);
 			}
 
 			for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
-				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
+				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTORSET_PASS, itUniformBuffer.first), itUniformBuffer.second);
 			}
 		}
 		m_ptrDescriptorSet->UpdateDescriptorSets();
