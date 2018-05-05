@@ -60,6 +60,14 @@ namespace CrossEngine {
 		DESCRIPTOR_BIND_EXTERNAL_BASE = 16
 	} DESCRIPTOR_BIND_TYPE;
 
+	static const char *DESCRIPTOR_BIND_NAME[5] = {
+		"engineCamera",
+		"engineTransform",
+		"engineAmbientLight",
+		"enginePointLight",
+		"engineDirectionLight"
+	};
+
 
 	class CROSS_EXPORT CRenderSystem
 	{

@@ -90,6 +90,7 @@ namespace CrossEngine {
 			m_ptrCommandBuffer->CmdBindPipelineGraphics(m_ptrMaterialPipelineGraphics);
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrMaterialDescriptorSet);
 			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet);
+			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
 
 			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer);
 			m_ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer);
