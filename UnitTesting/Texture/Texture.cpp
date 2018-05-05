@@ -1,6 +1,9 @@
 #include "stdafx.h"
 
 
+#define BIND_SAMPLER2D 8
+#define BIND_COLOR     9
+
 CrossEngine::CGfxShaderPtr ptrShaderVertex;
 CrossEngine::CGfxShaderPtr ptrShaderFragment;
 CrossEngine::CGfxPipelineGraphicsPtr ptrPipeline;
@@ -121,11 +124,11 @@ void CreateBuffer(void)
 
 	ptrUniformBufferTransform = GfxDevice()->NewUniformBuffer();
 	ptrUniformBufferTransform->Create(sizeof(glm::mat4), NULL, TRUE);
-	ptrUniformBufferTransform->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
+	ptrUniformBufferTransform->SetDescriptorBufferInfo(CrossEngine::DESCRIPTOR_SET_DRAW, CrossEngine::DESCRIPTOR_BIND_TRANSFORM, 0, sizeof(glm::mat4));
 
 	ptrUniformBufferColor = GfxDevice()->NewUniformBuffer();
 	ptrUniformBufferColor->Create(sizeof(glm::vec4), NULL, TRUE);
-	ptrUniformBufferColor->SetDescriptorBufferInfo(1, 2, 0, sizeof(glm::vec4));
+	ptrUniformBufferColor->SetDescriptorBufferInfo(CrossEngine::DESCRIPTOR_SET_PASS, BIND_COLOR, 0, sizeof(glm::vec4));
 }
 
 void DestroyBuffer(void)
@@ -140,13 +143,13 @@ void CreateDescriptorSet(void)
 {
 	GfxDevice()->AllocDescriptorSetPool(thread_id());
 
-	ptrDescriptorSetTransform = GfxDevice()->AllocDescriptorSet(thread_id(), 0, ptrPipeline);
-	ptrDescriptorSetTransform->SetUniformBuffer(0, ptrUniformBufferTransform);
-	ptrDescriptorSetTransform->SetTexture(1, ptrTexture);
+	ptrDescriptorSetTransform = GfxDevice()->AllocDescriptorSet(thread_id(), CrossEngine::DESCRIPTOR_SET_DRAW, ptrPipeline);
+	ptrDescriptorSetTransform->SetUniformBuffer(CrossEngine::DESCRIPTOR_BIND_TRANSFORM, ptrUniformBufferTransform);
+	ptrDescriptorSetTransform->SetTexture(BIND_SAMPLER2D, ptrTexture);
 	ptrDescriptorSetTransform->UpdateDescriptorSets();
 
-	ptrDescriptorSetColor = GfxDevice()->AllocDescriptorSet(thread_id(), 1, ptrPipeline);
-	ptrDescriptorSetColor->SetUniformBuffer(2, ptrUniformBufferColor);
+	ptrDescriptorSetColor = GfxDevice()->AllocDescriptorSet(thread_id(), CrossEngine::DESCRIPTOR_SET_PASS, ptrPipeline);
+	ptrDescriptorSetColor->SetUniformBuffer(BIND_COLOR, ptrUniformBufferColor);
 	ptrDescriptorSetColor->UpdateDescriptorSets();
 }
 

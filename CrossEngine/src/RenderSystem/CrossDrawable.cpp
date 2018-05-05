@@ -73,7 +73,7 @@ namespace CrossEngine {
 		if (m_ptrUniformBuffers[dwPassName].find(dwName) == m_ptrUniformBuffers[dwPassName].end()) {
 			m_ptrUniformBuffers[dwPassName][dwName] = GfxDevice()->NewUniformBuffer();
 			m_ptrUniformBuffers[dwPassName][dwName]->Create(GfxSwapChain()->GetImageCount() * ALIGN_BYTE(size, 0x100), NULL, TRUE);
-			m_ptrUniformBuffers[dwPassName][dwName]->SetDescriptorBufferInfo(DESCRIPTORSET_PASS, binding, 0, size);
+			m_ptrUniformBuffers[dwPassName][dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, size);
 			UpdateDescriptorSet(dwPassName, ptrPipeline);
 		}
 
@@ -86,10 +86,10 @@ namespace CrossEngine {
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
 		uint32_t pool = ((thread^frame) >> 1) | 0x80000000;
 
-		m_ptrDescriptorSets[dwPassName] = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTORSET_PASS, ptrPipeline);
+		m_ptrDescriptorSets[dwPassName] = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTOR_SET_PASS, ptrPipeline);
 		{
 			for (const auto &itUniformBuffer : m_ptrUniformBuffers[dwPassName]) {
-				m_ptrDescriptorSets[dwPassName]->SetUniformBuffer(ptrPipeline->GetBinding(DESCRIPTORSET_PASS, itUniformBuffer.first), itUniformBuffer.second);
+				m_ptrDescriptorSets[dwPassName]->SetUniformBuffer(ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
 			}
 		}
 		m_ptrDescriptorSets[dwPassName]->UpdateDescriptorSets();
