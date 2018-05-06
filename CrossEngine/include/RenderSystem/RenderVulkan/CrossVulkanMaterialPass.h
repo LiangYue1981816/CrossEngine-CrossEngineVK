@@ -48,7 +48,7 @@ namespace CrossEngine {
 
 		void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture);
 		void SetUniformBuffer(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer);
-		void UpdateDescriptorSet(uint32_t pool);
+		void UpdateDescriptorSet(void);
 
 
 	protected:

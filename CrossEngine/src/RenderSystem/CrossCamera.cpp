@@ -37,9 +37,7 @@ namespace CrossEngine {
 		m_ptrDescriptorSetLayout->Create();
 
 		for (uint32_t frame = 0; frame < GfxSwapChain()->GetImageCount(); frame++) {
-			uint32_t thread = thread_id();
-			uint32_t pool = ((thread^frame) >> 1) | 0x80000000;
-			m_ptrDescriptorSets[frame] = GfxDevice()->AllocDescriptorSet(pool, m_ptrDescriptorSetLayout);
+			m_ptrDescriptorSets[frame] = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
 			m_ptrDescriptorSets[frame]->SetUniformBuffer(DESCRIPTOR_BIND_CAMERA, m_ptrUniformBuffer);
 			m_ptrDescriptorSets[frame]->UpdateDescriptorSets();
 		}
@@ -72,8 +70,9 @@ namespace CrossEngine {
 
 	const CGfxDescriptorSetPtr& CCamera::GetDescriptorSet(void) const
 	{
+		static const CGfxDescriptorSetPtr ptrDescriptorSetNull;
 		const auto &itDescriptorSet = m_ptrDescriptorSets.find(GfxSwapChain()->GetImageIndex());
-		return itDescriptorSet->second;
+		return itDescriptorSet != m_ptrDescriptorSets.end() ? itDescriptorSet->second : ptrDescriptorSetNull;
 	}
 
 	void CCamera::SetEnable(BOOL bEnable)

@@ -77,9 +77,9 @@ namespace CrossEngine {
 		m_ptrUniformBuffers[dwName] = ptrUniformBuffer;
 	}
 
-	void CVulkanMaterialPass::UpdateDescriptorSet(uint32_t pool)
+	void CVulkanMaterialPass::UpdateDescriptorSet(void)
 	{
-		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(pool, DESCRIPTOR_SET_PASS, m_ptrPipeline);
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_PASS, m_ptrPipeline);
 		{
 			for (const auto &itTexture : m_ptrTextures) {
 				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
