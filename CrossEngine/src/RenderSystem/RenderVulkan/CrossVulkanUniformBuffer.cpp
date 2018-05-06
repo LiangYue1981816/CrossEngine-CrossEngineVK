@@ -52,8 +52,10 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(bDynamic ? GfxSwapChain()->GetImageCount() * ALIGN_BYTE(size, UNIFORM_BUFFER_ALIGNMENT) : size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, bDynamic ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::SetData(0, size, pBuffer));
+
 		m_vkDescriptorBufferInfo.buffer = m_vkBuffer;
-		m_vkDescriptorBufferInfo.range = size;
+		m_vkDescriptorBufferInfo.range = m_size = size;
+
 		return TRUE;
 	}
 
