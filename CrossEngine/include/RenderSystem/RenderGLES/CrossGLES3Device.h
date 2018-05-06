@@ -43,7 +43,7 @@ namespace CrossEngine {
 	protected:
 		int CreateDevice(void);
 		int CreateQueue(void);
-		int CreateCommandManager(void);
+		int CreateCommandBufferManager(void);
 		int CreateDescriptorSetManager(void);
 
 		int CreateBufferManager(void);
@@ -57,7 +57,7 @@ namespace CrossEngine {
 	protected:
 		void DestroyDevice(void);
 		void DestroyQueue(void);
-		void DestroyCommandManager(void);
+		void DestroyCommandBufferManager(void);
 		void DestroyDescriptorSetManager(void);
 
 		void DestroyBufferManager(void);

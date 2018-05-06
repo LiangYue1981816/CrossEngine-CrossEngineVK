@@ -74,7 +74,7 @@ namespace CrossEngine {
 
 		CALL_GL_FUNCTION_RETURN(CreateDevice());
 		CALL_GL_FUNCTION_RETURN(CreateQueue());
-		CALL_GL_FUNCTION_RETURN(CreateCommandManager());
+		CALL_GL_FUNCTION_RETURN(CreateCommandBufferManager());
 		CALL_GL_FUNCTION_RETURN(CreateDescriptorSetManager());
 
 		CALL_GL_FUNCTION_RETURN(CreateBufferManager());
@@ -98,7 +98,7 @@ namespace CrossEngine {
 		return NO_ERROR;
 	}
 
-	int CGLES3Device::CreateCommandManager(void)
+	int CGLES3Device::CreateCommandBufferManager(void)
 	{
 		return m_pCommandBufferManager->Create();
 	}
@@ -154,7 +154,7 @@ namespace CrossEngine {
 		DestroyBufferManager();
 
 		DestroyDescriptorSetManager();
-		DestroyCommandManager();
+		DestroyCommandBufferManager();
 		DestroyQueue();
 		DestroyDevice();
 	}
@@ -169,7 +169,7 @@ namespace CrossEngine {
 
 	}
 
-	void CGLES3Device::DestroyCommandManager(void)
+	void CGLES3Device::DestroyCommandBufferManager(void)
 	{
 		m_pCommandBufferManager->Destroy();
 	}

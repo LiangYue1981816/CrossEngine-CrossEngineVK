@@ -37,7 +37,7 @@ namespace CrossEngine {
 		, m_pTransferQueue(NULL)
 		, m_pMemoryManager(NULL)
 		, m_pCommandPoolManager(NULL)
-		, m_pDescriptorSetManager(NULL)
+		, m_pDescriptorPoolManager(NULL)
 		, m_pStagingBufferManager(NULL)
 
 		, m_pBufferManager(NULL)
@@ -57,7 +57,7 @@ namespace CrossEngine {
 		m_pTransferQueue = SAFE_NEW CVulkanQueue(this);
 		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
 		m_pCommandPoolManager = SAFE_NEW CVulkanCommandPoolManager(this);
-		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorPoolManager(this);
+		m_pDescriptorPoolManager = SAFE_NEW CVulkanDescriptorPoolManager(this);
 		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
 
 		m_pBufferManager = SAFE_NEW CVulkanBufferManager(this);
@@ -76,7 +76,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pTransferQueue);
 		SAFE_DELETE(m_pMemoryManager);
 		SAFE_DELETE(m_pCommandPoolManager);
-		SAFE_DELETE(m_pDescriptorSetManager);
+		SAFE_DELETE(m_pDescriptorPoolManager);
 		SAFE_DELETE(m_pStagingBufferManager);
 
 		SAFE_DELETE(m_pBufferManager);
@@ -101,7 +101,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(CreateQueue());
 		CALL_VK_FUNCTION_RETURN(CreateMemoryManager());
 		CALL_VK_FUNCTION_RETURN(CreateCommandPoolManager());
-		CALL_VK_FUNCTION_RETURN(CreateDescriptorSetManager());
+		CALL_VK_FUNCTION_RETURN(CreateDescriptorPoolManager());
 		CALL_VK_FUNCTION_RETURN(CreateStagingBufferManager());
 
 		CALL_VK_FUNCTION_RETURN(CreateBufferManager());
@@ -132,7 +132,7 @@ namespace CrossEngine {
 		DestroyBufferManager();
 
 		DestroyStagingBufferManager();
-		DestroyDescriptorSetManager();
+		DestroyDescriptorPoolManager();
 		DestroyCommandPoolManager();
 		DestroyMemoryManager();
 		DestroyQueue();
@@ -285,9 +285,9 @@ namespace CrossEngine {
 		return m_pCommandPoolManager->Create();
 	}
 
-	int CVulkanDevice::CreateDescriptorSetManager(void)
+	int CVulkanDevice::CreateDescriptorPoolManager(void)
 	{
-		return m_pDescriptorSetManager->Create();
+		return m_pDescriptorPoolManager->Create();
 	}
 
 	int CVulkanDevice::CreateStagingBufferManager(void)
@@ -357,9 +357,9 @@ namespace CrossEngine {
 		m_pCommandPoolManager->Destroy();
 	}
 
-	void CVulkanDevice::DestroyDescriptorSetManager(void)
+	void CVulkanDevice::DestroyDescriptorPoolManager(void)
 	{
-		m_pDescriptorSetManager->Destroy();
+		m_pDescriptorPoolManager->Destroy();
 	}
 
 	void CVulkanDevice::DestroyStagingBufferManager(void)
@@ -479,17 +479,17 @@ namespace CrossEngine {
 
 	void CVulkanDevice::ResetDescriptorSetPool(uint32_t pool)
 	{
-		m_pDescriptorSetManager->ResetDescriptorSetPool(pool);
+		m_pDescriptorPoolManager->ResetDescriptorSetPool(pool);
 	}
 
 	void CVulkanDevice::AllocDescriptorSetPool(uint32_t pool)
 	{
-		m_pDescriptorSetManager->AllocDescriptorSetPool(pool);
+		m_pDescriptorPoolManager->AllocDescriptorSetPool(pool);
 	}
 
 	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
-		return m_pDescriptorSetManager->AllocDescriptorSet(pool, ptrDescriptorSetLayout);
+		return m_pDescriptorPoolManager->AllocDescriptorSet(pool, ptrDescriptorSetLayout);
 	}
 
 	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)
@@ -597,7 +597,7 @@ namespace CrossEngine {
 		LOGI("=================== Vulkan Resource Dump ===================\n");
 		{
 			m_pMemoryManager->DumpLog("Device Memory ...");
-			m_pDescriptorSetManager->DumpLog("DescriptorSet ...");
+			m_pDescriptorPoolManager->DumpLog("DescriptorSet ...");
 			m_pStagingBufferManager->DumpLog("StagingBuffer ...");
 			m_pBufferManager->DumpLog("Buffer ...");
 			m_pTextureManager->DumpLog("Texture ...");

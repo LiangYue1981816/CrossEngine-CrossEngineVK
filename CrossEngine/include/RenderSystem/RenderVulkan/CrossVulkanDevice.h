@@ -70,7 +70,7 @@ namespace CrossEngine {
 		int CreateQueue(void);
 		int CreateMemoryManager(void);
 		int CreateCommandPoolManager(void);
-		int CreateDescriptorSetManager(void);
+		int CreateDescriptorPoolManager(void);
 		int CreateStagingBufferManager(void);
 
 		int CreateBufferManager(void);
@@ -86,7 +86,7 @@ namespace CrossEngine {
 		void DestroyQueue(void);
 		void DestroyMemoryManager(void);
 		void DestroyCommandPoolManager(void);
-		void DestroyDescriptorSetManager(void);
+		void DestroyDescriptorPoolManager(void);
 		void DestroyStagingBufferManager(void);
 
 		void DestroyBufferManager(void);
@@ -171,7 +171,7 @@ namespace CrossEngine {
 		CVulkanQueue *m_pTransferQueue;
 		CVulkanMemoryManager *m_pMemoryManager;
 		CVulkanCommandPoolManager *m_pCommandPoolManager;
-		CVulkanDescriptorPoolManager *m_pDescriptorSetManager;
+		CVulkanDescriptorPoolManager *m_pDescriptorPoolManager;
 		CVulkanStagingBufferManager *m_pStagingBufferManager;
 
 	protected:
