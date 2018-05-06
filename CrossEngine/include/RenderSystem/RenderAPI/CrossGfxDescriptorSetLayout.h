@@ -45,6 +45,9 @@ namespace CrossEngine {
 
 
 	public:
+		virtual HANDLE GetHandle(void) const = 0;
+
+	public:
 		virtual BOOL Create(void) = 0;
 		virtual void Destroy(void) = 0;
 

@@ -41,6 +41,10 @@ namespace CrossEngine {
 
 
 	public:
+		CVulkanDevice* GetDevice(void) const;
+		HANDLE GetHandle(void) const;
+
+	public:
 		BOOL Create(void);
 		void Destroy(void);
 
@@ -54,7 +58,6 @@ namespace CrossEngine {
 		uint32_t GetBinding(uint32_t dwName) const;
 
 	public:
-		VkDescriptorSetLayout GetLayout(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
 
 

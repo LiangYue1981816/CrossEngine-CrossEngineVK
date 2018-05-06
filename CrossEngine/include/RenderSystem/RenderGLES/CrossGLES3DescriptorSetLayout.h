@@ -41,6 +41,10 @@ namespace CrossEngine {
 
 
 	public:
+		CGLES3Device* GetDevice(void) const;
+		HANDLE GetHandle(void) const;
+
+	public:
 		BOOL Create(void);
 		void Destroy(void);
 

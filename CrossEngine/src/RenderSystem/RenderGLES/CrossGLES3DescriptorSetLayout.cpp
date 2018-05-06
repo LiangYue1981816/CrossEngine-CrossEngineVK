@@ -44,6 +44,16 @@ namespace CrossEngine {
 		SAFE_DELETE(pVulkanDescriptorSetLayout);
 	}
 
+	CGLES3Device* CGLES3DescriptorSetLayout::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
+	HANDLE CGLES3DescriptorSetLayout::GetHandle(void) const
+	{
+		return (HANDLE)this;
+	}
+
 	BOOL CGLES3DescriptorSetLayout::Create(void)
 	{
 		return TRUE;

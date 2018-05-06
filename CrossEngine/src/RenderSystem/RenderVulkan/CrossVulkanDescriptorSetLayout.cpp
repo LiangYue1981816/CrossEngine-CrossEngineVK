@@ -47,6 +47,16 @@ namespace CrossEngine {
 		SAFE_DELETE(pVulkanDescriptorSetLayout);
 	}
 
+	CVulkanDevice* CVulkanDescriptorSetLayout::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
+	HANDLE CVulkanDescriptorSetLayout::GetHandle(void) const
+	{
+		return m_vkDescriptorSetLayout;
+	}
+
 	BOOL CVulkanDescriptorSetLayout::Create(void)
 	{
 		try {
@@ -146,11 +156,6 @@ namespace CrossEngine {
 	{
 		const auto &itName = m_nameBindings.find(dwName);
 		return itName != m_nameBindings.end() ? itName->second : -1;
-	}
-
-	VkDescriptorSetLayout CVulkanDescriptorSetLayout::GetLayout(void) const
-	{
-		return m_vkDescriptorSetLayout;
 	}
 
 	const uint32_t* CVulkanDescriptorSetLayout::GetTypesUsedCount(void) const
