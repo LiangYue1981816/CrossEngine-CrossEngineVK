@@ -41,13 +41,13 @@ namespace CrossEngine {
 
 	public:
 		const CGfxShaderPtr& GetShader(VkShaderStageFlagBits flag) const;
-		const CGfxDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
+		const CGfxDescriptorSetLayoutPtr& GetDescriptorSetLayout(uint32_t set) const;
 
 
 	protected:
 		GLuint m_pipeline;
 		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<uint32_t, CGLES3DescriptorSetLayout*> m_pDescriptorSetLayouts;
+		std::map<uint32_t, CGfxDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
 
 	protected:
 		CGLES3Device *m_pDevice;
