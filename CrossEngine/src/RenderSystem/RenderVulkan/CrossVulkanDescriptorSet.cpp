@@ -82,8 +82,9 @@ namespace CrossEngine {
 	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
 	{
 		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
-			m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
-			m_uniformBufferOffsets[binding] = offset;
+			uint32_t base = m_ptrUniformBuffers[binding]->IsDynamic() ? GfxSwapChain()->GetImageIndex() * ALIGN_BYTE(m_ptrUniformBuffers[binding]->GetBufferSize(), UNIFORM_BUFFER_ALIGNMENT) : 0;
+			m_ptrUniformBuffers[binding]->SetData(base + offset, size, pBuffer);
+			m_uniformBufferOffsets[binding] = base;
 		}
 	}
 
