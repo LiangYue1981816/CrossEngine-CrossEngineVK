@@ -96,13 +96,13 @@ namespace CrossEngine {
 	class CROSS_EXPORT CGfxMaterialPass;
 	class CROSS_EXPORT CGfxRenderPass;
 	class CROSS_EXPORT CGfxFrameBuffer;
-	class CROSS_EXPORT CGfxDescriptorSetLayout;
 	class CROSS_EXPORT CGfxDescriptorSet;
+	class CROSS_EXPORT CGfxDescriptorSetPtr;
+	class CROSS_EXPORT CGfxDescriptorSetLayout;
+	class CROSS_EXPORT CGfxDescriptorSetLayoutPtr;
 	class CROSS_EXPORT CGfxCommandBase;
 	class CROSS_EXPORT CGfxCommandBuffer;
 	class CROSS_EXPORT CGfxCommandBufferPtr;
-	class CROSS_EXPORT CGfxDescriptorSetPtr;
-	class CROSS_EXPORT CGfxDescriptorSetLayoutPtr;
 
 	typedef CGfxResourcePtr<CGfxIndexBuffer> CGfxIndexBufferPtr;
 	typedef CGfxResourcePtr<CGfxVertexBuffer> CGfxVertexBufferPtr;
