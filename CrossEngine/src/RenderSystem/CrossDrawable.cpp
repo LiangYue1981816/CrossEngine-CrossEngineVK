@@ -73,7 +73,6 @@ namespace CrossEngine {
 		if (m_ptrUniformBuffers[dwPassName].find(dwName) == m_ptrUniformBuffers[dwPassName].end()) {
 			m_ptrUniformBuffers[dwPassName][dwName] = GfxDevice()->NewUniformBuffer();
 			m_ptrUniformBuffers[dwPassName][dwName]->Create(GfxSwapChain()->GetImageCount() * ALIGN_BYTE(size, 0x100), NULL, TRUE);
-			m_ptrUniformBuffers[dwPassName][dwName]->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, size);
 			UpdateDescriptorSet(dwPassName, ptrPipeline);
 		}
 

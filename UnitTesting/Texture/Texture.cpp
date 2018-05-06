@@ -124,11 +124,9 @@ void CreateBuffer(void)
 
 	ptrUniformBufferTransform = GfxDevice()->NewUniformBuffer();
 	ptrUniformBufferTransform->Create(sizeof(glm::mat4), NULL, TRUE);
-	ptrUniformBufferTransform->SetDescriptorBufferInfo(CrossEngine::DESCRIPTOR_SET_DRAW, CrossEngine::DESCRIPTOR_BIND_TRANSFORM, 0, sizeof(glm::mat4));
 
 	ptrUniformBufferColor = GfxDevice()->NewUniformBuffer();
 	ptrUniformBufferColor->Create(sizeof(glm::vec4), NULL, TRUE);
-	ptrUniformBufferColor->SetDescriptorBufferInfo(CrossEngine::DESCRIPTOR_SET_PASS, BIND_COLOR, 0, sizeof(glm::vec4));
 }
 
 void DestroyBuffer(void)

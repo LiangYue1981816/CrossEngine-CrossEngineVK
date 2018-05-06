@@ -108,8 +108,6 @@ namespace CrossEngine {
 
 				CGfxUniformBufferPtr ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
 				ptrUniformBuffer->Create(sizeof(itUniformFloat.second), &itUniformFloat.second, FALSE);
-				ptrUniformBuffer->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformFloat.second));
-
 				m_ptrMaterial->GetPass(dwPassName)->SetUniformBuffer(dwUniformName, ptrUniformBuffer);
 			}
 		}
@@ -123,8 +121,6 @@ namespace CrossEngine {
 
 				CGfxUniformBufferPtr ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
 				ptrUniformBuffer->Create(sizeof(itUniformVector.second), &itUniformVector.second, FALSE);
-				ptrUniformBuffer->SetDescriptorBufferInfo(DESCRIPTOR_SET_PASS, binding, 0, sizeof(itUniformVector.second));
-
 				m_ptrMaterial->GetPass(dwPassName)->SetUniformBuffer(dwUniformName, ptrUniformBuffer);
 			}
 		}

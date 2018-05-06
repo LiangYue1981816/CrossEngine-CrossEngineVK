@@ -81,11 +81,9 @@ void CreateBuffer(void)
 
 	ptrUniformBufferA = GfxDevice()->NewUniformBuffer();
 	ptrUniformBufferA->Create(GfxSwapChain()->GetImageCount() * 0x100, NULL, TRUE);
-	ptrUniformBufferA->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 
 	ptrUniformBufferB = GfxDevice()->NewUniformBuffer();
 	ptrUniformBufferB->Create(GfxSwapChain()->GetImageCount() * 0x100, NULL, TRUE);
-	ptrUniformBufferB->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 }
 
 void CreateDescriptorSet(void)

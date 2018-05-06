@@ -94,7 +94,6 @@ void CreateMesh(void)
 
 	Mesh.ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
 	Mesh.ptrUniformBuffer->Create(sizeof(glm::mat4), NULL, TRUE);
-	Mesh.ptrUniformBuffer->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 
 	GfxDevice()->AllocDescriptorSetPool(thread_id());
 	Mesh.ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), 0, Mesh.ptrGraphics);

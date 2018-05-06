@@ -134,7 +134,6 @@ void CreateBuffer(void)
 
 	ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
 	ptrUniformBuffer->Create(sizeof(glm::mat4), NULL, TRUE);
-	ptrUniformBuffer->SetDescriptorBufferInfo(0, 0, 0, sizeof(glm::mat4));
 }
 
 void DestroyBuffer(void)
