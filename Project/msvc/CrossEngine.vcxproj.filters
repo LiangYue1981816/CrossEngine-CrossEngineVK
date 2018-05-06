@@ -213,9 +213,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanCommandPoolManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.h">
-      <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDevice.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClInclude>
@@ -804,6 +801,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystemDefinition.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorPoolManager.h">
+      <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -930,9 +930,6 @@
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanCommandPoolManager.cpp">
-      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorSetManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDevice.cpp">
@@ -1291,6 +1288,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderer.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorPoolManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
