@@ -47,8 +47,7 @@ namespace CrossEngine {
 		virtual BOOL SetData(size_t offset, size_t size, const void *pBuffer) const = 0;
 
 	public:
-		virtual BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size) = 0;
-		virtual const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding) = 0;
+		virtual const VkDescriptorBufferInfo& GetDescriptorBufferInfo(void) const = 0;
 	};
 
 }

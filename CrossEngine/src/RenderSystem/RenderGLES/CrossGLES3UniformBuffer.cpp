@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CGLES3UniformBuffer::CGLES3UniformBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGLES3Buffer(pDevice)
 		, CGfxUniformBuffer(pResourceManager)
+		, m_vkDescriptorBufferInfo{ 0 }
 	{
 
 	}
@@ -51,12 +52,12 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_UNIFORM_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::SetData(GL_UNIFORM_BUFFER, 0, size, pBuffer));
+		m_vkDescriptorBufferInfo.range = size;
 		return TRUE;
 	}
 
 	void CGLES3UniformBuffer::Destroy(void)
 	{
-		m_vkDescriptorBufferInfos.clear();
 		CGLES3Buffer::Destroy();
 	}
 
@@ -65,24 +66,9 @@ namespace CrossEngine {
 		return CGLES3Buffer::SetData(GL_UNIFORM_BUFFER, offset, size, pBuffer);
 	}
 
-	BOOL CGLES3UniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
+	const VkDescriptorBufferInfo& CGLES3UniformBuffer::GetDescriptorBufferInfo(void) const
 	{
-		if (offset + size > (size_t)m_size) {
-			return FALSE;
-		}
-
-		set = 0; // GLES3 not support DescriptorSet!!!
-		m_vkDescriptorBufferInfos[set][binding].buffer = VK_NULL_HANDLE;
-		m_vkDescriptorBufferInfos[set][binding].offset = offset;
-		m_vkDescriptorBufferInfos[set][binding].range = size;
-
-		return TRUE;
-	}
-
-	const VkDescriptorBufferInfo& CGLES3UniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
-	{
-		set = 0; // GLES3 not support DescriptorSet!!!
-		return m_vkDescriptorBufferInfos[set][binding];
+		return m_vkDescriptorBufferInfo;
 	}
 
 	BOOL CGLES3UniformBuffer::IsDynamic(void) const

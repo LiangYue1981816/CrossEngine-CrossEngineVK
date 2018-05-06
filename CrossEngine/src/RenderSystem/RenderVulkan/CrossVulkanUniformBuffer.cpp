@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CVulkanUniformBuffer::CVulkanUniformBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
 		: CVulkanBuffer(pDevice)
 		, CGfxUniformBuffer(pResourceManager)
+		, m_vkDescriptorBufferInfo{ 0 }
 	{
 
 	}
@@ -51,12 +52,13 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, bDynamic ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::SetData(0, size, pBuffer));
+		m_vkDescriptorBufferInfo.buffer = m_vkBuffer;
+		m_vkDescriptorBufferInfo.range = size;
 		return TRUE;
 	}
 
 	void CVulkanUniformBuffer::Destroy(void)
 	{
-		m_vkDescriptorBufferInfos.clear();
 		CVulkanBuffer::Destroy();
 	}
 
@@ -65,22 +67,9 @@ namespace CrossEngine {
 		return CVulkanBuffer::SetData(offset, size, pBuffer);
 	}
 
-	BOOL CVulkanUniformBuffer::SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size)
+	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(void) const
 	{
-		if (offset + size > m_size) {
-			return FALSE;
-		}
-
-		m_vkDescriptorBufferInfos[set][binding].buffer = m_vkBuffer;
-		m_vkDescriptorBufferInfos[set][binding].offset = offset;
-		m_vkDescriptorBufferInfos[set][binding].range = size;
-
-		return TRUE;
-	}
-
-	const VkDescriptorBufferInfo& CVulkanUniformBuffer::GetDescriptorBufferInfo(uint32_t set, uint32_t binding)
-	{
-		return m_vkDescriptorBufferInfos[set][binding];
+		return m_vkDescriptorBufferInfo;
 	}
 
 	BOOL CVulkanUniformBuffer::IsDynamic(void) const

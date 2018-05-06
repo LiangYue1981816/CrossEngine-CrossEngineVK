@@ -49,8 +49,7 @@ namespace CrossEngine {
 		BOOL SetData(size_t offset, size_t size, const void *pBuffer) const;
 
 	public:
-		BOOL SetDescriptorBufferInfo(uint32_t set, uint32_t binding, size_t offset, size_t size);
-		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(uint32_t set, uint32_t binding);
+		const VkDescriptorBufferInfo& GetDescriptorBufferInfo(void) const;
 
 	public:
 		BOOL IsDynamic(void) const;
@@ -59,7 +58,7 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>> m_vkDescriptorBufferInfos;
+		VkDescriptorBufferInfo m_vkDescriptorBufferInfo;
 	};
 
 }
