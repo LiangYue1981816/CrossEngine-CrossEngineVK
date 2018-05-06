@@ -26,8 +26,6 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	#define UNIFORM_BUFFER_OFFSET_ALIGNMENT 0x100
-
 	class CROSS_EXPORT CGfxUniformBuffer : public CGfxBuffer
 	{
 	protected:

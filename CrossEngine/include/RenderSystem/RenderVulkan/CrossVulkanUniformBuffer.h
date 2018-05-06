@@ -26,6 +26,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	#define UNIFORM_BUFFER_ALIGNMENT 0x100
+
 	class CROSS_EXPORT CVulkanUniformBuffer : public CGfxUniformBuffer, public CVulkanBuffer
 	{
 		friend class CVulkanBufferManager;
