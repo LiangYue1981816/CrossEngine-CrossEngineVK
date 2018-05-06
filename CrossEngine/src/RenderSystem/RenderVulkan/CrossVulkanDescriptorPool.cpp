@@ -77,31 +77,19 @@ namespace CrossEngine {
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(const CVulkanDescriptorSetLayout *pSetLayout)
+	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
 		if (m_numDescriptorSets + 1 > m_maxDescriptorSets) {
 			return NULL;
 		}
 
 		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
-			if (m_numAllocatedTypes[index] + pSetLayout->GetTypesUsedCount()[index] > m_maxAllocatedTypes[index]) {
+			if (m_numAllocatedTypes[index] + ((CVulkanDescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetTypesUsedCount()[index] > m_maxAllocatedTypes[index]) {
 				return NULL;
 			}
 		}
 
-		VkDescriptorSetLayout vkSetLayout = pSetLayout->GetLayout();
-		VkDescriptorSetAllocateInfo allocInfo = {};
-		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-		allocInfo.pNext = NULL;
-		allocInfo.descriptorPool = m_vkDescriptorPool;
-		allocInfo.descriptorSetCount = 1;
-		allocInfo.pSetLayouts = &vkSetLayout;
-
-		VkDescriptorSet vkDescriptorSet = VK_NULL_HANDLE;
-		VkResult result = vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &vkDescriptorSet);
-		if (result != VK_SUCCESS) return NULL;
-
-		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(this, m_pDevice, vkDescriptorSet, pSetLayout->GetSet(), pSetLayout->GetTypesUsedCount());
+		CVulkanDescriptorSet *pDescriptorSet = SAFE_NEW CVulkanDescriptorSet(m_pDevice, this, ptrDescriptorSetLayout);
 		m_pDescriptorSets[pDescriptorSet] = pDescriptorSet;
 
 		m_numDescriptorSets++;
@@ -115,9 +103,6 @@ namespace CrossEngine {
 	void CVulkanDescriptorPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
 		if (pDescriptorSet) {
-			VkDescriptorSet vkDescriptorSet = (VkDescriptorSet)pDescriptorSet->GetHandle();
-			vkFreeDescriptorSets(m_pDevice->GetDevice(), m_vkDescriptorPool, 1, &vkDescriptorSet);
-
 			m_numDescriptorSets--;
 			for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
 				m_numAllocatedTypes[index] -= pDescriptorSet->GetTypesUsedCount()[index];
@@ -136,6 +121,11 @@ namespace CrossEngine {
 	uint32_t CVulkanDescriptorPool::GetDescriptorSetCount(void) const
 	{
 		return m_numDescriptorSets;
+	}
+
+	VkDescriptorPool CVulkanDescriptorPool::GetDescriptorPool(void) const
+	{
+		return m_vkDescriptorPool;
 	}
 
 	void CVulkanDescriptorPool::DumpLog(void) const

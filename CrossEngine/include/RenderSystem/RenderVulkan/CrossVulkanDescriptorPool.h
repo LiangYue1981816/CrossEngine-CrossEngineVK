@@ -38,12 +38,13 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanDescriptorSet* AllocDescriptorSet(const CVulkanDescriptorSetLayout *pSetLayout);
+		CVulkanDescriptorSet* AllocDescriptorSet(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout);
 		void FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet);
 		void ResetDescriptorSetPool(void);
 
 	protected:
 		uint32_t GetDescriptorSetCount(void) const;
+		VkDescriptorPool GetDescriptorPool(void) const;
 
 	protected:
 		void DumpLog(void) const;

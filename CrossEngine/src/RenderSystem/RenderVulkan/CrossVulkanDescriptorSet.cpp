@@ -25,24 +25,28 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDescriptorPool *pDescriptorPool, CVulkanDevice *pDevice, VkDescriptorSet vkDescriptorSet, uint32_t set, const uint32_t *typesUsedCount)
+	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDevice *pDevice, CVulkanDescriptorPool *pDescriptorPool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 		: m_pDevice(pDevice)
 		, m_pDescriptorPool(pDescriptorPool)
-		, m_vkDescriptorSet(vkDescriptorSet)
+		, m_ptrDescriptorSetLayout(ptrDescriptorSetLayout)
+		, m_vkDescriptorSet(VK_NULL_HANDLE)
 
 		, m_bNeedUpdate(FALSE)
-
-		, m_set(set)
-		, m_typesUsedCount{ 0 }
 	{
-		memcpy(m_typesUsedCount, typesUsedCount, sizeof(m_typesUsedCount));
+		VkDescriptorSetLayout vkDescriptorSetLayout = (VkDescriptorSetLayout)m_ptrDescriptorSetLayout->GetHandle();
+		VkDescriptorPool vkDescriptorPool = m_pDescriptorPool->GetDescriptorPool();
+		VkDescriptorSetAllocateInfo allocInfo = {};
+		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+		allocInfo.pNext = NULL;
+		allocInfo.descriptorPool = vkDescriptorPool;
+		allocInfo.descriptorSetCount = 1;
+		allocInfo.pSetLayouts = &vkDescriptorSetLayout;
+		vkAllocateDescriptorSets(m_pDevice->GetDevice(), &allocInfo, &m_vkDescriptorSet);
 	}
 
 	CVulkanDescriptorSet::~CVulkanDescriptorSet(void)
 	{
-		m_ptrTextures.clear();
-		m_ptrRenderTextures.clear();
-		m_ptrUniformBuffers.clear();
+		vkFreeDescriptorSets(m_pDevice->GetDevice(), m_pDescriptorPool->GetDescriptorPool(), 1, &m_vkDescriptorSet);
 	}
 
 	void CVulkanDescriptorSet::Release(void)
@@ -91,7 +95,7 @@ namespace CrossEngine {
 	void CVulkanDescriptorSet::UpdateDescriptorSets(void)
 	{
 		if (m_bNeedUpdate) {
-			m_bNeedUpdate = TRUE;
+			m_bNeedUpdate = FALSE;
 
 			std::vector<VkWriteDescriptorSet> writes;
 
@@ -158,12 +162,12 @@ namespace CrossEngine {
 
 	const uint32_t CVulkanDescriptorSet::GetSet(void) const
 	{
-		return m_set;
+		return ((CVulkanDescriptorSetLayout *)((CGfxDescriptorSetLayout *)m_ptrDescriptorSetLayout))->GetSet();
 	}
 
 	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
 	{
-		return m_typesUsedCount;
+		return ((CVulkanDescriptorSetLayout *)((CGfxDescriptorSetLayout *)m_ptrDescriptorSetLayout))->GetTypesUsedCount();
 	}
 
 	const std::vector<uint32_t> CVulkanDescriptorSet::GetUniformBufferOffsets(void) const
