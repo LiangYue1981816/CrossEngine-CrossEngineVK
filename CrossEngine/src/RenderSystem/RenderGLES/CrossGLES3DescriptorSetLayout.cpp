@@ -27,7 +27,9 @@ namespace CrossEngine {
 
 	CGLES3DescriptorSetLayout::CGLES3DescriptorSetLayout(CGLES3Device *pDevice, uint32_t set)
 		: m_pDevice(pDevice)
+
 		, m_set(set)
+		, m_numTypesUsedCount{ 0 }
 	{
 
 	}
@@ -125,8 +127,6 @@ namespace CrossEngine {
 	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(GLuint program)
 	{
 		if (m_uniformBlockBindings.find(program) == m_uniformBlockBindings.end()) {
-			m_uniformBlockBindings[program];
-
 			for (const auto &itNameBinding : m_uniformBlockNameBindings) {
 				GLuint binding = itNameBinding.second;
 				GLuint location = glGetUniformBlockIndex(program, itNameBinding.first.c_str());
@@ -143,8 +143,6 @@ namespace CrossEngine {
 	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetSampledImageBindings(GLuint program)
 	{
 		if (m_sampledImageBindings.find(program) == m_sampledImageBindings.end()) {
-			m_sampledImageBindings[program];
-
 			for (const auto &itNameBinding : m_sampledImageNameBindings) {
 				GLuint binding = itNameBinding.second;
 				GLuint location = glGetUniformLocation(program, itNameBinding.first.c_str());
@@ -161,8 +159,6 @@ namespace CrossEngine {
 	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetInputAttachmentBindings(GLuint program)
 	{
 		if (m_inputAttachmentBindings.find(program) == m_inputAttachmentBindings.end()) {
-			m_inputAttachmentBindings[program];
-
 			for (const auto &itNameBinding : m_inputAttachmentNameBindings) {
 				GLuint binding = itNameBinding.second;
 				GLuint location = glGetUniformLocation(program, itNameBinding.first.c_str());
