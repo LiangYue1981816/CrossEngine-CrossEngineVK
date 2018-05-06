@@ -50,12 +50,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanCommandBuffer::CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer)
+	CVulkanCommandBuffer::CVulkanCommandBuffer(CVulkanDevice *pDevice, CVulkanCommandPool *pCommandPool, VkCommandBufferLevel level)
 		: m_pDevice(pDevice)
 		, m_pCommandPool(pCommandPool)
-		, m_vkCommandBuffer(vkCommandBuffer)
+		, m_vkCommandBuffer(VK_NULL_HANDLE)
 		, m_vkFence(VK_NULL_HANDLE)
 	{
+		VkCommandBufferAllocateInfo commandBufferInfo = {};
+		commandBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		commandBufferInfo.pNext = NULL;
+		commandBufferInfo.commandPool = m_pCommandPool->GetCommandPool();
+		commandBufferInfo.level = level;
+		commandBufferInfo.commandBufferCount = 1;
+		vkAllocateCommandBuffers(m_pDevice->GetDevice(), &commandBufferInfo, &m_vkCommandBuffer);
+
 		VkFenceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 		createInfo.pNext = NULL;
@@ -66,6 +74,8 @@ namespace CrossEngine {
 	CVulkanCommandBuffer::~CVulkanCommandBuffer(void)
 	{
 		Reset();
+
+		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_pCommandPool->GetCommandPool(), 1, &m_vkCommandBuffer);
 		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 

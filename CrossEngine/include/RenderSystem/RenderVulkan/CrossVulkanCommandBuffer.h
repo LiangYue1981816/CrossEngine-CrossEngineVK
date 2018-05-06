@@ -33,7 +33,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanCommandBuffer(CVulkanCommandPool *pCommandPool, CVulkanDevice *pDevice, VkCommandBuffer vkCommandBuffer);
+		CVulkanCommandBuffer(CVulkanDevice *pDevice, CVulkanCommandPool *pCommandPool, VkCommandBufferLevel level);
 		virtual ~CVulkanCommandBuffer(void);
 
 
