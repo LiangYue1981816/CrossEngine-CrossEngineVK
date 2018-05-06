@@ -168,18 +168,20 @@ namespace CrossEngine {
 		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
 
-		GfxDevice()->AllocCommandBufferPool(thread_id());
-
+		uint32_t thread = thread_id() + (uint32_t)this;
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
-		if (m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].end()) {
-			m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(thread_id(), VK_COMMAND_BUFFER_LEVEL_PRIMARY);
-		}
+		uint32_t pool = thread + frame;
 
-		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame];
-		ptrMainCommandBuffer->Reset();
+		GfxDevice()->AllocCommandBufferPool(pool);
+		GfxDevice()->ResetCommandBufferPool(pool);
+
+		if (m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].end()) {
+			m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		}
 
 		DispatchThread(TRUE);
 
+		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame];
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
 			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
@@ -221,13 +223,6 @@ namespace CrossEngine {
 		CRenderer::ThreadParam *pThreadParam = (CRenderer::ThreadParam *)pParams;
 		CRenderer::ThreadCluster *pThreadCluster = &pThreadParam->pRenderer->m_threadCluster;
 		CRenderer *pRenderer = pThreadParam->pRenderer;
-		int indexThread = pThreadParam->indexThread;
-
-		for (uint32_t frame = 0; frame < GfxSwapChain()->GetImageCount(); frame++) {
-			uint32_t thread = thread_id();
-			uint32_t pool = ((thread^frame) >> 1) | 0x80000000;
-			GfxDevice()->AllocCommandBufferPool(pool);
-		}
 
 		while (TRUE) {
 			event_wait(&pThreadCluster->eventDispatch);
@@ -240,15 +235,17 @@ namespace CrossEngine {
 				event_wait(&pThreadCluster->eventReady);
 
 				{
-					uint32_t thread = thread_id();
+					uint32_t thread = thread_id() + (uint32_t)pRenderer;
 					uint32_t frame = GfxSwapChain()->GetImageIndex();
-					uint32_t pool = ((thread^frame) >> 1) | 0x80000000;
+					uint32_t pool = thread + frame;
+
+					GfxDevice()->AllocCommandBufferPool(pool);
 					GfxDevice()->ResetCommandBufferPool(pool);
 
 					int numCommandBuffers = 0;
 					CommandBufferSet &ptrSecondaryCommandBuffers = pRenderer->m_ptrSecondaryCommandBuffers[thread][frame];
 
-					for (int index = indexThread; index < pRenderer->m_pBatchStaticMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = pThreadParam->indexThread; index < pRenderer->m_pBatchStaticMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
@@ -258,7 +255,7 @@ namespace CrossEngine {
 						pRenderer->m_pBatchStaticMeshs[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
 					}
 
-					for (int index = indexThread; index < pRenderer->m_pBatchSkinMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = pThreadParam->indexThread; index < pRenderer->m_pBatchSkinMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
@@ -268,7 +265,7 @@ namespace CrossEngine {
 						pRenderer->m_pBatchSkinMeshs[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
 					}
 
-					for (int index = indexThread; index < pRenderer->m_pBatchParticals.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
+					for (int index = pThreadParam->indexThread; index < pRenderer->m_pBatchParticals.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
 						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
 							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
 						}
