@@ -516,11 +516,8 @@ namespace CrossEngine {
 
 	uint32_t CVulkanPipelineGraphics::GetBinding(uint32_t set, uint32_t dwName) const
 	{
-		if (const CGfxDescriptorSetLayout *pDescriptorSetLayout = GetDescriptorSetLayout(set)) {
-			return pDescriptorSetLayout->GetBinding(dwName);
-		}
-
-		return -1;
+		const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout = GetDescriptorSetLayout(set);
+		return ptrDescriptorSetLayout.IsNull() == FALSE ? ptrDescriptorSetLayout->GetBinding(dwName) : -1;
 	}
 
 	void CVulkanPipelineGraphics::DumpLog(void) const
