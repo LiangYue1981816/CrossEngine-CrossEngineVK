@@ -43,7 +43,7 @@ namespace CrossEngine {
 
 	public:
 		VkPipelineLayout GetPipelineLayout(void) const;
-		const CGfxDescriptorSetLayout* GetDescriptorSetLayout(uint32_t set) const;
+		const CGfxDescriptorSetLayoutPtr& GetDescriptorSetLayout(uint32_t set) const;
 
 
 	protected:
@@ -53,7 +53,7 @@ namespace CrossEngine {
 	protected:
 		VkPipeline m_vkPipeline;
 		VkPipelineLayout m_vkPipelineLayout;
-		std::map<uint32_t, CVulkanDescriptorSetLayout*> m_pDescriptorSetLayouts;
+		std::map<uint32_t, CGfxDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
 
 	protected:
 		CVulkanDevice *m_pDevice;

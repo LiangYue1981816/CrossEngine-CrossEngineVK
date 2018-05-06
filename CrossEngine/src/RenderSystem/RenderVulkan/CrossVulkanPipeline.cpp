@@ -82,9 +82,9 @@ namespace CrossEngine {
 	{
 		layouts.clear();
 
-		m_pDescriptorSetLayouts[DESCRIPTOR_SET_DRAW] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, DESCRIPTOR_SET_DRAW);
-		m_pDescriptorSetLayouts[DESCRIPTOR_SET_PASS] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, DESCRIPTOR_SET_PASS);
-		m_pDescriptorSetLayouts[DESCRIPTOR_SET_FRAME] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, DESCRIPTOR_SET_FRAME);
+		m_ptrDescriptorSetLayouts[DESCRIPTOR_SET_DRAW] = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_DRAW);
+		m_ptrDescriptorSetLayouts[DESCRIPTOR_SET_PASS] = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_PASS);
+		m_ptrDescriptorSetLayouts[DESCRIPTOR_SET_FRAME] = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
 
 		for (const auto &itShader : m_ptrShaders) {
 			const VkShaderStageFlags shaderStageFlags = itShader.first;
@@ -96,12 +96,12 @@ namespace CrossEngine {
 				const uint32_t binding = pShaderCompiler->get_decoration(itUniform.id, spv::DecorationBinding);
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itUniform.type_id);
 
-				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
+				if (m_ptrDescriptorSetLayouts[set].IsNull()) {
+					m_ptrDescriptorSetLayouts[set] = GfxDevice()->AllocDescriptorSetLayout(set);
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_pDescriptorSetLayouts[set]->SetUniformBinding(itUniform.name.c_str(), binding, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetUniformBinding(itUniform.name.c_str(), binding, shaderStageFlags);
 				}
 			}
 
@@ -110,12 +110,12 @@ namespace CrossEngine {
 				const uint32_t binding = pShaderCompiler->get_decoration(itSampledImage.id, spv::DecorationBinding);
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSampledImage.type_id);
 
-				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
+				if (m_ptrDescriptorSetLayouts[set].IsNull()) {
+					m_ptrDescriptorSetLayouts[set] = GfxDevice()->AllocDescriptorSetLayout(set);
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
-					m_pDescriptorSetLayouts[set]->SetSampledImageBinding(itSampledImage.name.c_str(), binding, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetSampledImageBinding(itSampledImage.name.c_str(), binding, shaderStageFlags);
 				}
 			}
 
@@ -124,19 +124,19 @@ namespace CrossEngine {
 				const uint32_t binding = pShaderCompiler->get_decoration(itSubpassInput.id, spv::DecorationBinding);
 				const spirv_cross::SPIRType type = pShaderCompiler->get_type(itSubpassInput.type_id);
 
-				if (m_pDescriptorSetLayouts[set] == NULL) {
-					m_pDescriptorSetLayouts[set] = SAFE_NEW CVulkanDescriptorSetLayout(m_pDevice, set);
+				if (m_ptrDescriptorSetLayouts[set].IsNull()) {
+					m_ptrDescriptorSetLayouts[set] = GfxDevice()->AllocDescriptorSetLayout(set);
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Image) {
-					m_pDescriptorSetLayouts[set]->SetInputAttachmentBinding(itSubpassInput.name.c_str(), binding, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetInputAttachmentBinding(itSubpassInput.name.c_str(), binding, shaderStageFlags);
 				}
 			}
 		}
 
-		for (auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
+		for (auto &itDescriptorSetLayout : m_ptrDescriptorSetLayouts) {
 			itDescriptorSetLayout.second->Create();
-			layouts.push_back(itDescriptorSetLayout.second->GetLayout());
+			layouts.push_back((VkDescriptorSetLayout)itDescriptorSetLayout.second->GetHandle());
 		}
 
 		return TRUE;
@@ -174,12 +174,7 @@ namespace CrossEngine {
 
 	void CVulkanPipeline::DestroyDescriptorSetLayouts(void)
 	{
-		for (auto &itDescriptorSetLayout : m_pDescriptorSetLayouts) {
-			itDescriptorSetLayout.second->Destroy();
-			SAFE_DELETE(itDescriptorSetLayout.second);
-		}
-
-		m_pDescriptorSetLayouts.clear();
+		m_ptrDescriptorSetLayouts.clear();
 	}
 
 	void CVulkanPipeline::DestroyShaderStages(void)
@@ -198,10 +193,11 @@ namespace CrossEngine {
 		return m_vkPipelineLayout;
 	}
 
-	const CGfxDescriptorSetLayout* CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
+	const CGfxDescriptorSetLayoutPtr& CVulkanPipeline::GetDescriptorSetLayout(uint32_t set) const
 	{
-		const auto &itDescriptorSetLayout = m_pDescriptorSetLayouts.find(set);
-		return itDescriptorSetLayout != m_pDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : NULL;
+		static const CGfxDescriptorSetLayoutPtr ptrDescriptorSetLayoutNull;
+		const auto &itDescriptorSetLayout = m_ptrDescriptorSetLayouts.find(set);
+		return itDescriptorSetLayout != m_ptrDescriptorSetLayouts.end() ? itDescriptorSetLayout->second : ptrDescriptorSetLayoutNull;
 	}
 
 }
