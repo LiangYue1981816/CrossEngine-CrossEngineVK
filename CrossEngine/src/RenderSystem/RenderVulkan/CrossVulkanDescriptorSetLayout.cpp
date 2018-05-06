@@ -101,14 +101,15 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 
-		m_layoutBindings[binding].binding = binding;
-		m_layoutBindings[binding].descriptorType = type;
-		m_layoutBindings[binding].descriptorCount = 1;
-		m_layoutBindings[binding].stageFlags = flags;
-		m_layoutBindings[binding].pImmutableSamplers = NULL;
-
-		m_nameBindings[dwName] = binding;
-		m_numTypesUsedCount[type]++;
+		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
+			m_nameBindings[dwName] = binding;
+			m_layoutBindings[binding].binding = binding;
+			m_layoutBindings[binding].descriptorType = type;
+			m_layoutBindings[binding].descriptorCount = 1;
+			m_layoutBindings[binding].stageFlags = flags;
+			m_layoutBindings[binding].pImmutableSamplers = NULL;
+			m_numTypesUsedCount[type]++;
+		}
 
 		return TRUE;
 	}
@@ -118,14 +119,15 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 
-		m_layoutBindings[binding].binding = binding;
-		m_layoutBindings[binding].descriptorType = type;
-		m_layoutBindings[binding].descriptorCount = 1;
-		m_layoutBindings[binding].stageFlags = flags;
-		m_layoutBindings[binding].pImmutableSamplers = NULL;
-
-		m_nameBindings[dwName] = binding;
-		m_numTypesUsedCount[type]++;
+		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
+			m_nameBindings[dwName] = binding;
+			m_layoutBindings[binding].binding = binding;
+			m_layoutBindings[binding].descriptorType = type;
+			m_layoutBindings[binding].descriptorCount = 1;
+			m_layoutBindings[binding].stageFlags = flags;
+			m_layoutBindings[binding].pImmutableSamplers = NULL;
+			m_numTypesUsedCount[type]++;
+		}
 
 		return TRUE;
 	}
@@ -135,14 +137,15 @@ namespace CrossEngine {
 		uint32_t dwName = HashValue(szName);
 		VkDescriptorType type = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
 
-		m_layoutBindings[binding].binding = binding;
-		m_layoutBindings[binding].descriptorType = type;
-		m_layoutBindings[binding].descriptorCount = 1;
-		m_layoutBindings[binding].stageFlags = flags;
-		m_layoutBindings[binding].pImmutableSamplers = NULL;
-
-		m_nameBindings[dwName] = binding;
-		m_numTypesUsedCount[type]++;
+		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
+			m_nameBindings[dwName] = binding;
+			m_layoutBindings[binding].binding = binding;
+			m_layoutBindings[binding].descriptorType = type;
+			m_layoutBindings[binding].descriptorCount = 1;
+			m_layoutBindings[binding].stageFlags = flags;
+			m_layoutBindings[binding].pImmutableSamplers = NULL;
+			m_numTypesUsedCount[type]++;
+		}
 
 		return TRUE;
 	}

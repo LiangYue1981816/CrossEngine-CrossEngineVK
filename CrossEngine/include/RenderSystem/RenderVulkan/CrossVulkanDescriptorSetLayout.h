@@ -56,8 +56,6 @@ namespace CrossEngine {
 	public:
 		uint32_t GetSet(void) const;
 		uint32_t GetBinding(uint32_t dwName) const;
-
-	public:
 		const uint32_t* GetTypesUsedCount(void) const;
 
 

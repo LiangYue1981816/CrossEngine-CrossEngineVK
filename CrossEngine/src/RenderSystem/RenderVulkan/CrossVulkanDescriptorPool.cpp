@@ -84,7 +84,7 @@ namespace CrossEngine {
 		}
 
 		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
-			if (m_numAllocatedTypes[index] + ((CVulkanDescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetTypesUsedCount()[index] > m_maxAllocatedTypes[index]) {
+			if (m_numAllocatedTypes[index] + ptrDescriptorSetLayout->GetTypesUsedCount()[index] > m_maxAllocatedTypes[index]) {
 				return NULL;
 			}
 		}

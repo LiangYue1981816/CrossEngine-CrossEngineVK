@@ -67,10 +67,12 @@ namespace CrossEngine {
 	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 
 		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
 			m_nameBindings[dwName] = binding;
 			m_uniformBlockNameBindings[szName] = binding;
+			m_numTypesUsedCount[type]++;
 		}
 
 		return TRUE;
@@ -79,10 +81,12 @@ namespace CrossEngine {
 	BOOL CGLES3DescriptorSetLayout::SetSampledImageBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 
 		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
 			m_nameBindings[dwName] = binding;
 			m_sampledImageNameBindings[szName] = binding;
+			m_numTypesUsedCount[type]++;
 		}
 
 		return TRUE;
@@ -91,10 +95,12 @@ namespace CrossEngine {
 	BOOL CGLES3DescriptorSetLayout::SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
 
 		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
 			m_nameBindings[dwName] = binding;
 			m_inputAttachmentNameBindings[szName] = binding;
+			m_numTypesUsedCount[type]++;
 		}
 
 		return TRUE;
@@ -109,6 +115,11 @@ namespace CrossEngine {
 	{
 		const auto &itName = m_nameBindings.find(dwName);
 		return itName != m_nameBindings.end() ? itName->second : -1;
+	}
+
+	const uint32_t* CGLES3DescriptorSetLayout::GetTypesUsedCount(void) const
+	{
+		return m_numTypesUsedCount;
 	}
 
 	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(GLuint program)

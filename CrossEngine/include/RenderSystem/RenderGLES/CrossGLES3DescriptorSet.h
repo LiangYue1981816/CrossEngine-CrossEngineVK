@@ -52,11 +52,9 @@ namespace CrossEngine {
 
 	public:
 		const CGfxDescriptorSetLayoutPtr& GetDescriptorSetLayout(void) const;
-
 		const CGfxTexturePtr& GetTexture(uint32_t binding) const;
 		const CGfxRenderTexturePtr& GetRenderTexture(uint32_t binding) const;
 		const CGfxUniformBufferPtr& GetUniformBuffer(uint32_t binding) const;
-
 		const uint32_t GetUniformBufferOffset(uint32_t binding) const;
 
 

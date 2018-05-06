@@ -162,12 +162,12 @@ namespace CrossEngine {
 
 	const uint32_t CVulkanDescriptorSet::GetSet(void) const
 	{
-		return ((CVulkanDescriptorSetLayout *)((CGfxDescriptorSetLayout *)m_ptrDescriptorSetLayout))->GetSet();
+		return m_ptrDescriptorSetLayout->GetSet();
 	}
 
 	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
 	{
-		return ((CVulkanDescriptorSetLayout *)((CGfxDescriptorSetLayout *)m_ptrDescriptorSetLayout))->GetTypesUsedCount();
+		return m_ptrDescriptorSetLayout->GetTypesUsedCount();
 	}
 
 	const std::vector<uint32_t> CVulkanDescriptorSet::GetUniformBufferOffsets(void) const

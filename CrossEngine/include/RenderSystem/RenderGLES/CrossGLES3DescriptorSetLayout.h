@@ -56,12 +56,16 @@ namespace CrossEngine {
 	public:
 		uint32_t GetSet(void) const;
 		uint32_t GetBinding(uint32_t dwName) const;
+		const uint32_t* GetTypesUsedCount(void) const;
 
 	public:
 		const std::map<uint32_t, uint32_t>& GetUniformBlockBindings(GLuint program);
 		const std::map<uint32_t, uint32_t>& GetSampledImageBindings(GLuint program);
 		const std::map<uint32_t, uint32_t>& GetInputAttachmentBindings(GLuint program);
 
+
+	protected:
+		uint32_t m_numTypesUsedCount[VK_DESCRIPTOR_TYPE_RANGE_SIZE];
 
 	protected:
 		uint32_t m_set;
