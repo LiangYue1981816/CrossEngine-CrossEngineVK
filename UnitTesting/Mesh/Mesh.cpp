@@ -32,6 +32,11 @@ void Destroy(void)
 	RenderSystem()->FreeDrawable(pMesh);
 	ptrMaterial.Release();
 	ptrMesh.Release();
+
+	ptrFrameBuffer[0].Release();
+	ptrFrameBuffer[1].Release();
+	ptrFrameBuffer[2].Release();
+	ptrRenderPass.Release();
 }
 
 void Render(void)
