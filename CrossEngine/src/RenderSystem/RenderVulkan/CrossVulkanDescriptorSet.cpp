@@ -79,7 +79,7 @@ namespace CrossEngine {
 		m_uniformBufferOffsets[binding] = 0;
 	}
 
-	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, uint32_t offset, uint32_t size, const void *pBuffer)
+	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
 	{
 		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
 			m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
