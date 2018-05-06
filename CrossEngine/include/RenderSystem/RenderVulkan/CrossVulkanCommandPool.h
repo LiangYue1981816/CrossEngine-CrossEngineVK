@@ -43,6 +43,9 @@ namespace CrossEngine {
 		void FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer);
 		void ResetCommandBufferPool(void);
 
+	protected:
+		VkCommandPool GetCommandPool(void) const;
+
 
 	protected:
 		VkCommandPool m_vkCommandPool;
