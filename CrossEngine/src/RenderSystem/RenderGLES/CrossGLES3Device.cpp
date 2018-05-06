@@ -264,9 +264,9 @@ namespace CrossEngine {
 
 	}
 
-	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayout *pDescriptorSetLayout)
+	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
-		return m_pDescriptorSetManager->AllocDescriptorSet((CGLES3DescriptorSetLayout *)pDescriptorSetLayout);
+		return m_pDescriptorSetManager->AllocDescriptorSet(ptrDescriptorSetLayout);
 	}
 
 	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)

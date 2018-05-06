@@ -487,9 +487,9 @@ namespace CrossEngine {
 		m_pDescriptorSetManager->AllocDescriptorSetPool(pool);
 	}
 
-	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayout *pDescriptorSetLayout)
+	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
-		return m_pDescriptorSetManager->AllocDescriptorSet(pool, (CVulkanDescriptorSetLayout *)pDescriptorSetLayout);
+		return m_pDescriptorSetManager->AllocDescriptorSet(pool, ptrDescriptorSetLayout);
 	}
 
 	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)
