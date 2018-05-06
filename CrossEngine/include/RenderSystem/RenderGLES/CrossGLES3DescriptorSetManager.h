@@ -43,7 +43,7 @@ namespace CrossEngine {
 		void DumpLog(const char *szTitle) const;
 
 	protected:
-		CGfxDescriptorSetPtr AllocDescriptorSet(const CGLES3DescriptorSetLayout *pSetLayout);
+		CGfxDescriptorSetPtr AllocDescriptorSet(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout);
 		void FreeDescriptorSet(CGLES3DescriptorSet *pDescriptorSet);
 
 

@@ -25,10 +25,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3DescriptorSet::CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetManager *pDescriptorSetManager, CGLES3DescriptorSetLayout *pDescriptorSetLayout)
+	CGLES3DescriptorSet::CGLES3DescriptorSet(CGLES3Device *pDevice, CGLES3DescriptorSetManager *pDescriptorSetManager, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 		: m_pDevice(pDevice)
-		, m_pDescriptorSetLayout(pDescriptorSetLayout)
 		, m_pDescriptorSetManager(pDescriptorSetManager)
+		, m_ptrDescriptorSetLayout(ptrDescriptorSetLayout)
 	{
 
 	}
@@ -84,9 +84,9 @@ namespace CrossEngine {
 
 	}
 
-	CGLES3DescriptorSetLayout* CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
+	const CGfxDescriptorSetLayoutPtr& CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
 	{
-		return m_pDescriptorSetLayout;
+		return m_ptrDescriptorSetLayout;
 	}
 
 	const CGfxTexturePtr& CGLES3DescriptorSet::GetTexture(uint32_t binding) const
