@@ -26,15 +26,15 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 	
-	class CROSS_EXPORT CVulkanDescriptorSetPool
+	class CROSS_EXPORT CVulkanDescriptorPool
 	{
 		friend class CVulkanDescriptorSet;
 		friend class CVulkanDescriptorPoolManager;
 
 
 	protected:
-		CVulkanDescriptorSetPool(CVulkanDevice *pDevice);
-		virtual ~CVulkanDescriptorSetPool(void);
+		CVulkanDescriptorPool(CVulkanDevice *pDevice);
+		virtual ~CVulkanDescriptorPool(void);
 
 
 	protected:
@@ -64,7 +64,7 @@ namespace CrossEngine {
 		CVulkanDevice *m_pDevice;
 
 	protected:
-		CVulkanDescriptorSetPool *pNext;
+		CVulkanDescriptorPool *pNext;
 	};
 
 }

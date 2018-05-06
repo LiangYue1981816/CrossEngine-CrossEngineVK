@@ -28,12 +28,12 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanDescriptorSet : public CGfxDescriptorSet
 	{
-		friend class CVulkanDescriptorSetPool;
+		friend class CVulkanDescriptorPool;
 		friend class CVulkanDescriptorPoolManager;
 
 
 	protected:
-		CVulkanDescriptorSet(CVulkanDevice *pDevice, CVulkanDescriptorSetPool *pDescriptorPool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout);
+		CVulkanDescriptorSet(CVulkanDevice *pDevice, CVulkanDescriptorPool *pDescriptorPool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout);
 		virtual ~CVulkanDescriptorSet(void);
 
 
@@ -71,7 +71,7 @@ namespace CrossEngine {
 		std::map<uint32_t, uint32_t> m_uniformBufferOffsets;
 
 	protected:
-		CVulkanDescriptorSetPool * m_pDescriptorPool;
+		CVulkanDescriptorPool * m_pDescriptorPool;
 
 	protected:
 		CVulkanDevice *m_pDevice;

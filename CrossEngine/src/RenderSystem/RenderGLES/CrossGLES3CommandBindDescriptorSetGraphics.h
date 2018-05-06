@@ -73,6 +73,7 @@ namespace CrossEngine {
 		{
 			const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
 			const std::map<uint32_t, uint32_t> &uniformBlockBindings = ((CGLES3DescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetUniformBlockBindings(program);
+			const std::vector<uint32_t> &offsets = pDescriptorSet->GetUniformBufferOffsets();
 
 			for (const auto &itBinding : uniformBlockBindings) {
 				GLuint binding = itBinding.first;
@@ -81,9 +82,8 @@ namespace CrossEngine {
 				const CGfxUniformBufferPtr &ptrUniformBuffer = pDescriptorSet->GetUniformBuffer(binding);
 				if (ptrUniformBuffer.IsNull() || ptrUniformBuffer->GetHandle() == NULL) continue;
 
-				const uint32_t offset = pDescriptorSet->GetUniformBufferOffset(binding);
 				const VkDescriptorBufferInfo &bufferInfo = ptrUniformBuffer->GetDescriptorBufferInfo();
-				glBindBufferRange(GL_UNIFORM_BUFFER, binding, (GLuint)ptrUniformBuffer->GetHandle(), bufferInfo.offset + offset, bufferInfo.range);
+				glBindBufferRange(GL_UNIFORM_BUFFER, binding, (GLuint)ptrUniformBuffer->GetHandle(), bufferInfo.offset + offsets[binding], bufferInfo.range);
 				glUniformBlockBinding(program, location, binding);
 			}
 		}

@@ -44,8 +44,8 @@ namespace CrossEngine {
 	void CVulkanDescriptorPoolManager::Destroy(void)
 	{
 		for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {
-			if (CVulkanDescriptorSetPool *pDescriptorPool = itDescriptorPool.second) {
-				CVulkanDescriptorSetPool *pDescriptorPoolNext = NULL;
+			if (CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
+				CVulkanDescriptorPool *pDescriptorPoolNext = NULL;
 				do {
 					pDescriptorPoolNext = pDescriptorPool->pNext;
 					SAFE_DELETE(pDescriptorPool);
@@ -58,7 +58,7 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorPoolManager::ResetDescriptorSetPool(uint32_t pool)
 	{
-		if (CVulkanDescriptorSetPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
+		if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 			do {
 				pDescriptorPool->ResetDescriptorSetPool();
 			} while (pDescriptorPool = pDescriptorPool->pNext);
@@ -70,14 +70,14 @@ namespace CrossEngine {
 		mutex_autolock mutex(&m_mutex);
 
 		if (m_pDescriptorPoolListHeads[pool] == NULL) {
-			m_pDescriptorPoolListHeads[pool] = SAFE_NEW CVulkanDescriptorSetPool(m_pDevice);
+			m_pDescriptorPoolListHeads[pool] = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
 		}
 	}
 
 	CGfxDescriptorSetPtr CVulkanDescriptorPoolManager::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
 		do {
-			if (CVulkanDescriptorSetPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
+			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 				do {
 					if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(ptrDescriptorSetLayout)) {
 						return CGfxDescriptorSetPtr(pDescriptorSet);
@@ -85,7 +85,7 @@ namespace CrossEngine {
 				} while (pDescriptorPool = pDescriptorPool->pNext);
 			}
 
-			CVulkanDescriptorSetPool *pDescriptorPool = SAFE_NEW CVulkanDescriptorSetPool(m_pDevice);
+			CVulkanDescriptorPool *pDescriptorPool = SAFE_NEW CVulkanDescriptorPool(m_pDevice);
 			pDescriptorPool->pNext = m_pDescriptorPoolListHeads[pool];
 			m_pDescriptorPoolListHeads[pool] = pDescriptorPool;
 		} while (TRUE);
@@ -98,7 +98,7 @@ namespace CrossEngine {
 		LOGI("%s\n", szTitle);
 		{
 			for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {
-				if (CVulkanDescriptorSetPool *pDescriptorPool = itDescriptorPool.second) {
+				if (CVulkanDescriptorPool *pDescriptorPool = itDescriptorPool.second) {
 					do {
 						LOGI("\tPool = %d\n", itDescriptorPool.first);
 						pDescriptorPool->DumpLog();

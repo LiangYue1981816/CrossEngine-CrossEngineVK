@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSetPool::CVulkanDescriptorSetPool(CVulkanDevice *pDevice)
+	CVulkanDescriptorPool::CVulkanDescriptorPool(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 		, m_vkDescriptorPool(VK_NULL_HANDLE)
 
@@ -57,7 +57,7 @@ namespace CrossEngine {
 		vkCreateDescriptorPool(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkDescriptorPool);
 	}
 
-	CVulkanDescriptorSetPool::~CVulkanDescriptorSetPool(void)
+	CVulkanDescriptorPool::~CVulkanDescriptorPool(void)
 	{
 		for (auto &itDescriptorSet : m_pDescriptorSets) {
 			SAFE_DELETE(itDescriptorSet.second);
@@ -67,7 +67,7 @@ namespace CrossEngine {
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CVulkanDescriptorSet* CVulkanDescriptorSetPool::AllocDescriptorSet(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
+	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
 		if (m_numDescriptorSets + 1 > m_maxDescriptorSets) {
 			return NULL;
@@ -90,7 +90,7 @@ namespace CrossEngine {
 		return pDescriptorSet;
 	}
 
-	void CVulkanDescriptorSetPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
+	void CVulkanDescriptorPool::FreeDescriptorSet(CVulkanDescriptorSet *pDescriptorSet)
 	{
 		if (pDescriptorSet) {
 			m_numDescriptorSets--;
@@ -103,22 +103,22 @@ namespace CrossEngine {
 		}
 	}
 
-	void CVulkanDescriptorSetPool::ResetDescriptorSetPool(void)
+	void CVulkanDescriptorPool::ResetDescriptorSetPool(void)
 	{
 		vkResetDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, 0);
 	}
 
-	uint32_t CVulkanDescriptorSetPool::GetDescriptorSetCount(void) const
+	uint32_t CVulkanDescriptorPool::GetDescriptorSetCount(void) const
 	{
 		return m_numDescriptorSets;
 	}
 
-	VkDescriptorPool CVulkanDescriptorSetPool::GetDescriptorPool(void) const
+	VkDescriptorPool CVulkanDescriptorPool::GetDescriptorPool(void) const
 	{
 		return m_vkDescriptorPool;
 	}
 
-	void CVulkanDescriptorSetPool::DumpLog(void) const
+	void CVulkanDescriptorPool::DumpLog(void) const
 	{
 		LOGI("\t\tDescriptorSet = %d/%d\n", m_numDescriptorSets, m_maxDescriptorSets);
 		for (uint32_t index = VK_DESCRIPTOR_TYPE_BEGIN_RANGE; index < VK_DESCRIPTOR_TYPE_END_RANGE; index++) {
