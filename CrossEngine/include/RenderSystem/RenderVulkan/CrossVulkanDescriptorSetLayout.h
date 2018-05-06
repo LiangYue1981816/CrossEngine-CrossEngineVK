@@ -28,9 +28,16 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanDescriptorSetLayout : public CGfxDescriptorSetLayout
 	{
-	public:
+		friend class CVulkanDevice;
+
+
+	protected:
 		CVulkanDescriptorSetLayout(CVulkanDevice *pDevice, uint32_t set);
 		virtual ~CVulkanDescriptorSetLayout(void);
+
+
+	protected:
+		void Release(void);
 
 
 	public:

@@ -112,7 +112,7 @@ namespace CrossEngine {
 		{
 			if (m_pPointer) {
 				m_pPointer->Release();
-			}	
+			}
 		}
 	};
 

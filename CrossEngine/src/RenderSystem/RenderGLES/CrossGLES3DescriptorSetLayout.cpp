@@ -37,6 +37,13 @@ namespace CrossEngine {
 
 	}
 
+	void CGLES3DescriptorSetLayout::Release(void)
+	{
+		CGLES3DescriptorSetLayout *pVulkanDescriptorSetLayout = this;
+		Destroy();
+		SAFE_DELETE(pVulkanDescriptorSetLayout);
+	}
+
 	BOOL CGLES3DescriptorSetLayout::Create(void)
 	{
 		return TRUE;

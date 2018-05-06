@@ -28,7 +28,10 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGfxDescriptorSetLayout
 	{
-	public:
+		friend class CGfxDescriptorSetLayoutPtr;
+
+
+	protected:
 		CGfxDescriptorSetLayout(void)
 		{
 
@@ -37,6 +40,8 @@ namespace CrossEngine {
 		{
 
 		}
+
+		virtual void Release(void) = 0;
 
 
 	public:
@@ -78,7 +83,7 @@ namespace CrossEngine {
 		virtual void FreePointer(void)
 		{
 			if (m_pPointer) {
-				SAFE_DELETE(m_pPointer);
+				m_pPointer->Release();
 			}
 		}
 	};

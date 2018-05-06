@@ -28,9 +28,16 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CGLES3DescriptorSetLayout : public CGfxDescriptorSetLayout
 	{
-	public:
+		friend class CGLES3Device;
+
+
+	protected:
 		CGLES3DescriptorSetLayout(CGLES3Device *pDevice, uint32_t set);
 		virtual ~CGLES3DescriptorSetLayout(void);
+
+		
+	protected:
+		void Release(void);
 
 
 	public:
