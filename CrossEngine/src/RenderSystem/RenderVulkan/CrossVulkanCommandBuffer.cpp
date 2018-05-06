@@ -79,14 +79,14 @@ namespace CrossEngine {
 		return m_pDevice;
 	}
 
-	HANDLE CVulkanCommandBuffer::GetHandle(void) const
-	{
-		return m_vkCommandBuffer;
-	}
-
 	CGfxFence CVulkanCommandBuffer::GetFence(void) const
 	{
 		return m_vkFence;
+	}
+
+	HANDLE CVulkanCommandBuffer::GetHandle(void) const
+	{
+		return m_vkCommandBuffer;
 	}
 
 	void CVulkanCommandBuffer::Reset(void)

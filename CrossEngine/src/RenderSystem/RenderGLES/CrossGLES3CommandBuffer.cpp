@@ -76,14 +76,14 @@ namespace CrossEngine {
 		return m_pDevice;
 	}
 
-	HANDLE CGLES3CommandBuffer::GetHandle(void) const
-	{
-		return (HANDLE)this;
-	}
-
 	CGfxFence CGLES3CommandBuffer::GetFence(void) const
 	{
 		return NULL;
+	}
+
+	HANDLE CGLES3CommandBuffer::GetHandle(void) const
+	{
+		return (HANDLE)this;
 	}
 
 	void CGLES3CommandBuffer::Reset(void)
