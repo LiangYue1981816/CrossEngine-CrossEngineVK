@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanDescriptorSet : public CGfxDescriptorSet
 	{
 		friend class CVulkanDescriptorSetPool;
-		friend class CVulkanDescriptorSetManager;
+		friend class CVulkanDescriptorPoolManager;
 
 
 	protected:

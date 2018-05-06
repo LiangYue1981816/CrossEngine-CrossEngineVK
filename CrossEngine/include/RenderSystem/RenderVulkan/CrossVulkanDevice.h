@@ -171,7 +171,7 @@ namespace CrossEngine {
 		CVulkanQueue *m_pTransferQueue;
 		CVulkanMemoryManager *m_pMemoryManager;
 		CVulkanCommandPoolManager *m_pCommandPoolManager;
-		CVulkanDescriptorSetManager *m_pDescriptorSetManager;
+		CVulkanDescriptorPoolManager *m_pDescriptorSetManager;
 		CVulkanStagingBufferManager *m_pStagingBufferManager;
 
 	protected:

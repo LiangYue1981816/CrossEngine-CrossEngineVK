@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CVulkanDescriptorSetManager
+	class CROSS_EXPORT CVulkanDescriptorPoolManager
 	{
 		friend class CVulkanDevice;
 
 
 	protected:
-		CVulkanDescriptorSetManager(CVulkanDevice *pDevice);
-		virtual ~CVulkanDescriptorSetManager(void);
+		CVulkanDescriptorPoolManager(CVulkanDevice *pDevice);
+		virtual ~CVulkanDescriptorPoolManager(void);
 
 
 	protected:

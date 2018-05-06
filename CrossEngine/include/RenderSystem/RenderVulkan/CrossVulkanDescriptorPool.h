@@ -29,7 +29,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanDescriptorSetPool
 	{
 		friend class CVulkanDescriptorSet;
-		friend class CVulkanDescriptorSetManager;
+		friend class CVulkanDescriptorPoolManager;
 
 
 	protected:

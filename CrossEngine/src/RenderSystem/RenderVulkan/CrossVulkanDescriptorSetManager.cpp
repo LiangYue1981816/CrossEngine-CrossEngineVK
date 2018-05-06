@@ -25,23 +25,23 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSetManager::CVulkanDescriptorSetManager(CVulkanDevice *pDevice)
+	CVulkanDescriptorPoolManager::CVulkanDescriptorPoolManager(CVulkanDevice *pDevice)
 		: m_pDevice(pDevice)
 	{
 		pthread_mutex_init(&m_mutex, NULL);
 	}
 
-	CVulkanDescriptorSetManager::~CVulkanDescriptorSetManager(void)
+	CVulkanDescriptorPoolManager::~CVulkanDescriptorPoolManager(void)
 	{
 		pthread_mutex_destroy(&m_mutex);
 	}
 
-	int CVulkanDescriptorSetManager::Create(void)
+	int CVulkanDescriptorPoolManager::Create(void)
 	{
 		return VK_SUCCESS;
 	}
 
-	void CVulkanDescriptorSetManager::Destroy(void)
+	void CVulkanDescriptorPoolManager::Destroy(void)
 	{
 		for (const auto &itDescriptorPool : m_pDescriptorPoolListHeads) {
 			if (CVulkanDescriptorSetPool *pDescriptorPool = itDescriptorPool.second) {
@@ -56,7 +56,7 @@ namespace CrossEngine {
 		m_pDescriptorPoolListHeads.clear();
 	}
 
-	void CVulkanDescriptorSetManager::ResetDescriptorSetPool(uint32_t pool)
+	void CVulkanDescriptorPoolManager::ResetDescriptorSetPool(uint32_t pool)
 	{
 		if (CVulkanDescriptorSetPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 			do {
@@ -65,7 +65,7 @@ namespace CrossEngine {
 		}
 	}
 
-	void CVulkanDescriptorSetManager::AllocDescriptorSetPool(uint32_t pool)
+	void CVulkanDescriptorPoolManager::AllocDescriptorSetPool(uint32_t pool)
 	{
 		mutex_autolock mutex(&m_mutex);
 
@@ -74,7 +74,7 @@ namespace CrossEngine {
 		}
 	}
 
-	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
+	CGfxDescriptorSetPtr CVulkanDescriptorPoolManager::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
 		do {
 			if (CVulkanDescriptorSetPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
@@ -91,7 +91,7 @@ namespace CrossEngine {
 		} while (TRUE);
 	}
 
-	void CVulkanDescriptorSetManager::DumpLog(const char *szTitle) const
+	void CVulkanDescriptorPoolManager::DumpLog(const char *szTitle) const
 	{
 		uint32_t count = 0;
 

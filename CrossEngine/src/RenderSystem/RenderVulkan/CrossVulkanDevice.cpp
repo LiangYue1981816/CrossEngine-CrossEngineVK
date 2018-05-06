@@ -57,7 +57,7 @@ namespace CrossEngine {
 		m_pTransferQueue = SAFE_NEW CVulkanQueue(this);
 		m_pMemoryManager = SAFE_NEW CVulkanMemoryManager(this);
 		m_pCommandPoolManager = SAFE_NEW CVulkanCommandPoolManager(this);
-		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorSetManager(this);
+		m_pDescriptorSetManager = SAFE_NEW CVulkanDescriptorPoolManager(this);
 		m_pStagingBufferManager = SAFE_NEW CVulkanStagingBufferManager(this);
 
 		m_pBufferManager = SAFE_NEW CVulkanBufferManager(this);
