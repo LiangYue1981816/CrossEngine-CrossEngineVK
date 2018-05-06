@@ -83,15 +83,6 @@ namespace CrossEngine {
 		m_uniformBufferOffsets[binding] = 0;
 	}
 
-	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
-	{
-		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
-			uint32_t base = m_ptrUniformBuffers[binding]->IsDynamic() ? GfxSwapChain()->GetImageIndex() * ALIGN_BYTE(m_ptrUniformBuffers[binding]->GetBufferSize(), UNIFORM_BUFFER_ALIGNMENT) : 0;
-			m_ptrUniformBuffers[binding]->SetData(base + offset, size, pBuffer);
-			m_uniformBufferOffsets[binding] = base;
-		}
-	}
-
 	void CVulkanDescriptorSet::UpdateDescriptorSets(void)
 	{
 		if (m_bNeedUpdate) {
@@ -160,14 +151,13 @@ namespace CrossEngine {
 		}
 	}
 
-	const uint32_t CVulkanDescriptorSet::GetSet(void) const
+	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
 	{
-		return m_ptrDescriptorSetLayout->GetSet();
-	}
-
-	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
-	{
-		return m_ptrDescriptorSetLayout->GetTypesUsedCount();
+		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
+			uint32_t base = m_ptrUniformBuffers[binding]->IsDynamic() ? GfxSwapChain()->GetImageIndex() * ALIGN_BYTE(m_ptrUniformBuffers[binding]->GetBufferSize(), UNIFORM_BUFFER_ALIGNMENT) : 0;
+			m_ptrUniformBuffers[binding]->SetData(base + offset, size, pBuffer);
+			m_uniformBufferOffsets[binding] = base;
+		}
 	}
 
 	const std::vector<uint32_t> CVulkanDescriptorSet::GetUniformBufferOffsets(void) const
@@ -179,6 +169,16 @@ namespace CrossEngine {
 		}
 
 		return offsets;
+	}
+
+	const uint32_t CVulkanDescriptorSet::GetSet(void) const
+	{
+		return m_ptrDescriptorSetLayout->GetSet();
+	}
+
+	const uint32_t* CVulkanDescriptorSet::GetTypesUsedCount(void) const
+	{
+		return m_ptrDescriptorSetLayout->GetTypesUsedCount();
 	}
 
 }

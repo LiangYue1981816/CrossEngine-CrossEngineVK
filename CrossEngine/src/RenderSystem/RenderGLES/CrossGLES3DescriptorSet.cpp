@@ -71,22 +71,28 @@ namespace CrossEngine {
 		m_uniformBufferOffsets[binding] = 0;
 	}
 
-	void CGLES3DescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
-	{
-		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
-			m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
-			m_uniformBufferOffsets[binding] = offset;
-		}
-	}
-
 	void CGLES3DescriptorSet::UpdateDescriptorSets(void)
 	{
 
 	}
 
-	const CGfxDescriptorSetLayoutPtr& CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
+	void CGLES3DescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
 	{
-		return m_ptrDescriptorSetLayout;
+		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
+			m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
+			m_uniformBufferOffsets[binding] = 0;
+		}
+	}
+
+	const std::vector<uint32_t> CGLES3DescriptorSet::GetUniformBufferOffsets(void) const
+	{
+		std::vector<uint32_t> offsets;
+
+		for (const auto &itOffset : m_uniformBufferOffsets) {
+			offsets.push_back(itOffset.second);
+		}
+
+		return offsets;
 	}
 
 	const CGfxTexturePtr& CGLES3DescriptorSet::GetTexture(uint32_t binding) const
@@ -110,10 +116,9 @@ namespace CrossEngine {
 		return itUniformBuffer != m_ptrUniformBuffers.end() ? itUniformBuffer->second : ptrUniformBufferNull;
 	}
 
-	const uint32_t CGLES3DescriptorSet::GetUniformBufferOffset(uint32_t binding) const
+	const CGfxDescriptorSetLayoutPtr& CGLES3DescriptorSet::GetDescriptorSetLayout(void) const
 	{
-		const auto &itUniformBufferOffset = m_uniformBufferOffsets.find(binding);
-		return itUniformBufferOffset != m_uniformBufferOffsets.end() ? itUniformBufferOffset->second : 0;
+		return m_ptrDescriptorSetLayout;
 	}
 
 }

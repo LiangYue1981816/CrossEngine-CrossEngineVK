@@ -48,13 +48,15 @@ namespace CrossEngine {
 		void SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture);
 		void SetRenderTexture(uint32_t binding, const CGfxRenderTexturePtr &ptrRenderTexture);
 		void SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer);
-		void SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer);
 		void UpdateDescriptorSets(void);
+
+	public:
+		void SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer);
+		const std::vector<uint32_t> GetUniformBufferOffsets(void) const;
 
 	public:
 		const uint32_t GetSet(void) const;
 		const uint32_t* GetTypesUsedCount(void) const;
-		const std::vector<uint32_t> GetUniformBufferOffsets(void) const;
 
 
 	protected:
