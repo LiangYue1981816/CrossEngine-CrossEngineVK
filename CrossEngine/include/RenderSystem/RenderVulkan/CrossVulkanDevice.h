@@ -45,7 +45,7 @@ namespace CrossEngine {
 		friend class CVulkanRenderPass;
 		friend class CVulkanCommandPool;
 		friend class CVulkanCommandBuffer;
-		friend class CVulkanDescriptorPool;
+		friend class CVulkanDescriptorSetPool;
 		friend class CVulkanDescriptorSetLayout;
 
 

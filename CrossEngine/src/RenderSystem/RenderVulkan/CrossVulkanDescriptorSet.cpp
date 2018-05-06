@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDevice *pDevice, CVulkanDescriptorPool *pDescriptorPool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
+	CVulkanDescriptorSet::CVulkanDescriptorSet(CVulkanDevice *pDevice, CVulkanDescriptorSetPool *pDescriptorPool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 		: m_pDevice(pDevice)
 		, m_pDescriptorPool(pDescriptorPool)
 		, m_ptrDescriptorSetLayout(ptrDescriptorSetLayout)

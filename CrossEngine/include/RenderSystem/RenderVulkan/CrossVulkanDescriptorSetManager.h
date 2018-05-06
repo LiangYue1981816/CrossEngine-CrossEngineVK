@@ -49,7 +49,7 @@ namespace CrossEngine {
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanDescriptorPool*> m_pDescriptorPoolListHeads;
+		std::map<uint32_t, CVulkanDescriptorSetPool*> m_pDescriptorPoolListHeads;
 
 	protected:
 		CVulkanDevice *m_pDevice;
