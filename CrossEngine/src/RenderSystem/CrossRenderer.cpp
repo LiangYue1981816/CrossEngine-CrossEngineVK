@@ -173,15 +173,16 @@ namespace CrossEngine {
 		uint32_t pool = thread + frame;
 
 		GfxDevice()->AllocCommandBufferPool(pool);
-		GfxDevice()->ResetCommandBufferPool(pool);
 
 		if (m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass].end()) {
 			m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		}
 
+		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame];
+		ptrMainCommandBuffer->Reset();
+
 		DispatchThread(TRUE);
 
-		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][frame];
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
 			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
