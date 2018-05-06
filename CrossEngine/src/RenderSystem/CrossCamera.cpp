@@ -45,7 +45,7 @@ namespace CrossEngine {
 
 	CCamera::~CCamera(void)
 	{
-
+		ClearRenderQueue();
 	}
 
 	float CCamera::GetViewportX(void) const
