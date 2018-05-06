@@ -74,12 +74,12 @@ namespace CrossEngine {
 		}
 	}
 
-	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CVulkanDescriptorSetLayout *pSetLayout)
+	CGfxDescriptorSetPtr CVulkanDescriptorSetManager::AllocDescriptorSet(uint32_t pool, const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
 		do {
 			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 				do {
-					if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(pSetLayout)) {
+					if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(ptrDescriptorSetLayout)) {
 						return CGfxDescriptorSetPtr(pDescriptorSet);
 					}
 				} while (pDescriptorPool = pDescriptorPool->pNext);
