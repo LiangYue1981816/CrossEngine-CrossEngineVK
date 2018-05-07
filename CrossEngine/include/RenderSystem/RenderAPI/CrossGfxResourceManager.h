@@ -51,7 +51,6 @@ namespace CrossEngine {
 		virtual void Destroy(void)
 		{
 			for (auto &itResource : m_pResources) {
-				itResource.second->Destroy();
 				SAFE_DELETE(itResource.second);
 			}
 
@@ -66,7 +65,6 @@ namespace CrossEngine {
 					m_pResources.erase(pResource);
 				}
 
-				pResource->Destroy();
 				SAFE_DELETE(pResource);
 			}
 		}
