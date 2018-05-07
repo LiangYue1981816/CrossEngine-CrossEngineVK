@@ -66,11 +66,11 @@
 	{                                                                            \
 		vec3 position;                                                             \
 		vec3 color;                                                                \
-	} enginePointLight                                                           \
+	} enginePointLight
 
 #define USE_ENGINE_DIRECTION_LIGHT                                             \
 	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_DIRECTION_LIGHT) uniform DirectionLight  \
 	{                                                                            \
 		vec3 position;                                                             \
 		vec3 color;                                                                \
-	} engineDirectionLight                                                       \
+	} engineDirectionLight
