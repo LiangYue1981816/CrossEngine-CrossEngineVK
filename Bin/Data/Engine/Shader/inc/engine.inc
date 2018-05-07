@@ -33,7 +33,6 @@
 #define USE_ENGINE_CAMERA                                                      \
 	DESCRIPTOR_SET_FRAME(DESCRIPTOR_BIND_CAMERA) uniform Camera                  \
 	{                                                                            \
-		vec3 position;                                                             \
 		mat4 projectionMatrix;                                                     \
 		mat4 viewMatrix;                                                           \
 		mat4 viewInverseMatrix;                                                    \
