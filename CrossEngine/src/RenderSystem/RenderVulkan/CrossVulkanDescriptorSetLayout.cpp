@@ -43,7 +43,6 @@ namespace CrossEngine {
 	void CVulkanDescriptorSetLayout::Release(void)
 	{
 		CVulkanDescriptorSetLayout *pVulkanDescriptorSetLayout = this;
-		Destroy();
 		SAFE_DELETE(pVulkanDescriptorSetLayout);
 	}
 

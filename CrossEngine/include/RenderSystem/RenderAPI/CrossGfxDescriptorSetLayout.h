@@ -38,7 +38,7 @@ namespace CrossEngine {
 		}
 		virtual ~CGfxDescriptorSetLayout(void)
 		{
-
+			Destroy();
 		}
 
 		virtual void Release(void) = 0;
