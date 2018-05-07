@@ -59,11 +59,12 @@ namespace CrossEngine {
 
 	CVulkanDescriptorPool::~CVulkanDescriptorPool(void)
 	{
+		ASSERT(m_pDescriptorSets.empty());
+
 		for (auto &itDescriptorSet : m_pDescriptorSets) {
 			SAFE_DELETE(itDescriptorSet.second);
 		}
 
-		m_pDescriptorSets.clear();
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 

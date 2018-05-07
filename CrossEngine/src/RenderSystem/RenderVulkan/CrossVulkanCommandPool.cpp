@@ -39,11 +39,12 @@ namespace CrossEngine {
 
 	CVulkanCommandPool::~CVulkanCommandPool(void)
 	{
+		ASSERT(m_pCommandBuffers.empty());
+
 		for (auto &itCommandBuffer : m_pCommandBuffers) {
 			SAFE_DELETE(itCommandBuffer.second);
 		}
 
-		m_pCommandBuffers.clear();
 		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
