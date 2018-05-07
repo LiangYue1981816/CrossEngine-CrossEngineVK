@@ -133,6 +133,7 @@ namespace CrossEngine {
 
 				if (location != GL_INVALID_INDEX) {
 					m_uniformBlockBindings[program][binding] = location;
+					glUniformBlockBinding(program, location, binding);
 				}
 			}
 		}

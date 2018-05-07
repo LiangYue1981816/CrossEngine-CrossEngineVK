@@ -84,7 +84,6 @@ namespace CrossEngine {
 
 				const VkDescriptorBufferInfo &bufferInfo = ptrUniformBuffer->GetDescriptorBufferInfo();
 				glBindBufferRange(GL_UNIFORM_BUFFER, binding, (GLuint)ptrUniformBuffer->GetHandle(), bufferInfo.offset + offsets[binding], bufferInfo.range);
-				glUniformBlockBinding(program, location, binding);
 			}
 		}
 
