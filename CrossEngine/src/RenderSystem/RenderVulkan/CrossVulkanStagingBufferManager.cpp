@@ -44,9 +44,7 @@ namespace CrossEngine {
 		createInfo.pNext = NULL;
 		createInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
 		createInfo.queueFamilyIndex = m_pDevice->GetQueueFamilyIndex();
-		CALL_VK_FUNCTION_RETURN(vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool));
-
-		return VK_SUCCESS;
+		return vkCreateCommandPool(m_pDevice->GetDevice(), &createInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkCommandPool);
 	}
 
 	void CVulkanStagingBufferManager::Destroy(void)
