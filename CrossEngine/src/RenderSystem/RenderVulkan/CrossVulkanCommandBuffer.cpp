@@ -74,7 +74,6 @@ namespace CrossEngine {
 	CVulkanCommandBuffer::~CVulkanCommandBuffer(void)
 	{
 		Reset();
-
 		vkFreeCommandBuffers(m_pDevice->GetDevice(), m_pCommandPool->GetCommandPool(), 1, &m_vkCommandBuffer);
 		vkDestroyFence(m_pDevice->GetDevice(), m_vkFence, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
