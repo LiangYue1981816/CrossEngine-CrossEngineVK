@@ -25,9 +25,10 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, VkCommandPool vkCommandPool, VkDeviceSize size)
+	CVulkanStagingBuffer::CVulkanStagingBuffer(CVulkanDevice *pDevice, CVulkanStagingBufferManager *pStagingBufferManager, VkCommandPool vkCommandPool, VkDeviceSize size)
 		: m_pDevice(pDevice)
 		, m_pMemory(NULL)
+		, m_pStagingBufferManager(pStagingBufferManager)
 		, m_vkCommandPool(vkCommandPool)
 		, m_vkCommandBuffer(VK_NULL_HANDLE)
 		, m_vkBuffer(VK_NULL_HANDLE)
@@ -68,7 +69,7 @@ namespace CrossEngine {
 
 	void CVulkanStagingBuffer::Release(void)
 	{
-		m_pDevice->GetStagingBufferManager()->FreeBuffer(this);
+		m_pStagingBufferManager->FreeBuffer(this);
 	}
 
 	int CVulkanStagingBuffer::TransferImage(VkImage vkImage, uint32_t mipLevels, uint32_t arrayLayers, uint32_t regionCount, const VkBufferImageCopy *pRegions, VkDeviceSize size, const void *pPixels) const
