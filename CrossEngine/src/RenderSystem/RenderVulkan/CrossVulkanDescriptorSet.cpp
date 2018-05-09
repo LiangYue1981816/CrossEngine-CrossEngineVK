@@ -33,8 +33,8 @@ namespace CrossEngine {
 
 		, m_bNeedUpdate(FALSE)
 	{
-		VkDescriptorSetLayout vkDescriptorSetLayout = (VkDescriptorSetLayout)m_ptrDescriptorSetLayout->GetHandle();
 		VkDescriptorPool vkDescriptorPool = m_pDescriptorPool->GetDescriptorPool();
+		VkDescriptorSetLayout vkDescriptorSetLayout = (VkDescriptorSetLayout)m_ptrDescriptorSetLayout->GetHandle();
 		VkDescriptorSetAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 		allocInfo.pNext = NULL;

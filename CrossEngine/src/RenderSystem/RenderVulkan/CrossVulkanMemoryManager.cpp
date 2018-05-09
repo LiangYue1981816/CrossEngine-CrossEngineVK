@@ -117,7 +117,7 @@ namespace CrossEngine {
 				uint32_t memoryTypeIndex = pAllocator->GetMemoryTypeIndex();
 
 				if (m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment] == pAllocator) {
-					m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment] = pAllocator->pNext;
+					m_pAllocatorListHeads[memoryTypeIndex][memoryAlignment] =  pAllocator->pNext;
 				}
 
 				if (pAllocator->pPrev) {

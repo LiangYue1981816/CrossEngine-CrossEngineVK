@@ -37,7 +37,7 @@ namespace CrossEngine {
 		, pNext(NULL)
 	{
 		m_maxDescriptorSets = 16384;
-		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC] = 2048;
+		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC] = 4096;
 		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER] = 4096;
 		m_maxAllocatedTypes[VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT] = 256;
 

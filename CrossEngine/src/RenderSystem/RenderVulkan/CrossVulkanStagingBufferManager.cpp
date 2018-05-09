@@ -49,6 +49,8 @@ namespace CrossEngine {
 
 	void CVulkanStagingBufferManager::Destroy(void)
 	{
+		ASSERT(m_pBuffers.empty());
+
 		for (auto &itBuffer : m_pBuffers) {
 			SAFE_DELETE(itBuffer.second);
 		}
