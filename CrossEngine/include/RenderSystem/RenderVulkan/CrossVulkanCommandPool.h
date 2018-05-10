@@ -28,7 +28,6 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CVulkanCommandPool
 	{
-		friend class CVulkanDevice;
 		friend class CVulkanCommandBuffer;
 		friend class CVulkanCommandPoolManager;
 
@@ -39,7 +38,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGfxCommandBuffer* AllocCommandBuffer(VkCommandBufferLevel level);
+		CGfxCommandBufferPtr AllocCommandBuffer(VkCommandBufferLevel level);
 		void FreeCommandBuffer(CVulkanCommandBuffer *pCommandBuffer);
 		void ResetCommandBufferPool(void);
 

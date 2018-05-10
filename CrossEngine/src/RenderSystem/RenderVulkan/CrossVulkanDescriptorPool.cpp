@@ -68,7 +68,7 @@ namespace CrossEngine {
 		vkDestroyDescriptorPool(m_pDevice->GetDevice(), m_vkDescriptorPool, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CVulkanDescriptorSet* CVulkanDescriptorPool::AllocDescriptorSet(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
+	CGfxDescriptorSetPtr CVulkanDescriptorPool::AllocDescriptorSet(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout)
 	{
 		if (m_numDescriptorSets + 1 > m_maxDescriptorSets) {
 			return NULL;

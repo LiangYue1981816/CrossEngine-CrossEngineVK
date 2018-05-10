@@ -562,6 +562,11 @@ namespace CrossEngine {
 		return m_pFrameBufferManager->AllocFrameBuffer(numAttachments);
 	}
 
+	CVulkanStagingBufferPtr CVulkanDevice::NewStagingBuffer(VkDeviceSize size)
+	{
+		return m_pStagingBufferManager->AllocBuffer(size);
+	}
+
 	void CVulkanDevice::SetShaderCachePath(const char *szPath)
 	{
 		m_pShaderManager->SetCachePath(szPath);

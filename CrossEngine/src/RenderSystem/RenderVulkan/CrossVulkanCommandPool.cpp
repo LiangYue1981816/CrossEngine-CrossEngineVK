@@ -48,7 +48,7 @@ namespace CrossEngine {
 		vkDestroyCommandPool(m_pDevice->GetDevice(), m_vkCommandPool, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks());
 	}
 
-	CGfxCommandBuffer* CVulkanCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
+	CGfxCommandBufferPtr CVulkanCommandPool::AllocCommandBuffer(VkCommandBufferLevel level)
 	{
 		CVulkanCommandBuffer *pCommandBuffer = SAFE_NEW CVulkanCommandBuffer(m_pDevice, this, level);
 		m_pCommandBuffers[pCommandBuffer] = pCommandBuffer;

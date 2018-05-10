@@ -73,7 +73,7 @@ namespace CrossEngine {
 		mutex_autolock mutex(&m_mutex);
 
 		if (m_pCommandPools[pool]) {
-			return CGfxCommandBufferPtr(m_pCommandPools[pool]->AllocCommandBuffer(level));
+			return m_pCommandPools[pool]->AllocCommandBuffer(level);
 		}
 		else {
 			return CGfxCommandBufferPtr(NULL);

@@ -83,9 +83,8 @@ namespace CrossEngine {
 		do {
 			if (CVulkanDescriptorPool *pDescriptorPool = m_pDescriptorPoolListHeads[pool]) {
 				do {
-					if (CVulkanDescriptorSet *pDescriptorSet = pDescriptorPool->AllocDescriptorSet(ptrDescriptorSetLayout)) {
-						return CGfxDescriptorSetPtr(pDescriptorSet);
-					}
+					CGfxDescriptorSetPtr ptrDescriptorSet = pDescriptorPool->AllocDescriptorSet(ptrDescriptorSetLayout);
+					if (ptrDescriptorSet.IsNull() == FALSE) return ptrDescriptorSet;
 				} while (pDescriptorPool = pDescriptorPool->pNext);
 			}
 

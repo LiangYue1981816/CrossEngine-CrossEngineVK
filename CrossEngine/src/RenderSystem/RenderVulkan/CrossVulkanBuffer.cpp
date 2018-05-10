@@ -132,7 +132,7 @@ namespace CrossEngine {
 		if (m_usage & VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_INPUT_BIT; }
 		if (m_usage & VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) { dstAccessMask |= VK_ACCESS_UNIFORM_READ_BIT; dstStageMask |= VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT; }
 
-		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->GetStagingBufferManager()->AllocBuffer(size);
+		CVulkanStagingBufferPtr ptrStagingBuffer = m_pDevice->NewStagingBuffer(size);
 		CALL_VK_FUNCTION_RETURN(ptrStagingBuffer->TransferBuffer(m_vkBuffer, VK_ACCESS_MEMORY_WRITE_BIT, dstAccessMask, VK_PIPELINE_STAGE_TRANSFER_BIT, dstStageMask, size, offset, pBuffer));
 
 		return VK_SUCCESS;

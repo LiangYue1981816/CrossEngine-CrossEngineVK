@@ -63,7 +63,7 @@ namespace CrossEngine {
 		m_vkCommandPool = VK_NULL_HANDLE;
 	}
 
-	CVulkanStagingBuffer* CVulkanStagingBufferManager::AllocBuffer(VkDeviceSize size)
+	CVulkanStagingBufferPtr CVulkanStagingBufferManager::AllocBuffer(VkDeviceSize size)
 	{
 		mutex_autolock mutex(&m_mutex);
 

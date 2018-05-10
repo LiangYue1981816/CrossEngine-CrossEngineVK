@@ -29,24 +29,9 @@ namespace CrossEngine {
 	class CROSS_EXPORT CVulkanDevice : public CGfxDevice
 	{
 		friend class CVulkanInstance;
-		friend class CVulkanSwapchain;
-		friend class CVulkanFrameBuffer;
-		friend class CVulkanMemoryAllocator;
-		friend class CVulkanStagingBuffer;
-		friend class CVulkanStagingBufferManager;
 		friend class CVulkanImage;
-		friend class CVulkanTexture;
 		friend class CVulkanBuffer;
-		friend class CVulkanShader;
-		friend class CVulkanPipeline;
-		friend class CVulkanPipelineCompute;
-		friend class CVulkanPipelineGraphics;
-		friend class CVulkanPipelineManager;
-		friend class CVulkanRenderPass;
-		friend class CVulkanCommandPool;
-		friend class CVulkanCommandBuffer;
-		friend class CVulkanDescriptorPool;
-		friend class CVulkanDescriptorSetLayout;
+		friend class CVulkanStagingBuffer;
 
 
 	protected:
@@ -140,6 +125,9 @@ namespace CrossEngine {
 		CGfxPipelineGraphicsPtr NewPipelineGraphics(uint32_t numAttachments);
 		CGfxRenderPassPtr NewRenderPass(uint32_t numAttachments, uint32_t numSubpasses);
 		CGfxFrameBufferPtr NewFrameBuffer(uint32_t numAttachments);
+
+	public:
+		CVulkanStagingBufferPtr NewStagingBuffer(VkDeviceSize size);
 
 	public:
 		void SetShaderCachePath(const char *szPath);
