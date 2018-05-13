@@ -75,7 +75,10 @@ namespace CrossEngine {
 
 	void CGLES3Material::DumpLog(void) const
 	{
-
+		LOGI("\t\tMaterial\n");
+		for (const auto &itPass : m_ptrPasses) {
+			itPass.second->DumpLog();
+		}
 	}
 
 }
