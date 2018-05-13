@@ -27,7 +27,13 @@ namespace CrossEngine {
 
 	void CGfxResource::Release(void)
 	{
-		m_pResourceManager->FreeResource(this);
+		if (m_pResourceManager) {
+			m_pResourceManager->FreeResource(this);
+		}
+		else {
+			CGfxResource *pResource = this;
+			SAFE_DELETE(pResource);
+		}
 	}
 
 }

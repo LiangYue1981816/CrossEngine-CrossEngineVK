@@ -34,6 +34,11 @@ namespace CrossEngine {
 
 
 	protected:
+		CGfxResource(void)
+			: m_pResourceManager(NULL)
+		{
+
+		}
 		CGfxResource(CGfxResourceManager *pResourceManager)
 			: m_pResourceManager(pResourceManager)
 		{
