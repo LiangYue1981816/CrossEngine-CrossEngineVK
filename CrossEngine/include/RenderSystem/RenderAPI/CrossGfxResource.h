@@ -41,7 +41,7 @@ namespace CrossEngine {
 		}
 		virtual ~CGfxResource(void)
 		{
-			Destroy();
+
 		}
 
 		virtual void Release(void);
@@ -85,6 +85,7 @@ namespace CrossEngine {
 		virtual void FreePointer(void)
 		{
 			if (m_pPointer) {
+				((CGfxResource *)m_pPointer)->Destroy();
 				((CGfxResource *)m_pPointer)->Release();
 			}
 		}
