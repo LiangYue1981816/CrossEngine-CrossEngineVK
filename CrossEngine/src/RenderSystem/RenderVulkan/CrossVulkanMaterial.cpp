@@ -55,7 +55,7 @@ namespace CrossEngine {
 	CGfxMaterialPassPtr& CVulkanMaterial::AddPass(uint32_t dwName)
 	{
 		if (m_ptrPasses.find(dwName) == m_ptrPasses.end()) {
-			m_ptrPasses[dwName] = CGfxMaterialPassPtr(SAFE_NEW CVulkanMaterialPass);
+			m_ptrPasses[dwName] = CGfxMaterialPassPtr(SAFE_NEW CVulkanMaterialPass(m_pDevice));
 		}
 
 		return m_ptrPasses[dwName];

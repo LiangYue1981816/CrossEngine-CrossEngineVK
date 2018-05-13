@@ -25,13 +25,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGLES3MaterialPass::CGLES3MaterialPass(void)
-		: m_indexSubPass(0)
+	CGLES3MaterialPass::CGLES3MaterialPass(CGLES3Device *pDevice)
+		: m_pDevice(pDevice)
+		, m_indexSubPass(0)
 	{
 
 	}
 
 	CGLES3MaterialPass::~CGLES3MaterialPass(void)
+	{
+
+	}
+
+	CGLES3Device * CGLES3MaterialPass::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
+	HANDLE CGLES3MaterialPass::GetHandle(void) const
+	{
+		return (HANDLE)this;
+	}
+
+	void CGLES3MaterialPass::Destroy(void)
+	{
+
+	}
+
+	void CGLES3MaterialPass::DumpLog(void) const
 	{
 
 	}

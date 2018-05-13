@@ -32,9 +32,17 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3MaterialPass(void);
+		CGLES3MaterialPass(CGLES3Device *pDevice);
 		virtual ~CGLES3MaterialPass(void);
 
+
+	public:
+		CGLES3Device* GetDevice(void) const;
+		HANDLE GetHandle(void) const;
+
+	public:
+		void Destroy(void);
+		void DumpLog(void) const;
 
 	public:
 		const uint32_t GetIndexSubPass(void) const;
@@ -60,6 +68,9 @@ namespace CrossEngine {
 	protected:
 		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
 		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
+
+	protected:
+		CGLES3Device *m_pDevice;
 	};
 
 }

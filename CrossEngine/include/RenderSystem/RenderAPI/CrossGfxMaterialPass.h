@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGfxMaterialPass
+	class CROSS_EXPORT CGfxMaterialPass : public CGfxResource
 	{
 		friend class CGfxMaterial;
 

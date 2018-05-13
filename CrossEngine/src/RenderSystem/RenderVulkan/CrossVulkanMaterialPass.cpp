@@ -25,13 +25,34 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CVulkanMaterialPass::CVulkanMaterialPass(void)
-		: m_indexSubPass(0)
+	CVulkanMaterialPass::CVulkanMaterialPass(CVulkanDevice *pDevice)
+		: m_pDevice(pDevice)
+		, m_indexSubPass(0)
 	{
 
 	}
 
 	CVulkanMaterialPass::~CVulkanMaterialPass(void)
+	{
+
+	}
+
+	CVulkanDevice * CVulkanMaterialPass::GetDevice(void) const
+	{
+		return m_pDevice;
+	}
+
+	HANDLE CVulkanMaterialPass::GetHandle(void) const
+	{
+		return (HANDLE)this;
+	}
+
+	void CVulkanMaterialPass::Destroy(void)
+	{
+
+	}
+
+	void CVulkanMaterialPass::DumpLog(void) const
 	{
 
 	}
