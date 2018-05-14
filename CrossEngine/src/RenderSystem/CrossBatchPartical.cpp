@@ -66,6 +66,11 @@ namespace CrossEngine {
 		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());
 	}
 
+	void CBatchPartical::DestroyInstanceBuffer(void)
+	{
+		ptrInstanceBuffer.Release();
+	}
+
 	CGfxVertexBufferPtr& CBatchPartical::GetInstanceBuffer(void)
 	{
 		return ptrInstanceBuffer;

@@ -100,6 +100,10 @@ namespace CrossEngine {
 
 	void CRenderSystem::Destroy(void)
 	{
+		CBatchPartical::DestroyInstanceBuffer();
+		CBatchSkinMesh::DestroyInstanceBuffer();
+		CBatchStaticMesh::DestroyInstanceBuffer();
+
 		DestroyDrawableManager();
 		DestroyCameraManager();
 		DestroyGfx();

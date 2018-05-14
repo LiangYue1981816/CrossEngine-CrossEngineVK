@@ -66,6 +66,11 @@ namespace CrossEngine {
 		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());
 	}
 
+	void CBatchStaticMesh::DestroyInstanceBuffer(void)
+	{
+		ptrInstanceBuffer.Release();
+	}
+
 	CGfxVertexBufferPtr& CBatchStaticMesh::GetInstanceBuffer(void)
 	{
 		return ptrInstanceBuffer;

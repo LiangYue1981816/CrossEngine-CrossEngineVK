@@ -49,6 +49,7 @@ namespace CrossEngine {
 	public:
 		static void ClearInstanceBuffer(void);
 		static void CreateInstanceBuffer(void);
+		static void DestroyInstanceBuffer(void);
 		static CGfxVertexBufferPtr& GetInstanceBuffer(void);
 
 

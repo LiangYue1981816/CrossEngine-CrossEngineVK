@@ -66,6 +66,11 @@ namespace CrossEngine {
 		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());
 	}
 
+	void CBatchSkinMesh::DestroyInstanceBuffer(void)
+	{
+		ptrInstanceBuffer.Release();
+	}
+
 	CGfxVertexBufferPtr& CBatchSkinMesh::GetInstanceBuffer(void)
 	{
 		return ptrInstanceBuffer;
