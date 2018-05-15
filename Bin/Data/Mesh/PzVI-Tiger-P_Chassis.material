@@ -1,5 +1,5 @@
 <Material>
 	<Pass name="Opaque" graphics="DiffuseForwardOpaquePresent.graphics">
-		<Texture2D name="diffuse" value="PzVI-Tiger-P.dds" />
+		<Texture2D name="texAlbedo" value="PzVI-Tiger-P.dds" />
 	</Pass>
 </Material>
