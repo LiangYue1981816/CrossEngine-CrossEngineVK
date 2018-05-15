@@ -148,12 +148,7 @@ namespace CrossEngine {
 			glGenTextures(1, &m_texture);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 			{
-				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, m_mipLevels, m_internalFormat, m_width, m_height);
-				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, m_mipLevels, m_internalFormat, m_width, m_height);
-				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, m_mipLevels, m_internalFormat, m_width, m_height);
-				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, m_mipLevels, m_internalFormat, m_width, m_height);
-				glTexStorage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, m_mipLevels, m_internalFormat, m_width, m_height);
-				glTexStorage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, m_mipLevels, m_internalFormat, m_width, m_height);
+				glTexStorage2D(GL_TEXTURE_CUBE_MAP, m_mipLevels, m_internalFormat, m_width, m_height);
 			}
 			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 			break;
