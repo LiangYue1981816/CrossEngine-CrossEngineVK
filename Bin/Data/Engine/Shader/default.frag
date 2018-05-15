@@ -1,12 +1,12 @@
 precision mediump float;
 #include "engine.inc"
 
-layout (location = 0) in vec2 inTexcoord0;
+layout (location = 0) in vec2 inTexcoord;
 layout (location = 0) out vec4 outFragColor;
 
-DESCRIPTOR_SET_PASS(8) uniform sampler2D diffuse;
+DESCRIPTOR_SET_PASS(8) uniform sampler2D texAlbedo;
 
-void main() 
+void main()
 {
-  outFragColor = texture(diffuse, inTexcoord0);
+	outFragColor = texture(texAlbedo, inTexcoord);
 }

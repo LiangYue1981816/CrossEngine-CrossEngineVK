@@ -11,16 +11,12 @@ USE_INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3;
 
 USE_ENGINE_CAMERA;
 
-layout (location = 0) out vec2 outTexcoord0;
+layout (location = 0) out vec2 outTexcoord;
 
-void main() 
+void main()
 {
-	mat4 transformMatrix;
-	transformMatrix[0] = inInstanceTransformMatrixCol0;
-	transformMatrix[1] = inInstanceTransformMatrixCol1;
-	transformMatrix[2] = inInstanceTransformMatrixCol2;
-	transformMatrix[3] = inInstanceTransformMatrixCol3;
-	
-	outTexcoord0 = inTexcoord0;
-	gl_Position = engineCamera.projectionMatrix * engineCamera.viewMatrix * transformMatrix * vec4(inPosition.xyz, 1.0);
+	mat4 worldMatrix = mat4(inInstanceTransformMatrixCol0, inInstanceTransformMatrixCol1, inInstanceTransformMatrixCol2, inInstanceTransformMatrixCol3);
+
+	outTexcoord = inTexcoord0;
+	gl_Position = engineCamera.projectionMatrix * engineCamera.viewMatrix * worldMatrix * vec4(inPosition.xyz, 1.0);
 }
