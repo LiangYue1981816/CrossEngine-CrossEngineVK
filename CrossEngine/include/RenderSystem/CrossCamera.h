@@ -33,10 +33,9 @@ namespace CrossEngine {
 
 	protected:
 		typedef struct Params {
-			glm::vec3 position;
 			glm::mat4 mtxProjection;
 			glm::mat4 mtxWorldToView;
-			glm::mat4 mtxWorldToViewInverse;
+			glm::mat4 mtxWorldToViewInverseTranspose;
 		} Params;
 
 

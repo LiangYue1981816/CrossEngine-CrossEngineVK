@@ -111,9 +111,8 @@ namespace CrossEngine {
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
 		m_camera.setLookat(position, position + direction, up);
-		m_params.position = m_camera.position;
 		m_params.mtxWorldToView = m_camera.mtxWorldToCamera;
-		m_params.mtxWorldToViewInverse = m_camera.mtxCameraToWorld;
+		m_params.mtxWorldToViewInverseTranspose = m_camera.mtxCameraToWorld;
 		m_ptrDescriptorSets[GfxSwapChain()->GetImageIndex()]->SetUniformBufferData(DESCRIPTOR_BIND_CAMERA, 0, sizeof(m_params), &m_params);
 	}
 

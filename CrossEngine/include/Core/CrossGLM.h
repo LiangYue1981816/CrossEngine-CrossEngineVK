@@ -282,7 +282,7 @@ namespace glm {
 			up = normalize(_up);
 
 			mtxWorldToCamera = glm::lookAt(_eye, _center, _up);
-			mtxCameraToWorld = glm::inverse(mtxWorldToCamera);
+			mtxCameraToWorld = glm::transpose(glm::inverse(mtxWorldToCamera));
 
 			planes[0][1] = planes[0][0] * mtxCameraToWorld;
 			planes[1][1] = planes[1][0] * mtxCameraToWorld;
