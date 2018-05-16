@@ -63,16 +63,9 @@ namespace CrossEngine {
 		event_signal(&m_eventExit);
 		pthread_join(m_thread, NULL);
 
-		// ...
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MESH]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_MATERIAL]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_TEXTURE]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_GRAPHICS]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_COMPUTE]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_FRAME_BUFFER]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDER_TEXTURE]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_RENDER_PASS]);
-		SAFE_DELETE(m_pResourceManager[RESOURCE_TYPE::RESOURCE_TYPE_SHADER]);
+		for (int indexManager = RESOURCE_TYPE::COUNT - 1; indexManager >= 0; indexManager--) {
+			SAFE_DELETE(m_pResourceManager[indexManager]);
+		}
 	}
 
 	CResourceManager* CResourceSystem::GetResourceManager(RESOURCE_TYPE type) const
