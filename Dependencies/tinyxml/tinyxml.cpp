@@ -1098,7 +1098,7 @@ bool TiXmlDocument::LoadFile(FILE* file, TiXmlEncoding encoding)
 }
 
 
-bool TiXmlDocument::LoadFile(char* buf, long length, TiXmlEncoding encoding)
+bool TiXmlDocument::LoadFile(char* text, long length, TiXmlEncoding encoding)
 {
 	// Process the buffer in place to normalize new lines. (See comment above.)
 	// Copies from the 'p' to 'q' pointer, where p can advance faster if
@@ -1110,6 +1110,9 @@ bool TiXmlDocument::LoadFile(char* buf, long length, TiXmlEncoding encoding)
 	//		* LF:    Multics, Unix and Unix-like systems (GNU/Linux, AIX, Xenix, Mac OS X, FreeBSD, etc.), BeOS, Amiga, RISC OS, and others
 	//		* CR+LF: DEC RT-11 and most other early non-Unix, non-IBM OSes, CP/M, MP/M, DOS, OS/2, Microsoft Windows, Symbian OS
 	//		* CR:    Commodore 8-bit machines, Apple II family, Mac OS up to version 9 and OS-9
+
+	char* buf = new char[length + 1];
+	memcpy(buf, text, length);
 
 	const char* p = buf;	// the read head
 	char* q = buf;			// the write head
@@ -1138,6 +1141,7 @@ bool TiXmlDocument::LoadFile(char* buf, long length, TiXmlEncoding encoding)
 
 	Parse(buf, 0, encoding);
 
+	delete[] buf;
 	return !Error();
 }
 

@@ -1224,8 +1224,8 @@ public:
 	/// Save a file using the given FILE*. Returns true if successful.
 	bool SaveFile(FILE*) const;
 
-	/// Load a file using the given buf. Returns true if successful.
-	bool LoadFile(char* buf, long length, TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING);
+	/// Load a file using the given text. Returns true if successful.
+	bool LoadFile(char* text, long length, TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING);
 
 	/** Parse the given null terminated block of xml data. Passing in an encoding to this
 		method (either TIXML_ENCODING_LEGACY or TIXML_ENCODING_UTF8 will force TinyXml
