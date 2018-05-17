@@ -53,11 +53,7 @@ namespace CrossEngine {
 
 		if (ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
 			size_t instanceBufferSize = FitBufferSize(dataBufferSize);
-			uint32_t format =
-				INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL0 |
-				INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL1 |
-				INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL2 |
-				INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3;
+			uint32_t format = INSTANCE_ATTRIBUTE_TRANSFORM;
 
 			ptrInstanceBuffer->Destroy();
 			ptrInstanceBuffer->Create(instanceBufferSize, NULL, TRUE, format, INSTANCE_BUFFER_BINDING);
