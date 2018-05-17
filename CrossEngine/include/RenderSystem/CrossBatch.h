@@ -48,6 +48,7 @@ namespace CrossEngine {
 		virtual void BuildCommandBuffer(const CCamera *pCamera, CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass) = 0;
 
 	protected:
+		static const size_t DEFAULT_INSTANCE_BUFFER_SIZE = 8192;
 		static size_t FitBufferSize(size_t size);
 
 

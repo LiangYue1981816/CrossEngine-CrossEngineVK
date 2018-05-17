@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	uint32_t CResMesh::GetIndexCount(void) const
 	{
-		return m_indexBufferSize / sizeof(unsigned short);
+		return m_indexBufferSize / sizeof(unsigned int);
 	}
 
 	uint32_t CResMesh::GetVertexCount(void) const

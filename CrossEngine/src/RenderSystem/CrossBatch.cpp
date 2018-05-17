@@ -82,7 +82,7 @@ namespace CrossEngine {
 
 	size_t CBatch::FitBufferSize(size_t size)
 	{
-		size_t bufferSize = 8 * 1024;
+		size_t bufferSize = DEFAULT_INSTANCE_BUFFER_SIZE;
 
 		while (bufferSize < size) {
 			bufferSize <<= 1;
