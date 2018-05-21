@@ -22,9 +22,7 @@ void Create(void)
 	pMesh = (CrossEngine::CDrawableStaticMesh *)RenderSystem()->AllocDrawable(CrossEngine::DRAWABLE_TYPE_STATIC_MESH);
 	pMesh->SetMesh(ptrMesh);
 	pMesh->SetMaterial(ptrMaterial);
-
-	glm::mat4 mtxModel = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
-	pMesh->SetTransform(mtxModel);
+	pMesh->SetTransform(glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f)));
 }
 
 void Destroy(void)
