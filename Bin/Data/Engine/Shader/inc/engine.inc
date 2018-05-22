@@ -35,6 +35,7 @@
 	{                                                                            \
 		mat4 projectionMatrix;                                                     \
 		mat4 viewMatrix;                                                           \
+		mat4 viewInverseMatrix;                                                    \
 		mat4 viewInverseTransposeMatrix;                                           \
 	} engineCamera
 
@@ -58,18 +59,20 @@
 		vec3 shBlue0;                                                              \
 		vec3 shBlue1;                                                              \
 		vec3 shBlue2;                                                              \
+		                                                                           \
+		mat4 rotationMatrix;                                                       \
 	} engineAmbientLight
 
 #define USE_ENGINE_POINT_LIGHT                                                 \
 	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_POINT_LIGHT) uniform PointLight          \
 	{                                                                            \
-		vec3 position;                                                             \
 		vec3 color;                                                                \
+		vec3 position;                                                             \
 	} enginePointLight
 
 #define USE_ENGINE_DIRECTION_LIGHT                                             \
 	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_DIRECTION_LIGHT) uniform DirectionLight  \
 	{                                                                            \
-		vec3 position;                                                             \
 		vec3 color;                                                                \
+		vec3 direction;                                                            \
 	} engineDirectionLight

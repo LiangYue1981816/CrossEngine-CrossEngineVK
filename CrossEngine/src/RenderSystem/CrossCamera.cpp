@@ -111,8 +111,9 @@ namespace CrossEngine {
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
 		m_camera.setLookat(position, position + direction, up);
-		m_params.mtxWorldToView = m_camera.mtxWorldToCamera;
-		m_params.mtxWorldToViewInverseTranspose = m_camera.mtxCameraToWorld;
+		m_params.mtxView = m_camera.mtxView;
+		m_params.mtxViewInverse = m_camera.mtxViewInverse;
+		m_params.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
 		m_ptrDescriptorSets[GfxSwapChain()->GetImageIndex()]->SetUniformBufferData(DESCRIPTOR_BIND_CAMERA, 0, sizeof(m_params), &m_params);
 	}
 
@@ -131,14 +132,14 @@ namespace CrossEngine {
 		return m_camera.mtxProjection;
 	}
 
-	const glm::mat4& CCamera::GetCameraToWorldMatrix(void) const
-	{
-		return m_camera.mtxCameraToWorld;
-	}
-
 	const glm::mat4& CCamera::GetWorldToCameraMatrix(void) const
 	{
-		return m_camera.mtxWorldToCamera;
+		return m_camera.mtxView;
+	}
+
+	const glm::mat4& CCamera::GetCameraToWorldMatrix(void) const
+	{
+		return m_camera.mtxViewInverse;
 	}
 
 	glm::vec3 CCamera::WorldToScreen(const glm::vec3 &world)

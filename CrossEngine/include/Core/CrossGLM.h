@@ -281,25 +281,26 @@ namespace glm {
 			forward = normalize(_center - _eye);
 			up = normalize(_up);
 
-			mtxWorldToCamera = glm::lookAt(_eye, _center, _up);
-			mtxCameraToWorld = glm::transpose(glm::inverse(mtxWorldToCamera));
+			mtxView = glm::lookAt(_eye, _center, _up);
+			mtxViewInverse = glm::inverse(mtxView);
+			mtxViewInverseTranspose = glm::transpose(mtxViewInverse);
 
-			planes[0][1] = planes[0][0] * mtxCameraToWorld;
-			planes[1][1] = planes[1][0] * mtxCameraToWorld;
-			planes[2][1] = planes[2][0] * mtxCameraToWorld;
-			planes[3][1] = planes[3][0] * mtxCameraToWorld;
-			planes[4][1] = planes[4][0] * mtxCameraToWorld;
-			planes[5][1] = planes[5][0] * mtxCameraToWorld;
+			planes[0][1] = planes[0][0] * mtxViewInverse;
+			planes[1][1] = planes[1][0] * mtxViewInverse;
+			planes[2][1] = planes[2][0] * mtxViewInverse;
+			planes[3][1] = planes[3][0] * mtxViewInverse;
+			planes[4][1] = planes[4][0] * mtxViewInverse;
+			planes[5][1] = planes[5][0] * mtxViewInverse;
 		}
 
 		vec3 worldToScreen(const vec3 &world)
 		{
-			return project(world, mtxWorldToCamera, mtxProjection, viewport);
+			return project(world, mtxView, mtxProjection, viewport);
 		}
 
 		vec3 screenToWorld(const vec3 &screen)
 		{
-			return unProject(screen, mtxWorldToCamera, mtxProjection, viewport);
+			return unProject(screen, mtxView, mtxProjection, viewport);
 		}
 
 		bool visible(const vec3 &_vertex)
@@ -349,8 +350,9 @@ namespace glm {
 		vec3 up;
 
 		mat4 mtxProjection;
-		mat4 mtxCameraToWorld;
-		mat4 mtxWorldToCamera;
+		mat4 mtxView;
+		mat4 mtxViewInverse;
+		mat4 mtxViewInverseTranspose;
 
 		plane planes[6][2];
 	} camera;

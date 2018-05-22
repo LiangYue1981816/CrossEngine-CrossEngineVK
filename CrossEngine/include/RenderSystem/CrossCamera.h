@@ -34,8 +34,9 @@ namespace CrossEngine {
 	protected:
 		typedef struct Params {
 			glm::mat4 mtxProjection;
-			glm::mat4 mtxWorldToView;
-			glm::mat4 mtxWorldToViewInverseTranspose;
+			glm::mat4 mtxView;
+			glm::mat4 mtxViewInverse;
+			glm::mat4 mtxViewInverseTranspose;
 		} Params;
 
 
@@ -66,8 +67,8 @@ namespace CrossEngine {
 		const glm::vec3& GetDirection(void) const;
 
 		const glm::mat4& GetProjectionMatrix(void) const;
-		const glm::mat4& GetCameraToWorldMatrix(void) const;
 		const glm::mat4& GetWorldToCameraMatrix(void) const;
+		const glm::mat4& GetCameraToWorldMatrix(void) const;
 
 	public:
 		glm::vec3 WorldToScreen(const glm::vec3 &world);
