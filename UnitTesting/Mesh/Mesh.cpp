@@ -22,7 +22,10 @@ void Create(void)
 	pMesh = (CrossEngine::CDrawableStaticMesh *)RenderSystem()->AllocDrawable(CrossEngine::DRAWABLE_TYPE_STATIC_MESH);
 	pMesh->SetMesh(ptrMesh);
 	pMesh->SetMaterial(ptrMaterial);
-	pMesh->SetTransform(glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f)));
+
+	glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(25.0f, 25.0f, 25.0f));
+	glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	pMesh->SetTransform(scale);
 }
 
 void Destroy(void)
