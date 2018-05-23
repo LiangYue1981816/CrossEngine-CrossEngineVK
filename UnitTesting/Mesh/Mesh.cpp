@@ -52,7 +52,7 @@ void Render(void)
 	glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(25.0f, 25.0f, 25.0f));
 	glm::mat4 rotatex = glm::rotate(glm::mat4(), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::mat4 rotatey = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-	pMesh->SetTransform(rotatey * rotatex * scale);
+	pMesh->SetTransform(scale);
 
 	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
 	{
