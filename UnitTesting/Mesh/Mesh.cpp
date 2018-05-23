@@ -23,7 +23,7 @@ void Create(void)
 	pMesh->SetMesh(ptrMesh);
 	pMesh->SetMaterial(ptrMaterial);
 
-	glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(25.0f, 25.0f, 25.0f));
+	glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(100.0f, 100.0f, 100.0f));
 	glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	pMesh->SetTransform(scale);
 }
@@ -47,7 +47,7 @@ void Render(void)
 	}
 
 	Camera(dwMainCamera)->SetViewport(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
-	Camera(dwMainCamera)->SetPerspective(glm::radians(60.0f), 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
+	Camera(dwMainCamera)->SetPerspective(60.0f, 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
 	Camera(dwMainCamera)->SetLookat(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	Camera(dwMainCamera)->ClearRenderQueue();
 	Camera(dwMainCamera)->AddRenderQueue(pMesh);
