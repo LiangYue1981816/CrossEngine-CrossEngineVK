@@ -251,9 +251,10 @@ namespace glm {
 
 		void setPerspective(float fovy, float aspect, float zNear, float zFar)
 		{
-			float d = 1.0f / tan(radians(fovy) * 0.5f);
+			float angle = radians(fovy);
+			float d = 1.0f / tan(angle * 0.5f);
 
-			mtxProjection = glm::perspective(fovy, aspect, zNear, zFar);
+			mtxProjection = glm::perspective(angle, aspect, zNear, zFar);
 
 			planes[0][0] = plane(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, -d, -1.0f));
 			planes[1][0] = plane(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, d, -1.0f));
