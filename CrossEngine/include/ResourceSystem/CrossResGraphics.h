@@ -50,6 +50,7 @@ namespace CrossEngine {
 		typedef struct RasterizationParam {
 			VkPolygonMode polygonMode;
 			VkCullModeFlags cullMode;
+			VkFrontFace frontFace;
 
 			VkBool32 bDepthClampEnable;
 			VkBool32 bDepthBiasEnable;

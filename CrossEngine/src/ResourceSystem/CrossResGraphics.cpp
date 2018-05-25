@@ -212,8 +212,9 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::LoadRasterization(TiXmlNode *pRasterizationNode)
 	{
-		m_param.rasterization.cullMode = CVulkanHelper::StringToCullModeFlags(pRasterizationNode->ToElement()->AttributeString("cull_mode"));
 		m_param.rasterization.polygonMode = CVulkanHelper::StringToPolygonMode(pRasterizationNode->ToElement()->AttributeString("polygon_mode"));
+		m_param.rasterization.cullMode = CVulkanHelper::StringToCullModeFlags(pRasterizationNode->ToElement()->AttributeString("cull_mode"));
+		m_param.rasterization.frontFace = CVulkanHelper::StringToFrontFace(pRasterizationNode->ToElement()->AttributeString("front_face"));
 		m_param.rasterization.bDepthClampEnable = pRasterizationNode->ToElement()->AttributeBool("enable_depth_clamp");
 		m_param.rasterization.bDepthBiasEnable = pRasterizationNode->ToElement()->AttributeBool("enable_depth_bias");
 		m_param.rasterization.depthBiasClamp = pRasterizationNode->ToElement()->AttributeBool("depth_bias_clamp");
@@ -310,7 +311,7 @@ namespace CrossEngine {
 	{
 		m_ptrPipeline->SetPolygonMode(m_param.rasterization.polygonMode);
 		m_ptrPipeline->SetCullMode(m_param.rasterization.cullMode);
-		m_ptrPipeline->SetFrontFace(VK_FRONT_FACE_COUNTER_CLOCKWISE);
+		m_ptrPipeline->SetFrontFace(m_param.rasterization.frontFace);
 		m_ptrPipeline->SetDepthClamp(m_param.rasterization.bDepthClampEnable);
 		m_ptrPipeline->SetDepthBias(m_param.rasterization.bDepthBiasEnable, m_param.rasterization.depthBiasConstantFactor, m_param.rasterization.depthBiasClamp, m_param.rasterization.depthBiasSlopeFactor);
 		m_ptrPipeline->SetRasterizerDiscard(m_param.rasterization.bRasterizerDiscardEnable);
