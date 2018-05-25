@@ -80,6 +80,7 @@ namespace CrossEngine {
 		static VkPrimitiveTopology StringToPrimitiveTopology(const char *szString);
 		static VkPolygonMode StringToPolygonMode(const char *szString);
 		static VkCullModeFlags StringToCullModeFlags(const char *szString);
+		static VkFrontFace StringToFrontFace(const char *szString);
 		static VkCompareOp StringToCompareOp(const char *szString);
 		static VkStencilOp StringToStencilOp(const char *szString);
 		static VkBlendFactor StringToBlendFactor(const char *szString);

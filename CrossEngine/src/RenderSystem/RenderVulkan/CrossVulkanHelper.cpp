@@ -392,6 +392,12 @@ namespace CrossEngine {
 		VK_CULL_MODE_FRONT_AND_BACK, "VK_CULL_MODE_FRONT_AND_BACK",
 	};
 
+	static VkValueString vkFrontFaceString[] = {
+		VK_INVALID_VALUE, "UNKNOWN",
+		VK_FRONT_FACE_COUNTER_CLOCKWISE, "VK_FRONT_FACE_COUNTER_CLOCKWISE",
+		VK_FRONT_FACE_CLOCKWISE, "VK_FRONT_FACE_CLOCKWISE",
+	};
+
 	static VkValueString vkCompareOpString[] = {
 		VK_INVALID_VALUE, "UNKNOWN",
 		VK_COMPARE_OP_NEVER, "VK_COMPARE_OP_NEVER",
@@ -1003,6 +1009,16 @@ namespace CrossEngine {
 			}
 		}
 		return (VkCullModeFlags)vkCullModeFlagsString[0].value;
+	}
+
+	VkFrontFace CVulkanHelper::StringToFrontFace(const char *szString)
+	{
+		for (int index = 0; index < sizeof(vkFrontFaceString) / sizeof(VkValueString); index++) {
+			if (stricmp(vkFrontFaceString[index].text, szString) == 0) {
+				return (VkFrontFace)vkFrontFaceString[index].value;
+			}
+		}
+		return (VkFrontFace)vkFrontFaceString[0].value;
 	}
 
 	VkCompareOp CVulkanHelper::StringToCompareOp(const char *szString)
