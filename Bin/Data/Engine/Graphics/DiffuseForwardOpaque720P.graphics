@@ -13,6 +13,7 @@
 	/>
 	<Rasterization
 		cull_mode="VK_CULL_MODE_BACK_BIT"
+		front_face="VK_FRONT_FACE_CLOCKWISE"
 		polygon_mode="VK_POLYGON_MODE_FILL"
 		enable_depth_clamp="false"
 		enable_depth_bias="false"
