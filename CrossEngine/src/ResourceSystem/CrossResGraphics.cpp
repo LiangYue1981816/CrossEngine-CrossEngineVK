@@ -340,8 +340,8 @@ namespace CrossEngine {
 		m_ptrPipeline->SetColorBlendLogic(FALSE, VK_LOGIC_OP_COPY);
 		m_ptrPipeline->SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 
-		for (std::map<uint32_t, BlendParam>::const_iterator itColorBlendAttachment = m_param.blends.begin(); itColorBlendAttachment != m_param.blends.end(); ++itColorBlendAttachment) {
-			m_ptrPipeline->SetColorBlendAttachment(itColorBlendAttachment->first, itColorBlendAttachment->second.bBlendEnable, itColorBlendAttachment->second.srcColorBlendFactor, itColorBlendAttachment->second.dstColorBlendFactor, itColorBlendAttachment->second.colorBlendOp, itColorBlendAttachment->second.srcAlphaBlendFactor, itColorBlendAttachment->second.dstAlphaBlendFactor, itColorBlendAttachment->second.alphaBlendOp, VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT);
+		for (const auto &itColorBlendAttachment : m_param.blends) {
+			m_ptrPipeline->SetColorBlendAttachment(itColorBlendAttachment.first, itColorBlendAttachment.second.bBlendEnable, itColorBlendAttachment.second.srcColorBlendFactor, itColorBlendAttachment.second.dstColorBlendFactor, itColorBlendAttachment.second.colorBlendOp, itColorBlendAttachment.second.srcAlphaBlendFactor, itColorBlendAttachment.second.dstAlphaBlendFactor, itColorBlendAttachment.second.alphaBlendOp, VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT);
 		}
 
 		return TRUE;
