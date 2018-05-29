@@ -126,7 +126,7 @@ static inline struct page * rb_insert_page_cache(struct inode * inode,
 
 #undef NULL
 #if defined(__cplusplus)
-  #define NULL 0
+  #define NULL nullptr
 #else
   #define NULL ((void *)0)
 #endif
