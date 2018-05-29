@@ -608,90 +608,99 @@ namespace CrossEngine {
 
 	const char* CVulkanHelper::FormatToString(VkFormat format)
 	{
-		for (int index = 0; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
 			if (vkFormatString[index].value == format) {
 				return vkFormatString[index].text;
 			}
 		}
+
 		return vkFormatString[0].text;
 	}
 
 	const char* CVulkanHelper::ImageTypeToString(VkImageType type)
 	{
-		for (int index = 0; index < sizeof(vkImageTypeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkImageTypeString) / sizeof(VkValueString); index++) {
 			if (vkImageTypeString[index].value == type) {
 				return vkImageTypeString[index].text;
 			}
 		}
+
 		return vkImageTypeString[0].text;
 	}
 
 	const char* CVulkanHelper::ImageTilingToString(VkImageTiling tiling)
 	{
-		for (int index = 0; index < sizeof(vkImageTilingString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkImageTilingString) / sizeof(VkValueString); index++) {
 			if (vkImageTilingString[index].value == tiling) {
 				return vkImageTilingString[index].text;
 			}
 		}
+
 		return vkImageTilingString[0].text;
 	}
 
 	const char* CVulkanHelper::ImageLayoutToString(VkImageLayout layout)
 	{
-		for (int index = 0; index < sizeof(vkImageLayoutString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkImageLayoutString) / sizeof(VkValueString); index++) {
 			if (vkImageLayoutString[index].value == layout) {
 				return vkImageLayoutString[index].text;
 			}
 		}
+
 		return vkImageLayoutString[0].text;
 	}
 
 	const char* CVulkanHelper::FilterToString(VkFilter filter)
 	{
-		for (int index = 0; index < sizeof(vkFilterString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkFilterString) / sizeof(VkValueString); index++) {
 			if (vkFilterString[index].value == filter) {
 				return vkFilterString[index].text;
 			}
 		}
+
 		return vkFilterString[0].text;
 	}
 
 	const char* CVulkanHelper::SamplerMipmapModeToString(VkSamplerMipmapMode mode)
 	{
-		for (int index = 0; index < sizeof(vkSamplerMipmapModeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkSamplerMipmapModeString) / sizeof(VkValueString); index++) {
 			if (vkSamplerMipmapModeString[index].value == mode) {
 				return vkSamplerMipmapModeString[index].text;
 			}
 		}
+
 		return vkSamplerMipmapModeString[0].text;
 	}
 
 	const char* CVulkanHelper::SamplerAddressModeToString(VkSamplerAddressMode mode)
 	{
-		for (int index = 0; index < sizeof(vkSamplerAddressModeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkSamplerAddressModeString) / sizeof(VkValueString); index++) {
 			if (vkSamplerAddressModeString[index].value == mode) {
 				return vkSamplerAddressModeString[index].text;
 			}
 		}
+
 		return vkSamplerAddressModeString[0].text;
 	}
 
 	const char* CVulkanHelper::SampleCountFlagBitsToString(VkSampleCountFlagBits sample)
 	{
-		for (int index = 0; index < sizeof(vkSampleCountFlagBitsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkSampleCountFlagBitsString) / sizeof(VkValueString); index++) {
 			if (vkSampleCountFlagBitsString[index].value == sample) {
 				return vkSampleCountFlagBitsString[index].text;
 			}
 		}
+
 		return vkSampleCountFlagBitsString[0].text;
 	}
 
 	const char* CVulkanHelper::BufferUsageFlagsToString(VkBufferUsageFlags usage, char *szString)
 	{
+		BOOL or = FALSE;
+
 		szString[0] = 0;
 
-		BOOL or = FALSE;
-		for (int index = 0; index < sizeof(vkBufferUsageFlagsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkBufferUsageFlagsString) / sizeof(VkValueString); index++) {
 			if (vkBufferUsageFlagsString[index].value & usage) {
 				strcat_or(szString, vkBufferUsageFlagsString[index].text, &or);
 			}
@@ -702,30 +711,33 @@ namespace CrossEngine {
 
 	const char* CVulkanHelper::AttachmentLoadOpToString(VkAttachmentLoadOp loadOp)
 	{
-		for (int index = 0; index < sizeof(vkAttachmentLoadOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkAttachmentLoadOpString) / sizeof(VkValueString); index++) {
 			if (vkAttachmentLoadOpString[index].value == loadOp) {
 				return vkAttachmentLoadOpString[index].text;
 			}
 		}
+
 		return vkAttachmentLoadOpString[0].text;
 	}
 
 	const char* CVulkanHelper::AttachmentStoreOpToString(VkAttachmentStoreOp storeOp)
 	{
-		for (int index = 0; index < sizeof(vkAttachmentStoreOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkAttachmentStoreOpString) / sizeof(VkValueString); index++) {
 			if (vkAttachmentStoreOpString[index].value == storeOp) {
 				return vkAttachmentStoreOpString[index].text;
 			}
 		}
+
 		return vkAttachmentStoreOpString[0].text;
 	}
 
 	const char* CVulkanHelper::PipelineStageFlagsToString(VkPipelineStageFlags flags, char *szString)
 	{
+		BOOL or = FALSE;
+
 		szString[0] = 0;
 
-		BOOL or = FALSE;
-		for (int index = 0; index < sizeof(vkPipelineStageFlagsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkPipelineStageFlagsString) / sizeof(VkValueString); index++) {
 			if (vkPipelineStageFlagsString[index].value & flags) {
 				strcat_or(szString, vkPipelineStageFlagsString[index].text, &or);
 			}
@@ -736,10 +748,11 @@ namespace CrossEngine {
 
 	const char* CVulkanHelper::AccessFlagsToString(VkAccessFlags flags, char *szString)
 	{
+		BOOL or = FALSE;
+
 		szString[0] = 0;
 
-		BOOL or = FALSE;
-		for (int index = 0; index < sizeof(vkAccessFlagsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkAccessFlagsString) / sizeof(VkValueString); index++) {
 			if (vkAccessFlagsString[index].value & flags) {
 				strcat_or(szString, vkAccessFlagsString[index].text, &or );
 			}
@@ -750,324 +763,359 @@ namespace CrossEngine {
 
 	const char* CVulkanHelper::DescriptorTypeToString(VkDescriptorType type)
 	{
-		for (int index = 0; index < sizeof(vkDescriptorTypeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkDescriptorTypeString) / sizeof(VkValueString); index++) {
 			if (vkDescriptorTypeString[index].value == type) {
 				return vkDescriptorTypeString[index].text;
 			}
 		}
+
 		return vkDescriptorTypeString[0].text;
 	}
 
 	const char* CVulkanHelper::PrimitiveTopologyToString(VkPrimitiveTopology topology)
 	{
-		for (int index = 0; index < sizeof(vkPrimitiveTopologyString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkPrimitiveTopologyString) / sizeof(VkValueString); index++) {
 			if (vkPrimitiveTopologyString[index].value == topology) {
 				return vkPrimitiveTopologyString[index].text;
 			}
 		}
+
 		return vkPrimitiveTopologyString[0].text;
 	}
 
 	const char* CVulkanHelper::PolygonModeToString(VkPolygonMode mode)
 	{
-		for (int index = 0; index < sizeof(vkPolygonModeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkPolygonModeString) / sizeof(VkValueString); index++) {
 			if (vkPolygonModeString[index].value == mode) {
 				return vkPolygonModeString[index].text;
 			}
 		}
+
 		return vkPolygonModeString[0].text;
 	}
 
 	const char* CVulkanHelper::CullModeFlagsToString(VkCullModeFlags mode)
 	{
-		for (int index = 0; index < sizeof(vkCullModeFlagsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkCullModeFlagsString) / sizeof(VkValueString); index++) {
 			if (vkCullModeFlagsString[index].value == mode) {
 				return vkCullModeFlagsString[index].text;
 			}
 		}
+
 		return vkCullModeFlagsString[0].text;
 	}
 
 	const char* CVulkanHelper::CompareOpToString(VkCompareOp compareOp)
 	{
-		for (int index = 0; index < sizeof(vkCompareOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkCompareOpString) / sizeof(VkValueString); index++) {
 			if (vkCompareOpString[index].value == compareOp) {
 				return vkCompareOpString[index].text;
 			}
 		}
+
 		return vkCompareOpString[0].text;
 	}
 
 	const char* CVulkanHelper::StencilOpToString(VkStencilOp stencilOp)
 	{
-		for (int index = 0; index < sizeof(vkStencilOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkStencilOpString) / sizeof(VkValueString); index++) {
 			if (vkStencilOpString[index].value == stencilOp) {
 				return vkStencilOpString[index].text;
 			}
 		}
+
 		return vkStencilOpString[0].text;
 	}
 
 	const char* CVulkanHelper::BlendFactorToString(VkBlendFactor factor)
 	{
-		for (int index = 0; index < sizeof(vkBlendFactorString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkBlendFactorString) / sizeof(VkValueString); index++) {
 			if (vkBlendFactorString[index].value == factor) {
 				return vkBlendFactorString[index].text;
 			}
 		}
+
 		return vkBlendFactorString[0].text;
 	}
 
 	const char* CVulkanHelper::BlendOpToString(VkBlendOp blendOp)
 	{
-		for (int index = 0; index < sizeof(vkBlendOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkBlendOpString) / sizeof(VkValueString); index++) {
 			if (vkBlendOpString[index].value == blendOp) {
 				return vkBlendOpString[index].text;
 			}
 		}
+
 		return vkBlendOpString[0].text;
 	}
 
 	const char* CVulkanHelper::DependencyFlagsToString(VkDependencyFlags flags)
 	{
-		for (int index = 0; index < sizeof(vkDependencyFlagsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkDependencyFlagsString) / sizeof(VkValueString); index++) {
 			if (vkDependencyFlagsString[index].value == flags) {
 				return vkDependencyFlagsString[index].text;
 			}
 		}
+
 		return vkDependencyFlagsString[0].text;
 	}
 
 	VkFormat CVulkanHelper::StringToFormat(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkFormatString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkFormatString[index].text, szString) == 0) {
 				return (VkFormat)vkFormatString[index].value;
 			}
 		}
+
 		return (VkFormat)vkFormatString[0].value;
 	}
 
 	VkImageType CVulkanHelper::StringToImageType(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkImageTypeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkImageTypeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkImageTypeString[index].text, szString) == 0) {
 				return (VkImageType)vkImageTypeString[index].value;
 			}
 		}
+
 		return (VkImageType)vkImageTypeString[0].value;
 	}
 
 	VkImageTiling CVulkanHelper::StringToImageTiling(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkImageTilingString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkImageTilingString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkImageTilingString[index].text, szString) == 0) {
 				return (VkImageTiling)vkImageTilingString[index].value;
 			}
 		}
+
 		return (VkImageTiling)vkImageTilingString[0].value;
 	}
 
 	VkImageLayout CVulkanHelper::StringToImageLayout(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkImageLayoutString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkImageLayoutString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkImageLayoutString[index].text, szString) == 0) {
 				return (VkImageLayout)vkImageLayoutString[index].value;
 			}
 		}
+
 		return (VkImageLayout)vkImageLayoutString[0].value;
 	}
 
 	VkFilter CVulkanHelper::StringToFilter(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkFilterString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkFilterString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkFilterString[index].text, szString) == 0) {
 				return (VkFilter)vkFilterString[index].value;
 			}
 		}
+
 		return (VkFilter)vkFilterString[0].value;
 	}
 
 	VkSamplerMipmapMode CVulkanHelper::StringToSamplerMipmapMode(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkSamplerMipmapModeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkSamplerMipmapModeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkSamplerMipmapModeString[index].text, szString) == 0) {
 				return (VkSamplerMipmapMode)vkSamplerMipmapModeString[index].value;
 			}
 		}
+
 		return (VkSamplerMipmapMode)vkSamplerMipmapModeString[0].value;
 	}
 
 	VkSamplerAddressMode CVulkanHelper::StringToSamplerAddressMode(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkSamplerAddressModeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkSamplerAddressModeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkSamplerAddressModeString[index].text, szString) == 0) {
 				return (VkSamplerAddressMode)vkSamplerAddressModeString[index].value;
 			}
 		}
+
 		return (VkSamplerAddressMode)vkSamplerAddressModeString[0].value;
 	}
 
 	VkSampleCountFlagBits CVulkanHelper::StringToSampleCountFlagBits(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkSampleCountFlagBitsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkSampleCountFlagBitsString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkSampleCountFlagBitsString[index].text, szString) == 0) {
 				return (VkSampleCountFlagBits)vkSampleCountFlagBitsString[index].value;
 			}
 		}
+
 		return (VkSampleCountFlagBits)vkSampleCountFlagBitsString[0].value;
 	}
 
 	VkBufferUsageFlags CVulkanHelper::StringToBufferUsageFlags(const char *szString)
 	{
 		VkBufferUsageFlags flags = 0;
-		for (int index = 0; index < sizeof(vkBufferUsageFlagsString) / sizeof(VkValueString); index++) {
+
+		for (int index = 1; index < sizeof(vkBufferUsageFlagsString) / sizeof(VkValueString); index++) {
 			if (strstr(szString, vkBufferUsageFlagsString[index].text)) {
 				flags |= vkBufferUsageFlagsString[index].value;
 			}
 		}
+
 		return flags;
 	}
 
 	VkAttachmentLoadOp CVulkanHelper::StringToAttachmentLoadOp(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkAttachmentLoadOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkAttachmentLoadOpString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkAttachmentLoadOpString[index].text, szString) == 0) {
 				return (VkAttachmentLoadOp)vkAttachmentLoadOpString[index].value;
 			}
 		}
+
 		return (VkAttachmentLoadOp)vkAttachmentLoadOpString[0].value;
 	}
 
 	VkAttachmentStoreOp CVulkanHelper::StringToAttachmentStoreOp(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkAttachmentStoreOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkAttachmentStoreOpString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkAttachmentStoreOpString[index].text, szString) == 0) {
 				return (VkAttachmentStoreOp)vkAttachmentStoreOpString[index].value;
 			}
 		}
+
 		return (VkAttachmentStoreOp)vkAttachmentStoreOpString[0].value;
 	}
 
 	VkPipelineStageFlags CVulkanHelper::StringToPipelineStageFlags(const char *szString)
 	{
 		VkPipelineStageFlags flags = 0;
-		for (int index = 0; index < sizeof(vkPipelineStageFlagsString) / sizeof(VkValueString); index++) {
+
+		for (int index = 1; index < sizeof(vkPipelineStageFlagsString) / sizeof(VkValueString); index++) {
 			if (strstr(szString, vkPipelineStageFlagsString[index].text)) {
 				flags |= vkPipelineStageFlagsString[index].value;
 			}
 		}
+
 		return flags;
 	}
 
 	VkAccessFlags CVulkanHelper::StringToAccessFlags(const char *szString)
 	{
 		VkAccessFlags flags = 0;
-		for (int index = 0; index < sizeof(vkAccessFlagsString) / sizeof(VkValueString); index++) {
+
+		for (int index = 1; index < sizeof(vkAccessFlagsString) / sizeof(VkValueString); index++) {
 			if (strstr(szString, vkAccessFlagsString[index].text)) {
 				flags |= vkAccessFlagsString[index].value;
 			}
 		}
+
 		return flags;
 	}
 
 	VkDescriptorType CVulkanHelper::StringToDescriptorType(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkDescriptorTypeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkDescriptorTypeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkDescriptorTypeString[index].text, szString) == 0) {
 				return (VkDescriptorType)vkDescriptorTypeString[index].value;
 			}
 		}
+
 		return (VkDescriptorType)vkDescriptorTypeString[0].value;
 	}
 
 	VkPrimitiveTopology CVulkanHelper::StringToPrimitiveTopology(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkPrimitiveTopologyString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkPrimitiveTopologyString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkPrimitiveTopologyString[index].text, szString) == 0) {
 				return (VkPrimitiveTopology)vkPrimitiveTopologyString[index].value;
 			}
 		}
+
 		return (VkPrimitiveTopology)vkPrimitiveTopologyString[0].value;
 	}
 
 	VkPolygonMode CVulkanHelper::StringToPolygonMode(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkPolygonModeString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkPolygonModeString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkPolygonModeString[index].text, szString) == 0) {
 				return (VkPolygonMode)vkPolygonModeString[index].value;
 			}
 		}
+
 		return (VkPolygonMode)vkPolygonModeString[0].value;
 	}
 
 	VkCullModeFlags CVulkanHelper::StringToCullModeFlags(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkCullModeFlagsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkCullModeFlagsString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkCullModeFlagsString[index].text, szString) == 0) {
 				return (VkCullModeFlags)vkCullModeFlagsString[index].value;
 			}
 		}
+
 		return (VkCullModeFlags)vkCullModeFlagsString[0].value;
 	}
 
 	VkFrontFace CVulkanHelper::StringToFrontFace(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkFrontFaceString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkFrontFaceString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkFrontFaceString[index].text, szString) == 0) {
 				return (VkFrontFace)vkFrontFaceString[index].value;
 			}
 		}
+
 		return (VkFrontFace)vkFrontFaceString[0].value;
 	}
 
 	VkCompareOp CVulkanHelper::StringToCompareOp(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkCompareOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkCompareOpString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkCompareOpString[index].text, szString) == 0) {
 				return (VkCompareOp)vkCompareOpString[index].value;
 			}
 		}
+
 		return (VkCompareOp)vkCompareOpString[0].value;
 	}
 
 	VkStencilOp CVulkanHelper::StringToStencilOp(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkStencilOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkStencilOpString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkStencilOpString[index].text, szString) == 0) {
 				return (VkStencilOp)vkStencilOpString[index].value;
 			}
 		}
+
 		return (VkStencilOp)vkStencilOpString[0].value;
 	}
 
 	VkBlendFactor CVulkanHelper::StringToBlendFactor(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkBlendFactorString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkBlendFactorString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkBlendFactorString[index].text, szString) == 0) {
 				return (VkBlendFactor)vkBlendFactorString[index].value;
 			}
 		}
+
 		return (VkBlendFactor)vkBlendFactorString[0].value;
 	}
 
 	VkBlendOp CVulkanHelper::StringToBlendOp(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkBlendOpString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkBlendOpString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkBlendOpString[index].text, szString) == 0) {
 				return (VkBlendOp)vkBlendOpString[index].value;
 			}
 		}
+
 		return (VkBlendOp)vkBlendOpString[0].value;
 	}
 
 	VkDependencyFlags CVulkanHelper::StringToDependencyFlags(const char *szString)
 	{
-		for (int index = 0; index < sizeof(vkDependencyFlagsString) / sizeof(VkValueString); index++) {
+		for (int index = 1; index < sizeof(vkDependencyFlagsString) / sizeof(VkValueString); index++) {
 			if (stricmp(vkDependencyFlagsString[index].text, szString) == 0) {
 				return (VkDependencyFlags)vkDependencyFlagsString[index].value;
 			}
 		}
+
 		return (VkDependencyFlags)vkDependencyFlagsString[0].value;
 	}
 
