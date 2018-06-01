@@ -25,12 +25,15 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	#define GL_INVALID_VALUE INVALID_VALUE
+
 	typedef struct GLEnumString {
 		uint32_t value;
 		const char *text;
 	} GLEnumString;
 
 	static const GLEnumString glEnumStrings[] = {
+		GL_INVALID_VALUE, "UNKNOWN",
 		GL_DEPTH_BUFFER_BIT, "GL_DEPTH_BUFFER_BIT",
 		GL_STENCIL_BUFFER_BIT, "GL_STENCIL_BUFFER_BIT",
 		GL_COLOR_BUFFER_BIT, "GL_COLOR_BUFFER_BIT",
@@ -903,12 +906,12 @@ namespace CrossEngine {
 
 	const char* CGLES3Helper::glEnumToString(GLenum value)
 	{
-		for (GLint index = 0; index < sizeof(glEnumStrings) / sizeof(GLEnumString); index++) {
+		for (GLint index = 1; index < sizeof(glEnumStrings) / sizeof(GLEnumString); index++) {
 			if (glEnumStrings[index].value == value) {
 				return glEnumStrings[index].text;
 			}
 		}
-		return "unknown";
+		return glEnumStrings[0].text;
 	}
 
 	GLboolean CGLES3Helper::glIsFormatDepthOnly(GLenum format)
