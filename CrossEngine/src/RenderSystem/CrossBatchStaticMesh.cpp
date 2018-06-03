@@ -72,7 +72,7 @@ namespace CrossEngine {
 
 	void CBatchStaticMesh::UpdateBatchBuffer(void)
 	{
-		m_firstInstance = m_batchs.size();
+		m_instanceOffset = m_batchs.size();
 
 		for (const auto &itDrawable : m_pDrawables) {
 			BatchData batchData;

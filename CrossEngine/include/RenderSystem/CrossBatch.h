@@ -50,9 +50,9 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_indexCount;
-		uint32_t m_firstIndex;
+		uint32_t m_indexOffset;
 		uint32_t m_vertexOffset;
-		uint32_t m_firstInstance;
+		uint32_t m_instanceOffset;
 
 	protected:
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;

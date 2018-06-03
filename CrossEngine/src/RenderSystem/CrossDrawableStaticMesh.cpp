@@ -45,7 +45,7 @@ namespace CrossEngine {
 		return m_ptrMesh->GetIndexCount();
 	}
 
-	uint32_t CDrawableStaticMesh::GetFirstIndex(void) const
+	uint32_t CDrawableStaticMesh::GetIndexOffset(void) const
 	{
 		return 0;
 	}

@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 	public:
 		virtual uint32_t GetIndexCount(void) const;
-		virtual uint32_t GetFirstIndex(void) const;
+		virtual uint32_t GetIndexOffset(void) const;
 		virtual uint32_t GetVertexOffset(void) const;
 
 		virtual const CGfxIndexBufferPtr& GetIndexBuffer(void) const;

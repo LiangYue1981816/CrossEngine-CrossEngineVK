@@ -27,9 +27,9 @@ namespace CrossEngine {
 
 	CBatch::CBatch(void)
 		: m_indexCount(0)
-		, m_firstIndex(0)
+		, m_indexOffset(0)
 		, m_vertexOffset(0)
-		, m_firstInstance(0)
+		, m_instanceOffset(0)
 	{
 
 	}
@@ -44,9 +44,9 @@ namespace CrossEngine {
 		m_pDrawables.clear();
 
 		m_indexCount = 0;
-		m_firstIndex = 0;
+		m_indexOffset = 0;
 		m_vertexOffset = 0;
-		m_firstInstance = 0;
+		m_instanceOffset = 0;
 
 		m_ptrDescriptorSet.Release();
 	}
@@ -56,7 +56,7 @@ namespace CrossEngine {
 		m_pDrawables[pDrawable] = pDrawable;
 
 		m_indexCount = pDrawable->GetIndexCount();
-		m_firstIndex = pDrawable->GetFirstIndex();
+		m_indexOffset = pDrawable->GetIndexOffset();
 		m_vertexOffset = pDrawable->GetVertexOffset();
 
 		m_ptrDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
@@ -65,7 +65,7 @@ namespace CrossEngine {
 	void CBatch::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
 		ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet);
-		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
+		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_indexOffset, m_vertexOffset, m_instanceOffset);
 	}
 
 	size_t CBatch::FitBufferSize(size_t size)
