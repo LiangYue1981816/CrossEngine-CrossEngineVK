@@ -33,7 +33,7 @@ namespace CrossEngine {
 
 	protected:
 		typedef struct InstanceData {
-			glm::mat4 mtxModelToWorld;
+			glm::mat4 mtxTransform;
 		} InstanceData;
 
 
