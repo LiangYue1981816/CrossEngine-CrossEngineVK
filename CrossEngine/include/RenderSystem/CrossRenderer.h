@@ -49,8 +49,9 @@ namespace CrossEngine {
 		} ThreadCluster;
 
 	protected:
-		typedef std::map<CGfxVertexBufferPtr, std::map<CGfxIndexBufferPtr, std::map<CGfxDescriptorSetPtr, CBatch*>>> BatchQueue;
-		typedef std::map<CGfxDescriptorSetPtr, BatchQueue> MaterialDescriptorSetQueue;
+		typedef std::map<CGfxDescriptorSetPtr, CBatch*> BatchQueue;
+		typedef std::map<CGfxVertexBufferPtr, std::map<CGfxIndexBufferPtr, std::map<uint32_t, std::map<uint32_t, std::map<uint32_t, BatchQueue>>>>> MeshQueue;
+		typedef std::map<CGfxDescriptorSetPtr, MeshQueue> MaterialDescriptorSetQueue;
 		typedef std::map<CGfxPipelineGraphicsPtr, MaterialDescriptorSetQueue> MaterialPipelineQueue;
 		typedef std::map<uint32_t, MaterialPipelineQueue> SubPassQueue;
 		typedef std::map<CGfxRenderPassPtr, SubPassQueue> RenderPassQueue;
