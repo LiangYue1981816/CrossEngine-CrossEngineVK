@@ -141,7 +141,7 @@ namespace CrossEngine {
 				}
 			}
 
-			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(itMatPass.first, pDrawable, ptrMaterialPipeline, ptrMaterialDescriptorSet, indexSubPass);
+			m_queue[ptrRenderPass][indexSubPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][ptrDrawableDescriptorSet]->AddDrawable(pDrawable, itMatPass.first);
 		}
 	}
 
@@ -182,7 +182,7 @@ namespace CrossEngine {
 		ptrMainCommandBuffer->Reset();
 
 		DispatchThread(TRUE);
-
+		/*
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
 			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
@@ -212,6 +212,7 @@ namespace CrossEngine {
 			ptrMainCommandBuffer->CmdEndRenderPass();
 		}
 		ptrMainCommandBuffer->End();
+		*/
 	}
 
 	void CRenderer::Render(void)
@@ -234,7 +235,7 @@ namespace CrossEngine {
 
 				event_signal(&pThreadCluster->eventReady);
 				event_wait(&pThreadCluster->eventReady);
-
+				/*
 				{
 					uint32_t thread = thread_id() + (uint32_t)pRenderer;
 					uint32_t frame = GfxSwapChain()->GetImageIndex();
@@ -276,6 +277,7 @@ namespace CrossEngine {
 						pRenderer->m_pBatchParticals[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
 					}
 				}
+				*/
 			}
 			event_reset(&pThreadCluster->eventDispatch);
 			event_signal(&pThreadCluster->eventFinish);

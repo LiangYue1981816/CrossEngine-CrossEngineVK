@@ -30,8 +30,6 @@ namespace CrossEngine {
 		, m_firstIndex(0)
 		, m_vertexOffset(0)
 		, m_firstInstance(0)
-
-		, m_indexSubPass(0)
 	{
 
 	}
@@ -39,11 +37,6 @@ namespace CrossEngine {
 	CBatch::~CBatch(void)
 	{
 
-	}
-
-	const CGfxCommandBufferPtr& CBatch::GetCommandBuffer(void) const
-	{
-		return m_ptrCommandBuffer;
 	}
 
 	void CBatch::Clear(void)
@@ -55,16 +48,12 @@ namespace CrossEngine {
 		m_vertexOffset = 0;
 		m_firstInstance = 0;
 
-		m_indexSubPass = 0;
 		m_ptrIndexBuffer.Release();
 		m_ptrVertexBuffer.Release();
-		m_ptrDrawDescriptorSet.Release();
-		m_ptrMaterialDescriptorSet.Release();
-		m_ptrMaterialPipelineGraphics.Release();
-		m_ptrCommandBuffer.Release();
+		m_ptrDescriptorSet.Release();
 	}
 
-	void CBatch::AddDrawable(uint32_t dwPassName, const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrMaterialPipelineGraphics, const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet, uint32_t indexSubPass)
+	void CBatch::AddDrawable(const CDrawable *pDrawable, uint32_t dwPassName)
 	{
 		m_pDrawables[pDrawable] = pDrawable;
 
@@ -72,17 +61,14 @@ namespace CrossEngine {
 		m_firstIndex = pDrawable->GetFirstIndex();
 		m_vertexOffset = pDrawable->GetVertexOffset();
 
-		m_indexSubPass = indexSubPass;
 		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
 		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();
-		m_ptrDrawDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
-		m_ptrMaterialDescriptorSet = ptrMaterialDescriptorSet;
-		m_ptrMaterialPipelineGraphics = ptrMaterialPipelineGraphics;
+		m_ptrDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
 	}
 
 	size_t CBatch::FitBufferSize(size_t size)
 	{
-		size_t bufferSize = DEFAULT_INSTANCE_BUFFER_SIZE;
+		size_t bufferSize = 8 * 1024;
 
 		while (bufferSize < size) {
 			bufferSize <<= 1;

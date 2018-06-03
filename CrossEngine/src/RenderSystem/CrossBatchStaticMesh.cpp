@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGfxVertexBufferPtr CBatchStaticMesh::ptrInstanceBuffer;
-	std::vector<CBatchStaticMesh::InstanceData> CBatchStaticMesh::datas;
+	CGfxVertexBufferPtr CBatchStaticMesh::m_ptrInstanceBuffer;
+	std::vector<CBatchStaticMesh::InstanceData> CBatchStaticMesh::m_datas;
 
 	CBatchStaticMesh::CBatchStaticMesh(void)
 	{
@@ -40,68 +40,51 @@ namespace CrossEngine {
 
 	void CBatchStaticMesh::ClearInstanceBuffer(void)
 	{
-		datas.clear();
+		m_datas.clear();
 	}
 
 	void CBatchStaticMesh::CreateInstanceBuffer(void)
 	{
-		if (ptrInstanceBuffer.IsNull()) {
-			ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
+		if (m_ptrInstanceBuffer.IsNull()) {
+			m_ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
 		}
 
-		size_t dataBufferSize = datas.size() * sizeof(InstanceData);
+		size_t dataBufferSize = m_datas.size() * sizeof(InstanceData);
 
-		if (ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
+		if (m_ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
 			size_t instanceBufferSize = FitBufferSize(dataBufferSize);
 			uint32_t format = INSTANCE_ATTRIBUTE_TRANSFORM;
 
-			ptrInstanceBuffer->Destroy();
-			ptrInstanceBuffer->Create(instanceBufferSize, NULL, TRUE, format, INSTANCE_BUFFER_BINDING);
+			m_ptrInstanceBuffer->Destroy();
+			m_ptrInstanceBuffer->Create(instanceBufferSize, NULL, TRUE, format, INSTANCE_BUFFER_BINDING);
 		}
 
-		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());
+		m_ptrInstanceBuffer->SetData(0, dataBufferSize, m_datas.data());
 	}
 
 	void CBatchStaticMesh::DestroyInstanceBuffer(void)
 	{
-		ptrInstanceBuffer.Release();
-	}
-
-	CGfxVertexBufferPtr& CBatchStaticMesh::GetInstanceBuffer(void)
-	{
-		return ptrInstanceBuffer;
+		m_ptrInstanceBuffer.Release();
 	}
 
 	void CBatchStaticMesh::UpdateInstanceBuffer(void)
 	{
-		m_firstInstance = datas.size();
+		m_firstInstance = m_datas.size();
 
 		for (const auto &itDrawable : m_pDrawables) {
 			InstanceData data;
 			data.mtxTransform = itDrawable.second->GetTransform();
-			datas.push_back(data);
+			m_datas.push_back(data);
 		}
 	}
 
-	void CBatchStaticMesh::BuildCommandBuffer(const CCamera *pCamera, CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	void CBatchStaticMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-		m_ptrCommandBuffer = ptrCommandBuffer;
-		m_ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, m_indexSubPass);
-		{
-			m_ptrCommandBuffer->CmdSetScissor(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
-			m_ptrCommandBuffer->CmdSetViewport(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
-
-			m_ptrCommandBuffer->CmdBindPipelineGraphics(m_ptrMaterialPipelineGraphics);
-			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrMaterialDescriptorSet);
-			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDrawDescriptorSet);
-			m_ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
-
-			m_ptrCommandBuffer->CmdBindVertexBuffer(ptrInstanceBuffer);
-			m_ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer);
-			m_ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer);
-			m_ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
-		}
-		m_ptrCommandBuffer->End();
+		ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet);
+		ptrCommandBuffer->CmdBindVertexBuffer(m_ptrInstanceBuffer);
+		ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer);
+		ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer);
+		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 	}
 
 }

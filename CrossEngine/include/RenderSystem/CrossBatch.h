@@ -37,18 +37,14 @@ namespace CrossEngine {
 
 
 	protected:
-		const CGfxCommandBufferPtr& GetCommandBuffer(void) const;
-
-	protected:
 		virtual void Clear(void);
-		virtual void AddDrawable(uint32_t dwPassName, const CDrawable *pDrawable, const CGfxPipelineGraphicsPtr &ptrMaterialPipelineGraphics, const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet, uint32_t indexSubPass);
+		virtual void AddDrawable(const CDrawable *pDrawable, uint32_t dwPassName);
 
 	protected:
 		virtual void UpdateInstanceBuffer(void) = 0;
-		virtual void BuildCommandBuffer(const CCamera *pCamera, CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass) = 0;
+		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer) = 0;
 
 	protected:
-		static const size_t DEFAULT_INSTANCE_BUFFER_SIZE = 8192;
 		static size_t FitBufferSize(size_t size);
 
 
@@ -59,13 +55,9 @@ namespace CrossEngine {
 		uint32_t m_firstInstance;
 
 	protected:
-		uint32_t m_indexSubPass;
 		CGfxIndexBufferPtr m_ptrIndexBuffer;
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
-		CGfxDescriptorSetPtr m_ptrDrawDescriptorSet;
-		CGfxDescriptorSetPtr m_ptrMaterialDescriptorSet;
-		CGfxPipelineGraphicsPtr m_ptrMaterialPipelineGraphics;
-		CGfxCommandBufferPtr m_ptrCommandBuffer;
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
 	protected:
 		std::map<const CDrawable*, const CDrawable*> m_pDrawables;

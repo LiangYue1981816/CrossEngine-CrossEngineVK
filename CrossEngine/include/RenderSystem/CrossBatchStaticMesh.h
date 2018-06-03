@@ -44,18 +44,17 @@ namespace CrossEngine {
 
 	protected:
 		virtual void UpdateInstanceBuffer(void);
-		virtual void BuildCommandBuffer(const CCamera *pCamera, CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
 
 	public:
 		static void ClearInstanceBuffer(void);
 		static void CreateInstanceBuffer(void);
 		static void DestroyInstanceBuffer(void);
-		static CGfxVertexBufferPtr& GetInstanceBuffer(void);
 
 
 	protected:
-		static std::vector<InstanceData> datas;
-		static CGfxVertexBufferPtr ptrInstanceBuffer;
+		static std::vector<InstanceData> m_datas;
+		static CGfxVertexBufferPtr m_ptrInstanceBuffer;
 	};
 
 }

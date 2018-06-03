@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGfxVertexBufferPtr CBatchPartical::ptrInstanceBuffer;
-	std::vector<CBatchPartical::InstanceData> CBatchPartical::datas;
+	CGfxVertexBufferPtr CBatchPartical::m_ptrInstanceBuffer;
+	std::vector<CBatchPartical::InstanceData> CBatchPartical::m_datas;
 
 	CBatchPartical::CBatchPartical(void)
 	{
@@ -40,57 +40,51 @@ namespace CrossEngine {
 
 	void CBatchPartical::ClearInstanceBuffer(void)
 	{
-		datas.clear();
+		m_datas.clear();
 	}
 
 	void CBatchPartical::CreateInstanceBuffer(void)
 	{
-		if (ptrInstanceBuffer.IsNull()) {
-			ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
+		if (m_ptrInstanceBuffer.IsNull()) {
+			m_ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
 		}
 
-		size_t dataBufferSize = datas.size() * sizeof(InstanceData);
+		size_t dataBufferSize = m_datas.size() * sizeof(InstanceData);
 
-		if (ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
+		if (m_ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
 			size_t instanceBufferSize = FitBufferSize(dataBufferSize);
 			uint32_t format = INSTANCE_ATTRIBUTE_TRANSFORM;
 
-			ptrInstanceBuffer->Destroy();
-			ptrInstanceBuffer->Create(instanceBufferSize, NULL, TRUE, format, INSTANCE_BUFFER_BINDING);
+			m_ptrInstanceBuffer->Destroy();
+			m_ptrInstanceBuffer->Create(instanceBufferSize, NULL, TRUE, format, INSTANCE_BUFFER_BINDING);
 		}
 
-		ptrInstanceBuffer->SetData(0, dataBufferSize, datas.data());
+		m_ptrInstanceBuffer->SetData(0, dataBufferSize, m_datas.data());
 	}
 
 	void CBatchPartical::DestroyInstanceBuffer(void)
 	{
-		ptrInstanceBuffer.Release();
-	}
-
-	CGfxVertexBufferPtr& CBatchPartical::GetInstanceBuffer(void)
-	{
-		return ptrInstanceBuffer;
+		m_ptrInstanceBuffer.Release();
 	}
 
 	void CBatchPartical::UpdateInstanceBuffer(void)
 	{
-		m_firstInstance = datas.size();
+		m_firstInstance = m_datas.size();
 
 		for (const auto &itDrawable : m_pDrawables) {
 			InstanceData data;
 			data.mtxTransform = itDrawable.second->GetTransform();
-			datas.push_back(data);
+			m_datas.push_back(data);
 		}
 	}
 
-	void CBatchPartical::BuildCommandBuffer(const CCamera *pCamera, CGfxCommandBufferPtr &ptrCommandBuffer, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	void CBatchPartical::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-		m_ptrCommandBuffer = ptrCommandBuffer;
-		m_ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, ptrFrameBuffer, ptrRenderPass, m_indexSubPass);
-		{
-			// ...
-		}
-		m_ptrCommandBuffer->End();
+		ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet);
+		ptrCommandBuffer->CmdBindVertexBuffer(m_ptrInstanceBuffer);
+		ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer);
+		ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer);
+		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 	}
 
 }
