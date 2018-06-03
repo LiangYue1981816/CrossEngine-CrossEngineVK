@@ -42,7 +42,7 @@ namespace CrossEngine {
 
 	protected:
 		virtual void UpdateInstanceBuffer(void) = 0;
-		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer) = 0;
+		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
 
 	protected:
 		static size_t FitBufferSize(size_t size);
@@ -55,8 +55,6 @@ namespace CrossEngine {
 		uint32_t m_firstInstance;
 
 	protected:
-		CGfxIndexBufferPtr m_ptrIndexBuffer;
-		CGfxVertexBufferPtr m_ptrVertexBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
 	protected:

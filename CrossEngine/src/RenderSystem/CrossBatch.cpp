@@ -48,8 +48,6 @@ namespace CrossEngine {
 		m_vertexOffset = 0;
 		m_firstInstance = 0;
 
-		m_ptrIndexBuffer.Release();
-		m_ptrVertexBuffer.Release();
 		m_ptrDescriptorSet.Release();
 	}
 
@@ -61,9 +59,13 @@ namespace CrossEngine {
 		m_firstIndex = pDrawable->GetFirstIndex();
 		m_vertexOffset = pDrawable->GetVertexOffset();
 
-		m_ptrIndexBuffer = pDrawable->GetIndexBuffer();
-		m_ptrVertexBuffer = pDrawable->GetVertexBuffer();
 		m_ptrDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
+	}
+
+	void CBatch::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
+	{
+		ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet);
+		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 	}
 
 	size_t CBatch::FitBufferSize(size_t size)

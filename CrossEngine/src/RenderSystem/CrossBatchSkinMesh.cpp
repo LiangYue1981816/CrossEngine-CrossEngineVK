@@ -38,6 +38,11 @@ namespace CrossEngine {
 
 	}
 
+	CGfxVertexBufferPtr& CBatchSkinMesh::GetInstanceBuffer(void)
+	{
+		return m_ptrInstanceBuffer;
+	}
+
 	void CBatchSkinMesh::ClearInstanceBuffer(void)
 	{
 		m_datas.clear();
@@ -49,21 +54,19 @@ namespace CrossEngine {
 			m_ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
 		}
 
-		size_t dataBufferSize = m_datas.size() * sizeof(InstanceData);
+		size_t instanceBufferSize = m_datas.size() * sizeof(InstanceData);
 
-		if (m_ptrInstanceBuffer->GetBufferSize() < dataBufferSize) {
-			size_t instanceBufferSize = FitBufferSize(dataBufferSize);
-			uint32_t format = INSTANCE_ATTRIBUTE_TRANSFORM;
-
+		if (m_ptrInstanceBuffer->GetBufferSize() < instanceBufferSize) {
 			m_ptrInstanceBuffer->Destroy();
-			m_ptrInstanceBuffer->Create(instanceBufferSize, NULL, TRUE, format, INSTANCE_BUFFER_BINDING);
+			m_ptrInstanceBuffer->Create(FitBufferSize(instanceBufferSize), NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
 		}
 
-		m_ptrInstanceBuffer->SetData(0, dataBufferSize, m_datas.data());
+		m_ptrInstanceBuffer->SetData(0, instanceBufferSize, m_datas.data());
 	}
 
 	void CBatchSkinMesh::DestroyInstanceBuffer(void)
 	{
+		m_datas.clear();
 		m_ptrInstanceBuffer.Release();
 	}
 
@@ -76,15 +79,6 @@ namespace CrossEngine {
 			data.mtxTransform = itDrawable.second->GetTransform();
 			m_datas.push_back(data);
 		}
-	}
-
-	void CBatchSkinMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
-	{
-		ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet);
-		ptrCommandBuffer->CmdBindVertexBuffer(m_ptrInstanceBuffer);
-		ptrCommandBuffer->CmdBindVertexBuffer(m_ptrVertexBuffer);
-		ptrCommandBuffer->CmdBindIndexBuffer(m_ptrIndexBuffer);
-		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_firstIndex, m_vertexOffset, m_firstInstance);
 	}
 
 }

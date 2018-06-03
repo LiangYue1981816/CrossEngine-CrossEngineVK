@@ -42,14 +42,14 @@ namespace CrossEngine {
 		virtual ~CBatchSkinMesh(void);
 
 
-	protected:
-		virtual void UpdateInstanceBuffer(void);
-		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
-
 	public:
+		static CGfxVertexBufferPtr& GetInstanceBuffer(void);
 		static void ClearInstanceBuffer(void);
 		static void CreateInstanceBuffer(void);
 		static void DestroyInstanceBuffer(void);
+
+	public:
+		virtual void UpdateInstanceBuffer(void);
 
 
 	protected:
