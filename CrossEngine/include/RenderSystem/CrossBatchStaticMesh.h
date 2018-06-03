@@ -32,9 +32,9 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct InstanceData {
+		typedef struct BatchData {
 			glm::mat4 mtxTransform;
-		} InstanceData;
+		} BatchData;
 
 
 	protected:
@@ -43,18 +43,18 @@ namespace CrossEngine {
 
 
 	public:
-		static CGfxVertexBufferPtr& GetInstanceBuffer(void);
-		static void ClearInstanceBuffer(void);
-		static void CreateInstanceBuffer(void);
-		static void DestroyInstanceBuffer(void);
+		static CGfxVertexBufferPtr& GetBatchBuffer(void);
+		static void ClearBatchBuffer(void);
+		static void CreateBatchBuffer(void);
+		static void DestroyBatchBuffer(void);
 
 	public:
-		virtual void UpdateInstanceBuffer(void);
+		virtual void UpdateBatchBuffer(void);
 
 
 	protected:
-		static std::vector<InstanceData> m_datas;
-		static CGfxVertexBufferPtr m_ptrInstanceBuffer;
+		static std::vector<BatchData> m_batchs;
+		static CGfxVertexBufferPtr m_ptrBatchBuffer;
 	};
 
 }

@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGfxVertexBufferPtr CBatchStaticMesh::m_ptrInstanceBuffer;
-	std::vector<CBatchStaticMesh::InstanceData> CBatchStaticMesh::m_datas;
+	CGfxVertexBufferPtr CBatchStaticMesh::m_ptrBatchBuffer;
+	std::vector<CBatchStaticMesh::BatchData> CBatchStaticMesh::m_batchs;
 
 	CBatchStaticMesh::CBatchStaticMesh(void)
 	{
@@ -38,46 +38,46 @@ namespace CrossEngine {
 
 	}
 
-	CGfxVertexBufferPtr& CBatchStaticMesh::GetInstanceBuffer(void)
+	CGfxVertexBufferPtr& CBatchStaticMesh::GetBatchBuffer(void)
 	{
-		return m_ptrInstanceBuffer;
+		return m_ptrBatchBuffer;
 	}
 
-	void CBatchStaticMesh::ClearInstanceBuffer(void)
+	void CBatchStaticMesh::ClearBatchBuffer(void)
 	{
-		m_datas.clear();
+		m_batchs.clear();
 	}
 
-	void CBatchStaticMesh::CreateInstanceBuffer(void)
+	void CBatchStaticMesh::CreateBatchBuffer(void)
 	{
-		if (m_ptrInstanceBuffer.IsNull()) {
-			m_ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
+		if (m_ptrBatchBuffer.IsNull()) {
+			m_ptrBatchBuffer = GfxDevice()->NewVertexBuffer();
 		}
 
-		size_t instanceBufferSize = m_datas.size() * sizeof(InstanceData);
+		size_t instanceBufferSize = m_batchs.size() * sizeof(BatchData);
 
-		if (m_ptrInstanceBuffer->GetBufferSize() < instanceBufferSize) {
-			m_ptrInstanceBuffer->Destroy();
-			m_ptrInstanceBuffer->Create(FitBufferSize(instanceBufferSize), NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
+		if (m_ptrBatchBuffer->GetBufferSize() < instanceBufferSize) {
+			m_ptrBatchBuffer->Destroy();
+			m_ptrBatchBuffer->Create(FitBufferSize(instanceBufferSize), NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
 		}
 
-		m_ptrInstanceBuffer->SetData(0, instanceBufferSize, m_datas.data());
+		m_ptrBatchBuffer->SetData(0, instanceBufferSize, m_batchs.data());
 	}
 
-	void CBatchStaticMesh::DestroyInstanceBuffer(void)
+	void CBatchStaticMesh::DestroyBatchBuffer(void)
 	{
-		m_datas.clear();
-		m_ptrInstanceBuffer.Release();
+		m_batchs.clear();
+		m_ptrBatchBuffer.Release();
 	}
 
-	void CBatchStaticMesh::UpdateInstanceBuffer(void)
+	void CBatchStaticMesh::UpdateBatchBuffer(void)
 	{
-		m_firstInstance = m_datas.size();
+		m_firstInstance = m_batchs.size();
 
 		for (const auto &itDrawable : m_pDrawables) {
-			InstanceData data;
-			data.mtxTransform = itDrawable.second->GetTransform();
-			m_datas.push_back(data);
+			BatchData batchData;
+			batchData.mtxTransform = itDrawable.second->GetTransform();
+			m_batchs.push_back(batchData);
 		}
 	}
 

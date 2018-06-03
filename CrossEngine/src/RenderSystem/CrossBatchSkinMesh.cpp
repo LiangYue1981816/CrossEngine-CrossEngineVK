@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CGfxVertexBufferPtr CBatchSkinMesh::m_ptrInstanceBuffer;
-	std::vector<CBatchSkinMesh::InstanceData> CBatchSkinMesh::m_datas;
+	CGfxVertexBufferPtr CBatchSkinMesh::m_ptrBatchBuffer;
+	std::vector<CBatchSkinMesh::BatchData> CBatchSkinMesh::m_batchs;
 
 	CBatchSkinMesh::CBatchSkinMesh(void)
 	{
@@ -38,46 +38,46 @@ namespace CrossEngine {
 
 	}
 
-	CGfxVertexBufferPtr& CBatchSkinMesh::GetInstanceBuffer(void)
+	CGfxVertexBufferPtr& CBatchSkinMesh::GetBatchBuffer(void)
 	{
-		return m_ptrInstanceBuffer;
+		return m_ptrBatchBuffer;
 	}
 
-	void CBatchSkinMesh::ClearInstanceBuffer(void)
+	void CBatchSkinMesh::ClearBatchBuffer(void)
 	{
-		m_datas.clear();
+		m_batchs.clear();
 	}
 
-	void CBatchSkinMesh::CreateInstanceBuffer(void)
+	void CBatchSkinMesh::CreateBatchBuffer(void)
 	{
-		if (m_ptrInstanceBuffer.IsNull()) {
-			m_ptrInstanceBuffer = GfxDevice()->NewVertexBuffer();
+		if (m_ptrBatchBuffer.IsNull()) {
+			m_ptrBatchBuffer = GfxDevice()->NewVertexBuffer();
 		}
 
-		size_t instanceBufferSize = m_datas.size() * sizeof(InstanceData);
+		size_t instanceBufferSize = m_batchs.size() * sizeof(BatchData);
 
-		if (m_ptrInstanceBuffer->GetBufferSize() < instanceBufferSize) {
-			m_ptrInstanceBuffer->Destroy();
-			m_ptrInstanceBuffer->Create(FitBufferSize(instanceBufferSize), NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
+		if (m_ptrBatchBuffer->GetBufferSize() < instanceBufferSize) {
+			m_ptrBatchBuffer->Destroy();
+			m_ptrBatchBuffer->Create(FitBufferSize(instanceBufferSize), NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
 		}
 
-		m_ptrInstanceBuffer->SetData(0, instanceBufferSize, m_datas.data());
+		m_ptrBatchBuffer->SetData(0, instanceBufferSize, m_batchs.data());
 	}
 
-	void CBatchSkinMesh::DestroyInstanceBuffer(void)
+	void CBatchSkinMesh::DestroyBatchBuffer(void)
 	{
-		m_datas.clear();
-		m_ptrInstanceBuffer.Release();
+		m_batchs.clear();
+		m_ptrBatchBuffer.Release();
 	}
 
-	void CBatchSkinMesh::UpdateInstanceBuffer(void)
+	void CBatchSkinMesh::UpdateBatchBuffer(void)
 	{
-		m_firstInstance = m_datas.size();
+		m_firstInstance = m_batchs.size();
 
 		for (const auto &itDrawable : m_pDrawables) {
-			InstanceData data;
-			data.mtxTransform = itDrawable.second->GetTransform();
-			m_datas.push_back(data);
+			BatchData batchData;
+			batchData.mtxTransform = itDrawable.second->GetTransform();
+			m_batchs.push_back(batchData);
 		}
 	}
 

@@ -64,17 +64,17 @@ namespace CrossEngine {
 
 	void CCameraManager::Update(void)
 	{
-		CBatchPartical::ClearInstanceBuffer();
-		CBatchSkinMesh::ClearInstanceBuffer();
-		CBatchStaticMesh::ClearInstanceBuffer();
+		CBatchPartical::ClearBatchBuffer();
+		CBatchSkinMesh::ClearBatchBuffer();
+		CBatchStaticMesh::ClearBatchBuffer();
 		{
 			for (auto &itCamera : m_pCameras) {
 				itCamera.second->Update();
 			}
 		}
-		CBatchPartical::CreateInstanceBuffer();
-		CBatchSkinMesh::CreateInstanceBuffer();
-		CBatchStaticMesh::CreateInstanceBuffer();
+		CBatchPartical::CreateBatchBuffer();
+		CBatchSkinMesh::CreateBatchBuffer();
+		CBatchStaticMesh::CreateBatchBuffer();
 	}
 
 	void CCameraManager::Render(uint32_t dwName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)

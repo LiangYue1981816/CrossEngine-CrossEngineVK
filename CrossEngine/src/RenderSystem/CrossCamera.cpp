@@ -185,7 +185,7 @@ namespace CrossEngine {
 	void CCamera::Update(void)
 	{
 		if (m_bEnable) {
-			m_renderer.UpdateInstanceBuffer();
+			m_renderer.UpdateBatchBuffer();
 		}
 	}
 

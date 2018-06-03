@@ -41,7 +41,7 @@ namespace CrossEngine {
 		virtual void AddDrawable(const CDrawable *pDrawable, uint32_t dwPassName);
 
 	protected:
-		virtual void UpdateInstanceBuffer(void) = 0;
+		virtual void UpdateBatchBuffer(void) = 0;
 		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
 
 	protected:
