@@ -48,7 +48,7 @@ namespace CrossEngine {
 		static void CreateBatchBuffer(void);
 		static void DestroyBatchBuffer(void);
 
-	public:
+	protected:
 		virtual void UpdateBatchBuffer(void);
 
 
