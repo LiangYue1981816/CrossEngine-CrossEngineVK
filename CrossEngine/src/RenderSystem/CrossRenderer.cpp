@@ -44,7 +44,6 @@ namespace CrossEngine {
 		event_init(&m_threadCluster.eventDispatch, 0);
 
 		for (int index = 0; index < THREAD_COUNT; index++) {
-			m_threadCluster.params[index].indexThread = index;
 			m_threadCluster.params[index].pRenderer = this;
 			pthread_create(&m_threadCluster.threads[index], NULL, WorkThread, &m_threadCluster.params[index]);
 		}

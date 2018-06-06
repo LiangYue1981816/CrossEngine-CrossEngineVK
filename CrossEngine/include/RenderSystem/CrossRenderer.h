@@ -35,7 +35,6 @@ namespace CrossEngine {
 		static const int THREAD_COUNT = 1;
 
 		typedef struct ThreadParam {
-			uint32_t indexThread;
 			CRenderer *pRenderer;
 		} ThreadParam;
 
