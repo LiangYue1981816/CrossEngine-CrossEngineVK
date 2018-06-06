@@ -193,7 +193,7 @@ namespace CrossEngine {
 	{
 		if (m_bEnable) {
 			m_renderer.BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
-			m_renderer.Render();
+			m_renderer.Render(ptrFrameBuffer, ptrRenderPass);
 		}
 	}
 

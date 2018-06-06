@@ -102,9 +102,6 @@ namespace CrossEngine {
 		m_pBatchParticals.clear();
 		m_pBatchSkinMeshs.clear();
 		m_pBatchStaticMeshs.clear();
-
-		m_ptrRenderPass.Release();
-		m_ptrFrameBuffer.Release();
 	}
 
 	void CRenderer::AddDrawable(const CDrawable *pDrawable)
@@ -165,6 +162,7 @@ namespace CrossEngine {
 
 	void CRenderer::BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
+		/*
 		const auto &itPassQueue = m_queue.find(ptrRenderPass);
 		if (itPassQueue == m_queue.end()) return;
 
@@ -185,7 +183,7 @@ namespace CrossEngine {
 		ptrMainCommandBuffer->Reset();
 
 		DispatchThread(TRUE);
-		/*
+
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
 			ptrMainCommandBuffer->CmdBeginRenderPass(m_ptrFrameBuffer, m_ptrRenderPass, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
@@ -218,9 +216,9 @@ namespace CrossEngine {
 		*/
 	}
 
-	void CRenderer::Render(void)
+	void CRenderer::Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[m_ptrFrameBuffer][m_ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
+		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
 
 	void* CRenderer::WorkThread(void *pParams)
