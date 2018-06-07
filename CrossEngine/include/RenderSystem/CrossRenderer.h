@@ -32,10 +32,17 @@ namespace CrossEngine {
 
 
 	protected:
-		static const int THREAD_COUNT = 1;
+		static const int THREAD_COUNT = 4;
+
+		typedef struct PipelineParam {
+			uint32_t indexPass;
+			CGfxRenderPassPtr ptrRenderPass;
+			CGfxPipelineGraphicsPtr ptrMaterialPipeline;
+		} PipelineParam;
 
 		typedef struct ThreadParam {
 			CRenderer *pRenderer;
+			std::vector<PipelineParam> pipelines;
 		} ThreadParam;
 
 		typedef struct ThreadCluster {
