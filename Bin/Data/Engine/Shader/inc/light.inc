@@ -27,7 +27,7 @@ vec3 Linear2Gamma(vec3 linear)
 // BRDF
 vec3 Ambient_SH4(vec3 albedoColor, float metallic, vec3 normal, vec4 shRed, vec4 shGreen, vec4 shBlue)
 {
-	vec4 basis = vec4(0.2, normal.z, normal.x, normal.y);
+	vec4 basis = vec4(0.5, normal.z, normal.x, normal.y);
 	vec3 diffuse = vec3(dot(basis, shRed), dot(basis, shGreen), dot(basis, shBlue));
 
 	return (1.0 - metallic) * diffuse * albedoColor / PI;
@@ -39,7 +39,7 @@ vec3 Ambient_SH9(vec3 albedoColor, float metallic, vec3 normal, vec3 shRed0, vec
 	float y = normal.y;
 	float z = normal.z;
 
-	vec3 basis0 = vec3(0.2, z, x);
+	vec3 basis0 = vec3(0.5, z, x);
 	vec3 basis1 = vec3(y, z * z * 2.0 - x * x - y * y, z * x);
 	vec3 basis2 = vec3(y * z, x * x - y * y, x * y);
 
