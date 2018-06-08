@@ -76,14 +76,14 @@ namespace CrossEngine {
 			std::map<uint32_t,
 			CGfxCommandBufferPtr>>> MainCommandBufferMap;
 
-		// [FrameBuffer][RenderPass][Frame][Thread][IndexPass][Pipeline] = CommandBuffer
+		// [FrameBuffer][RenderPass][Pipeline][IndexPass][Frame][Thread] = CommandBuffer
 		typedef
 			std::map<CGfxFrameBufferPtr,
 			std::map<CGfxRenderPassPtr,
-			std::map<uint32_t,
-			std::map<uint32_t,
-			std::map<uint32_t,
 			std::map<CGfxPipelineGraphicsPtr,
+			std::map<uint32_t,
+			std::map<uint32_t,
+			std::map<uint32_t,
 			CGfxCommandBufferPtr>>>>>> SecondaryCommandBufferMap;
 
 		
@@ -95,7 +95,8 @@ namespace CrossEngine {
 	protected:
 		void CreateThread(void);
 		void DestroyThread(void);
-		void DispatchThread(BOOL bWait);
+
+		void DispatchThread(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);
 		void WaitThread(void);
 
 	protected:
