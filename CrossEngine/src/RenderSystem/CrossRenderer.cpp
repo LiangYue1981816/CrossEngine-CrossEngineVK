@@ -74,9 +74,10 @@ namespace CrossEngine {
 			for (const auto &itMaterialPipeline : itPass.second) {
 				PipelineParam param;
 				param.indexPass = itPass.first;
-				param.ptrRenderPass = ptrRenderPass;
 				param.ptrMaterialPipeline = itMaterialPipeline.first;
 				m_threadCluster.params[(indexThread++) % THREAD_COUNT].pipelines.push_back(param);
+				m_threadCluster.params[(indexThread++) % THREAD_COUNT].ptrRenderPass = ptrRenderPass;
+				m_threadCluster.params[(indexThread++) % THREAD_COUNT].ptrFrameBuffer = ptrFrameBuffer;
 			}
 		}
 
@@ -100,6 +101,8 @@ namespace CrossEngine {
 
 		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
 			m_threadCluster.params[indexThread].pipelines.clear();
+			m_threadCluster.params[indexThread].ptrRenderPass.Release();
+			m_threadCluster.params[indexThread].ptrFrameBuffer.Release();
 		}
 	}
 

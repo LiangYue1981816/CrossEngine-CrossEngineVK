@@ -36,12 +36,13 @@ namespace CrossEngine {
 
 		typedef struct PipelineParam {
 			uint32_t indexPass;
-			CGfxRenderPassPtr ptrRenderPass;
 			CGfxPipelineGraphicsPtr ptrMaterialPipeline;
 		} PipelineParam;
 
 		typedef struct ThreadParam {
 			CRenderer *pRenderer;
+			CGfxRenderPassPtr ptrRenderPass;
+			CGfxFrameBufferPtr ptrFrameBuffer;
 			std::vector<PipelineParam> pipelines;
 		} ThreadParam;
 
