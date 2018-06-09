@@ -254,37 +254,29 @@ namespace CrossEngine {
 					GfxDevice()->ResetCommandBufferPool(pool);
 
 					for (int index = 0; index < pThreadParam->pipelines.size(); index++) {
-						const uint32_t indexPass = pThreadParam->pipelines[index].indexPass;
-						const CGfxRenderPassPtr &ptrRenderPass = pThreadParam->ptrRenderPass;
-						const CGfxFrameBufferPtr &ptrFrameBuffer = pThreadParam->ptrFrameBuffer;
-						const CGfxPipelineGraphicsPtr &ptrMaterialPipeline = pThreadParam->pipelines[index].ptrMaterialPipeline;
+						CGfxCommandBufferPtr &ptrCommandBuffer = pRenderer->m_ptrSecondaryCommandBuffers[pThreadParam->ptrFrameBuffer][pThreadParam->ptrRenderPass][pThreadParam->pipelines[index].ptrMaterialPipeline][pThreadParam->pipelines[index].indexPass][frame][thread];
 
-						CGfxCommandBufferPtr &ptrCommandBuffer = pRenderer->m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass][ptrMaterialPipeline][indexPass][frame][thread];
 						if (ptrCommandBuffer.IsNull()) {
 							ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 						}
 
 						ptrCommandBuffer->Clearup();
 						ptrCommandBuffer->ClearCommands();
-
-						ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, indexPass);
+						ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, pThreadParam->ptrFrameBuffer, pThreadParam->ptrRenderPass, pThreadParam->pipelines[index].indexPass);
 						{
 							ptrCommandBuffer->CmdSetScissor(pRenderer->m_pCamera->GetViewportX(), pRenderer->m_pCamera->GetViewportY(), pRenderer->m_pCamera->GetViewportWidth(), pRenderer->m_pCamera->GetViewportHeight());
 							ptrCommandBuffer->CmdSetViewport(pRenderer->m_pCamera->GetViewportX(), pRenderer->m_pCamera->GetViewportY(), pRenderer->m_pCamera->GetViewportWidth(), pRenderer->m_pCamera->GetViewportHeight());
 
-							ptrCommandBuffer->CmdBindPipelineGraphics(ptrMaterialPipeline);
+							ptrCommandBuffer->CmdBindPipelineGraphics(pThreadParam->pipelines[index].ptrMaterialPipeline);
 
-							for (const auto &itMaterialPipelineQueue : pRenderer->m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline]) {
-								const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet = itMaterialPipelineQueue.first;
-								ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrMaterialDescriptorSet);
+							for (const auto &itMaterialPipelineQueue : pRenderer->m_queue[pThreadParam->ptrRenderPass][pThreadParam->pipelines[index].indexPass][pThreadParam->pipelines[index].ptrMaterialPipeline]) {
+								ptrCommandBuffer->CmdBindDescriptorSetGraphics(itMaterialPipelineQueue.first);
 
 								for (const auto &itVertexBufferQueue : itMaterialPipelineQueue.second) {
-									const CGfxVertexBufferPtr &ptrVertexBuffer = itVertexBufferQueue.first;
-									ptrCommandBuffer->CmdBindVertexBuffer(ptrVertexBuffer);
+									ptrCommandBuffer->CmdBindVertexBuffer(itVertexBufferQueue.first);
 
 									for (const auto &itIndexBufferQueue : itVertexBufferQueue.second) {
-										const CGfxIndexBufferPtr &ptrIndexBuffer = itIndexBufferQueue.first;
-										ptrCommandBuffer->CmdBindIndexBuffer(ptrIndexBuffer);
+										ptrCommandBuffer->CmdBindIndexBuffer(itIndexBufferQueue.first);
 
 										for (const auto &itMeshIndexCountQueue : itIndexBufferQueue.second) {
 											for (const auto &itMeshIndexOffsetQueue : itMeshIndexCountQueue.second) {
