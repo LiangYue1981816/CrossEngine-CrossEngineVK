@@ -268,6 +268,7 @@ namespace CrossEngine {
 							ptrCommandBuffer->CmdSetViewport(pRenderer->m_pCamera->GetViewportX(), pRenderer->m_pCamera->GetViewportY(), pRenderer->m_pCamera->GetViewportWidth(), pRenderer->m_pCamera->GetViewportHeight());
 
 							ptrCommandBuffer->CmdBindPipelineGraphics(pThreadParam->pipelines[index].ptrMaterialPipeline);
+							ptrCommandBuffer->CmdBindDescriptorSetGraphics(pRenderer->m_pCamera->GetDescriptorSet());
 
 							for (const auto &itMaterialPipelineQueue : pRenderer->m_queue[pThreadParam->ptrRenderPass][pThreadParam->pipelines[index].indexPass][pThreadParam->pipelines[index].ptrMaterialPipeline]) {
 								ptrCommandBuffer->CmdBindDescriptorSetGraphics(itMaterialPipelineQueue.first);
