@@ -81,8 +81,6 @@ namespace CrossEngine {
 			}
 		}
 
-		m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass].clear();
-
 		for (int index = 0; index < THREAD_COUNT; index++) {
 			event_unsignal(&m_threadCluster.eventReady);
 			event_unsignal(&m_threadCluster.eventFinish);
@@ -255,40 +253,54 @@ namespace CrossEngine {
 					GfxDevice()->AllocCommandBufferPool(pool);
 					GfxDevice()->ResetCommandBufferPool(pool);
 
-					/*
-					int numCommandBuffers = 0;
-					CommandBufferSet &ptrSecondaryCommandBuffers = pRenderer->m_ptrSecondaryCommandBuffers[thread][frame];
+					for (int index = 0; index < pThreadParam->pipelines.size(); index++) {
+						const uint32_t indexPass = pThreadParam->pipelines[index].indexPass;
+						const CGfxRenderPassPtr &ptrRenderPass = pThreadParam->ptrRenderPass;
+						const CGfxFrameBufferPtr &ptrFrameBuffer = pThreadParam->ptrFrameBuffer;
+						const CGfxPipelineGraphicsPtr &ptrMaterialPipeline = pThreadParam->pipelines[index].ptrMaterialPipeline;
 
-					for (int index = pThreadParam->indexThread; index < pRenderer->m_pBatchStaticMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
-						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
-							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
+						CGfxCommandBufferPtr &ptrCommandBuffer = pRenderer->m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass][ptrMaterialPipeline][indexPass][frame][thread];
+						if (ptrCommandBuffer.IsNull()) {
+							ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 						}
 
-						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
-						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderer->m_pBatchStaticMeshs[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
-					}
+						ptrCommandBuffer->Clearup();
+						ptrCommandBuffer->ClearCommands();
 
-					for (int index = pThreadParam->indexThread; index < pRenderer->m_pBatchSkinMeshs.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
-						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
-							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
+						ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, indexPass);
+						{
+							ptrCommandBuffer->CmdSetScissor(pRenderer->m_pCamera->GetViewportX(), pRenderer->m_pCamera->GetViewportY(), pRenderer->m_pCamera->GetViewportWidth(), pRenderer->m_pCamera->GetViewportHeight());
+							ptrCommandBuffer->CmdSetViewport(pRenderer->m_pCamera->GetViewportX(), pRenderer->m_pCamera->GetViewportY(), pRenderer->m_pCamera->GetViewportWidth(), pRenderer->m_pCamera->GetViewportHeight());
+
+							ptrCommandBuffer->CmdBindPipelineGraphics(ptrMaterialPipeline);
+
+							for (const auto &itMaterialPipelineQueue : pRenderer->m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline]) {
+								const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet = itMaterialPipelineQueue.first;
+								ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrMaterialDescriptorSet);
+
+								for (const auto &itVertexBufferQueue : itMaterialPipelineQueue.second) {
+									const CGfxVertexBufferPtr &ptrVertexBuffer = itVertexBufferQueue.first;
+									ptrCommandBuffer->CmdBindVertexBuffer(ptrVertexBuffer);
+
+									for (const auto &itIndexBufferQueue : itVertexBufferQueue.second) {
+										const CGfxIndexBufferPtr &ptrIndexBuffer = itIndexBufferQueue.first;
+										ptrCommandBuffer->CmdBindIndexBuffer(ptrIndexBuffer);
+
+										for (const auto &itMeshIndexCountQueue : itIndexBufferQueue.second) {
+											for (const auto &itMeshIndexOffsetQueue : itMeshIndexCountQueue.second) {
+												for (const auto &itMeshVertexOffsetQueue : itMeshIndexOffsetQueue.second) {
+													for (const auto &itDrawDescriptorSet : itMeshVertexOffsetQueue.second) {
+														itDrawDescriptorSet.second->BuildCommandBuffer(ptrCommandBuffer);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
 						}
-
-						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
-						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderer->m_pBatchSkinMeshs[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
+						ptrCommandBuffer->End();
 					}
-
-					for (int index = pThreadParam->indexThread; index < pRenderer->m_pBatchParticals.size(); index += CRenderer::THREAD_COUNT, numCommandBuffers++) {
-						if (ptrSecondaryCommandBuffers.size() <= numCommandBuffers) {
-							ptrSecondaryCommandBuffers.push_back(GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY));
-						}
-
-						ptrSecondaryCommandBuffers[numCommandBuffers]->Clearup();
-						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
-						pRenderer->m_pBatchParticals[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
-					}
-					*/
 				}
 			}
 			event_reset(&pThreadCluster->eventDispatch);
