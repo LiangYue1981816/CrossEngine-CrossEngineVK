@@ -75,9 +75,10 @@ namespace CrossEngine {
 				PipelineParam param;
 				param.indexPass = itPass.first;
 				param.ptrMaterialPipeline = itMaterialPipeline.first;
-				m_threadCluster.params[(indexThread++) % THREAD_COUNT].pipelines.push_back(param);
-				m_threadCluster.params[(indexThread++) % THREAD_COUNT].ptrRenderPass = ptrRenderPass;
-				m_threadCluster.params[(indexThread++) % THREAD_COUNT].ptrFrameBuffer = ptrFrameBuffer;
+				m_threadCluster.params[indexThread % THREAD_COUNT].pipelines.push_back(param);
+				m_threadCluster.params[indexThread % THREAD_COUNT].ptrRenderPass = ptrRenderPass;
+				m_threadCluster.params[indexThread % THREAD_COUNT].ptrFrameBuffer = ptrFrameBuffer;
+				indexThread++;
 			}
 		}
 
@@ -245,7 +246,8 @@ namespace CrossEngine {
 				event_signal(&pThreadCluster->eventReady);
 				event_wait(&pThreadCluster->eventReady);
 
-				{
+				if (pThreadParam->ptrFrameBuffer.IsNull() == FALSE && pThreadParam->ptrFrameBuffer->GetHandle() != NULL && 
+					pThreadParam->ptrRenderPass.IsNull() == FALSE && pThreadParam->ptrRenderPass->GetHandle() != NULL) {
 					uint32_t thread = thread_id() + (uint32_t)pRenderer;
 					uint32_t frame = GfxSwapChain()->GetImageIndex();
 					uint32_t pool = thread + frame;
