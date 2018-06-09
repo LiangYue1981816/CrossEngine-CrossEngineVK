@@ -42,7 +42,7 @@ namespace CrossEngine {
 
 	protected:
 		virtual void UpdateBatchBuffer(void) = 0;
-		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
+		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer) = 0;
 
 	protected:
 		static size_t FitBufferSize(size_t size);

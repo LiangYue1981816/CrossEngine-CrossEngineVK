@@ -62,12 +62,6 @@ namespace CrossEngine {
 		m_ptrDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
 	}
 
-	void CBatch::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
-	{
-		ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet);
-		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_indexOffset, m_vertexOffset, m_instanceOffset);
-	}
-
 	size_t CBatch::FitBufferSize(size_t size)
 	{
 		size_t bufferSize = 1 * 1024;

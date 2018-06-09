@@ -81,4 +81,11 @@ namespace CrossEngine {
 		}
 	}
 
+	void CBatchSkinMesh::BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer)
+	{
+		ptrCommandBuffer->CmdBindDescriptorSetGraphics(m_ptrDescriptorSet);
+		ptrCommandBuffer->CmdBindVertexBuffer(m_ptrBatchBuffer);
+		ptrCommandBuffer->CmdDrawIndexed(m_indexCount, m_pDrawables.size(), m_indexOffset, m_vertexOffset, m_instanceOffset);
+	}
+
 }

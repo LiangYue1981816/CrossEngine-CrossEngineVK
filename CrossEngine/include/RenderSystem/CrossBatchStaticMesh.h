@@ -50,6 +50,7 @@ namespace CrossEngine {
 
 	protected:
 		virtual void UpdateBatchBuffer(void);
+		virtual void BuildCommandBuffer(CGfxCommandBufferPtr &ptrCommandBuffer);
 
 
 	protected:
