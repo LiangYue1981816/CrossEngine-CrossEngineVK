@@ -246,7 +246,7 @@ namespace CrossEngine {
 
 				event_signal(&pThreadCluster->eventReady);
 				event_wait(&pThreadCluster->eventReady);
-				/*
+
 				{
 					uint32_t thread = thread_id() + (uint32_t)pRenderer;
 					uint32_t frame = GfxSwapChain()->GetImageIndex();
@@ -255,6 +255,7 @@ namespace CrossEngine {
 					GfxDevice()->AllocCommandBufferPool(pool);
 					GfxDevice()->ResetCommandBufferPool(pool);
 
+					/*
 					int numCommandBuffers = 0;
 					CommandBufferSet &ptrSecondaryCommandBuffers = pRenderer->m_ptrSecondaryCommandBuffers[thread][frame];
 
@@ -287,8 +288,8 @@ namespace CrossEngine {
 						ptrSecondaryCommandBuffers[numCommandBuffers]->ClearCommands();
 						pRenderer->m_pBatchParticals[index]->BuildCommandBuffer(pRenderer->m_pCamera, ptrSecondaryCommandBuffers[numCommandBuffers], pRenderer->m_ptrFrameBuffer, pRenderer->m_ptrRenderPass);
 					}
+					*/
 				}
-				*/
 			}
 			event_reset(&pThreadCluster->eventDispatch);
 			event_signal(&pThreadCluster->eventFinish);
