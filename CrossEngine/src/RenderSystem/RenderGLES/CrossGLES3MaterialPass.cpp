@@ -100,16 +100,18 @@ namespace CrossEngine {
 
 	void CGLES3MaterialPass::UpdateDescriptorSet(void)
 	{
-		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_PASS, m_ptrPipeline);
-		{
-			for (const auto &itTexture : m_ptrTextures) {
-				m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
-			}
-
-			for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
-				m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
-			}
+		if (m_ptrDescriptorSet.IsNull()) {
+			m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_PASS, m_ptrPipeline);
 		}
+
+		for (const auto &itTexture : m_ptrTextures) {
+			m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
+		}
+
+		for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
+			m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
+		}
+
 		m_ptrDescriptorSet->UpdateDescriptorSets();
 	}
 
