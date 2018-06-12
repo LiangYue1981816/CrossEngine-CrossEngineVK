@@ -139,7 +139,7 @@ namespace CrossEngine {
 				write.dstBinding = binding;
 				write.dstArrayElement = 0;
 				write.descriptorCount = 1;
-				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+				write.descriptorType = ptrUniformBuffer->IsDynamic() ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC : VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				write.pImageInfo = NULL;
 				write.pBufferInfo = &((CVulkanUniformBuffer *)((CGfxUniformBuffer *)ptrUniformBuffer))->GetDescriptorBufferInfo();
 				write.pTexelBufferView = NULL;
