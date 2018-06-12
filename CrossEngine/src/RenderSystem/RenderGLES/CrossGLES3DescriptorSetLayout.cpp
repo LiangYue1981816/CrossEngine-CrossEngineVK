@@ -69,7 +69,7 @@ namespace CrossEngine {
 	BOOL CGLES3DescriptorSetLayout::SetUniformBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags)
 	{
 		uint32_t dwName = HashValue(szName);
-		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+		VkDescriptorType type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 
 		if (m_nameBindings.find(dwName) == m_nameBindings.end()) {
 			m_nameBindings[dwName] = binding;

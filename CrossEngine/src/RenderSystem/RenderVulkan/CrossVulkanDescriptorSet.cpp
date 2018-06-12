@@ -80,7 +80,6 @@ namespace CrossEngine {
 	{
 		m_bNeedUpdate = TRUE;
 		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
-		m_uniformBufferOffsets[binding] = 0;
 	}
 
 	void CVulkanDescriptorSet::UpdateDescriptorSets(void)
@@ -139,7 +138,7 @@ namespace CrossEngine {
 				write.dstBinding = binding;
 				write.dstArrayElement = 0;
 				write.descriptorCount = 1;
-				write.descriptorType = ptrUniformBuffer->IsDynamic() ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC : VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				write.pImageInfo = NULL;
 				write.pBufferInfo = &((CVulkanUniformBuffer *)((CGfxUniformBuffer *)ptrUniformBuffer))->GetDescriptorBufferInfo();
 				write.pTexelBufferView = NULL;
@@ -154,21 +153,8 @@ namespace CrossEngine {
 	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
 	{
 		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
-			uint32_t base = m_ptrUniformBuffers[binding]->IsDynamic() ? GfxSwapChain()->GetImageIndex() * ALIGN_BYTE(m_ptrUniformBuffers[binding]->GetBufferSize(), UNIFORM_BUFFER_ALIGNMENT) : 0;
-			m_ptrUniformBuffers[binding]->SetData(base + offset, size, pBuffer);
-			m_uniformBufferOffsets[binding] = base;
+			m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
 		}
-	}
-
-	const std::vector<uint32_t> CVulkanDescriptorSet::GetUniformBufferOffsets(void) const
-	{
-		std::vector<uint32_t> offsets;
-
-		for (const auto &itOffset : m_uniformBufferOffsets) {
-			offsets.push_back(itOffset.second);
-		}
-
-		return offsets;
 	}
 
 	const uint32_t CVulkanDescriptorSet::GetSet(void) const

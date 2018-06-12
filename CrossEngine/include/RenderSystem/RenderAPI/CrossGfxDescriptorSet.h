@@ -55,7 +55,6 @@ namespace CrossEngine {
 
 	public:
 		virtual void SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer) = 0;
-		virtual const std::vector<uint32_t> GetUniformBufferOffsets(void) const = 0;
 	};
 
 	class CROSS_EXPORT CGfxDescriptorSetPtr : public CSharedPtr<CGfxDescriptorSet>

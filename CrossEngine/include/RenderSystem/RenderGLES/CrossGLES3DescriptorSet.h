@@ -51,7 +51,6 @@ namespace CrossEngine {
 
 	public:
 		void SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer);
-		const std::vector<uint32_t> GetUniformBufferOffsets(void) const;
 
 	public:
 		const CGfxTexturePtr& GetTexture(uint32_t binding) const;
