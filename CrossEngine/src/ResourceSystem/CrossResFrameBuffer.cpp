@@ -84,12 +84,6 @@ namespace CrossEngine {
 
 		m_ptrFrameBuffer = GfxDevice()->NewFrameBuffer(m_ptrRenderPass->GetRenderPass()->GetAttachmentCount());
 		{
-			for (int index = 0; index < m_param.attachmentPresents.size(); index++) {
-				if (m_ptrFrameBuffer->SetPresentAttachment(m_param.attachmentPresents[index].indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.attachmentPresents[index].indexSurface)) == FALSE) {
-					return FALSE;
-				}
-			}
-
 			for (int index = 0; index < m_param.attachmentColors.size(); index++) {
 				if (m_param.attachmentColors[index].ptrRenderTexture->IsValid() == FALSE) {
 					return FALSE;
@@ -138,12 +132,6 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Presents")) {
-			if (LoadAttachmentPresents(pAttachmentNodes)) {
-				rcode = TRUE;
-			}
-		}
-
 		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Colors")) {
 			if (LoadAttachmentColors(pAttachmentNodes, bSyncPostLoad)) {
 				rcode = TRUE;
@@ -163,24 +151,6 @@ namespace CrossEngine {
 	{
 		m_param.dwRenderPassName = HashValue(pRenderPassNode->ToElement()->AttributeString("name"));
 		return TRUE;
-	}
-
-	BOOL CResFrameBuffer::LoadAttachmentPresents(TiXmlNode *pAttachmentNodes)
-	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
-			do {
-				AttachmentPresentParam param;
-				{
-					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
-					param.indexSurface = pAttachmentNode->ToElement()->AttributeInt1("index_surface");
-				}
-				m_param.attachmentPresents.push_back(param);
-			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
-
-			return TRUE;
-		}
-
-		return FALSE;
 	}
 
 	BOOL CResFrameBuffer::LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad)

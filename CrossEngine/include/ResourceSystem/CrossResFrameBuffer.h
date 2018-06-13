@@ -32,11 +32,6 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct AttachmentPresentParam {
-			uint32_t indexAttachment;
-			uint32_t indexSurface;
-		} AttachmentPresentParam;
-
 		typedef struct AttachmentRenderTextureParam {
 			uint32_t indexAttachment;
 			CResRenderTexturePtr ptrRenderTexture;
@@ -44,7 +39,6 @@ namespace CrossEngine {
 
 		typedef struct FrameBufferParam {
 			uint32_t dwRenderPassName;
-			std::vector<AttachmentPresentParam> attachmentPresents;
 			std::vector<AttachmentRenderTextureParam> attachmentColors;
 			std::vector<AttachmentRenderTextureParam> attachmentDepthStencils;
 		} FrameBufferParam;
@@ -72,7 +66,6 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadFrameBuffer(TiXmlNode *pFrameBufferNode, BOOL bSyncPostLoad);
 		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
-		BOOL LoadAttachmentPresents(TiXmlNode *pAttachmentNodes);
 		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad);
 		BOOL LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad);
 
