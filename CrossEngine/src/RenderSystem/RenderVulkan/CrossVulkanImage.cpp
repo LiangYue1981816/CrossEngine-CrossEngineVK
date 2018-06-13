@@ -170,6 +170,10 @@ namespace CrossEngine {
 			}
 		}
 
+		if (createInfo.usage &  VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT) {
+			createInfo.usage &= VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT;
+		}
+
 		if (createInfo.tiling == VK_IMAGE_TILING_LINEAR) {
 			createInfo.mipLevels = 1;
 			createInfo.arrayLayers = 1;
