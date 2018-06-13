@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include "CrossRenderer.h"
 #include "CrossCamera.h"
 #include "CrossCameraManager.h"
+#include "CrossScreen.h"
 
 
 namespace CrossEngine {
