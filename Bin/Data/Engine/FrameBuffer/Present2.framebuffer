@@ -1,0 +1,9 @@
+<FrameBuffer>
+	<RenderPass name="ForwardPresent.renderpass" />
+	<Present>
+		<Attachment index="0" index_swapchain_image="2" />
+	</Present>
+	<DepthStencil>
+		<Attachment index="1" format="VK_FORMAT_D24_UNORM_S8_UINT" />
+	</DepthStencil>
+</FrameBuffer>
