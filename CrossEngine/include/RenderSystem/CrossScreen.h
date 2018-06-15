@@ -28,15 +28,12 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CScreen
 	{
-		friend class CRenderSystem;
-
-
-	protected:
+	public:
 		CScreen(void);
 		virtual ~CScreen(void);
 
 
-	protected:
+	public:
 		BOOL Create(const CGfxRenderPassPtr &ptrRenderPass);
 		void Destroy(void);
 
