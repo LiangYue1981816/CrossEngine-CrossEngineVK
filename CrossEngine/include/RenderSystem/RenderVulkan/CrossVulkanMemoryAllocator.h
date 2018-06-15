@@ -41,7 +41,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkDeviceSize memoryAlignment, VkMemoryPropertyFlags memoryPropertyFlags);
+		CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkDeviceSize memoryAlignment);
 		virtual ~CVulkanMemoryAllocator(void);
 
 
@@ -60,6 +60,7 @@ namespace CrossEngine {
 		BOOL IsEmpty(void) const;
 		uint32_t GetMemoryAlignment(void) const;
 		uint32_t GetMemoryTypeIndex(void) const;
+		VkMemoryPropertyFlags GetMemoryPropertyFlags(void) const;
 
 	protected:
 		VkDeviceSize GetFullSize(void) const;
@@ -71,7 +72,6 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_type;
-		VkFlags m_flags;
 		VkDeviceSize m_size;
 		VkDeviceSize m_full;
 		VkDeviceSize m_alignment;

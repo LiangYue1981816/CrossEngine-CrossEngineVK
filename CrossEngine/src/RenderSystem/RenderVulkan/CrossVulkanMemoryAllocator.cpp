@@ -27,14 +27,13 @@ namespace CrossEngine {
 
 	#define NODE_INDEX(size) (((size) / m_alignment) - 1)
 
-	CVulkanMemoryAllocator::CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkDeviceSize memoryAlignment, VkMemoryPropertyFlags memoryPropertyFlags)
+	CVulkanMemoryAllocator::CVulkanMemoryAllocator(CVulkanDevice *pDevice, uint32_t memoryTypeIndex, VkDeviceSize memorySize, VkDeviceSize memoryAlignment)
 		: m_pDevice(pDevice)
 		, m_vkMemory(VK_NULL_HANDLE)
 
 		, m_size(memorySize)
 		, m_full(memorySize)
 		, m_type(memoryTypeIndex)
-		, m_flags(memoryPropertyFlags)
 		, m_alignment(memoryAlignment)
 
 		, m_root{ NULL }
@@ -52,7 +51,7 @@ namespace CrossEngine {
 		vkAllocateMemory(m_pDevice->GetDevice(), &allocInfo, ((CVulkanInstance *)m_pDevice->GetInstance())->GetAllocator()->GetAllocationCallbacks(), &m_vkMemory);
 
 		m_nodes = SAFE_NEW mem_node[m_full / m_alignment];
-		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, m_full, 0, m_alignment);
+		m_pListHead = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_pDevice->GetPhysicalDeviceMemoryProperties().memoryTypes[m_type].propertyFlags, m_full, 0, m_alignment);
 
 		InitNodes(m_full / m_alignment);
 		InsertMemory(m_pListHead);
@@ -94,7 +93,7 @@ namespace CrossEngine {
 				RemoveMemory(pMemory);
 
 				if (pMemory->m_size >= size + m_alignment) {
-					CVulkanMemory *pMemoryNext = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_flags, pMemory->m_size - size, pMemory->m_offset + size, m_alignment);
+					CVulkanMemory *pMemoryNext = SAFE_NEW CVulkanMemory(this, m_pDevice, m_vkMemory, m_pDevice->GetPhysicalDeviceMemoryProperties().memoryTypes[m_type].propertyFlags, pMemory->m_size - size, pMemory->m_offset + size, m_alignment);
 					{
 						pMemoryNext->pNext = pMemory->pNext;
 						pMemoryNext->pPrev = pMemory;
@@ -272,6 +271,11 @@ namespace CrossEngine {
 		return m_type;
 	}
 
+	VkMemoryPropertyFlags CVulkanMemoryAllocator::GetMemoryPropertyFlags(void) const
+	{
+		return m_pDevice->GetPhysicalDeviceMemoryProperties().memoryTypes[m_type].propertyFlags;
+	}
+
 	VkDeviceSize CVulkanMemoryAllocator::GetFullSize(void) const
 	{
 		return m_full;
@@ -285,9 +289,9 @@ namespace CrossEngine {
 	void CVulkanMemoryAllocator::DumpLog(void) const
 	{
 		LOGI("\t\t\tAllocator: host = %s coherent = %s cached = %s size = %d full = %d\n", 
-			m_flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT ? "true" : "false",
-			m_flags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT ? "true" : "false",
-			m_flags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "true" : "false",
+			GetMemoryPropertyFlags() & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT ? "true" : "false",
+			GetMemoryPropertyFlags() & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT ? "true" : "false",
+			GetMemoryPropertyFlags() & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "true" : "false",
 			GetAllocatedSize(), 
 			GetFullSize());
 	}
