@@ -32,6 +32,16 @@ namespace CrossEngine {
 
 
 	protected:
+		typedef struct AttachmentPresentParam {
+			uint32_t indexAttachment;
+			uint32_t indexSwapchainImage;
+		} AttachmentPresentParam;
+
+		typedef struct AttachmentDepthStencilParam {
+			uint32_t indexAttachment;
+			VkFormat format;
+		} AttachmentDepthStencilParam;
+
 		typedef struct AttachmentRenderTextureParam {
 			uint32_t indexAttachment;
 			CResRenderTexturePtr ptrRenderTexture;
@@ -39,8 +49,9 @@ namespace CrossEngine {
 
 		typedef struct FrameBufferParam {
 			uint32_t dwRenderPassName;
+			AttachmentPresentParam attachmentPresent;
+			AttachmentDepthStencilParam attachmentDepthStencil;
 			std::vector<AttachmentRenderTextureParam> attachmentColors;
-			std::vector<AttachmentRenderTextureParam> attachmentDepthStencils;
 		} FrameBufferParam;
 
 
@@ -66,8 +77,9 @@ namespace CrossEngine {
 	protected:
 		BOOL LoadFrameBuffer(TiXmlNode *pFrameBufferNode, BOOL bSyncPostLoad);
 		BOOL LoadRenderPass(TiXmlNode *pRenderPassNode);
+		BOOL LoadAttachmentPresent(TiXmlNode *pAttachmentNodes);
+		BOOL LoadAttachmentDepthStencil(TiXmlNode *pAttachmentNodes);
 		BOOL LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad);
-		BOOL LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad);
 
 
 	protected:
@@ -76,6 +88,7 @@ namespace CrossEngine {
 	protected:
 		CResRenderPassPtr m_ptrRenderPass;
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
+		CGfxRenderTexturePtr m_ptrDepthStencilTexture;
 	};
 
 }

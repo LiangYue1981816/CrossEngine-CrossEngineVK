@@ -28,7 +28,11 @@ namespace CrossEngine {
 	CResFrameBuffer::CResFrameBuffer(CResourceManager *pResourceManager)
 		: CResource(pResourceManager)
 	{
+		m_param.attachmentPresent.indexAttachment = -1;
+		m_param.attachmentPresent.indexSwapchainImage = -1;
 
+		m_param.attachmentDepthStencil.indexAttachment = -1;
+		m_param.attachmentDepthStencil.format = VK_FORMAT_D24_UNORM_S8_UINT;
 	}
 
 	CResFrameBuffer::~CResFrameBuffer(void)
@@ -94,12 +98,21 @@ namespace CrossEngine {
 				}
 			}
 
-			for (int index = 0; index < m_param.attachmentDepthStencils.size(); index++) {
-				if (m_param.attachmentDepthStencils[index].ptrRenderTexture->IsValid() == FALSE) {
+			if (m_param.attachmentPresent.indexAttachment >= 0 &&
+				m_param.attachmentPresent.indexSwapchainImage >= 0 && m_param.attachmentPresent.indexSwapchainImage < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT) {
+				if (m_ptrFrameBuffer->SetPresentAttachment(m_param.attachmentPresent.indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.attachmentPresent.indexSwapchainImage))) {
+					return FALSE;
+				}
+			}
+
+			if (m_param.attachmentDepthStencil.indexAttachment >= 0) {
+				m_ptrDepthStencilTexture = GfxDevice()->NewRenderTexture();
+
+				if (m_ptrDepthStencilTexture->CreateDepthStencilTarget(m_param.attachmentDepthStencil.format, m_ptrFrameBuffer->GetWidth(), m_ptrFrameBuffer->GetHeight(), VK_SAMPLE_COUNT_1_BIT, VK_FILTER_LINEAR, VK_FILTER_LINEAR, VK_SAMPLER_MIPMAP_MODE_NEAREST, VK_SAMPLER_ADDRESS_MODE_REPEAT) == FALSE) {
 					return FALSE;
 				}
 
-				if (m_ptrFrameBuffer->SetDepthStencilAttachment(m_param.attachmentDepthStencils[index].indexAttachment, m_param.attachmentDepthStencils[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
+				if (m_ptrFrameBuffer->SetDepthStencilAttachment(1, m_ptrDepthStencilTexture) == FALSE) {
 					return FALSE;
 				}
 			}
@@ -111,6 +124,7 @@ namespace CrossEngine {
 	{
 		m_ptrRenderPass.Release();
 		m_ptrFrameBuffer.Release();
+		m_ptrDepthStencilTexture.Release();
 		CResource::InternalLoadFail();
 	}
 
@@ -132,14 +146,20 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Colors")) {
-			if (LoadAttachmentColors(pAttachmentNodes, bSyncPostLoad)) {
+		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Present")) {
+			if (LoadAttachmentPresent(pAttachmentNodes)) {
 				rcode = TRUE;
 			}
 		}
 
-		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("DepthStencils")) {
-			if (LoadAttachmentDepthStencils(pAttachmentNodes, bSyncPostLoad)) {
+		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("DepthStencil")) {
+			if (LoadAttachmentDepthStencil(pAttachmentNodes)) {
+				rcode = TRUE;
+			}
+		}
+
+		if (TiXmlNode *pAttachmentNodes = pFrameBufferNode->FirstChild("Colors")) {
+			if (LoadAttachmentColors(pAttachmentNodes, bSyncPostLoad)) {
 				rcode = TRUE;
 			}
 		}
@@ -153,6 +173,30 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CResFrameBuffer::LoadAttachmentPresent(TiXmlNode *pAttachmentNodes)
+	{
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
+			m_param.attachmentPresent.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+			m_param.attachmentPresent.indexSwapchainImage = pAttachmentNode->ToElement()->AttributeInt1("index_swapchain_image");
+
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	BOOL CResFrameBuffer::LoadAttachmentDepthStencil(TiXmlNode *pAttachmentNodes)
+	{
+		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
+			m_param.attachmentDepthStencil.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
+			m_param.attachmentDepthStencil.format = CVulkanHelper::StringToFormat(pAttachmentNode->ToElement()->AttributeString("format"));
+
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 	BOOL CResFrameBuffer::LoadAttachmentColors(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad)
 	{
 		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
@@ -164,25 +208,6 @@ namespace CrossEngine {
 					if (param.ptrRenderTexture.IsNull()) return FALSE;
 				}
 				m_param.attachmentColors.push_back(param);
-			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
-
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	BOOL CResFrameBuffer::LoadAttachmentDepthStencils(TiXmlNode *pAttachmentNodes, BOOL bSyncPostLoad)
-	{
-		if (TiXmlNode *pAttachmentNode = pAttachmentNodes->FirstChild("Attachment")) {
-			do {
-				AttachmentRenderTextureParam param;
-				{
-					param.indexAttachment = pAttachmentNode->ToElement()->AttributeInt1("index");
-					param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
-					if (param.ptrRenderTexture.IsNull()) return FALSE;
-				}
-				m_param.attachmentDepthStencils.push_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 
 			return TRUE;
