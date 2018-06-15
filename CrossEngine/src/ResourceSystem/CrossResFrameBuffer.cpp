@@ -100,7 +100,7 @@ namespace CrossEngine {
 
 			if (m_param.attachmentPresent.indexAttachment >= 0 &&
 				m_param.attachmentPresent.indexSwapchainImage >= 0 && m_param.attachmentPresent.indexSwapchainImage < CGfxSwapchain::SWAPCHAIN_IMAGE_COUNT) {
-				if (m_ptrFrameBuffer->SetPresentAttachment(m_param.attachmentPresent.indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.attachmentPresent.indexSwapchainImage))) {
+				if (m_ptrFrameBuffer->SetPresentAttachment(m_param.attachmentPresent.indexAttachment, GfxSwapChain()->GetFormat(), GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight(), GfxSwapChain()->GetImageHandle(m_param.attachmentPresent.indexSwapchainImage)) == FALSE) {
 					return FALSE;
 				}
 			}
