@@ -65,8 +65,18 @@ namespace CrossEngine {
 		CALL_BOOL_FUNCTION_RETURN(CreateLightManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateCameraManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateDrawableManager());
+		CALL_BOOL_FUNCTION_RETURN(CreateBatchBuffer());
 
 		return TRUE;
+	}
+
+	void CRenderSystem::Destroy(void)
+	{
+		DestroyBatchBuffer();
+		DestroyDrawableManager();
+		DestroyCameraManager();
+		DestroyLightManager();
+		DestroyGfx();
 	}
 
 	BOOL CRenderSystem::CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
@@ -106,16 +116,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	void CRenderSystem::Destroy(void)
+	BOOL CRenderSystem::CreateBatchBuffer(void)
 	{
-		CBatchPartical::DestroyBatchBuffer();
-		CBatchSkinMesh::DestroyBatchBuffer();
-		CBatchStaticMesh::DestroyBatchBuffer();
-
-		DestroyDrawableManager();
-		DestroyCameraManager();
-		DestroyLightManager();
-		DestroyGfx();
+		CBatchPartical::CreateBatchBuffer();
+		CBatchSkinMesh::CreateBatchBuffer();
+		CBatchStaticMesh::CreateBatchBuffer();
+		return TRUE;
 	}
 
 	void CRenderSystem::DestroyGfx(void)
@@ -144,6 +150,13 @@ namespace CrossEngine {
 	void CRenderSystem::DestroyDrawableManager(void)
 	{
 		SAFE_DELETE(m_pDrawableManager);
+	}
+
+	void CRenderSystem::DestroyBatchBuffer(void)
+	{
+		CBatchPartical::DestroyBatchBuffer();
+		CBatchSkinMesh::DestroyBatchBuffer();
+		CBatchStaticMesh::DestroyBatchBuffer();
 	}
 
 	CCamera* CRenderSystem::GetCamera(uint32_t dwName)

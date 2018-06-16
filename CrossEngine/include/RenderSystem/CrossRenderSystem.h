@@ -86,12 +86,14 @@ namespace CrossEngine {
 		BOOL CreateLightManager(void);
 		BOOL CreateCameraManager(void);
 		BOOL CreateDrawableManager(void);
+		BOOL CreateBatchBuffer(void);
 
 		void Destroy(void);
 		void DestroyGfx(void);
 		void DestroyLightManager(void);
 		void DestroyCameraManager(void);
 		void DestroyDrawableManager(void);
+		void DestroyBatchBuffer(void);
 
 	public:
 		GFX_API GetAPI(void) const;

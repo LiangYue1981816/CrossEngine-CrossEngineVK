@@ -56,12 +56,15 @@ namespace CrossEngine {
 
 		size_t instanceBufferSize = m_batchs.size() * sizeof(BatchData);
 
-		if (m_ptrBatchBuffer->GetBufferSize() < instanceBufferSize) {
+		if (m_ptrBatchBuffer->GetBufferSize() == 0 ||
+			m_ptrBatchBuffer->GetBufferSize() < instanceBufferSize) {
 			m_ptrBatchBuffer->Destroy();
 			m_ptrBatchBuffer->Create(FitBufferSize(instanceBufferSize), NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
 		}
 
-		m_ptrBatchBuffer->SetData(0, instanceBufferSize, m_batchs.data());
+		if (instanceBufferSize > 0) {
+			m_ptrBatchBuffer->SetData(0, instanceBufferSize, m_batchs.data());
+		}
 	}
 
 	void CBatchStaticMesh::DestroyBatchBuffer(void)
