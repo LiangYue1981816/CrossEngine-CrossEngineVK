@@ -23,6 +23,7 @@ THE SOFTWARE.
 #pragma once
 #include "CrossEngine.h"
 #include "CrossRenderSystemDefinition.h"
+#include "CrossRenderer.h"
 #include "CrossDrawable.h"
 #include "CrossDrawablePartical.h"
 #include "CrossDrawableSkinMesh.h"
@@ -32,9 +33,9 @@ THE SOFTWARE.
 #include "CrossBatchPartical.h"
 #include "CrossBatchSkinMesh.h"
 #include "CrossBatchStaticMesh.h"
-#include "CrossRenderer.h"
 #include "CrossCamera.h"
 #include "CrossCameraManager.h"
+#include "CrossLightManager.h"
 
 
 namespace CrossEngine {
@@ -82,11 +83,13 @@ namespace CrossEngine {
 	protected:
 		BOOL Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		BOOL CreateLightManager(void);
 		BOOL CreateCameraManager(void);
 		BOOL CreateDrawableManager(void);
 
 		void Destroy(void);
 		void DestroyGfx(void);
+		void DestroyLightManager(void);
 		void DestroyCameraManager(void);
 		void DestroyDrawableManager(void);
 
@@ -118,6 +121,7 @@ namespace CrossEngine {
 		CGfxSwapchain *m_pGfxSwapchain;
 
 	protected:
+		CLightManager * m_pLightManager;
 		CCameraManager *m_pCameraManager;
 		CDrawableManager *m_pDrawableManager;
 	};

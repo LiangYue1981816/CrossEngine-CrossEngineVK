@@ -26,17 +26,14 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRenderSystem;
-	class CROSS_EXPORT CRenderer;
-	class CROSS_EXPORT CDrawable;
-	class CROSS_EXPORT CDrawableStaticMesh;
-	class CROSS_EXPORT CDrawableManager;
-	class CROSS_EXPORT CBatch;
-	class CROSS_EXPORT CBatchPartical;
-	class CROSS_EXPORT CBatchSkinMesh;
-	class CROSS_EXPORT CBatchStaticMesh;
-	class CROSS_EXPORT CCamera;
-	class CROSS_EXPORT CCameraManager;
-	class CROSS_EXPORT CLightManager;
+	class CROSS_EXPORT CLightManager
+	{
+		friend class CRenderSystem;
+
+
+	protected:
+		CLightManager(void);
+		virtual ~CLightManager(void);
+	};
 
 }

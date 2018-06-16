@@ -32,6 +32,7 @@ namespace CrossEngine {
 		, m_pGfxDevice(NULL)
 		, m_pGfxSwapchain(NULL)
 
+		, m_pLightManager(NULL)
 		, m_pCameraManager(NULL)
 		, m_pDrawableManager(NULL)
 	{
@@ -61,6 +62,7 @@ namespace CrossEngine {
 	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CreateGfx(api, hInstance, hWnd, hDC, width, height, transform));
+		CALL_BOOL_FUNCTION_RETURN(CreateLightManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateCameraManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateDrawableManager());
 
@@ -86,6 +88,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CRenderSystem::CreateLightManager(void)
+	{
+		m_pLightManager = SAFE_NEW CLightManager;
+		return TRUE;
+	}
+
 	BOOL CRenderSystem::CreateCameraManager(void)
 	{
 		m_pCameraManager = SAFE_NEW CCameraManager;
@@ -106,6 +114,7 @@ namespace CrossEngine {
 
 		DestroyDrawableManager();
 		DestroyCameraManager();
+		DestroyLightManager();
 		DestroyGfx();
 	}
 
@@ -120,6 +129,11 @@ namespace CrossEngine {
 		m_api = GFX_API_NONE;
 		m_pGfxDevice = NULL;
 		m_pGfxSwapchain = NULL;
+	}
+
+	void CRenderSystem::DestroyLightManager(void)
+	{
+		SAFE_DELETE(m_pLightManager);
 	}
 
 	void CRenderSystem::DestroyCameraManager(void)

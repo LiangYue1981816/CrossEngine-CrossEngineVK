@@ -804,6 +804,9 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorPoolManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossLightManager.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -1291,6 +1294,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorPoolManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossLightManager.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
