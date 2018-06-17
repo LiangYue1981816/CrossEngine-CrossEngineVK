@@ -189,14 +189,34 @@ namespace CrossEngine {
 		m_pDrawableManager->FreeDrawableAll();
 	}
 
+	void CRenderSystem::SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9])
+	{
+		m_pLightManager->SetAmbientColor(shRed, shGreen, shBlue);
+	}
+
+	void CRenderSystem::SetAmbientRotation(const glm::mat4 &mtxRotation)
+	{
+		m_pLightManager->SetAmbientRotation(mtxRotation);
+	}
+
+	void CRenderSystem::SetDirectionLightColor(float red, float green, float blue)
+	{
+		m_pLightManager->SetDirectionLightColor(red, green, blue);
+	}
+
+	void CRenderSystem::SetDirectionLightDirection(float x, float y, float z)
+	{
+		m_pLightManager->SetDirectionLightDirection(x, y, z);
+	}
+
 	void CRenderSystem::Update(void)
 	{
 		m_pCameraManager->Update();
 	}
 
-	void CRenderSystem::Render(uint32_t dwName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	void CRenderSystem::Render(uint32_t dwCameraName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		m_pCameraManager->Render(dwName, ptrFrameBuffer, ptrRenderPass);
+		m_pCameraManager->Render(dwCameraName, ptrFrameBuffer, ptrRenderPass);
 	}
 
 }

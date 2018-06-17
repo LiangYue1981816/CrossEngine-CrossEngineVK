@@ -111,8 +111,15 @@ namespace CrossEngine {
 		void FreeDrawableAll(void);
 
 	public:
+		void SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9]);
+		void SetAmbientRotation(const glm::mat4 &mtxRotation);
+
+		void SetDirectionLightColor(float red, float green, float blue);
+		void SetDirectionLightDirection(float x, float y, float z);
+
+	public:
 		void Update(void);
-		void Render(uint32_t dwName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void Render(uint32_t dwCameraName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 
 
 	protected:
