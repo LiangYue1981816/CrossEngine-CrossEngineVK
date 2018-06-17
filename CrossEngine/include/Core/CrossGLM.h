@@ -91,7 +91,7 @@ namespace glm {
 			float dis = distance(_vertex);
 
 			if (dis < -0.001f) return -1;
-			if (dis > 0.001f) return  1;
+			if (dis >  0.001f) return  1;
 
 			return 0;
 		}
@@ -113,17 +113,17 @@ namespace glm {
 	public:
 		static aabb create(const vec3 *vertices, size_t count)
 		{
-			vec3 minVertex(FLT_MAX, FLT_MAX, FLT_MAX);
+			vec3 minVertex( FLT_MAX,  FLT_MAX,  FLT_MAX);
 			vec3 maxVertex(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
-			for (size_t index = 0; index < count; index++) {
-				if (minVertex.x > vertices[index].x) minVertex.x = vertices[index].x;
-				if (minVertex.y > vertices[index].y) minVertex.y = vertices[index].y;
-				if (minVertex.z > vertices[index].z) minVertex.z = vertices[index].z;
+			for (int indexVertex = 0; indexVertex < count; indexVertex++) {
+				if (minVertex.x > vertices[indexVertex].x) minVertex.x = vertices[indexVertex].x;
+				if (minVertex.y > vertices[indexVertex].y) minVertex.y = vertices[indexVertex].y;
+				if (minVertex.z > vertices[indexVertex].z) minVertex.z = vertices[indexVertex].z;
 
-				if (maxVertex.x < vertices[index].x) maxVertex.x = vertices[index].x;
-				if (maxVertex.y < vertices[index].y) maxVertex.y = vertices[index].y;
-				if (maxVertex.z < vertices[index].z) maxVertex.z = vertices[index].z;
+				if (maxVertex.x < vertices[indexVertex].x) maxVertex.x = vertices[indexVertex].x;
+				if (maxVertex.y < vertices[indexVertex].y) maxVertex.y = vertices[indexVertex].y;
+				if (maxVertex.z < vertices[indexVertex].z) maxVertex.z = vertices[indexVertex].z;
 			}
 
 			return aabb(minVertex, maxVertex);
@@ -234,6 +234,106 @@ namespace glm {
 		vec3 maxVertex;
 	} aabb;
 
+	typedef struct sphere {
+	public:
+		static sphere create(const vec3 *vertices, size_t count)
+		{
+			vec3 minVertex( FLT_MAX,  FLT_MAX,  FLT_MAX);
+			vec3 maxVertex(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+			for (int indexVertex = 0; indexVertex < count; indexVertex++) {
+				if (minVertex.x > vertices[indexVertex].x) minVertex.x = vertices[indexVertex].x;
+				if (minVertex.y > vertices[indexVertex].y) minVertex.y = vertices[indexVertex].y;
+				if (minVertex.z > vertices[indexVertex].z) minVertex.z = vertices[indexVertex].z;
+
+				if (maxVertex.x < vertices[indexVertex].x) maxVertex.x = vertices[indexVertex].x;
+				if (maxVertex.y < vertices[indexVertex].y) maxVertex.y = vertices[indexVertex].y;
+				if (maxVertex.z < vertices[indexVertex].z) maxVertex.z = vertices[indexVertex].z;
+			}
+
+			return sphere(minVertex, maxVertex);
+		}
+
+	public:
+		sphere(void)
+		{
+
+		}
+
+		sphere(const sphere &_sphere)
+		{
+			center = _sphere.center;
+			radius = _sphere.radius;
+			radius2 = _sphere.radius2;
+		}
+
+		sphere(const vec3 &_center, float _radius)
+		{
+			center = _center;
+			radius = _radius;
+			radius2 = radius * radius;
+		}
+
+		sphere(const vec3 &_minVertex, const vec3 &_maxVertex)
+		{
+			center = (_maxVertex + _minVertex) / 2.0f;
+			radius = length(_maxVertex - _minVertex) / 2.0f;
+			radius2 = radius * radius;
+		}
+
+		sphere& operator = (const sphere &_sphere)
+		{
+			center = _sphere.center;
+			radius = _sphere.radius;
+			radius2 = _sphere.radius2;
+
+			return *this;
+		}
+
+		bool operator == (const sphere &_sphere)
+		{
+			if (center != _sphere.center) return false;
+			if (radius != _sphere.radius) return false;
+			return true;
+		}
+
+		bool operator != (const sphere &_sphere)
+		{
+			if (center == _sphere.center) return false;
+			if (radius == _sphere.radius) return false;
+			return true;
+		}
+
+		sphere& operator * (const mat4 &_mat4)
+		{
+			center = vec3(_mat4 * vec4(center, 1.0));
+			return *this;
+		}
+
+		sphere& operator *= (const mat4 &_mat4)
+		{
+			center = vec3(_mat4 * vec4(center, 1.0));
+			return *this;
+		}
+
+		bool inside(const vec3 &_vertex)
+		{
+			vec3 delta = center - _vertex;
+			return delta.x * delta.x + delta.y * delta.y + delta.z * delta.z < radius2;
+		}
+
+		bool intersect(const sphere &_sphere)
+		{
+			vec3 delta = center - _sphere.center;
+			return delta.x * delta.x + delta.y * delta.y + delta.z * delta.z < radius2 + _sphere.radius2;
+		}
+
+	public:
+		vec3 center;
+		float radius;
+		float radius2;
+	} sphere;
+
 	typedef struct camera {
 	public:
 		camera(void)
@@ -286,12 +386,9 @@ namespace glm {
 			mtxViewInverse = glm::inverse(mtxView);
 			mtxViewInverseTranspose = glm::transpose(mtxViewInverse);
 
-			planes[0][1] = planes[0][0] * mtxViewInverse;
-			planes[1][1] = planes[1][0] * mtxViewInverse;
-			planes[2][1] = planes[2][0] * mtxViewInverse;
-			planes[3][1] = planes[3][0] * mtxViewInverse;
-			planes[4][1] = planes[4][0] * mtxViewInverse;
-			planes[5][1] = planes[5][0] * mtxViewInverse;
+			for (int indexPlane = 0; indexPlane < 6; indexPlane++) {
+				planes[indexPlane][1] = planes[indexPlane][0] * mtxViewInverse;
+			}
 		}
 
 		vec3 worldToScreen(const vec3 &world)
@@ -306,12 +403,23 @@ namespace glm {
 
 		bool visible(const vec3 &_vertex)
 		{
-			if (planes[0][1].side(_vertex) == -1) return false;
-			if (planes[1][1].side(_vertex) == -1) return false;
-			if (planes[2][1].side(_vertex) == -1) return false;
-			if (planes[3][1].side(_vertex) == -1) return false;
-			if (planes[4][1].side(_vertex) == -1) return false;
-			if (planes[5][1].side(_vertex) == -1) return false;
+			for (int indexPlane = 0; indexPlane < 6; indexPlane++) {
+				if (planes[indexPlane][1].side(_vertex) == -1) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		bool visible(const sphere &_sphere)
+		{
+			for (int indexPlane = 0; indexPlane < 6; indexPlane++) {
+				if (planes[indexPlane][1].distance(_sphere.center) < -_sphere.radius) {
+					return false;
+				}
+			}
+
 			return true;
 		}
 
