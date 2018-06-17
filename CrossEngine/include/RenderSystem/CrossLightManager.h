@@ -34,6 +34,25 @@ namespace CrossEngine {
 	protected:
 		CLightManager(void);
 		virtual ~CLightManager(void);
+
+
+	public:
+		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
+
+	public:
+		void SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9]);
+		void SetAmbientRotation(float angle, float axisx, float axisy, float axisz);
+
+		void SetMainLightColor(float red, float green, float blue);
+		void SetMainLightDirection(float x, float y, float z);
+
+
+	protected:
+		CAmbientLight m_ambientLight;
+		CDirectionLight m_mainDirectionLight;
+
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
 	};
 
 }

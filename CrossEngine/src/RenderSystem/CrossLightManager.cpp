@@ -27,12 +27,49 @@ namespace CrossEngine {
 
 	CLightManager::CLightManager(void)
 	{
+		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_AMBIENT_LIGHT], DESCRIPTOR_BIND_AMBIENT_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_DIRECTION_LIGHT], DESCRIPTOR_BIND_DIRECTION_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
+		m_ptrDescriptorSetLayout->Create();
 
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_AMBIENT_LIGHT, m_ambientLight.GetUniformBuffer());
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECTION_LIGHT, m_mainDirectionLight.GetUniformBuffer());
+		m_ptrDescriptorSet->UpdateDescriptorSets();
 	}
 
 	CLightManager::~CLightManager(void)
 	{
 
+	}
+
+	const CGfxDescriptorSetPtr& CLightManager::GetDescriptorSet(void) const
+	{
+		return m_ptrDescriptorSet;
+	}
+
+	void CLightManager::SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9])
+	{
+		m_ambientLight.SetAmbient(shRed, shGreen, shBlue);
+		m_ambientLight.Apply();
+	}
+
+	void CLightManager::SetAmbientRotation(float angle, float axisx, float axisy, float axisz)
+	{
+		m_ambientLight.SetRotation(angle, axisx, axisy, axisz);
+		m_ambientLight.Apply();
+	}
+
+	void CLightManager::SetMainLightColor(float red, float green, float blue)
+	{
+		m_mainDirectionLight.SetColor(red, green, blue);
+		m_mainDirectionLight.Apply();
+	}
+
+	void CLightManager::SetMainLightDirection(float x, float y, float z)
+	{
+		m_mainDirectionLight.SetDirection(x, y, z);
+		m_mainDirectionLight.Apply();
 	}
 
 }
