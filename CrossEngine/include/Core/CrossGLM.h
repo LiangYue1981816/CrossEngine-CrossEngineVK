@@ -132,7 +132,9 @@ namespace glm {
 	public:
 		aabb(void)
 		{
-
+			center = glm::vec3(0.0f, 0.0f, 0.0f);
+			minVertex = glm::vec3(0.0f, 0.0f, 0.0f);
+			maxVertex = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 
 		aabb(const aabb &_aabb)
@@ -257,7 +259,9 @@ namespace glm {
 	public:
 		sphere(void)
 		{
-
+			center = glm::vec3(0.0f, 0.0f, 0.0f);
+			radius = 0.0f;
+			radius2 = 0.0f;
 		}
 
 		sphere(const sphere &_sphere)
