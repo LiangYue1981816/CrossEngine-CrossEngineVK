@@ -26,8 +26,7 @@
 #define DESCRIPTOR_BIND_CAMERA              0
 #define DESCRIPTOR_BIND_TRANSFORM           1
 #define DESCRIPTOR_BIND_AMBIENT_LIGHT       2
-#define DESCRIPTOR_BIND_POINT_LIGHT         3
-#define DESCRIPTOR_BIND_DIRECTION_LIGHT     4
+#define DESCRIPTOR_BIND_DIRECTION_LIGHT     3
 
 
 #define USE_ENGINE_CAMERA                                                      \

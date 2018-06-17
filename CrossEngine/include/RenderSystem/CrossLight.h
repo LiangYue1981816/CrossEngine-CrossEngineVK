@@ -36,7 +36,7 @@ namespace CrossEngine {
 			glm::vec4 shRed[3];
 			glm::vec4 shGreen[3];
 			glm::vec4 shBlue[3];
-			glm::mat4 rotationMatrix;
+			glm::mat4 mtxRotation;
 		} Params;
 
 
@@ -50,7 +50,7 @@ namespace CrossEngine {
 
 	public:
 		void SetAmbient(float shRed[9], float shGreen[9], float shBlue[9]);
-		void SetRotation(float angle, float axisx, float axisy, float axisz);
+		void SetRotation(const glm::mat4 &mtxRotation);
 		void Apply(void);
 
 

@@ -58,10 +58,10 @@ namespace CrossEngine {
 		m_params.shBlue[2] = glm::vec4(shBlue[6], shBlue[7], shBlue[8], 0.0);
 	}
 
-	void CAmbientLight::SetRotation(float angle, float axisx, float axisy, float axisz)
+	void CAmbientLight::SetRotation(const glm::mat4 &mtxRotation)
 	{
 		m_bDirty = TRUE;
-		m_params.rotationMatrix = glm::rotate(glm::mat4(), -angle, glm::vec3(axisx, axisy, axisz));
+		m_params.mtxRotation = mtxRotation;
 	}
 
 	void CAmbientLight::Apply(void)
