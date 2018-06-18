@@ -51,25 +51,21 @@ namespace CrossEngine {
 	void CLightManager::SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
 		m_ambientLight.SetAmbient(shRed, shGreen, shBlue);
-		m_ambientLight.Apply();
 	}
 
 	void CLightManager::SetAmbientRotation(const glm::mat4 &mtxRotation)
 	{
 		m_ambientLight.SetRotation(mtxRotation);
-		m_ambientLight.Apply();
 	}
 
 	void CLightManager::SetDirectionLightColor(float red, float green, float blue)
 	{
 		m_directionLight.SetColor(red, green, blue);
-		m_directionLight.Apply();
 	}
 
 	void CLightManager::SetDirectionLightDirection(float x, float y, float z)
 	{
 		m_directionLight.SetDirection(x, y, z);
-		m_directionLight.Apply();
 	}
 
 }

@@ -25,8 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CRenderer::CRenderer(CCamera *pCamera)
-		: m_pCamera(pCamera)
+	CRenderer::CRenderer(void)
 	{
 		CreateThread();
 	}
@@ -39,11 +38,11 @@ namespace CrossEngine {
 	void CRenderer::CreateThread(void)
 	{
 		event_init(&m_threadCluster.eventExit, 0);
-		event_init(&m_threadCluster.eventReady, 1);
 		event_init(&m_threadCluster.eventFinish, 1);
 		event_init(&m_threadCluster.eventDispatch, 0);
 
 		for (int index = 0; index < THREAD_COUNT; index++) {
+			m_threadCluster.params[index].pCamera = NULL;
 			m_threadCluster.params[index].pRenderer = this;
 			pthread_create(&m_threadCluster.threads[index], NULL, WorkThread, &m_threadCluster.params[index]);
 		}
@@ -59,31 +58,28 @@ namespace CrossEngine {
 		}
 
 		event_destroy(&m_threadCluster.eventExit);
-		event_destroy(&m_threadCluster.eventReady);
 		event_destroy(&m_threadCluster.eventFinish);
 		event_destroy(&m_threadCluster.eventDispatch);
 	}
 
-	void CRenderer::DispatchThread(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait)
+	void CRenderer::DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait)
 	{
-		const auto &itRenderPassQueue = m_queue.find(ptrRenderPass);
-		if (itRenderPassQueue == m_queue.end()) return;
+		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
+		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
 
 		int indexThread = 0;
 		for (const auto &itPass : itRenderPassQueue->second) {
 			for (const auto &itMaterialPipeline : itPass.second) {
-				PipelineParam param;
-				param.indexPass = itPass.first;
-				param.ptrMaterialPipeline = itMaterialPipeline.first;
-				m_threadCluster.params[indexThread % THREAD_COUNT].pipelines.push_back(param);
+				m_threadCluster.params[indexThread % THREAD_COUNT].pCamera = pCamera;
 				m_threadCluster.params[indexThread % THREAD_COUNT].ptrRenderPass = ptrRenderPass;
 				m_threadCluster.params[indexThread % THREAD_COUNT].ptrFrameBuffer = ptrFrameBuffer;
+				m_threadCluster.params[indexThread % THREAD_COUNT].pipelines.emplace_back(itPass.first, itMaterialPipeline.first);
+
 				indexThread++;
 			}
 		}
 
 		for (int index = 0; index < THREAD_COUNT; index++) {
-			event_unsignal(&m_threadCluster.eventReady);
 			event_unsignal(&m_threadCluster.eventFinish);
 		}
 
@@ -99,92 +95,23 @@ namespace CrossEngine {
 		event_wait(&m_threadCluster.eventFinish);
 
 		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
-			m_threadCluster.params[indexThread].pipelines.clear();
+			m_threadCluster.params[indexThread].pCamera = NULL;
 			m_threadCluster.params[indexThread].ptrRenderPass.Release();
 			m_threadCluster.params[indexThread].ptrFrameBuffer.Release();
+			m_threadCluster.params[indexThread].pipelines.clear();
 		}
 	}
 
-	void CRenderer::Clear(void)
+	void CRenderer::BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		for (int index = 0; index < m_pBatchParticals.size(); index++) {
-			SAFE_DELETE(m_pBatchParticals[index]);
-		}
-
-		for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
-			SAFE_DELETE(m_pBatchSkinMeshs[index]);
-		}
-
-		for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
-			SAFE_DELETE(m_pBatchStaticMeshs[index]);
-		}
-
-		m_queue.clear();
-		m_pBatchParticals.clear();
-		m_pBatchSkinMeshs.clear();
-		m_pBatchStaticMeshs.clear();
+		DispatchThread(pCamera, ptrFrameBuffer, ptrRenderPass, TRUE);
+		BuildMainCommandBuffer(pCamera, ptrFrameBuffer, ptrRenderPass);
 	}
 
-	void CRenderer::AddDrawable(const CDrawable *pDrawable)
+	void CRenderer::BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
-			const uint32_t indexPass = itMatPass.second->GetIndexSubPass();
-			const CGfxRenderPassPtr &ptrRenderPass = itMatPass.second->GetRenderPass();
-			const CGfxPipelineGraphicsPtr &ptrMaterialPipeline = itMatPass.second->GetPipeline();
-			const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet = itMatPass.second->GetDescriptorSet();
-			const CGfxVertexBufferPtr &ptrDrawableVertexBuffer = pDrawable->GetVertexBuffer();
-			const CGfxIndexBufferPtr &ptrDrawableIndexBuffer = pDrawable->GetIndexBuffer();
-			const CGfxDescriptorSetPtr &ptrDrawableDescriptorSet = pDrawable->GetDescriptorSet(itMatPass.first);
-			const uint32_t indexCount = pDrawable->GetIndexCount();
-			const uint32_t indexOffset = pDrawable->GetIndexOffset();
-			const uint32_t vertexOffset = pDrawable->GetVertexOffset();
-
-			if (m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] == NULL) {
-				switch (pDrawable->GetType()) {
-				case DRAWABLE_TYPE_PARTICAL:
-					m_pBatchParticals.push_back(SAFE_NEW CBatchPartical);
-					m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchParticals[m_pBatchParticals.size() - 1];
-					break;
-
-				case DRAWABLE_TYPE_SKIN_MESH:
-					m_pBatchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
-					m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchSkinMeshs[m_pBatchSkinMeshs.size() - 1];
-					break;
-
-				case DRAWABLE_TYPE_STATIC_MESH:
-					m_pBatchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
-					m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchStaticMeshs[m_pBatchStaticMeshs.size() - 1];
-					break;
-
-				default:
-					LOGE("Not support drawable type = %d", pDrawable->GetType());
-					return;
-				}
-			}
-
-			m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet]->AddDrawable(pDrawable, itMatPass.first);
-		}
-	}
-
-	void CRenderer::UpdateBatchBuffer(void)
-	{
-		for (int index = 0; index < m_pBatchParticals.size(); index++) {
-			m_pBatchParticals[index]->UpdateBatchBuffer();
-		}
-
-		for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
-			m_pBatchSkinMeshs[index]->UpdateBatchBuffer();
-		}
-
-		for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
-			m_pBatchStaticMeshs[index]->UpdateBatchBuffer();
-		}
-	}
-
-	void CRenderer::BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
-	{
-		const auto &itRenderPassQueue = m_queue.find(ptrRenderPass);
-		if (itRenderPassQueue == m_queue.end()) return;
+		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
+		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
 
 		uint32_t thread = thread_id() + (uint32_t)this;
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
@@ -198,8 +125,6 @@ namespace CrossEngine {
 
 		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][frame];
 		ptrMainCommandBuffer->Reset();
-
-		DispatchThread(ptrFrameBuffer, ptrRenderPass, TRUE);
 
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
@@ -225,6 +150,64 @@ namespace CrossEngine {
 		ptrMainCommandBuffer->End();
 	}
 
+	void CRenderer::BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const std::vector<PipelineParam> &pipelines)
+	{
+		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
+		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
+
+		uint32_t thread = thread_id() + (uint32_t)this;
+		uint32_t frame = GfxSwapChain()->GetImageIndex();
+		uint32_t pool = thread + frame;
+
+		GfxDevice()->AllocCommandBufferPool(pool);
+		GfxDevice()->ResetCommandBufferPool(pool);
+
+		for (int index = 0; index < pipelines.size(); index++) {
+			const auto &itMaterialPipelineQueue = itRenderPassQueue->second.find(pipelines[index].indexPass);
+			if (itMaterialPipelineQueue == itRenderPassQueue->second.end()) continue;
+
+			const auto &itMaterialDescriptorSetQueue = itMaterialPipelineQueue->second.find(pipelines[index].ptrMaterialPipeline);
+			if (itMaterialDescriptorSetQueue == itMaterialPipelineQueue->second.end()) continue;
+
+			CGfxCommandBufferPtr &ptrCommandBuffer = m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass][pipelines[index].ptrMaterialPipeline][pipelines[index].indexPass][frame][thread];
+
+			if (ptrCommandBuffer.IsNull()) {
+				ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
+			}
+
+			ptrCommandBuffer->Clearup();
+			ptrCommandBuffer->ClearCommands();
+			ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, pipelines[index].indexPass);
+			{
+				ptrCommandBuffer->CmdSetScissor(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
+				ptrCommandBuffer->CmdSetViewport(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
+
+				ptrCommandBuffer->CmdBindPipelineGraphics(pipelines[index].ptrMaterialPipeline);
+				ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
+
+				for (const auto &itMeshQueue : itMaterialDescriptorSetQueue->second) {
+					ptrCommandBuffer->CmdBindDescriptorSetGraphics(itMeshQueue.first);
+					for (const auto &itVertexBufferQueue : itMeshQueue.second) {
+						ptrCommandBuffer->CmdBindVertexBuffer(itVertexBufferQueue.first);
+						for (const auto &itIndexBufferQueue : itVertexBufferQueue.second) {
+							ptrCommandBuffer->CmdBindIndexBuffer(itIndexBufferQueue.first);
+							for (const auto &itMeshIndexCountQueue : itIndexBufferQueue.second) {
+								for (const auto &itMeshIndexOffsetQueue : itMeshIndexCountQueue.second) {
+									for (const auto &itMeshVertexOffsetQueue : itMeshIndexOffsetQueue.second) {
+										for (const auto &itDrawDescriptorSet : itMeshVertexOffsetQueue.second) {
+											itDrawDescriptorSet.second->BuildCommandBuffer(ptrCommandBuffer);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			ptrCommandBuffer->End();
+		}
+	}
+
 	void CRenderer::Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
@@ -234,7 +217,6 @@ namespace CrossEngine {
 	{
 		CRenderer::ThreadParam *pThreadParam = (CRenderer::ThreadParam *)pParams;
 		CRenderer::ThreadCluster *pThreadCluster = &pThreadParam->pRenderer->m_threadCluster;
-		CRenderer *pRenderer = pThreadParam->pRenderer;
 
 		while (TRUE) {
 			event_wait(&pThreadCluster->eventDispatch);
@@ -243,59 +225,8 @@ namespace CrossEngine {
 					break;
 				}
 
-				event_signal(&pThreadCluster->eventReady);
-				event_wait(&pThreadCluster->eventReady);
-
-				if (pThreadParam->ptrFrameBuffer.IsNull() == FALSE && pThreadParam->ptrFrameBuffer->GetHandle() != NULL && 
-					pThreadParam->ptrRenderPass.IsNull() == FALSE && pThreadParam->ptrRenderPass->GetHandle() != NULL) {
-					uint32_t thread = thread_id() + (uint32_t)pRenderer;
-					uint32_t frame = GfxSwapChain()->GetImageIndex();
-					uint32_t pool = thread + frame;
-
-					GfxDevice()->AllocCommandBufferPool(pool);
-					GfxDevice()->ResetCommandBufferPool(pool);
-
-					for (int index = 0; index < pThreadParam->pipelines.size(); index++) {
-						CGfxCommandBufferPtr &ptrCommandBuffer = pRenderer->m_ptrSecondaryCommandBuffers[pThreadParam->ptrFrameBuffer][pThreadParam->ptrRenderPass][pThreadParam->pipelines[index].ptrMaterialPipeline][pThreadParam->pipelines[index].indexPass][frame][thread];
-
-						if (ptrCommandBuffer.IsNull()) {
-							ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
-						}
-
-						ptrCommandBuffer->Clearup();
-						ptrCommandBuffer->ClearCommands();
-						ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, pThreadParam->ptrFrameBuffer, pThreadParam->ptrRenderPass, pThreadParam->pipelines[index].indexPass);
-						{
-							ptrCommandBuffer->CmdSetScissor(pRenderer->m_pCamera->GetViewportX(), pRenderer->m_pCamera->GetViewportY(), pRenderer->m_pCamera->GetViewportWidth(), pRenderer->m_pCamera->GetViewportHeight());
-							ptrCommandBuffer->CmdSetViewport(pRenderer->m_pCamera->GetViewportX(), pRenderer->m_pCamera->GetViewportY(), pRenderer->m_pCamera->GetViewportWidth(), pRenderer->m_pCamera->GetViewportHeight());
-
-							ptrCommandBuffer->CmdBindPipelineGraphics(pThreadParam->pipelines[index].ptrMaterialPipeline);
-							ptrCommandBuffer->CmdBindDescriptorSetGraphics(pRenderer->m_pCamera->GetDescriptorSet());
-
-							for (const auto &itMaterialPipelineQueue : pRenderer->m_queue[pThreadParam->ptrRenderPass][pThreadParam->pipelines[index].indexPass][pThreadParam->pipelines[index].ptrMaterialPipeline]) {
-								ptrCommandBuffer->CmdBindDescriptorSetGraphics(itMaterialPipelineQueue.first);
-
-								for (const auto &itVertexBufferQueue : itMaterialPipelineQueue.second) {
-									ptrCommandBuffer->CmdBindVertexBuffer(itVertexBufferQueue.first);
-
-									for (const auto &itIndexBufferQueue : itVertexBufferQueue.second) {
-										ptrCommandBuffer->CmdBindIndexBuffer(itIndexBufferQueue.first);
-
-										for (const auto &itMeshIndexCountQueue : itIndexBufferQueue.second) {
-											for (const auto &itMeshIndexOffsetQueue : itMeshIndexCountQueue.second) {
-												for (const auto &itMeshVertexOffsetQueue : itMeshIndexOffsetQueue.second) {
-													for (const auto &itDrawDescriptorSet : itMeshVertexOffsetQueue.second) {
-														itDrawDescriptorSet.second->BuildCommandBuffer(ptrCommandBuffer);
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-						ptrCommandBuffer->End();
-					}
+				if (pThreadParam->pCamera) {
+					pThreadParam->pRenderer->BuildSecondaryCommandBuffer(pThreadParam->pCamera, pThreadParam->ptrFrameBuffer, pThreadParam->ptrRenderPass, pThreadParam->pipelines);
 				}
 			}
 			event_reset(&pThreadCluster->eventDispatch);

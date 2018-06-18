@@ -35,20 +35,28 @@ namespace CrossEngine {
 		static const int THREAD_COUNT = 4;
 
 		typedef struct PipelineParam {
+			PipelineParam(uint32_t _indexPass, const CGfxPipelineGraphicsPtr &_ptrMaterialPipeline)
+			{
+				indexPass = _indexPass;
+				ptrMaterialPipeline = _ptrMaterialPipeline;
+			}
+
 			uint32_t indexPass;
 			CGfxPipelineGraphicsPtr ptrMaterialPipeline;
 		} PipelineParam;
 
 		typedef struct ThreadParam {
+			CCamera *pCamera;
 			CRenderer *pRenderer;
+
 			CGfxRenderPassPtr ptrRenderPass;
 			CGfxFrameBufferPtr ptrFrameBuffer;
+
 			std::vector<PipelineParam> pipelines;
 		} ThreadParam;
 
 		typedef struct ThreadCluster {
 			event_t eventExit;
-			event_t eventReady;
 			event_t eventFinish;
 			event_t eventDispatch;
 			pthread_t threads[THREAD_COUNT];
@@ -56,28 +64,14 @@ namespace CrossEngine {
 		} ThreadCluster;
 
 	protected:
-		// [RenderPass][IndexPass][MaterialPipeline][MaterialDescriptorSet][VertexBuffer][IndexBuffer][indexCount][indexOffset][vertexOffset][DrawDescriptorSet] = Batch
-		typedef 
-			std::map<CGfxRenderPassPtr,
-			std::map<uint32_t,
-			std::map<CGfxPipelineGraphicsPtr,
-			std::map<CGfxDescriptorSetPtr, 
-			std::map<CGfxVertexBufferPtr, 
-			std::map<CGfxIndexBufferPtr, 
-			std::map<uint32_t, 
-			std::map<uint32_t, 
-			std::map<uint32_t, 
-			std::map<CGfxDescriptorSetPtr, 
-			CBatch*>>>>>>>>>> RenderQueue;
-
-		// [FrameBuffer][RenderPass][Frame] = CommandBuffer
+		// [FrameBuffer][RenderPass][Frame] = MainCommandBuffer
 		typedef
 			std::map<CGfxFrameBufferPtr,
 			std::map<CGfxRenderPassPtr,
 			std::map<uint32_t,
 			CGfxCommandBufferPtr>>> MainCommandBufferMap;
 
-		// [FrameBuffer][RenderPass][Pipeline][IndexPass][Frame][Thread] = CommandBuffer
+		// [FrameBuffer][RenderPass][Pipeline][IndexPass][Frame][Thread] = SecondaryCommandBuffer
 		typedef
 			std::map<CGfxFrameBufferPtr,
 			std::map<CGfxRenderPassPtr,
@@ -89,7 +83,7 @@ namespace CrossEngine {
 
 		
 	protected:
-		CRenderer(CCamera *pCamera);
+		CRenderer(void);
 		virtual ~CRenderer(void);
 
 
@@ -97,30 +91,18 @@ namespace CrossEngine {
 		void CreateThread(void);
 		void DestroyThread(void);
 
-		void DispatchThread(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);
+		void DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);
 		void WaitThread(void);
 
 	protected:
-		void Clear(void);
-		void AddDrawable(const CDrawable *pDrawable);
-		void UpdateBatchBuffer(void);
-
-	protected:
-		void BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const std::vector<PipelineParam> &pipelines);
 		void Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 
 	protected:
 		static void* WorkThread(void *pParams);
 
-
-	protected:
-		CCamera *m_pCamera;
-
-	protected:
-		RenderQueue m_queue;
-		std::vector<CBatchPartical*> m_pBatchParticals;
-		std::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
-		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
 
 	protected:
 		MainCommandBufferMap m_ptrMainCommandBuffers;

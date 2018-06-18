@@ -27,7 +27,6 @@ namespace CrossEngine {
 
 	CCamera::CCamera(void)
 		: m_bEnable(TRUE)
-		, m_renderer(this)
 	{
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
 		m_ptrUniformBuffer->Create(sizeof(m_params), NULL, TRUE);
@@ -263,7 +262,7 @@ namespace CrossEngine {
 	void CCamera::Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		if (m_bEnable) {
-			m_renderer.BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
+			m_renderer.BuildCommandBuffer(this, ptrFrameBuffer, ptrRenderPass);
 			m_renderer.Render(ptrFrameBuffer, ptrRenderPass);
 		}
 	}
