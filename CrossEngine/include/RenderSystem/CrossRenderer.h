@@ -57,6 +57,7 @@ namespace CrossEngine {
 
 		typedef struct ThreadCluster {
 			event_t eventExit;
+			event_t eventReady;
 			event_t eventFinish;
 			event_t eventDispatch;
 			pthread_t threads[THREAD_COUNT];

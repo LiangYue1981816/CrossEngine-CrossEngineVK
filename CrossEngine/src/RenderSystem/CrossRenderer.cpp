@@ -38,6 +38,7 @@ namespace CrossEngine {
 	void CRenderer::CreateThread(void)
 	{
 		event_init(&m_threadCluster.eventExit, 0);
+		event_init(&m_threadCluster.eventReady, 1);
 		event_init(&m_threadCluster.eventFinish, 1);
 		event_init(&m_threadCluster.eventDispatch, 0);
 
@@ -58,6 +59,7 @@ namespace CrossEngine {
 		}
 
 		event_destroy(&m_threadCluster.eventExit);
+		event_destroy(&m_threadCluster.eventReady);
 		event_destroy(&m_threadCluster.eventFinish);
 		event_destroy(&m_threadCluster.eventDispatch);
 	}
@@ -203,6 +205,8 @@ namespace CrossEngine {
 			m_threadCluster.params[indexThread].pCamera = pCamera;
 			m_threadCluster.params[indexThread].ptrRenderPass = ptrRenderPass;
 			m_threadCluster.params[indexThread].ptrFrameBuffer = ptrFrameBuffer;
+
+			event_unsignal(&m_threadCluster.eventReady);
 			event_unsignal(&m_threadCluster.eventFinish);
 		}
 
@@ -236,6 +240,9 @@ namespace CrossEngine {
 				if (event_wait_timeout(&pThreadCluster->eventExit, 0) == NO_ERROR) {
 					break;
 				}
+
+				event_signal(&pThreadCluster->eventReady);
+				event_wait(&pThreadCluster->eventReady);
 
 				if (pThreadParam->pCamera) {
 					pThreadParam->pRenderer->BuildSecondaryCommandBuffer(pThreadParam->pCamera, pThreadParam->ptrFrameBuffer, pThreadParam->ptrRenderPass, pThreadParam->pipelines);
