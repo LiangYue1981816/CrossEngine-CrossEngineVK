@@ -46,26 +46,6 @@ namespace CrossEngine {
 		ClearRenderQueue();
 	}
 
-	float CCamera::GetViewportX(void) const
-	{
-		return m_camera.viewport.x;
-	}
-
-	float CCamera::GetViewportY(void) const
-	{
-		return m_camera.viewport.y;
-	}
-
-	float CCamera::GetViewportWidth(void) const
-	{
-		return m_camera.viewport.z;
-	}
-
-	float CCamera::GetViewportHeight(void) const
-	{
-		return m_camera.viewport.w;
-	}
-
 	const CGfxDescriptorSetPtr& CCamera::GetDescriptorSet(void) const
 	{
 		return m_ptrDescriptorSet;
@@ -92,7 +72,6 @@ namespace CrossEngine {
 
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
 		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
-
 		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 	}
 
@@ -102,7 +81,6 @@ namespace CrossEngine {
 
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
 		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
-
 		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 	}
 
@@ -112,8 +90,27 @@ namespace CrossEngine {
 		m_params.mtxView = m_camera.mtxView;
 		m_params.mtxViewInverse = m_camera.mtxViewInverse;
 		m_params.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
-
 		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+	}
+
+	float CCamera::GetViewportX(void) const
+	{
+		return m_camera.viewport.x;
+	}
+
+	float CCamera::GetViewportY(void) const
+	{
+		return m_camera.viewport.y;
+	}
+
+	float CCamera::GetViewportWidth(void) const
+	{
+		return m_camera.viewport.z;
+	}
+
+	float CCamera::GetViewportHeight(void) const
+	{
+		return m_camera.viewport.w;
 	}
 
 	const glm::vec3& CCamera::GetPosition(void) const
@@ -169,22 +166,92 @@ namespace CrossEngine {
 		return FALSE;
 	}
 
+	BOOL CCamera::IsVisible(const glm::sphere &sphere)
+	{
+		if (m_bEnable) {
+			return m_camera.visible(sphere);
+		}
+
+		return FALSE;
+	}
+
 	void CCamera::ClearRenderQueue(void)
 	{
-		m_renderer.Clear();
+		for (int index = 0; index < m_pBatchParticals.size(); index++) {
+			SAFE_DELETE(m_pBatchParticals[index]);
+		}
+
+		for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
+			SAFE_DELETE(m_pBatchSkinMeshs[index]);
+		}
+
+		for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
+			SAFE_DELETE(m_pBatchStaticMeshs[index]);
+		}
+
+		m_queue.clear();
+		m_pBatchParticals.clear();
+		m_pBatchSkinMeshs.clear();
+		m_pBatchStaticMeshs.clear();
 	}
 
 	void CCamera::AddRenderQueue(const CDrawable *pDrawable)
 	{
 		if (m_bEnable) {
-			m_renderer.AddDrawable(pDrawable);
+			for (const auto &itMatPass : pDrawable->GetMaterial()->GetPasses()) {
+				const uint32_t indexPass = itMatPass.second->GetIndexSubPass();
+				const CGfxRenderPassPtr &ptrRenderPass = itMatPass.second->GetRenderPass();
+				const CGfxPipelineGraphicsPtr &ptrMaterialPipeline = itMatPass.second->GetPipeline();
+				const CGfxDescriptorSetPtr &ptrMaterialDescriptorSet = itMatPass.second->GetDescriptorSet();
+				const CGfxVertexBufferPtr &ptrDrawableVertexBuffer = pDrawable->GetVertexBuffer();
+				const CGfxIndexBufferPtr &ptrDrawableIndexBuffer = pDrawable->GetIndexBuffer();
+				const CGfxDescriptorSetPtr &ptrDrawableDescriptorSet = pDrawable->GetDescriptorSet(itMatPass.first);
+				const uint32_t indexCount = pDrawable->GetIndexCount();
+				const uint32_t indexOffset = pDrawable->GetIndexOffset();
+				const uint32_t vertexOffset = pDrawable->GetVertexOffset();
+
+				if (m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] == NULL) {
+					switch (pDrawable->GetType()) {
+					case DRAWABLE_TYPE_PARTICAL:
+						m_pBatchParticals.push_back(SAFE_NEW CBatchPartical);
+						m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchParticals[m_pBatchParticals.size() - 1];
+						break;
+
+					case DRAWABLE_TYPE_SKIN_MESH:
+						m_pBatchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
+						m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchSkinMeshs[m_pBatchSkinMeshs.size() - 1];
+						break;
+
+					case DRAWABLE_TYPE_STATIC_MESH:
+						m_pBatchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
+						m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchStaticMeshs[m_pBatchStaticMeshs.size() - 1];
+						break;
+
+					default:
+						LOGE("Not support drawable type = %d", pDrawable->GetType());
+						return;
+					}
+				}
+
+				m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet]->AddDrawable(pDrawable, itMatPass.first);
+			}
 		}
 	}
 
 	void CCamera::Update(void)
 	{
 		if (m_bEnable) {
-			m_renderer.UpdateBatchBuffer();
+			for (int index = 0; index < m_pBatchParticals.size(); index++) {
+				m_pBatchParticals[index]->UpdateBatchBuffer();
+			}
+
+			for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
+				m_pBatchSkinMeshs[index]->UpdateBatchBuffer();
+			}
+
+			for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
+				m_pBatchStaticMeshs[index]->UpdateBatchBuffer();
+			}
 		}
 	}
 

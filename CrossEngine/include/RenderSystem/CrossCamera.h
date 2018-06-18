@@ -26,6 +26,20 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
+	// [RenderPass][IndexPass][MaterialPipeline][MaterialDescriptorSet][VertexBuffer][IndexBuffer][indexCount][indexOffset][vertexOffset][DrawDescriptorSet] = Batch
+	typedef
+		std::map<CGfxRenderPassPtr,
+		std::map<uint32_t,
+		std::map<CGfxPipelineGraphicsPtr,
+		std::map<CGfxDescriptorSetPtr,
+		std::map<CGfxVertexBufferPtr,
+		std::map<CGfxIndexBufferPtr,
+		std::map<uint32_t,
+		std::map<uint32_t,
+		std::map<uint32_t,
+		std::map<CGfxDescriptorSetPtr,
+		CBatch*>>>>>>>>>> RenderQueue;
+
 	class CROSS_EXPORT CCamera
 	{
 		friend class CCameraManager;
@@ -46,11 +60,6 @@ namespace CrossEngine {
 
 
 	public:
-		float GetViewportX(void) const;
-		float GetViewportY(void) const;
-		float GetViewportWidth(void) const;
-		float GetViewportHeight(void) const;
-
 		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:
@@ -62,6 +71,11 @@ namespace CrossEngine {
 		void SetPerspective(float fovy, float aspect, float zNear, float zFar);
 		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
 		void SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up);
+
+		float GetViewportX(void) const;
+		float GetViewportY(void) const;
+		float GetViewportWidth(void) const;
+		float GetViewportHeight(void) const;
 
 		const glm::vec3& GetPosition(void) const;
 		const glm::vec3& GetDirection(void) const;
@@ -77,6 +91,7 @@ namespace CrossEngine {
 	public:
 		BOOL IsVisible(const glm::vec3 &vertex);
 		BOOL IsVisible(const glm::aabb &aabb);
+		BOOL IsVisible(const glm::sphere &sphere);
 
 	public:
 		void ClearRenderQueue(void);
@@ -98,6 +113,12 @@ namespace CrossEngine {
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
+
+	protected:
+		RenderQueue m_queue;
+		std::vector<CBatchPartical*> m_pBatchParticals;
+		std::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
+		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
 
 	protected:
 		CRenderer m_renderer;

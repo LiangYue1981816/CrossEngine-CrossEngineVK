@@ -28,6 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatch
 	{
+		friend class CCamera;
 		friend class CRenderer;
 
 

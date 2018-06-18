@@ -28,6 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CBatchStaticMesh : public CBatch
 	{
+		friend class CCamera;
 		friend class CRenderer;
 
 
