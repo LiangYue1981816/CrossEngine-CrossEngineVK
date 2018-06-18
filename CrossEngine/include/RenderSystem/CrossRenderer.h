@@ -91,9 +91,6 @@ namespace CrossEngine {
 		void CreateThread(void);
 		void DestroyThread(void);
 
-		void DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);
-		void WaitThread(void);
-
 	protected:
 		void BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
@@ -102,6 +99,10 @@ namespace CrossEngine {
 		void ResetMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const std::vector<PipelineParam> &pipelines);
+
+	protected:
+		void DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);
+		void WaitThread(void);
 
 	protected:
 		static void* WorkThread(void *pParams);

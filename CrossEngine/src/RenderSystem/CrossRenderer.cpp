@@ -62,46 +62,6 @@ namespace CrossEngine {
 		event_destroy(&m_threadCluster.eventDispatch);
 	}
 
-	void CRenderer::DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait)
-	{
-		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
-		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
-
-		int indexThread = 0;
-		for (const auto &itPass : itRenderPassQueue->second) {
-			for (const auto &itMaterialPipeline : itPass.second) {
-				m_threadCluster.params[indexThread % THREAD_COUNT].pCamera = pCamera;
-				m_threadCluster.params[indexThread % THREAD_COUNT].ptrRenderPass = ptrRenderPass;
-				m_threadCluster.params[indexThread % THREAD_COUNT].ptrFrameBuffer = ptrFrameBuffer;
-				m_threadCluster.params[indexThread % THREAD_COUNT].pipelines.emplace_back(itPass.first, itMaterialPipeline.first);
-
-				indexThread++;
-			}
-		}
-
-		for (int index = 0; index < THREAD_COUNT; index++) {
-			event_unsignal(&m_threadCluster.eventFinish);
-		}
-
-		event_signal(&m_threadCluster.eventDispatch);
-
-		if (bWait) {
-			WaitThread();
-		}
-	}
-
-	void CRenderer::WaitThread(void)
-	{
-		event_wait(&m_threadCluster.eventFinish);
-
-		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
-			m_threadCluster.params[indexThread].pCamera = NULL;
-			m_threadCluster.params[indexThread].ptrRenderPass.Release();
-			m_threadCluster.params[indexThread].ptrFrameBuffer.Release();
-			m_threadCluster.params[indexThread].pipelines.clear();
-		}
-	}
-
 	void CRenderer::BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		ResetMainCommandBuffer(pCamera, ptrFrameBuffer, ptrRenderPass);
@@ -220,6 +180,46 @@ namespace CrossEngine {
 				}
 			}
 			ptrCommandBuffer->End();
+		}
+	}
+
+	void CRenderer::DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait)
+	{
+		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
+		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
+
+		int indexThread = 0;
+		for (const auto &itPass : itRenderPassQueue->second) {
+			for (const auto &itMaterialPipeline : itPass.second) {
+				m_threadCluster.params[indexThread % THREAD_COUNT].pCamera = pCamera;
+				m_threadCluster.params[indexThread % THREAD_COUNT].ptrRenderPass = ptrRenderPass;
+				m_threadCluster.params[indexThread % THREAD_COUNT].ptrFrameBuffer = ptrFrameBuffer;
+				m_threadCluster.params[indexThread % THREAD_COUNT].pipelines.emplace_back(itPass.first, itMaterialPipeline.first);
+
+				indexThread++;
+			}
+		}
+
+		for (int index = 0; index < THREAD_COUNT; index++) {
+			event_unsignal(&m_threadCluster.eventFinish);
+		}
+
+		event_signal(&m_threadCluster.eventDispatch);
+
+		if (bWait) {
+			WaitThread();
+		}
+	}
+
+	void CRenderer::WaitThread(void)
+	{
+		event_wait(&m_threadCluster.eventFinish);
+
+		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
+			m_threadCluster.params[indexThread].pCamera = NULL;
+			m_threadCluster.params[indexThread].ptrRenderPass.Release();
+			m_threadCluster.params[indexThread].ptrFrameBuffer.Release();
+			m_threadCluster.params[indexThread].pipelines.clear();
 		}
 	}
 
