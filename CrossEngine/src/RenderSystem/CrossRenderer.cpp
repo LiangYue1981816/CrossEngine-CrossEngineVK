@@ -188,19 +188,21 @@ namespace CrossEngine {
 		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
 		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
 
-		int indexThread = 0;
+		std::vector<PipelineParam> pipelines;
 		for (const auto &itPass : itRenderPassQueue->second) {
 			for (const auto &itMaterialPipeline : itPass.second) {
-				m_threadCluster.params[indexThread % THREAD_COUNT].pCamera = pCamera;
-				m_threadCluster.params[indexThread % THREAD_COUNT].ptrRenderPass = ptrRenderPass;
-				m_threadCluster.params[indexThread % THREAD_COUNT].ptrFrameBuffer = ptrFrameBuffer;
-				m_threadCluster.params[indexThread % THREAD_COUNT].pipelines.emplace_back(itPass.first, itMaterialPipeline.first);
-
-				indexThread++;
+				pipelines.emplace_back(itPass.first, itMaterialPipeline.first);
 			}
 		}
 
-		for (int index = 0; index < THREAD_COUNT; index++) {
+		for (int indexPipeline = 0; indexPipeline < pipelines.size(); indexPipeline++) {
+			m_threadCluster.params[indexPipeline % THREAD_COUNT].pipelines.emplace_back(pipelines[indexPipeline].indexPass, pipelines[indexPipeline].ptrMaterialPipeline);
+		}
+
+		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
+			m_threadCluster.params[indexThread].pCamera = pCamera;
+			m_threadCluster.params[indexThread].ptrRenderPass = ptrRenderPass;
+			m_threadCluster.params[indexThread].ptrFrameBuffer = ptrFrameBuffer;
 			event_unsignal(&m_threadCluster.eventFinish);
 		}
 
