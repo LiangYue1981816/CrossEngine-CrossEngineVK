@@ -60,6 +60,7 @@ namespace CrossEngine {
 
 
 	public:
+		const RenderQueue& GetRenderQueue(void) const;
 		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:

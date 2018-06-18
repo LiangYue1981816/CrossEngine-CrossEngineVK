@@ -46,6 +46,11 @@ namespace CrossEngine {
 		ClearRenderQueue();
 	}
 
+	const RenderQueue& CCamera::GetRenderQueue(void) const
+	{
+		return m_queue;
+	}
+
 	const CGfxDescriptorSetPtr& CCamera::GetDescriptorSet(void) const
 	{
 		return m_ptrDescriptorSet;
