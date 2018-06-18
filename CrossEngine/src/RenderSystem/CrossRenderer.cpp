@@ -104,11 +104,12 @@ namespace CrossEngine {
 
 	void CRenderer::BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
+		ResetMainCommandBuffer(pCamera, ptrFrameBuffer, ptrRenderPass);
 		DispatchThread(pCamera, ptrFrameBuffer, ptrRenderPass, TRUE);
 		BuildMainCommandBuffer(pCamera, ptrFrameBuffer, ptrRenderPass);
 	}
 
-	void CRenderer::BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	void CRenderer::ResetMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
 		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
 		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
@@ -122,9 +123,18 @@ namespace CrossEngine {
 		if (m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass].end()) {
 			m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		}
+		else {
+			m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][frame]->Reset();
+		}
+	}
 
+	void CRenderer::BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	{
+		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
+		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
+
+		uint32_t frame = GfxSwapChain()->GetImageIndex();
 		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][frame];
-		ptrMainCommandBuffer->Reset();
 
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
