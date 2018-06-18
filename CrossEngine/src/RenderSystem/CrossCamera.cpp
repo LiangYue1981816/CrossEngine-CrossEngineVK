@@ -36,11 +36,9 @@ namespace CrossEngine {
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_CAMERA], DESCRIPTOR_BIND_CAMERA, VK_SHADER_STAGE_VERTEX_BIT);
 		m_ptrDescriptorSetLayout->Create();
 
-		for (uint32_t frame = 0; frame < GfxSwapChain()->GetImageCount(); frame++) {
-			m_ptrDescriptorSets[frame] = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
-			m_ptrDescriptorSets[frame]->SetUniformBuffer(DESCRIPTOR_BIND_CAMERA, m_ptrUniformBuffer);
-			m_ptrDescriptorSets[frame]->UpdateDescriptorSets();
-		}
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_CAMERA, m_ptrUniformBuffer);
+		m_ptrDescriptorSet->UpdateDescriptorSets();
 	}
 
 	CCamera::~CCamera(void)
@@ -70,9 +68,7 @@ namespace CrossEngine {
 
 	const CGfxDescriptorSetPtr& CCamera::GetDescriptorSet(void) const
 	{
-		static const CGfxDescriptorSetPtr ptrDescriptorSetNull;
-		const auto &itDescriptorSet = m_ptrDescriptorSets.find(GfxSwapChain()->GetImageIndex());
-		return itDescriptorSet != m_ptrDescriptorSets.end() ? itDescriptorSet->second : ptrDescriptorSetNull;
+		return m_ptrDescriptorSet;
 	}
 
 	void CCamera::SetEnable(BOOL bEnable)
@@ -96,7 +92,8 @@ namespace CrossEngine {
 
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
 		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
-		m_ptrDescriptorSets[GfxSwapChain()->GetImageIndex()]->SetUniformBufferData(DESCRIPTOR_BIND_CAMERA, 0, sizeof(m_params), &m_params);
+
+		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 	}
 
 	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -105,7 +102,8 @@ namespace CrossEngine {
 
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
 		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
-		m_ptrDescriptorSets[GfxSwapChain()->GetImageIndex()]->SetUniformBufferData(DESCRIPTOR_BIND_CAMERA, 0, sizeof(m_params), &m_params);
+
+		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 	}
 
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
@@ -114,7 +112,8 @@ namespace CrossEngine {
 		m_params.mtxView = m_camera.mtxView;
 		m_params.mtxViewInverse = m_camera.mtxViewInverse;
 		m_params.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
-		m_ptrDescriptorSets[GfxSwapChain()->GetImageIndex()]->SetUniformBufferData(DESCRIPTOR_BIND_CAMERA, 0, sizeof(m_params), &m_params);
+
+		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 	}
 
 	const glm::vec3& CCamera::GetPosition(void) const

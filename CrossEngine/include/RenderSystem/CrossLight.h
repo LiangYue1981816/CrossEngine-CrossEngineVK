@@ -51,11 +51,9 @@ namespace CrossEngine {
 	public:
 		void SetAmbient(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetRotation(const glm::mat4 &mtxRotation);
-		void Apply(void);
 
 
 	protected:
-		BOOL m_bDirty;
 		Params m_params;
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 	};
@@ -83,11 +81,9 @@ namespace CrossEngine {
 	public:
 		void SetColor(float red, float green, float blue);
 		void SetDirection(float x, float y, float z);
-		void Apply(void);
 
 
 	protected:
-		BOOL m_bDirty;
 		Params m_params;
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 	};

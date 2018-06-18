@@ -96,8 +96,8 @@ namespace CrossEngine {
 
 	protected:
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
-		std::map<uint32_t, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
 
 	protected:
 		CRenderer m_renderer;
