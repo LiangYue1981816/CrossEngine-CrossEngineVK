@@ -35,23 +35,14 @@ namespace CrossEngine {
 		static const int THREAD_COUNT = 4;
 
 		typedef struct PipelineParam {
-			PipelineParam(uint32_t _indexPass, const CGfxPipelineGraphicsPtr &_ptrMaterialPipeline)
-			{
-				indexPass = _indexPass;
-				ptrMaterialPipeline = _ptrMaterialPipeline;
-			}
-
 			uint32_t indexPass;
 			CGfxPipelineGraphicsPtr ptrMaterialPipeline;
 		} PipelineParam;
 
 		typedef struct ThreadParam {
-			CCamera *pCamera;
 			CRenderer *pRenderer;
-
 			CGfxRenderPassPtr ptrRenderPass;
 			CGfxFrameBufferPtr ptrFrameBuffer;
-
 			std::vector<PipelineParam> pipelines;
 		} ThreadParam;
 
@@ -93,21 +84,28 @@ namespace CrossEngine {
 		void DestroyThread(void);
 
 	protected:
-		void BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void SetCamera(CCamera *pCamera);
+		void SetLightManager(CLightManager *pLightManager);
+
+		void BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 
 	protected:
-		void ResetMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
-		void BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
-		void BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const std::vector<PipelineParam> &pipelines);
+		void ResetMainCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void BuildMainCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
+		void BuildSecondaryCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const std::vector<PipelineParam> &pipelines);
 
 	protected:
-		void DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);
+		void DispatchThread(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);
 		void WaitThread(void);
 
 	protected:
 		static void* WorkThread(void *pParams);
 
+
+	protected:
+		CCamera *pCamera;
+		CLightManager *pLightManager;
 
 	protected:
 		MainCommandBufferMap m_ptrMainCommandBuffers;
