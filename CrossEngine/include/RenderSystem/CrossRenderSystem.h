@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include "CrossBatchStaticMesh.h"
 #include "CrossCamera.h"
 #include "CrossCameraManager.h"
+#include "CrossFxManager.h"
 #include "CrossLight.h"
 #include "CrossLightManager.h"
 
@@ -83,6 +84,7 @@ namespace CrossEngine {
 	protected:
 		BOOL Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		BOOL CreateFxManager(void);
 		BOOL CreateLightManager(void);
 		BOOL CreateCameraManager(void);
 		BOOL CreateDrawableManager(void);
@@ -90,6 +92,7 @@ namespace CrossEngine {
 
 		void Destroy(void);
 		void DestroyGfx(void);
+		void DestroyFxManager(void);
 		void DestroyLightManager(void);
 		void DestroyCameraManager(void);
 		void DestroyDrawableManager(void);
@@ -130,7 +133,8 @@ namespace CrossEngine {
 		CGfxSwapchain *m_pGfxSwapchain;
 
 	protected:
-		CLightManager * m_pLightManager;
+		CFxManager *m_pFxManager;
+		CLightManager *m_pLightManager;
 		CCameraManager *m_pCameraManager;
 		CDrawableManager *m_pDrawableManager;
 	};

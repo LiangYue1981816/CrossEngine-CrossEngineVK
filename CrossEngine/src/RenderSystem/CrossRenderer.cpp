@@ -27,6 +27,7 @@ namespace CrossEngine {
 
 	CRenderer::CRenderer(void)
 		: pCamera(NULL)
+		, pFxManager(NULL)
 		, pLightManager(NULL)
 	{
 		CreateThread();
@@ -69,6 +70,12 @@ namespace CrossEngine {
 	{
 		this->pCamera = pCamera;
 		this->pCamera->Apply();
+	}
+
+	void CRenderer::SetFxManager(CFxManager *pFxManager)
+	{
+		this->pFxManager = pFxManager;
+		this->pFxManager->Apply();
 	}
 
 	void CRenderer::SetLightManager(CLightManager *pLightManager)
@@ -190,6 +197,10 @@ namespace CrossEngine {
 
 				ptrCommandBuffer->CmdBindPipelineGraphics(pipelines[indexPipeline].ptrMaterialPipeline);
 				ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
+
+				if (pFxManager) {
+					pFxManager->CmdBindDescriptorSetGraphics(pFxManager->GetDescriptorSet());
+				}
 
 				if (pLightManager) {
 					ptrCommandBuffer->CmdBindDescriptorSetGraphics(pLightManager->GetDescriptorSet());

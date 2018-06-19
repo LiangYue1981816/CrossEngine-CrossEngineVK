@@ -87,6 +87,7 @@ namespace CrossEngine {
 
 	protected:
 		void SetCamera(CCamera *pCamera);
+		void SetFxManager(CFxManager *pFxManager);
 		void SetLightManager(CLightManager *pLightManager);
 
 		void BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
@@ -107,6 +108,7 @@ namespace CrossEngine {
 
 	protected:
 		CCamera *pCamera;
+		CFxManager *pFxManager;
 		CLightManager *pLightManager;
 
 	protected:
