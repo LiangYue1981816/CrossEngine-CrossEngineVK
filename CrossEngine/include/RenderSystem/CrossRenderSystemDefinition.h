@@ -37,6 +37,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CBatchStaticMesh;
 	class CROSS_EXPORT CCamera;
 	class CROSS_EXPORT CCameraManager;
+	class CROSS_EXPORT CFxManager;
 	class CROSS_EXPORT CLightManager;
 
 }
