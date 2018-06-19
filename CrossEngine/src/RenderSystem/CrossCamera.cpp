@@ -264,13 +264,4 @@ namespace CrossEngine {
 		}
 	}
 
-	void CCamera::Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
-	{
-		if (m_bEnable) {
-			m_renderer.SetCamera(this);
-			m_renderer.BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
-			m_renderer.Render(ptrFrameBuffer, ptrRenderPass);
-		}
-	}
-
 }

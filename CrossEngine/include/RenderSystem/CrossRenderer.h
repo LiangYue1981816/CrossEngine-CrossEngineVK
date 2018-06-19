@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CRenderer
 	{
-		friend class CCamera;
+		friend class CRenderSystem;
 
 
 	protected:

@@ -101,7 +101,6 @@ namespace CrossEngine {
 
 	protected:
 		void Update(void);
-		void Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 
 
 	protected:
@@ -122,9 +121,6 @@ namespace CrossEngine {
 		std::vector<CBatchPartical*> m_pBatchParticals;
 		std::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
 		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
-
-	protected:
-		CRenderer m_renderer;
 	};
 
 }

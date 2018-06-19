@@ -77,12 +77,4 @@ namespace CrossEngine {
 		CBatchStaticMesh::CreateBatchBuffer();
 	}
 
-	void CCameraManager::Render(uint32_t dwName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
-	{
-		const auto &itCamera = m_pCameras.find(dwName);
-		if (itCamera != m_pCameras.end()) {
-			itCamera->second->Render(ptrFrameBuffer, ptrRenderPass);
-		}
-	}
-
 }
