@@ -46,12 +46,12 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct Params {
+		typedef struct Param {
 			glm::mat4 mtxProjection;
 			glm::mat4 mtxView;
 			glm::mat4 mtxViewInverse;
 			glm::mat4 mtxViewInverseTranspose;
-		} Params;
+		} Param;
 
 
 	protected:
@@ -72,6 +72,7 @@ namespace CrossEngine {
 		void SetPerspective(float fovy, float aspect, float zNear, float zFar);
 		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
 		void SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up);
+		void Apply(void);
 
 		float GetViewportX(void) const;
 		float GetViewportY(void) const;
@@ -107,7 +108,8 @@ namespace CrossEngine {
 		BOOL m_bEnable;
 
 	protected:
-		Params m_params;
+		bool m_bDirty;
+		Param m_param;
 		glm::camera m_camera;
 
 	protected:

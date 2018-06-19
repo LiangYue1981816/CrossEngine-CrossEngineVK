@@ -68,4 +68,10 @@ namespace CrossEngine {
 		m_directionLight.SetDirection(x, y, z);
 	}
 
+	void CLightManager::Apply(void)
+	{
+		m_ambientLight.Apply();
+		m_directionLight.Apply();
+	}
+
 }

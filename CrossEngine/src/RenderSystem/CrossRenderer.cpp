@@ -68,11 +68,13 @@ namespace CrossEngine {
 	void CRenderer::SetCamera(CCamera *pCamera)
 	{
 		this->pCamera = pCamera;
+		this->pCamera->Apply();
 	}
 
 	void CRenderer::SetLightManager(CLightManager *pLightManager)
 	{
 		this->pLightManager = pLightManager;
+		this->pLightManager->Apply();
 	}
 
 	void CRenderer::BuildCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)

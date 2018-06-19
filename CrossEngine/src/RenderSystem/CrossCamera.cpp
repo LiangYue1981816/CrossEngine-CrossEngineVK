@@ -29,7 +29,7 @@ namespace CrossEngine {
 		: m_bEnable(TRUE)
 	{
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		m_ptrUniformBuffer->Create(sizeof(m_params), NULL, TRUE);
+		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
 
 		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_CAMERA], DESCRIPTOR_BIND_CAMERA, VK_SHADER_STAGE_VERTEX_BIT);
@@ -75,8 +75,7 @@ namespace CrossEngine {
 		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
-		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
-		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+		m_param.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -84,17 +83,23 @@ namespace CrossEngine {
 		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
-		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
-		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+		m_param.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
 		m_camera.setLookat(position, position + direction, up);
-		m_params.mtxView = m_camera.mtxView;
-		m_params.mtxViewInverse = m_camera.mtxViewInverse;
-		m_params.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
-		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+		m_param.mtxView = m_camera.mtxView;
+		m_param.mtxViewInverse = m_camera.mtxViewInverse;
+		m_param.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
+	}
+
+	void CCamera::Apply(void)
+	{
+		if (m_bDirty) {
+			m_bDirty = false;
+			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
+		}
 	}
 
 	float CCamera::GetViewportX(void) const

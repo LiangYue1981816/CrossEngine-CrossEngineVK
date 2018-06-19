@@ -32,12 +32,12 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct Params {
+		typedef struct Param {
 			glm::vec4 shRed[3];
 			glm::vec4 shGreen[3];
 			glm::vec4 shBlue[3];
 			glm::mat4 mtxRotation;
-		} Params;
+		} Param;
 
 
 	protected:
@@ -51,10 +51,12 @@ namespace CrossEngine {
 	public:
 		void SetAmbient(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetRotation(const glm::mat4 &mtxRotation);
+		void Apply(void);
 
 
 	protected:
-		Params m_params;
+		bool m_bDirty;
+		Param m_param;
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 	};
 
@@ -64,10 +66,10 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct Params {
+		typedef struct Param {
 			glm::vec4 color;
 			glm::vec4 direction;
-		} Params;
+		} Param;
 
 
 	protected:
@@ -81,10 +83,12 @@ namespace CrossEngine {
 	public:
 		void SetColor(float red, float green, float blue);
 		void SetDirection(float x, float y, float z);
+		void Apply(void);
 
 
 	protected:
-		Params m_params;
+		bool m_bDirty;
+		Param m_param;
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 	};
 
@@ -94,11 +98,11 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct Params {
+		typedef struct Param {
 			glm::vec4 color;
 			glm::vec4 position;
 			glm::vec4 attenuation;
-		} Params;
+		} Param;
 
 
 	protected:
@@ -116,7 +120,7 @@ namespace CrossEngine {
 
 
 	protected:
-		Params m_params;
+		Param m_param;
 		glm::sphere m_sphere;
 	};
 

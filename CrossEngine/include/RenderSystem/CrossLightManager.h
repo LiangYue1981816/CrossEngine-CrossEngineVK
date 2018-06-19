@@ -46,6 +46,8 @@ namespace CrossEngine {
 		void SetDirectionLightColor(float red, float green, float blue);
 		void SetDirectionLightDirection(float x, float y, float z);
 
+		void Apply(void);
+
 
 	protected:
 		CAmbientLight m_ambientLight;

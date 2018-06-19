@@ -27,10 +27,10 @@ namespace CrossEngine {
 
 	CAmbientLight::CAmbientLight(void)
 	{
-		memset(&m_params, sizeof(m_params), 0);
+		memset(&m_param, sizeof(m_param), 0);
 
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		m_ptrUniformBuffer->Create(sizeof(m_params), NULL, TRUE);
+		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
 	}
 
 	CAmbientLight::~CAmbientLight(void)
@@ -45,31 +45,37 @@ namespace CrossEngine {
 
 	void CAmbientLight::SetAmbient(float shRed[9], float shGreen[9], float shBlue[9])
 	{
-		m_params.shRed[0] = glm::vec4(shRed[0], shRed[1], shRed[2], 0.0);
-		m_params.shRed[1] = glm::vec4(shRed[3], shRed[4], shRed[5], 0.0);
-		m_params.shRed[2] = glm::vec4(shRed[6], shRed[7], shRed[8], 0.0);
-		m_params.shGreen[0] = glm::vec4(shGreen[0], shGreen[1], shGreen[2], 0.0);
-		m_params.shGreen[1] = glm::vec4(shGreen[3], shGreen[4], shGreen[5], 0.0);
-		m_params.shGreen[2] = glm::vec4(shGreen[6], shGreen[7], shGreen[8], 0.0);
-		m_params.shBlue[0] = glm::vec4(shBlue[0], shBlue[1], shBlue[2], 0.0);
-		m_params.shBlue[1] = glm::vec4(shBlue[3], shBlue[4], shBlue[5], 0.0);
-		m_params.shBlue[2] = glm::vec4(shBlue[6], shBlue[7], shBlue[8], 0.0);
-		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+		m_param.shRed[0] = glm::vec4(shRed[0], shRed[1], shRed[2], 0.0);
+		m_param.shRed[1] = glm::vec4(shRed[3], shRed[4], shRed[5], 0.0);
+		m_param.shRed[2] = glm::vec4(shRed[6], shRed[7], shRed[8], 0.0);
+		m_param.shGreen[0] = glm::vec4(shGreen[0], shGreen[1], shGreen[2], 0.0);
+		m_param.shGreen[1] = glm::vec4(shGreen[3], shGreen[4], shGreen[5], 0.0);
+		m_param.shGreen[2] = glm::vec4(shGreen[6], shGreen[7], shGreen[8], 0.0);
+		m_param.shBlue[0] = glm::vec4(shBlue[0], shBlue[1], shBlue[2], 0.0);
+		m_param.shBlue[1] = glm::vec4(shBlue[3], shBlue[4], shBlue[5], 0.0);
+		m_param.shBlue[2] = glm::vec4(shBlue[6], shBlue[7], shBlue[8], 0.0);
 	}
 
 	void CAmbientLight::SetRotation(const glm::mat4 &mtxRotation)
 	{
-		m_params.mtxRotation = mtxRotation;
-		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+		m_param.mtxRotation = mtxRotation;
+	}
+
+	void CAmbientLight::Apply(void)
+	{
+		if (m_bDirty) {
+			m_bDirty = false;
+			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
+		}
 	}
 
 
 	CDirectionLight::CDirectionLight(void)
 	{
-		memset(&m_params, sizeof(m_params), 0);
+		memset(&m_param, sizeof(m_param), 0);
 
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		m_ptrUniformBuffer->Create(sizeof(m_params), NULL, TRUE);
+		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
 	}
 
 	CDirectionLight::~CDirectionLight(void)
@@ -84,14 +90,20 @@ namespace CrossEngine {
 
 	void CDirectionLight::SetColor(float red, float green, float blue)
 	{
-		m_params.color = glm::vec4(red, green, blue, 0.0f);
-		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+		m_param.color = glm::vec4(red, green, blue, 0.0f);
 	}
 
 	void CDirectionLight::SetDirection(float x, float y, float z)
 	{
-		m_params.direction = glm::vec4(x, y, z, 0.0f);
-		m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
+		m_param.direction = glm::vec4(x, y, z, 0.0f);
+	}
+
+	void CDirectionLight::Apply(void)
+	{
+		if (m_bDirty) {
+			m_bDirty = false;
+			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
+		}
 	}
 
 
@@ -112,17 +124,17 @@ namespace CrossEngine {
 
 	void CPointLight::SetColor(float red, float green, float blue)
 	{
-		m_params.color = glm::vec4(red, green, blue, 0.0f);
+		m_param.color = glm::vec4(red, green, blue, 0.0f);
 	}
 
 	void CPointLight::SetPosition(float x, float y, float z, float radius)
 	{
-		m_params.position = glm::vec4(x, y, z, radius);
+		m_param.position = glm::vec4(x, y, z, radius);
 	}
 
 	void CPointLight::SetAttenuation(float linear, float square, float constant)
 	{
-		m_params.attenuation = glm::vec4(linear, square, constant, 0.0f);
+		m_param.attenuation = glm::vec4(linear, square, constant, 0.0f);
 	}
 
 }
