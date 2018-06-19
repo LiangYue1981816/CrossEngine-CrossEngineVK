@@ -181,16 +181,16 @@ namespace CrossEngine {
 
 	void CCamera::ClearRenderQueue(void)
 	{
-		for (int index = 0; index < m_pBatchParticals.size(); index++) {
-			SAFE_DELETE(m_pBatchParticals[index]);
+		for (int indexPartical = 0; indexPartical < m_pBatchParticals.size(); indexPartical++) {
+			SAFE_DELETE(m_pBatchParticals[indexPartical]);
 		}
 
-		for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
-			SAFE_DELETE(m_pBatchSkinMeshs[index]);
+		for (int indexSkinMesh = 0; indexSkinMesh < m_pBatchSkinMeshs.size(); indexSkinMesh++) {
+			SAFE_DELETE(m_pBatchSkinMeshs[indexSkinMesh]);
 		}
 
-		for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
-			SAFE_DELETE(m_pBatchStaticMeshs[index]);
+		for (int indexStaticMesh = 0; indexStaticMesh < m_pBatchStaticMeshs.size(); indexStaticMesh++) {
+			SAFE_DELETE(m_pBatchStaticMeshs[indexStaticMesh]);
 		}
 
 		m_queue.clear();
@@ -245,16 +245,16 @@ namespace CrossEngine {
 	void CCamera::Update(void)
 	{
 		if (m_bEnable) {
-			for (int index = 0; index < m_pBatchParticals.size(); index++) {
-				m_pBatchParticals[index]->UpdateBatchBuffer();
+			for (int indexPartical = 0; indexPartical < m_pBatchParticals.size(); indexPartical++) {
+				m_pBatchParticals[indexPartical]->UpdateBatchBuffer();
 			}
 
-			for (int index = 0; index < m_pBatchSkinMeshs.size(); index++) {
-				m_pBatchSkinMeshs[index]->UpdateBatchBuffer();
+			for (int indexSkinMesh = 0; indexSkinMesh < m_pBatchSkinMeshs.size(); indexSkinMesh++) {
+				m_pBatchSkinMeshs[indexSkinMesh]->UpdateBatchBuffer();
 			}
 
-			for (int index = 0; index < m_pBatchStaticMeshs.size(); index++) {
-				m_pBatchStaticMeshs[index]->UpdateBatchBuffer();
+			for (int indexStaticMesh = 0; indexStaticMesh < m_pBatchStaticMeshs.size(); indexStaticMesh++) {
+				m_pBatchStaticMeshs[indexStaticMesh]->UpdateBatchBuffer();
 			}
 		}
 	}

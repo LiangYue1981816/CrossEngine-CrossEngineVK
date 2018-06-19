@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 void glReadBuffers(GLsizei n, const GLenum *bufs)
 {
-	for (int index = 0; index < n; index++) {
-		glReadBuffer(bufs[index]);
+	for (int i = 0; i < n; i++) {
+		glReadBuffer(bufs[i]);
 	}
 }
 

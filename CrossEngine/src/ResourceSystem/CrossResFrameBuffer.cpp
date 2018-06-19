@@ -88,12 +88,12 @@ namespace CrossEngine {
 
 		m_ptrFrameBuffer = GfxDevice()->NewFrameBuffer(m_ptrRenderPass->GetRenderPass()->GetAttachmentCount());
 		{
-			for (int index = 0; index < m_param.attachmentColors.size(); index++) {
-				if (m_param.attachmentColors[index].ptrRenderTexture->IsValid() == FALSE) {
+			for (int indexAttachment = 0; indexAttachment < m_param.attachmentColors.size(); indexAttachment++) {
+				if (m_param.attachmentColors[indexAttachment].ptrRenderTexture->IsValid() == FALSE) {
 					return FALSE;
 				}
 
-				if (m_ptrFrameBuffer->SetColorAttachment(m_param.attachmentColors[index].indexAttachment, m_param.attachmentColors[index].ptrRenderTexture->GetRenderTexture()) == FALSE) {
+				if (m_ptrFrameBuffer->SetColorAttachment(m_param.attachmentColors[indexAttachment].indexAttachment, m_param.attachmentColors[indexAttachment].ptrRenderTexture->GetRenderTexture()) == FALSE) {
 					return FALSE;
 				}
 			}

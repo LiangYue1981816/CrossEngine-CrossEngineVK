@@ -44,9 +44,9 @@ namespace CrossEngine {
 		event_init(&m_threadCluster.eventFinish, 1);
 		event_init(&m_threadCluster.eventDispatch, 0);
 
-		for (int index = 0; index < THREAD_COUNT; index++) {
-			m_threadCluster.params[index].pRenderer = this;
-			pthread_create(&m_threadCluster.threads[index], NULL, WorkThread, &m_threadCluster.params[index]);
+		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
+			m_threadCluster.params[indexThread].pRenderer = this;
+			pthread_create(&m_threadCluster.threads[indexThread], NULL, WorkThread, &m_threadCluster.params[indexThread]);
 		}
 	}
 
@@ -55,8 +55,8 @@ namespace CrossEngine {
 		event_signal(&m_threadCluster.eventExit);
 		event_signal(&m_threadCluster.eventDispatch);
 
-		for (int index = 0; index < THREAD_COUNT; index++) {
-			pthread_join(m_threadCluster.threads[index], NULL);
+		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
+			pthread_join(m_threadCluster.threads[indexThread], NULL);
 		}
 
 		event_destroy(&m_threadCluster.eventExit);
@@ -162,14 +162,14 @@ namespace CrossEngine {
 		GfxDevice()->AllocCommandBufferPool(pool);
 		GfxDevice()->ResetCommandBufferPool(pool);
 
-		for (int index = 0; index < pipelines.size(); index++) {
-			const auto &itMaterialPipelineQueue = itRenderPassQueue->second.find(pipelines[index].indexPass);
+		for (int indexPipeline = 0; indexPipeline < pipelines.size(); indexPipeline++) {
+			const auto &itMaterialPipelineQueue = itRenderPassQueue->second.find(pipelines[indexPipeline].indexPass);
 			if (itMaterialPipelineQueue == itRenderPassQueue->second.end()) continue;
 
-			const auto &itMaterialDescriptorSetQueue = itMaterialPipelineQueue->second.find(pipelines[index].ptrMaterialPipeline);
+			const auto &itMaterialDescriptorSetQueue = itMaterialPipelineQueue->second.find(pipelines[indexPipeline].ptrMaterialPipeline);
 			if (itMaterialDescriptorSetQueue == itMaterialPipelineQueue->second.end()) continue;
 
-			CGfxCommandBufferPtr &ptrCommandBuffer = m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass][pipelines[index].ptrMaterialPipeline][pipelines[index].indexPass][frame][thread];
+			CGfxCommandBufferPtr &ptrCommandBuffer = m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass][pipelines[indexPipeline].ptrMaterialPipeline][pipelines[indexPipeline].indexPass][frame][thread];
 
 			if (ptrCommandBuffer.IsNull()) {
 				ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
@@ -177,12 +177,12 @@ namespace CrossEngine {
 
 			ptrCommandBuffer->Clearup();
 			ptrCommandBuffer->ClearCommands();
-			ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, pipelines[index].indexPass);
+			ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, pipelines[indexPipeline].indexPass);
 			{
 				ptrCommandBuffer->CmdSetScissor(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
 				ptrCommandBuffer->CmdSetViewport(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
 
-				ptrCommandBuffer->CmdBindPipelineGraphics(pipelines[index].ptrMaterialPipeline);
+				ptrCommandBuffer->CmdBindPipelineGraphics(pipelines[indexPipeline].ptrMaterialPipeline);
 				ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
 
 				for (const auto &itMeshQueue : itMaterialDescriptorSetQueue->second) {

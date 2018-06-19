@@ -76,76 +76,76 @@ namespace CrossEngine {
 	{
 		m_ptrRenderPass = GfxDevice()->NewRenderPass(m_param.attachmentPresents.size() + m_param.attachmentColors.size() + m_param.attachmentDepthStencils.size(), m_param.subpasses.size());
 		{
-			for (int index = 0; index < m_param.attachmentPresents.size(); index++) {
+			for (int indexAttachment = 0; indexAttachment < m_param.attachmentPresents.size(); indexAttachment++) {
 				m_ptrRenderPass->SetPresentAttachment(
-					m_param.attachmentPresents[index].indexAttachment, 
-					m_param.attachmentPresents[index].format, 
-					m_param.attachmentPresents[index].loadOp, 
-					m_param.attachmentPresents[index].storeOp, 
-					m_param.attachmentPresents[index].clearValue, 
-					m_param.attachmentPresents[index].samples);
+					m_param.attachmentPresents[indexAttachment].indexAttachment,
+					m_param.attachmentPresents[indexAttachment].format,
+					m_param.attachmentPresents[indexAttachment].loadOp,
+					m_param.attachmentPresents[indexAttachment].storeOp,
+					m_param.attachmentPresents[indexAttachment].clearValue,
+					m_param.attachmentPresents[indexAttachment].samples);
 			}
 
-			for (int index = 0; index < m_param.attachmentColors.size(); index++) {
+			for (int indexAttachment = 0; indexAttachment < m_param.attachmentColors.size(); indexAttachment++) {
 				m_ptrRenderPass->SetColorAttachment(
-					m_param.attachmentColors[index].indexAttachment, 
-					m_param.attachmentColors[index].format, 
-					m_param.attachmentColors[index].loadOp, 
-					m_param.attachmentColors[index].storeOp, 
-					m_param.attachmentColors[index].clearValue, 
-					m_param.attachmentColors[index].samples, 
-					m_param.attachmentColors[index].finalLayout);
+					m_param.attachmentColors[indexAttachment].indexAttachment,
+					m_param.attachmentColors[indexAttachment].format,
+					m_param.attachmentColors[indexAttachment].loadOp,
+					m_param.attachmentColors[indexAttachment].storeOp,
+					m_param.attachmentColors[indexAttachment].clearValue,
+					m_param.attachmentColors[indexAttachment].samples,
+					m_param.attachmentColors[indexAttachment].finalLayout);
 			}
 
-			for (int index = 0; index < m_param.attachmentDepthStencils.size(); index++) {
+			for (int indexAttachment = 0; indexAttachment < m_param.attachmentDepthStencils.size(); indexAttachment++) {
 				m_ptrRenderPass->SetDepthStencilAttachment(
-					m_param.attachmentDepthStencils[index].indexAttachment, 
-					m_param.attachmentDepthStencils[index].format, 
-					m_param.attachmentDepthStencils[index].loadOp, 
-					m_param.attachmentDepthStencils[index].storeOp, 
-					m_param.attachmentDepthStencils[index].stencilLoadOp, 
-					m_param.attachmentDepthStencils[index].stencilStoreOp, 
-					m_param.attachmentDepthStencils[index].clearValue, 
-					m_param.attachmentDepthStencils[index].samples, 
-					m_param.attachmentDepthStencils[index].finalLayout);
+					m_param.attachmentDepthStencils[indexAttachment].indexAttachment,
+					m_param.attachmentDepthStencils[indexAttachment].format,
+					m_param.attachmentDepthStencils[indexAttachment].loadOp,
+					m_param.attachmentDepthStencils[indexAttachment].storeOp,
+					m_param.attachmentDepthStencils[indexAttachment].stencilLoadOp,
+					m_param.attachmentDepthStencils[indexAttachment].stencilStoreOp,
+					m_param.attachmentDepthStencils[indexAttachment].clearValue,
+					m_param.attachmentDepthStencils[indexAttachment].samples,
+					m_param.attachmentDepthStencils[indexAttachment].finalLayout);
 			}
 
-			for (int index = 0; index < m_param.subpasses.size(); index++) {
-				if (m_param.subpasses[index].inputColorReference >= 0) {
-					m_ptrRenderPass->SetSubpassInputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputColorReference);
+			for (int indexPass = 0; indexPass < m_param.subpasses.size(); indexPass++) {
+				if (m_param.subpasses[indexPass].inputColorReference >= 0) {
+					m_ptrRenderPass->SetSubpassInputColorReference(m_param.subpasses[indexPass].indexSubPass, m_param.subpasses[indexPass].inputColorReference);
 				}
 
-				if (m_param.subpasses[index].inputDepthStencilReference >= 0) {
-					m_ptrRenderPass->SetSubpassInputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].inputDepthStencilReference);
+				if (m_param.subpasses[indexPass].inputDepthStencilReference >= 0) {
+					m_ptrRenderPass->SetSubpassInputDepthStencilReference(m_param.subpasses[indexPass].indexSubPass, m_param.subpasses[indexPass].inputDepthStencilReference);
 				}
 
-				if (m_param.subpasses[index].outputColorReference >= 0) {
-					m_ptrRenderPass->SetSubpassOutputColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputColorReference);
+				if (m_param.subpasses[indexPass].outputColorReference >= 0) {
+					m_ptrRenderPass->SetSubpassOutputColorReference(m_param.subpasses[indexPass].indexSubPass, m_param.subpasses[indexPass].outputColorReference);
 				}
 
-				if (m_param.subpasses[index].outputDepthStencilReference >= 0) {
-					m_ptrRenderPass->SetSubpassOutputDepthStencilReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].outputDepthStencilReference);
+				if (m_param.subpasses[indexPass].outputDepthStencilReference >= 0) {
+					m_ptrRenderPass->SetSubpassOutputDepthStencilReference(m_param.subpasses[indexPass].indexSubPass, m_param.subpasses[indexPass].outputDepthStencilReference);
 				}
 
-				if (m_param.subpasses[index].resolveColorReference >= 0) {
-					m_ptrRenderPass->SetSubpassResolveColorReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].resolveColorReference, m_param.subpasses[index].resolveColorImageLayout);
+				if (m_param.subpasses[indexPass].resolveColorReference >= 0) {
+					m_ptrRenderPass->SetSubpassResolveColorReference(m_param.subpasses[indexPass].indexSubPass, m_param.subpasses[indexPass].resolveColorReference, m_param.subpasses[indexPass].resolveColorImageLayout);
 				}
 
-				if (m_param.subpasses[index].preserveReference >= 0) {
-					m_ptrRenderPass->SetSubpassPreserveReference(m_param.subpasses[index].indexSubPass, m_param.subpasses[index].preserveReference);
+				if (m_param.subpasses[indexPass].preserveReference >= 0) {
+					m_ptrRenderPass->SetSubpassPreserveReference(m_param.subpasses[indexPass].indexSubPass, m_param.subpasses[indexPass].preserveReference);
 				}
 			}
 
-			for (int index = 0; index < m_param.dependencies.size(); index++) {
+			for (int indexDependency = 0; indexDependency < m_param.dependencies.size(); indexDependency++) {
 				m_ptrRenderPass->SetSubpassDependency(
-					m_param.dependencies[index].indexDependency,
-					m_param.dependencies[index].indexSrcSubpass,
-					m_param.dependencies[index].indexDstSubpass,
-					m_param.dependencies[index].srcStageMask,
-					m_param.dependencies[index].dstStageMask,
-					m_param.dependencies[index].srcAccessMask,
-					m_param.dependencies[index].dstAccessMask,
-					m_param.dependencies[index].dependencyFlags);
+					m_param.dependencies[indexDependency].indexDependency,
+					m_param.dependencies[indexDependency].indexSrcSubpass,
+					m_param.dependencies[indexDependency].indexDstSubpass,
+					m_param.dependencies[indexDependency].srcStageMask,
+					m_param.dependencies[indexDependency].dstStageMask,
+					m_param.dependencies[indexDependency].srcAccessMask,
+					m_param.dependencies[indexDependency].dstAccessMask,
+					m_param.dependencies[indexDependency].dependencyFlags);
 			}
 		}
 		return m_ptrRenderPass->Create();
