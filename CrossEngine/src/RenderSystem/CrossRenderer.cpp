@@ -86,7 +86,11 @@ namespace CrossEngine {
 
 	void CRenderer::Render(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
 	{
-		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
+		if (pCamera == NULL) {
+			return;
+		}
+
+		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
 
 	void CRenderer::ResetMainCommandBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
@@ -98,17 +102,17 @@ namespace CrossEngine {
 		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
 		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
 
-		uint32_t thread = thread_id() + (uint32_t)this;
+		uint32_t thread = thread_id() + (uint32_t)pCamera + (uint32_t)this;
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
 		uint32_t pool = thread + frame;
 
 		GfxDevice()->AllocCommandBufferPool(pool);
 
-		if (m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass].end()) {
-			m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+		if (m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass].find(frame) == m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass].end()) {
+			m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][frame] = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 		}
 		else {
-			m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][frame]->Reset();
+			m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][frame]->Reset();
 		}
 	}
 
@@ -122,7 +126,7 @@ namespace CrossEngine {
 		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
 
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
-		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[ptrFrameBuffer][ptrRenderPass][frame];
+		CGfxCommandBufferPtr &ptrMainCommandBuffer = m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][frame];
 
 		ptrMainCommandBuffer->BeginPrimary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		{
@@ -132,7 +136,7 @@ namespace CrossEngine {
 					const auto &itMaterialPipelineQueue = itRenderPassQueue->second.find(indexPass);
 					if (itMaterialPipelineQueue != itRenderPassQueue->second.end()) {
 						for (const auto &itMaterialPipeline : itMaterialPipelineQueue->second) {
-							for (const auto &itSecondaryCommandBuffer : m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass][itMaterialPipeline.first][indexPass][frame]) {
+							for (const auto &itSecondaryCommandBuffer : m_ptrSecondaryCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][itMaterialPipeline.first][indexPass][frame]) {
 								ptrMainCommandBuffer->CmdExecuteCommandBuffer(itSecondaryCommandBuffer.second);
 							}
 						}
@@ -157,7 +161,7 @@ namespace CrossEngine {
 		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
 		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
 
-		uint32_t thread = thread_id() + (uint32_t)this;
+		uint32_t thread = thread_id() + (uint32_t)pCamera + (uint32_t)this;
 		uint32_t frame = GfxSwapChain()->GetImageIndex();
 		uint32_t pool = thread + frame;
 
@@ -171,7 +175,7 @@ namespace CrossEngine {
 			const auto &itMaterialDescriptorSetQueue = itMaterialPipelineQueue->second.find(pipelines[indexPipeline].ptrMaterialPipeline);
 			if (itMaterialDescriptorSetQueue == itMaterialPipelineQueue->second.end()) continue;
 
-			CGfxCommandBufferPtr &ptrCommandBuffer = m_ptrSecondaryCommandBuffers[ptrFrameBuffer][ptrRenderPass][pipelines[indexPipeline].ptrMaterialPipeline][pipelines[indexPipeline].indexPass][frame][thread];
+			CGfxCommandBufferPtr &ptrCommandBuffer = m_ptrSecondaryCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][pipelines[indexPipeline].ptrMaterialPipeline][pipelines[indexPipeline].indexPass][frame][thread];
 
 			if (ptrCommandBuffer.IsNull()) {
 				ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
@@ -186,6 +190,10 @@ namespace CrossEngine {
 
 				ptrCommandBuffer->CmdBindPipelineGraphics(pipelines[indexPipeline].ptrMaterialPipeline);
 				ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
+
+				if (pLightManager) {
+					ptrCommandBuffer->CmdBindDescriptorSetGraphics(pLightManager->GetDescriptorSet());
+				}
 
 				for (const auto &itMeshQueue : itMaterialDescriptorSetQueue->second) {
 					ptrCommandBuffer->CmdBindDescriptorSetGraphics(itMeshQueue.first);

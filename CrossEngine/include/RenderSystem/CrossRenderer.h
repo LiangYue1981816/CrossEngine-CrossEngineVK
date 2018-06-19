@@ -56,22 +56,24 @@ namespace CrossEngine {
 		} ThreadCluster;
 
 	protected:
-		// [FrameBuffer][RenderPass][Frame] = MainCommandBuffer
+		// [Camera][FrameBuffer][RenderPass][Frame] = MainCommandBuffer
 		typedef
+			std::map<CCamera*,
 			std::map<CGfxFrameBufferPtr,
 			std::map<CGfxRenderPassPtr,
 			std::map<uint32_t,
-			CGfxCommandBufferPtr>>> MainCommandBufferMap;
+			CGfxCommandBufferPtr>>>> MainCommandBufferMap;
 
-		// [FrameBuffer][RenderPass][Pipeline][IndexPass][Frame][Thread] = SecondaryCommandBuffer
+		// [Camera][FrameBuffer][RenderPass][Pipeline][IndexPass][Frame][Thread] = SecondaryCommandBuffer
 		typedef
+			std::map<CCamera*,
 			std::map<CGfxFrameBufferPtr,
 			std::map<CGfxRenderPassPtr,
 			std::map<CGfxPipelineGraphicsPtr,
 			std::map<uint32_t,
 			std::map<uint32_t,
 			std::map<uint32_t,
-			CGfxCommandBufferPtr>>>>>> SecondaryCommandBufferMap;
+			CGfxCommandBufferPtr>>>>>>> SecondaryCommandBufferMap;
 
 		
 	protected:
