@@ -199,7 +199,7 @@ namespace CrossEngine {
 				ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
 
 				if (pFxManager) {
-					pFxManager->CmdBindDescriptorSetGraphics(pFxManager->GetDescriptorSet());
+					ptrCommandBuffer->CmdBindDescriptorSetGraphics(pFxManager->GetDescriptorSet());
 				}
 
 				if (pLightManager) {
