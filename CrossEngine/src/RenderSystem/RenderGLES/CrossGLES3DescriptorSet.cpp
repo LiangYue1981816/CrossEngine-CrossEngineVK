@@ -55,6 +55,11 @@ namespace CrossEngine {
 		return (HANDLE)this;
 	}
 
+	const CGfxDescriptorSetLayoutPtr& CGLES3DescriptorSet::GetDescriptorSetLayoutPtr(void) const
+	{
+		return m_ptrDescriptorSetLayout;
+	}
+
 	void CGLES3DescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
 		m_ptrTextures[binding] = ptrTexture;

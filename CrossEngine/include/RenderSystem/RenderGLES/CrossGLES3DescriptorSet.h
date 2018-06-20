@@ -42,6 +42,7 @@ namespace CrossEngine {
 	public:
 		CGLES3Device* GetDevice(void) const;
 		HANDLE GetHandle(void) const;
+		const CGfxDescriptorSetLayoutPtr& GetDescriptorSetLayoutPtr(void) const;
 
 	public:
 		void SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture);

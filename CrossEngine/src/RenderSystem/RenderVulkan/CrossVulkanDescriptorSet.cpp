@@ -64,6 +64,11 @@ namespace CrossEngine {
 		return m_vkDescriptorSet;
 	}
 
+	const CGfxDescriptorSetLayoutPtr& CVulkanDescriptorSet::GetDescriptorSetLayoutPtr(void) const
+	{
+		return m_ptrDescriptorSetLayout;
+	}
+
 	void CVulkanDescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
 		m_bNeedUpdate = TRUE;
