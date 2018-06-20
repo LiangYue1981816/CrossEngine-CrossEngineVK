@@ -60,7 +60,7 @@ namespace CrossEngine {
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 	};
 
-	class CROSS_EXPORT CDirectionLight
+	class CROSS_EXPORT CDirectLight
 	{
 		friend class CLightManager;
 
@@ -73,8 +73,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CDirectionLight(void);
-		virtual ~CDirectionLight(void);
+		CDirectLight(void);
+		virtual ~CDirectLight(void);
 
 
 	public:

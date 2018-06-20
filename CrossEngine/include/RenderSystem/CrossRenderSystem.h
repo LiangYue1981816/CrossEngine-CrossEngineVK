@@ -119,8 +119,8 @@ namespace CrossEngine {
 		void SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetAmbientRotation(const glm::mat4 &mtxRotation);
 
-		void SetDirectionLightColor(float red, float green, float blue);
-		void SetDirectionLightDirection(float x, float y, float z);
+		void SetDirectLightColor(float red, float green, float blue);
+		void SetDirectLightDirection(float x, float y, float z);
 
 	public:
 		void Update(void);

@@ -227,14 +227,14 @@ namespace CrossEngine {
 		m_pLightManager->SetAmbientRotation(mtxRotation);
 	}
 
-	void CRenderSystem::SetDirectionLightColor(float red, float green, float blue)
+	void CRenderSystem::SetDirectLightColor(float red, float green, float blue)
 	{
-		m_pLightManager->SetDirectionLightColor(red, green, blue);
+		m_pLightManager->SetDirectLightColor(red, green, blue);
 	}
 
-	void CRenderSystem::SetDirectionLightDirection(float x, float y, float z)
+	void CRenderSystem::SetDirectLightDirection(float x, float y, float z)
 	{
-		m_pLightManager->SetDirectionLightDirection(x, y, z);
+		m_pLightManager->SetDirectLightDirection(x, y, z);
 	}
 
 	void CRenderSystem::Update(void)

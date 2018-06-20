@@ -26,6 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CAmbientLight::CAmbientLight(void)
+		: m_bDirty(FALSE)
 	{
 		memset(&m_param, sizeof(m_param), 0);
 
@@ -45,6 +46,7 @@ namespace CrossEngine {
 
 	void CAmbientLight::SetAmbient(float shRed[9], float shGreen[9], float shBlue[9])
 	{
+		m_bDirty = TRUE;
 		m_param.shRed[0] = glm::vec4(shRed[0], shRed[1], shRed[2], 0.0);
 		m_param.shRed[1] = glm::vec4(shRed[3], shRed[4], shRed[5], 0.0);
 		m_param.shRed[2] = glm::vec4(shRed[6], shRed[7], shRed[8], 0.0);
@@ -58,19 +60,21 @@ namespace CrossEngine {
 
 	void CAmbientLight::SetRotation(const glm::mat4 &mtxRotation)
 	{
+		m_bDirty = TRUE;
 		m_param.mtxRotation = mtxRotation;
 	}
 
 	void CAmbientLight::Apply(void)
 	{
 		if (m_bDirty) {
-			m_bDirty = false;
+			m_bDirty = FALSE;
 			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
 		}
 	}
 
 
-	CDirectionLight::CDirectionLight(void)
+	CDirectLight::CDirectLight(void)
+		: m_bDirty(FALSE)
 	{
 		memset(&m_param, sizeof(m_param), 0);
 
@@ -78,30 +82,32 @@ namespace CrossEngine {
 		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
 	}
 
-	CDirectionLight::~CDirectionLight(void)
+	CDirectLight::~CDirectLight(void)
 	{
 		m_ptrUniformBuffer.Release();
 	}
 
-	const CGfxUniformBufferPtr CDirectionLight::GetUniformBuffer(void) const
+	const CGfxUniformBufferPtr CDirectLight::GetUniformBuffer(void) const
 	{
 		return m_ptrUniformBuffer;
 	}
 
-	void CDirectionLight::SetColor(float red, float green, float blue)
+	void CDirectLight::SetColor(float red, float green, float blue)
 	{
+		m_bDirty = TRUE;
 		m_param.color = glm::vec4(red, green, blue, 0.0f);
 	}
 
-	void CDirectionLight::SetDirection(float x, float y, float z)
+	void CDirectLight::SetDirection(float x, float y, float z)
 	{
+		m_bDirty = TRUE;
 		m_param.direction = glm::vec4(x, y, z, 0.0f);
 	}
 
-	void CDirectionLight::Apply(void)
+	void CDirectLight::Apply(void)
 	{
 		if (m_bDirty) {
-			m_bDirty = false;
+			m_bDirty = FALSE;
 			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
 		}
 	}

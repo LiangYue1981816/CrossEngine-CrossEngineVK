@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_AMBIENT_LIGHT, m_ambientLight.GetUniformBuffer());
-		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECTION_LIGHT, m_directionLight.GetUniformBuffer());
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECTION_LIGHT, m_directLight.GetUniformBuffer());
 		m_ptrDescriptorSet->UpdateDescriptorSets();
 	}
 
@@ -58,20 +58,20 @@ namespace CrossEngine {
 		m_ambientLight.SetRotation(mtxRotation);
 	}
 
-	void CLightManager::SetDirectionLightColor(float red, float green, float blue)
+	void CLightManager::SetDirectLightColor(float red, float green, float blue)
 	{
-		m_directionLight.SetColor(red, green, blue);
+		m_directLight.SetColor(red, green, blue);
 	}
 
-	void CLightManager::SetDirectionLightDirection(float x, float y, float z)
+	void CLightManager::SetDirectLightDirection(float x, float y, float z)
 	{
-		m_directionLight.SetDirection(x, y, z);
+		m_directLight.SetDirection(x, y, z);
 	}
 
 	void CLightManager::Apply(void)
 	{
 		m_ambientLight.Apply();
-		m_directionLight.Apply();
+		m_directLight.Apply();
 	}
 
 }
