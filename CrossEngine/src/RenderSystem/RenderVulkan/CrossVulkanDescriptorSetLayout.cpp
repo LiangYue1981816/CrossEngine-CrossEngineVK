@@ -149,12 +149,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	uint32_t CVulkanDescriptorSetLayout::GetSet(void) const
+	const uint32_t CVulkanDescriptorSetLayout::GetSet(void) const
 	{
 		return m_set;
 	}
 
-	uint32_t CVulkanDescriptorSetLayout::GetBinding(uint32_t dwName) const
+	const uint32_t CVulkanDescriptorSetLayout::GetBinding(uint32_t dwName) const
 	{
 		const auto &itName = m_nameBindings.find(dwName);
 		return itName != m_nameBindings.end() ? itName->second : -1;
@@ -163,6 +163,17 @@ namespace CrossEngine {
 	const uint32_t* CVulkanDescriptorSetLayout::GetTypesUsedCount(void) const
 	{
 		return m_numTypesUsedCount;
+	}
+
+	BOOL CVulkanDescriptorSetLayout::IsCompatible(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) const
+	{
+		for (const auto &itBinding : m_nameBindings) {
+			if (ptrPipelineGraphics->GetBinding(m_set, itBinding.first) != itBinding.second) {
+				return FALSE;
+			}
+		}
+
+		return TRUE;
 	}
 
 }

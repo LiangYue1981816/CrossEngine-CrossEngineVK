@@ -247,8 +247,8 @@ namespace CrossEngine {
 		if (CCamera *pCamera = m_pCameraManager->GetCamera(dwCameraName)) {
 			if (pCamera->IsEnable()) {
 				m_pRenderer->SetCamera(pCamera);
-//				m_pRenderer->SetFxManager(m_pFxManager);
-//				m_pRenderer->SetLightManager(m_pLightManager);
+				m_pRenderer->SetFxManager(m_pFxManager);
+				m_pRenderer->SetLightManager(m_pLightManager);
 				m_pRenderer->BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
 				m_pRenderer->Render(ptrFrameBuffer, ptrRenderPass);
 			}

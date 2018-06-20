@@ -54,9 +54,12 @@ namespace CrossEngine {
 		BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags);
 
 	public:
-		uint32_t GetSet(void) const;
-		uint32_t GetBinding(uint32_t dwName) const;
+		const uint32_t GetSet(void) const;
+		const uint32_t GetBinding(uint32_t dwName) const;
 		const uint32_t* GetTypesUsedCount(void) const;
+
+	public:
+		BOOL IsCompatible(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) const;
 
 
 	protected:

@@ -175,6 +175,11 @@ namespace CrossEngine {
 		GfxDevice()->AllocCommandBufferPool(pool);
 		GfxDevice()->ResetCommandBufferPool(pool);
 
+		const CGfxDescriptorSetPtr ptrDescriptorSetNull;
+		const CGfxDescriptorSetPtr &ptrDescriptorSetCamera = pCamera->GetDescriptorSet();
+		const CGfxDescriptorSetPtr &ptrDescriptorSetFx = pFxManager ? pFxManager->GetDescriptorSet() : ptrDescriptorSetNull;
+		const CGfxDescriptorSetPtr &ptrDescriptorSetLight = pLightManager ? pLightManager->GetDescriptorSet() : ptrDescriptorSetNull;
+
 		for (int indexPipeline = 0; indexPipeline < pipelines.size(); indexPipeline++) {
 			const auto &itMaterialPipelineQueue = itRenderPassQueue->second.find(pipelines[indexPipeline].indexPass);
 			if (itMaterialPipelineQueue == itRenderPassQueue->second.end()) continue;
@@ -196,14 +201,14 @@ namespace CrossEngine {
 				ptrCommandBuffer->CmdSetViewport(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
 
 				ptrCommandBuffer->CmdBindPipelineGraphics(pipelines[indexPipeline].ptrMaterialPipeline);
-				ptrCommandBuffer->CmdBindDescriptorSetGraphics(pCamera->GetDescriptorSet());
+				ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetCamera);
 
-				if (pFxManager) {
-					ptrCommandBuffer->CmdBindDescriptorSetGraphics(pFxManager->GetDescriptorSet());
+				if (ptrDescriptorSetFx.IsNull() == FALSE && ptrDescriptorSetFx->GetDescriptorSetLayoutPtr()->IsCompatible(pipelines[indexPipeline].ptrMaterialPipeline)) {
+					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetFx);
 				}
 
-				if (pLightManager) {
-					ptrCommandBuffer->CmdBindDescriptorSetGraphics(pLightManager->GetDescriptorSet());
+				if (ptrDescriptorSetLight.IsNull() == FALSE && ptrDescriptorSetLight->GetDescriptorSetLayoutPtr()->IsCompatible(pipelines[indexPipeline].ptrMaterialPipeline)) {
+					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetLight);
 				}
 
 				for (const auto &itMeshQueue : itMaterialDescriptorSetQueue->second) {

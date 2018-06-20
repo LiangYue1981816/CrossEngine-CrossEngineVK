@@ -57,9 +57,12 @@ namespace CrossEngine {
 		virtual BOOL SetInputAttachmentBinding(const char *szName, uint32_t binding, VkShaderStageFlags flags) = 0;
 
 	public:
-		virtual uint32_t GetSet(void) const = 0;
-		virtual uint32_t GetBinding(uint32_t dwName) const = 0;
+		virtual const uint32_t GetSet(void) const = 0;
+		virtual const uint32_t GetBinding(uint32_t dwName) const = 0;
 		virtual const uint32_t* GetTypesUsedCount(void) const = 0;
+
+	public:
+		virtual BOOL IsCompatible(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) const = 0;
 	};
 
 	class CROSS_EXPORT CGfxDescriptorSetLayoutPtr : public CSharedPtr<CGfxDescriptorSetLayout>
