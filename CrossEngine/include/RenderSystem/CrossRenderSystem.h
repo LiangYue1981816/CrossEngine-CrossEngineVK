@@ -58,16 +58,19 @@ namespace CrossEngine {
 		DESCRIPTOR_BIND_CAMERA = 0,
 		DESCRIPTOR_BIND_TRANSFORM = 1,
 		DESCRIPTOR_BIND_AMBIENT_LIGHT = 2,
-		DESCRIPTOR_BIND_DIRECTION_LIGHT = 3,
+		DESCRIPTOR_BIND_POINT_LIGHT = 3,
+		DESCRIPTOR_BIND_DIRECT_LIGHT = 4,
+		DESCRIPTOR_BIND_FOG = 5,
 		DESCRIPTOR_BIND_EXTERNAL_BASE = 16
 	} DESCRIPTOR_BIND_TYPE;
 
-	static const char *DESCRIPTOR_BIND_NAME[5] = {
+	static const char *DESCRIPTOR_BIND_NAME[6] = {
 		"engineCamera",
 		"engineTransform",
 		"engineAmbientLight",
 		"enginePointLight",
-		"engineDirectionLight"
+		"engineDirectLight",
+		"engineFog"
 	};
 
 
