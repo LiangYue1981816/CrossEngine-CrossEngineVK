@@ -62,15 +62,4 @@ namespace CrossEngine {
 		m_ptrDescriptorSet = pDrawable->GetDescriptorSet(dwPassName);
 	}
 
-	size_t CBatch::FitBufferSize(size_t size)
-	{
-		size_t bufferSize = 1 * 1024;
-
-		while (bufferSize < size) {
-			bufferSize <<= 1;
-		}
-
-		return bufferSize;
-	}
-
 }

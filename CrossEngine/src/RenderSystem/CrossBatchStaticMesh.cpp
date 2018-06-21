@@ -50,20 +50,24 @@ namespace CrossEngine {
 
 	void CBatchStaticMesh::CreateBatchBuffer(void)
 	{
-		if (m_ptrBatchBuffer.IsNull()) {
-			m_ptrBatchBuffer = GfxDevice()->NewVertexBuffer();
-		}
+		if (m_batchs.size()) {
+			if (m_ptrBatchBuffer.IsNull()) {
+				m_ptrBatchBuffer = GfxDevice()->NewVertexBuffer();
+			}
 
-		size_t instanceBufferSize = m_batchs.size() * sizeof(BatchData);
+			const int INSTANCE_BUFFER_SIZE = 4 * 1024;
+			size_t batchBufferSize = m_batchs.size() * sizeof(BatchData);
+			size_t instanceBufferSize = m_ptrBatchBuffer->GetBufferSize();
 
-		if (m_ptrBatchBuffer->GetBufferSize() == 0 ||
-			m_ptrBatchBuffer->GetBufferSize() < instanceBufferSize) {
-			m_ptrBatchBuffer->Destroy();
-			m_ptrBatchBuffer->Create(FitBufferSize(instanceBufferSize), NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
-		}
+			if (instanceBufferSize == 0 || instanceBufferSize < batchBufferSize) {
+				instanceBufferSize = INSTANCE_BUFFER_SIZE;
+				while (instanceBufferSize < batchBufferSize) instanceBufferSize <<= 1;
 
-		if (instanceBufferSize > 0) {
-			m_ptrBatchBuffer->SetData(0, instanceBufferSize, m_batchs.data());
+				m_ptrBatchBuffer->Destroy();
+				m_ptrBatchBuffer->Create(instanceBufferSize, NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
+			}
+
+			m_ptrBatchBuffer->SetData(0, batchBufferSize, m_batchs.data());
 		}
 	}
 
