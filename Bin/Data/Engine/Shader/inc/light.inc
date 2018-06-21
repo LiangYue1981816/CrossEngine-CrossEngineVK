@@ -1,16 +1,30 @@
+#ifndef _LIGHT_INC_
+#define _LIGHT_INC_
+
 #include "common.inc"
+
+USE_ENGINE_AMBIENT_LIGHT;
+USE_ENGINE_POINT_LIGHT;
+USE_ENGINE_DIRECT_LIGHT;
+
+#define mainPointLightColor enginePointLight.color
+#define mainPointLightPosition enginePointLight.position
+
+#define mainDirectLightColor engineDirectLight.color
+#define mainDirectLightDirection engineDirectLight.direction
 
 
 // ToneMapping
-vec3 ToneMapping(vec3 x)
+vec3 ToneMapping(vec3 color)
 {
 	float a = 2.51;
 	float b = 0.03;
 	float c = 2.43;
 	float d = 0.59;
 	float e = 0.14;
-	return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
+	return clamp((color * (a * color + b)) / (color * (c * color + d) + e), 0.0, 1.0);
 }
+
 
 // Gamma
 vec3 Gamma2Linear(vec3 gamma)
@@ -56,9 +70,10 @@ vec3 Diffuse_Lambert(vec3 albedoColor)
 	return albedoColor / PI;
 }
 
-float D_Blinn(float ndh, float ldh, float a, float spec)
+float D_Blinn(float ndh, float roughness)
 {
-	return (a + 2.0) / (8.0 * PI) * pow(ndh, a) * (spec + (1.0 - spec) * (1.0 - ldh));
+	float a = pow2(1.0 - roughness) * 256.0;
+	return (a + 2.0) / (8.0 * PI) * pow(ndh, a);
 }
 
 float D_GGX(float ndh, float roughness)
@@ -71,7 +86,7 @@ float D_GGX(float ndh, float roughness)
 
 float G_Neumann(float ndv, float ndl)
 {
-	return 1.0 / (4.0 * max(ndv, ndl));
+	return 0.25 / max(ndv, ndl);
 }
 
 float G_Schlick(float ndv, float ndl, float roughness)
@@ -112,35 +127,18 @@ vec3 Env_Specular(vec3 SpecularColor, float ndv, float roughness)
 }
 
 
-vec3 BRDF_Blinn(vec3 lightColor, vec3 L, vec3 H, vec3 N, vec3 albedoColor, float metallic, float roughness)
-{
-	float ndl = max(dot(N, L), 0.0);
-	float ndh = max(dot(N, H), 0.0);
-	float ldh = max(dot(L, H), 0.0);
-
-	float D = D_Blinn(ndh, ldh, (1.0 - roughness) * 128.0, 0.0);
-	vec3  F = vec3(metallic);
-
-	vec3 factor = vec3(1.0 - metallic);
-	vec3 diffuse = Diffuse_Lambert(albedoColor) * factor;
-	vec3 specular = D * F;
-
-	return (diffuse + specular) * ndl * lightColor;
-}
-
-vec3 BRDF_BlinnGGX(vec3 lightColor, vec3 L, vec3 H, vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness)
+vec3 BRDF_Blinn(vec3 lightColor, vec3 L, vec3 H, vec3 V, vec3 N, vec3 albedoColor, vec3 specularColor, float metallic, float roughness)
 {
 	float ndl = max(dot(N, L), 0.0);
 	float ndh = max(dot(N, H), 0.0);
 	float ndv = max(dot(N, V), 0.0);
 
-	float D = D_GGX(ndh, roughness);
-	float G = G_Neumann(ndv, ndl);
-	vec3  F = vec3(metallic);
+	float D = D_Blinn(ndh, roughness);
+	vec3  F = F_Schlick(ndv, metallic, albedoColor);
 
 	vec3 factor = vec3(1.0 - metallic);
 	vec3 diffuse = Diffuse_Lambert(albedoColor) * factor;
-	vec3 specular = D * F * G;
+	vec3 specular = D * F * specularColor;
 
 	return (diffuse + specular) * ndl * lightColor;
 }
@@ -162,24 +160,60 @@ vec3 BRDF_Pbr(vec3 lightColor, vec3 L, vec3 H, vec3 V, vec3 N, vec3 albedoColor,
 	return (diffuse + specular) * ndl * lightColor;
 }
 
-vec3 BRDF_EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, samplerCube env)
+vec3 BRDF_EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, vec3 specularColor)
 {
 	float ndv = max(dot(N, V), 0.0);
 
 	vec3 F = F_Schlick(ndv, metallic, albedoColor);
+	vec3 R = reflect(-V, N);
+
+	return Env_Specular(F, ndv, roughness) * specularColor;
+}
+
+
+// High level functions
+float PointLightAttenuation(float dis)
+{
+	return Attenuation(dis, enginePointLight.attenuation.x, enginePointLight.attenuation.y, enginePointLight.attenuation.z);
+}
+
+vec3 AmbientLightingSH4(vec3 albedoColor, float metallic, vec3 normal)
+{
+	return Ambient_SH4(albedoColor, metallic, (engineAmbientLight.rotationMatrix * vec4(normal, 0.0)).xyz, engineAmbientLight.shRed0, engineAmbientLight.shGreen0, engineAmbientLight.shBlue0);
+}
+
+vec3 AmbientLightingSH9(vec3 albedoColor, float metallic, vec3 normal)
+{
+	return Ambient_SH9(albedoColor, metallic, (engineAmbientLight.rotationMatrix * vec4(normal, 0.0)).xyz, engineAmbientLight.shRed0.xyz, engineAmbientLight.shRed1.xyz, engineAmbientLight.shRed2.xyz, engineAmbientLight.shGreen0.xyz, engineAmbientLight.shGreen1.xyz, engineAmbientLight.shGreen2.xyz, engineAmbientLight.shBlue0.xyz, engineAmbientLight.shBlue1.xyz, engineAmbientLight.shBlue2.xyz);
+}
+
+vec3 BlinnLighting(vec3 lightColor, vec3 lightDirection, vec3 H, vec3 V, vec3 N, vec3 albedoColor, vec3 specularColor, float metallic, float roughness)
+{
+	return BRDF_Blinn(lightColor, lightDirection, H, V, N, albedoColor, specularColor, metallic, roughness);
+}
+
+vec3 PBRLighting(vec3 lightColor, vec3 lightDirection, vec3 H, vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness)
+{
+	return BRDF_Pbr(lightColor, lightDirection, H, V, N, albedoColor, metallic, roughness);
+}
+
+vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, vec3 specularColor)
+{
+	return BRDF_EnvSpecular(V, N, albedoColor, metallic, roughness, specularColor);
+}
+
+vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, samplerCube env)
+{
 	vec3 R = reflect(-V, N);
 	vec3 specularColor = Gamma2Linear(textureLod(env, R, roughness * 8.0).rgb);
-
-	return Env_Specular(F, ndv, roughness) * specularColor;
+	return BRDF_EnvSpecular(V, N, albedoColor, metallic, roughness, specularColor);
 }
 
-vec3 BRDF_EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, sampler2D env)
+vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, sampler2D env)
 {
-	float ndv = max(dot(N, V), 0.0);
-
-	vec3 F = F_Schlick(ndv, metallic, albedoColor);
 	vec3 R = reflect(-V, N);
 	vec3 specularColor = Gamma2Linear(textureLod(env, SphericalSampleing(R), roughness * 8.0).rgb);
-
-	return Env_Specular(F, ndv, roughness) * specularColor;
+	return BRDF_EnvSpecular(V, N, albedoColor, metallic, roughness, specularColor);
 }
+
+#endif

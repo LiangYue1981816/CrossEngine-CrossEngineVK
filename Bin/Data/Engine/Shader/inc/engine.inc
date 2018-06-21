@@ -1,3 +1,6 @@
+#ifndef _ENGINE_INC_
+#define _ENGINE_INC_
+
 #define USE_VERTEX_ATTRIBUTE_POSITION  layout (location = 0) in vec3 inPosition
 #define USE_VERTEX_ATTRIBUTE_NORMAL    layout (location = 1) in vec3 inNormal
 #define USE_VERTEX_ATTRIBUTE_BINORMAL  layout (location = 2) in vec3 inBinormal
@@ -26,7 +29,9 @@
 #define DESCRIPTOR_BIND_CAMERA              0
 #define DESCRIPTOR_BIND_TRANSFORM           1
 #define DESCRIPTOR_BIND_AMBIENT_LIGHT       2
-#define DESCRIPTOR_BIND_DIRECTION_LIGHT     3
+#define DESCRIPTOR_BIND_POINT_LIGHT         3
+#define DESCRIPTOR_BIND_DIRECT_LIGHT        4
+#define DESCRIPTOR_BIND_FOG                 5
 
 
 #define USE_ENGINE_CAMERA                                                      \
@@ -41,23 +46,25 @@
 #define USE_ENGINE_TRANSFORM                                                   \
 	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_TRANSFORM) uniform Transform             \
 	{                                                                            \
-		mat4 transformMatrix;                                                      \
+		mat4 worldMatrix;                                                          \
+		mat4 worldInverseMatrix;                                                   \
+		mat4 worldInverseTransposeMatrix;                                          \
 	} engineTransform
 
 #define USE_ENGINE_AMBIENT_LIGHT                                               \
 	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_AMBIENT_LIGHT) uniform AmbientLight      \
 	{                                                                            \
-		vec3 shRed0;                                                               \
-		vec3 shRed1;                                                               \
-		vec3 shRed2;                                                               \
+		vec4 shRed0;                                                               \
+		vec4 shRed1;                                                               \
+		vec4 shRed2;                                                               \
 		                                                                           \
-		vec3 shGreen0;                                                             \
-		vec3 shGreen1;                                                             \
-		vec3 shGreen2;                                                             \
+		vec4 shGreen0;                                                             \
+		vec4 shGreen1;                                                             \
+		vec4 shGreen2;                                                             \
 		                                                                           \
-		vec3 shBlue0;                                                              \
-		vec3 shBlue1;                                                              \
-		vec3 shBlue2;                                                              \
+		vec4 shBlue0;                                                              \
+		vec4 shBlue1;                                                              \
+		vec4 shBlue2;                                                              \
 		                                                                           \
 		mat4 rotationMatrix;                                                       \
 	} engineAmbientLight
@@ -67,11 +74,36 @@
 	{                                                                            \
 		vec3 color;                                                                \
 		vec3 position;                                                             \
+		vec3 attenuation;                                                          \
 	} enginePointLight
 
 #define USE_ENGINE_DIRECTION_LIGHT                                             \
-	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_DIRECTION_LIGHT) uniform DirectionLight  \
+	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_DIRECT_LIGHT) uniform DirectLight        \
 	{                                                                            \
 		vec3 color;                                                                \
 		vec3 direction;                                                            \
-	} engineDirectionLight
+	} engineDirectLight
+
+#define USE_ENGINE_FOG                                                         \
+	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_FOG) uniform Fog                         \
+	{                                                                            \
+		vec3 color;                                                                \
+		vec3 heightDensity;                                                        \
+		vec3 distanceDensity;                                                      \
+	} engineFog
+
+
+USE_ENGINE_CAMERA;
+#define projectionMatrix engineCamera.projectionMatrix
+#define viewMatrix engineCamera.viewMatrix
+#define viewInverseMatrix engineCamera.viewInverseMatrix
+#define viewInverseTransposeMatrix engineCamera.viewInverseTransposeMatrix
+
+/*
+USE_ENGINE_TRANSFORM;
+#define worldMatrix engineTransform.worldMatrix
+#define worldInverseMatrix engineTransform.worldInverseMatrix
+#define worldInverseTransposeMatrix engineTransform.worldInverseTransposeMatrix
+*/
+
+#endif
