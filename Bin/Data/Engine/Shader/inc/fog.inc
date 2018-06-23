@@ -6,16 +6,21 @@
 
 USE_ENGINE_FOG;
 
+#define fogHeightStart engineFog.heightDensity.x
+#define fogHeightEnd engineFog.heightDensity.y
+#define fogHeightDensity engineFog.heightDensity.z
+
+#define fogDistanceStart engineFog.distanceDensity.x
+#define fogDistanceEnd engineFog.distanceDensity.y
+#define fogDistanceDensity engineFog.distanceDensity.z
+
 
 float FogDensityLinear(vec3 cameraPosition, vec3 position)
 {
 	float distance = length(position - cameraPosition);
 
-	float heightDensity = (engineFog.heightDensity.x - position.y) / (engineFog.heightDensity.y - engineFog.heightDensity.x) * engineFog.heightDensity.z;
-	float distanceDensity = (distance - engineFog.distanceDensity.x) / (engineFog.distanceDensity.y - engineFog.distanceDensity.x) * engineFog.distanceDensity.z;
-
-	heightDensity = clamp(heightDensity, 0.0, 1.0);
-	distanceDensity = clamp(distanceDensity, 0.0, 1.0);
+	float heightDensity = clamp((fogHeightEnd - position.y) / (fogHeightEnd - fogHeightStart), 0.0, 1.0) * fogHeightDensity;
+	float distanceDensity = clamp((distance - fogDistanceStart) / (fogDistanceEnd - fogDistanceStart), 0.0, 1.0) * fogDistanceDensity;
 
 	return clamp(heightDensity + distanceDensity, 0.0, 1.0);
 }
@@ -24,8 +29,8 @@ float FogDensityExp(vec3 cameraPosition, vec3 position)
 {
 	float distance = length(position - cameraPosition);
 
-	float heightDensity = (engineFog.heightDensity.x - position.y) * engineFog.heightDensity.z;
-	float distanceDensity = (distance - engineFog.distanceDensity.x) * engineFog.distanceDensity.z;
+	float heightDensity = (fogHeightEnd - position.y) * fogHeightDensity;
+	float distanceDensity = (distance - fogDistanceStart) * fogDistanceDensity;
 
 	heightDensity = exp(heightDensity);
 	distanceDensity = exp(distanceDensity);
@@ -40,8 +45,8 @@ float FogDensityExp2(vec3 cameraPosition, vec3 position)
 {
 	float distance = length(position - cameraPosition);
 
-	float heightDensity = (engineFog.heightDensity.x - position.y) * engineFog.heightDensity.z;
-	float distanceDensity = (distance - engineFog.distanceDensity.x) * engineFog.distanceDensity.z;
+	float heightDensity = (fogHeightEnd - position.y) * fogHeightDensity;
+	float distanceDensity = (distance - fogDistanceStart) * fogDistanceDensity;
 
 	heightDensity = exp(heightDensity * heightDensity);
 	distanceDensity = exp(distanceDensity * distanceDensity);

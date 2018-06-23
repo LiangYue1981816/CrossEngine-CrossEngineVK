@@ -127,6 +127,15 @@ vec3 Env_Specular(vec3 SpecularColor, float ndv, float roughness)
 }
 
 
+vec3 BRDF_Diffuse(vec3 lightColor, vec3 L, vec3 N, vec3 albedoColor)
+{
+	float ndl = max(dot(N, L), 0.0);
+
+	vec3 diffuse = Diffuse_Lambert(albedoColor);
+	
+	return diffuse * ndl * lightColor;
+}
+
 vec3 BRDF_Blinn(vec3 lightColor, vec3 L, vec3 H, vec3 V, vec3 N, vec3 albedoColor, vec3 specularColor, float metallic, float roughness)
 {
 	float ndl = max(dot(N, L), 0.0);
@@ -185,6 +194,11 @@ vec3 AmbientLightingSH4(vec3 albedoColor, float metallic, vec3 normal)
 vec3 AmbientLightingSH9(vec3 albedoColor, float metallic, vec3 normal)
 {
 	return Ambient_SH9(albedoColor, metallic, (engineAmbientLight.rotationMatrix * vec4(normal, 0.0)).xyz, engineAmbientLight.shRed0.xyz, engineAmbientLight.shRed1.xyz, engineAmbientLight.shRed2.xyz, engineAmbientLight.shGreen0.xyz, engineAmbientLight.shGreen1.xyz, engineAmbientLight.shGreen2.xyz, engineAmbientLight.shBlue0.xyz, engineAmbientLight.shBlue1.xyz, engineAmbientLight.shBlue2.xyz);
+}
+
+vec3 SimpleLighting(vec3 lightColor, vec3 lightDirection, vec3 N, vec3 albedoColor)
+{
+	return BRDF_Diffuse(lightColor, lightDirection, N, albedoColor);
 }
 
 vec3 BlinnLighting(vec3 lightColor, vec3 lightDirection, vec3 H, vec3 V, vec3 N, vec3 albedoColor, vec3 specularColor, float metallic, float roughness)
