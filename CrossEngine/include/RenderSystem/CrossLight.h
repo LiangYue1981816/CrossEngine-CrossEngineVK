@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CAmbientLight
 	{
-		friend class CLightManager;
+		friend class CRenderSystem;
 
 
 	protected:
@@ -62,7 +62,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CDirectLight
 	{
-		friend class CLightManager;
+		friend class CRenderSystem;
 
 
 	protected:
@@ -94,7 +94,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CPointLight
 	{
-		friend class CLightManager;
+		friend class CRenderSystem;
 
 
 	protected:
@@ -126,9 +126,9 @@ namespace CrossEngine {
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 	};
 
-	class CROSS_EXPORT CDeferredPointLight
+	class CROSS_EXPORT CPointLightDeferred
 	{
-		friend class CLightManager;
+		friend class CRenderSystem;
 
 
 	protected:
@@ -140,8 +140,8 @@ namespace CrossEngine {
 
 
 	protected:
-		CDeferredPointLight(void);
-		virtual ~CDeferredPointLight(void);
+		CPointLightDeferred(void);
+		virtual ~CPointLightDeferred(void);
 
 
 	public:

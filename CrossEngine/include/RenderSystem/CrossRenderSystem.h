@@ -35,9 +35,7 @@ THE SOFTWARE.
 #include "CrossBatchStaticMesh.h"
 #include "CrossCamera.h"
 #include "CrossCameraManager.h"
-#include "CrossFxManager.h"
 #include "CrossLight.h"
-#include "CrossLightManager.h"
 
 
 namespace CrossEngine {

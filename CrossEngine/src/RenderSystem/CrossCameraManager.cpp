@@ -69,6 +69,7 @@ namespace CrossEngine {
 		CBatchStaticMesh::ClearBatchBuffer();
 		{
 			for (auto &itCamera : m_pCameras) {
+				itCamera.second->Apply();
 				itCamera.second->Update();
 			}
 		}

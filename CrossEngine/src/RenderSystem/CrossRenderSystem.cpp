@@ -119,6 +119,8 @@ namespace CrossEngine {
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_POINT_LIGHT, m_pointLight.GetUniformBuffer());
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECT_LIGHT, m_directLight.GetUniformBuffer());
 		m_ptrDescriptorSet->UpdateDescriptorSets();
+
+		return TRUE;
 	}
 
 	BOOL CRenderSystem::CreateRenderer(void)
@@ -255,6 +257,10 @@ namespace CrossEngine {
 
 	void CRenderSystem::Update(void)
 	{
+		m_ambientLight.Apply();
+		m_pointLight.Apply();
+		m_directLight.Apply();
+
 		m_pCameraManager->Update();
 	}
 
@@ -262,14 +268,8 @@ namespace CrossEngine {
 	{
 		if (CCamera *pCamera = m_pCameraManager->GetCamera(dwCameraName)) {
 			if (pCamera->IsEnable()) {
-				pCamera->Apply();
-				m_ambientLight.Apply();
-				m_pointLight.Apply();
-				m_directLight.Apply();
-
-				m_pRenderer->SetCamera(pCamera);
-				m_pRenderer->BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
-				m_pRenderer->Render(ptrFrameBuffer, ptrRenderPass);
+				m_pRenderer->BuildCommandBuffer(pCamera, ptrFrameBuffer, ptrRenderPass);
+				m_pRenderer->Render(pCamera, ptrFrameBuffer, ptrRenderPass);
 			}
 		}
 	}

@@ -203,9 +203,7 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawablePartical.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawableSkinMesh.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossDrawableStaticMesh.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFxManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossLight.h" />
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossLightManager.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderer.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystem.h" />
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossRenderSystemDefinition.h" />
@@ -432,9 +430,7 @@
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawablePartical.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawableSkinMesh.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossDrawableStaticMesh.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossFxManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossLight.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossLightManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderer.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossRenderSystem.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\glslc\file_includer.cc" />
