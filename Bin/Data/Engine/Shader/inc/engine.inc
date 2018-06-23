@@ -94,10 +94,10 @@
 
 
 USE_ENGINE_CAMERA;
-#define projectionMatrix engineCamera.projectionMatrix
-#define viewMatrix engineCamera.viewMatrix
-#define viewInverseMatrix engineCamera.viewInverseMatrix
-#define viewInverseTransposeMatrix engineCamera.viewInverseTransposeMatrix
+#define cameraProjectionMatrix engineCamera.projectionMatrix
+#define cameraViewMatrix engineCamera.viewMatrix
+#define cameraViewInverseMatrix engineCamera.viewInverseMatrix
+#define cameraViewInverseTransposeMatrix engineCamera.viewInverseTransposeMatrix
 
 /*
 USE_ENGINE_TRANSFORM;

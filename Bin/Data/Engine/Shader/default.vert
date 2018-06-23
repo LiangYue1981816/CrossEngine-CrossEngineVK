@@ -18,5 +18,5 @@ void main()
 	mat4 worldMatrix = mat4(inInstanceTransformMatrixCol0, inInstanceTransformMatrixCol1, inInstanceTransformMatrixCol2, inInstanceTransformMatrixCol3);
 
 	outTexcoord = inTexcoord0;
-	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(inPosition.xyz, 1.0);
+	gl_Position = cameraProjectionMatrix * cameraViewMatrix * worldMatrix * vec4(inPosition.xyz, 1.0);
 }
