@@ -88,8 +88,6 @@ namespace CrossEngine {
 		BOOL Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateRenderer(void);
-		BOOL CreateFxManager(void);
-		BOOL CreateLightManager(void);
 		BOOL CreateCameraManager(void);
 		BOOL CreateDrawableManager(void);
 		BOOL CreateBatchBuffer(void);
@@ -97,8 +95,6 @@ namespace CrossEngine {
 		void Destroy(void);
 		void DestroyGfx(void);
 		void DestroyRenderer(void);
-		void DestroyFxManager(void);
-		void DestroyLightManager(void);
 		void DestroyCameraManager(void);
 		void DestroyDrawableManager(void);
 		void DestroyBatchBuffer(void);
@@ -142,13 +138,11 @@ namespace CrossEngine {
 		CGfxSwapchain *m_pGfxSwapchain;
 
 	protected:
-		CFxManager *m_pFxManager;
-		CLightManager *m_pLightManager;
 		CCameraManager *m_pCameraManager;
 		CDrawableManager *m_pDrawableManager;
 
 	protected:
-		CRenderer * m_pRenderer;
+		CRenderer *m_pRenderer;
 	};
 
 }

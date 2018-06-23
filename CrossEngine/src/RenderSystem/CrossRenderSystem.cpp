@@ -32,8 +32,6 @@ namespace CrossEngine {
 		, m_pGfxDevice(NULL)
 		, m_pGfxSwapchain(NULL)
 
-		, m_pFxManager(NULL)
-		, m_pLightManager(NULL)
 		, m_pCameraManager(NULL)
 		, m_pDrawableManager(NULL)
 
@@ -66,8 +64,6 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CreateGfx(api, hInstance, hWnd, hDC, width, height, transform));
 		CALL_BOOL_FUNCTION_RETURN(CreateRenderer());
-		CALL_BOOL_FUNCTION_RETURN(CreateFxManager());
-		CALL_BOOL_FUNCTION_RETURN(CreateLightManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateCameraManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateDrawableManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateBatchBuffer());
@@ -80,8 +76,6 @@ namespace CrossEngine {
 		DestroyBatchBuffer();
 		DestroyDrawableManager();
 		DestroyCameraManager();
-		DestroyLightManager();
-		DestroyFxManager();
 		DestroyRenderer();
 		DestroyGfx();
 	}
@@ -108,18 +102,6 @@ namespace CrossEngine {
 	BOOL CRenderSystem::CreateRenderer(void)
 	{
 		m_pRenderer = SAFE_NEW CRenderer;
-		return TRUE;
-	}
-
-	BOOL CRenderSystem::CreateFxManager(void)
-	{
-		m_pFxManager = SAFE_NEW CFxManager;
-		return TRUE;
-	}
-
-	BOOL CRenderSystem::CreateLightManager(void)
-	{
-		m_pLightManager = SAFE_NEW CLightManager;
 		return TRUE;
 	}
 
@@ -159,16 +141,6 @@ namespace CrossEngine {
 	void CRenderSystem::DestroyRenderer(void)
 	{
 		SAFE_DELETE(m_pRenderer);
-	}
-
-	void CRenderSystem::DestroyFxManager(void)
-	{
-		SAFE_DELETE(m_pFxManager);
-	}
-
-	void CRenderSystem::DestroyLightManager(void)
-	{
-		SAFE_DELETE(m_pLightManager);
 	}
 
 	void CRenderSystem::DestroyCameraManager(void)
@@ -220,37 +192,37 @@ namespace CrossEngine {
 
 	void CRenderSystem::SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
-		m_pLightManager->SetAmbientColor(shRed, shGreen, shBlue);
+
 	}
 
 	void CRenderSystem::SetAmbientRotation(const glm::mat4 &mtxRotation)
 	{
-		m_pLightManager->SetAmbientRotation(mtxRotation);
+
 	}
 
 	void CRenderSystem::SetPointLightColor(float red, float green, float blue)
 	{
-		m_pLightManager->SetPointLightColor(red, green, blue);
+
 	}
 
 	void CRenderSystem::SetPointLightPosition(float x, float y, float z, float radius)
 	{
-		m_pLightManager->SetPointLightPosition(x, y, z, radius);
+
 	}
 
 	void CRenderSystem::SetPointLightAttenuation(float linear, float square, float constant)
 	{
-		m_pLightManager->SetPointLightAttenuation(linear, square, constant);
+
 	}
 
 	void CRenderSystem::SetDirectLightColor(float red, float green, float blue)
 	{
-		m_pLightManager->SetDirectLightColor(red, green, blue);
+
 	}
 
 	void CRenderSystem::SetDirectLightDirection(float x, float y, float z)
 	{
-		m_pLightManager->SetDirectLightDirection(x, y, z);
+
 	}
 
 	void CRenderSystem::Update(void)
@@ -263,8 +235,6 @@ namespace CrossEngine {
 		if (CCamera *pCamera = m_pCameraManager->GetCamera(dwCameraName)) {
 			if (pCamera->IsEnable()) {
 				m_pRenderer->SetCamera(pCamera);
-				m_pRenderer->SetFxManager(m_pFxManager);
-				m_pRenderer->SetLightManager(m_pLightManager);
 				m_pRenderer->BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
 				m_pRenderer->Render(ptrFrameBuffer, ptrRenderPass);
 			}
