@@ -111,6 +111,9 @@ namespace CrossEngine {
 
 
 	public:
+		const CGfxUniformBufferPtr GetUniformBuffer(void) const;
+
+	public:
 		void SetColor(float red, float green, float blue);
 		void SetPosition(float x, float y, float z, float radius);
 		void SetAttenuation(float linear, float square, float constant);

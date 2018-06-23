@@ -127,6 +127,11 @@ namespace CrossEngine {
 
 	}
 
+	const CGfxUniformBufferPtr CPointLight::GetUniformBuffer(void) const
+	{
+		return m_ptrUniformBuffer;
+	}
+
 	void CPointLight::SetColor(float red, float green, float blue)
 	{
 		m_bDirty = TRUE;
