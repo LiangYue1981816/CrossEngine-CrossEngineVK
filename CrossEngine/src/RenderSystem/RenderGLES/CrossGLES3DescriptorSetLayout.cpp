@@ -124,10 +124,14 @@ namespace CrossEngine {
 		return m_numTypesUsedCount;
 	}
 
-	BOOL CGLES3DescriptorSetLayout::IsCompatible(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) const
+	BOOL CGLES3DescriptorSetLayout::IsCompatible(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout) const
 	{
+		if (ptrDescriptorSetLayout->GetSet() != m_set) {
+			return FALSE;
+		}
+
 		for (const auto &itBinding : m_nameBindings) {
-			if (ptrPipelineGraphics->GetBinding(m_set, itBinding.first) != itBinding.second) {
+			if (ptrDescriptorSetLayout->GetBinding(itBinding.first) != itBinding.second) {
 				return FALSE;
 			}
 		}

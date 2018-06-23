@@ -88,6 +88,9 @@ namespace CrossEngine {
 		uint32_t GetInstanceFormat(void) const;
 		uint32_t GetBinding(uint32_t set, uint32_t dwName) const;
 
+	public:
+		BOOL IsCompatible(const CGfxDescriptorSetPtr &ptrDescriptorSet) const;
+
 
 	protected:
 		uint32_t m_vertexFormat;

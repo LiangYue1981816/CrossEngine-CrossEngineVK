@@ -59,7 +59,7 @@ namespace CrossEngine {
 		const uint32_t* GetTypesUsedCount(void) const;
 
 	public:
-		BOOL IsCompatible(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) const;
+		BOOL IsCompatible(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout) const;
 
 	public:
 		const std::map<uint32_t, uint32_t>& GetUniformBlockBindings(GLuint program);

@@ -62,7 +62,7 @@ namespace CrossEngine {
 		virtual const uint32_t* GetTypesUsedCount(void) const = 0;
 
 	public:
-		virtual BOOL IsCompatible(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) const = 0;
+		virtual BOOL IsCompatible(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout) const = 0;
 	};
 
 	class CROSS_EXPORT CGfxDescriptorSetLayoutPtr : public CSharedPtr<CGfxDescriptorSetLayout>

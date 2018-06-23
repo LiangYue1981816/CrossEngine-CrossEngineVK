@@ -181,13 +181,19 @@ namespace CrossEngine {
 		const CGfxDescriptorSetPtr &ptrDescriptorSetLight = pLightManager ? pLightManager->GetDescriptorSet() : ptrDescriptorSetNull;
 
 		for (int indexPipeline = 0; indexPipeline < pipelines.size(); indexPipeline++) {
-			const auto &itMaterialPipelineQueue = itRenderPassQueue->second.find(pipelines[indexPipeline].indexPass);
+			const int indexPass = pipelines[indexPipeline].indexPass;
+			if (indexPass == -1) continue;
+
+			const CGfxPipelineGraphicsPtr& ptrMaterialPipeline = pipelines[indexPipeline].ptrMaterialPipeline;
+			if (ptrMaterialPipeline.IsNull()) continue;
+
+			const auto &itMaterialPipelineQueue = itRenderPassQueue->second.find(indexPass);
 			if (itMaterialPipelineQueue == itRenderPassQueue->second.end()) continue;
 
-			const auto &itMaterialDescriptorSetQueue = itMaterialPipelineQueue->second.find(pipelines[indexPipeline].ptrMaterialPipeline);
+			const auto &itMaterialDescriptorSetQueue = itMaterialPipelineQueue->second.find(ptrMaterialPipeline);
 			if (itMaterialDescriptorSetQueue == itMaterialPipelineQueue->second.end()) continue;
 
-			CGfxCommandBufferPtr &ptrCommandBuffer = m_ptrSecondaryCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][pipelines[indexPipeline].ptrMaterialPipeline][pipelines[indexPipeline].indexPass][frame][thread];
+			CGfxCommandBufferPtr &ptrCommandBuffer = m_ptrSecondaryCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][ptrMaterialPipeline][indexPass][frame][thread];
 
 			if (ptrCommandBuffer.IsNull()) {
 				ptrCommandBuffer = GfxDevice()->AllocCommandBuffer(pool, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
@@ -195,19 +201,22 @@ namespace CrossEngine {
 
 			ptrCommandBuffer->Clearup();
 			ptrCommandBuffer->ClearCommands();
-			ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, pipelines[indexPipeline].indexPass);
+			ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, indexPass);
 			{
 				ptrCommandBuffer->CmdSetScissor(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
 				ptrCommandBuffer->CmdSetViewport(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
 
-				ptrCommandBuffer->CmdBindPipelineGraphics(pipelines[indexPipeline].ptrMaterialPipeline);
-				ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetCamera);
+				ptrCommandBuffer->CmdBindPipelineGraphics(ptrMaterialPipeline);
 
-				if (ptrDescriptorSetFx.IsNull() == FALSE && ptrDescriptorSetFx->GetDescriptorSetLayoutPtr()->IsCompatible(pipelines[indexPipeline].ptrMaterialPipeline)) {
+				if (ptrMaterialPipeline->IsCompatible(ptrDescriptorSetCamera)) {
+					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetCamera);
+				}
+
+				if (ptrMaterialPipeline->IsCompatible(ptrDescriptorSetFx)) {
 					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetFx);
 				}
 
-				if (ptrDescriptorSetLight.IsNull() == FALSE && ptrDescriptorSetLight->GetDescriptorSetLayoutPtr()->IsCompatible(pipelines[indexPipeline].ptrMaterialPipeline)) {
+				if (ptrMaterialPipeline->IsCompatible(ptrDescriptorSetLight)) {
 					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetLight);
 				}
 

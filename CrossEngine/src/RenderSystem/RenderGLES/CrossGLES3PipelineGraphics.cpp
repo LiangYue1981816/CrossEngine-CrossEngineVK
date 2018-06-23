@@ -406,6 +406,19 @@ namespace CrossEngine {
 		return ptrDescriptorSetLayout.IsNull() == FALSE ? ptrDescriptorSetLayout->GetBinding(dwName) : -1;
 	}
 
+	BOOL CGLES3PipelineGraphics::IsCompatible(const CGfxDescriptorSetPtr &ptrDescriptorSet) const
+	{
+		if (ptrDescriptorSet.IsNull()) {
+			return FALSE;
+		}
+
+		const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout = ptrDescriptorSet->GetDescriptorSetLayoutPtr();
+		const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayoutPipeline = GetDescriptorSetLayout(ptrDescriptorSetLayout->GetSet());
+		if (ptrDescriptorSetLayoutPipeline.IsNull()) return FALSE;
+
+		return ptrDescriptorSetLayoutPipeline->IsCompatible(ptrDescriptorSetLayout);
+	}
+
 	void CGLES3PipelineGraphics::DumpLog(void) const
 	{
 		if (m_pipeline) {
