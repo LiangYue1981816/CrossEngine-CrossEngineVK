@@ -31,7 +31,7 @@ namespace CrossEngine {
 		memset(&m_param, sizeof(m_param), 0);
 
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
+		m_ptrUniformBuffer->Create(sizeof(m_param), &m_param, TRUE);
 	}
 
 	CAmbientLight::~CAmbientLight(void)
@@ -79,7 +79,7 @@ namespace CrossEngine {
 		memset(&m_param, sizeof(m_param), 0);
 
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
+		m_ptrUniformBuffer->Create(sizeof(m_param), &m_param, TRUE);
 	}
 
 	CDirectLight::~CDirectLight(void)
@@ -114,8 +114,12 @@ namespace CrossEngine {
 
 
 	CPointLight::CPointLight(void)
+		: m_bDirty(FALSE)
 	{
+		memset(&m_param, sizeof(m_param), 0);
 
+		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
+		m_ptrUniformBuffer->Create(sizeof(m_param), &m_param, TRUE);
 	}
 
 	CPointLight::~CPointLight(void)
@@ -123,22 +127,59 @@ namespace CrossEngine {
 
 	}
 
-	const glm::sphere& CPointLight::GetSphere(void) const
-	{
-		return m_sphere;
-	}
-
 	void CPointLight::SetColor(float red, float green, float blue)
 	{
+		m_bDirty = TRUE;
 		m_param.color = glm::vec4(red, green, blue, 0.0f);
 	}
 
 	void CPointLight::SetPosition(float x, float y, float z, float radius)
 	{
+		m_bDirty = TRUE;
 		m_param.position = glm::vec4(x, y, z, radius);
 	}
 
 	void CPointLight::SetAttenuation(float linear, float square, float constant)
+	{
+		m_bDirty = TRUE;
+		m_param.attenuation = glm::vec4(linear, square, constant, 0.0f);
+	}
+
+	void CPointLight::Apply(void)
+	{
+		if (m_bDirty) {
+			m_bDirty = FALSE;
+			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
+		}
+	}
+
+
+	CDeferredPointLight::CDeferredPointLight(void)
+	{
+		memset(&m_param, sizeof(m_param), 0);
+	}
+
+	CDeferredPointLight::~CDeferredPointLight(void)
+	{
+
+	}
+
+	const glm::sphere& CDeferredPointLight::GetSphere(void) const
+	{
+		return m_sphere;
+	}
+
+	void CDeferredPointLight::SetColor(float red, float green, float blue)
+	{
+		m_param.color = glm::vec4(red, green, blue, 0.0f);
+	}
+
+	void CDeferredPointLight::SetPosition(float x, float y, float z, float radius)
+	{
+		m_param.position = glm::vec4(x, y, z, radius);
+	}
+
+	void CDeferredPointLight::SetAttenuation(float linear, float square, float constant)
 	{
 		m_param.attenuation = glm::vec4(linear, square, constant, 0.0f);
 	}

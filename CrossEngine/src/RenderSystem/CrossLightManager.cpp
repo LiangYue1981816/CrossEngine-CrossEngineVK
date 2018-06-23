@@ -58,6 +58,21 @@ namespace CrossEngine {
 		m_ambientLight.SetRotation(mtxRotation);
 	}
 
+	void CLightManager::SetPointLightColor(float red, float green, float blue)
+	{
+		m_pointLight.SetColor(red, green, blue);
+	}
+
+	void CLightManager::SetPointLightPosition(float x, float y, float z, float radius)
+	{
+		m_pointLight.SetPosition(x, y, z, radius);
+	}
+
+	void CLightManager::SetPointLightAttenuation(float linear, float square, float constant)
+	{
+		m_pointLight.SetAttenuation(linear, square, constant);
+	}
+
 	void CLightManager::SetDirectLightColor(float red, float green, float blue)
 	{
 		m_directLight.SetColor(red, green, blue);
@@ -71,6 +86,7 @@ namespace CrossEngine {
 	void CLightManager::Apply(void)
 	{
 		m_ambientLight.Apply();
+		m_pointLight.Apply();
 		m_directLight.Apply();
 	}
 

@@ -228,6 +228,21 @@ namespace CrossEngine {
 		m_pLightManager->SetAmbientRotation(mtxRotation);
 	}
 
+	void CRenderSystem::SetPointLightColor(float red, float green, float blue)
+	{
+		m_pLightManager->SetPointLightColor(red, green, blue);
+	}
+
+	void CRenderSystem::SetPointLightPosition(float x, float y, float z, float radius)
+	{
+		m_pLightManager->SetPointLightPosition(x, y, z, radius);
+	}
+
+	void CRenderSystem::SetPointLightAttenuation(float linear, float square, float constant)
+	{
+		m_pLightManager->SetPointLightAttenuation(linear, square, constant);
+	}
+
 	void CRenderSystem::SetDirectLightColor(float red, float green, float blue)
 	{
 		m_pLightManager->SetDirectLightColor(red, green, blue);

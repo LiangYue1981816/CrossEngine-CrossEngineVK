@@ -43,6 +43,10 @@ namespace CrossEngine {
 		void SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetAmbientRotation(const glm::mat4 &mtxRotation);
 
+		void SetPointLightColor(float red, float green, float blue);
+		void SetPointLightPosition(float x, float y, float z, float radius);
+		void SetPointLightAttenuation(float linear, float square, float constant);
+
 		void SetDirectLightColor(float red, float green, float blue);
 		void SetDirectLightDirection(float x, float y, float z);
 
@@ -51,6 +55,7 @@ namespace CrossEngine {
 
 	protected:
 		CAmbientLight m_ambientLight;
+		CPointLight m_pointLight;
 		CDirectLight m_directLight;
 
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;

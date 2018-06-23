@@ -111,6 +111,37 @@ namespace CrossEngine {
 
 
 	public:
+		void SetColor(float red, float green, float blue);
+		void SetPosition(float x, float y, float z, float radius);
+		void SetAttenuation(float linear, float square, float constant);
+		void Apply(void);
+
+
+	protected:
+		bool m_bDirty;
+		Param m_param;
+		CGfxUniformBufferPtr m_ptrUniformBuffer;
+	};
+
+	class CROSS_EXPORT CDeferredPointLight
+	{
+		friend class CLightManager;
+
+
+	protected:
+		typedef struct Param {
+			glm::vec4 color;
+			glm::vec4 position;
+			glm::vec4 attenuation;
+		} Param;
+
+
+	protected:
+		CDeferredPointLight(void);
+		virtual ~CDeferredPointLight(void);
+
+
+	public:
 		const glm::sphere& GetSphere(void) const;
 
 	public:
