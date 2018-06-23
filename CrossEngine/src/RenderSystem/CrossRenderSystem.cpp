@@ -60,9 +60,15 @@ namespace CrossEngine {
 		return m_pGfxSwapchain;
 	}
 
+	const CGfxDescriptorSetPtr CRenderSystem::GetDescriptorSet(void) const
+	{
+		return m_ptrDescriptorSet;
+	}
+
 	BOOL CRenderSystem::Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CreateGfx(api, hInstance, hWnd, hDC, width, height, transform));
+		CALL_BOOL_FUNCTION_RETURN(CreateDescriptorSet());
 		CALL_BOOL_FUNCTION_RETURN(CreateRenderer());
 		CALL_BOOL_FUNCTION_RETURN(CreateCameraManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateDrawableManager());
@@ -77,6 +83,7 @@ namespace CrossEngine {
 		DestroyDrawableManager();
 		DestroyCameraManager();
 		DestroyRenderer();
+		DestroyDescriptorSet();
 		DestroyGfx();
 	}
 
@@ -97,6 +104,21 @@ namespace CrossEngine {
 		m_pGfxSwapchain = m_pGfxInstance->GetSwapchain();
 
 		return TRUE;
+	}
+
+	BOOL CRenderSystem::CreateDescriptorSet(void)
+	{
+		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_AMBIENT_LIGHT], DESCRIPTOR_BIND_AMBIENT_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_POINT_LIGHT], DESCRIPTOR_BIND_POINT_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_DIRECT_LIGHT], DESCRIPTOR_BIND_DIRECT_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
+		m_ptrDescriptorSetLayout->Create();
+
+		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_AMBIENT_LIGHT, m_ambientLight.GetUniformBuffer());
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_POINT_LIGHT, m_pointLight.GetUniformBuffer());
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECT_LIGHT, m_directLight.GetUniformBuffer());
+		m_ptrDescriptorSet->UpdateDescriptorSets();
 	}
 
 	BOOL CRenderSystem::CreateRenderer(void)
@@ -136,6 +158,12 @@ namespace CrossEngine {
 		m_api = GFX_API_NONE;
 		m_pGfxDevice = NULL;
 		m_pGfxSwapchain = NULL;
+	}
+
+	void CRenderSystem::DestroyDescriptorSet(void)
+	{
+		m_ptrDescriptorSet.Release();
+		m_ptrDescriptorSetLayout.Release();
 	}
 
 	void CRenderSystem::DestroyRenderer(void)
@@ -192,37 +220,37 @@ namespace CrossEngine {
 
 	void CRenderSystem::SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
-
+		m_ambientLight.SetAmbient(shRed, shGreen, shBlue);
 	}
 
 	void CRenderSystem::SetAmbientRotation(const glm::mat4 &mtxRotation)
 	{
-
+		m_ambientLight.SetRotation(mtxRotation);
 	}
 
 	void CRenderSystem::SetPointLightColor(float red, float green, float blue)
 	{
-
+		m_pointLight.SetColor(red, green, blue);
 	}
 
 	void CRenderSystem::SetPointLightPosition(float x, float y, float z, float radius)
 	{
-
+		m_pointLight.SetPosition(x, y, z, radius);
 	}
 
 	void CRenderSystem::SetPointLightAttenuation(float linear, float square, float constant)
 	{
-
+		m_pointLight.SetAttenuation(linear, square, constant);
 	}
 
 	void CRenderSystem::SetDirectLightColor(float red, float green, float blue)
 	{
-
+		m_directLight.SetColor(red, green, blue);
 	}
 
 	void CRenderSystem::SetDirectLightDirection(float x, float y, float z)
 	{
-
+		m_directLight.SetDirection(x, y, z);
 	}
 
 	void CRenderSystem::Update(void)
@@ -234,6 +262,11 @@ namespace CrossEngine {
 	{
 		if (CCamera *pCamera = m_pCameraManager->GetCamera(dwCameraName)) {
 			if (pCamera->IsEnable()) {
+				pCamera->Apply();
+				m_ambientLight.Apply();
+				m_pointLight.Apply();
+				m_directLight.Apply();
+
 				m_pRenderer->SetCamera(pCamera);
 				m_pRenderer->BuildCommandBuffer(ptrFrameBuffer, ptrRenderPass);
 				m_pRenderer->Render(ptrFrameBuffer, ptrRenderPass);

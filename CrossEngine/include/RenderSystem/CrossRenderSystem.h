@@ -87,6 +87,7 @@ namespace CrossEngine {
 	protected:
 		BOOL Create(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
+		BOOL CreateDescriptorSet(void);
 		BOOL CreateRenderer(void);
 		BOOL CreateCameraManager(void);
 		BOOL CreateDrawableManager(void);
@@ -94,6 +95,7 @@ namespace CrossEngine {
 
 		void Destroy(void);
 		void DestroyGfx(void);
+		void DestroyDescriptorSet(void);
 		void DestroyRenderer(void);
 		void DestroyCameraManager(void);
 		void DestroyDrawableManager(void);
@@ -103,6 +105,8 @@ namespace CrossEngine {
 		GFX_API GetAPI(void) const;
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
+
+		const CGfxDescriptorSetPtr GetDescriptorSet(void) const;
 
 	public:
 		CCamera* GetCamera(uint32_t dwName);
@@ -140,6 +144,14 @@ namespace CrossEngine {
 	protected:
 		CCameraManager *m_pCameraManager;
 		CDrawableManager *m_pDrawableManager;
+
+	protected:
+		CAmbientLight m_ambientLight;
+		CPointLight m_pointLight;
+		CDirectLight m_directLight;
+
+		CGfxDescriptorSetPtr m_ptrDescriptorSet;
+		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
 
 	protected:
 		CRenderer *m_pRenderer;
