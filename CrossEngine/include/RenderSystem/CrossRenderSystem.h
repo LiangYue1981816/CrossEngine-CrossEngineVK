@@ -56,8 +56,8 @@ namespace CrossEngine {
 		DESCRIPTOR_BIND_CAMERA = 0,
 		DESCRIPTOR_BIND_TRANSFORM = 1,
 		DESCRIPTOR_BIND_AMBIENT_LIGHT = 2,
-		DESCRIPTOR_BIND_POINT_LIGHT = 3,
-		DESCRIPTOR_BIND_DIRECT_LIGHT = 4,
+		DESCRIPTOR_BIND_DIRECT_LIGHT = 3,
+		DESCRIPTOR_BIND_POINT_LIGHT = 4,
 		DESCRIPTOR_BIND_FOG = 5,
 		DESCRIPTOR_BIND_EXTERNAL_BASE = 16
 	} DESCRIPTOR_BIND_TYPE;
@@ -120,12 +120,12 @@ namespace CrossEngine {
 		void SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetAmbientRotation(const glm::mat4 &mtxRotation);
 
+		void SetDirectLightColor(float red, float green, float blue);
+		void SetDirectLightDirection(float x, float y, float z);
+
 		void SetPointLightColor(float red, float green, float blue);
 		void SetPointLightPosition(float x, float y, float z, float radius);
 		void SetPointLightAttenuation(float linear, float square, float constant);
-
-		void SetDirectLightColor(float red, float green, float blue);
-		void SetDirectLightDirection(float x, float y, float z);
 
 	public:
 		void Update(void);
@@ -144,9 +144,9 @@ namespace CrossEngine {
 		CDrawableManager *m_pDrawableManager;
 
 	protected:
-		CAmbientLight m_ambientLight;
-		CPointLight m_pointLight;
-		CDirectLight m_directLight;
+		CAmbientLight *m_pAmbientLight;
+		CDirectLight *m_pDirectLight;
+		CPointLight *m_pPointLight;
 
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
