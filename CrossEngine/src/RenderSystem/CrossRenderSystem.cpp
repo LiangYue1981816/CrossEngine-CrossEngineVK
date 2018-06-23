@@ -32,11 +32,12 @@ namespace CrossEngine {
 		, m_pGfxDevice(NULL)
 		, m_pGfxSwapchain(NULL)
 
-		, m_pRenderer(NULL)
 		, m_pFxManager(NULL)
 		, m_pLightManager(NULL)
 		, m_pCameraManager(NULL)
 		, m_pDrawableManager(NULL)
+
+		, m_pRenderer(NULL)
 	{
 
 	}

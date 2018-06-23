@@ -138,11 +138,13 @@ namespace CrossEngine {
 		CGfxSwapchain *m_pGfxSwapchain;
 
 	protected:
-		CRenderer *m_pRenderer;
 		CFxManager *m_pFxManager;
 		CLightManager *m_pLightManager;
 		CCameraManager *m_pCameraManager;
 		CDrawableManager *m_pDrawableManager;
+
+	protected:
+		CRenderer * m_pRenderer;
 	};
 
 }
