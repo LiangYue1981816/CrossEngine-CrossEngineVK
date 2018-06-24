@@ -68,8 +68,8 @@ namespace CrossEngine {
 		"Camera",
 		"Transform",
 		"AmbientLight",
-		"PointLight",
 		"DirectLight",
+		"PointLight",
 		"Fog"
 	};
 

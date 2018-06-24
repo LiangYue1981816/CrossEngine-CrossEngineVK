@@ -2,6 +2,7 @@
 precision mediump float;
 #include "engine.inc"
 #include "light.inc"
+#include "fog.inc"
 
 USE_VERTEX_ATTRIBUTE_POSITION;
 USE_VERTEX_ATTRIBUTE_NORMAL;
