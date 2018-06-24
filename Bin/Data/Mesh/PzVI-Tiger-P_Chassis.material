@@ -1,5 +1,7 @@
 <Material>
 	<Pass name="Opaque" graphics="DiffuseForwardOpaquePresent.graphics">
 		<Texture2D name="texAlbedo" value="PzVI-Tiger-P.dds" />
+		<Texture2D name="texNormal" value="PzVI-Tiger-P_NM.dds" />
+		<Texture2D name="texSpecular" value="PzVI-Tiger-P_SM.dds" />
 	</Pass>
 </Material>

@@ -4,8 +4,8 @@
 		subpass="0"
 	/>
 	<Shader
-		vertex="default.vert"
-		fragment="default.frag"
+		vertex="BRDF_Blinn.vert"
+		fragment="BRDF_Blinn.frag"
 	/>
 	<Assembly
 		topology="VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST"
