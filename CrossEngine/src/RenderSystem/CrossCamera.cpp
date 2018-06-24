@@ -31,7 +31,7 @@ namespace CrossEngine {
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
 		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
 
-		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
+		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_CAMERA);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_CAMERA], DESCRIPTOR_BIND_CAMERA, VK_SHADER_STAGE_ALL);
 		m_ptrDescriptorSetLayout->Create();
 

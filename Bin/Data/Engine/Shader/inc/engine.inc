@@ -17,13 +17,14 @@
 
 
 #ifdef GLES
-	#define DESCRIPTOR_SET_DRAW(b)  layout (binding = b)
-	#define DESCRIPTOR_SET_PASS(b)  layout (binding = b)
-	#define DESCRIPTOR_SET_FRAME(b) layout (binding = b)
+	#define DESCRIPTOR_SET_DRAW(b)   layout (binding = b)
+	#define DESCRIPTOR_SET_PASS(b)   layout (binding = b)
+	#define DESCRIPTOR_SET_FRAME(b)  layout (binding = b)
 #else
-	#define DESCRIPTOR_SET_DRAW(b)  layout (set = 0, binding = b)
-	#define DESCRIPTOR_SET_PASS(b)  layout (set = 1, binding = b)
-	#define DESCRIPTOR_SET_FRAME(b) layout (set = 2, binding = b)
+	#define DESCRIPTOR_SET_DRAW(b)   layout (set = 0, binding = b)
+	#define DESCRIPTOR_SET_PASS(b)   layout (set = 1, binding = b)
+	#define DESCRIPTOR_SET_FRAME(b)  layout (set = 2, binding = b)
+	#define DESCRIPTOR_SET_CAMERA(b) layout (set = 3, binding = b)
 #endif
 
 #define DESCRIPTOR_BIND_CAMERA              0
@@ -43,7 +44,7 @@
 	} engineTransform
 
 #define USE_ENGINE_CAMERA                                                          \
-	DESCRIPTOR_SET_FRAME(DESCRIPTOR_BIND_CAMERA) uniform Camera                    \
+	DESCRIPTOR_SET_CAMERA(DESCRIPTOR_BIND_CAMERA) uniform Camera                   \
 	{                                                                              \
 		mat4 projectionMatrix;                                                     \
 		mat4 viewMatrix;                                                           \

@@ -50,7 +50,8 @@ namespace CrossEngine {
 	typedef enum {
 		DESCRIPTOR_SET_DRAW = 0,
 		DESCRIPTOR_SET_PASS = 1,
-		DESCRIPTOR_SET_FRAME = 2
+		DESCRIPTOR_SET_FRAME = 2,
+		DESCRIPTOR_SET_CAMERA = 3
 	} DESCRIPTOR_SET_TYPE;
 
 	typedef enum {
