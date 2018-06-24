@@ -3,9 +3,9 @@ precision mediump float;
 #include "engine.inc"
 #include "light.inc"
 
-uniform sampler2D texAlbedo;
-uniform sampler2D texNormal;
-uniform sampler2D texSpecular;
+DESCRIPTOR_SET_PASS(8)  uniform sampler2D texAlbedo;
+DESCRIPTOR_SET_PASS(9)  uniform sampler2D texNormal;
+DESCRIPTOR_SET_PASS(10) uniform sampler2D texSpecular;
 
 layout (location = 0) in vec2 inTexcoord;
 layout (location = 1) in vec3 inHalfDirection;
