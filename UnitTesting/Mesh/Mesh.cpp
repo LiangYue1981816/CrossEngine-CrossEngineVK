@@ -22,6 +22,23 @@ void Create(void)
 	pMesh = (CrossEngine::CDrawableStaticMesh *)RenderSystem()->AllocDrawable(CrossEngine::DRAWABLE_TYPE_STATIC_MESH);
 	pMesh->SetMesh(ptrMesh);
 	pMesh->SetMaterial(ptrMaterial);
+
+	float sh_red[9] = { 0.0 };
+	float sh_green[9] = { 0.0 };
+	float sh_blue[9] = { 0.0 };
+	if (FILE *pFile = fopen("../Data/Env/Env.sh", "rb")) {
+		fscanf(pFile, "%f %f %f %f %f %f %f %f %f", &sh_red[0], &sh_red[1], &sh_red[2], &sh_red[3], &sh_red[4], &sh_red[5], &sh_red[6], &sh_red[7], &sh_red[8]);
+		fscanf(pFile, "%f %f %f %f %f %f %f %f %f", &sh_green[0], &sh_green[1], &sh_green[2], &sh_green[3], &sh_green[4], &sh_green[5], &sh_green[6], &sh_green[7], &sh_green[8]);
+		fscanf(pFile, "%f %f %f %f %f %f %f %f %f", &sh_blue[0], &sh_blue[1], &sh_blue[2], &sh_blue[3], &sh_blue[4], &sh_blue[5], &sh_blue[6], &sh_blue[7], &sh_blue[8]);
+		fclose(pFile);
+	}
+
+	RenderSystem()->SetAmbientColor(sh_red, sh_green, sh_blue);
+	RenderSystem()->SetDirectLightColor(3.0f, 3.0f, 3.0f);
+	RenderSystem()->SetDirectLightDirection(-1.0f, -1.0f, -1.0f);
+	RenderSystem()->SetFogColor(1.0f, 1.0f, 1.0f);
+	RenderSystem()->SetFogDistanceDensity(10.0f, 100.0f, 1.0f);
+	RenderSystem()->SetFogHeightDensity(1.0f, 100.0f, 1.0f);
 }
 
 void Destroy(void)
