@@ -62,17 +62,23 @@ namespace CrossEngine {
 
 	void CGLES3DescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
-		m_ptrTextures[binding] = ptrTexture;
+		if (binding != INVALID_VALUE) {
+			m_ptrTextures[binding] = ptrTexture;
+		}
 	}
 
 	void CGLES3DescriptorSet::SetRenderTexture(uint32_t binding, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
-		m_ptrRenderTextures[binding] = ptrRenderTexture;
+		if (binding != INVALID_VALUE) {
+			m_ptrRenderTextures[binding] = ptrRenderTexture;
+		}
 	}
 
 	void CGLES3DescriptorSet::SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer)
 	{
-		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
+		if (binding != INVALID_VALUE) {
+			m_ptrUniformBuffers[binding] = ptrUniformBuffer;
+		}
 	}
 
 	void CGLES3DescriptorSet::UpdateDescriptorSets(void)
@@ -82,8 +88,10 @@ namespace CrossEngine {
 
 	void CGLES3DescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
 	{
-		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
-			m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
+		if (binding != INVALID_VALUE) {
+			if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
+				m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
+			}
 		}
 	}
 

@@ -71,20 +71,26 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorSet::SetTexture(uint32_t binding, const CGfxTexturePtr &ptrTexture)
 	{
-		m_bNeedUpdate = TRUE;
-		m_ptrTextures[binding] = ptrTexture;
+		if (binding != INVALID_VALUE) {
+			m_bNeedUpdate = TRUE;
+			m_ptrTextures[binding] = ptrTexture;
+		}
 	}
 
 	void CVulkanDescriptorSet::SetRenderTexture(uint32_t binding, const CGfxRenderTexturePtr &ptrRenderTexture)
 	{
-		m_bNeedUpdate = TRUE;
-		m_ptrRenderTextures[binding] = ptrRenderTexture;
+		if (binding != INVALID_VALUE) {
+			m_bNeedUpdate = TRUE;
+			m_ptrRenderTextures[binding] = ptrRenderTexture;
+		}
 	}
 
 	void CVulkanDescriptorSet::SetUniformBuffer(uint32_t binding, const CGfxUniformBufferPtr &ptrUniformBuffer)
 	{
-		m_bNeedUpdate = TRUE;
-		m_ptrUniformBuffers[binding] = ptrUniformBuffer;
+		if (binding != INVALID_VALUE) {
+			m_bNeedUpdate = TRUE;
+			m_ptrUniformBuffers[binding] = ptrUniformBuffer;
+		}
 	}
 
 	void CVulkanDescriptorSet::UpdateDescriptorSets(void)
@@ -157,8 +163,10 @@ namespace CrossEngine {
 
 	void CVulkanDescriptorSet::SetUniformBufferData(uint32_t binding, size_t offset, size_t size, const void *pBuffer)
 	{
-		if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
-			m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
+		if (binding != INVALID_VALUE) {
+			if (m_ptrUniformBuffers.find(binding) != m_ptrUniformBuffers.end()) {
+				m_ptrUniformBuffers[binding]->SetData(offset, size, pBuffer);
+			}
 		}
 	}
 
