@@ -36,7 +36,7 @@ namespace CrossEngine {
 
 	CAmbientLight::~CAmbientLight(void)
 	{
-		m_ptrUniformBuffer.Release();
+
 	}
 
 	const CGfxUniformBufferPtr CAmbientLight::GetUniformBuffer(void) const
@@ -84,7 +84,7 @@ namespace CrossEngine {
 
 	CDirectLight::~CDirectLight(void)
 	{
-		m_ptrUniformBuffer.Release();
+
 	}
 
 	const CGfxUniformBufferPtr CDirectLight::GetUniformBuffer(void) const

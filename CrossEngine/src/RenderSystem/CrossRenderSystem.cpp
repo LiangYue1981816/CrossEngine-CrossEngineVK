@@ -38,6 +38,7 @@ namespace CrossEngine {
 		, m_pAmbientLight(NULL)
 		, m_pDirectLight(NULL)
 		, m_pPointLight(NULL)
+		, m_pFog(NULL)
 
 		, m_pRenderer(NULL)
 	{
@@ -115,17 +116,20 @@ namespace CrossEngine {
 		m_pAmbientLight = SAFE_NEW CAmbientLight;
 		m_pDirectLight = SAFE_NEW CDirectLight;
 		m_pPointLight = SAFE_NEW CPointLight;
+		m_pFog = SAFE_NEW CFog;
 
 		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_AMBIENT_LIGHT], DESCRIPTOR_BIND_AMBIENT_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_POINT_LIGHT], DESCRIPTOR_BIND_POINT_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_DIRECT_LIGHT], DESCRIPTOR_BIND_DIRECT_LIGHT, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_FOG], DESCRIPTOR_BIND_FOG, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
 		m_ptrDescriptorSetLayout->Create();
 
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_AMBIENT_LIGHT, m_pAmbientLight->GetUniformBuffer());
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECT_LIGHT, m_pDirectLight->GetUniformBuffer());
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_POINT_LIGHT, m_pPointLight->GetUniformBuffer());
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_FOG, m_pFog->GetUniformBuffer());
 		m_ptrDescriptorSet->UpdateDescriptorSets();
 
 		return TRUE;
@@ -178,6 +182,7 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pAmbientLight);
 		SAFE_DELETE(m_pDirectLight);
 		SAFE_DELETE(m_pPointLight);
+		SAFE_DELETE(m_pFog);
 	}
 
 	void CRenderSystem::DestroyRenderer(void)
@@ -267,11 +272,27 @@ namespace CrossEngine {
 		m_pPointLight->SetAttenuation(linear, square, constant);
 	}
 
+	void CRenderSystem::SetFogColor(float red, float green, float blue)
+	{
+		m_pFog->SetColor(red, green, blue);
+	}
+
+	void CRenderSystem::SetFogHeightDensity(float startHeight, float endHeight, float density)
+	{
+		m_pFog->SetHeightDensity(startHeight, endHeight, density);
+	}
+
+	void CRenderSystem::SetFogDistanceDensity(float startDistance, float endDistance, float density)
+	{
+		m_pFog->SetDistanceDensity(startDistance, endDistance, density);
+	}
+
 	void CRenderSystem::Update(void)
 	{
 		m_pAmbientLight->Apply();
 		m_pDirectLight->Apply();
 		m_pPointLight->Apply();
+		m_pFog->Apply();
 
 		m_pCameraManager->Update();
 	}

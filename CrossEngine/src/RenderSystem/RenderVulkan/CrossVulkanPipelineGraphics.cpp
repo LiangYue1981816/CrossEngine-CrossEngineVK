@@ -476,12 +476,12 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipelineGraphics::SetColorBlendConstants(float r, float g, float b, float a)
+	BOOL CVulkanPipelineGraphics::SetColorBlendConstants(float red, float green, float blue, float alpha)
 	{
-		m_colorBlendState.blendConstants[0] = r;
-		m_colorBlendState.blendConstants[1] = g;
-		m_colorBlendState.blendConstants[2] = b;
-		m_colorBlendState.blendConstants[3] = a;
+		m_colorBlendState.blendConstants[0] = red;
+		m_colorBlendState.blendConstants[1] = green;
+		m_colorBlendState.blendConstants[2] = blue;
+		m_colorBlendState.blendConstants[3] = alpha;
 
 		return TRUE;
 	}

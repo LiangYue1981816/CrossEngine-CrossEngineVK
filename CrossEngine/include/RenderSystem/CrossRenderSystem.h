@@ -36,6 +36,7 @@ THE SOFTWARE.
 #include "CrossCamera.h"
 #include "CrossCameraManager.h"
 #include "CrossLight.h"
+#include "CrossFog.h"
 
 
 namespace CrossEngine {
@@ -127,6 +128,10 @@ namespace CrossEngine {
 		void SetPointLightPosition(float x, float y, float z, float radius);
 		void SetPointLightAttenuation(float linear, float square, float constant);
 
+		void SetFogColor(float red, float green, float blue);
+		void SetFogHeightDensity(float startHeight, float endHeight, float density);
+		void SetFogDistanceDensity(float startDistance, float endDistance, float density);
+
 	public:
 		void Update(void);
 		void Render(uint32_t dwCameraName, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
@@ -147,6 +152,7 @@ namespace CrossEngine {
 		CAmbientLight *m_pAmbientLight;
 		CDirectLight *m_pDirectLight;
 		CPointLight *m_pPointLight;
+		CFog *m_pFog;
 
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
