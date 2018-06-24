@@ -177,7 +177,7 @@ namespace CrossEngine {
 			}
 		}
 
-		return TRUE;
+		return m_nameBindings.empty() ? FALSE : TRUE;
 	}
 
 }

@@ -136,7 +136,7 @@ namespace CrossEngine {
 			}
 		}
 
-		return TRUE;
+		return m_nameBindings.empty() ? FALSE : TRUE;
 	}
 
 	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(GLuint program)
