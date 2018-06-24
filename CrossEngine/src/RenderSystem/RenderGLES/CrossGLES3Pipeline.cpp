@@ -40,7 +40,6 @@ namespace CrossEngine {
 	BOOL CGLES3Pipeline::CreateDescriptorSetLayouts(void)
 	{
 		for (const auto &itShader : m_ptrShaders) {
-			const VkShaderStageFlags shaderStageFlags = itShader.first;
 			const spirv_cross::Compiler *pShaderCompiler = itShader.second->GetShaderCompiler();
 			const spirv_cross::ShaderResources shaderResources = pShaderCompiler->get_shader_resources();
 
@@ -54,7 +53,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Struct) {
-					m_ptrDescriptorSetLayouts[set]->SetUniformBinding(itUniform.name.c_str(), binding, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetUniformBinding(itUniform.name.c_str(), binding, VK_SHADER_STAGE_ALL);
 				}
 			}
 
@@ -68,7 +67,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::SampledImage) {
-					m_ptrDescriptorSetLayouts[set]->SetSampledImageBinding(itSampledImage.name.c_str(), binding, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetSampledImageBinding(itSampledImage.name.c_str(), binding, VK_SHADER_STAGE_ALL);
 				}
 			}
 
@@ -82,7 +81,7 @@ namespace CrossEngine {
 				}
 
 				if (type.basetype == spirv_cross::SPIRType::Image) {
-					m_ptrDescriptorSetLayouts[set]->SetInputAttachmentBinding(itSubpassInput.name.c_str(), binding, shaderStageFlags);
+					m_ptrDescriptorSetLayouts[set]->SetInputAttachmentBinding(itSubpassInput.name.c_str(), binding, VK_SHADER_STAGE_ALL);
 				}
 			}
 		}
