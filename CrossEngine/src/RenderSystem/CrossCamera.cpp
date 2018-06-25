@@ -74,6 +74,7 @@ namespace CrossEngine {
 	{
 		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
+		m_bDirty = TRUE;
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
 		m_param.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
@@ -82,12 +83,14 @@ namespace CrossEngine {
 	{
 		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
 
+		m_bDirty = TRUE;
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
 		m_param.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
+		m_bDirty = TRUE;
 		m_camera.setLookat(position, position + direction, up);
 		m_param.mtxView = m_camera.mtxView;
 		m_param.mtxViewInverse = m_camera.mtxViewInverse;
@@ -97,7 +100,7 @@ namespace CrossEngine {
 	void CCamera::Apply(void)
 	{
 		if (m_bDirty) {
-			m_bDirty = false;
+			m_bDirty = FALSE;
 			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
 		}
 	}

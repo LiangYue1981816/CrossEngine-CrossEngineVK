@@ -107,7 +107,7 @@ namespace CrossEngine {
 		BOOL m_bEnable;
 
 	protected:
-		bool m_bDirty;
+		BOOL m_bDirty;
 		Param m_param;
 		glm::camera m_camera;
 

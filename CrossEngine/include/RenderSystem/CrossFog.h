@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 
 	protected:
-		bool m_bDirty;
+		BOOL m_bDirty;
 		Param m_param;
 		CGfxUniformBufferPtr m_ptrUniformBuffer;
 	};
