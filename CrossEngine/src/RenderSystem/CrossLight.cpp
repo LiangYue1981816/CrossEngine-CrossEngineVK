@@ -101,7 +101,7 @@ namespace CrossEngine {
 	void CDirectLight::SetDirection(float x, float y, float z)
 	{
 		m_bDirty = TRUE;
-		m_param.direction = glm::vec4(x, y, z, 0.0f);
+		m_param.direction = glm::vec4(-x, -y, -z, 0.0f);
 	}
 
 	void CDirectLight::Apply(void)
