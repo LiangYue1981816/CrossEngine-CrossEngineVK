@@ -215,17 +215,17 @@ vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughne
 	return BRDF_EnvSpecular(V, N, albedoColor, metallic, roughness, specularColor);
 }
 
-vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, samplerCube env)
+vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, float maxLods, samplerCube env)
 {
 	vec3 R = reflect(-V, N);
-	vec3 specularColor = Gamma2Linear(textureLod(env, R, roughness * 8.0).rgb);
+	vec3 specularColor = Gamma2Linear(textureLod(env, R, roughness * maxLods).rgb);
 	return BRDF_EnvSpecular(V, N, albedoColor, metallic, roughness, specularColor);
 }
 
-vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, sampler2D env)
+vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughness, float maxLods, sampler2D env)
 {
 	vec3 R = reflect(-V, N);
-	vec3 specularColor = Gamma2Linear(textureLod(env, SphericalSampleing(R), roughness * 8.0).rgb);
+	vec3 specularColor = Gamma2Linear(textureLod(env, SphericalSampleing(R), roughness * maxLods).rgb);
 	return BRDF_EnvSpecular(V, N, albedoColor, metallic, roughness, specularColor);
 }
 

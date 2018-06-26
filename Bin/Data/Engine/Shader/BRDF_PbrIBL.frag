@@ -30,7 +30,7 @@ void main()
 	pixelNormal = normalize(inTBN * pixelNormal);
 
 	vec3 ambientColor = AmbientLightingSH9(albedoColor, metallic, pixelNormal);
-	vec3 specularColor = EnvSpecular(inViewDirection, pixelNormal, albedoColor, metallic, roughness, texEnv);
+	vec3 specularColor = EnvSpecular(inViewDirection, pixelNormal, albedoColor, metallic, roughness, 8.0, texEnv);
 	vec3 lightColor = PBRLighting(mainDirectLightColor, mainDirectLightDirection, inHalfDirection, inViewDirection, pixelNormal, albedoColor, metallic, roughness);
 	vec3 final = (ambientColor + specularColor + lightColor) * ao;
 
