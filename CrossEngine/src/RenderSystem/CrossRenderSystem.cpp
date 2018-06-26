@@ -65,7 +65,7 @@ namespace CrossEngine {
 		return m_pGfxSwapchain;
 	}
 
-	const CGfxDescriptorSetPtr CRenderSystem::GetDescriptorSet(void) const
+	const CGfxDescriptorSetPtr& CRenderSystem::GetDescriptorSet(void) const
 	{
 		return m_ptrDescriptorSet;
 	}

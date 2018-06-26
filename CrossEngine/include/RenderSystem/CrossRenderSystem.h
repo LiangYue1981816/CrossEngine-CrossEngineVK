@@ -106,7 +106,7 @@ namespace CrossEngine {
 		CGfxDevice* GetDevice(void) const;
 		CGfxSwapchain* GetSwapchain(void) const;
 
-		const CGfxDescriptorSetPtr GetDescriptorSet(void) const;
+		const CGfxDescriptorSetPtr& GetDescriptorSet(void) const;
 
 	public:
 		CCamera* GetCamera(uint32_t dwName);
