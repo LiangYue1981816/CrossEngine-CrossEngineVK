@@ -174,7 +174,6 @@ vec3 BRDF_EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float ro
 	float ndv = max(dot(N, V), 0.0);
 
 	vec3 F = F_Schlick(ndv, metallic, albedoColor);
-	vec3 R = reflect(-V, N);
 
 	return Env_Specular(F, ndv, roughness) * specularColor;
 }
