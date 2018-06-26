@@ -20,6 +20,7 @@
 	#define DESCRIPTOR_SET_DRAW(b)   layout (binding = b)
 	#define DESCRIPTOR_SET_PASS(b)   layout (binding = b)
 	#define DESCRIPTOR_SET_FRAME(b)  layout (binding = b)
+	#define DESCRIPTOR_SET_CAMERA(b) layout (binding = b)
 #else
 	#define DESCRIPTOR_SET_DRAW(b)   layout (set = 0, binding = b)
 	#define DESCRIPTOR_SET_PASS(b)   layout (set = 1, binding = b)
