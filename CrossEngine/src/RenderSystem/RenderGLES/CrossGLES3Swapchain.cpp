@@ -160,7 +160,7 @@ namespace CrossEngine {
 
 	uint32_t CGLES3Swapchain::GetImageCount(void) const
 	{
-		return 1;
+		return SWAPCHAIN_IMAGE_COUNT;
 	}
 
 	uint32_t CGLES3Swapchain::GetImageIndex(void) const
