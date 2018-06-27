@@ -28,7 +28,7 @@ namespace CrossEngine {
 	CGLES3DescriptorSetLayout::CGLES3DescriptorSetLayout(CGLES3Device *pDevice, uint32_t set)
 		: m_pDevice(pDevice)
 
-		, m_set(set)
+		, m_set(0)
 		, m_numTypesUsedCount{ 0 }
 	{
 
