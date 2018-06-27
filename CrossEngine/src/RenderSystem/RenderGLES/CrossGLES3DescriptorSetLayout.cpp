@@ -126,20 +126,6 @@ namespace CrossEngine {
 
 	BOOL CGLES3DescriptorSetLayout::IsCompatible(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout) const
 	{
-		const CGLES3DescriptorSetLayout *pDescriptorSetLayout = (const CGLES3DescriptorSetLayout *)ptrDescriptorSetLayout.GetPointer();
-
-		if (pDescriptorSetLayout == NULL) {
-			return FALSE;
-		}
-
-		if (pDescriptorSetLayout->m_set != m_set) {
-			return FALSE;
-		}
-
-		if (pDescriptorSetLayout->m_nameBindings != m_nameBindings) {
-			return FALSE;
-		}
-
 		return TRUE;
 	}
 
