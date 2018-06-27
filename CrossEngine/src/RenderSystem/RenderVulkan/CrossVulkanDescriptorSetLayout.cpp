@@ -167,14 +167,14 @@ namespace CrossEngine {
 
 	BOOL CVulkanDescriptorSetLayout::IsCompatible(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout) const
 	{
-		if (ptrDescriptorSetLayout->GetSet() != m_set) {
+		const CVulkanDescriptorSetLayout *pDescriptorSetLayout = (const CVulkanDescriptorSetLayout *)ptrDescriptorSetLayout.GetPointer();
+
+		if (pDescriptorSetLayout->m_set != m_set) {
 			return FALSE;
 		}
 
-		for (const auto &itBinding : m_nameBindings) {
-			if (ptrDescriptorSetLayout->GetBinding(itBinding.first) != itBinding.second) {
-				return FALSE;
-			}
+		if (pDescriptorSetLayout->m_nameBindings != m_nameBindings) {
+			return FALSE;
 		}
 
 		return m_nameBindings.empty() ? FALSE : TRUE;
