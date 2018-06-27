@@ -126,17 +126,21 @@ namespace CrossEngine {
 
 	BOOL CGLES3DescriptorSetLayout::IsCompatible(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout) const
 	{
-		if (ptrDescriptorSetLayout->GetSet() != m_set) {
+		const CGLES3DescriptorSetLayout *pDescriptorSetLayout = (const CGLES3DescriptorSetLayout *)ptrDescriptorSetLayout.GetPointer();
+
+		if (pDescriptorSetLayout == NULL) {
 			return FALSE;
 		}
 
-		for (const auto &itBinding : m_nameBindings) {
-			if (ptrDescriptorSetLayout->GetBinding(itBinding.first) != itBinding.second) {
-				return FALSE;
-			}
+		if (pDescriptorSetLayout->m_set != m_set) {
+			return FALSE;
 		}
 
-		return m_nameBindings.empty() ? FALSE : TRUE;
+		if (pDescriptorSetLayout->m_nameBindings != m_nameBindings) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(GLuint program)

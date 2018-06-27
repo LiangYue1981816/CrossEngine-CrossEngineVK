@@ -169,6 +169,10 @@ namespace CrossEngine {
 	{
 		const CVulkanDescriptorSetLayout *pDescriptorSetLayout = (const CVulkanDescriptorSetLayout *)ptrDescriptorSetLayout.GetPointer();
 
+		if (pDescriptorSetLayout == NULL) {
+			return FALSE;
+		}
+
 		if (pDescriptorSetLayout->m_set != m_set) {
 			return FALSE;
 		}
@@ -177,7 +181,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		return m_nameBindings.empty() ? FALSE : TRUE;
+		return TRUE;
 	}
 
 }
