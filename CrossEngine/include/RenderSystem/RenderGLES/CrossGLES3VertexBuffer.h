@@ -51,6 +51,7 @@ namespace CrossEngine {
 		void DestroyVAO(void);
 
 	public:
+		void SetupFormat(void) const;
 		BOOL SetData(size_t offset, size_t size, const void *pBuffer) const;
 
 	public:

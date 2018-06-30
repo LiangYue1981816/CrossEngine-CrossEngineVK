@@ -73,19 +73,7 @@ namespace CrossEngine {
 		glBindVertexArray(m_vao);
 		glBindVertexBuffer(m_binding, m_buffer, 0, m_pDevice->GetStride(m_vertexFormat));
 		{
-			for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
-				GLuint attribute = (1 << indexAttribute);
-
-				if (m_vertexFormat & attribute) {
-					GLuint location = m_pDevice->GetAttributeLocation(attribute);
-					GLuint size = m_pDevice->GetAttributeSize(attribute);
-					GLuint offset = m_pDevice->GetAttributeOffset(m_vertexFormat, attribute);
-
-					glEnableVertexAttribArray(location);
-					glVertexAttribBinding(location, m_binding);
-					glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
-				}
-			}
+			SetupFormat();
 		}
 		glBindVertexArray(0);
 		glBindVertexBuffer(0, 0, 0, 0);
@@ -108,6 +96,23 @@ namespace CrossEngine {
 		m_vao = 0;
 		m_binding = 0;
 		m_vertexFormat = 0;
+	}
+
+	void CGLES3VertexBuffer::SetupFormat(void) const
+	{
+		for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
+			GLuint attribute = (1 << indexAttribute);
+
+			if (m_vertexFormat & attribute) {
+				GLuint location = m_pDevice->GetAttributeLocation(attribute);
+				GLuint size = m_pDevice->GetAttributeSize(attribute);
+				GLuint offset = m_pDevice->GetAttributeOffset(m_vertexFormat, attribute);
+
+				glEnableVertexAttribArray(location);
+				glVertexAttribBinding(location, m_binding);
+				glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
+			}
+		}
 	}
 
 	BOOL CGLES3VertexBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const
