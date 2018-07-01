@@ -47,19 +47,21 @@ namespace CrossEngine {
 
 			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
 
-			glBindVertexBuffer(pVertexBuffer->GetBinding(), (GLuint)pVertexBuffer->GetHandle(), 0, GfxDevice()->GetStride(pVertexBuffer->GetVertexFormat()));
+			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetHandle());
 			{
+				GLuint format = pVertexBuffer->GetVertexFormat();
+				GLuint stride = GfxDevice()->GetStride(format);
+
 				for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 					GLuint attribute = (1 << indexAttribute);
 
-					if (pVertexBuffer->GetVertexFormat() & attribute) {
+					if (format & attribute) {
 						GLuint location = GfxDevice()->GetAttributeLocation(attribute);
 						GLuint size = GfxDevice()->GetAttributeSize(attribute);
-						GLuint offset = GfxDevice()->GetAttributeOffset(pVertexBuffer->GetVertexFormat(), attribute);
+						GLuint offset = GfxDevice()->GetAttributeOffset(format, attribute);
 
 						glEnableVertexAttribArray(location);
-						glVertexAttribBinding(location, pVertexBuffer->GetBinding());
-						glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
+						glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride, (const void *)offset);
 						glVertexAttribDivisor(location, attribute & INSTANCE_ATTRIBUTE_MASK ? 1 : 0);
 					}
 				}
