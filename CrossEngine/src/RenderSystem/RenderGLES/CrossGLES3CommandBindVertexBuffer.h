@@ -60,6 +60,7 @@ namespace CrossEngine {
 						glEnableVertexAttribArray(location);
 						glVertexAttribBinding(location, pVertexBuffer->GetBinding());
 						glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
+						glVertexAttribDivisor(location, attribute & INSTANCE_ATTRIBUTE_MASK ? 1 : 0);
 					}
 				}
 			}
