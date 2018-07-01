@@ -28,7 +28,6 @@ namespace CrossEngine {
 	CGLES3VertexBuffer::CGLES3VertexBuffer(CGLES3Device *pDevice, CGfxResourceManager *pResourceManager)
 		: CGLES3Buffer(pDevice)
 		, CGfxVertexBuffer(pResourceManager)
-		, m_vao(0)
 		, m_binding(0)
 		, m_vertexFormat(0)
 	{
@@ -50,69 +49,16 @@ namespace CrossEngine {
 		return (HANDLE)m_buffer;
 	}
 
-	HANDLE CGLES3VertexBuffer::GetHandleVAO(void) const
-	{
-		return (HANDLE)m_vao;
-	}
-
 	BOOL CGLES3VertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format, uint32_t binding)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::SetData(GL_ARRAY_BUFFER, 0, size, pBuffer));
-		CALL_BOOL_FUNCTION_RETURN(CreateVAO(format, binding));
-		return TRUE;
-	}
-
-	BOOL CGLES3VertexBuffer::CreateVAO(uint32_t format, uint32_t binding)
-	{
-		m_vao = 0;
-		m_binding = binding;
-		m_vertexFormat = format;
-
-		glGenVertexArrays(1, &m_vao);
-		glBindVertexArray(m_vao);
-		glBindVertexBuffer(m_binding, m_buffer, 0, m_pDevice->GetStride(m_vertexFormat));
-		{
-			SetupFormat();
-		}
-		glBindVertexArray(0);
-		glBindVertexBuffer(0, 0, 0, 0);
-
 		return TRUE;
 	}
 
 	void CGLES3VertexBuffer::Destroy(void)
 	{
-		DestroyVAO();
 		CGLES3Buffer::Destroy();
-	}
-
-	void CGLES3VertexBuffer::DestroyVAO(void)
-	{
-		if (m_vao) {
-			glDeleteVertexArrays(1, &m_vao);
-		}
-
-		m_vao = 0;
-		m_binding = 0;
-		m_vertexFormat = 0;
-	}
-
-	void CGLES3VertexBuffer::SetupFormat(void) const
-	{
-		for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
-			GLuint attribute = (1 << indexAttribute);
-
-			if (m_vertexFormat & attribute) {
-				GLuint location = m_pDevice->GetAttributeLocation(attribute);
-				GLuint size = m_pDevice->GetAttributeSize(attribute);
-				GLuint offset = m_pDevice->GetAttributeOffset(m_vertexFormat, attribute);
-
-				glEnableVertexAttribArray(location);
-				glVertexAttribBinding(location, m_binding);
-				glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
-			}
-		}
 	}
 
 	BOOL CGLES3VertexBuffer::SetData(size_t offset, size_t size, const void *pBuffer) const

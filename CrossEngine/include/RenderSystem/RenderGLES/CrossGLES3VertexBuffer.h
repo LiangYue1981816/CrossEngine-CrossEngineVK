@@ -39,19 +39,13 @@ namespace CrossEngine {
 	public:
 		CGLES3Device* GetDevice(void) const;
 		HANDLE GetHandle(void) const;
-		HANDLE GetHandleVAO(void) const;
 
 	public:
 		BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format, uint32_t binding);
 		void Destroy(void);
 		void DumpLog(void) const;
 
-	protected:
-		BOOL CreateVAO(uint32_t format, uint32_t binding);
-		void DestroyVAO(void);
-
 	public:
-		void SetupFormat(void) const;
 		BOOL SetData(size_t offset, size_t size, const void *pBuffer) const;
 
 	public:
@@ -65,7 +59,6 @@ namespace CrossEngine {
 
 
 	protected:
-		GLuint m_vao;
 		uint32_t m_binding;
 		uint32_t m_vertexFormat;
 	};

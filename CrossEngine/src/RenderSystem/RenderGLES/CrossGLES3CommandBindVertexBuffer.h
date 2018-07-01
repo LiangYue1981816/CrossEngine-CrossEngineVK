@@ -45,7 +45,24 @@ namespace CrossEngine {
 				return;
 			}
 
-			glBindVertexArray((GLuint)((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetHandleVAO());
+			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
+
+			glBindVertexBuffer(pVertexBuffer->GetBinding(), (GLuint)pVertexBuffer->GetHandle(), 0, GfxDevice()->GetStride(pVertexBuffer->GetVertexFormat()));
+			{
+				for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
+					GLuint attribute = (1 << indexAttribute);
+
+					if (pVertexBuffer->GetVertexFormat() & attribute) {
+						GLuint location = GfxDevice()->GetAttributeLocation(attribute);
+						GLuint size = GfxDevice()->GetAttributeSize(attribute);
+						GLuint offset = GfxDevice()->GetAttributeOffset(pVertexBuffer->GetVertexFormat(), attribute);
+
+						glEnableVertexAttribArray(location);
+						glVertexAttribBinding(location, pVertexBuffer->GetBinding());
+						glVertexAttribFormat(location, size, GL_FLOAT, GL_FALSE, offset);
+					}
+				}
+			}
 		}
 
 
