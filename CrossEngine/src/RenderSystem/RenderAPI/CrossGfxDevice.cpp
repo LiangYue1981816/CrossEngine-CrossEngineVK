@@ -28,25 +28,26 @@ namespace CrossEngine {
 	struct ATTRIBUTE {
 		uint32_t flag;
 		uint32_t size;
+		uint32_t components;
 		uint32_t location;
 		VkFormat format;
 		const char *name;
 	};
 
 	static const ATTRIBUTE attributes[ATTRIBUTE_FLAG_COUNT] = {
-		{ VERTEX_ATTRIBUTE_POSITION,  3, 0, VK_FORMAT_R32G32B32_SFLOAT,    "inPosition"  },
-		{ VERTEX_ATTRIBUTE_NORMAL,    3, 1, VK_FORMAT_R32G32B32_SFLOAT,    "inNormal"    },
-		{ VERTEX_ATTRIBUTE_BINORMAL,  3, 2, VK_FORMAT_R32G32B32_SFLOAT,    "inBinormal"  },
-		{ VERTEX_ATTRIBUTE_COLOR,     3, 3, VK_FORMAT_R32G32B32_SFLOAT,    "inColor"     },
-		{ VERTEX_ATTRIBUTE_TEXCOORD0, 2, 4, VK_FORMAT_R32G32_SFLOAT,       "inTexcoord0" },
-		{ VERTEX_ATTRIBUTE_TEXCOORD1, 2, 5, VK_FORMAT_R32G32_SFLOAT,       "inTexcoord1" },
-		{ VERTEX_ATTRIBUTE_INDICES,   4, 6, VK_FORMAT_R32G32B32A32_SFLOAT, "inIndices"   },
-		{ VERTEX_ATTRIBUTE_WEIGHTS,   4, 7, VK_FORMAT_R32G32B32A32_SFLOAT, "inWeights"   },
+		{ VERTEX_ATTRIBUTE_POSITION,  4, 3, 0, VK_FORMAT_R32G32B32_SFLOAT,    "inPosition"  },
+		{ VERTEX_ATTRIBUTE_NORMAL,    4, 3, 1, VK_FORMAT_R32G32B32_SFLOAT,    "inNormal"    },
+		{ VERTEX_ATTRIBUTE_BINORMAL,  4, 3, 2, VK_FORMAT_R32G32B32_SFLOAT,    "inBinormal"  },
+		{ VERTEX_ATTRIBUTE_COLOR,     4, 3, 3, VK_FORMAT_R32G32B32_SFLOAT,    "inColor"     },
+		{ VERTEX_ATTRIBUTE_TEXCOORD0, 4, 2, 4, VK_FORMAT_R32G32_SFLOAT,       "inTexcoord0" },
+		{ VERTEX_ATTRIBUTE_TEXCOORD1, 4, 2, 5, VK_FORMAT_R32G32_SFLOAT,       "inTexcoord1" },
+		{ VERTEX_ATTRIBUTE_INDICES,   4, 4, 6, VK_FORMAT_R32G32B32A32_SFLOAT, "inIndices"   },
+		{ VERTEX_ATTRIBUTE_WEIGHTS,   4, 4, 7, VK_FORMAT_R32G32B32A32_SFLOAT, "inWeights"   },
 
-		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL0, 4, 8,  VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol0" },
-		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL1, 4, 9,  VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol1" },
-		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL2, 4, 10, VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol2" },
-		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3, 4, 11, VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol3" },
+		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL0, 4, 4, 8,  VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol0" },
+		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL1, 4, 4, 9,  VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol1" },
+		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL2, 4, 4, 10, VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol2" },
+		{ INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3, 4, 4, 11, VK_FORMAT_R32G32B32A32_SFLOAT, "inInstanceTransformMatrixCol3" },
 	};
 
 
@@ -56,7 +57,7 @@ namespace CrossEngine {
 
 		for (uint32_t indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (format & attributes[indexAttribute].flag) {
-				stride += attributes[indexAttribute].size * 4;
+				stride += attributes[indexAttribute].components * 4;
 			}
 		}
 
@@ -74,23 +75,34 @@ namespace CrossEngine {
 		return 0;
 	}
 
+	uint32_t CGfxDevice::GetAttributeSize(uint32_t attribute) const
+	{
+		for (uint32_t indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
+			if (attribute == attributes[indexAttribute].flag) {
+				return attributes[indexAttribute].size;
+			}
+		}
+
+		return 0;
+	}
+
 	uint32_t CGfxDevice::GetAttributeOffset(uint32_t format, uint32_t attribute) const
 	{
 		uint32_t offset = 0;
 
 		for (uint32_t indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == attributes[indexAttribute].flag) return offset;
-			if (format & attributes[indexAttribute].flag) offset += attributes[indexAttribute].size * 4;
+			if (format & attributes[indexAttribute].flag) offset += attributes[indexAttribute].components * 4;
 		}
 
 		return -1;
 	}
 
-	uint32_t CGfxDevice::GetAttributeSize(uint32_t attribute) const
+	uint32_t CGfxDevice::GetAttributeComponents(uint32_t attribute) const
 	{
 		for (uint32_t indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == attributes[indexAttribute].flag) {
-				return attributes[indexAttribute].size;
+				return attributes[indexAttribute].components;
 			}
 		}
 

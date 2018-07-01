@@ -85,9 +85,10 @@ namespace CrossEngine {
 
 	public:
 		uint32_t GetStride(uint32_t format) const;
-		uint32_t GetAttributeOffset(uint32_t format, uint32_t attribute) const;
 		uint32_t GetAttributeFlag(const char *szName) const;
 		uint32_t GetAttributeSize(uint32_t attribute) const;
+		uint32_t GetAttributeOffset(uint32_t format, uint32_t attribute) const;
+		uint32_t GetAttributeComponents(uint32_t attribute) const;
 		uint32_t GetAttributeLocation(uint32_t attribute) const;
 		VkFormat GetAttributeFormat(uint32_t attribute) const;
 

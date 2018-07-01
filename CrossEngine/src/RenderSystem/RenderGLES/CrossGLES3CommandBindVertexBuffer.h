@@ -57,11 +57,11 @@ namespace CrossEngine {
 
 					if (format & attribute) {
 						GLuint location = GfxDevice()->GetAttributeLocation(attribute);
-						GLuint size = GfxDevice()->GetAttributeSize(attribute);
+						GLuint components = GfxDevice()->GetAttributeComponents(attribute);
 						GLuint offset = GfxDevice()->GetAttributeOffset(format, attribute);
 
 						glEnableVertexAttribArray(location);
-						glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride, (const void *)offset);
+						glVertexAttribPointer(location, components, GL_FLOAT, GL_FALSE, stride, (const void *)offset);
 						glVertexAttribDivisor(location, attribute & INSTANCE_ATTRIBUTE_MASK ? 1 : 0);
 					}
 				}
