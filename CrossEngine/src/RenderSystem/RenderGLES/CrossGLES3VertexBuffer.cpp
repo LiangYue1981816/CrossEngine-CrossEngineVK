@@ -53,11 +53,15 @@ namespace CrossEngine {
 	{
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::Create(GL_ARRAY_BUFFER, size, bDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
 		CALL_BOOL_FUNCTION_RETURN(CGLES3Buffer::SetData(GL_ARRAY_BUFFER, 0, size, pBuffer));
+		m_binding = binding;
+		m_vertexFormat = format;
 		return TRUE;
 	}
 
 	void CGLES3VertexBuffer::Destroy(void)
 	{
+		m_binding = 0;
+		m_vertexFormat = 0;
 		CGLES3Buffer::Destroy();
 	}
 
