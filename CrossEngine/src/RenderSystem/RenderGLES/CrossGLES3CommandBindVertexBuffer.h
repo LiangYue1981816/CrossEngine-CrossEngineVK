@@ -32,9 +32,10 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer)
+		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 		{
 			m_ptrVertexBuffer = ptrVertexBuffer;
+			m_ptrPipelineGraphics = ptrPipelineGraphics;
 		}
 
 
@@ -45,11 +46,13 @@ namespace CrossEngine {
 				return;
 			}
 
-			const CGLES3VertexBuffer *pVertexBuffer = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer);
+			if (m_ptrPipelineGraphics.IsNull() || m_ptrPipelineGraphics->GetHandle() == NULL) {
+				return;
+			}
 
-			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetHandle());
+			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)(CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer)->GetHandle());
 			{
-				GLuint format = pVertexBuffer->GetVertexFormat();
+				GLuint format = m_ptrPipelineGraphics->GetVertexFormat();
 				GLuint stride = GfxDevice()->GetStride(format);
 
 				for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
@@ -71,6 +74,7 @@ namespace CrossEngine {
 
 	protected:
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
+		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 	};
 
 }
