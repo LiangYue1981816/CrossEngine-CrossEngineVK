@@ -170,7 +170,7 @@ namespace CrossEngine {
 
 	protected:
 		CResRenderPassPtr m_ptrRenderPass;
-		CGfxPipelineGraphicsPtr m_ptrPipeline;
+		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 	};
 
 }

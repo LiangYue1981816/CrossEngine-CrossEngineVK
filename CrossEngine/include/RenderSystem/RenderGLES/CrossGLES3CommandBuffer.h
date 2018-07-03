@@ -62,8 +62,8 @@ namespace CrossEngine {
 		void CmdNextSubpass(VkSubpassContents contents);
 		void CmdEndRenderPass(void);
 
-		void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline);
-		void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline);
+		void CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute);
+		void CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics);
 		void CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet);
 		void CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet);
 		void CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer);

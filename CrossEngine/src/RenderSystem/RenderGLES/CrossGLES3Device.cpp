@@ -269,14 +269,14 @@ namespace CrossEngine {
 		return m_pDescriptorSetManager->AllocDescriptorSet(ptrDescriptorSetLayout);
 	}
 
-	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)
+	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipelineCompute)
 	{
-		return AllocDescriptorSet(pool, ((CGLES3PipelineCompute *)((CGfxPipelineCompute *)ptrPipeline))->GetDescriptorSetLayout(set));
+		return AllocDescriptorSet(pool, ((CGLES3PipelineCompute *)((CGfxPipelineCompute *)ptrPipelineCompute))->GetDescriptorSetLayout(set));
 	}
 
-	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline)
+	CGfxDescriptorSetPtr CGLES3Device::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
-		return AllocDescriptorSet(pool, ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetDescriptorSetLayout(set));
+		return AllocDescriptorSet(pool, ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)ptrPipelineGraphics))->GetDescriptorSetLayout(set));
 	}
 
 	CGfxDescriptorSetLayoutPtr CGLES3Device::AllocDescriptorSetLayout(uint32_t set)

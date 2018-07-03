@@ -43,7 +43,7 @@ namespace CrossEngine {
 
 	const CGfxPipelineComputePtr& CResCompute::GetPipeline(void) const
 	{
-		return m_ptrPipeline;
+		return m_ptrPipelineCompute;
 	}
 
 	BOOL CResCompute::IsValid(void) const
@@ -52,7 +52,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrPipeline.IsNull() || m_ptrPipeline->GetHandle() == NULL) {
+		if (m_ptrPipelineCompute.IsNull() || m_ptrPipelineCompute->GetHandle() == NULL) {
 			return FALSE;
 		}
 
@@ -75,7 +75,7 @@ namespace CrossEngine {
 
 	void CResCompute::InternalLoadFail(void)
 	{
-		m_ptrPipeline.Release();
+		m_ptrPipelineCompute.Release();
 		CResource::InternalLoadFail();
 	}
 

@@ -53,7 +53,7 @@ namespace CrossEngine {
 
 	const CGfxPipelineGraphicsPtr& CResGraphics::GetPipeline(void) const
 	{
-		return m_ptrPipeline;
+		return m_ptrPipelineGraphics;
 	}
 
 	BOOL CResGraphics::IsValid(void) const
@@ -62,7 +62,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		if (m_ptrPipeline.IsNull() || m_ptrPipeline->GetHandle() == NULL) {
+		if (m_ptrPipelineGraphics.IsNull() || m_ptrPipelineGraphics->GetHandle() == NULL) {
 			return FALSE;
 		}
 
@@ -87,7 +87,7 @@ namespace CrossEngine {
 		m_ptrRenderPass = RenderPassManager()->LoadResource(m_param.renderpass.dwName);
 		if (m_ptrRenderPass.IsNull() || m_ptrRenderPass->IsValid() == FALSE) return FALSE;
 
-		m_ptrPipeline = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetRenderPass()->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
+		m_ptrPipelineGraphics = GfxDevice()->NewPipelineGraphics(m_ptrRenderPass->GetRenderPass()->GetSubpassOutputAttachmentCount(m_param.renderpass.indexSubPass));
 		{
 			if (SetShaders() == FALSE) return FALSE;
 			if (SetAssemblyState() == FALSE) return FALSE;
@@ -97,12 +97,12 @@ namespace CrossEngine {
 			if (SetDepthStencilState() == FALSE) return FALSE;
 			if (SetColorBlendState() == FALSE) return FALSE;
 		}
-		return m_ptrPipeline->Create(m_ptrRenderPass->GetRenderPass()->GetHandle(), m_param.renderpass.indexSubPass);
+		return m_ptrPipelineGraphics->Create(m_ptrRenderPass->GetRenderPass()->GetHandle(), m_param.renderpass.indexSubPass);
 	}
 
 	void CResGraphics::InternalLoadFail(void)
 	{
-		m_ptrPipeline.Release();
+		m_ptrPipelineGraphics.Release();
 		m_ptrRenderPass.Release();
 		CResource::InternalLoadFail();
 	}
@@ -290,15 +290,15 @@ namespace CrossEngine {
 		const CResShaderPtr &ptrFragmentShader = ShaderManager()->LoadResource(m_param.shader.dwFragmentName);
 		if (ptrFragmentShader.IsNull() || ptrFragmentShader->IsValid() == FALSE) return FALSE;
 
-		m_ptrPipeline->SetVertexShader(ptrVertexShader->GetShader());
-		m_ptrPipeline->SetFragmentShader(ptrFragmentShader->GetShader());
+		m_ptrPipelineGraphics->SetVertexShader(ptrVertexShader->GetShader());
+		m_ptrPipelineGraphics->SetFragmentShader(ptrFragmentShader->GetShader());
 
 		return TRUE;
 	}
 
 	BOOL CResGraphics::SetAssemblyState(void)
 	{
-		m_ptrPipeline->SetPrimitiveTopology(m_param.assembly.topology, m_param.assembly.bPrimitiveRestartEnable);
+		m_ptrPipelineGraphics->SetPrimitiveTopology(m_param.assembly.topology, m_param.assembly.bPrimitiveRestartEnable);
 		return TRUE;
 	}
 
@@ -309,39 +309,39 @@ namespace CrossEngine {
 
 	BOOL CResGraphics::SetRasterizationState(void)
 	{
-		m_ptrPipeline->SetPolygonMode(m_param.rasterization.polygonMode);
-		m_ptrPipeline->SetCullMode(m_param.rasterization.cullMode);
-		m_ptrPipeline->SetFrontFace(m_param.rasterization.frontFace);
-		m_ptrPipeline->SetDepthClamp(m_param.rasterization.bDepthClampEnable);
-		m_ptrPipeline->SetDepthBias(m_param.rasterization.bDepthBiasEnable, m_param.rasterization.depthBiasConstantFactor, m_param.rasterization.depthBiasClamp, m_param.rasterization.depthBiasSlopeFactor);
-		m_ptrPipeline->SetRasterizerDiscard(m_param.rasterization.bRasterizerDiscardEnable);
+		m_ptrPipelineGraphics->SetPolygonMode(m_param.rasterization.polygonMode);
+		m_ptrPipelineGraphics->SetCullMode(m_param.rasterization.cullMode);
+		m_ptrPipelineGraphics->SetFrontFace(m_param.rasterization.frontFace);
+		m_ptrPipelineGraphics->SetDepthClamp(m_param.rasterization.bDepthClampEnable);
+		m_ptrPipelineGraphics->SetDepthBias(m_param.rasterization.bDepthBiasEnable, m_param.rasterization.depthBiasConstantFactor, m_param.rasterization.depthBiasClamp, m_param.rasterization.depthBiasSlopeFactor);
+		m_ptrPipelineGraphics->SetRasterizerDiscard(m_param.rasterization.bRasterizerDiscardEnable);
 		return TRUE;
 	}
 
 	BOOL CResGraphics::SetMultisampleState(void)
 	{
-		m_ptrPipeline->SetSampleCounts(m_param.multisample.samples);
-		m_ptrPipeline->SetSampleShading(m_param.multisample.bSampleShadingEnable, m_param.multisample.minSampleShading);
-		m_ptrPipeline->SetSampleAlphaToCoverage(m_param.multisample.bAlphaToCoverageEnable);
-		m_ptrPipeline->SetSampleAlphaToOne(m_param.multisample.bAlphaToOneEnable);
+		m_ptrPipelineGraphics->SetSampleCounts(m_param.multisample.samples);
+		m_ptrPipelineGraphics->SetSampleShading(m_param.multisample.bSampleShadingEnable, m_param.multisample.minSampleShading);
+		m_ptrPipelineGraphics->SetSampleAlphaToCoverage(m_param.multisample.bAlphaToCoverageEnable);
+		m_ptrPipelineGraphics->SetSampleAlphaToOne(m_param.multisample.bAlphaToOneEnable);
 		return TRUE;
 	}
 
 	BOOL CResGraphics::SetDepthStencilState(void)
 	{
-		m_ptrPipeline->SetDepthBoundsTest(m_param.depth.bDepthBoundsTestEnable, m_param.depth.minDepthBounds, m_param.depth.maxDepthBounds);
-		m_ptrPipeline->SetDepthTest(m_param.depth.bDepthTestEnable, m_param.depth.bDepthWriteEnable, m_param.depth.depthCompareOp);
-		m_ptrPipeline->SetStencilTest(m_param.stencil.bStencilTestEnable, m_param.stencil.frontFailOp, m_param.stencil.frontPassOp, m_param.stencil.frontDepthFailOp, m_param.stencil.frontCompareOp, m_param.stencil.frontCompareMask, m_param.stencil.frontWriteMask, m_param.stencil.frontReference, m_param.stencil.backFailOp, m_param.stencil.backPassOp, m_param.stencil.backDepthFailOp, m_param.stencil.backCompareOp, m_param.stencil.backCompareMask, m_param.stencil.backWriteMask, m_param.stencil.backReference);
+		m_ptrPipelineGraphics->SetDepthBoundsTest(m_param.depth.bDepthBoundsTestEnable, m_param.depth.minDepthBounds, m_param.depth.maxDepthBounds);
+		m_ptrPipelineGraphics->SetDepthTest(m_param.depth.bDepthTestEnable, m_param.depth.bDepthWriteEnable, m_param.depth.depthCompareOp);
+		m_ptrPipelineGraphics->SetStencilTest(m_param.stencil.bStencilTestEnable, m_param.stencil.frontFailOp, m_param.stencil.frontPassOp, m_param.stencil.frontDepthFailOp, m_param.stencil.frontCompareOp, m_param.stencil.frontCompareMask, m_param.stencil.frontWriteMask, m_param.stencil.frontReference, m_param.stencil.backFailOp, m_param.stencil.backPassOp, m_param.stencil.backDepthFailOp, m_param.stencil.backCompareOp, m_param.stencil.backCompareMask, m_param.stencil.backWriteMask, m_param.stencil.backReference);
 		return TRUE;
 	}
 
 	BOOL CResGraphics::SetColorBlendState(void)
 	{
-		m_ptrPipeline->SetColorBlendLogic(FALSE, VK_LOGIC_OP_COPY);
-		m_ptrPipeline->SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
+		m_ptrPipelineGraphics->SetColorBlendLogic(FALSE, VK_LOGIC_OP_COPY);
+		m_ptrPipelineGraphics->SetColorBlendConstants(0.0f, 0.0f, 0.0f, 0.0f);
 
 		for (const auto &itColorBlendAttachment : m_param.blends) {
-			m_ptrPipeline->SetColorBlendAttachment(itColorBlendAttachment.first, itColorBlendAttachment.second.bBlendEnable, itColorBlendAttachment.second.srcColorBlendFactor, itColorBlendAttachment.second.dstColorBlendFactor, itColorBlendAttachment.second.colorBlendOp, itColorBlendAttachment.second.srcAlphaBlendFactor, itColorBlendAttachment.second.dstAlphaBlendFactor, itColorBlendAttachment.second.alphaBlendOp, VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT);
+			m_ptrPipelineGraphics->SetColorBlendAttachment(itColorBlendAttachment.first, itColorBlendAttachment.second.bBlendEnable, itColorBlendAttachment.second.srcColorBlendFactor, itColorBlendAttachment.second.dstColorBlendFactor, itColorBlendAttachment.second.colorBlendOp, itColorBlendAttachment.second.srcAlphaBlendFactor, itColorBlendAttachment.second.dstAlphaBlendFactor, itColorBlendAttachment.second.alphaBlendOp, VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT);
 		}
 
 		return TRUE;

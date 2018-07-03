@@ -155,16 +155,16 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
-	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
+	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute)
 	{
-		m_ptrPipelineCompute = ptrPipeline;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineCompute(ptrPipeline));
+		m_ptrPipelineCompute = ptrPipelineCompute;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineCompute(ptrPipelineCompute));
 	}
 
-	void CGLES3CommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CGLES3CommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
-		m_ptrPipelineGraphics = ptrPipeline;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(ptrPipeline));
+		m_ptrPipelineGraphics = ptrPipelineGraphics;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(ptrPipelineGraphics));
 	}
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet)

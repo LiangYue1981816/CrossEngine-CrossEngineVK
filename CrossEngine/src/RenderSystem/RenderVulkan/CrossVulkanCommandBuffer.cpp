@@ -169,16 +169,16 @@ namespace CrossEngine {
 		m_pCommands.push_back(SAFE_NEW CVulkanCommandEndRenderPass(m_vkCommandBuffer));
 	}
 
-	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipeline)
+	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute)
 	{
-		m_ptrPipelineCompute = ptrPipeline;
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineCompute(m_vkCommandBuffer, ptrPipeline));
+		m_ptrPipelineCompute = ptrPipelineCompute;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineCompute(m_vkCommandBuffer, ptrPipelineCompute));
 	}
 
-	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
-		m_ptrPipelineGraphics = ptrPipeline;
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineGraphics(m_vkCommandBuffer, ptrPipeline));
+		m_ptrPipelineGraphics = ptrPipelineGraphics;
+		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineGraphics(m_vkCommandBuffer, ptrPipelineGraphics));
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet)

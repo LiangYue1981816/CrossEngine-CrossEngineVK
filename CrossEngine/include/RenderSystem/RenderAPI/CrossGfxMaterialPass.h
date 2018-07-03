@@ -50,7 +50,7 @@ namespace CrossEngine {
 
 	public:
 		virtual void SetRenderPass(const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass) = 0;
-		virtual void SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline) = 0;
+		virtual void SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics) = 0;
 
 		virtual void SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture) = 0;
 		virtual void SetUniformBuffer(uint32_t dwName, const CGfxUniformBufferPtr &ptrUniformBuffer) = 0;

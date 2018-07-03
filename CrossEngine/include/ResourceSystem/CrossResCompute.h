@@ -51,7 +51,7 @@ namespace CrossEngine {
 
 
 	protected:
-		CGfxPipelineComputePtr m_ptrPipeline;
+		CGfxPipelineComputePtr m_ptrPipelineCompute;
 	};
 
 }

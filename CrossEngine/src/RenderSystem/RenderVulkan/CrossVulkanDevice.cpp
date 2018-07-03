@@ -492,14 +492,14 @@ namespace CrossEngine {
 		return m_pDescriptorPoolManager->AllocDescriptorSet(pool, ptrDescriptorSetLayout);
 	}
 
-	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipeline)
+	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineComputePtr &ptrPipelineCompute)
 	{
-		return AllocDescriptorSet(pool, ((CVulkanPipelineCompute *)((CGfxPipelineCompute *)ptrPipeline))->GetDescriptorSetLayout(set));
+		return AllocDescriptorSet(pool, ((CVulkanPipelineCompute *)((CGfxPipelineCompute *)ptrPipelineCompute))->GetDescriptorSetLayout(set));
 	}
 
-	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipeline)
+	CGfxDescriptorSetPtr CVulkanDevice::AllocDescriptorSet(uint32_t pool, uint32_t set, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
-		return AllocDescriptorSet(pool, ((CVulkanPipelineGraphics *)((CGfxPipelineGraphics *)ptrPipeline))->GetDescriptorSetLayout(set));
+		return AllocDescriptorSet(pool, ((CVulkanPipelineGraphics *)((CGfxPipelineGraphics *)ptrPipelineGraphics))->GetDescriptorSetLayout(set));
 	}
 
 	CGfxDescriptorSetLayoutPtr CVulkanDevice::AllocDescriptorSetLayout(uint32_t set)

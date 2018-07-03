@@ -67,26 +67,26 @@ namespace CrossEngine {
 		const CGfxMaterialPassPtr &ptrPass = m_ptrMaterial->GetMaterial()->GetPass(dwPassName);
 		if (ptrPass.IsNull()) return;
 
-		const CGfxPipelineGraphicsPtr &ptrPipeline = ptrPass->GetPipeline();
-		if (ptrPipeline.IsNull()) return;
+		const CGfxPipelineGraphicsPtr &ptrPipelineGraphics = ptrPass->GetPipeline();
+		if (ptrPipelineGraphics.IsNull()) return;
 
 		if (m_ptrUniformBuffers[dwPassName].find(dwName) == m_ptrUniformBuffers[dwPassName].end()) {
 			m_ptrUniformBuffers[dwPassName][dwName] = GfxDevice()->NewUniformBuffer();
 			m_ptrUniformBuffers[dwPassName][dwName]->Create(size, NULL, TRUE);
-			UpdateDescriptorSet(dwPassName, ptrPipeline);
+			UpdateDescriptorSet(dwPassName, ptrPipelineGraphics);
 		}
 
 		m_ptrDescriptorSets[dwPassName]->SetUniformBufferData(binding, 0, GfxSwapChain()->GetImageIndex() * ALIGN_BYTE(size, 0x100), pBuffer);
 	}
 
-	void CDrawable::UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CDrawable::UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
 		if (m_ptrDescriptorSets[dwPassName].IsNull()) {
-			m_ptrDescriptorSets[dwPassName] = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_PASS, ptrPipeline);
+			m_ptrDescriptorSets[dwPassName] = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_PASS, ptrPipelineGraphics);
 		}
 
 		for (const auto &itUniformBuffer : m_ptrUniformBuffers[dwPassName]) {
-			m_ptrDescriptorSets[dwPassName]->SetUniformBuffer(ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
+			m_ptrDescriptorSets[dwPassName]->SetUniformBuffer(ptrPipelineGraphics->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
 		}
 
 		m_ptrDescriptorSets[dwPassName]->UpdateDescriptorSets();

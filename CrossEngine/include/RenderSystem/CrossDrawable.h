@@ -67,7 +67,7 @@ namespace CrossEngine {
 		void SetUniformBuffer(uint32_t dwPassName, uint32_t dwName, uint32_t binding, const void *pBuffer, size_t size);
 
 	protected:
-		void UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipeline);
+		void UpdateDescriptorSet(uint32_t dwPassName, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics);
 
 
 	protected:

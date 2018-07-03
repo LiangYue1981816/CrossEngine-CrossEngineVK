@@ -69,7 +69,7 @@ namespace CrossEngine {
 
 	const CGfxPipelineGraphicsPtr& CGLES3MaterialPass::GetPipeline(void) const
 	{
-		return m_ptrPipeline;
+		return m_ptrPipelineGraphics;
 	}
 
 	const CGfxDescriptorSetPtr& CGLES3MaterialPass::GetDescriptorSet(void) const
@@ -83,9 +83,9 @@ namespace CrossEngine {
 		m_ptrRenderPass = ptrRenderPass;
 	}
 
-	void CGLES3MaterialPass::SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipeline)
+	void CGLES3MaterialPass::SetPipeline(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
-		m_ptrPipeline = ptrPipeline;
+		m_ptrPipelineGraphics = ptrPipelineGraphics;
 	}
 
 	void CGLES3MaterialPass::SetTexture(uint32_t dwName, const CGfxTexturePtr &ptrTexture)
@@ -101,15 +101,15 @@ namespace CrossEngine {
 	void CGLES3MaterialPass::UpdateDescriptorSet(void)
 	{
 		if (m_ptrDescriptorSet.IsNull()) {
-			m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_PASS, m_ptrPipeline);
+			m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), DESCRIPTOR_SET_PASS, m_ptrPipelineGraphics);
 		}
 
 		for (const auto &itTexture : m_ptrTextures) {
-			m_ptrDescriptorSet->SetTexture(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
+			m_ptrDescriptorSet->SetTexture(m_ptrPipelineGraphics->GetBinding(DESCRIPTOR_SET_PASS, itTexture.first), itTexture.second);
 		}
 
 		for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
-			m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipeline->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
+			m_ptrDescriptorSet->SetUniformBuffer(m_ptrPipelineGraphics->GetBinding(DESCRIPTOR_SET_PASS, itUniformBuffer.first), itUniformBuffer.second);
 		}
 
 		m_ptrDescriptorSet->UpdateDescriptorSets();
