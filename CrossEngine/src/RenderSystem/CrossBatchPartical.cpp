@@ -64,7 +64,7 @@ namespace CrossEngine {
 				while (instanceBufferSize < batchBufferSize) instanceBufferSize <<= 1;
 
 				m_ptrBatchBuffer->Destroy();
-				m_ptrBatchBuffer->Create(instanceBufferSize, NULL, TRUE, INSTANCE_ATTRIBUTE_TRANSFORM, INSTANCE_BUFFER_BINDING);
+				m_ptrBatchBuffer->Create(instanceBufferSize, NULL, TRUE, INSTANCE_BUFFER_BINDING);
 			}
 
 			m_ptrBatchBuffer->SetData(0, batchBufferSize, m_batchs.data());
