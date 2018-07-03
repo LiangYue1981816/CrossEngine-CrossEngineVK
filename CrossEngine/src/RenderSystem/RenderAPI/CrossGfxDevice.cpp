@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 		for (uint32_t indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (format & attributes[indexAttribute].flag) {
-				stride += attributes[indexAttribute].components * 4;
+				stride += attributes[indexAttribute].components * attributes[indexAttribute].size;
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace CrossEngine {
 
 		for (uint32_t indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
 			if (attribute == attributes[indexAttribute].flag) return offset;
-			if (format & attributes[indexAttribute].flag) offset += attributes[indexAttribute].components * 4;
+			if (format & attributes[indexAttribute].flag) offset += attributes[indexAttribute].components * attributes[indexAttribute].size;
 		}
 
 		return -1;
