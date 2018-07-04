@@ -61,13 +61,13 @@ void Render(void)
 
 	Camera(dwMainCamera)->SetViewport(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
 	Camera(dwMainCamera)->SetPerspective(60.0f, 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
-	Camera(dwMainCamera)->SetLookat(glm::vec3(0.0f, 4.0f, 10.0f), glm::vec3(0.0f, -0.25f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	Camera(dwMainCamera)->SetLookat(glm::vec3(0.0f, 3.5f, 10.0f), glm::vec3(0.0f, -0.25f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	Camera(dwMainCamera)->ClearRenderQueue();
 	Camera(dwMainCamera)->AddRenderQueue(pMesh);
 
 	static float angle = 0.0f; angle += 1.0f;
-//	glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(25.0f, 25.0f, 25.0f));
-//	glm::mat4 rotatex = glm::rotate(glm::mat4(), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(100.0f, 100.0f, 100.0f));
+	glm::mat4 rotatex = glm::rotate(glm::mat4(), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::mat4 rotatey = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
 	pMesh->SetTransform(rotatey);
 
