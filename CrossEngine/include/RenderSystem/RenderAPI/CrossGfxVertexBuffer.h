@@ -41,10 +41,11 @@ namespace CrossEngine {
 
 
 	public:
-		virtual BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t binding) = 0;
+		virtual BOOL Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format, uint32_t binding) = 0;
 		virtual BOOL SetData(size_t offset, size_t size, const void *pBuffer) const = 0;
 
 	public:
+		virtual uint32_t GetFormat(void) const = 0;
 		virtual uint32_t GetBinding(void) const = 0;
 	};
 

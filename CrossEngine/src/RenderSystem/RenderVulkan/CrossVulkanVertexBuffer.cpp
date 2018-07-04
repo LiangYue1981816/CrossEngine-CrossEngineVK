@@ -28,6 +28,7 @@ namespace CrossEngine {
 	CVulkanVertexBuffer::CVulkanVertexBuffer(CVulkanDevice *pDevice, CGfxResourceManager *pResourceManager)
 		: CVulkanBuffer(pDevice)
 		, CGfxVertexBuffer(pResourceManager)
+		, m_format(0)
 		, m_binding(0)
 	{
 
@@ -48,16 +49,18 @@ namespace CrossEngine {
 		return m_vkBuffer;
 	}
 
-	BOOL CVulkanVertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t binding)
+	BOOL CVulkanVertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format, uint32_t binding)
 	{
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::Create(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, bDynamic ? VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT : VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT));
 		CALL_BOOL_FUNCTION_RETURN(CVulkanBuffer::SetData(0, size, pBuffer));
+		m_format = format;
 		m_binding = binding;
 		return TRUE;
 	}
 
 	void CVulkanVertexBuffer::Destroy(void)
 	{
+		m_format = 0;
 		m_binding = 0;
 		CVulkanBuffer::Destroy();
 	}
@@ -80,6 +83,11 @@ namespace CrossEngine {
 	size_t CVulkanVertexBuffer::GetMemorySize(void) const
 	{
 		return CVulkanBuffer::GetMemorySize();
+	}
+
+	uint32_t CVulkanVertexBuffer::GetFormat(void) const
+	{
+		return m_format;
 	}
 
 	uint32_t CVulkanVertexBuffer::GetBinding(void) const
