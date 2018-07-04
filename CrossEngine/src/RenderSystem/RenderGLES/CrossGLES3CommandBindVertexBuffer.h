@@ -52,7 +52,7 @@ namespace CrossEngine {
 
 			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)(CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer)->GetHandle());
 			{
-				GLuint format = (CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer)->GetFormat();
+				GLuint format = ((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetFormat();
 				GLuint stride = GfxDevice()->GetStride(format);
 
 				for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
