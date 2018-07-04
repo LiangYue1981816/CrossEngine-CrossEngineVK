@@ -32,10 +32,9 @@ namespace CrossEngine {
 
 
 	protected:
-		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer, const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
+		CGLES3CommandBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer)
 		{
 			m_ptrVertexBuffer = ptrVertexBuffer;
-			m_ptrPipelineGraphics = ptrPipelineGraphics;
 		}
 
 
@@ -43,10 +42,6 @@ namespace CrossEngine {
 		virtual void Execute(void) const
 		{
 			if (m_ptrVertexBuffer.IsNull() || m_ptrVertexBuffer->GetHandle() == NULL) {
-				return;
-			}
-
-			if (m_ptrPipelineGraphics.IsNull() || m_ptrPipelineGraphics->GetHandle() == NULL) {
 				return;
 			}
 
@@ -74,7 +69,6 @@ namespace CrossEngine {
 
 	protected:
 		CGfxVertexBufferPtr m_ptrVertexBuffer;
-		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
 	};
 
 }
