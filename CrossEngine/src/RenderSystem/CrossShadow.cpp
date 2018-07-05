@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	CFog::CFog(void)
+	CShadow::CShadow(void)
 		: m_bDirty(FALSE)
 	{
 		memset(&m_params, sizeof(m_params), 0);
@@ -34,35 +34,43 @@ namespace CrossEngine {
 		m_ptrUniformBuffer->Create(sizeof(m_params), &m_params, TRUE);
 	}
 
-	CFog::~CFog(void)
+	CShadow::~CShadow(void)
 	{
 
 	}
 
-	const CGfxUniformBufferPtr CFog::GetUniformBuffer(void) const
+	const CGfxUniformBufferPtr CShadow::GetUniformBuffer(void) const
 	{
 		return m_ptrUniformBuffer;
 	}
 
-	void CFog::SetColor(float red, float green, float blue)
+	void CShadow::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
 		m_bDirty = TRUE;
-		m_params.color = glm::vec4(red, green, blue, 0.0f);
+		m_params.params.x = zFar - zNear;
+		m_params.params.y = 1.0f / (zFar - zNear);
+		m_params.mtxProjection = glm::ortho(left, right, bottom, top, zNear, zFar);
 	}
 
-	void CFog::SetHeightDensity(float startHeight, float endHeight, float density)
+	void CShadow::SetLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
 	{
 		m_bDirty = TRUE;
-		m_params.heightDensity = glm::vec4(startHeight, endHeight, density, 0.0f);
+		m_params.mtxView = glm::lookAt(glm::vec3(eyex, eyey, eyez), glm::vec3(centerx, centery, centerz), glm::vec3(upx, upy, upz));
 	}
 
-	void CFog::SetDistanceDensity(float startDistance, float endDistance, float density)
+	void CShadow::SetDistance(float distance)
 	{
 		m_bDirty = TRUE;
-		m_params.distanceDensity = glm::vec4(startDistance, endDistance, density, 0.0f);
+		m_params.params.z = distance;
 	}
 
-	void CFog::Apply(void)
+	void CShadow::SetResolution(float resolution)
+	{
+		m_bDirty = TRUE;
+		m_params.params.w = resolution;
+	}
+
+	void CShadow::Apply(void)
 	{
 		if (m_bDirty) {
 			m_bDirty = FALSE;

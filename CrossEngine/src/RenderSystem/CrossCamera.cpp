@@ -29,7 +29,7 @@ namespace CrossEngine {
 		: m_bEnable(TRUE)
 	{
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		m_ptrUniformBuffer->Create(sizeof(m_param), NULL, TRUE);
+		m_ptrUniformBuffer->Create(sizeof(m_params), NULL, TRUE);
 
 		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_CAMERA);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_CAMERA], DESCRIPTOR_BIND_CAMERA, VK_SHADER_STAGE_ALL);
@@ -76,7 +76,7 @@ namespace CrossEngine {
 
 		m_bDirty = TRUE;
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
-		m_param.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -85,23 +85,23 @@ namespace CrossEngine {
 
 		m_bDirty = TRUE;
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
-		m_param.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
 	}
 
 	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
 	{
 		m_bDirty = TRUE;
 		m_camera.setLookat(position, position + direction, up);
-		m_param.mtxView = m_camera.mtxView;
-		m_param.mtxViewInverse = m_camera.mtxViewInverse;
-		m_param.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
+		m_params.mtxView = m_camera.mtxView;
+		m_params.mtxViewInverse = m_camera.mtxViewInverse;
+		m_params.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
 	}
 
 	void CCamera::Apply(void)
 	{
 		if (m_bDirty) {
 			m_bDirty = FALSE;
-			m_ptrUniformBuffer->SetData(0, sizeof(m_param), &m_param);
+			m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 		}
 	}
 

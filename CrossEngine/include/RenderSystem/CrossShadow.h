@@ -26,31 +26,32 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CFog
+	class CROSS_EXPORT CShadow
 	{
 		friend class CRenderSystem;
 
 
 	protected:
 		typedef struct Params {
-			glm::vec4 color;
-			glm::vec4 heightDensity;
-			glm::vec4 distanceDensity;
+			glm::mat4 mtxProjection;
+			glm::mat4 mtxView;
+			glm::vec4 params;
 		} Params;
 
 
 	protected:
-		CFog(void);
-		virtual ~CFog(void);
+		CShadow(void);
+		virtual ~CShadow(void);
 
 
 	public:
 		const CGfxUniformBufferPtr GetUniformBuffer(void) const;
 
 	public:
-		void SetColor(float red, float green, float blue);
-		void SetHeightDensity(float startHeight, float endHeight, float density);
-		void SetDistanceDensity(float startDistance, float endDistance, float density);
+		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+		void SetLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz);
+		void SetDistance(float distance);
+		void SetResolution(float resolution);
 		void Apply(void);
 
 

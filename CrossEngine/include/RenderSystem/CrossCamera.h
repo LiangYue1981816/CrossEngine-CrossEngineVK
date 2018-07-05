@@ -46,12 +46,12 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct Param {
+		typedef struct Params {
 			glm::mat4 mtxProjection;
 			glm::mat4 mtxView;
 			glm::mat4 mtxViewInverse;
 			glm::mat4 mtxViewInverseTranspose;
-		} Param;
+		} Params;
 
 
 	protected:
@@ -108,7 +108,7 @@ namespace CrossEngine {
 
 	protected:
 		BOOL m_bDirty;
-		Param m_param;
+		Params m_params;
 		glm::camera m_camera;
 
 	protected:
