@@ -35,7 +35,7 @@ float DecodeFloatRGB(vec3 encode)
 
 float SimpleShadowDepth(sampler2D shadowmap, vec2 texCoord)
 {
-	return DecodeDeferredDepth(texture(shadowmap, texCoord.xy).rgb);
+	return DecodeFloatRGB(texture(shadowmap, texCoord.xy).rgb);
 }
 
 float LinearShadowDepth(sampler2D shadowmap, vec2 texCoord)

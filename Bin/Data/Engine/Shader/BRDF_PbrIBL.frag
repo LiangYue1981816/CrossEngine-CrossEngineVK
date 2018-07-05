@@ -1,7 +1,9 @@
 #version 310 es
 precision mediump float;
 #include "engine.inc"
+#include "shadow.inc"
 #include "light.inc"
+#include "fog.inc"
 
 DESCRIPTOR_SET_PASS(8)  uniform sampler2D texAO;
 DESCRIPTOR_SET_PASS(9)  uniform sampler2D texAlbedo;

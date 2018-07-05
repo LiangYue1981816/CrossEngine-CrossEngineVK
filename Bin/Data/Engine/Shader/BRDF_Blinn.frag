@@ -1,6 +1,7 @@
 #version 310 es
 precision mediump float;
 #include "engine.inc"
+#include "shadow.inc"
 #include "light.inc"
 #include "fog.inc"
 
