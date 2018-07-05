@@ -35,6 +35,7 @@ namespace CrossEngine {
 		, m_pCameraManager(NULL)
 		, m_pDrawableManager(NULL)
 
+		, m_pShadow(NULL)
 		, m_pAmbientLight(NULL)
 		, m_pDirectLight(NULL)
 		, m_pPointLight(NULL)
@@ -113,12 +114,14 @@ namespace CrossEngine {
 
 	BOOL CRenderSystem::CreateDescriptorSet(void)
 	{
+		m_pShadow = SAFE_NEW CShadow;
 		m_pAmbientLight = SAFE_NEW CAmbientLight;
 		m_pDirectLight = SAFE_NEW CDirectLight;
 		m_pPointLight = SAFE_NEW CPointLight;
 		m_pFog = SAFE_NEW CFog;
 
 		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_SHADOW], DESCRIPTOR_BIND_SHADOW, VK_SHADER_STAGE_ALL);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_AMBIENT_LIGHT], DESCRIPTOR_BIND_AMBIENT_LIGHT, VK_SHADER_STAGE_ALL);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_POINT_LIGHT], DESCRIPTOR_BIND_POINT_LIGHT, VK_SHADER_STAGE_ALL);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_DIRECT_LIGHT], DESCRIPTOR_BIND_DIRECT_LIGHT, VK_SHADER_STAGE_ALL);
@@ -126,6 +129,7 @@ namespace CrossEngine {
 		m_ptrDescriptorSetLayout->Create();
 
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_SHADOW, m_pShadow->GetUniformBuffer());
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_AMBIENT_LIGHT, m_pAmbientLight->GetUniformBuffer());
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECT_LIGHT, m_pDirectLight->GetUniformBuffer());
 		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_POINT_LIGHT, m_pPointLight->GetUniformBuffer());
@@ -179,6 +183,7 @@ namespace CrossEngine {
 		m_ptrDescriptorSet.Release();
 		m_ptrDescriptorSetLayout.Release();
 
+		SAFE_DELETE(m_pShadow);
 		SAFE_DELETE(m_pAmbientLight);
 		SAFE_DELETE(m_pDirectLight);
 		SAFE_DELETE(m_pPointLight);
@@ -237,6 +242,26 @@ namespace CrossEngine {
 		m_pDrawableManager->FreeDrawableAll();
 	}
 
+	void CRenderSystem::SetShadowOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
+	{
+		m_pShadow->SetOrtho(left, right, bottom, top, zNear, zFar);
+	}
+
+	void CRenderSystem::SetShadowLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
+	{
+		m_pShadow->SetLookat(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
+	}
+
+	void CRenderSystem::SetShadowDistance(float distance)
+	{
+		m_pShadow->SetDistance(distance);
+	}
+
+	void CRenderSystem::SetShadowResolution(float resolution)
+	{
+		m_pShadow->SetResolution(resolution);
+	}
+
 	void CRenderSystem::SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
 		m_pAmbientLight->SetAmbient(shRed, shGreen, shBlue);
@@ -289,6 +314,7 @@ namespace CrossEngine {
 
 	void CRenderSystem::Update(void)
 	{
+		m_pShadow->Apply();
 		m_pAmbientLight->Apply();
 		m_pDirectLight->Apply();
 		m_pPointLight->Apply();

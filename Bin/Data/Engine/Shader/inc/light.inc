@@ -1,6 +1,7 @@
 #ifndef _LIGHT_INC_
 #define _LIGHT_INC_
 
+#include "engine.inc"
 #include "common.inc"
 
 USE_ENGINE_AMBIENT_LIGHT;
@@ -12,6 +13,24 @@ USE_ENGINE_DIRECT_LIGHT;
 
 #define mainDirectLightColor engineDirectLight.color
 #define mainDirectLightDirection engineDirectLight.direction
+
+
+// Utils Functions
+vec2 SphericalSampleing(vec3 v)
+{
+	vec2 invAtan = vec2(1.0 / (2.0 * PI), 1.0 / (1.0 * PI));
+	vec2 uv = vec2(atan(v.x, v.z), -asin(v.y));
+
+	uv *= invAtan;
+	uv += 0.5;
+
+	return uv;
+}
+
+float Attenuation(float dis, float linear, float square, float constant)
+{
+	return 1.0 / (linear * dis + square * dis * dis + constant);
+}
 
 
 // ToneMapping

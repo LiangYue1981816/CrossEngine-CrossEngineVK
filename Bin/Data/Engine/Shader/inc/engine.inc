@@ -29,20 +29,12 @@
 #endif
 
 #define DESCRIPTOR_BIND_CAMERA              0
-#define DESCRIPTOR_BIND_TRANSFORM           1
+#define DESCRIPTOR_BIND_SHADOW              1
 #define DESCRIPTOR_BIND_AMBIENT_LIGHT       2
 #define DESCRIPTOR_BIND_DIRECT_LIGHT        3
 #define DESCRIPTOR_BIND_POINT_LIGHT         4
 #define DESCRIPTOR_BIND_FOG                 5
 
-
-#define USE_ENGINE_TRANSFORM                                                       \
-	DESCRIPTOR_SET_DRAW(DESCRIPTOR_BIND_TRANSFORM) uniform Transform               \
-	{                                                                              \
-		mat4 worldMatrix;                                                          \
-		mat4 worldInverseMatrix;                                                   \
-		mat4 worldInverseTransposeMatrix;                                          \
-	} engineTransform
 
 #define USE_ENGINE_CAMERA                                                          \
 	DESCRIPTOR_SET_CAMERA(DESCRIPTOR_BIND_CAMERA) uniform Camera                   \
@@ -52,6 +44,14 @@
 		mat4 viewInverseMatrix;                                                    \
 		mat4 viewInverseTransposeMatrix;                                           \
 	} engineCamera
+
+#define USE_ENGINE_SHADOW                                                          \
+	DESCRIPTOR_SET_FRAME(DESCRIPTOR_BIND_SHADOW) uniform Shadow                    \
+	{                                                                              \
+		mat4 projectionMatrix;                                                     \
+		mat4 viewMatrix;                                                           \
+		vec4 params;                                                               \
+	} engineShadow
 
 #define USE_ENGINE_AMBIENT_LIGHT                                                   \
 	DESCRIPTOR_SET_FRAME(DESCRIPTOR_BIND_AMBIENT_LIGHT) uniform AmbientLight       \
@@ -100,12 +100,5 @@ USE_ENGINE_CAMERA;
 #define cameraViewMatrix engineCamera.viewMatrix
 #define cameraViewInverseMatrix engineCamera.viewInverseMatrix
 #define cameraViewInverseTransposeMatrix engineCamera.viewInverseTransposeMatrix
-
-/*
-USE_ENGINE_TRANSFORM;
-#define worldMatrix engineTransform.worldMatrix
-#define worldInverseMatrix engineTransform.worldInverseMatrix
-#define worldInverseTransposeMatrix engineTransform.worldInverseTransposeMatrix
-*/
 
 #endif

@@ -57,7 +57,7 @@ namespace CrossEngine {
 
 	typedef enum {
 		DESCRIPTOR_BIND_CAMERA = 0,
-		DESCRIPTOR_BIND_TRANSFORM = 1,
+		DESCRIPTOR_BIND_SHADOW = 1,
 		DESCRIPTOR_BIND_AMBIENT_LIGHT = 2,
 		DESCRIPTOR_BIND_DIRECT_LIGHT = 3,
 		DESCRIPTOR_BIND_POINT_LIGHT = 4,
@@ -67,7 +67,7 @@ namespace CrossEngine {
 
 	static const char *DESCRIPTOR_BIND_NAME[6] = {
 		"Camera",
-		"Transform",
+		"Shadow",
 		"AmbientLight",
 		"DirectLight",
 		"PointLight",
@@ -120,6 +120,11 @@ namespace CrossEngine {
 		void FreeDrawableAll(void);
 
 	public:
+		void SetShadowOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+		void SetShadowLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz);
+		void SetShadowDistance(float distance);
+		void SetShadowResolution(float resolution);
+
 		void SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetAmbientRotation(const glm::mat4 &mtxRotation);
 
@@ -151,6 +156,7 @@ namespace CrossEngine {
 		CDrawableManager *m_pDrawableManager;
 
 	protected:
+		CShadow *m_pShadow;
 		CAmbientLight *m_pAmbientLight;
 		CDirectLight *m_pDirectLight;
 		CPointLight *m_pPointLight;
