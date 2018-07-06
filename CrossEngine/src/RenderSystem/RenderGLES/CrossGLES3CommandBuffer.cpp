@@ -24,7 +24,6 @@ THE SOFTWARE.
 #include "CrossGLES3CommandBeginCommandBufferPrimary.h"
 #include "CrossGLES3CommandBeginCommandBufferSecondary.h"
 #include "CrossGLES3CommandBeginRenderPass.h"
-#include "CrossGLES3CommandNextSubpass.h"
 #include "CrossGLES3CommandEndRenderPass.h"
 #include "CrossGLES3CommandEndCommandBuffer.h"
 #include "CrossGLES3CommandBindFrameBuffer.h"
@@ -145,7 +144,6 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandNextSubpass(contents));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, ++m_indexPass));
 	}
