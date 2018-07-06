@@ -42,6 +42,7 @@ THE SOFTWARE.
 #include "CrossGLES3CommandSetBlendConstants.h"
 #include "CrossGLES3CommandSetStencilReference.h"
 #include "CrossGLES3CommandSetStencilWriteMask.h"
+#include "CrossGLES3CommandInvalidateFrameBuffer.h"
 #include "CrossGLES3CommandResolve.h"
 #include "CrossGLES3CommandDraw.h"
 #include "CrossGLES3CommandDrawIndexed.h"
@@ -144,12 +145,14 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandInvalidateFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, ++m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdEndRenderPass(void)
 	{
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandInvalidateFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 

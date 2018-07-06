@@ -26,13 +26,13 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CGLES3CommandBindFrameBuffer : public CGfxCommandBase
+	class CROSS_EXPORT CGLES3CommandInvalidateFrameBuffer : public CGfxCommandBase
 	{
 		friend class CGLES3CommandBuffer;
 
 
 	protected:
-		CGLES3CommandBindFrameBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexPass)
+		CGLES3CommandInvalidateFrameBuffer(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexPass)
 			: m_indexPass(indexPass)
 		{
 			m_ptrFrameBuffer = ptrFrameBuffer;
@@ -54,6 +54,7 @@ namespace CrossEngine {
 			const CGLES3FrameBuffer *pFrameBuffer = (CGLES3FrameBuffer *)((CGfxFrameBuffer *)m_ptrFrameBuffer);
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 
+			/*
 			const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
 			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 			{
@@ -69,6 +70,7 @@ namespace CrossEngine {
 
 				CheckFramebufferStatus(framebuffer);
 			}
+			*/
 		}
 
 		BOOL IsNeedMSAA(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass) const

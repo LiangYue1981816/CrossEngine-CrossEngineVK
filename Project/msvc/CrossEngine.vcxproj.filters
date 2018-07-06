@@ -747,9 +747,6 @@
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandEndRenderPass.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandNextSubpass.h">
-      <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderAPI\CrossGfxCommandBase.h">
       <Filter>Engine\Header Files\RenderSystem\RenderAPI\Core</Filter>
     </ClInclude>
@@ -812,6 +809,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossShadow.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandInvalidateFrameBuffer.h">
+      <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
