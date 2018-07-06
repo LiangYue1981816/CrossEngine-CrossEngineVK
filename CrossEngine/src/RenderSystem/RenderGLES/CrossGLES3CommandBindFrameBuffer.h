@@ -58,7 +58,6 @@ namespace CrossEngine {
 			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 			{
 				std::vector<GLenum> drawBuffers;
-
 				SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers);
 				SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer);
 
@@ -190,9 +189,9 @@ namespace CrossEngine {
 
 
 	protected:
-		CGfxFrameBufferPtr m_ptrFrameBuffer;
-		CGfxRenderPassPtr m_ptrRenderPass;
 		uint32_t m_indexPass;
+		CGfxRenderPassPtr m_ptrRenderPass;
+		CGfxFrameBufferPtr m_ptrFrameBuffer;
 	};
 
 }
