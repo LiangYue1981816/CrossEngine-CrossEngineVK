@@ -59,13 +59,11 @@ namespace CrossEngine {
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
 				{
 					std::vector<GLenum> drawBuffers;
-					std::vector<GLenum> discardBuffers;
 
-					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers, discardBuffers);
+					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers);
 
 					glReadBuffers(drawBuffers.size(), drawBuffers.data());
 					glDrawBuffers(drawBuffers.size(), drawBuffers.data());
-					glInvalidateFramebuffer(GL_FRAMEBUFFER, discardBuffers.size(), discardBuffers.data());
 
 					CheckFramebufferStatus(framebuffer);
 				}
@@ -93,7 +91,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers, std::vector<GLenum> &discardBuffers) const
+		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				for (const auto &itResolveAttachment : pSubPass->resolveAttachments) {
@@ -110,10 +108,6 @@ namespace CrossEngine {
 
 							if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 								glClearBufferfv(GL_COLOR, indexAttachment, pClearValue->color.float32);
-							}
-
-							if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-								discardBuffers.push_back(attachment);
 							}
 
 							drawBuffers.push_back(attachment);
