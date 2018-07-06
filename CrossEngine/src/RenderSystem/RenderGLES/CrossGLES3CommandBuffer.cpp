@@ -147,7 +147,9 @@ namespace CrossEngine {
 	{
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandInvalidateFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, ++m_indexPass));
+
+		m_indexPass++;
+		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdEndRenderPass(void)
