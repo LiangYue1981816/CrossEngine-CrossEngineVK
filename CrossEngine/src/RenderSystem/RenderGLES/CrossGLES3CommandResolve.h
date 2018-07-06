@@ -93,12 +93,13 @@ namespace CrossEngine {
 		void SetRenderColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, std::vector<GLenum> &drawBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
+				GLuint indexAttachment = 0;
+
 				for (const auto &itResolveAttachment : pSubPass->resolveAttachments) {
 					if (itResolveAttachment.second == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL || itResolveAttachment.second == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR) {
 						if (GLuint texture = pFrameBuffer->GetRenderTexture(itResolveAttachment.first)) {
-							GLuint indexAttachment = drawBuffers.size();
-							GLenum attachment = GL_COLOR_ATTACHMENT0 + indexAttachment;
 							GLenum target = pFrameBuffer->GetRenderTextureTarget(itResolveAttachment.first);
+							GLenum attachment = GL_COLOR_ATTACHMENT0 + indexAttachment;
 
 							const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itResolveAttachment.first);
 							const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itResolveAttachment.first);
@@ -110,6 +111,7 @@ namespace CrossEngine {
 							}
 
 							drawBuffers.push_back(attachment);
+							indexAttachment++;
 						}
 					}
 				}
