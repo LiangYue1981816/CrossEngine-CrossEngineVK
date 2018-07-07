@@ -544,13 +544,64 @@ namespace CrossEngine {
 	void GLReadBuffers(GLenum target, GLsizei n, const GLenum *bufs)
 	{
 		if (FrameBuffers.find(target) != FrameBuffers.end()) {
+			BOOL bReset = FALSE;
 
+			if (n != FrameBuffers[target].readbuffers.size()) {
+				bReset = TRUE;
+			}
+			else {
+				for (int index = 0; index < n; index++) {
+					if (bufs[index] != FrameBuffers[target].readbuffers[index]) {
+						bReset = TRUE;
+						break;
+					}
+				}
+			}
+
+			if (bReset) {
+				FrameBuffers[target].readbuffers.clear();
+
+				for (int index = 0; index < n; index++) {
+					FrameBuffers[target].readbuffers.push_back(bufs[index]);
+				}
+
+				glReadBuffers(n, bufs);
+			}
+		}
+		else {
+			glReadBuffers(n, bufs);
 		}
 	}
 
 	void GLDrawBuffers(GLenum target, GLsizei n, const GLenum *bufs)
 	{
 		if (FrameBuffers.find(target) != FrameBuffers.end()) {
+			BOOL bReset = FALSE;
+
+			if (n != FrameBuffers[target].drawbuffers.size()) {
+				bReset = TRUE;
+			}
+			else {
+				for (int index = 0; index < n; index++) {
+					if (bufs[index] != FrameBuffers[target].drawbuffers[index]) {
+						bReset = TRUE;
+						break;
+					}
+				}
+			}
+
+			if (bReset) {
+				FrameBuffers[target].drawbuffers.clear();
+
+				for (int index = 0; index < n; index++) {
+					FrameBuffers[target].drawbuffers.push_back(bufs[index]);
+				}
+
+				glDrawBuffers(n, bufs);
+			}
+		}
+		else {
+			glDrawBuffers(n, bufs);
 		}
 	}
 

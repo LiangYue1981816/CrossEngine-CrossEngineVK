@@ -62,8 +62,8 @@ namespace CrossEngine {
 				SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers);
 				SetRenderDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer);
 
-				glReadBuffers(drawBuffers.size(), drawBuffers.data());
-				glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+				GLReadBuffers(GL_FRAMEBUFFER, drawBuffers.size(), drawBuffers.data());
+				GLDrawBuffers(GL_FRAMEBUFFER, drawBuffers.size(), drawBuffers.data());
 
 				CheckFramebufferStatus(framebuffer);
 			}
