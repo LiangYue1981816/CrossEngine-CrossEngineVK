@@ -45,7 +45,7 @@ namespace CrossEngine {
 	static GLuint ProgramPipeline = -1;
 	
 
-	void GLReset(void)
+	void GLResetContext(void)
 	{
 		Caps.clear();
 		Buffers.clear();

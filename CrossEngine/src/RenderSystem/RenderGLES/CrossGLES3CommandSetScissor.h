@@ -45,7 +45,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glEnable(GL_SCISSOR_TEST);
+			GLEnable(GL_SCISSOR_TEST);
 			glScissor(m_x, m_y, m_width, m_height);
 		}
 

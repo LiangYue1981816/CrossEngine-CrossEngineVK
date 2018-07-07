@@ -55,7 +55,7 @@ namespace CrossEngine {
 			const CGLES3RenderPass *pRenderPass = (CGLES3RenderPass *)((CGfxRenderPass *)m_ptrRenderPass);
 
 			const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
-			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+			GLBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 			{
 				std::vector<GLenum> drawBuffers;
 

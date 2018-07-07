@@ -56,7 +56,7 @@ namespace CrossEngine {
 
 			if (IsNeedResolve(pFrameBuffer, pRenderPass, m_indexPass)) {
 				const GLuint framebuffer = (GLuint)pFrameBuffer->GetHandle();
-				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+				GLBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
 				{
 					std::vector<GLenum> drawBuffers;
 					SetRenderColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, drawBuffers);
@@ -68,7 +68,7 @@ namespace CrossEngine {
 				}
 
 				const GLuint framebufferMSAA = (GLuint)pFrameBuffer->GetHandleMSAA();
-				glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
+				GLBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferMSAA);
 				{
 					glBlitFramebuffer(
 						0, 0, pFrameBuffer->GetWidth(), pFrameBuffer->GetHeight(),
@@ -76,8 +76,8 @@ namespace CrossEngine {
 						GL_COLOR_BUFFER_BIT,
 						GL_NEAREST);
 				}
-				glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+				GLBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+				GLBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 			}
 		}
 

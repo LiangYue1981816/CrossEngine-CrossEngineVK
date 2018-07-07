@@ -45,7 +45,7 @@ namespace CrossEngine {
 				return;
 			}
 
-			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)(CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer)->GetHandle());
+			GLBindBuffer(GL_ARRAY_BUFFER, (GLuint)(CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer)->GetHandle());
 			{
 				GLuint format = ((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetFormat();
 				GLuint stride = GfxDevice()->GetStride(format);

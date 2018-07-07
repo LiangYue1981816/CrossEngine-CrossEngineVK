@@ -45,7 +45,7 @@ namespace CrossEngine {
 				return;
 			}
 
-			glBindProgramPipeline((GLuint)((CGLES3PipelineCompute *)((CGfxPipelineCompute *)m_ptrPipelineCompute))->GetHandle());
+			GLBindProgramPipeline((GLuint)((CGLES3PipelineCompute *)((CGfxPipelineCompute *)m_ptrPipelineCompute))->GetHandle());
 		}
 
 

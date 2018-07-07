@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	extern void GLReset(void);
+	extern void GLResetContext(void);
 
 	extern void GLEnable(GLenum cap);
 	extern void GLDisable(GLenum cap);

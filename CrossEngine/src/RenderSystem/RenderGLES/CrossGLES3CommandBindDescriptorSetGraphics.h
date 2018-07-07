@@ -82,7 +82,7 @@ namespace CrossEngine {
 				if (ptrUniformBuffer.IsNull() || ptrUniformBuffer->GetHandle() == NULL) continue;
 
 				const VkDescriptorBufferInfo &bufferInfo = ptrUniformBuffer->GetDescriptorBufferInfo();
-				glBindBufferRange(GL_UNIFORM_BUFFER, binding, (GLuint)ptrUniformBuffer->GetHandle(), bufferInfo.offset, bufferInfo.range);
+				GLBindBufferRange(GL_UNIFORM_BUFFER, binding, (GLuint)ptrUniformBuffer->GetHandle(), bufferInfo.offset, bufferInfo.range);
 			}
 		}
 

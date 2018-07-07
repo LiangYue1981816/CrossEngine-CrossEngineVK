@@ -45,7 +45,7 @@ namespace CrossEngine {
 				return;
 			}
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)((CGLES3IndexBuffer *)((CGfxIndexBuffer *)m_ptrIndexBuffer))->GetHandle());
+			GLBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)((CGLES3IndexBuffer *)((CGfxIndexBuffer *)m_ptrIndexBuffer))->GetHandle());
 		}
 
 
