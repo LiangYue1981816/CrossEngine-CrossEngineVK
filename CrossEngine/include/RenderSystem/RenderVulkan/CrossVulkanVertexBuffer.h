@@ -54,12 +54,10 @@ namespace CrossEngine {
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
 
-		uint32_t GetFormat(void) const;
 		uint32_t GetBinding(void) const;
 
 
 	protected:
-		uint32_t m_format;
 		uint32_t m_binding;
 	};
 

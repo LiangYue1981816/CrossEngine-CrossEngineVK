@@ -45,7 +45,6 @@ namespace CrossEngine {
 		virtual BOOL SetData(size_t offset, size_t size, const void *pBuffer) const = 0;
 
 	public:
-		virtual uint32_t GetFormat(void) const = 0;
 		virtual uint32_t GetBinding(void) const = 0;
 	};
 

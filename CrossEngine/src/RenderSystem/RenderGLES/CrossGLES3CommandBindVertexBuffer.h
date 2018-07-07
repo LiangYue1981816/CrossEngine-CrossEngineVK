@@ -46,24 +46,6 @@ namespace CrossEngine {
 			}
 
 			GLBindBuffer(GL_ARRAY_BUFFER, (GLuint)(CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer)->GetHandle());
-			{
-				GLuint format = ((CGLES3VertexBuffer *)((CGfxVertexBuffer *)m_ptrVertexBuffer))->GetFormat();
-				GLuint stride = GfxDevice()->GetStride(format);
-
-				for (GLuint indexAttribute = 0; indexAttribute < ATTRIBUTE_FLAG_COUNT; indexAttribute++) {
-					GLuint attribute = (1 << indexAttribute);
-
-					if (format & attribute) {
-						GLuint location = GfxDevice()->GetAttributeLocation(attribute);
-						GLuint components = GfxDevice()->GetAttributeComponents(attribute);
-						GLuint offset = GfxDevice()->GetAttributeOffset(format, attribute);
-
-						glEnableVertexAttribArray(location);
-						glVertexAttribPointer(location, components, GL_FLOAT, GL_FALSE, stride, (const void *)offset);
-						glVertexAttribDivisor(location, attribute & INSTANCE_ATTRIBUTE_MASK ? 1 : 0);
-					}
-				}
-			}
 		}
 
 

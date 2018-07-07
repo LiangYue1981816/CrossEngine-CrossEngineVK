@@ -46,6 +46,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	public:
+		BOOL SetupFormat(uint32_t format) const;
 		BOOL SetData(size_t offset, size_t size, const void *pBuffer) const;
 
 	public:
@@ -54,12 +55,10 @@ namespace CrossEngine {
 		size_t GetBufferSize(void) const;
 		size_t GetMemorySize(void) const;
 
-		uint32_t GetFormat(void) const;
 		uint32_t GetBinding(void) const;
 
 
 	protected:
-		uint32_t m_format;
 		uint32_t m_binding;
 	};
 
