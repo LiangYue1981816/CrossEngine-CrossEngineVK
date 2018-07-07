@@ -25,6 +25,7 @@ THE SOFTWARE.
 #include "CrossGLES3Definition.h"
 #include "CrossGLES3Extent.h"
 #include "CrossGLES3Helper.h"
+#include "CrossGLES3Context.h"
 #include "CrossGLES3Instance.h"
 #include "CrossGLES3Queue.h"
 #include "CrossGLES3DeviceProperties.h"
