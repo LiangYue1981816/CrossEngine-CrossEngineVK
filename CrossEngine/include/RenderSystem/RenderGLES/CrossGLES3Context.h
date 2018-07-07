@@ -54,5 +54,7 @@ namespace CrossEngine {
 	extern void GLBindBufferRange(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
 	extern void GLBindFramebuffer(GLenum target, GLuint framebuffer);
 	extern void GLBindProgramPipeline(GLuint pipeline);
+	extern void GLBindSampler(GLuint unit, GLuint sampler);
+	extern void GLBindTexture(GLuint unit, GLenum target, GLuint texture);
 
 }

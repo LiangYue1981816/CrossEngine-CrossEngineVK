@@ -100,8 +100,8 @@ namespace CrossEngine {
 
 				const CGLES3Texture *pTexture = (CGLES3Texture *)((CGfxTexture *)ptrTexture);
 				glActiveTexture(GL_TEXTURE0 + indexTexUnit);
-				glBindSampler(indexTexUnit, pTexture->GetSampler());
-				glBindTexture(pTexture->GetTarget(), (GLuint)pTexture->GetHandle());
+				GLBindSampler(indexTexUnit, pTexture->GetSampler());
+				GLBindTexture(indexTexUnit, pTexture->GetTarget(), (GLuint)pTexture->GetHandle());
 				glProgramUniform1i(program, location, indexTexUnit);
 
 				indexTexUnit++;
@@ -122,8 +122,8 @@ namespace CrossEngine {
 
 				const CGLES3RenderTexture *pRenderTexture = (CGLES3RenderTexture *)((CGfxRenderTexture *)ptrRenderTexture);
 				glActiveTexture(GL_TEXTURE0 + indexTexUnit);
-				glBindSampler(indexTexUnit, pRenderTexture->GetSampler());
-				glBindTexture(pRenderTexture->GetTarget(), (GLuint)pRenderTexture->GetHandle());
+				GLBindSampler(indexTexUnit, pRenderTexture->GetSampler());
+				GLBindTexture(indexTexUnit, pRenderTexture->GetTarget(), (GLuint)pRenderTexture->GetHandle());
 				glProgramUniform1i(program, location, indexTexUnit);
 
 				indexTexUnit++;

@@ -132,6 +132,11 @@ namespace CrossEngine {
 		GLuint pipeline;
 	} ProgramPipelineParam;
 
+	typedef struct TextureParam {
+		GLenum target;
+		GLuint texture;
+	} TextureParam;
+
 
 	static std::map<GLenum, GLboolean> Caps;
 	static std::map<GLenum, GLuint> Buffers;
@@ -141,6 +146,8 @@ namespace CrossEngine {
 	static std::map<GLenum, StencilFuncParam> StencilFuncs;
 	static std::map<GLenum, StencilOpParam> StencilOps;
 	static std::map<GLenum, StencilMaskParam> StencilMasks;
+	static std::map<GLuint, GLuint> Samplers;
+	static std::map<GLuint, TextureParam> Textures;
 
 	static ScissorParam Scissor;
 	static ViewportParam Viewport;
@@ -169,6 +176,8 @@ namespace CrossEngine {
 		StencilFuncs.clear();
 		StencilOps.clear();
 		StencilMasks.clear();
+		Samplers.clear();
+		Textures.clear();
 
 		Scissor.x = GL_INVALID_VALUE;
 		Scissor.y = GL_INVALID_VALUE;
@@ -487,6 +496,23 @@ namespace CrossEngine {
 		if (ProgramPipeline.pipeline != pipeline) {
 			ProgramPipeline.pipeline  = pipeline;
 			glBindProgramPipeline(pipeline);
+		}
+	}
+
+	void GLBindSampler(GLuint unit, GLuint sampler)
+	{
+		if (Samplers.find(unit) == Samplers.end() || Samplers[unit] != sampler) {
+			Samplers[unit] = sampler;
+			glBindSampler(unit, sampler);
+		}
+	}
+
+	void GLBindTexture(GLuint unit, GLenum target, GLuint texture)
+	{
+		if (Textures.find(unit) == Textures.end() || Textures[unit].target != target || Textures[unit].texture != texture) {
+			Textures[unit].target = target;
+			Textures[unit].texture = texture;
+			glBindTexture(target, texture);
 		}
 	}
 
