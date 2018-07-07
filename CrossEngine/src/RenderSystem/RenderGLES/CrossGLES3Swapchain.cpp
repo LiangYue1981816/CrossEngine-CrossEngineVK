@@ -118,8 +118,9 @@ namespace CrossEngine {
 
 	void CGLES3Swapchain::RenderSurface(void) const
 	{
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_fbo);
+		GLBindFramebuffer(GL_FRAMEBUFFER, 0);
+		GLBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		GLBindFramebuffer(GL_READ_FRAMEBUFFER, m_fbo);
 		{
 			glBlitFramebuffer(
 				0, 0, m_width, m_height, 
@@ -127,8 +128,8 @@ namespace CrossEngine {
 				GL_COLOR_BUFFER_BIT, 
 				GL_NEAREST);
 		}
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+		GLBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		GLBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 	}
 
 	BOOL CGLES3Swapchain::Present(void) const

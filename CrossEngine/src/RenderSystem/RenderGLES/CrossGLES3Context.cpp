@@ -161,9 +161,9 @@ namespace CrossEngine {
 	void GLBindFramebuffer(GLenum target, GLuint framebuffer)
 	{
 		switch (target) {
+		case GL_FRAMEBUFFER:
 		case GL_DRAW_FRAMEBUFFER:
 		case GL_READ_FRAMEBUFFER:
-		case GL_FRAMEBUFFER:
 			if (Framebuffers.find(target) == Framebuffers.end() || Framebuffers[target] != framebuffer) {
 				Framebuffers[target] = framebuffer;
 				glBindFramebuffer(target, framebuffer);
