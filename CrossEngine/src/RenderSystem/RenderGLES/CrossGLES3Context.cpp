@@ -147,7 +147,7 @@ namespace CrossEngine {
 		case GL_SHADER_STORAGE_BUFFER:
 		case GL_TRANSFORM_FEEDBACK_BUFFER:
 		case GL_UNIFORM_BUFFER:
-			if (BufferRanges.find(target) != BufferRanges.end() || BufferRanges[target].index != index || BufferRanges[target].buffer != buffer || BufferRanges[target].offset != offset || BufferRanges[target].size != size) {
+			if (BufferRanges.find(target) == BufferRanges.end() || BufferRanges[target].index != index || BufferRanges[target].buffer != buffer || BufferRanges[target].offset != offset || BufferRanges[target].size != size) {
 				BufferRanges[target].index = index;
 				BufferRanges[target].buffer = buffer;
 				BufferRanges[target].offset = offset;
@@ -164,7 +164,7 @@ namespace CrossEngine {
 		case GL_DRAW_FRAMEBUFFER:
 		case GL_READ_FRAMEBUFFER:
 		case GL_FRAMEBUFFER:
-			if (Framebuffers.find(target) != Framebuffers.end() || Framebuffers[target] != framebuffer) {
+			if (Framebuffers.find(target) == Framebuffers.end() || Framebuffers[target] != framebuffer) {
 				Framebuffers[target] = framebuffer;
 				glBindFramebuffer(target, framebuffer);
 			}
