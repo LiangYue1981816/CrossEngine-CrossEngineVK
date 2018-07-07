@@ -146,6 +146,8 @@ namespace CrossEngine {
 	typedef struct FrameBufferParam {
 		GLuint framebuffer;
 		std::map<GLenum, FrameBufferAttachmentParam> attachments;
+		std::vector<GLenum> readbuffers;
+		std::vector<GLenum> drawbuffers;
 	} FrameBufferParam;
 
 
@@ -536,6 +538,19 @@ namespace CrossEngine {
 				FrameBuffers[target].attachments[attachment].level = level;
 				glFramebufferTexture2D(target, attachment, textarget, texture, level);
 			}
+		}
+	}
+
+	void GLReadBuffers(GLenum target, GLsizei n, const GLenum *bufs)
+	{
+		if (FrameBuffers.find(target) != FrameBuffers.end()) {
+
+		}
+	}
+
+	void GLDrawBuffers(GLenum target, GLsizei n, const GLenum *bufs)
+	{
+		if (FrameBuffers.find(target) != FrameBuffers.end()) {
 		}
 	}
 

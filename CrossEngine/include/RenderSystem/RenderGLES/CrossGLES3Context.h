@@ -58,4 +58,7 @@ namespace CrossEngine {
 	extern void GLBindFramebuffer(GLenum target, GLuint framebuffer);
 	extern void GLBindFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
 
+	extern void GLReadBuffers(GLenum target, GLsizei n, const GLenum *bufs);
+	extern void GLDrawBuffers(GLenum target, GLsizei n, const GLenum *bufs);
+
 }
