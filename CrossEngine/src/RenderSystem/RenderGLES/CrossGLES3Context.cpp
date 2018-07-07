@@ -25,22 +25,97 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef struct BufferBase {
+	typedef struct ScissorParams {
+		GLint x;
+		GLint y;
+		GLsizei width;
+		GLsizei height;
+	} ScissorParams;
+
+	typedef struct ViewportParams {
+		GLint x;
+		GLint y;
+		GLsizei width;
+		GLsizei height;
+	} ViewportParams;
+
+	typedef struct PolygonOffsetParams {
+		GLfloat factor;
+		GLfloat units;
+	} PolygonOffsetParams;
+
+	typedef struct SampleMaskiParams {
+		GLuint maskNumber;
+		GLbitfield mask;
+	} SampleMaskiParams;
+
+	typedef struct DepthRangefParams {
+		GLfloat n;
+		GLfloat f;
+	} DepthRangefParams;
+
+	typedef struct ColorMaskParams {
+		GLboolean red;
+		GLboolean green;
+		GLboolean blue;
+		GLboolean alpha;
+	} ColorMaskParams;
+
+	typedef struct StencilFuncParams {
+		GLenum face;
+		GLenum func;
+		GLint ref;
+		GLuint mask;
+	} StencilFuncParams;
+
+	typedef struct StencilOpParams {
+		GLenum face;
+		GLenum sfail;
+		GLenum dpfail;
+		GLenum dppass;
+	} StencilOpParams;
+
+	typedef struct StencilMaskParams {
+		GLenum face;
+		GLuint mask;
+	} StencilMaskParams;
+
+	typedef struct BufferBaseParams {
 		GLuint index;
 		GLuint buffer;
-	} BufferBase;
+	} BufferBaseParams;
 
-	typedef struct BufferRange {
+	typedef struct BufferRangeParams {
 		GLuint index;
 		GLuint buffer;
 		GLintptr offset;
 		GLsizeiptr size;
-	} BufferRange;
+	} BufferRangeParams;
+
+	typedef struct BlendFuncParams {
+		GLenum srcRGB;
+		GLenum dstRGB;
+		GLenum srcAlpha;
+		GLenum dstAlpha;
+	} BlendFuncParams;
+
+	typedef struct BlendEquationParams {
+		GLenum modeRGB;
+		GLenum modeAlpha;
+	} BlendEquationParams;
+
+	typedef struct BlendColorParams {
+		GLfloat red;
+		GLfloat green;
+		GLfloat blue;
+		GLfloat alpha;
+	} BlendColorParams;
+
 
 	static std::map<GLenum, GLboolean> Caps;
 	static std::map<GLenum, GLuint> Buffers;
-	static std::map<GLenum, BufferBase> BufferBases;
-	static std::map<GLenum, BufferRange> BufferRanges;
+	static std::map<GLenum, BufferBaseParams> BufferBases;
+	static std::map<GLenum, BufferRangeParams> BufferRanges;
 	static std::map<GLenum, GLuint> Framebuffers;
 	static GLuint ProgramPipeline = -1;
 	
