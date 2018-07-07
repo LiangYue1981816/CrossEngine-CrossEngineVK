@@ -25,99 +25,138 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	typedef struct ScissorParams {
+	typedef struct ScissorParam {
 		GLint x;
 		GLint y;
 		GLsizei width;
 		GLsizei height;
-	} ScissorParams;
+	} ScissorParam;
 
-	typedef struct ViewportParams {
+	typedef struct ViewportParam {
 		GLint x;
 		GLint y;
 		GLsizei width;
 		GLsizei height;
-	} ViewportParams;
+	} ViewportParam;
 
-	typedef struct PolygonOffsetParams {
+	typedef struct CullFaceParam {
+		GLenum mode;
+	} CullFaceParam;
+
+	typedef struct FrontFaceParam {
+		GLenum mode;
+	} FrontFaceParam;
+
+	typedef struct LineWidthParam {
+		GLfloat width;
+	} LineWidthParam;
+
+	typedef struct PolygonOffsetParam {
 		GLfloat factor;
 		GLfloat units;
-	} PolygonOffsetParams;
+	} PolygonOffsetParam;
 
-	typedef struct SampleMaskiParams {
+	typedef struct SampleMaskiParam {
 		GLuint maskNumber;
 		GLbitfield mask;
-	} SampleMaskiParams;
+	} SampleMaskiParam;
 
-	typedef struct DepthRangefParams {
+	typedef struct DepthRangefParam {
 		GLfloat n;
 		GLfloat f;
-	} DepthRangefParams;
+	} DepthRangefParam;
 
-	typedef struct ColorMaskParams {
+	typedef struct DepthFuncParam {
+		GLenum func;
+	} DepthFuncParam;
+
+	typedef struct DepthMaskParam {
+		GLboolean flag;
+	} DepthMaskParam;
+
+	typedef struct ColorMaskParam {
 		GLboolean red;
 		GLboolean green;
 		GLboolean blue;
 		GLboolean alpha;
-	} ColorMaskParams;
+	} ColorMaskParam;
 
-	typedef struct StencilFuncParams {
-		GLenum face;
+	typedef struct StencilFuncParam {
 		GLenum func;
 		GLint ref;
 		GLuint mask;
-	} StencilFuncParams;
+	} StencilFuncParam;
 
-	typedef struct StencilOpParams {
-		GLenum face;
+	typedef struct StencilOpParam {
 		GLenum sfail;
 		GLenum dpfail;
 		GLenum dppass;
-	} StencilOpParams;
+	} StencilOpParam;
 
-	typedef struct StencilMaskParams {
-		GLenum face;
+	typedef struct StencilMaskParam {
 		GLuint mask;
-	} StencilMaskParams;
+	} StencilMaskParam;
 
-	typedef struct BufferBaseParams {
-		GLuint index;
-		GLuint buffer;
-	} BufferBaseParams;
-
-	typedef struct BufferRangeParams {
-		GLuint index;
-		GLuint buffer;
-		GLintptr offset;
-		GLsizeiptr size;
-	} BufferRangeParams;
-
-	typedef struct BlendFuncParams {
+	typedef struct BlendFuncParam {
 		GLenum srcRGB;
 		GLenum dstRGB;
 		GLenum srcAlpha;
 		GLenum dstAlpha;
-	} BlendFuncParams;
+	} BlendFuncParam;
 
-	typedef struct BlendEquationParams {
+	typedef struct BlendEquationParam {
 		GLenum modeRGB;
 		GLenum modeAlpha;
-	} BlendEquationParams;
+	} BlendEquationParam;
 
-	typedef struct BlendColorParams {
+	typedef struct BlendColorParam {
 		GLfloat red;
 		GLfloat green;
 		GLfloat blue;
 		GLfloat alpha;
-	} BlendColorParams;
+	} BlendColorParam;
+
+	typedef struct BufferBaseParam {
+		GLuint index;
+		GLuint buffer;
+	} BufferBaseParam;
+
+	typedef struct BufferRangeParam {
+		GLuint index;
+		GLuint buffer;
+		GLintptr offset;
+		GLsizeiptr size;
+	} BufferRangeParam;
+
+	typedef struct ProgramPipelineParam {
+		GLuint pipeline;
+	} ProgramPipelineParam;
 
 
 	static std::map<GLenum, GLboolean> Caps;
 	static std::map<GLenum, GLuint> Buffers;
-	static std::map<GLenum, BufferBaseParams> BufferBases;
-	static std::map<GLenum, BufferRangeParams> BufferRanges;
+	static std::map<GLenum, BufferBaseParam> BufferBases;
+	static std::map<GLenum, BufferRangeParam> BufferRanges;
 	static std::map<GLenum, GLuint> Framebuffers;
-	static GLuint ProgramPipeline = -1;
+	static std::map<GLenum, StencilFuncParam> StencilFuncs;
+	static std::map<GLenum, StencilOpParam> StencilOps;
+	static std::map<GLenum, StencilMaskParam> StencilMasks;
+
+	static ScissorParam Scissor;
+	static ViewportParam Viewport;
+	static CullFaceParam CullFace;
+	static FrontFaceParam FrontFace;
+	static LineWidthParam LineWidth;
+	static PolygonOffsetParam PolygonOffset;
+	static SampleMaskiParam SampleMaski;
+	static DepthRangefParam DepthRangef;
+	static DepthFuncParam DepthFunc;
+	static DepthMaskParam DepthMask;
+	static ColorMaskParam ColorMask;
+	static BlendFuncParam BlendFunc;
+	static BlendEquationParam BlendEquation;
+	static BlendColorParam BlendColor;
+	static ProgramPipelineParam ProgramPipeline;
 	
 
 	void GLResetContext(void)
@@ -127,7 +166,7 @@ namespace CrossEngine {
 		BufferBases.clear();
 		BufferRanges.clear();
 		Framebuffers.clear();
-		ProgramPipeline = -1;
+		ProgramPipeline.pipeline = -1;
 	}
 
 	void GLEnable(GLenum cap)
@@ -334,8 +373,8 @@ namespace CrossEngine {
 
 	void GLBindProgramPipeline(GLuint pipeline)
 	{
-		if (ProgramPipeline != pipeline) {
-			ProgramPipeline  = pipeline;
+		if (ProgramPipeline.pipeline != pipeline) {
+			ProgramPipeline.pipeline  = pipeline;
 			glBindProgramPipeline(pipeline);
 		}
 	}
