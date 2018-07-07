@@ -71,14 +71,14 @@ namespace CrossEngine {
 	} DepthFuncParam;
 
 	typedef struct DepthMaskParam {
-		GLboolean flag;
+		GLuint flag;
 	} DepthMaskParam;
 
 	typedef struct ColorMaskParam {
-		GLboolean red;
-		GLboolean green;
-		GLboolean blue;
-		GLboolean alpha;
+		GLuint red;
+		GLuint green;
+		GLuint blue;
+		GLuint alpha;
 	} ColorMaskParam;
 
 	typedef struct StencilFuncParam {
@@ -137,7 +137,7 @@ namespace CrossEngine {
 	static std::map<GLenum, GLuint> Buffers;
 	static std::map<GLenum, BufferBaseParam> BufferBases;
 	static std::map<GLenum, BufferRangeParam> BufferRanges;
-	static std::map<GLenum, GLuint> Framebuffers;
+	static std::map<GLenum, GLuint> FrameBuffers;
 	static std::map<GLenum, StencilFuncParam> StencilFuncs;
 	static std::map<GLenum, StencilOpParam> StencilOps;
 	static std::map<GLenum, StencilMaskParam> StencilMasks;
@@ -165,8 +165,45 @@ namespace CrossEngine {
 		Buffers.clear();
 		BufferBases.clear();
 		BufferRanges.clear();
-		Framebuffers.clear();
-		ProgramPipeline.pipeline = -1;
+		FrameBuffers.clear();
+		StencilFuncs.clear();
+		StencilOps.clear();
+		StencilMasks.clear();
+
+		Scissor.x = GL_INVALID_VALUE;
+		Scissor.y = GL_INVALID_VALUE;
+		Scissor.width = GL_INVALID_VALUE;
+		Scissor.height = GL_INVALID_VALUE;
+		Viewport.x = GL_INVALID_VALUE;
+		Viewport.y = GL_INVALID_VALUE;
+		Viewport.width = GL_INVALID_VALUE;
+		Viewport.height = GL_INVALID_VALUE;
+		CullFace.mode = GL_INVALID_ENUM;
+		FrontFace.mode = GL_INVALID_ENUM;
+		LineWidth.width = GL_INVALID_VALUE;
+		PolygonOffset.factor = GL_INVALID_VALUE;
+		PolygonOffset.units = GL_INVALID_VALUE;
+		SampleMaski.maskNumber = GL_INVALID_VALUE;
+		SampleMaski.mask = GL_INVALID_VALUE;
+		DepthRangef.n = GL_INVALID_VALUE;
+		DepthRangef.f = GL_INVALID_VALUE;
+		DepthFunc.func = GL_INVALID_ENUM;
+		DepthMask.flag = GL_INVALID_VALUE;
+		ColorMask.red = GL_INVALID_VALUE;
+		ColorMask.green = GL_INVALID_VALUE;
+		ColorMask.blue = GL_INVALID_VALUE;
+		ColorMask.alpha = GL_INVALID_VALUE;
+		BlendFunc.srcRGB = GL_INVALID_ENUM;
+		BlendFunc.dstRGB = GL_INVALID_ENUM;
+		BlendFunc.srcAlpha = GL_INVALID_ENUM;
+		BlendFunc.dstAlpha = GL_INVALID_ENUM;
+		BlendEquation.modeRGB = GL_INVALID_ENUM;
+		BlendEquation.modeAlpha = GL_INVALID_ENUM;
+		BlendColor.red = GL_INVALID_VALUE;
+		BlendColor.green = GL_INVALID_VALUE;
+		BlendColor.blue = GL_INVALID_VALUE;
+		BlendColor.alpha = GL_INVALID_VALUE;
+		ProgramPipeline.pipeline = GL_INVALID_VALUE;
 	}
 
 	void GLEnable(GLenum cap)
@@ -217,87 +254,161 @@ namespace CrossEngine {
 
 	void GLScissor(GLint x, GLint y, GLsizei width, GLsizei height)
 	{
-
+		if (Scissor.x != x || Scissor.y != y || Scissor.width != width || Scissor.height != height) {
+			Scissor.x = x;
+			Scissor.y = y;
+			Scissor.width = width;
+			Scissor.height = height;
+			glScissor(x, y, width, height);
+		}
 	}
 
 	void GLViewport(GLint x, GLint y, GLsizei width, GLsizei height)
 	{
-
+		if (Viewport.x != x || Viewport.y != y || Viewport.width != width || Viewport.height != height) {
+			Viewport.x = x;
+			Viewport.y = y;
+			Viewport.width = width;
+			Viewport.height = height;
+			glViewport(x, y, width, height);
+		}
 	}
 
 	void GLCullFace(GLenum mode)
 	{
-
+		if (CullFace.mode != mode) {
+			CullFace.mode = mode;
+			glCullFace(mode);
+		}
 	}
 
 	void GLFrontFace(GLenum mode)
 	{
-
+		if (FrontFace.mode != mode) {
+			FrontFace.mode = mode;
+			glFrontFace(mode);
+		}
 	}
 
 	void GLLineWidth(GLfloat width)
 	{
-
+		if (LineWidth.width != width) {
+			LineWidth.width = width;
+			glLineWidth(width);
+		}
 	}
 
 	void GLPolygonOffset(GLfloat factor, GLfloat units)
 	{
-
+		if (PolygonOffset.factor != factor || PolygonOffset.units != units) {
+			PolygonOffset.factor = factor;
+			PolygonOffset.units = units;
+			glPolygonOffset(factor, units);
+		}
 	}
 
 	void GLSampleMaski(GLuint maskNumber, GLbitfield mask)
 	{
-
+		if (SampleMaski.maskNumber != maskNumber || SampleMaski.mask != mask) {
+			SampleMaski.maskNumber = maskNumber;
+			SampleMaski.mask = mask;
+			glSampleMaski(maskNumber, mask);
+		}
 	}
 
 	void GLDepthRangef(GLfloat n, GLfloat f)
 	{
-
+		if (DepthRangef.n != n || DepthRangef.f != f) {
+			DepthRangef.n = n;
+			DepthRangef.f = f;
+			glDepthRangef(n, f);
+		}
 	}
 
 	void GLDepthFunc(GLenum func)
 	{
-
+		if (DepthFunc.func != func) {
+			DepthFunc.func = func;
+			glDepthFunc(func);
+		}
 	}
 
 	void GLDepthMask(GLboolean flag)
 	{
-
+		if (DepthMask.flag != flag) {
+			DepthMask.flag = flag;
+			glDepthMask(flag);
+		}
 	}
 
 	void GLColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)
 	{
-
+		if (ColorMask.red != red || ColorMask.green != green || ColorMask.blue != blue || ColorMask.alpha != alpha) {
+			ColorMask.red = red;
+			ColorMask.green = green;
+			ColorMask.blue = blue;
+			ColorMask.alpha = alpha;
+			glColorMask(red, green, blue, alpha);
+		}
 	}
 
 	void GLStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask)
 	{
-
+		if (StencilFuncs.find(face) == StencilFuncs.end() || StencilFuncs[face].func != func || StencilFuncs[face].ref != ref || StencilFuncs[face].mask != mask) {
+			StencilFuncs[face].func = func;
+			StencilFuncs[face].ref = ref;
+			StencilFuncs[face].mask = mask;
+			glStencilFuncSeparate(face, func, ref, mask);
+		}
 	}
 
 	void GLStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass)
 	{
-
+		if (StencilOps.find(face) == StencilOps.end() || StencilOps[face].sfail != sfail || StencilOps[face].dpfail != dpfail || StencilOps[face].dppass != dppass) {
+			StencilOps[face].sfail = sfail;
+			StencilOps[face].dpfail = dpfail;
+			StencilOps[face].dppass = dppass;
+			glStencilOpSeparate(face, sfail, dpfail, dppass);
+		}
 	}
 
 	void GLStencilMaskSeparate(GLenum face, GLuint mask)
 	{
-
+		if (StencilMasks.find(face) == StencilMasks.end() || StencilMasks[face].mask != mask) {
+			StencilMasks[face].mask = mask;
+			glStencilMaskSeparate(face, mask);
+		}
 	}
 
 	void GLBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)
 	{
-
+		if (BlendFunc.srcRGB != srcRGB || BlendFunc.dstRGB != dstRGB || BlendFunc.srcAlpha != srcAlpha || BlendFunc.dstAlpha != dstAlpha) {
+			BlendFunc.srcRGB = srcRGB;
+			BlendFunc.dstRGB = dstRGB;
+			BlendFunc.srcAlpha = srcAlpha;
+			BlendFunc.dstAlpha = dstAlpha;
+			glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
+		}
 	}
 
 	void GLBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha)
 	{
-
+		if (BlendEquation.modeRGB != modeRGB || BlendEquation.modeAlpha != modeAlpha) {
+			BlendEquation.modeRGB = modeRGB;
+			BlendEquation.modeAlpha = modeAlpha;
+			glBlendEquationSeparate(modeRGB, modeAlpha);
+		}
 	}
 
 	void GLBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 	{
-
+		if (BlendColor.red != red || BlendColor.green != green || BlendColor.blue != blue || BlendColor.alpha != alpha) {
+			BlendColor.red = red;
+			BlendColor.green = green;
+			BlendColor.blue = blue;
+			BlendColor.alpha = alpha;
+			glBlendColor(red, green, blue, alpha);
+		}
 	}
 
 	void GLBindBuffer(GLenum target, GLuint buffer)
@@ -363,8 +474,8 @@ namespace CrossEngine {
 		case GL_FRAMEBUFFER:
 		case GL_DRAW_FRAMEBUFFER:
 		case GL_READ_FRAMEBUFFER:
-			if (Framebuffers.find(target) == Framebuffers.end() || Framebuffers[target] != framebuffer) {
-				Framebuffers[target] = framebuffer;
+			if (FrameBuffers.find(target) == FrameBuffers.end() || FrameBuffers[target] != framebuffer) {
+				FrameBuffers[target] = framebuffer;
 				glBindFramebuffer(target, framebuffer);
 			}
 			break;
