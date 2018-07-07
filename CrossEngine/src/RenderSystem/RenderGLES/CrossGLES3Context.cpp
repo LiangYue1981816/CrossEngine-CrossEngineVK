@@ -137,12 +137,23 @@ namespace CrossEngine {
 		GLuint texture;
 	} TextureParam;
 
+	typedef struct FrameBufferAttachmentParam {
+		GLenum target;
+		GLuint texture;
+		GLint level;
+	} FrameBufferAttachmentParam;
+
+	typedef struct FrameBufferParam {
+		GLuint framebuffer;
+		std::map<GLenum, FrameBufferAttachmentParam> attachments;
+	} FrameBufferParam;
+
 
 	static std::map<GLenum, GLboolean> Caps;
 	static std::map<GLenum, GLuint> Buffers;
 	static std::map<GLenum, BufferBaseParam> BufferBases;
 	static std::map<GLenum, BufferRangeParam> BufferRanges;
-	static std::map<GLenum, GLuint> FrameBuffers;
+	static std::map<GLenum, FrameBufferParam> FrameBuffers;
 	static std::map<GLenum, StencilFuncParam> StencilFuncs;
 	static std::map<GLenum, StencilOpParam> StencilOps;
 	static std::map<GLenum, StencilMaskParam> StencilMasks;
@@ -477,20 +488,6 @@ namespace CrossEngine {
 		}
 	}
 
-	void GLBindFramebuffer(GLenum target, GLuint framebuffer)
-	{
-		switch (target) {
-		case GL_FRAMEBUFFER:
-		case GL_DRAW_FRAMEBUFFER:
-		case GL_READ_FRAMEBUFFER:
-			if (FrameBuffers.find(target) == FrameBuffers.end() || FrameBuffers[target] != framebuffer) {
-				FrameBuffers[target] = framebuffer;
-				glBindFramebuffer(target, framebuffer);
-			}
-			break;
-		}
-	}
-
 	void GLBindProgramPipeline(GLuint pipeline)
 	{
 		if (ProgramPipeline.pipeline != pipeline) {
@@ -513,6 +510,32 @@ namespace CrossEngine {
 			Textures[unit].target = target;
 			Textures[unit].texture = texture;
 			glBindTexture(target, texture);
+		}
+	}
+
+	void GLBindFramebuffer(GLenum target, GLuint framebuffer)
+	{
+		switch (target) {
+		case GL_FRAMEBUFFER:
+		case GL_DRAW_FRAMEBUFFER:
+		case GL_READ_FRAMEBUFFER:
+			if (FrameBuffers.find(target) == FrameBuffers.end() || FrameBuffers[target].framebuffer != framebuffer) {
+				FrameBuffers[target].framebuffer = framebuffer;
+				glBindFramebuffer(target, framebuffer);
+			}
+			break;
+		}
+	}
+
+	void GLBindFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
+	{
+		if (FrameBuffers.find(target) != FrameBuffers.end()) {
+			if (FrameBuffers[target].attachments.find(attachment) == FrameBuffers[target].attachments.end() || FrameBuffers[target].attachments[attachment].target != textarget || FrameBuffers[target].attachments[attachment].texture != texture || FrameBuffers[target].attachments[attachment].level != level) {
+				FrameBuffers[target].attachments[attachment].target = textarget;
+				FrameBuffers[target].attachments[attachment].texture = texture;
+				FrameBuffers[target].attachments[attachment].level = level;
+				glFramebufferTexture2D(target, attachment, textarget, texture, level);
+			}
 		}
 	}
 

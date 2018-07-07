@@ -99,7 +99,7 @@ namespace CrossEngine {
 						const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itColorAttachment.first);
 						const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itColorAttachment.first);
 
-						glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, texture, 0);
+						GLBindFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, texture, 0);
 
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferfv(GL_COLOR, indexAttachment, pClearValue->color.float32);
@@ -123,7 +123,7 @@ namespace CrossEngine {
 					const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(pSubPass->depthStencilAttachment);
 
 					if (CGLES3Helper::glIsFormatDepthOnly(format)) {
-						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, target, texture, 0);
+						GLBindFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, target, texture, 0);
 
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferfv(GL_DEPTH, 0, (const GLfloat *)&pClearValue->depthStencil.depth);
@@ -131,7 +131,7 @@ namespace CrossEngine {
 					}
 
 					if (CGLES3Helper::glIsFormatStencilOnly(format)) {
-						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, target, texture, 0);
+						GLBindFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, target, texture, 0);
 
 						if (pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferiv(GL_STENCIL, 0, (const GLint *)&pClearValue->depthStencil.stencil);
@@ -139,7 +139,7 @@ namespace CrossEngine {
 					}
 
 					if (CGLES3Helper::glIsFormatDepthStencil(format)) {
-						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, target, texture, 0);
+						GLBindFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, target, texture, 0);
 
 						if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR || pAttachmentDescription->stencilLoadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 							glClearBufferfi(GL_DEPTH_STENCIL, 0, pClearValue->depthStencil.depth, pClearValue->depthStencil.stencil);

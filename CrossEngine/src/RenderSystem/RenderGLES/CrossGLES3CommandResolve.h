@@ -104,7 +104,7 @@ namespace CrossEngine {
 							const VkClearValue *pClearValue = pRenderPass->GetAttachmentClearValue(itResolveAttachment.first);
 							const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itResolveAttachment.first);
 
-							glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, texture, 0);
+							GLBindFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, texture, 0);
 
 							if (pAttachmentDescription->loadOp == VK_ATTACHMENT_LOAD_OP_CLEAR) {
 								glClearBufferfv(GL_COLOR, indexAttachment, pClearValue->color.float32);
