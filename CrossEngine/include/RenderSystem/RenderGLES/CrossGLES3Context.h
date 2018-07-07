@@ -31,6 +31,24 @@ namespace CrossEngine {
 	extern void GLEnable(GLenum cap);
 	extern void GLDisable(GLenum cap);
 
+	extern void GLScissor(GLint x, GLint y, GLsizei width, GLsizei height);
+	extern void GLViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+	extern void GLCullFace(GLenum mode);
+	extern void GLFrontFace(GLenum mode);
+	extern void GLLineWidth(GLfloat width);
+	extern void GLPolygonOffset(GLfloat factor, GLfloat units);
+	extern void GLSampleMaski(GLuint maskNumber, GLbitfield mask);
+	extern void GLDepthRangef(GLfloat n, GLfloat f);
+	extern void GLDepthFunc(GLenum func);
+	extern void GLDepthMask(GLboolean flag);
+	extern void GLColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+	extern void GLStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
+	extern void GLStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
+	extern void GLStencilMaskSeparate(GLenum face, GLuint mask);
+	extern void GLBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+	extern void GLBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
+	extern void GLBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+
 	extern void GLBindBuffer(GLenum target, GLuint buffer);
 	extern void GLBindBufferBase(GLenum target, GLuint index, GLuint buffer);
 	extern void GLBindBufferRange(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);

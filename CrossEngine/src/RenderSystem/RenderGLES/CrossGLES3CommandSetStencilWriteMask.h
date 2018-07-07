@@ -43,7 +43,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glStencilMaskSeparate(CGLES3Helper::glTranslateStencilFace(m_faceMask), m_writeMask);
+			GLStencilMaskSeparate(CGLES3Helper::glTranslateStencilFace(m_faceMask), m_writeMask);
 		}
 
 

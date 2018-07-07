@@ -42,7 +42,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glLineWidth(m_lineWidth);
+			GLLineWidth(m_lineWidth);
 		}
 
 

@@ -45,7 +45,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glBlendColor(m_red, m_green, m_blue, m_alpha);
+			GLBlendColor(m_red, m_green, m_blue, m_alpha);
 		}
 
 

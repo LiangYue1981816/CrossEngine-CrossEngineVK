@@ -101,6 +101,91 @@ namespace CrossEngine {
 		}
 	}
 
+	void GLScissor(GLint x, GLint y, GLsizei width, GLsizei height)
+	{
+
+	}
+
+	void GLViewport(GLint x, GLint y, GLsizei width, GLsizei height)
+	{
+
+	}
+
+	void GLCullFace(GLenum mode)
+	{
+
+	}
+
+	void GLFrontFace(GLenum mode)
+	{
+
+	}
+
+	void GLLineWidth(GLfloat width)
+	{
+
+	}
+
+	void GLPolygonOffset(GLfloat factor, GLfloat units)
+	{
+
+	}
+
+	void GLSampleMaski(GLuint maskNumber, GLbitfield mask)
+	{
+
+	}
+
+	void GLDepthRangef(GLfloat n, GLfloat f)
+	{
+
+	}
+
+	void GLDepthFunc(GLenum func)
+	{
+
+	}
+
+	void GLDepthMask(GLboolean flag)
+	{
+
+	}
+
+	void GLColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)
+	{
+
+	}
+
+	void GLStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask)
+	{
+
+	}
+
+	void GLStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass)
+	{
+
+	}
+
+	void GLStencilMaskSeparate(GLenum face, GLuint mask)
+	{
+
+	}
+
+	void GLBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)
+	{
+
+	}
+
+	void GLBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha)
+	{
+
+	}
+
+	void GLBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+	{
+
+	}
+
 	void GLBindBuffer(GLenum target, GLuint buffer)
 	{
 		switch (target) {

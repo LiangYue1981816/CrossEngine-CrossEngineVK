@@ -97,7 +97,7 @@ namespace CrossEngine {
 		{
 			if (rasterizationState.cullMode != VK_CULL_MODE_NONE) {
 				GLEnable(GL_CULL_FACE);
-				glCullFace(CGLES3Helper::glTranslateCullMode(rasterizationState.cullMode));
+				GLCullFace(CGLES3Helper::glTranslateCullMode(rasterizationState.cullMode));
 			}
 			else {
 				GLDisable(GL_CULL_FACE);
@@ -106,14 +106,14 @@ namespace CrossEngine {
 
 		void SetFrontFace(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
-			glFrontFace(CGLES3Helper::glTranslateFrontFace(rasterizationState.frontFace));
+			GLFrontFace(CGLES3Helper::glTranslateFrontFace(rasterizationState.frontFace));
 		}
 
 		void SetPolygonOffset(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
 			if (rasterizationState.depthBiasEnable) {
 				GLEnable(GL_POLYGON_OFFSET_FILL);
-				glPolygonOffset(rasterizationState.depthBiasSlopeFactor, rasterizationState.depthBiasConstantFactor);
+				GLPolygonOffset(rasterizationState.depthBiasSlopeFactor, rasterizationState.depthBiasConstantFactor);
 			}
 			else {
 				GLDisable(GL_POLYGON_OFFSET_FILL);
@@ -122,14 +122,14 @@ namespace CrossEngine {
 
 		void SetLineWidth(const VkPipelineRasterizationStateCreateInfo& rasterizationState) const
 		{
-			glLineWidth(rasterizationState.lineWidth);
+			GLLineWidth(rasterizationState.lineWidth);
 		}
 
 		void SetSampleMask(const VkPipelineMultisampleStateCreateInfo& multisampleState) const
 		{
 			if (multisampleState.pSampleMask) {
 				GLEnable(GL_SAMPLE_MASK);
-				glSampleMaski(multisampleState.rasterizationSamples, *multisampleState.pSampleMask);
+				GLSampleMaski(multisampleState.rasterizationSamples, *multisampleState.pSampleMask);
 			}
 			else {
 				GLDisable(GL_SAMPLE_MASK);
@@ -148,14 +148,14 @@ namespace CrossEngine {
 
 		void SetDepthWrite(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
-			glDepthMask(depthStencilState.depthWriteEnable ? GL_TRUE : GL_FALSE);
+			GLDepthMask(depthStencilState.depthWriteEnable ? GL_TRUE : GL_FALSE);
 		}
 
 		void SetDepthTest(const VkPipelineDepthStencilStateCreateInfo& depthStencilState) const
 		{
 			if (depthStencilState.depthTestEnable) {
 				GLEnable(GL_DEPTH_TEST);
-				glDepthFunc(CGLES3Helper::glTranslateCompareOp(depthStencilState.depthCompareOp));
+				GLDepthFunc(CGLES3Helper::glTranslateCompareOp(depthStencilState.depthCompareOp));
 			}
 			else {
 				GLDisable(GL_DEPTH_TEST);
@@ -167,30 +167,30 @@ namespace CrossEngine {
 			if (depthStencilState.stencilTestEnable) {
 				GLEnable(GL_STENCIL_TEST);
 
-				glStencilFuncSeparate(
+				GLStencilFuncSeparate(
 					GL_FRONT, 
 					CGLES3Helper::glTranslateCompareOp(depthStencilState.front.compareOp), 
 					depthStencilState.front.reference, 
 					depthStencilState.front.compareMask);
-				glStencilFuncSeparate(
+				GLStencilFuncSeparate(
 					GL_BACK, 
 					CGLES3Helper::glTranslateCompareOp(depthStencilState.back.compareOp), 
 					depthStencilState.back.reference, 
 					depthStencilState.back.compareMask);
 
-				glStencilOpSeparate(
+				GLStencilOpSeparate(
 					GL_FRONT,
 					CGLES3Helper::glTranslateStencilOp(depthStencilState.front.failOp),
 					CGLES3Helper::glTranslateStencilOp(depthStencilState.front.depthFailOp),
 					CGLES3Helper::glTranslateStencilOp(depthStencilState.front.passOp));
-				glStencilOpSeparate(
+				GLStencilOpSeparate(
 					GL_BACK,
 					CGLES3Helper::glTranslateStencilOp(depthStencilState.back.failOp),
 					CGLES3Helper::glTranslateStencilOp(depthStencilState.back.depthFailOp),
 					CGLES3Helper::glTranslateStencilOp(depthStencilState.back.passOp));
 
-				glStencilMaskSeparate(GL_FRONT, depthStencilState.front.writeMask);
-				glStencilMaskSeparate(GL_BACK, depthStencilState.back.writeMask);
+				GLStencilMaskSeparate(GL_FRONT, depthStencilState.front.writeMask);
+				GLStencilMaskSeparate(GL_BACK, depthStencilState.back.writeMask);
 			}
 			else {
 				GLDisable(GL_STENCIL_TEST);
@@ -203,17 +203,17 @@ namespace CrossEngine {
 				if (colorBlendState.pAttachments->blendEnable) {
 					GLEnable(GL_BLEND);
 
-					glBlendFuncSeparate(
+					GLBlendFuncSeparate(
 						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments->srcColorBlendFactor),
 						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments->dstColorBlendFactor),
 						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments->srcAlphaBlendFactor),
 						CGLES3Helper::glTranslateBlendFactor(colorBlendState.pAttachments->dstAlphaBlendFactor));
 
-					glBlendEquationSeparate(
+					GLBlendEquationSeparate(
 						CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments->colorBlendOp),
 						CGLES3Helper::glTranslateBlendOp(colorBlendState.pAttachments->alphaBlendOp));
 
-					glBlendColor(colorBlendState.blendConstants[0], colorBlendState.blendConstants[1], colorBlendState.blendConstants[2], colorBlendState.blendConstants[3]);
+					GLBlendColor(colorBlendState.blendConstants[0], colorBlendState.blendConstants[1], colorBlendState.blendConstants[2], colorBlendState.blendConstants[3]);
 				}
 				else {
 					GLDisable(GL_BLEND);
@@ -227,7 +227,7 @@ namespace CrossEngine {
 		void SetColorMask(const VkPipelineColorBlendStateCreateInfo& colorBlendState) const
 		{
 			if (colorBlendState.pAttachments) {
-				glColorMask(
+				GLColorMask(
 					colorBlendState.pAttachments->colorWriteMask & VK_COLOR_COMPONENT_R_BIT ? GL_TRUE : GL_FALSE,
 					colorBlendState.pAttachments->colorWriteMask & VK_COLOR_COMPONENT_G_BIT ? GL_TRUE : GL_FALSE,
 					colorBlendState.pAttachments->colorWriteMask & VK_COLOR_COMPONENT_B_BIT ? GL_TRUE : GL_FALSE,

@@ -45,7 +45,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glViewport(m_x, m_y, m_width, m_height);
+			GLViewport(m_x, m_y, m_width, m_height);
 		}
 
 

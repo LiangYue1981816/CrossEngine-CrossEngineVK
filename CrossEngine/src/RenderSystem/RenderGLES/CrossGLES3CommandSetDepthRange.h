@@ -43,7 +43,7 @@ namespace CrossEngine {
 	protected:
 		virtual void Execute(void) const
 		{
-			glDepthRangef(m_minDepth, m_maxDepth);
+			GLDepthRangef(m_minDepth, m_maxDepth);
 		}
 
 

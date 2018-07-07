@@ -48,16 +48,16 @@ namespace CrossEngine {
 		{
 			switch (CGLES3Helper::glTranslateStencilFace(m_faceMask)) {
 			case GL_FRONT:
-				glStencilFuncSeparate(GL_FRONT, CGLES3Helper::glTranslateCompareOp(m_frontCompareOp), m_reference, m_compareMask);
+				GLStencilFuncSeparate(GL_FRONT, CGLES3Helper::glTranslateCompareOp(m_frontCompareOp), m_reference, m_compareMask);
 				break;
 
 			case GL_BACK:
-				glStencilFuncSeparate(GL_BACK, CGLES3Helper::glTranslateCompareOp(m_backCompareOp), m_reference, m_compareMask);
+				GLStencilFuncSeparate(GL_BACK, CGLES3Helper::glTranslateCompareOp(m_backCompareOp), m_reference, m_compareMask);
 				break;
 
 			case GL_FRONT_AND_BACK:
-				glStencilFuncSeparate(GL_FRONT, CGLES3Helper::glTranslateCompareOp(m_frontCompareOp), m_reference, m_compareMask);
-				glStencilFuncSeparate(GL_BACK, CGLES3Helper::glTranslateCompareOp(m_backCompareOp), m_reference, m_compareMask);
+				GLStencilFuncSeparate(GL_FRONT, CGLES3Helper::glTranslateCompareOp(m_frontCompareOp), m_reference, m_compareMask);
+				GLStencilFuncSeparate(GL_BACK, CGLES3Helper::glTranslateCompareOp(m_backCompareOp), m_reference, m_compareMask);
 				break;
 			}
 		}
