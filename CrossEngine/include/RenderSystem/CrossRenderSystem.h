@@ -59,22 +59,14 @@ namespace CrossEngine {
 	} DESCRIPTOR_SET_TYPE;
 
 	typedef enum {
-		DESCRIPTOR_BIND_CAMERA = 0,
-		DESCRIPTOR_BIND_SHADOW = 1,
-		DESCRIPTOR_BIND_AMBIENT_LIGHT = 2,
-		DESCRIPTOR_BIND_DIRECT_LIGHT = 3,
-		DESCRIPTOR_BIND_POINT_LIGHT = 4,
-		DESCRIPTOR_BIND_FOG = 5,
-		DESCRIPTOR_BIND_EXTERNAL_BASE = 16
+		DESCRIPTOR_BIND_ENGINE = 0,
+		DESCRIPTOR_BIND_CAMERA = 1,
+		DESCRIPTOR_BIND_EXTERNAL_BASE = 8
 	} DESCRIPTOR_BIND_TYPE;
 
-	static const char *DESCRIPTOR_BIND_NAME[6] = {
+	static const char *DESCRIPTOR_BIND_NAME[2] = {
+		"Engine",
 		"Camera",
-		"Shadow",
-		"AmbientLight",
-		"DirectLight",
-		"PointLight",
-		"Fog"
 	};
 
 
@@ -123,20 +115,22 @@ namespace CrossEngine {
 		void FreeDrawableAll(void);
 
 	public:
+		void SetTime(float t, float dt);
+
 		void SetShadowOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
 		void SetShadowLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz);
 		void SetShadowDistance(float distance);
 		void SetShadowResolution(float resolution);
 
-		void SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9]);
-		void SetAmbientRotation(const glm::mat4 &mtxRotation);
-
-		void SetDirectLightColor(float red, float green, float blue);
-		void SetDirectLightDirection(float x, float y, float z);
+		void SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9]);
+		void SetAmbientLightRotation(float angle, float axisx, float axisy, float axisz);
 
 		void SetPointLightColor(float red, float green, float blue);
-		void SetPointLightPosition(float x, float y, float z, float radius);
+		void SetPointLightPosition(float posx, float posy, float posz, float radius);
 		void SetPointLightAttenuation(float linear, float square, float constant);
+
+		void SetDirectLightColor(float red, float green, float blue);
+		void SetDirectLightDirection(float dirx, float diry, float dirz);
 
 		void SetFogColor(float red, float green, float blue);
 		void SetFogHeightDensity(float startHeight, float endHeight, float density);
@@ -165,6 +159,7 @@ namespace CrossEngine {
 		CPointLight *m_pPointLight;
 		CFog *m_pFog;
 
+		CUniformEngine *m_pUniformEngine;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
 

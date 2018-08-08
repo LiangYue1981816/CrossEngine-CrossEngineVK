@@ -35,12 +35,7 @@ namespace CrossEngine {
 		, m_pCameraManager(NULL)
 		, m_pDrawableManager(NULL)
 
-		, m_pShadow(NULL)
-		, m_pAmbientLight(NULL)
-		, m_pDirectLight(NULL)
-		, m_pPointLight(NULL)
-		, m_pFog(NULL)
-
+		, m_pUniformEngine(NULL)
 		, m_pRenderer(NULL)
 	{
 
@@ -114,26 +109,14 @@ namespace CrossEngine {
 
 	BOOL CRenderSystem::CreateDescriptorSet(void)
 	{
-		m_pShadow = SAFE_NEW CShadow;
-		m_pAmbientLight = SAFE_NEW CAmbientLight;
-		m_pDirectLight = SAFE_NEW CDirectLight;
-		m_pPointLight = SAFE_NEW CPointLight;
-		m_pFog = SAFE_NEW CFog;
+		m_pUniformEngine = SAFE_NEW CUniformEngine;
 
 		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_FRAME);
-		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_SHADOW], DESCRIPTOR_BIND_SHADOW, VK_SHADER_STAGE_ALL);
-		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_AMBIENT_LIGHT], DESCRIPTOR_BIND_AMBIENT_LIGHT, VK_SHADER_STAGE_ALL);
-		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_POINT_LIGHT], DESCRIPTOR_BIND_POINT_LIGHT, VK_SHADER_STAGE_ALL);
-		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_DIRECT_LIGHT], DESCRIPTOR_BIND_DIRECT_LIGHT, VK_SHADER_STAGE_ALL);
-		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_FOG], DESCRIPTOR_BIND_FOG, VK_SHADER_STAGE_ALL);
+		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_ENGINE], DESCRIPTOR_BIND_ENGINE, VK_SHADER_STAGE_ALL);
 		m_ptrDescriptorSetLayout->Create();
 
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
-		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_SHADOW, m_pShadow->GetUniformBuffer());
-		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_AMBIENT_LIGHT, m_pAmbientLight->GetUniformBuffer());
-		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_DIRECT_LIGHT, m_pDirectLight->GetUniformBuffer());
-		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_POINT_LIGHT, m_pPointLight->GetUniformBuffer());
-		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_FOG, m_pFog->GetUniformBuffer());
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_ENGINE, m_pUniformEngine->GetUniformBuffer());
 		m_ptrDescriptorSet->UpdateDescriptorSets();
 
 		return TRUE;
@@ -182,12 +165,7 @@ namespace CrossEngine {
 	{
 		m_ptrDescriptorSet.Release();
 		m_ptrDescriptorSetLayout.Release();
-
-		SAFE_DELETE(m_pShadow);
-		SAFE_DELETE(m_pAmbientLight);
-		SAFE_DELETE(m_pDirectLight);
-		SAFE_DELETE(m_pPointLight);
-		SAFE_DELETE(m_pFog);
+		SAFE_DELETE(m_pUniformEngine);
 	}
 
 	void CRenderSystem::DestroyRenderer(void)
@@ -242,84 +220,84 @@ namespace CrossEngine {
 		m_pDrawableManager->FreeDrawableAll();
 	}
 
+	void CRenderSystem::SetTime(float t, float dt)
+	{
+		m_pUniformEngine->SetTime(t, dt);
+	}
+
 	void CRenderSystem::SetShadowOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
-		m_pShadow->SetOrtho(left, right, bottom, top, zNear, zFar);
+		m_pUniformEngine->SetShadowOrtho(left, right, bottom, top, zNear, zFar);
 	}
 
 	void CRenderSystem::SetShadowLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
 	{
-		m_pShadow->SetLookat(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
+		m_pUniformEngine->SetShadowLookat(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
 	}
 
 	void CRenderSystem::SetShadowDistance(float distance)
 	{
-		m_pShadow->SetDistance(distance);
+		m_pUniformEngine->SetShadowDistance(distance);
 	}
 
 	void CRenderSystem::SetShadowResolution(float resolution)
 	{
-		m_pShadow->SetResolution(resolution);
+		m_pUniformEngine->SetShadowResolution(resolution);
 	}
 
-	void CRenderSystem::SetAmbientColor(float shRed[9], float shGreen[9], float shBlue[9])
+	void CRenderSystem::SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
-		m_pAmbientLight->SetAmbient(shRed, shGreen, shBlue);
+		m_pUniformEngine->SetAmbientLightColor(shRed, shGreen, shBlue);
 	}
 
-	void CRenderSystem::SetAmbientRotation(const glm::mat4 &mtxRotation)
+	void CRenderSystem::SetAmbientLightRotation(float angle, float axisx, float axisy, float axisz)
 	{
-		m_pAmbientLight->SetRotation(mtxRotation);
-	}
-
-	void CRenderSystem::SetDirectLightColor(float red, float green, float blue)
-	{
-		m_pDirectLight->SetColor(red, green, blue);
-	}
-
-	void CRenderSystem::SetDirectLightDirection(float x, float y, float z)
-	{
-		m_pDirectLight->SetDirection(x, y, z);
+		m_pUniformEngine->SetAmbientLightRotation(angle, axisx, axisy, axisz);
 	}
 
 	void CRenderSystem::SetPointLightColor(float red, float green, float blue)
 	{
-		m_pPointLight->SetColor(red, green, blue);
+		m_pUniformEngine->SetPointLightColor(red, green, blue);
 	}
 
-	void CRenderSystem::SetPointLightPosition(float x, float y, float z, float radius)
+	void CRenderSystem::SetPointLightPosition(float posx, float posy, float posz, float radius)
 	{
-		m_pPointLight->SetPosition(x, y, z, radius);
+		m_pUniformEngine->SetPointLightPosition(posx, posy, posz, radius);
 	}
 
 	void CRenderSystem::SetPointLightAttenuation(float linear, float square, float constant)
 	{
-		m_pPointLight->SetAttenuation(linear, square, constant);
+		m_pUniformEngine->SetPointLightAttenuation(linear, square, constant);
+	}
+
+	void CRenderSystem::SetDirectLightColor(float red, float green, float blue)
+	{
+		m_pUniformEngine->SetDirectLightColor(red, green, blue);
+	}
+
+	void CRenderSystem::SetDirectLightDirection(float dirx, float diry, float dirz)
+	{
+		m_pUniformEngine->SetDirectLightDirection(dirx, diry, dirz);
 	}
 
 	void CRenderSystem::SetFogColor(float red, float green, float blue)
 	{
-		m_pFog->SetColor(red, green, blue);
+		m_pUniformEngine->SetFogColor(red, green, blue);
 	}
 
 	void CRenderSystem::SetFogHeightDensity(float startHeight, float endHeight, float density)
 	{
-		m_pFog->SetHeightDensity(startHeight, endHeight, density);
+		m_pUniformEngine->SetFogHeightDensity(startHeight, endHeight, density);
 	}
 
 	void CRenderSystem::SetFogDistanceDensity(float startDistance, float endDistance, float density)
 	{
-		m_pFog->SetDistanceDensity(startDistance, endDistance, density);
+		m_pUniformEngine->SetFogDistanceDensity(startDistance, endDistance, density);
 	}
 
 	void CRenderSystem::Update(void)
 	{
-		m_pShadow->Apply();
-		m_pAmbientLight->Apply();
-		m_pDirectLight->Apply();
-		m_pPointLight->Apply();
-		m_pFog->Apply();
-
+		m_pUniformEngine->Apply();
 		m_pCameraManager->Update();
 	}
 

@@ -33,7 +33,7 @@ void Create(void)
 		fclose(pFile);
 	}
 
-	RenderSystem()->SetAmbientColor(sh_red, sh_green, sh_blue);
+	RenderSystem()->SetAmbientLightColor(sh_red, sh_green, sh_blue);
 	RenderSystem()->SetDirectLightColor(3.0f, 3.0f, 3.0f);
 	RenderSystem()->SetDirectLightDirection(-1.0f, -1.0f, -1.0f);
 	RenderSystem()->SetFogColor(1.0f, 1.0f, 1.0f);

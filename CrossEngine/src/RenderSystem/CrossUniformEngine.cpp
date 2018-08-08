@@ -152,7 +152,7 @@ namespace CrossEngine {
 	CUniformEngine::CUniformEngine(void)
 	{
 		SetPointLightColor(0.0f, 0.0f, 0.0f);
-		SetPointLightPosition(0.0f, 0.0f, 0.0f);
+		SetPointLightPosition(0.0f, 0.0f, 0.0f, 0.0f);
 		SetPointLightAttenuation(0.0f, 0.0f, 1.0f);
 
 		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
