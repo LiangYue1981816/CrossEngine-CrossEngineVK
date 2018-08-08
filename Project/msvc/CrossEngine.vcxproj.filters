@@ -816,6 +816,12 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderGLES\CrossGLES3Context.h">
       <Filter>Engine\Header Files\RenderSystem\RenderGLES3\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossUniformEngine.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossUniformCamera.h">
+      <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dependencies\zzip\dir.c">
@@ -1315,6 +1321,12 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Context.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossUniformCamera.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossUniformEngine.cpp">
+      <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -26,23 +26,44 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	class CROSS_EXPORT CRenderSystem;
-	class CROSS_EXPORT CRenderer;
-	class CROSS_EXPORT CDrawable;
-	class CROSS_EXPORT CDrawableStaticMesh;
-	class CROSS_EXPORT CDrawableManager;
-	class CROSS_EXPORT CBatch;
-	class CROSS_EXPORT CBatchPartical;
-	class CROSS_EXPORT CBatchSkinMesh;
-	class CROSS_EXPORT CBatchStaticMesh;
-	class CROSS_EXPORT CCamera;
-	class CROSS_EXPORT CCameraManager;
-	class CROSS_EXPORT CUniformEngine;
-	class CROSS_EXPORT CUniformCamera;
+	class CROSS_EXPORT CUniformCamera
+	{
+		friend class CRenderSystem;
 
-	class CROSS_EXPORT CAmbientLight;
-	class CROSS_EXPORT CDirectLight;
-	class CROSS_EXPORT CPointLight;
-	class CROSS_EXPORT CPointLightDeferred;
+
+	protected:
+		typedef struct Params {
+			glm::vec4 screen;
+			glm::vec4 zbuffer;
+			glm::vec4 projection;
+
+			glm::mat4 projectionMatrix;
+			glm::mat4 viewMatrix;
+			glm::mat4 viewInverseMatrix;
+			glm::mat4 viewInverseTransposeMatrix;
+		} Params;
+
+
+	protected:
+		CUniformCamera(void);
+		virtual ~CUniformCamera(void);
+
+
+	protected:
+		const CGfxUniformBufferPtr& GetUniformBuffer(void) const;
+
+	protected:
+		void SetScreen(float width, float height);
+		void SetPerspective(float fovy, float aspect, float zNear, float zFar);
+		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+		void SetLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz);
+		void Apply(void);
+
+
+	protected:
+		BOOL m_bDirty;
+		Params m_params;
+		CGfxUniformBufferPtr m_ptrUniformBuffer;
+	};
 
 }

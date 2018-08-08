@@ -35,6 +35,9 @@ THE SOFTWARE.
 #include "CrossBatchStaticMesh.h"
 #include "CrossCamera.h"
 #include "CrossCameraManager.h"
+#include "CrossUniformEngine.h"
+#include "CrossUniformCamera.h"
+
 #include "CrossShadow.h"
 #include "CrossLight.h"
 #include "CrossFog.h"
