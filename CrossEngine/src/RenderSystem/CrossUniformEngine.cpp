@@ -204,7 +204,7 @@ namespace CrossEngine {
 		m_params.shadowParams.w = resolution;
 	}
 
-	void CUniformEngine::SetAmbientLightSH(float shRed[9], float shGreen[9], float shBlue[9])
+	void CUniformEngine::SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
 		m_bDirty = true;
 		m_params.ambientLightRed0 = glm::vec4(shRed[0], shRed[1], shRed[2], 0.0);
@@ -237,10 +237,10 @@ namespace CrossEngine {
 		m_params.pointLightColor = glm::vec4(red, green, blue, 0.0f);
 	}
 
-	void CUniformEngine::SetPointLightPosition(float x, float y, float z)
+	void CUniformEngine::SetPointLightPosition(float posx, float posy, float posz, float radius)
 	{
 		m_bDirty = true;
-		m_params.pointLightPosition = glm::vec4(x, y, z, 0.0f);
+		m_params.pointLightPosition = glm::vec4(posx, posy, posz, radius);
 	}
 
 	void CUniformEngine::SetPointLightAttenuation(float linear, float square, float constant)
@@ -255,10 +255,10 @@ namespace CrossEngine {
 		m_params.directLightColor = glm::vec4(red, green, blue, 0.0);
 	}
 
-	void CUniformEngine::SetDirectLightDirection(float x, float y, float z)
+	void CUniformEngine::SetDirectLightDirection(float dirx, float diry, float dirz)
 	{
 		m_bDirty = true;
-		m_params.directLightDirection = glm::normalize(glm::vec4(-x, -y, -z, 0.0));
+		m_params.directLightDirection = glm::normalize(glm::vec4(-dirx, -diry, -dirz, 0.0));
 	}
 
 	void CUniformEngine::SetFogColor(float red, float green, float blue)
