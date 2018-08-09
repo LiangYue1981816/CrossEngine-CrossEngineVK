@@ -46,15 +46,6 @@ namespace CrossEngine {
 
 
 	protected:
-		typedef struct Params {
-			glm::mat4 mtxProjection;
-			glm::mat4 mtxView;
-			glm::mat4 mtxViewInverse;
-			glm::mat4 mtxViewInverseTranspose;
-		} Params;
-
-
-	protected:
 		CCamera(void);
 		virtual ~CCamera(void);
 
@@ -68,23 +59,23 @@ namespace CrossEngine {
 		BOOL IsEnable(void) const;
 
 	public:
+		void SetScissor(float x, float y, float width, float height);
 		void SetViewport(float x, float y, float width, float height);
 		void SetPerspective(float fovy, float aspect, float zNear, float zFar);
 		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
-		void SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up);
+		void SetLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz);
 		void Apply(void);
 
-		float GetViewportX(void) const;
-		float GetViewportY(void) const;
-		float GetViewportWidth(void) const;
-		float GetViewportHeight(void) const;
+		const glm::vec4& GetScissor(void) const;
+		const glm::vec4& GetViewport(void) const;
 
 		const glm::vec3& GetPosition(void) const;
-		const glm::vec3& GetDirection(void) const;
+		const glm::vec3& GetForwardDirection(void) const;
+		const glm::vec3& GetUpDirection(void) const;
 
 		const glm::mat4& GetProjectionMatrix(void) const;
-		const glm::mat4& GetWorldToCameraMatrix(void) const;
-		const glm::mat4& GetCameraToWorldMatrix(void) const;
+		const glm::mat4& GetViewMatrix(void) const;
+		const glm::mat4& GetViewInverseMatrix(void) const;
 
 	public:
 		glm::vec3 WorldToScreen(const glm::vec3 &world);
@@ -107,12 +98,10 @@ namespace CrossEngine {
 		BOOL m_bEnable;
 
 	protected:
-		BOOL m_bDirty;
-		Params m_params;
 		glm::camera m_camera;
 
 	protected:
-		CGfxUniformBufferPtr m_ptrUniformBuffer;
+		CUniformCamera *m_pUniformCamera;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
 

@@ -27,22 +27,23 @@ namespace CrossEngine {
 
 	CCamera::CCamera(void)
 		: m_bEnable(TRUE)
+		, m_pUniformCamera(NULL)
 	{
-		m_ptrUniformBuffer = GfxDevice()->NewUniformBuffer();
-		m_ptrUniformBuffer->Create(sizeof(m_params), NULL, TRUE);
+		m_pUniformCamera = SAFE_NEW CUniformCamera;
 
 		m_ptrDescriptorSetLayout = GfxDevice()->AllocDescriptorSetLayout(DESCRIPTOR_SET_CAMERA);
 		m_ptrDescriptorSetLayout->SetUniformBinding(DESCRIPTOR_BIND_NAME[DESCRIPTOR_BIND_CAMERA], DESCRIPTOR_BIND_CAMERA, VK_SHADER_STAGE_ALL);
 		m_ptrDescriptorSetLayout->Create();
 
 		m_ptrDescriptorSet = GfxDevice()->AllocDescriptorSet(thread_id(), m_ptrDescriptorSetLayout);
-		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_CAMERA, m_ptrUniformBuffer);
+		m_ptrDescriptorSet->SetUniformBuffer(DESCRIPTOR_BIND_CAMERA, m_pUniformCamera->GetUniformBuffer());
 		m_ptrDescriptorSet->UpdateDescriptorSets();
 	}
 
 	CCamera::~CCamera(void)
 	{
 		ClearRenderQueue();
+		SAFE_DELETE(m_pUniformCamera);
 	}
 
 	const RenderQueue& CCamera::GetRenderQueue(void) const
@@ -65,64 +66,48 @@ namespace CrossEngine {
 		return m_bEnable;
 	}
 
+	void CCamera::SetScissor(float x, float y, float width, float height)
+	{
+		m_camera.setScissor(x, y, width, height);
+	}
+
 	void CCamera::SetViewport(float x, float y, float width, float height)
 	{
 		m_camera.setViewport(x, y, width, height);
+		m_pUniformCamera->SetScreen(width, height);
 	}
 
 	void CCamera::SetPerspective(float fovy, float aspect, float zNear, float zFar)
 	{
-		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-
-		m_bDirty = TRUE;
 		m_camera.setPerspective(fovy, aspect, zNear, zFar);
-		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_pUniformCamera->SetPerspective(fovy, aspect, zNear, zFar);
 	}
 
 	void CCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
-		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
-
-		m_bDirty = TRUE;
 		m_camera.setOrtho(left, right, bottom, top, zNear, zFar);
-		m_params.mtxProjection = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * m_camera.mtxProjection : m_camera.mtxProjection;
+		m_pUniformCamera->SetOrtho(left, right, bottom, top, zNear, zFar);
 	}
 
-	void CCamera::SetLookat(const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up)
+	void CCamera::SetLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
 	{
-		m_bDirty = TRUE;
-		m_camera.setLookat(position, position + direction, up);
-		m_params.mtxView = m_camera.mtxView;
-		m_params.mtxViewInverse = m_camera.mtxViewInverse;
-		m_params.mtxViewInverseTranspose = m_camera.mtxViewInverseTranspose;
+		m_camera.setLookat(glm::vec3(eyex, eyey, eyez), glm::vec3(centerx, centery, centerz), glm::vec3(upx, upy, upz));
+		m_pUniformCamera->SetLookat(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
 	}
 
 	void CCamera::Apply(void)
 	{
-		if (m_bDirty) {
-			m_bDirty = FALSE;
-			m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
-		}
+		m_pUniformCamera->Apply();
 	}
 
-	float CCamera::GetViewportX(void) const
+	const glm::vec4& CCamera::GetScissor(void) const
 	{
-		return m_camera.viewport.x;
+		return m_camera.scissor;
 	}
 
-	float CCamera::GetViewportY(void) const
+	const glm::vec4& CCamera::GetViewport(void) const
 	{
-		return m_camera.viewport.y;
-	}
-
-	float CCamera::GetViewportWidth(void) const
-	{
-		return m_camera.viewport.z;
-	}
-
-	float CCamera::GetViewportHeight(void) const
-	{
-		return m_camera.viewport.w;
+		return m_camera.viewport;
 	}
 
 	const glm::vec3& CCamera::GetPosition(void) const
@@ -130,9 +115,14 @@ namespace CrossEngine {
 		return m_camera.position;
 	}
 
-	const glm::vec3& CCamera::GetDirection(void) const
+	const glm::vec3& CCamera::GetForwardDirection(void) const
 	{
 		return m_camera.forward;
+	}
+
+	const glm::vec3& CCamera::GetUpDirection(void) const
+	{
+		return m_camera.up;
 	}
 
 	const glm::mat4& CCamera::GetProjectionMatrix(void) const
@@ -140,12 +130,12 @@ namespace CrossEngine {
 		return m_camera.mtxProjection;
 	}
 
-	const glm::mat4& CCamera::GetWorldToCameraMatrix(void) const
+	const glm::mat4& CCamera::GetViewMatrix(void) const
 	{
 		return m_camera.mtxView;
 	}
 
-	const glm::mat4& CCamera::GetCameraToWorldMatrix(void) const
+	const glm::mat4& CCamera::GetViewInverseMatrix(void) const
 	{
 		return m_camera.mtxViewInverse;
 	}

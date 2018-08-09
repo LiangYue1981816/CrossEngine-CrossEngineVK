@@ -28,7 +28,7 @@ namespace CrossEngine {
 
 	class CROSS_EXPORT CUniformCamera
 	{
-		friend class CRenderSystem;
+		friend class CCamera;
 
 
 	protected:

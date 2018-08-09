@@ -165,8 +165,11 @@ namespace CrossEngine {
 			ptrCommandBuffer->ClearCommands();
 			ptrCommandBuffer->BeginSecondary(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, ptrFrameBuffer, ptrRenderPass, indexPass);
 			{
-				ptrCommandBuffer->CmdSetScissor(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
-				ptrCommandBuffer->CmdSetViewport(pCamera->GetViewportX(), pCamera->GetViewportY(), pCamera->GetViewportWidth(), pCamera->GetViewportHeight());
+				const glm::vec4 &scissor = pCamera->GetScissor();
+				const glm::vec4 &viewport = pCamera->GetViewport();
+
+				ptrCommandBuffer->CmdSetScissor(scissor.x, scissor.y, scissor.z, scissor.w);
+				ptrCommandBuffer->CmdSetViewport(viewport.x, viewport.y, viewport.z, viewport.w);
 
 				ptrCommandBuffer->CmdBindPipelineGraphics(ptrMaterialPipeline);
 
