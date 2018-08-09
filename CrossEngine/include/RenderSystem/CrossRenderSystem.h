@@ -153,12 +153,6 @@ namespace CrossEngine {
 		CDrawableManager *m_pDrawableManager;
 
 	protected:
-		CShadow *m_pShadow;
-		CAmbientLight *m_pAmbientLight;
-		CDirectLight *m_pDirectLight;
-		CPointLight *m_pPointLight;
-		CFog *m_pFog;
-
 		CUniformEngine *m_pUniformEngine;
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
