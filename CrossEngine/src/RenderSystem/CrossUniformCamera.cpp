@@ -43,7 +43,7 @@ namespace CrossEngine {
 
 	void CUniformCamera::SetScreen(float width, float height)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.screen = glm::vec4(width, height, 1.0f + 1.0f / width, 1.0f + 1.0f / height);
 	}
 
@@ -57,7 +57,7 @@ namespace CrossEngine {
 		float x = 1.0f - zFar / zNear;
 		float y = zFar / zNear;
 
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.projectionMatrix = glm::perspective(glm::radians(fovy), aspect, zNear, zFar);
 		m_params.projection = glm::vec4(1.0f, zNear, zFar, 1.0f / zFar);
 		m_params.zbuffer = glm::vec4(x, y, x / zFar, y / zFar);
@@ -73,7 +73,7 @@ namespace CrossEngine {
 		float x = 1.0f - zFar / zNear;
 		float y = zFar / zNear;
 
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
 		m_params.projection = glm::vec4(1.0f, zNear, zFar, 1.0f / zFar);
 		m_params.zbuffer = glm::vec4(x, y, x / zFar, y / zFar);
@@ -81,7 +81,7 @@ namespace CrossEngine {
 
 	void CUniformCamera::SetLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.viewMatrix = glm::lookAt(glm::vec3(eyex, eyey, eyez), glm::vec3(centerx, centery, centerz), glm::vec3(upx, upy, upz));
 		m_params.viewInverseMatrix = glm::inverse(m_params.viewMatrix);
 		m_params.viewInverseTransposeMatrix = glm::transpose(m_params.viewInverseMatrix);
@@ -90,7 +90,7 @@ namespace CrossEngine {
 	void CUniformCamera::Apply(void)
 	{
 		if (m_bDirty) {
-			m_bDirty = false;
+			m_bDirty = FALSE;
 			m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 		}
 	}

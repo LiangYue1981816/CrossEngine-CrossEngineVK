@@ -28,65 +28,74 @@ namespace glm {
 
 	typedef struct plane {
 	public:
-		plane(void)
+		void zero(void)
 		{
 			vertex = glm::vec3(0.0f, 0.0f, 0.0f);
 			normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		}
 
-		plane(const plane &_plane)
+		void set(const vec3 &_vertex, const vec3 &_normal)
 		{
-			vertex = _plane.vertex;
-			normal = _plane.normal;
+			vertex = _vertex;
+			normal = glm::normalize(_normal);
+		}
+
+	public:
+		plane(void)
+		{
+			zero();
 		}
 
 		plane(const vec3 &_vertex, const vec3 &_normal)
 		{
-			vertex = _vertex;
-			normal = _normal;
+			set(_vertex, _normal);
+		}
+
+		plane(const plane &_plane)
+		{
+			set(_plane.vertex, _plane.normal);
 		}
 
 		plane& operator = (const plane &_plane)
 		{
-			vertex = _plane.vertex;
-			normal = _plane.normal;
+			set(_plane.vertex, _plane.normal);
 			return *this;
-		}
-
-		bool operator == (const plane &_plane)
-		{
-			if (vertex != _plane.vertex) return false;
-			if (normal != _plane.normal) return false;
-			return true;
-		}
-
-		bool operator != (const plane &_plane)
-		{
-			if (vertex == _plane.vertex) return false;
-			if (normal == _plane.normal) return false;
-			return true;
 		}
 
 		plane& operator * (const mat4 &_mat4)
 		{
-			vertex = vec3(_mat4 * vec4(vertex, 1.0f));
-			normal = vec3(_mat4 * vec4(normal, 0.0f));
+			set(vec3(_mat4 * vec4(vertex, 1.0f)), vec3(_mat4 * vec4(normal, 0.0f)));
 			return *this;
 		}
 
 		plane& operator *= (const mat4 &_mat4)
 		{
-			vertex = vec3(_mat4 * vec4(vertex, 1.0f));
-			normal = vec3(_mat4 * vec4(normal, 0.0f));
+			set(vec3(_mat4 * vec4(vertex, 1.0f)), vec3(_mat4 * vec4(normal, 0.0f)));
 			return *this;
 		}
 
-		float distance(const vec3 &_vertex)
+		bool operator == (const plane &_plane) const
+		{
+			if (vertex != _plane.vertex) return false;
+			if (normal != _plane.normal) return false;
+
+			return true;
+		}
+
+		bool operator != (const plane &_plane) const
+		{
+			if (vertex == _plane.vertex) return false;
+			if (normal == _plane.normal) return false;
+
+			return true;
+		}
+
+		float distance(const vec3 &_vertex) const
 		{
 			return dot(_vertex - vertex, normal);
 		}
 
-		int side(const vec3 &_vertex)
+		int side(const vec3 &_vertex) const
 		{
 			float dis = distance(_vertex);
 
@@ -96,7 +105,7 @@ namespace glm {
 			return 0;
 		}
 
-		vec3 project(const vec3 &_vertex)
+		vec3 project(const vec3 &_vertex) const
 		{
 			vec3 vv = _vertex - vertex;
 			vec3 pp = dot(vv, normal) * normal;
@@ -113,10 +122,10 @@ namespace glm {
 	public:
 		static aabb create(const vec3 *vertices, size_t count)
 		{
-			vec3 minVertex( FLT_MAX,  FLT_MAX,  FLT_MAX);
+			vec3 minVertex(FLT_MAX, FLT_MAX, FLT_MAX);
 			vec3 maxVertex(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
-			for (int indexVertex = 0; indexVertex < count; indexVertex++) {
+			for (size_t indexVertex = 0; indexVertex < count; indexVertex++) {
 				if (minVertex.x > vertices[indexVertex].x) minVertex.x = vertices[indexVertex].x;
 				if (minVertex.y > vertices[indexVertex].y) minVertex.y = vertices[indexVertex].y;
 				if (minVertex.z > vertices[indexVertex].z) minVertex.z = vertices[indexVertex].z;
@@ -130,66 +139,73 @@ namespace glm {
 		}
 
 	public:
-		aabb(void)
+		void zero(void)
 		{
-			center = glm::vec3(0.0f, 0.0f, 0.0f);
 			minVertex = glm::vec3(0.0f, 0.0f, 0.0f);
 			maxVertex = glm::vec3(0.0f, 0.0f, 0.0f);
+			center = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 
-		aabb(const aabb &_aabb)
+		void set(const vec3 &_minVertex, const vec3 &_maxVertex)
 		{
-			minVertex = _aabb.minVertex;
-			maxVertex = _aabb.maxVertex;
-			normalize();
+			minVertex = _minVertex;
+			maxVertex = _maxVertex;
+			center = glm::vec3(0.0f, 0.0f, 0.0f);
+		}
+
+	public:
+		aabb(void)
+		{
+			zero();
 		}
 
 		aabb(const vec3 &_minVertex, const vec3 &_maxVertex)
 		{
-			minVertex = _minVertex;
-			maxVertex = _maxVertex;
+			set(_minVertex, _maxVertex);
+			normalize();
+		}
+
+		aabb(const aabb &_aabb)
+		{
+			set(_aabb.minVertex, _aabb.maxVertex);
 			normalize();
 		}
 
 		aabb& operator = (const aabb &_aabb)
 		{
-			minVertex = _aabb.minVertex;
-			maxVertex = _aabb.maxVertex;
+			set(_aabb.minVertex, _aabb.maxVertex);
 			normalize();
-
 			return *this;
-		}
-
-		bool operator == (const aabb &_aabb)
-		{
-			if (minVertex != _aabb.minVertex) return false;
-			if (maxVertex != _aabb.maxVertex) return false;
-			return true;
-		}
-
-		bool operator != (const aabb &_aabb)
-		{
-			if (minVertex == _aabb.minVertex) return false;
-			if (maxVertex == _aabb.maxVertex) return false;
-			return true;
 		}
 
 		aabb& operator * (const mat4 &_mat4)
 		{
-			minVertex = vec3(_mat4 * vec4(minVertex, 1.0f));
-			maxVertex = vec3(_mat4 * vec4(maxVertex, 1.0f));
+			set(vec3(_mat4 * vec4(minVertex, 1.0f)), vec3(_mat4 * vec4(maxVertex, 1.0f)));
 			normalize();
-
 			return *this;
 		}
 
 		aabb& operator *= (const mat4 &_mat4)
 		{
-			minVertex = vec3(_mat4 * vec4(minVertex, 1.0f));
-			maxVertex = vec3(_mat4 * vec4(maxVertex, 1.0f));
+			set(vec3(_mat4 * vec4(minVertex, 1.0f)), vec3(_mat4 * vec4(maxVertex, 1.0f)));
 			normalize();
-
 			return *this;
+		}
+
+		bool operator == (const aabb &_aabb) const
+		{
+			if (minVertex != _aabb.minVertex) return false;
+			if (maxVertex != _aabb.maxVertex) return false;
+
+			return true;
+		}
+
+		bool operator != (const aabb &_aabb) const
+		{
+			if (minVertex == _aabb.minVertex) return false;
+			if (maxVertex == _aabb.maxVertex) return false;
+
+			return true;
 		}
 
 		void normalize(void)
@@ -201,20 +217,25 @@ namespace glm {
 			float maxy = maxVertex.y;
 			float maxz = maxVertex.z;
 
-			minVertex.x = min(minx, maxx);
-			minVertex.y = min(miny, maxy);
-			minVertex.z = min(minz, maxz);
-
-			maxVertex.x = max(minx, maxx);
-			maxVertex.y = max(miny, maxy);
-			maxVertex.z = max(minz, maxz);
-
-			center.x = (minVertex.x + maxVertex.x) * 0.5f;
-			center.y = (minVertex.y + maxVertex.y) * 0.5f;
-			center.z = (minVertex.z + maxVertex.z) * 0.5f;
+			minVertex = glm::vec3(min(minx, maxx), min(miny, maxy), min(minz, maxz));
+			maxVertex = glm::vec3(max(minx, maxx), max(miny, maxy), max(minz, maxz));
+			center = (minVertex + maxVertex) * 0.5f;
 		}
 
-		bool inside(const vec3 &_vertex)
+		bool valid(void) const
+		{
+			if (minVertex.x > maxVertex.x) return false;
+			if (minVertex.y > maxVertex.y) return false;
+			if (minVertex.z > maxVertex.z) return false;
+
+			if (maxVertex.x - minVertex.x < 0.001f) return false;
+			if (maxVertex.y - minVertex.y < 0.001f) return false;
+			if (maxVertex.z - minVertex.z < 0.001f) return false;
+
+			return true;
+		}
+
+		bool inside(const vec3 &_vertex) const
 		{
 			return
 				_vertex.x > minVertex.x && _vertex.x < maxVertex.x &&
@@ -222,11 +243,12 @@ namespace glm {
 				_vertex.z > minVertex.z && _vertex.z < maxVertex.z;
 		}
 
-		bool intersect(const aabb &_aabb)
+		bool intersect(const aabb &_aabb) const
 		{
 			if (minVertex.x > _aabb.maxVertex.x || maxVertex.x < _aabb.minVertex.x) return false;
 			if (minVertex.y > _aabb.maxVertex.y || maxVertex.y < _aabb.minVertex.y) return false;
 			if (minVertex.z > _aabb.maxVertex.z || maxVertex.z < _aabb.minVertex.z) return false;
+
 			return true;
 		}
 
@@ -240,10 +262,10 @@ namespace glm {
 	public:
 		static sphere create(const vec3 *vertices, size_t count)
 		{
-			vec3 minVertex( FLT_MAX,  FLT_MAX,  FLT_MAX);
+			vec3 minVertex(FLT_MAX, FLT_MAX, FLT_MAX);
 			vec3 maxVertex(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
-			for (int indexVertex = 0; indexVertex < count; indexVertex++) {
+			for (size_t indexVertex = 0; indexVertex < count; indexVertex++) {
 				if (minVertex.x > vertices[indexVertex].x) minVertex.x = vertices[indexVertex].x;
 				if (minVertex.y > vertices[indexVertex].y) minVertex.y = vertices[indexVertex].y;
 				if (minVertex.z > vertices[indexVertex].z) minVertex.z = vertices[indexVertex].z;
@@ -257,55 +279,52 @@ namespace glm {
 		}
 
 	public:
-		sphere(void)
+		void zero(void)
 		{
 			center = glm::vec3(0.0f, 0.0f, 0.0f);
 			radius = 0.0f;
 			radius2 = 0.0f;
 		}
 
-		sphere(const sphere &_sphere)
-		{
-			center = _sphere.center;
-			radius = _sphere.radius;
-			radius2 = _sphere.radius2;
-		}
-
-		sphere(const vec3 &_center, float _radius)
+		void set(const vec3 &_center, float _radius)
 		{
 			center = _center;
 			radius = _radius;
 			radius2 = radius * radius;
 		}
 
-		sphere(const vec3 &_minVertex, const vec3 &_maxVertex)
+		void set(const vec3 &_minVertex, const vec3 &_maxVertex)
 		{
 			center = (_maxVertex + _minVertex) / 2.0f;
 			radius = length(_maxVertex - _minVertex) / 2.0f;
 			radius2 = radius * radius;
 		}
 
+	public:
+		sphere(void)
+		{
+			zero();
+		}
+
+		sphere(const vec3 &_center, float _radius)
+		{
+			set(_center, _radius);
+		}
+
+		sphere(const vec3 &_minVertex, const vec3 &_maxVertex)
+		{
+			set(_minVertex, _maxVertex);
+		}
+
+		sphere(const sphere &_sphere)
+		{
+			set(_sphere.center, _sphere.radius);
+		}
+
 		sphere& operator = (const sphere &_sphere)
 		{
-			center = _sphere.center;
-			radius = _sphere.radius;
-			radius2 = _sphere.radius2;
-
+			set(_sphere.center, _sphere.radius);
 			return *this;
-		}
-
-		bool operator == (const sphere &_sphere)
-		{
-			if (center != _sphere.center) return false;
-			if (radius != _sphere.radius) return false;
-			return true;
-		}
-
-		bool operator != (const sphere &_sphere)
-		{
-			if (center == _sphere.center) return false;
-			if (radius == _sphere.radius) return false;
-			return true;
 		}
 
 		sphere& operator * (const mat4 &_mat4)
@@ -320,13 +339,34 @@ namespace glm {
 			return *this;
 		}
 
-		bool inside(const vec3 &_vertex)
+		bool operator == (const sphere &_sphere) const
+		{
+			if (center != _sphere.center) return false;
+			if (radius != _sphere.radius) return false;
+
+			return true;
+		}
+
+		bool operator != (const sphere &_sphere) const
+		{
+			if (center == _sphere.center) return false;
+			if (radius == _sphere.radius) return false;
+
+			return true;
+		}
+
+		bool valid(void) const
+		{
+			return radius > 0.001f;
+		}
+
+		bool inside(const vec3 &_vertex) const
 		{
 			vec3 delta = center - _vertex;
 			return delta.x * delta.x + delta.y * delta.y + delta.z * delta.z < radius2;
 		}
 
-		bool intersect(const sphere &_sphere)
+		bool intersect(const sphere &_sphere) const
 		{
 			vec3 delta = center - _sphere.center;
 			return delta.x * delta.x + delta.y * delta.y + delta.z * delta.z < radius2 + _sphere.radius2;
@@ -343,6 +383,14 @@ namespace glm {
 		camera(void)
 		{
 
+		}
+
+		void setScissor(float x, float y, float width, float height)
+		{
+			scissor.x = x;
+			scissor.y = y;
+			scissor.z = width;
+			scissor.w = height;
 		}
 
 		void setViewport(float x, float y, float width, float height)
@@ -395,17 +443,17 @@ namespace glm {
 			}
 		}
 
-		vec3 worldToScreen(const vec3 &world)
+		vec3 worldToScreen(const vec3 &world) const
 		{
 			return project(world, mtxView, mtxProjection, viewport);
 		}
 
-		vec3 screenToWorld(const vec3 &screen)
+		vec3 screenToWorld(const vec3 &screen) const
 		{
 			return unProject(screen, mtxView, mtxProjection, viewport);
 		}
 
-		bool visible(const vec3 &_vertex)
+		bool visible(const vec3 &_vertex) const
 		{
 			for (int indexPlane = 0; indexPlane < 6; indexPlane++) {
 				if (planes[indexPlane][1].side(_vertex) == -1) {
@@ -416,8 +464,12 @@ namespace glm {
 			return true;
 		}
 
-		bool visible(const sphere &_sphere)
+		bool visible(const sphere &_sphere) const
 		{
+			if (_sphere.valid() == false) {
+				return false;
+			}
+
 			for (int indexPlane = 0; indexPlane < 6; indexPlane++) {
 				if (planes[indexPlane][1].distance(_sphere.center) < -_sphere.radius) {
 					return false;
@@ -427,8 +479,12 @@ namespace glm {
 			return true;
 		}
 
-		bool visible(const aabb &_aabb)
+		bool visible(const aabb &_aabb) const
 		{
+			if (_aabb.valid() == false) {
+				return false;
+			}
+
 			vec3 vertices[8] = {
 				vec3(_aabb.minVertex.x, _aabb.minVertex.y, _aabb.minVertex.z),
 				vec3(_aabb.minVertex.x, _aabb.minVertex.y, _aabb.maxVertex.z),
@@ -456,6 +512,7 @@ namespace glm {
 		}
 
 	public:
+		vec4 scissor;
 		vec4 viewport;
 
 		vec3 position;
@@ -467,6 +524,7 @@ namespace glm {
 		mat4 mtxViewInverse;
 		mat4 mtxViewInverseTranspose;
 
+	private:
 		plane planes[6][2];
 	} camera;
 

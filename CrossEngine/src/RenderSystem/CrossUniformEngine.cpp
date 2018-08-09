@@ -171,7 +171,7 @@ namespace CrossEngine {
 
 	void CUniformEngine::SetTime(float t, float dt)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.time = glm::vec4(t / 20.0f, t * 1.0f, t * 2.0f, t * 3.0f);
 		m_params.sinTime = glm::vec4(sinf(t / 8.0f), sinf(t / 4.0f), sinf(t / 2.0f), t);
 		m_params.cosTime = glm::vec4(cosf(t / 8.0f), cosf(t / 4.0f), cosf(t / 2.0f), t);
@@ -180,7 +180,7 @@ namespace CrossEngine {
 
 	void CUniformEngine::SetShadowOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.shadowProjectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
 		m_params.shadowParams.x = zFar - zNear;
 		m_params.shadowParams.y = 1.0f / (zFar - zNear);
@@ -188,25 +188,25 @@ namespace CrossEngine {
 
 	void CUniformEngine::SetShadowLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.shadowViewMatrix = glm::lookAt(glm::vec3(eyex, eyey, eyez), glm::vec3(centerx, centery, centerz), glm::vec3(upx, upy, upz));
 	}
 
 	void CUniformEngine::SetShadowDistance(float distance)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.shadowParams.z = distance;
 	}
 
 	void CUniformEngine::SetShadowResolution(float resolution)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.shadowParams.w = resolution;
 	}
 
 	void CUniformEngine::SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.ambientLightRed0 = glm::vec4(shRed[0], shRed[1], shRed[2], 0.0);
 		m_params.ambientLightRed1 = glm::vec4(shRed[3], shRed[4], shRed[5], 0.0);
 		m_params.ambientLightRed2 = glm::vec4(shRed[6], shRed[7], shRed[8], 0.0);
@@ -227,62 +227,62 @@ namespace CrossEngine {
 		SHRotate(shRedRotate, shGreenRotate, shBlueRotate, shRed, shGreen, shBlue, angle, glm::vec3(axisx, axisy, axisz));
 		SetAmbientLightSH(shRedRotate, shGreenRotate, shBlueRotate);
 		*/
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.ambientLightRotationMatrix = glm::rotate(glm::mat4(), -angle, glm::vec3(axisx, axisy, axisz));
 	}
 
 	void CUniformEngine::SetPointLightColor(float red, float green, float blue)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.pointLightColor = glm::vec4(red, green, blue, 0.0f);
 	}
 
 	void CUniformEngine::SetPointLightPosition(float posx, float posy, float posz, float radius)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.pointLightPosition = glm::vec4(posx, posy, posz, radius);
 	}
 
 	void CUniformEngine::SetPointLightAttenuation(float linear, float square, float constant)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.pointLightAttenuation = glm::vec4(linear, square, constant, 0.0f);
 	}
 
 	void CUniformEngine::SetDirectLightColor(float red, float green, float blue)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.directLightColor = glm::vec4(red, green, blue, 0.0);
 	}
 
 	void CUniformEngine::SetDirectLightDirection(float dirx, float diry, float dirz)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.directLightDirection = glm::normalize(glm::vec4(-dirx, -diry, -dirz, 0.0));
 	}
 
 	void CUniformEngine::SetFogColor(float red, float green, float blue)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.fogColor = glm::vec4(red, green, blue, 0.0f);
 	}
 
 	void CUniformEngine::SetFogHeightDensity(float startHeight, float endHeight, float density)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.fogHeightDensity = glm::vec4(startHeight, endHeight, density, 0.0f);
 	}
 
 	void CUniformEngine::SetFogDistanceDensity(float startDistance, float endDistance, float density)
 	{
-		m_bDirty = true;
+		m_bDirty = TRUE;
 		m_params.fogDistanceDensity = glm::vec4(startDistance, endDistance, density, 0.0f);
 	}
 
 	void CUniformEngine::Apply(void)
 	{
 		if (m_bDirty) {
-			m_bDirty = false;
+			m_bDirty = FALSE;
 			m_ptrUniformBuffer->SetData(0, sizeof(m_params), &m_params);
 		}
 	}
