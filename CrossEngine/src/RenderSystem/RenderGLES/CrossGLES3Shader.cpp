@@ -84,6 +84,7 @@ namespace CrossEngine {
 		spirv_cross::CompilerGLSL::Options options;
 		options.version = 310;
 		options.es = true;
+		options.vertex.fixup_clipspace = false;
 		((spirv_cross::CompilerGLSL *)m_pShaderCompiler)->set_options(options);
 
 		const std::string strSource = m_pShaderCompiler->compile();
