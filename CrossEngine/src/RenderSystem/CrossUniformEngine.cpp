@@ -151,6 +151,8 @@ namespace CrossEngine {
 
 	CUniformEngine::CUniformEngine(void)
 	{
+		SetLightFactor(1.0f, 1.0f, 1.0f, 1.0f);
+
 		SetPointLightColor(0.0f, 0.0f, 0.0f);
 		SetPointLightPosition(0.0f, 0.0f, 0.0f, 0.0f);
 		SetPointLightAttenuation(0.0f, 0.0f, 1.0f);
@@ -202,6 +204,12 @@ namespace CrossEngine {
 	{
 		m_bDirty = TRUE;
 		m_params.shadowParams.w = resolution;
+	}
+
+	void CUniformEngine::SetLightFactor(float ambientLightFactor, float pointLightFactor, float directLightFactor, float envLightFactor)
+	{
+		m_bDirty = TRUE;
+		m_params.lightFactor = glm::vec4(ambientLightFactor, pointLightFactor, directLightFactor, envLightFactor);
 	}
 
 	void CUniformEngine::SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9])

@@ -245,6 +245,11 @@ namespace CrossEngine {
 		m_pUniformEngine->SetShadowResolution(resolution);
 	}
 
+	void CRenderSystem::SetLightFactor(float ambientLightFactor, float pointLightFactor, float directLightFactor, float envLightFactor)
+	{
+		m_pUniformEngine->SetLightFactor(ambientLightFactor, pointLightFactor, directLightFactor, envLightFactor);
+	}
+
 	void CRenderSystem::SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9])
 	{
 		m_pUniformEngine->SetAmbientLightColor(shRed, shGreen, shBlue);

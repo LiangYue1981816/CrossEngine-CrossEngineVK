@@ -122,6 +122,8 @@ namespace CrossEngine {
 		void SetShadowDistance(float distance);
 		void SetShadowResolution(float resolution);
 
+		void SetLightFactor(float ambientLightFactor, float pointLightFactor, float directLightFactor, float envLightFactor);
+
 		void SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetAmbientLightRotation(float angle, float axisx, float axisy, float axisz);
 

@@ -42,6 +42,8 @@ namespace CrossEngine {
 			glm::mat4 shadowViewMatrix;
 			glm::vec4 shadowParams;
 
+			glm::vec4 lightFactor;
+
 			glm::vec4 ambientLightRed0;
 			glm::vec4 ambientLightRed1;
 			glm::vec4 ambientLightRed2;
@@ -81,6 +83,8 @@ namespace CrossEngine {
 		void SetShadowLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz);
 		void SetShadowDistance(float distance);
 		void SetShadowResolution(float resolution);
+
+		void SetLightFactor(float ambientLightFactor, float pointLightFactor, float directLightFactor, float envLightFactor);
 
 		void SetAmbientLightColor(float shRed[9], float shGreen[9], float shBlue[9]);
 		void SetAmbientLightRotation(float angle, float axisx, float axisy, float axisz);
