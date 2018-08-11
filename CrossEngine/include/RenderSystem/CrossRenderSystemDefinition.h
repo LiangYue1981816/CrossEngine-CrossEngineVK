@@ -40,9 +40,4 @@ namespace CrossEngine {
 	class CROSS_EXPORT CUniformEngine;
 	class CROSS_EXPORT CUniformCamera;
 
-	class CROSS_EXPORT CAmbientLight;
-	class CROSS_EXPORT CDirectLight;
-	class CROSS_EXPORT CPointLight;
-	class CROSS_EXPORT CPointLightDeferred;
-
 }

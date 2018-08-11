@@ -38,10 +38,6 @@ THE SOFTWARE.
 #include "CrossUniformEngine.h"
 #include "CrossUniformCamera.h"
 
-#include "CrossShadow.h"
-#include "CrossLight.h"
-#include "CrossFog.h"
-
 
 namespace CrossEngine {
 

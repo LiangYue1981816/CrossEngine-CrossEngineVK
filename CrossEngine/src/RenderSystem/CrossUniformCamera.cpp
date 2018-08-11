@@ -49,6 +49,8 @@ namespace CrossEngine {
 
 	void CUniformCamera::SetPerspective(float fovy, float aspect, float zNear, float zFar)
 	{
+		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+
 		// [-1 1]
 		//float x = (1.0f - zFar / zNear) / 2.0f;
 		//float y = (1.0f + zFar / zNear) / 2.0f;
@@ -58,13 +60,15 @@ namespace CrossEngine {
 		float y = zFar / zNear;
 
 		m_bDirty = TRUE;
-		m_params.projectionMatrix = glm::perspective(glm::radians(fovy), aspect, zNear, zFar);
+		m_params.projectionMatrix = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * glm::perspective(glm::radians(fovy), aspect, zNear, zFar) : glm::perspective(glm::radians(fovy), aspect, zNear, zFar);
 		m_params.projection = glm::vec4(1.0f, zNear, zFar, 1.0f / zFar);
 		m_params.zbuffer = glm::vec4(x, y, x / zFar, y / zFar);
 	}
 
 	void CUniformCamera::SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
+		static const glm::mat4 mtxLH2RH = glm::scale(glm::mat4(), glm::vec3(1.0f, -1.0f, 1.0f));
+
 		// [-1 1]
 		//float x = (1.0f - zFar / zNear) / 2.0f;
 		//float y = (1.0f + zFar / zNear) / 2.0f;
@@ -74,7 +78,7 @@ namespace CrossEngine {
 		float y = zFar / zNear;
 
 		m_bDirty = TRUE;
-		m_params.projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
+		m_params.projectionMatrix = RenderSystem()->GetAPI() == GFX_API_VULKAN ? mtxLH2RH * glm::ortho(left, right, bottom, top, zNear, zFar) : glm::ortho(left, right, bottom, top, zNear, zFar);
 		m_params.projection = glm::vec4(1.0f, zNear, zFar, 1.0f / zFar);
 		m_params.zbuffer = glm::vec4(x, y, x / zFar, y / zFar);
 	}

@@ -801,15 +801,6 @@
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\RenderVulkan\CrossVulkanDescriptorPoolManager.h">
       <Filter>Engine\Header Files\RenderSystem\RenderVulkan\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossLight.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossFog.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossShadow.h">
-      <Filter>Engine\Header Files\RenderSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3CommandInvalidateFrameBuffer.h">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Commands</Filter>
     </ClInclude>
@@ -1309,15 +1300,6 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderVulkan\CrossVulkanDescriptorPoolManager.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderVulkan\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossLight.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossFog.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossShadow.cpp">
-      <Filter>Engine\Source Files\RenderSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\RenderGLES\CrossGLES3Context.cpp">
       <Filter>Engine\Source Files\RenderSystem\RenderGLES3\Core</Filter>
