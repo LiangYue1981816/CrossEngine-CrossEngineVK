@@ -119,7 +119,7 @@ namespace CrossEngine {
 
 	void CGLES3CommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBeginCommandBufferPrimary(flags));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBeginCommandBufferPrimary(flags));
 	}
 
 	void CGLES3CommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
@@ -127,12 +127,12 @@ namespace CrossEngine {
 		m_indexPass = indexSubPass;
 		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBeginCommandBufferSecondary(m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubPass, occlusionQueryEnable, queryFlags, pipelineStatistics));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBeginCommandBufferSecondary(m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubPass, occlusionQueryEnable, queryFlags, pipelineStatistics));
 	}
 
 	void CGLES3CommandBuffer::End(void)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandEndCommandBuffer());
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandEndCommandBuffer());
 	}
 
 	void CGLES3CommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
@@ -140,115 +140,115 @@ namespace CrossEngine {
 		m_indexPass = 0;
 		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandInvalidateFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandInvalidateFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 
 		m_indexPass++;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdEndRenderPass(void)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandInvalidateFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandInvalidateFrameBuffer(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandResolve(m_ptrFrameBuffer, m_ptrRenderPass, m_indexPass));
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute)
 	{
 		m_ptrPipelineCompute = ptrPipelineCompute;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineCompute(ptrPipelineCompute));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindPipelineCompute(ptrPipelineCompute));
 	}
 
 	void CGLES3CommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
 		m_ptrPipelineGraphics = ptrPipelineGraphics;
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(ptrPipelineGraphics));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindPipelineGraphics(ptrPipelineGraphics));
 	}
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSetCompute(ptrDescriptorSet, m_ptrPipelineCompute));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindDescriptorSetCompute(ptrDescriptorSet, m_ptrPipelineCompute));
 	}
 
 	void CGLES3CommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindDescriptorSetGraphics(ptrDescriptorSet, m_ptrPipelineGraphics));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindDescriptorSetGraphics(ptrDescriptorSet, m_ptrPipelineGraphics));
 	}
 
 	void CGLES3CommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindVertexBuffer(ptrVertexBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindVertexBuffer(ptrVertexBuffer));
 	}
 
 	void CGLES3CommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandBindIndexBuffer(ptrIndexBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandBindIndexBuffer(ptrIndexBuffer));
 	}
 
 	void CGLES3CommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetViewport(x, y, width, height));
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthRange(minDepth, maxDepth));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetViewport(x, y, width, height));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetDepthRange(minDepth, maxDepth));
 	}
 
 	void CGLES3CommandBuffer::CmdSetScissor(int x, int y, uint32_t width, uint32_t height)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetScissor(x, y, width, height));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetScissor(x, y, width, height));
 	}
 
 	void CGLES3CommandBuffer::CmdSetLineWidth(float lineWidth)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetLineWidth(lineWidth));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetLineWidth(lineWidth));
 	}
 
 	void CGLES3CommandBuffer::CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthBias(depthBiasConstantFactor, depthBiasSlopeFactor));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetDepthBias(depthBiasConstantFactor, depthBiasSlopeFactor));
 	}
 
 	void CGLES3CommandBuffer::CmdSetBlendConstants(float red, float green, float blue, float alpha)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetBlendConstants(red, green, blue, alpha));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetBlendConstants(red, green, blue, alpha));
 	}
 
 	void CGLES3CommandBuffer::CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetDepthBounds(minDepthBounds, maxDepthBounds));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetDepthBounds(minDepthBounds, maxDepthBounds));
 	}
 
 	void CGLES3CommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetStencilWriteMask(faceMask, writeMask));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetStencilWriteMask(faceMask, writeMask));
 	}
 
 	void CGLES3CommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandSetStencilReference(faceMask, ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetDepthStencilState().front.compareOp, ((CGLES3PipelineGraphics *)&m_ptrPipelineGraphics)->GetDepthStencilState().back.compareOp, reference, compareMask));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandSetStencilReference(faceMask, ((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetDepthStencilState().front.compareOp, ((CGLES3PipelineGraphics *)&m_ptrPipelineGraphics)->GetDepthStencilState().back.compareOp, reference, compareMask));
 	}
 
 	void CGLES3CommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandDraw(((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState().topology, vertexCount, instanceCount, firstVertex, firstInstance));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandDraw(((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState().topology, vertexCount, instanceCount, firstVertex, firstInstance));
 	}
 
 	void CGLES3CommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandDrawIndexed(((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState().topology, indexCount, instanceCount, firstIndex, firstVertex, firstInstance));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandDrawIndexed(((CGLES3PipelineGraphics *)((CGfxPipelineGraphics *)m_ptrPipelineGraphics))->GetInputAssemblyState().topology, indexCount, instanceCount, firstIndex, firstVertex, firstInstance));
 	}
 
 	void CGLES3CommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandDispatch(groupCountX, groupCountY, groupCountZ));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandDispatch(groupCountX, groupCountY, groupCountZ));
 	}
 
 	void CGLES3CommandBuffer::CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CGLES3CommandExecuteCommandBuffer(ptrCommandBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CGLES3CommandExecuteCommandBuffer(ptrCommandBuffer));
 	}
 
 }

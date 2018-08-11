@@ -562,7 +562,7 @@ namespace CrossEngine {
 				FrameBuffers[target].readbuffers.clear();
 
 				for (int index = 0; index < n; index++) {
-					FrameBuffers[target].readbuffers.push_back(bufs[index]);
+					FrameBuffers[target].readbuffers.emplace_back(bufs[index]);
 				}
 
 				glReadBuffers(n, bufs);
@@ -594,7 +594,7 @@ namespace CrossEngine {
 				FrameBuffers[target].drawbuffers.clear();
 
 				for (int index = 0; index < n; index++) {
-					FrameBuffers[target].drawbuffers.push_back(bufs[index]);
+					FrameBuffers[target].drawbuffers.emplace_back(bufs[index]);
 				}
 
 				glDrawBuffers(n, bufs);

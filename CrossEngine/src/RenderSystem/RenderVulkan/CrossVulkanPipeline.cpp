@@ -135,7 +135,7 @@ namespace CrossEngine {
 
 		for (auto &itDescriptorSetLayout : m_ptrDescriptorSetLayouts) {
 			itDescriptorSetLayout.second->Create();
-			layouts.push_back((VkDescriptorSetLayout)itDescriptorSetLayout.second->GetHandle());
+			layouts.emplace_back((VkDescriptorSetLayout)itDescriptorSetLayout.second->GetHandle());
 		}
 
 		return TRUE;
@@ -147,7 +147,7 @@ namespace CrossEngine {
 
 		for (const auto &itShaderStage : m_shaderStages) {
 			if (itShaderStage.second.module) {
-				shaderStages.push_back(itShaderStage.second);
+				shaderStages.emplace_back(itShaderStage.second);
 			}
 		}
 

@@ -94,7 +94,7 @@ namespace CrossEngine {
 						const VkAttachmentDescription *pAttachmentDescription = pRenderPass->GetAttachmentDescription(itColorAttachment.first);
 
 						if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers.push_back(attachment);
+							discardBuffers.emplace_back(attachment);
 						}
 
 						indexAttachment++;
@@ -112,19 +112,19 @@ namespace CrossEngine {
 
 					if (CGLES3Helper::glIsFormatDepthOnly(format)) {
 						if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers.push_back(GL_DEPTH_ATTACHMENT);
+							discardBuffers.emplace_back(GL_DEPTH_ATTACHMENT);
 						}
 					}
 
 					if (CGLES3Helper::glIsFormatStencilOnly(format)) {
 						if (pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers.push_back(GL_STENCIL_ATTACHMENT);
+							discardBuffers.emplace_back(GL_STENCIL_ATTACHMENT);
 						}
 					}
 
 					if (CGLES3Helper::glIsFormatDepthStencil(format)) {
 						if (pAttachmentDescription->storeOp == VK_ATTACHMENT_STORE_OP_DONT_CARE && pAttachmentDescription->stencilStoreOp == VK_ATTACHMENT_STORE_OP_DONT_CARE) {
-							discardBuffers.push_back(GL_DEPTH_STENCIL_ATTACHMENT);
+							discardBuffers.emplace_back(GL_DEPTH_STENCIL_ATTACHMENT);
 						}
 					}
 				}

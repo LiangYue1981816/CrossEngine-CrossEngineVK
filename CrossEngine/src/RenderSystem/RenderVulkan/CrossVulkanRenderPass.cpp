@@ -93,19 +93,19 @@ namespace CrossEngine {
 
 		for (uint32_t indexSubPass = 0; indexSubPass < m_subpasses.size(); indexSubPass++) {
 			for (const auto &itAttachment : m_subpasses[indexSubPass].inputAttachments) {
-				inputAttachments[indexSubPass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+				inputAttachments[indexSubPass].emplace_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
 			for (const auto &itAttachment : m_subpasses[indexSubPass].colorAttachments) {
-				colorAttachments[indexSubPass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+				colorAttachments[indexSubPass].emplace_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
 			for (const auto &itAttachment : m_subpasses[indexSubPass].resolveAttachments) {
-				resolveAttachments[indexSubPass].push_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
+				resolveAttachments[indexSubPass].emplace_back(VkAttachmentReference{ itAttachment.first, itAttachment.second });
 			}
 
 			for (const auto &itAttachment : m_subpasses[indexSubPass].preserveAttachments) {
-				preserveAttachments[indexSubPass].push_back(itAttachment.second);
+				preserveAttachments[indexSubPass].emplace_back(itAttachment.second);
 			}
 
 			VkSubpassDescription subpass = {};
@@ -119,7 +119,7 @@ namespace CrossEngine {
 			subpass.preserveAttachmentCount = preserveAttachments[indexSubPass].size();
 			subpass.pPreserveAttachments = preserveAttachments[indexSubPass].data();
 			subpass.pDepthStencilAttachment = m_subpasses[indexSubPass].depthStencilAttachment.layout == VK_IMAGE_LAYOUT_UNDEFINED ? NULL : &m_subpasses[indexSubPass].depthStencilAttachment;
-			subpasses.push_back(subpass);
+			subpasses.emplace_back(subpass);
 		}
 
 		return TRUE;

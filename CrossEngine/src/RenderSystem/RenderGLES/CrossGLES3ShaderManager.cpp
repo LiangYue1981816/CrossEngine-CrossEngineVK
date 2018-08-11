@@ -149,7 +149,7 @@ namespace CrossEngine {
 
 	void CGLES3ShaderManager::AddIncludePath(const char *szPath)
 	{
-		m_fileFinder.search_path().push_back(szPath);
+		m_fileFinder.search_path().emplace_back(szPath);
 	}
 
 	void CGLES3ShaderManager::AddMacroDefinition(const char *szName)

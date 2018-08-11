@@ -136,7 +136,7 @@ namespace CrossEngine {
 		for (size_t index = 0; index < count; index++) {
 			T value;
 			stream << value;
-			values.push_back(value);
+			values.emplace_back(value);
 		}
 
 		return stream;

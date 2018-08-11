@@ -110,7 +110,7 @@ namespace CrossEngine {
 			region.imageOffset = { 0, 0, 0 };
 			region.imageExtent = { (uint32_t)texture.extent(level).x, (uint32_t)texture.extent(level).y, 1 };
 
-			regions.push_back(region);
+			regions.emplace_back(region);
 			offset += texture.size(level);
 		}
 
@@ -135,7 +135,7 @@ namespace CrossEngine {
 				region.imageOffset = { 0, 0, 0 };
 				region.imageExtent = { (uint32_t)texture[layer].extent(level).x, (uint32_t)texture[layer].extent(level).y, 1 };
 
-				regions.push_back(region);
+				regions.emplace_back(region);
 				offset += texture[layer].size(level);
 			}
 		}
@@ -160,7 +160,7 @@ namespace CrossEngine {
 			region.imageOffset = { 0, 0, 0 };
 			region.imageExtent = { (uint32_t)texture.extent(level).x, (uint32_t)texture.extent(level).y, (uint32_t)texture.extent(level).z };
 
-			regions.push_back(region);
+			regions.emplace_back(region);
 			offset += texture.size(level);
 		}
 
@@ -185,7 +185,7 @@ namespace CrossEngine {
 				region.imageOffset = { 0, 0, 0 };
 				region.imageExtent = { (uint32_t)texture[face].extent(level).x, (uint32_t)texture[face].extent(level).y, 1 };
 
-				regions.push_back(region);
+				regions.emplace_back(region);
 				offset += texture[face].size(level);
 			}
 		}

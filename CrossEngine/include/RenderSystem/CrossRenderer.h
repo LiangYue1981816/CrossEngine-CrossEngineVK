@@ -35,6 +35,11 @@ namespace CrossEngine {
 		static const int THREAD_COUNT = 4;
 
 		typedef struct PipelineParam {
+			PipelineParam(uint32_t _indexPass, const CGfxPipelineGraphicsPtr &_ptrMaterialPipeline)
+			{
+				indexPass = _indexPass;
+				ptrMaterialPipeline = _ptrMaterialPipeline;
+			}
 			uint32_t indexPass;
 			CGfxPipelineGraphicsPtr ptrMaterialPipeline;
 		} PipelineParam;

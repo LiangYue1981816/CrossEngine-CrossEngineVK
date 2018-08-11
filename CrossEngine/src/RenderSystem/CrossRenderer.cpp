@@ -212,15 +212,12 @@ namespace CrossEngine {
 		std::vector<PipelineParam> pipelines;
 		for (const auto &itPass : itRenderPassQueue->second) {
 			for (const auto &itMaterialPipeline : itPass.second) {
-				PipelineParam param;
-				param.indexPass = itPass.first;
-				param.ptrMaterialPipeline = itMaterialPipeline.first;
-				pipelines.push_back(param);
+				pipelines.emplace_back(itPass.first, itMaterialPipeline.first);
 			}
 		}
 
 		for (int indexPipeline = 0; indexPipeline < pipelines.size(); indexPipeline++) {
-			m_threadCluster.params[indexPipeline % THREAD_COUNT].pipelines.push_back(pipelines[indexPipeline]);
+			m_threadCluster.params[indexPipeline % THREAD_COUNT].pipelines.emplace_back(pipelines[indexPipeline]);
 		}
 
 		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {

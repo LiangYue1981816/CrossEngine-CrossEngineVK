@@ -84,7 +84,7 @@ namespace CrossEngine {
 		for (const auto &itDrawable : m_pDrawables) {
 			BatchData batchData;
 			batchData.transform = itDrawable.second->GetTransform();
-			m_batchs.push_back(batchData);
+			m_batchs.emplace_back(batchData);
 		}
 	}
 

@@ -207,7 +207,7 @@ namespace CrossEngine {
 					param.ptrRenderTexture = RenderTextureManager()->LoadResource(HashValue(pAttachmentNode->ToElement()->AttributeString("render_texture")), TRUE, bSyncPostLoad);
 					if (param.ptrRenderTexture.IsNull()) return FALSE;
 				}
-				m_param.attachmentColors.push_back(param);
+				m_param.attachmentColors.emplace_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 
 			return TRUE;

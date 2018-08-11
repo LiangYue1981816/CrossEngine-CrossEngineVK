@@ -1,3 +1,4 @@
+#include "../load_tga.hpp"
 #include "../load_dds.hpp"
 #include "../load_kmg.hpp"
 #include "../load_ktx.hpp"
@@ -21,6 +22,11 @@ namespace gli
 		{
 			texture Texture = load_ktx(Data, Size);
 			if(!Texture.empty())
+				return Texture;
+		}
+		{
+			texture Texture = load_tga(Data, Size);
+			if (!Texture.empty())
 				return Texture;
 		}
 

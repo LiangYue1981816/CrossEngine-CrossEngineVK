@@ -215,17 +215,17 @@ namespace CrossEngine {
 				if (m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] == NULL) {
 					switch (pDrawable->GetType()) {
 					case DRAWABLE_TYPE_PARTICAL:
-						m_pBatchParticals.push_back(SAFE_NEW CBatchPartical);
+						m_pBatchParticals.emplace_back(SAFE_NEW CBatchPartical);
 						m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchParticals[m_pBatchParticals.size() - 1];
 						break;
 
 					case DRAWABLE_TYPE_SKIN_MESH:
-						m_pBatchSkinMeshs.push_back(SAFE_NEW CBatchSkinMesh);
+						m_pBatchSkinMeshs.emplace_back(SAFE_NEW CBatchSkinMesh);
 						m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchSkinMeshs[m_pBatchSkinMeshs.size() - 1];
 						break;
 
 					case DRAWABLE_TYPE_STATIC_MESH:
-						m_pBatchStaticMeshs.push_back(SAFE_NEW CBatchStaticMesh);
+						m_pBatchStaticMeshs.emplace_back(SAFE_NEW CBatchStaticMesh);
 						m_queue[ptrRenderPass][indexPass][ptrMaterialPipeline][ptrMaterialDescriptorSet][ptrDrawableVertexBuffer][ptrDrawableIndexBuffer][indexCount][indexOffset][vertexOffset][ptrDrawableDescriptorSet] = m_pBatchStaticMeshs[m_pBatchStaticMeshs.size() - 1];
 						break;
 

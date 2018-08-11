@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 			std::vector<VkClearValue> clearValues;
 			for (uint32_t indexAttachment = 0; indexAttachment < m_ptrRenderPass->GetAttachmentCount(); indexAttachment++) {
-				clearValues.push_back(*m_ptrRenderPass->GetAttachmentClearValue(indexAttachment));
+				clearValues.emplace_back(*m_ptrRenderPass->GetAttachmentClearValue(indexAttachment));
 			}
 
 			VkRenderPassBeginInfo renderPassBeginInfo = {};

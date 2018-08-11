@@ -141,7 +141,7 @@ namespace CrossEngine {
 #ifdef _DEBUG
 #define VK_LAYER_LUNARG_STANDARD_VALIDATION "VK_LAYER_LUNARG_standard_validation"
 			if (stricmp(layers[index].layerName, VK_LAYER_LUNARG_STANDARD_VALIDATION) == 0) {
-				enabledInstanceLayers.push_back(VK_LAYER_LUNARG_STANDARD_VALIDATION);
+				enabledInstanceLayers.emplace_back(VK_LAYER_LUNARG_STANDARD_VALIDATION);
 				continue;
 			}
 #endif
@@ -165,14 +165,14 @@ namespace CrossEngine {
 		BOOL bPlatformSurfaceExtension = FALSE;
 		for (uint32_t index = 0; index < numExtensions; index++) {
 			if (stricmp(extensions[index].extensionName, VK_KHR_SURFACE_EXTENSION_NAME) == 0) {
-				enabledInstanceExtensions.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
+				enabledInstanceExtensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
 				bSurfaceExtension = TRUE;
 				continue;
 			}
 
 #ifdef PLATFORM_WINDOWS
 			if (stricmp(extensions[index].extensionName, VK_KHR_WIN32_SURFACE_EXTENSION_NAME) == 0) {
-				enabledInstanceExtensions.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+				enabledInstanceExtensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
 				bPlatformSurfaceExtension = TRUE;
 				continue;
 			}
@@ -180,7 +180,7 @@ namespace CrossEngine {
 
 #ifdef PLATFORM_ANDROID
 			if (stricmp(extensions[index].extensionName, VK_KHR_ANDROID_SURFACE_EXTENSION_NAME) == 0) {
-				enabledInstanceExtensions.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+				enabledInstanceExtensions.emplace_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
 				bPlatformSurfaceExtension = TRUE;
 				continue;
 			}
@@ -188,7 +188,7 @@ namespace CrossEngine {
 
 #ifdef _DEBUG
 			if (stricmp(extensions[index].extensionName, VK_EXT_DEBUG_REPORT_EXTENSION_NAME) == 0) {
-				enabledInstanceExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+				enabledInstanceExtensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 				continue;
 			}
 #endif

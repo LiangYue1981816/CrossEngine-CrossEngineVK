@@ -148,7 +148,7 @@ namespace CrossEngine {
 
 	void CVulkanShaderManager::AddIncludePath(const char *szPath)
 	{
-		m_fileFinder.search_path().push_back(szPath);
+		m_fileFinder.search_path().emplace_back(szPath);
 	}
 
 	void CVulkanShaderManager::AddMacroDefinition(const char *szName)

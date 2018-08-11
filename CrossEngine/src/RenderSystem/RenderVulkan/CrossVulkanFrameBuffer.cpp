@@ -84,7 +84,7 @@ namespace CrossEngine {
 		attachments.clear();
 
 		for (uint32_t indexAttachment = 0; indexAttachment < m_attachments.size(); indexAttachment++) {
-			attachments.push_back(m_attachments[indexAttachment].vkImageView);
+			attachments.emplace_back(m_attachments[indexAttachment].vkImageView);
 		}
 
 		return TRUE;

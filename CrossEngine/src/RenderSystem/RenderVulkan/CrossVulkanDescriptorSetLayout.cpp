@@ -61,7 +61,7 @@ namespace CrossEngine {
 		try {
 			std::vector<VkDescriptorSetLayoutBinding> bindings;
 			for (const auto &itBinding : m_layoutBindings) {
-				bindings.push_back(itBinding.second);
+				bindings.emplace_back(itBinding.second);
 			}
 
 			VkDescriptorSetLayoutCreateInfo createInfo = {};

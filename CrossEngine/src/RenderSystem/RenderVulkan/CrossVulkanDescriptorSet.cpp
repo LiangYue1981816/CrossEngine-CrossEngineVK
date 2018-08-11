@@ -116,7 +116,7 @@ namespace CrossEngine {
 				write.pBufferInfo = NULL;
 				write.pTexelBufferView = NULL;
 
-				writes.push_back(write);
+				writes.emplace_back(write);
 			}
 
 			for (const auto &itRenderTexture : m_ptrRenderTextures) {
@@ -135,7 +135,7 @@ namespace CrossEngine {
 				write.pBufferInfo = NULL;
 				write.pTexelBufferView = NULL;
 
-				writes.push_back(write);
+				writes.emplace_back(write);
 			}
 
 			for (const auto &itUniformBuffer : m_ptrUniformBuffers) {
@@ -154,7 +154,7 @@ namespace CrossEngine {
 				write.pBufferInfo = &((CVulkanUniformBuffer *)((CGfxUniformBuffer *)ptrUniformBuffer))->GetDescriptorBufferInfo();
 				write.pTexelBufferView = NULL;
 
-				writes.push_back(write);
+				writes.emplace_back(write);
 			}
 
 			vkUpdateDescriptorSets(m_pDevice->GetDevice(), writes.size(), writes.data(), 0, NULL);

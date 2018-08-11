@@ -215,7 +215,7 @@ namespace CrossEngine {
 					param.samples = CVulkanHelper::StringToSampleCountFlagBits(pAttachmentNode->ToElement()->AttributeString("samples"));
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
-				m_param.attachmentPresents.push_back(param);
+				m_param.attachmentPresents.emplace_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 
 			return TRUE;
@@ -238,7 +238,7 @@ namespace CrossEngine {
 					param.finalLayout = CVulkanHelper::StringToImageLayout(pAttachmentNode->ToElement()->AttributeString("layout"));
 					pAttachmentNode->ToElement()->AttributeFloat4("clear_color", param.clearValue.color.float32);
 				}
-				m_param.attachmentColors.push_back(param);
+				m_param.attachmentColors.emplace_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 
 			return TRUE;
@@ -264,7 +264,7 @@ namespace CrossEngine {
 					param.clearValue.depthStencil.depth = pAttachmentNode->ToElement()->AttributeFloat1("clear_depth");
 					param.clearValue.depthStencil.stencil = pAttachmentNode->ToElement()->AttributeInt1("clear_stencil");
 				}
-				m_param.attachmentDepthStencils.push_back(param);
+				m_param.attachmentDepthStencils.emplace_back(param);
 			} while (pAttachmentNode = pAttachmentNodes->IterateChildren("Attachment", pAttachmentNode));
 
 			return TRUE;
@@ -288,7 +288,7 @@ namespace CrossEngine {
 					param.resolveColorReference = pSubPassNode->ToElement()->AttributeInt1("resolve_color_reference");
 					param.resolveColorImageLayout = CVulkanHelper::StringToImageLayout(pSubPassNode->ToElement()->AttributeString("resolve_color_image_layout"));
 				}
-				m_param.subpasses.push_back(param);
+				m_param.subpasses.emplace_back(param);
 			} while (pSubPassNode = pSubPassNodes->IterateChildren("SubPass", pSubPassNode));
 
 			return TRUE;
@@ -312,7 +312,7 @@ namespace CrossEngine {
 					param.dstAccessMask = CVulkanHelper::StringToAccessFlags(pDependencyNode->ToElement()->AttributeString("dst_access_mask"));
 					param.dependencyFlags = CVulkanHelper::StringToDependencyFlags(pDependencyNode->ToElement()->AttributeString("flags"));
 				}
-				m_param.dependencies.push_back(param);
+				m_param.dependencies.emplace_back(param);
 			} while (pDependencyNode = pDependencyNodes->IterateChildren("Dependency", pDependencyNode));
 
 			return TRUE;

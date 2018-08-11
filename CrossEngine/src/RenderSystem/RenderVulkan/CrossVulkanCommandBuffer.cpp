@@ -137,129 +137,129 @@ namespace CrossEngine {
 
 	void CVulkanCommandBuffer::BeginPrimary(VkCommandBufferUsageFlags flags)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginCommandBufferPrimary(m_vkCommandBuffer, flags));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBeginCommandBufferPrimary(m_vkCommandBuffer, flags));
 	}
 
 	void CVulkanCommandBuffer::BeginSecondary(VkCommandBufferUsageFlags flags, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, uint32_t indexSubPass, VkBool32 occlusionQueryEnable, VkQueryControlFlags queryFlags, VkQueryPipelineStatisticFlags pipelineStatistics)
 	{
 		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginCommandBufferSecondary(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubPass, occlusionQueryEnable, queryFlags, pipelineStatistics));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBeginCommandBufferSecondary(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, flags, indexSubPass, occlusionQueryEnable, queryFlags, pipelineStatistics));
 	}
 
 	void CVulkanCommandBuffer::End(void)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandEndCommandBuffer(m_vkCommandBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandEndCommandBuffer(m_vkCommandBuffer));
 	}
 
 	void CVulkanCommandBuffer::CmdBeginRenderPass(const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, VkSubpassContents contents)
 	{
 		m_ptrRenderPass = ptrRenderPass;
 		m_ptrFrameBuffer = ptrFrameBuffer;
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBeginRenderPass(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, contents));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBeginRenderPass(m_vkCommandBuffer, m_ptrFrameBuffer, m_ptrRenderPass, contents));
 	}
 
 	void CVulkanCommandBuffer::CmdNextSubpass(VkSubpassContents contents)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandNextSubpass(m_vkCommandBuffer, contents));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandNextSubpass(m_vkCommandBuffer, contents));
 	}
 
 	void CVulkanCommandBuffer::CmdEndRenderPass(void)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandEndRenderPass(m_vkCommandBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandEndRenderPass(m_vkCommandBuffer));
 	}
 
 	void CVulkanCommandBuffer::CmdBindPipelineCompute(const CGfxPipelineComputePtr &ptrPipelineCompute)
 	{
 		m_ptrPipelineCompute = ptrPipelineCompute;
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineCompute(m_vkCommandBuffer, ptrPipelineCompute));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBindPipelineCompute(m_vkCommandBuffer, ptrPipelineCompute));
 	}
 
 	void CVulkanCommandBuffer::CmdBindPipelineGraphics(const CGfxPipelineGraphicsPtr &ptrPipelineGraphics)
 	{
 		m_ptrPipelineGraphics = ptrPipelineGraphics;
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindPipelineGraphics(m_vkCommandBuffer, ptrPipelineGraphics));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBindPipelineGraphics(m_vkCommandBuffer, ptrPipelineGraphics));
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetCompute(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetCompute(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineCompute));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBindDescriptorSetCompute(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineCompute));
 	}
 
 	void CVulkanCommandBuffer::CmdBindDescriptorSetGraphics(const CGfxDescriptorSetPtr &ptrDescriptorSet)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineGraphics));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBindDescriptorSetGraphics(m_vkCommandBuffer, ptrDescriptorSet, m_ptrPipelineGraphics));
 	}
 
 	void CVulkanCommandBuffer::CmdBindVertexBuffer(const CGfxVertexBufferPtr &ptrVertexBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindVertexBuffer(m_vkCommandBuffer, ptrVertexBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBindVertexBuffer(m_vkCommandBuffer, ptrVertexBuffer));
 	}
 
 	void CVulkanCommandBuffer::CmdBindIndexBuffer(const CGfxIndexBufferPtr &ptrIndexBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandBindIndexBuffer(m_vkCommandBuffer, ptrIndexBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandBindIndexBuffer(m_vkCommandBuffer, ptrIndexBuffer));
 	}
 
 	void CVulkanCommandBuffer::CmdSetViewport(float x, float y, float width, float height, float minDepth, float maxDepth)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetViewport(m_vkCommandBuffer, x, y, width, height, minDepth, maxDepth));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetViewport(m_vkCommandBuffer, x, y, width, height, minDepth, maxDepth));
 	}
 
 	void CVulkanCommandBuffer::CmdSetScissor(int x, int y, uint32_t width, uint32_t height)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetScissor(m_vkCommandBuffer, x, y, width, height));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetScissor(m_vkCommandBuffer, x, y, width, height));
 	}
 
 	void CVulkanCommandBuffer::CmdSetLineWidth(float lineWidth)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetLineWidth(m_vkCommandBuffer, lineWidth));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetLineWidth(m_vkCommandBuffer, lineWidth));
 	}
 
 	void CVulkanCommandBuffer::CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetDepthBias(m_vkCommandBuffer, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetDepthBias(m_vkCommandBuffer, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor));
 	}
 
 	void CVulkanCommandBuffer::CmdSetBlendConstants(float red, float green, float blue, float alpha)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetBlendConstants(m_vkCommandBuffer, red, green, blue, alpha));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetBlendConstants(m_vkCommandBuffer, red, green, blue, alpha));
 	}
 
 	void CVulkanCommandBuffer::CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetDepthBounds(m_vkCommandBuffer, minDepthBounds, maxDepthBounds));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetDepthBounds(m_vkCommandBuffer, minDepthBounds, maxDepthBounds));
 	}
 
 	void CVulkanCommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetStencilWriteMask(m_vkCommandBuffer, faceMask, writeMask));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetStencilWriteMask(m_vkCommandBuffer, faceMask, writeMask));
 	}
 
 	void CVulkanCommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference, uint32_t compareMask)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetStencilReference(m_vkCommandBuffer, faceMask, reference));
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandSetStencilCompareMask(m_vkCommandBuffer, faceMask, compareMask));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetStencilReference(m_vkCommandBuffer, faceMask, reference));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandSetStencilCompareMask(m_vkCommandBuffer, faceMask, compareMask));
 	}
 
 	void CVulkanCommandBuffer::CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandDraw(m_vkCommandBuffer, vertexCount, instanceCount, firstVertex, firstInstance));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandDraw(m_vkCommandBuffer, vertexCount, instanceCount, firstVertex, firstInstance));
 	}
 
 	void CVulkanCommandBuffer::CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandDrawIndexed(m_vkCommandBuffer, indexCount, instanceCount, firstIndex, firstVertex, firstInstance));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandDrawIndexed(m_vkCommandBuffer, indexCount, instanceCount, firstIndex, firstVertex, firstInstance));
 	}
 
 	void CVulkanCommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandDispatch(m_vkCommandBuffer, groupCountX, groupCountY, groupCountZ));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandDispatch(m_vkCommandBuffer, groupCountX, groupCountY, groupCountZ));
 	}
 
 	void CVulkanCommandBuffer::CmdExecuteCommandBuffer(const CGfxCommandBufferPtr &ptrCommandBuffer)
 	{
-		m_pCommands.push_back(SAFE_NEW CVulkanCommandExecuteCommandBuffer(m_vkCommandBuffer, ptrCommandBuffer));
+		m_pCommands.emplace_back(SAFE_NEW CVulkanCommandExecuteCommandBuffer(m_vkCommandBuffer, ptrCommandBuffer));
 	}
 
 }

@@ -204,7 +204,7 @@ namespace CrossEngine {
 						inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
 						inputAttributeDescription.format = m_pDevice->GetAttributeFormat(attribute);
 						inputAttributeDescription.offset = m_pDevice->GetAttributeOffset(m_vertexFormat, attribute);
-						inputAttributeDescriptions.push_back(inputAttributeDescription);
+						inputAttributeDescriptions.emplace_back(inputAttributeDescription);
 					}
 
 					if (attribute & INSTANCE_ATTRIBUTE_MASK) {
@@ -213,7 +213,7 @@ namespace CrossEngine {
 						inputAttributeDescription.location = pShaderCompiler->get_decoration(itInput.id, spv::DecorationLocation);
 						inputAttributeDescription.format = m_pDevice->GetAttributeFormat(attribute);
 						inputAttributeDescription.offset = m_pDevice->GetAttributeOffset(m_instanceFormat, attribute);
-						inputAttributeDescriptions.push_back(inputAttributeDescription);
+						inputAttributeDescriptions.emplace_back(inputAttributeDescription);
 					}
 				}
 			}
@@ -223,7 +223,7 @@ namespace CrossEngine {
 				inputBindingDescription.binding = 0;
 				inputBindingDescription.stride = m_pDevice->GetStride(m_vertexFormat);
 				inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-				inputBindingDescriptions.push_back(inputBindingDescription);
+				inputBindingDescriptions.emplace_back(inputBindingDescription);
 			}
 
 			if (m_instanceFormat) {
@@ -231,7 +231,7 @@ namespace CrossEngine {
 				inputBindingDescription.binding = 1;
 				inputBindingDescription.stride = m_pDevice->GetStride(m_instanceFormat);
 				inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
-				inputBindingDescriptions.push_back(inputBindingDescription);
+				inputBindingDescriptions.emplace_back(inputBindingDescription);
 			}
 
 			m_vertexInputState.vertexBindingDescriptionCount = inputBindingDescriptions.size();

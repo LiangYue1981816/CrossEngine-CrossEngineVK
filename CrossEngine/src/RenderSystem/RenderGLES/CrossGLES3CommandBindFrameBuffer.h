@@ -105,7 +105,7 @@ namespace CrossEngine {
 							glClearBufferfv(GL_COLOR, indexAttachment, pClearValue->color.float32);
 						}
 
-						drawBuffers.push_back(attachment);
+						drawBuffers.emplace_back(attachment);
 						indexAttachment++;
 					}
 				}

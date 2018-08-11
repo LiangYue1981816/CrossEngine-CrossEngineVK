@@ -2206,7 +2206,7 @@ public:
 	}
 	Delegate<RetType, Types...>& operator = (const FastDelegate<RetType, Types...> &rhs) {
 		delegates.clear();
-		delegates.push_back(rhs);
+		delegates.emplace_back(rhs);
 		return *this;
 	}
 	Delegate<RetType, Types...>& operator += (const FastDelegate<RetType, Types...> &rhs) {
@@ -2215,7 +2215,7 @@ public:
 				return *this;
 			}
 		}
-		delegates.push_back(rhs);
+		delegates.emplace_back(rhs);
 		return *this;
 	}
 	Delegate<RetType, Types...>& operator -= (const FastDelegate<RetType, Types...> &rhs) {
