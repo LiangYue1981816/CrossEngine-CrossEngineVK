@@ -127,17 +127,17 @@ namespace CrossEngine {
 
 	const glm::mat4& CCamera::GetProjectionMatrix(void) const
 	{
-		return m_camera.mtxProjection;
+		return m_camera.projectionMatrix;
 	}
 
 	const glm::mat4& CCamera::GetViewMatrix(void) const
 	{
-		return m_camera.mtxView;
+		return m_camera.viewMatrix;
 	}
 
 	const glm::mat4& CCamera::GetViewInverseMatrix(void) const
 	{
-		return m_camera.mtxViewInverse;
+		return m_camera.viewInverseMatrix;
 	}
 
 	glm::vec3 CCamera::WorldToScreen(const glm::vec3 &world)

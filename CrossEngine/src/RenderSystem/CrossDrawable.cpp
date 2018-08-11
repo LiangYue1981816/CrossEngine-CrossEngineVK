@@ -52,14 +52,14 @@ namespace CrossEngine {
 		return itDescriptorSet != m_ptrDescriptorSets.end() ? itDescriptorSet->second : ptrDescriptorSetNull;
 	}
 
-	void CDrawable::SetTransform(const glm::mat4 &mtxTransform)
+	void CDrawable::SetTransform(const glm::mat4 &transform)
 	{
-		m_mtxTransform = mtxTransform;
+		m_transform = transform;
 	}
 
 	const glm::mat4& CDrawable::GetTransform(void) const
 	{
-		return m_mtxTransform;
+		return m_transform;
 	}
 
 	void CDrawable::SetUniformBuffer(uint32_t dwPassName, uint32_t dwName, uint32_t binding, const void *pBuffer, size_t size)

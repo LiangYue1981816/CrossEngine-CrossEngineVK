@@ -60,7 +60,7 @@ namespace CrossEngine {
 		const CGfxDescriptorSetPtr& GetDescriptorSet(uint32_t dwPassName) const;
 
 	public:
-		void SetTransform(const glm::mat4 &mtxTransform);
+		void SetTransform(const glm::mat4 &transform);
 		const glm::mat4& GetTransform(void) const;
 
 	public:
@@ -71,7 +71,7 @@ namespace CrossEngine {
 
 
 	protected:
-		glm::mat4 m_mtxTransform;
+		glm::mat4 m_transform;
 
 	protected:
 		CResMaterialPtr m_ptrMaterial;

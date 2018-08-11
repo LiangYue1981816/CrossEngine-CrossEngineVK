@@ -34,7 +34,7 @@ namespace CrossEngine {
 
 	protected:
 		typedef struct BatchData {
-			glm::mat4 mtxTransform;
+			glm::mat4 transform;
 		} BatchData;
 
 

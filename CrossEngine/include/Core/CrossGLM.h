@@ -406,7 +406,7 @@ namespace glm {
 			float angle = radians(fovy);
 			float d = 1.0f / tan(angle * 0.5f);
 
-			mtxProjection = glm::perspective(angle, aspect, zNear, zFar);
+			projectionMatrix = glm::perspective(angle, aspect, zNear, zFar);
 
 			planes[0][0] = plane(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, -d, -1.0f));
 			planes[1][0] = plane(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, d, -1.0f));
@@ -418,7 +418,7 @@ namespace glm {
 
 		void setOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 		{
-			mtxProjection = glm::ortho(left, right, bottom, top, zNear, zFar);
+			projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
 
 			planes[0][0] = plane(vec3(0.0f, top, 0.0f), vec3(0.0f, -1.0f, 0.0f));
 			planes[1][0] = plane(vec3(0.0f, bottom, 0.0f), vec3(0.0f, 1.0f, 0.0f));
@@ -434,23 +434,23 @@ namespace glm {
 			forward = normalize(_center - _eye);
 			up = normalize(_up);
 
-			mtxView = glm::lookAt(_eye, _center, _up);
-			mtxViewInverse = glm::inverse(mtxView);
-			mtxViewInverseTranspose = glm::transpose(mtxViewInverse);
+			viewMatrix = glm::lookAt(_eye, _center, _up);
+			viewInverseMatrix = glm::inverse(viewMatrix);
+			viewInverseTransposeMatrix = glm::transpose(viewInverseMatrix);
 
 			for (int indexPlane = 0; indexPlane < 6; indexPlane++) {
-				planes[indexPlane][1] = planes[indexPlane][0] * mtxViewInverse;
+				planes[indexPlane][1] = planes[indexPlane][0] * viewInverseMatrix;
 			}
 		}
 
 		vec3 worldToScreen(const vec3 &world) const
 		{
-			return project(world, mtxView, mtxProjection, viewport);
+			return project(world, viewMatrix, projectionMatrix, viewport);
 		}
 
 		vec3 screenToWorld(const vec3 &screen) const
 		{
-			return unProject(screen, mtxView, mtxProjection, viewport);
+			return unProject(screen, viewMatrix, projectionMatrix, viewport);
 		}
 
 		bool visible(const vec3 &_vertex) const
@@ -519,10 +519,10 @@ namespace glm {
 		vec3 forward;
 		vec3 up;
 
-		mat4 mtxProjection;
-		mat4 mtxView;
-		mat4 mtxViewInverse;
-		mat4 mtxViewInverseTranspose;
+		mat4 projectionMatrix;
+		mat4 viewMatrix;
+		mat4 viewInverseMatrix;
+		mat4 viewInverseTransposeMatrix;
 
 	private:
 		plane planes[6][2];
