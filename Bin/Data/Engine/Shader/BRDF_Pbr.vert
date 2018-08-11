@@ -13,10 +13,11 @@ USE_INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL1;
 USE_INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL2;
 USE_INSTANCE_ATTRIBUTE_TRANSFORM_MATRIX_COL3;
 
-layout (location = 0) out vec2 outTexcoord;
-layout (location = 1) out vec3 outHalfDirection;
-layout (location = 2) out vec3 outViewDirection;
-layout (location = 3) out mat3 outTBN;
+layout (location = 0) out vec3 outPosition;
+layout (location = 1) out vec2 outTexcoord;
+layout (location = 2) out vec3 outHalfDirection;
+layout (location = 3) out vec3 outViewDirection;
+layout (location = 4) out mat3 outTBN;
 
 void main()
 {
@@ -41,6 +42,7 @@ void main()
 	mat3 tbn = mat3(t, b, worldNormal);
 
 	outTexcoord = inTexcoord0;
+	outPosition = worldPosition;
 	outHalfDirection = worldHalfDirection;
 	outViewDirection = worldViewDirection;
 	outTBN = tbn;

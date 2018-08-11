@@ -4,16 +4,6 @@
 #include "engine.inc"
 #include "common.inc"
 
-USE_ENGINE_FOG;
-
-#define fogHeightStart engineFog.heightDensity.x
-#define fogHeightEnd engineFog.heightDensity.y
-#define fogHeightDensity engineFog.heightDensity.z
-
-#define fogDistanceStart engineFog.distanceDensity.x
-#define fogDistanceEnd engineFog.distanceDensity.y
-#define fogDistanceDensity engineFog.distanceDensity.z
-
 
 float FogDensityLinear(vec3 cameraPosition, vec3 position)
 {

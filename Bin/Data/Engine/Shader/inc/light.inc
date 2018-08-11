@@ -4,16 +4,6 @@
 #include "engine.inc"
 #include "common.inc"
 
-USE_ENGINE_AMBIENT_LIGHT;
-USE_ENGINE_POINT_LIGHT;
-USE_ENGINE_DIRECT_LIGHT;
-
-#define mainPointLightColor enginePointLight.color
-#define mainPointLightPosition enginePointLight.position
-
-#define mainDirectLightColor engineDirectLight.color
-#define mainDirectLightDirection engineDirectLight.direction
-
 
 // Utils Functions
 vec2 SphericalSampleing(vec3 v)
@@ -201,17 +191,17 @@ vec3 BRDF_EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float ro
 // High level functions
 float PointLightAttenuation(float dis)
 {
-	return Attenuation(dis, enginePointLight.attenuation.x, enginePointLight.attenuation.y, enginePointLight.attenuation.z);
+	return Attenuation(dis, engine.pointLightAttenuation.x, engine.pointLightAttenuation.y, engine.pointLightAttenuation.z);
 }
 
 vec3 AmbientLightingSH4(vec3 albedoColor, float metallic, vec3 normal)
 {
-	return Ambient_SH4(albedoColor, metallic, (engineAmbientLight.rotationMatrix * vec4(normal, 0.0)).xyz, engineAmbientLight.shRed0, engineAmbientLight.shGreen0, engineAmbientLight.shBlue0);
+	return Ambient_SH4(albedoColor, metallic, (engine.ambientLightRotationMatrix * vec4(normal, 0.0)).xyz, engine.ambientLightRed0, engine.ambientLightGreen0, engine.ambientLightBlue0);
 }
 
 vec3 AmbientLightingSH9(vec3 albedoColor, float metallic, vec3 normal)
 {
-	return Ambient_SH9(albedoColor, metallic, (engineAmbientLight.rotationMatrix * vec4(normal, 0.0)).xyz, engineAmbientLight.shRed0.xyz, engineAmbientLight.shRed1.xyz, engineAmbientLight.shRed2.xyz, engineAmbientLight.shGreen0.xyz, engineAmbientLight.shGreen1.xyz, engineAmbientLight.shGreen2.xyz, engineAmbientLight.shBlue0.xyz, engineAmbientLight.shBlue1.xyz, engineAmbientLight.shBlue2.xyz);
+	return Ambient_SH9(albedoColor, metallic, (engine.ambientLightRotationMatrix * vec4(normal, 0.0)).xyz, engine.ambientLightRed0.xyz, engine.ambientLightRed1.xyz, engine.ambientLightRed2.xyz, engine.ambientLightGreen0.xyz, engine.ambientLightGreen1.xyz, engine.ambientLightGreen2.xyz, engine.ambientLightBlue0.xyz, engine.ambientLightBlue1.xyz, engine.ambientLightBlue2.xyz);
 }
 
 vec3 SimpleLighting(vec3 lightColor, vec3 lightDirection, vec3 N, vec3 albedoColor)
