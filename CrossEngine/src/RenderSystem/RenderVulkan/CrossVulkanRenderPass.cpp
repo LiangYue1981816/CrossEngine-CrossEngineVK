@@ -54,11 +54,11 @@ namespace CrossEngine {
 	BOOL CVulkanRenderPass::Create(void)
 	{
 		try {
-			std::vector<VkSubpassDescription> subpasses;
-			std::map<uint32_t, std::vector<VkAttachmentReference>> inputAttachments;
-			std::map<uint32_t, std::vector<VkAttachmentReference>> colorAttachments;
-			std::map<uint32_t, std::vector<VkAttachmentReference>> resolveAttachments;
-			std::map<uint32_t, std::vector<uint32_t>> preserveAttachments;
+			eastl::vector<VkSubpassDescription> subpasses;
+			eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> inputAttachments;
+			eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> colorAttachments;
+			eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> resolveAttachments;
+			eastl::map<uint32_t, eastl::vector<uint32_t>> preserveAttachments;
 			CALL_BOOL_FUNCTION_THROW(CreateSubpasses(subpasses, inputAttachments, colorAttachments, resolveAttachments, preserveAttachments));
 
 			VkRenderPassCreateInfo createInfo = {};
@@ -83,7 +83,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CVulkanRenderPass::CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments)
+	BOOL CVulkanRenderPass::CreateSubpasses(eastl::vector<VkSubpassDescription> &subpasses, eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> &inputAttachments, eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> &colorAttachments, eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> &resolveAttachments, eastl::map<uint32_t, eastl::vector<uint32_t>> &preserveAttachments)
 	{
 		subpasses.clear();
 		inputAttachments.clear();

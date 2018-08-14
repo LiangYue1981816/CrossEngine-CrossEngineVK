@@ -145,22 +145,22 @@ namespace CrossEngine {
 
 	typedef struct FrameBufferParam {
 		GLuint framebuffer;
-		std::map<GLenum, FrameBufferAttachmentParam> attachments;
-		std::vector<GLenum> readbuffers;
-		std::vector<GLenum> drawbuffers;
+		eastl::map<GLenum, FrameBufferAttachmentParam> attachments;
+		eastl::vector<GLenum> readbuffers;
+		eastl::vector<GLenum> drawbuffers;
 	} FrameBufferParam;
 
 
-	static std::map<GLenum, GLboolean> Caps;
-	static std::map<GLenum, GLuint> Buffers;
-	static std::map<GLenum, BufferBaseParam> BufferBases;
-	static std::map<GLenum, BufferRangeParam> BufferRanges;
-	static std::map<GLenum, FrameBufferParam> FrameBuffers;
-	static std::map<GLenum, StencilFuncParam> StencilFuncs;
-	static std::map<GLenum, StencilOpParam> StencilOps;
-	static std::map<GLenum, StencilMaskParam> StencilMasks;
-	static std::map<GLuint, GLuint> Samplers;
-	static std::map<GLuint, TextureParam> Textures;
+	static eastl::map<GLenum, GLboolean> Caps;
+	static eastl::map<GLenum, GLuint> Buffers;
+	static eastl::map<GLenum, BufferBaseParam> BufferBases;
+	static eastl::map<GLenum, BufferRangeParam> BufferRanges;
+	static eastl::map<GLenum, FrameBufferParam> FrameBuffers;
+	static eastl::map<GLenum, StencilFuncParam> StencilFuncs;
+	static eastl::map<GLenum, StencilOpParam> StencilOps;
+	static eastl::map<GLenum, StencilMaskParam> StencilMasks;
+	static eastl::map<GLuint, GLuint> Samplers;
+	static eastl::map<GLuint, TextureParam> Textures;
 
 	static ScissorParam Scissor;
 	static ViewportParam Viewport;

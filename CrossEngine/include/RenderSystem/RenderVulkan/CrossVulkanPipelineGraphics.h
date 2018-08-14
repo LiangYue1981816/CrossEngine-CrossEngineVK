@@ -46,7 +46,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	protected:
-		BOOL CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions);
+		BOOL CreateVertexInputState(eastl::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, eastl::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions);
 
 	public:
 		void SetDefault(void);
@@ -98,7 +98,7 @@ namespace CrossEngine {
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
 		VkPipelineDynamicStateCreateInfo m_dynamicState;
-		std::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+		eastl::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
 	};
 
 }

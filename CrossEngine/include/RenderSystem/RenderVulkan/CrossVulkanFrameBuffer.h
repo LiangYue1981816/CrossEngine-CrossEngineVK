@@ -46,7 +46,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	protected:
-		BOOL CreateAttachments(std::vector<VkImageView> &attachments);
+		BOOL CreateAttachments(eastl::vector<VkImageView> &attachments);
 
 	public:
 		BOOL SetAttachment(uint32_t indexAttachment, VkFormat format, uint32_t width, uint32_t height, HANDLE hImageView);
@@ -62,7 +62,7 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
-		std::vector<VkAttachmentInformation> m_attachments;
+		eastl::vector<VkAttachmentInformation> m_attachments;
 
 	protected:
 		VkFramebuffer m_vkFrameBuffer;

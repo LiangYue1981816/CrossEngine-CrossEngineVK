@@ -2197,7 +2197,7 @@ template <class RetType, class... Types>
 class Delegate
 {
 private:
-	std::vector<FastDelegate<RetType, Types...>> delegates;
+	eastl::vector<FastDelegate<RetType, Types...>> delegates;
 
 public:
 	void Clear()
@@ -2210,7 +2210,7 @@ public:
 		return *this;
 	}
 	Delegate<RetType, Types...>& operator += (const FastDelegate<RetType, Types...> &rhs) {
-		for (typename std::vector<FastDelegate<RetType, Types...>>::const_iterator itDelegate = delegates.begin(); itDelegate != delegates.end(); ++itDelegate) {
+		for (typename eastl::vector<FastDelegate<RetType, Types...>>::const_iterator itDelegate = delegates.begin(); itDelegate != delegates.end(); ++itDelegate) {
 			if (*itDelegate == rhs) {
 				return *this;
 			}
@@ -2219,7 +2219,7 @@ public:
 		return *this;
 	}
 	Delegate<RetType, Types...>& operator -= (const FastDelegate<RetType, Types...> &rhs) {
-		for (typename std::vector<FastDelegate<RetType, Types...>>::const_iterator itDelegate = delegates.begin(); itDelegate != delegates.end(); ++itDelegate) {
+		for (typename eastl::vector<FastDelegate<RetType, Types...>>::const_iterator itDelegate = delegates.begin(); itDelegate != delegates.end(); ++itDelegate) {
 			if (*itDelegate == rhs) {
 				delegates.erase(itDelegate);
 				break;
@@ -2228,7 +2228,7 @@ public:
 		return *this;
 	}
 	void operator() (Types... params) const {
-		for (typename std::vector<FastDelegate<RetType, Types...>>::const_iterator itDelegate = delegates.begin(); itDelegate != delegates.end(); ++itDelegate) {
+		for (typename eastl::vector<FastDelegate<RetType, Types...>>::const_iterator itDelegate = delegates.begin(); itDelegate != delegates.end(); ++itDelegate) {
 			(*itDelegate)(params...);
 		}
 	}

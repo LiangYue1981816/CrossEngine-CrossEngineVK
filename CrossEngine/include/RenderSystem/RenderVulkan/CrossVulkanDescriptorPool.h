@@ -58,7 +58,7 @@ namespace CrossEngine {
 
 	protected:
 		VkDescriptorPool m_vkDescriptorPool;
-		std::map<CVulkanDescriptorSet*, CVulkanDescriptorSet*> m_pDescriptorSets;
+		eastl::map<CVulkanDescriptorSet*, CVulkanDescriptorSet*> m_pDescriptorSets;
 
 	protected:
 		CVulkanDevice *m_pDevice;

@@ -48,7 +48,7 @@ namespace CrossEngine {
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<uint32_t, CVulkanCommandPool*> m_pCommandPools;
+		eastl::map<uint32_t, CVulkanCommandPool*> m_pCommandPools;
 
 	protected:
 		CVulkanDevice *m_pDevice;

@@ -83,8 +83,8 @@ namespace CrossEngine {
 
 	private:
 		pthread_mutex_t m_mutexTaskList;
-		std::map<event_t*, CTask*> m_pTaskListHeads;
-		std::map<event_t*, event_t*> m_pTaskListDependence;
+		eastl::map<event_t*, CTask*> m_pTaskListHeads;
+		eastl::map<event_t*, event_t*> m_pTaskListDependence;
 	};
 
 }

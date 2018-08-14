@@ -28,16 +28,16 @@ namespace CrossEngine {
 
 	// [RenderPass][IndexPass][MaterialPipeline][MaterialDescriptorSet][VertexBuffer][IndexBuffer][indexCount][indexOffset][vertexOffset][DrawDescriptorSet] = Batch
 	typedef
-		std::map<CGfxRenderPassPtr,
-		std::map<uint32_t,
-		std::map<CGfxPipelineGraphicsPtr,
-		std::map<CGfxDescriptorSetPtr,
-		std::map<CGfxVertexBufferPtr,
-		std::map<CGfxIndexBufferPtr,
-		std::map<uint32_t,
-		std::map<uint32_t,
-		std::map<uint32_t,
-		std::map<CGfxDescriptorSetPtr,
+		eastl::map<CGfxRenderPassPtr,
+		eastl::map<uint32_t,
+		eastl::map<CGfxPipelineGraphicsPtr,
+		eastl::map<CGfxDescriptorSetPtr,
+		eastl::map<CGfxVertexBufferPtr,
+		eastl::map<CGfxIndexBufferPtr,
+		eastl::map<uint32_t,
+		eastl::map<uint32_t,
+		eastl::map<uint32_t,
+		eastl::map<CGfxDescriptorSetPtr,
 		CBatch*>>>>>>>>>> RenderQueue;
 
 	class CROSS_EXPORT CCamera
@@ -107,9 +107,9 @@ namespace CrossEngine {
 
 	protected:
 		RenderQueue m_queue;
-		std::vector<CBatchPartical*> m_pBatchParticals;
-		std::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
-		std::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
+		eastl::vector<CBatchPartical*> m_pBatchParticals;
+		eastl::vector<CBatchSkinMesh*> m_pBatchSkinMeshs;
+		eastl::vector<CBatchStaticMesh*> m_pBatchStaticMeshs;
 	};
 
 }

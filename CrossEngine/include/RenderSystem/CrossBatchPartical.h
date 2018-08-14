@@ -55,7 +55,7 @@ namespace CrossEngine {
 
 
 	protected:
-		static std::vector<BatchData> m_batchs;
+		static eastl::vector<BatchData> m_batchs;
 		static CGfxVertexBufferPtr m_ptrBatchBuffer;
 	};
 

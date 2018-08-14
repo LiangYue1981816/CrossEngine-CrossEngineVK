@@ -51,7 +51,7 @@ namespace CrossEngine {
 			uint32_t dwRenderPassName;
 			AttachmentPresentParam attachmentPresent;
 			AttachmentDepthStencilParam attachmentDepthStencil;
-			std::vector<AttachmentRenderTextureParam> attachmentColors;
+			eastl::vector<AttachmentRenderTextureParam> attachmentColors;
 		} FrameBufferParam;
 
 

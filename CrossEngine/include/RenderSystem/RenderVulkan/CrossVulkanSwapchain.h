@@ -41,10 +41,10 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		int EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const;
-		int EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const;
+		int EnumDeviceSurfaceModes(eastl::vector<VkPresentModeKHR> &modes) const;
+		int EnumDeviceSurfaceFormats(eastl::vector<VkSurfaceFormatKHR> &formats) const;
 		int EnumDeviceSurfaceCapabilities(VkSurfaceCapabilitiesKHR &capabilities) const;
-		int CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities);
+		int CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const eastl::vector<VkPresentModeKHR> &modes, const eastl::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities);
 		int CreateImagesAndImageViews(void);
 
 	protected:

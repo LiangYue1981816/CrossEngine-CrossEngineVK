@@ -69,9 +69,9 @@ namespace CrossEngine {
 
 
 	protected:
-		std::vector<VkClearValue> m_clears;
-		std::vector<VkAttachmentDescription> m_attachments;
-		std::vector<GLSubpassInformation> m_subpasses;
+		eastl::vector<VkClearValue> m_clears;
+		eastl::vector<VkAttachmentDescription> m_attachments;
+		eastl::vector<GLSubpassInformation> m_subpasses;
 
 	protected:
 		CGLES3Device *m_pDevice;

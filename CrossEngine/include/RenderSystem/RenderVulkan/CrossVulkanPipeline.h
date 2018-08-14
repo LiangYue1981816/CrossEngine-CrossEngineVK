@@ -34,8 +34,8 @@ namespace CrossEngine {
 
 
 	protected:
-		BOOL CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts);
-		BOOL CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
+		BOOL CreateDescriptorSetLayouts(eastl::vector<VkDescriptorSetLayout> &layouts);
+		BOOL CreateShaderStages(eastl::vector<VkPipelineShaderStageCreateInfo> &shaderStages);
 
 		void Destroy(void);
 		void DestroyDescriptorSetLayouts(void);
@@ -47,13 +47,13 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
+		eastl::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
+		eastl::map<VkShaderStageFlagBits, VkPipelineShaderStageCreateInfo> m_shaderStages;
 
 	protected:
 		VkPipeline m_vkPipeline;
 		VkPipelineLayout m_vkPipelineLayout;
-		std::map<uint32_t, CGfxDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
+		eastl::map<uint32_t, CGfxDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
 
 	protected:
 		CVulkanDevice *m_pDevice;

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace CrossEngine {
 
-	static BOOL SaveShaderBinary(const char *szFileName, const std::vector<uint32_t> &words)
+	static BOOL SaveShaderBinary(const char *szFileName, const eastl::vector<uint32_t> &words)
 	{
 		FILE *pFile = fopen(szFileName, "wb");
 		if (pFile == NULL) return FALSE;
@@ -39,7 +39,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	static BOOL LoadShaderBinary(const char *szFileName, std::vector<uint32_t> &words)
+	static BOOL LoadShaderBinary(const char *szFileName, eastl::vector<uint32_t> &words)
 	{
 		FILE *pFile = fopen(szFileName, "rb");
 		if (pFile == NULL) return FALSE;
@@ -70,7 +70,7 @@ namespace CrossEngine {
 		return shaderc_glsl_infer_from_source;
 	}
 
-	static BOOL CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::Compiler &compiler, const shaderc::CompileOptions &options, std::vector<uint32_t> &words)
+	static BOOL CompileShader(const char *source, size_t length, shaderc_shader_kind kind, const shaderc::Compiler &compiler, const shaderc::CompileOptions &options, eastl::vector<uint32_t> &words)
 	{
 		shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, length, kind, "SPIR-V Compiler", options);
 
@@ -111,7 +111,7 @@ namespace CrossEngine {
 		return CGfxShaderPtr(pShader);
 	}
 
-	BOOL CGLES3ShaderManager::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words)
+	BOOL CGLES3ShaderManager::Precompile(const char *szSource, size_t length, VkShaderStageFlagBits flags, eastl::vector<uint32_t> &words)
 	{
 		char szFileName[_MAX_STRING];
 		sprintf(szFileName, "%s/%x", GetCachePath(), HashValue((const uint8_t *)szSource, length));

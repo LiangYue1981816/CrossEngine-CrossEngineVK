@@ -59,7 +59,7 @@ namespace CrossEngine {
 	BOOL CVulkanDescriptorSetLayout::Create(void)
 	{
 		try {
-			std::vector<VkDescriptorSetLayoutBinding> bindings;
+			eastl::vector<VkDescriptorSetLayoutBinding> bindings;
 			for (const auto &itBinding : m_layoutBindings) {
 				bindings.emplace_back(itBinding.second);
 			}

@@ -44,9 +44,9 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		int EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const;
+		int EnumeratePhysicalDevices(eastl::vector<VkPhysicalDevice> &devices) const;
 
-		int SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
+		int SelectPhysicalDevices(eastl::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
 		int CheckPhysicalDeviceCapabilities(VkPhysicalDevice vkPhysicalDevice) const;
 		int CheckPhysicalDeviceExtensionProperties(VkPhysicalDevice vkPhysicalDevice) const;
 		int CheckPhysicalDeviceQueueFamilyProperties(VkPhysicalDevice vkPhysicalDevice, uint32_t &queueFamilyIndex) const;
@@ -134,7 +134,7 @@ namespace CrossEngine {
 		void AddShaderIncludePath(const char *szPath);
 		void AddShaderMacroDefinition(const char *szName);
 		void AddShaderMacroDefinition(const char *szName, const char *szValue);
-		BOOL PrecompileShader(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words);
+		BOOL PrecompileShader(const char *szSource, size_t length, VkShaderStageFlagBits flags, eastl::vector<uint32_t> &words);
 
 	public:
 		int WaitIdle(void) const;

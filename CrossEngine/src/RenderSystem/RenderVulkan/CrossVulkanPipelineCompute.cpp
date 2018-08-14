@@ -52,7 +52,7 @@ namespace CrossEngine {
 		try {
 			m_ptrShaders[VK_SHADER_STAGE_COMPUTE_BIT] = ptrShader;
 
-			std::vector<VkDescriptorSetLayout> layouts;
+			eastl::vector<VkDescriptorSetLayout> layouts;
 			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
 
 			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};

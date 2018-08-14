@@ -86,11 +86,11 @@ namespace CrossEngine {
 		} DependencyParam;
 
 		typedef struct RenderPassParam {
-			std::vector<AttachmentPresentParam> attachmentPresents;
-			std::vector<AttachmentColorTextureParam> attachmentColors;
-			std::vector<AttachmentDepthStencilTextureParam> attachmentDepthStencils;
-			std::vector<SubPassParam> subpasses;
-			std::vector<DependencyParam> dependencies;
+			eastl::vector<AttachmentPresentParam> attachmentPresents;
+			eastl::vector<AttachmentColorTextureParam> attachmentColors;
+			eastl::vector<AttachmentDepthStencilTextureParam> attachmentDepthStencils;
+			eastl::vector<SubPassParam> subpasses;
+			eastl::vector<DependencyParam> dependencies;
 		} RenderPassParam;
 
 

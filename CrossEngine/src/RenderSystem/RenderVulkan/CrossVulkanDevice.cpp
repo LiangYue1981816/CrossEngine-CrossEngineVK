@@ -92,7 +92,7 @@ namespace CrossEngine {
 	{
 		uint32_t queueFamilyIndex;
 		VkPhysicalDevice vkPhysicalDevice;
-		std::vector<VkPhysicalDevice> devices;
+		eastl::vector<VkPhysicalDevice> devices;
 
 		CALL_VK_FUNCTION_RETURN(EnumeratePhysicalDevices(devices));
 		CALL_VK_FUNCTION_RETURN(SelectPhysicalDevices(devices, vkPhysicalDevice, queueFamilyIndex));
@@ -139,7 +139,7 @@ namespace CrossEngine {
 		DestroyDevice();
 	}
 
-	int CVulkanDevice::EnumeratePhysicalDevices(std::vector<VkPhysicalDevice> &devices) const
+	int CVulkanDevice::EnumeratePhysicalDevices(eastl::vector<VkPhysicalDevice> &devices) const
 	{
 		devices.clear();
 
@@ -153,7 +153,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	int CVulkanDevice::SelectPhysicalDevices(std::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const
+	int CVulkanDevice::SelectPhysicalDevices(eastl::vector<VkPhysicalDevice> &devices, VkPhysicalDevice &vkPhysicalDevice, uint32_t &queueFamilyIndex) const
 	{
 		uint32_t familyIndex = UINT32_MAX;
 
@@ -192,7 +192,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, NULL));
 		if (numExtensions == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		std::vector<VkExtensionProperties> extensions(numExtensions);
+		eastl::vector<VkExtensionProperties> extensions(numExtensions);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateDeviceExtensionProperties(vkPhysicalDevice, NULL, &numExtensions, extensions.data()));
 
 		for (uint32_t index = 0; index < numExtensions; index++) {
@@ -212,7 +212,7 @@ namespace CrossEngine {
 		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, NULL);
 		if (numQueueFamilies == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		std::vector<VkQueueFamilyProperties> queueFamilies(numQueueFamilies);
+		eastl::vector<VkQueueFamilyProperties> queueFamilies(numQueueFamilies);
 		vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &numQueueFamilies, queueFamilies.data());
 
 		for (uint32_t index = 0; index < numQueueFamilies; index++) {
@@ -587,7 +587,7 @@ namespace CrossEngine {
 		m_pShaderManager->AddMacroDefinition(szName, szValue);
 	}
 
-	BOOL CVulkanDevice::PrecompileShader(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words)
+	BOOL CVulkanDevice::PrecompileShader(const char *szSource, size_t length, VkShaderStageFlagBits flags, eastl::vector<uint32_t> &words)
 	{
 		return m_pShaderManager->Precompile(szSource, length, flags, words);
 	}

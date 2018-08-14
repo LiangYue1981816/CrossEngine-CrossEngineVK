@@ -121,7 +121,7 @@ namespace CrossEngine {
 			MultisampleParam multisample;
 			DepthParam depth;
 			StencilParam stencil;
-			std::map<uint32_t, BlendParam> blends;
+			eastl::map<uint32_t, BlendParam> blends;
 		} PipelineGraphicsParam;
 
 

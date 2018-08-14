@@ -78,7 +78,7 @@ namespace CrossEngine {
 
 	}
 
-	BOOL CVulkanPipeline::CreateDescriptorSetLayouts(std::vector<VkDescriptorSetLayout> &layouts)
+	BOOL CVulkanPipeline::CreateDescriptorSetLayouts(eastl::vector<VkDescriptorSetLayout> &layouts)
 	{
 		layouts.clear();
 
@@ -141,7 +141,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	BOOL CVulkanPipeline::CreateShaderStages(std::vector<VkPipelineShaderStageCreateInfo> &shaderStages)
+	BOOL CVulkanPipeline::CreateShaderStages(eastl::vector<VkPipelineShaderStageCreateInfo> &shaderStages)
 	{
 		shaderStages.clear();
 

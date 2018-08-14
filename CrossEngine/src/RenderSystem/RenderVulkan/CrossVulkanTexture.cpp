@@ -99,7 +99,7 @@ namespace CrossEngine {
 	BOOL CVulkanTexture::TransferTexture2D(const gli::texture2d &texture)
 	{
 		uint32_t offset = 0;
-		std::vector<VkBufferImageCopy> regions;
+		eastl::vector<VkBufferImageCopy> regions;
 
 		for (uint32_t level = 0; level < texture.levels(); level++) {
 			VkBufferImageCopy region;
@@ -123,7 +123,7 @@ namespace CrossEngine {
 	BOOL CVulkanTexture::TransferTexture2DArray(const gli::texture2d_array &texture)
 	{
 		uint32_t offset = 0;
-		std::vector<VkBufferImageCopy> regions;
+		eastl::vector<VkBufferImageCopy> regions;
 
 		for (uint32_t layer = 0; layer < texture.layers(); layer++) {
 			for (uint32_t level = 0; level < texture.levels(); level++) {
@@ -149,7 +149,7 @@ namespace CrossEngine {
 	BOOL CVulkanTexture::TransferTexture3D(const gli::texture3d &texture)
 	{
 		uint32_t offset = 0;
-		std::vector<VkBufferImageCopy> regions;
+		eastl::vector<VkBufferImageCopy> regions;
 
 		for (uint32_t level = 0; level < texture.levels(); level++) {
 			VkBufferImageCopy region;
@@ -173,7 +173,7 @@ namespace CrossEngine {
 	BOOL CVulkanTexture::TransferTextureCube(const gli::texture_cube &texture)
 	{
 		uint32_t offset = 0;
-		std::vector<VkBufferImageCopy> regions;
+		eastl::vector<VkBufferImageCopy> regions;
 
 		for (uint32_t face = 0; face < texture.faces(); face++) {
 			for (uint32_t level = 0; level < texture.levels(); level++) {

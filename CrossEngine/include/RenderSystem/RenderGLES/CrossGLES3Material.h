@@ -47,11 +47,11 @@ namespace CrossEngine {
 	public:
 		CGfxMaterialPassPtr& AddPass(uint32_t dwName);
 		const CGfxMaterialPassPtr& GetPass(uint32_t dwName) const;
-		const std::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const;
+		const eastl::map<uint32_t, CGfxMaterialPassPtr>& GetPasses(void) const;
 
 
 	protected:
-		std::map<uint32_t, CGfxMaterialPassPtr> m_ptrPasses;
+		eastl::map<uint32_t, CGfxMaterialPassPtr> m_ptrPasses;
 
 	protected:
 		CGLES3Device *m_pDevice;

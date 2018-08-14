@@ -68,7 +68,7 @@ namespace CrossEngine {
 
 	BOOL CGLES3Shader::Create(const char *szSource, size_t length, VkShaderStageFlagBits flags)
 	{
-		std::vector<uint32_t> words;
+		eastl::vector<uint32_t> words;
 
 		if (((CGLES3ShaderManager *)m_pResourceManager)->Precompile(szSource, length, flags, words) == FALSE) {
 			return FALSE;
@@ -87,7 +87,7 @@ namespace CrossEngine {
 		options.vertex.fixup_clipspace = false;
 		((spirv_cross::CompilerGLSL *)m_pShaderCompiler)->set_options(options);
 
-		const std::string strSource = m_pShaderCompiler->compile();
+		const eastl::string strSource = m_pShaderCompiler->compile().c_str();
 		const char *szSource = strSource.c_str();
 
 #ifdef _DEBUG

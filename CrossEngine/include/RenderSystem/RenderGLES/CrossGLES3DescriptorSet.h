@@ -64,10 +64,10 @@ namespace CrossEngine {
 		CGfxDescriptorSetLayoutPtr m_ptrDescriptorSetLayout;
 
 	protected:
-		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
-		std::map<uint32_t, CGfxRenderTexturePtr> m_ptrRenderTextures;
-		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
-		std::map<uint32_t, uint32_t> m_uniformBufferOffsets;
+		eastl::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
+		eastl::map<uint32_t, CGfxRenderTexturePtr> m_ptrRenderTextures;
+		eastl::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
+		eastl::map<uint32_t, uint32_t> m_uniformBufferOffsets;
 
 	protected:
 		CGLES3DescriptorSetManager *m_pDescriptorSetManager;

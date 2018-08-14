@@ -94,8 +94,8 @@ namespace CrossEngine {
 	BOOL CVulkanInstance::Create(HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
 		try {
-			std::vector<const char*> enabledInstanceLayers;
-			std::vector<const char*> enabledInstanceExtensions;
+			eastl::vector<const char*> enabledInstanceLayers;
+			eastl::vector<const char*> enabledInstanceExtensions;
 
 			CALL_VK_FUNCTION_THROW(EnumerateInstanceLayerProperties(enabledInstanceLayers));
 			CALL_VK_FUNCTION_THROW(EnumerateInstanceExtensionProperties(enabledInstanceExtensions));
@@ -126,7 +126,7 @@ namespace CrossEngine {
 		DestroyInstance();
 	}
 
-	int CVulkanInstance::EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const
+	int CVulkanInstance::EnumerateInstanceLayerProperties(eastl::vector<const char*> &enabledInstanceLayers) const
 	{
 		enabledInstanceLayers.clear();
 
@@ -134,7 +134,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceLayerProperties(&numLayers, NULL));
 		if (numLayers == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		std::vector<VkLayerProperties> layers(numLayers);
+		eastl::vector<VkLayerProperties> layers(numLayers);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceLayerProperties(&numLayers, layers.data()));
 
 		for (uint32_t index = 0; index < numLayers; index++) {
@@ -150,7 +150,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	int CVulkanInstance::EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const
+	int CVulkanInstance::EnumerateInstanceExtensionProperties(eastl::vector<const char*> &enabledInstanceExtensions) const
 	{
 		enabledInstanceExtensions.clear();
 
@@ -158,7 +158,7 @@ namespace CrossEngine {
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceExtensionProperties(NULL, &numExtensions, NULL));
 		if (numExtensions == 0) return VK_ERROR_INITIALIZATION_FAILED;
 
-		std::vector<VkExtensionProperties> extensions(numExtensions);
+		eastl::vector<VkExtensionProperties> extensions(numExtensions);
 		CALL_VK_FUNCTION_RETURN(vkEnumerateInstanceExtensionProperties(NULL, &numExtensions, extensions.data()));
 
 		BOOL bSurfaceExtension = FALSE;
@@ -209,7 +209,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	int CVulkanInstance::CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions)
+	int CVulkanInstance::CreateInstance(const eastl::vector<const char*> &enabledInstanceLayers, const eastl::vector<const char*> &enabledInstanceExtensions)
 	{
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;

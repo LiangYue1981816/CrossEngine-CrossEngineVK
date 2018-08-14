@@ -46,7 +46,7 @@ namespace CrossEngine {
 		void DumpLog(void) const;
 
 	protected:
-		BOOL CreateSubpasses(std::vector<VkSubpassDescription> &subpasses, std::map<uint32_t, std::vector<VkAttachmentReference>> &inputAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &colorAttachments, std::map<uint32_t, std::vector<VkAttachmentReference>> &resolveAttachments, std::map<uint32_t, std::vector<uint32_t>> &preserveAttachments);
+		BOOL CreateSubpasses(eastl::vector<VkSubpassDescription> &subpasses, eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> &inputAttachments, eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> &colorAttachments, eastl::map<uint32_t, eastl::vector<VkAttachmentReference>> &resolveAttachments, eastl::map<uint32_t, eastl::vector<uint32_t>> &preserveAttachments);
 
 	public:
 		BOOL SetPresentAttachment(uint32_t indexAttachment, VkFormat format, VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkClearValue clearValue, VkSampleCountFlagBits samples);
@@ -72,10 +72,10 @@ namespace CrossEngine {
 
 
 	protected:
-		std::vector<VkClearValue> m_clears;
-		std::vector<VkAttachmentDescription> m_attachments;
-		std::vector<VkSubpassInformation> m_subpasses;
-		std::vector<VkSubpassDependency> m_dependencies;
+		eastl::vector<VkClearValue> m_clears;
+		eastl::vector<VkAttachmentDescription> m_attachments;
+		eastl::vector<VkSubpassInformation> m_subpasses;
+		eastl::vector<VkSubpassDependency> m_dependencies;
 
 	protected:
 		VkRenderPass m_vkRenderPass;

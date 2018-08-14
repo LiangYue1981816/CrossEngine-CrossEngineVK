@@ -129,7 +129,7 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
-	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(GLuint program)
+	const eastl::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetUniformBlockBindings(GLuint program)
 	{
 		if (m_uniformBlockBindings.find(program) == m_uniformBlockBindings.end()) {
 			for (const auto &itNameBinding : m_uniformBlockNameBindings) {
@@ -146,7 +146,7 @@ namespace CrossEngine {
 		return m_uniformBlockBindings[program];
 	}
 
-	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetSampledImageBindings(GLuint program)
+	const eastl::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetSampledImageBindings(GLuint program)
 	{
 		if (m_sampledImageBindings.find(program) == m_sampledImageBindings.end()) {
 			for (const auto &itNameBinding : m_sampledImageNameBindings) {
@@ -162,7 +162,7 @@ namespace CrossEngine {
 		return m_sampledImageBindings[program];
 	}
 
-	const std::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetInputAttachmentBindings(GLuint program)
+	const eastl::map<uint32_t, uint32_t>& CGLES3DescriptorSetLayout::GetInputAttachmentBindings(GLuint program)
 	{
 		if (m_inputAttachmentBindings.find(program) == m_inputAttachmentBindings.end()) {
 			for (const auto &itNameBinding : m_inputAttachmentNameBindings) {

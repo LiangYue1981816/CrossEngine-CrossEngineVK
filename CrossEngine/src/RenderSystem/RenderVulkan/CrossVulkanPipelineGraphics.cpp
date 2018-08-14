@@ -113,10 +113,10 @@ namespace CrossEngine {
 	BOOL CVulkanPipelineGraphics::Create(HANDLE hRenderPass, uint32_t indexSubPass)
 	{
 		try {
-			std::vector<VkDescriptorSetLayout> layouts;
-			std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
-			std::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
-			std::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
+			eastl::vector<VkDescriptorSetLayout> layouts;
+			eastl::vector<VkPipelineShaderStageCreateInfo> shaderStages;
+			eastl::vector<VkVertexInputBindingDescription> inputBindingDescriptions;
+			eastl::vector<VkVertexInputAttributeDescription> inputAttributeDescriptions;
 
 			CALL_BOOL_FUNCTION_THROW(CreateDescriptorSetLayouts(layouts));
 			CALL_BOOL_FUNCTION_THROW(CreateShaderStages(shaderStages));
@@ -164,7 +164,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CVulkanPipelineGraphics::CreateVertexInputState(std::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, std::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
+	BOOL CVulkanPipelineGraphics::CreateVertexInputState(eastl::vector<VkVertexInputBindingDescription> &inputBindingDescriptions, eastl::vector<VkVertexInputAttributeDescription> &inputAttributeDescriptions)
 	{
 		m_vertexFormat = 0;
 		m_instanceFormat = 0;

@@ -56,7 +56,7 @@ namespace CrossEngine {
 		CGfxDescriptorSetPtr m_ptrDescriptorSet;
 
 	protected:
-		std::map<const CDrawable*, const CDrawable*> m_pDrawables;
+		eastl::map<const CDrawable*, const CDrawable*> m_pDrawables;
 	};
 
 }

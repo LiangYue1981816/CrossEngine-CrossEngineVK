@@ -54,7 +54,7 @@ namespace CrossEngine {
 	BOOL CVulkanFrameBuffer::Create(HANDLE hRenderPass)
 	{
 		try {
-			std::vector<VkImageView> attachments;
+			eastl::vector<VkImageView> attachments;
 			CALL_BOOL_FUNCTION_THROW(CreateAttachments(attachments));
 
 			VkFramebufferCreateInfo createInfo = {};
@@ -79,7 +79,7 @@ namespace CrossEngine {
 		}
 	}
 
-	BOOL CVulkanFrameBuffer::CreateAttachments(std::vector<VkImageView> &attachments)
+	BOOL CVulkanFrameBuffer::CreateAttachments(eastl::vector<VkImageView> &attachments)
 	{
 		attachments.clear();
 

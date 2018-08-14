@@ -67,7 +67,7 @@ namespace CrossEngine {
 	protected:
 		uint32_t m_width;
 		uint32_t m_height;
-		std::vector<GLAttachmentInformation> m_attachments;
+		eastl::vector<GLAttachmentInformation> m_attachments;
 
 	protected:
 		GLuint m_framebuffer;

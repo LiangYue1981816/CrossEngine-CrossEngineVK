@@ -60,7 +60,7 @@ namespace CrossEngine {
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<uint32_t, std::map<uint32_t, CVulkanMemoryAllocator*>> m_pAllocatorListHeads;
+		eastl::map<uint32_t, eastl::map<uint32_t, CVulkanMemoryAllocator*>> m_pAllocatorListHeads;
 
 	protected:
 		CVulkanDevice *m_pDevice;

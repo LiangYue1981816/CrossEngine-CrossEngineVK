@@ -72,7 +72,7 @@ namespace CrossEngine {
 		void BindUniformBlocks(GLuint program, const CGLES3DescriptorSet *pDescriptorSet) const
 		{
 			const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
-			const std::map<uint32_t, uint32_t> &uniformBlockBindings = ((CGLES3DescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetUniformBlockBindings(program);
+			const eastl::map<uint32_t, uint32_t> &uniformBlockBindings = ((CGLES3DescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetUniformBlockBindings(program);
 
 			for (const auto &itBinding : uniformBlockBindings) {
 				GLuint binding = itBinding.first;
@@ -89,7 +89,7 @@ namespace CrossEngine {
 		void BindSampledImages(GLuint program, const CGLES3DescriptorSet *pDescriptorSet, GLuint &indexTexUnit) const
 		{
 			const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
-			const std::map<uint32_t, uint32_t> &sampledImageBindings = ((CGLES3DescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetSampledImageBindings(program);
+			const eastl::map<uint32_t, uint32_t> &sampledImageBindings = ((CGLES3DescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetSampledImageBindings(program);
 
 			for (const auto &itBinding : sampledImageBindings) {
 				GLuint binding = itBinding.first;
@@ -111,7 +111,7 @@ namespace CrossEngine {
 		void BindInputAttachments(GLuint program, const CGLES3DescriptorSet *pDescriptorSet, GLuint &indexTexUnit) const
 		{
 			const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout = pDescriptorSet->GetDescriptorSetLayout();
-			const std::map<uint32_t, uint32_t> &inputAttachmentBindings = ((CGLES3DescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetInputAttachmentBindings(program);
+			const eastl::map<uint32_t, uint32_t> &inputAttachmentBindings = ((CGLES3DescriptorSetLayout *)((CGfxDescriptorSetLayout *)ptrDescriptorSetLayout))->GetInputAttachmentBindings(program);
 
 			for (const auto &itBinding : inputAttachmentBindings) {
 				GLuint binding = itBinding.first;

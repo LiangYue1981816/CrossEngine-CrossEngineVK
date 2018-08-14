@@ -49,7 +49,7 @@ namespace CrossEngine {
 			CRenderer *pRenderer;
 			CGfxRenderPassPtr ptrRenderPass;
 			CGfxFrameBufferPtr ptrFrameBuffer;
-			std::vector<PipelineParam> pipelines;
+			eastl::vector<PipelineParam> pipelines;
 		} ThreadParam;
 
 		typedef struct ThreadCluster {
@@ -64,21 +64,21 @@ namespace CrossEngine {
 	protected:
 		// [Camera][FrameBuffer][RenderPass][Frame] = MainCommandBuffer
 		typedef
-			std::map<CCamera*,
-			std::map<CGfxFrameBufferPtr,
-			std::map<CGfxRenderPassPtr,
-			std::map<uint32_t,
+			eastl::map<CCamera*,
+			eastl::map<CGfxFrameBufferPtr,
+			eastl::map<CGfxRenderPassPtr,
+			eastl::map<uint32_t,
 			CGfxCommandBufferPtr>>>> MainCommandBufferMap;
 
 		// [Camera][FrameBuffer][RenderPass][Pipeline][IndexPass][Frame][Thread] = SecondaryCommandBuffer
 		typedef
-			std::map<CCamera*,
-			std::map<CGfxFrameBufferPtr,
-			std::map<CGfxRenderPassPtr,
-			std::map<CGfxPipelineGraphicsPtr,
-			std::map<uint32_t,
-			std::map<uint32_t,
-			std::map<uint32_t,
+			eastl::map<CCamera*,
+			eastl::map<CGfxFrameBufferPtr,
+			eastl::map<CGfxRenderPassPtr,
+			eastl::map<CGfxPipelineGraphicsPtr,
+			eastl::map<uint32_t,
+			eastl::map<uint32_t,
+			eastl::map<uint32_t,
 			CGfxCommandBufferPtr>>>>>>> SecondaryCommandBufferMap;
 
 		
@@ -98,7 +98,7 @@ namespace CrossEngine {
 	protected:
 		void ResetMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
-		void BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const std::vector<PipelineParam> &pipelines);
+		void BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const eastl::vector<PipelineParam> &pipelines);
 
 	protected:
 		void DispatchThread(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, BOOL bWait);

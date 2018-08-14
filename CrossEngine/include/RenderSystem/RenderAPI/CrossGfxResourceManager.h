@@ -87,7 +87,7 @@ namespace CrossEngine {
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<CGfxResource*, CGfxResource*> m_pResources;
+		eastl::map<CGfxResource*, CGfxResource*> m_pResources;
 	};
 
 }

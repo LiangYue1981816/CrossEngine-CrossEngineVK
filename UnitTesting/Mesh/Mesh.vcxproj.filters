@@ -19,6 +19,9 @@
     <Filter Include="Base\Source Files\nvwa">
       <UniqueIdentifier>{f35fc3c6-226c-425a-a0ff-9e5ee244e22a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base\Source Files\eastl">
+      <UniqueIdentifier>{d83f5537-eff6-4fc0-b806-19f368cd6d18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base\Base.h">
@@ -51,6 +54,36 @@
       <Filter>Base\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\allocator_eastl.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\assert.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\fixed_pool.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\hashtable.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\intrusive_list.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\new.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\numeric_limits.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\red_black_tree.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\string.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\thread_support.cpp">
+      <Filter>Base\Source Files\eastl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Base\Base.ico">

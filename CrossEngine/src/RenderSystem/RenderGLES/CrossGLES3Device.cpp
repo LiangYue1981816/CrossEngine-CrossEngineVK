@@ -359,7 +359,7 @@ namespace CrossEngine {
 		m_pShaderManager->AddMacroDefinition(szName, szValue);
 	}
 
-	BOOL CGLES3Device::PrecompileShader(const char *szSource, size_t length, VkShaderStageFlagBits flags, std::vector<uint32_t> &words)
+	BOOL CGLES3Device::PrecompileShader(const char *szSource, size_t length, VkShaderStageFlagBits flags, eastl::vector<uint32_t> &words)
 	{
 		return m_pShaderManager->Precompile(szSource, length, flags, words);
 	}

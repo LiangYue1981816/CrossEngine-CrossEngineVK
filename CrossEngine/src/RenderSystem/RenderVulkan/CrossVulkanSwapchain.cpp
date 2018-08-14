@@ -53,7 +53,7 @@ namespace CrossEngine {
 		}
 	}
 
-	static VkPresentModeKHR GetSwapchainPresentMode(const std::vector<VkPresentModeKHR> &modes)
+	static VkPresentModeKHR GetSwapchainPresentMode(const eastl::vector<VkPresentModeKHR> &modes)
 	{
 		for (uint32_t index = 0; index < modes.size(); index++) {
 			if (modes[index] == VK_PRESENT_MODE_MAILBOX_KHR) {
@@ -68,7 +68,7 @@ namespace CrossEngine {
 		return VK_PRESENT_MODE_IMMEDIATE_KHR;
 	}
 
-	static VkSurfaceFormatKHR GetSwapchainFormat(const std::vector<VkSurfaceFormatKHR> &formats)
+	static VkSurfaceFormatKHR GetSwapchainFormat(const eastl::vector<VkSurfaceFormatKHR> &formats)
 	{
 		if ((formats.size() == 1) && (formats[0].format == VK_FORMAT_UNDEFINED)) {
 			return { VK_FORMAT_B8G8R8A8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR };
@@ -108,8 +108,8 @@ namespace CrossEngine {
 
 	int CVulkanSwapchain::Create(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform)
 	{
-		std::vector<VkPresentModeKHR> modes;
-		std::vector<VkSurfaceFormatKHR> formats;
+		eastl::vector<VkPresentModeKHR> modes;
+		eastl::vector<VkSurfaceFormatKHR> formats;
 		VkSurfaceCapabilitiesKHR capabilities;
 
 		CALL_VK_FUNCTION_RETURN(EnumDeviceSurfaceModes(modes));
@@ -133,7 +133,7 @@ namespace CrossEngine {
 		m_format = VK_FORMAT_UNDEFINED;
 	}
 
-	int CVulkanSwapchain::EnumDeviceSurfaceModes(std::vector<VkPresentModeKHR> &modes) const
+	int CVulkanSwapchain::EnumDeviceSurfaceModes(eastl::vector<VkPresentModeKHR> &modes) const
 	{
 		modes.clear();
 
@@ -147,7 +147,7 @@ namespace CrossEngine {
 		return VK_SUCCESS;
 	}
 
-	int CVulkanSwapchain::EnumDeviceSurfaceFormats(std::vector<VkSurfaceFormatKHR> &formats) const
+	int CVulkanSwapchain::EnumDeviceSurfaceFormats(eastl::vector<VkSurfaceFormatKHR> &formats) const
 	{
 		formats.clear();
 
@@ -166,7 +166,7 @@ namespace CrossEngine {
 		return vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_pDevice->GetPhysicalDevice(), ((CVulkanInstance *)m_pDevice->GetInstance())->GetSurface(), &capabilities);
 	}
 
-	int CVulkanSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const std::vector<VkPresentModeKHR> &modes, const std::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
+	int CVulkanSwapchain::CreateSwapchain(uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform, const eastl::vector<VkPresentModeKHR> &modes, const eastl::vector<VkSurfaceFormatKHR> &formats, const VkSurfaceCapabilitiesKHR &capabilities)
 	{
 		VkExtent2D imageExtent = GetSwapchainExtent(capabilities, width, height);
 		VkImageUsageFlags imageUsage = GetSwapchainUsageFlags(capabilities);

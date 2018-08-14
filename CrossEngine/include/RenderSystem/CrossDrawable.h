@@ -75,8 +75,8 @@ namespace CrossEngine {
 
 	protected:
 		CResMaterialPtr m_ptrMaterial;
-		std::map<uint32_t, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
-		std::map<uint32_t, std::map<uint32_t, CGfxUniformBufferPtr>> m_ptrUniformBuffers;
+		eastl::map<uint32_t, CGfxDescriptorSetPtr> m_ptrDescriptorSets;
+		eastl::map<uint32_t, eastl::map<uint32_t, CGfxUniformBufferPtr>> m_ptrUniformBuffers;
 	};
 
 }

@@ -62,9 +62,9 @@ namespace CrossEngine {
 		BOOL IsCompatible(const CGfxDescriptorSetLayoutPtr &ptrDescriptorSetLayout) const;
 
 	public:
-		const std::map<uint32_t, uint32_t>& GetUniformBlockBindings(GLuint program);
-		const std::map<uint32_t, uint32_t>& GetSampledImageBindings(GLuint program);
-		const std::map<uint32_t, uint32_t>& GetInputAttachmentBindings(GLuint program);
+		const eastl::map<uint32_t, uint32_t>& GetUniformBlockBindings(GLuint program);
+		const eastl::map<uint32_t, uint32_t>& GetSampledImageBindings(GLuint program);
+		const eastl::map<uint32_t, uint32_t>& GetInputAttachmentBindings(GLuint program);
 
 
 	protected:
@@ -72,13 +72,13 @@ namespace CrossEngine {
 
 	protected:
 		uint32_t m_set;
-		std::map<uint32_t, uint32_t> m_nameBindings;
-		std::map<std::string, uint32_t> m_uniformBlockNameBindings;
-		std::map<std::string, uint32_t> m_sampledImageNameBindings;
-		std::map<std::string, uint32_t> m_inputAttachmentNameBindings;
-		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_uniformBlockBindings;
-		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_sampledImageBindings;
-		std::map<uint32_t, std::map<uint32_t, uint32_t>> m_inputAttachmentBindings;
+		eastl::map<uint32_t, uint32_t> m_nameBindings;
+		eastl::map<eastl::string, uint32_t> m_uniformBlockNameBindings;
+		eastl::map<eastl::string, uint32_t> m_sampledImageNameBindings;
+		eastl::map<eastl::string, uint32_t> m_inputAttachmentNameBindings;
+		eastl::map<uint32_t, eastl::map<uint32_t, uint32_t>> m_uniformBlockBindings;
+		eastl::map<uint32_t, eastl::map<uint32_t, uint32_t>> m_sampledImageBindings;
+		eastl::map<uint32_t, eastl::map<uint32_t, uint32_t>> m_inputAttachmentBindings;
 
 	protected:
 		CGLES3Device *m_pDevice;

@@ -26,7 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGfxVertexBufferPtr CBatchPartical::m_ptrBatchBuffer;
-	std::vector<CBatchPartical::BatchData> CBatchPartical::m_batchs;
+	eastl::vector<CBatchPartical::BatchData> CBatchPartical::m_batchs;
 
 	CBatchPartical::CBatchPartical(void)
 	{

@@ -48,7 +48,7 @@ namespace CrossEngine {
 
 	protected:
 		pthread_mutex_t m_mutex;
-		std::map<CGLES3CommandBuffer*, CGLES3CommandBuffer*> m_pCommandBuffers;
+		eastl::map<CGLES3CommandBuffer*, CGLES3CommandBuffer*> m_pCommandBuffers;
 
 	protected:
 		CGLES3Device *m_pDevice;

@@ -68,7 +68,7 @@ namespace CrossEngine {
 		return itMaterialPass != m_ptrPasses.end() ? itMaterialPass->second : ptrMaterialPassNull;
 	}
 
-	const std::map<uint32_t, CGfxMaterialPassPtr>& CGLES3Material::GetPasses(void) const
+	const eastl::map<uint32_t, CGfxMaterialPassPtr>& CGLES3Material::GetPasses(void) const
 	{
 		return m_ptrPasses;
 	}

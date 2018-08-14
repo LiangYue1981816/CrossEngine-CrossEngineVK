@@ -51,7 +51,7 @@ namespace CrossEngine {
 
 
 	protected:
-		std::vector<uint32_t> m_words;
+		eastl::vector<uint32_t> m_words;
 		VkShaderStageFlagBits m_flags;
 
 	protected:

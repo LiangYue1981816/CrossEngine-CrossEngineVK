@@ -127,7 +127,7 @@ namespace CrossEngine {
 		ptrMainCommandBuffer->End();
 	}
 
-	void CRenderer::BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const std::vector<PipelineParam> &pipelines)
+	void CRenderer::BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const eastl::vector<PipelineParam> &pipelines)
 	{
 		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
 		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
@@ -209,7 +209,7 @@ namespace CrossEngine {
 		const auto &itRenderPassQueue = pCamera->GetRenderQueue().find(ptrRenderPass);
 		if (itRenderPassQueue == pCamera->GetRenderQueue().end()) return;
 
-		std::vector<PipelineParam> pipelines;
+		eastl::vector<PipelineParam> pipelines;
 		for (const auto &itPass : itRenderPassQueue->second) {
 			for (const auto &itMaterialPipeline : itPass.second) {
 				pipelines.emplace_back(itPass.first, itMaterialPipeline.first);

@@ -43,7 +43,7 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<CDrawable*, CDrawable*> m_pDrawables;
+		eastl::map<CDrawable*, CDrawable*> m_pDrawables;
 	};
 
 }

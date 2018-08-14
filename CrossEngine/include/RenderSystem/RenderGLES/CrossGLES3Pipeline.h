@@ -46,8 +46,8 @@ namespace CrossEngine {
 
 	protected:
 		GLuint m_pipeline;
-		std::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
-		std::map<uint32_t, CGfxDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
+		eastl::map<VkShaderStageFlagBits, CGfxShaderPtr> m_ptrShaders;
+		eastl::map<uint32_t, CGfxDescriptorSetLayoutPtr> m_ptrDescriptorSetLayouts;
 
 	protected:
 		CGLES3Device *m_pDevice;

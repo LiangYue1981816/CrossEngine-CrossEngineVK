@@ -536,6 +536,16 @@
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResShaderManager.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResTexture.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\ResourceSystem\CrossResTextureManager.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\allocator_eastl.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\assert.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\fixed_pool.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\hashtable.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\intrusive_list.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\new.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\numeric_limits.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\red_black_tree.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\string.cpp" />
+    <ClCompile Include="..\..\Dependencies\eastl\source\thread_support.cpp" />
     <ClCompile Include="..\..\Dependencies\event\event.cpp" />
     <ClCompile Include="..\..\Dependencies\glew\glew.c" />
     <ClCompile Include="..\..\Dependencies\rbtree\rbtree.cpp" />

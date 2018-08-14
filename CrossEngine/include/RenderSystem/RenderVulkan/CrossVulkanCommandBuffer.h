@@ -93,7 +93,7 @@ namespace CrossEngine {
 		CGfxFrameBufferPtr m_ptrFrameBuffer;
 		CGfxPipelineComputePtr m_ptrPipelineCompute;
 		CGfxPipelineGraphicsPtr m_ptrPipelineGraphics;
-		std::vector<CGfxCommandBase*> m_pCommands;
+		eastl::vector<CGfxCommandBase*> m_pCommands;
 
 	protected:
 		VkFence m_vkFence;

@@ -64,10 +64,10 @@ namespace CrossEngine {
 
 	protected:
 		BOOL m_bNeedUpdate;
-		std::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
-		std::map<uint32_t, CGfxRenderTexturePtr> m_ptrRenderTextures;
-		std::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
-		std::map<uint32_t, uint32_t> m_uniformBufferOffsets;
+		eastl::map<uint32_t, CGfxTexturePtr> m_ptrTextures;
+		eastl::map<uint32_t, CGfxRenderTexturePtr> m_ptrRenderTextures;
+		eastl::map<uint32_t, CGfxUniformBufferPtr> m_ptrUniformBuffers;
+		eastl::map<uint32_t, uint32_t> m_uniformBufferOffsets;
 
 	protected:
 		CVulkanDescriptorPool * m_pDescriptorPool;

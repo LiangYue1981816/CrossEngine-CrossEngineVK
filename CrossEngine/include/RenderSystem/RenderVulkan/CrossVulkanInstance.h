@@ -45,9 +45,9 @@ namespace CrossEngine {
 		void Destroy(void);
 
 	protected:
-		int EnumerateInstanceLayerProperties(std::vector<const char*> &enabledInstanceLayers) const;
-		int EnumerateInstanceExtensionProperties(std::vector<const char*> &enabledInstanceExtensions) const;
-		int CreateInstance(const std::vector<const char*> &enabledInstanceLayers, const std::vector<const char*> &enabledInstanceExtensions);
+		int EnumerateInstanceLayerProperties(eastl::vector<const char*> &enabledInstanceLayers) const;
+		int EnumerateInstanceExtensionProperties(eastl::vector<const char*> &enabledInstanceExtensions) const;
+		int CreateInstance(const eastl::vector<const char*> &enabledInstanceLayers, const eastl::vector<const char*> &enabledInstanceExtensions);
 		int CreateDebugReportCallback(void);
 		int CreatePresentationSurface(HINSTANCE hInstance, HWND hWnd);
 		int CreateDevice(void);

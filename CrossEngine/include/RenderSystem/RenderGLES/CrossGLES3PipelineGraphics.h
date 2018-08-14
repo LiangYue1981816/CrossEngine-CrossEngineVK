@@ -103,7 +103,7 @@ namespace CrossEngine {
 		VkPipelineMultisampleStateCreateInfo m_multiSampleState;
 		VkPipelineDepthStencilStateCreateInfo m_depthStencilState;
 		VkPipelineColorBlendStateCreateInfo m_colorBlendState;
-		std::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
+		eastl::vector<VkPipelineColorBlendAttachmentState> m_colorBlendAttachmentStates;
 	};
 
 }

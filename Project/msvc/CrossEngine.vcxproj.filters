@@ -127,6 +127,9 @@
     <Filter Include="Engine\Source Files\RenderSystem\RenderVulkan\Commands">
       <UniqueIdentifier>{211f961f-445e-4db8-9263-f531c3324d7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\eastl">
+      <UniqueIdentifier>{b3db1a6f-a70b-40db-ae14-062d42d1657f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h">
@@ -1309,6 +1312,36 @@
     </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\RenderSystem\CrossUniformEngine.cpp">
       <Filter>Engine\Source Files\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\allocator_eastl.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\assert.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\fixed_pool.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\hashtable.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\intrusive_list.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\new.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\numeric_limits.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\red_black_tree.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\string.cpp">
+      <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\eastl\source\thread_support.cpp">
+      <Filter>Dependencies\eastl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

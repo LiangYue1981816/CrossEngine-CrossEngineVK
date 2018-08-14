@@ -57,7 +57,7 @@ namespace CrossEngine {
 			const GLuint framebuffer = IsNeedMSAA(pFrameBuffer, pRenderPass, m_indexPass) ? (GLuint)pFrameBuffer->GetHandleMSAA() : (GLuint)pFrameBuffer->GetHandle();
 			GLBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 			{
-				std::vector<GLenum> discardBuffers;
+				eastl::vector<GLenum> discardBuffers;
 
 				GetDiscardColorTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
 				GetDiscardDepthStencilTexture(pFrameBuffer, pRenderPass, m_indexPass, framebuffer, discardBuffers);
@@ -83,7 +83,7 @@ namespace CrossEngine {
 			return FALSE;
 		}
 
-		void GetDiscardColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, std::vector<GLenum> &discardBuffers) const
+		void GetDiscardColorTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, eastl::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				GLuint indexAttachment = 0;
@@ -103,7 +103,7 @@ namespace CrossEngine {
 			}
 		}
 
-		void GetDiscardDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, std::vector<GLenum> &discardBuffers) const
+		void GetDiscardDepthStencilTexture(const CGLES3FrameBuffer *pFrameBuffer, const CGLES3RenderPass *pRenderPass, uint32_t indexSubPass, GLuint framebuffer, eastl::vector<GLenum> &discardBuffers) const
 		{
 			if (const GLSubpassInformation* pSubPass = pRenderPass->GetSubpass(indexSubPass)) {
 				if (GLuint texture = pFrameBuffer->GetRenderTexture(pSubPass->depthStencilAttachment)) {

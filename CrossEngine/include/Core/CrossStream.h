@@ -117,7 +117,7 @@ namespace CrossEngine {
 		return stream;
 	}
 
-	inline CStream& operator << (CStream &stream, std::string &value)
+	inline CStream& operator << (CStream &stream, eastl::string &value)
 	{
 		size_t count;
 		stream << count; value.resize(count);
@@ -126,7 +126,7 @@ namespace CrossEngine {
 	}
 
 	template<typename T>
-	inline CStream& operator << (CStream &stream, std::vector<T> &values)
+	inline CStream& operator << (CStream &stream, eastl::vector<T> &values)
 	{
 		values.clear();
 
@@ -143,7 +143,7 @@ namespace CrossEngine {
 	}
 
 	template<typename K, typename T>
-	inline CStream& operator << (CStream &stream, std::map<K, T> &values)
+	inline CStream& operator << (CStream &stream, eastl::map<K, T> &values)
 	{
 		values.clear();
 
@@ -155,7 +155,7 @@ namespace CrossEngine {
 			T value;
 			stream << key;
 			stream << value;
-			values.insert(std::map<K, T>::value_type(key, value));
+			values.insert(eastl::map<K, T>::value_type(key, value));
 		}
 
 		return stream;

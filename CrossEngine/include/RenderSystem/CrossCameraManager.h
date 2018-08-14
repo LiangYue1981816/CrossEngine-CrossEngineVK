@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 
 	protected:
-		std::map<uint32_t, CCamera*> m_pCameras;
+		eastl::map<uint32_t, CCamera*> m_pCameras;
 	};
 
 }

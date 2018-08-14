@@ -26,7 +26,7 @@ THE SOFTWARE.
 namespace CrossEngine {
 
 	CGfxVertexBufferPtr CBatchSkinMesh::m_ptrBatchBuffer;
-	std::vector<CBatchSkinMesh::BatchData> CBatchSkinMesh::m_batchs;
+	eastl::vector<CBatchSkinMesh::BatchData> CBatchSkinMesh::m_batchs;
 
 	CBatchSkinMesh::CBatchSkinMesh(void)
 	{

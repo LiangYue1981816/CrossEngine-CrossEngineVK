@@ -98,7 +98,7 @@ namespace CrossEngine {
 		if (m_bNeedUpdate) {
 			m_bNeedUpdate = FALSE;
 
-			std::vector<VkWriteDescriptorSet> writes;
+			eastl::vector<VkWriteDescriptorSet> writes;
 
 			for (const auto &itTexture : m_ptrTextures) {
 				const uint32_t binding = itTexture.first;

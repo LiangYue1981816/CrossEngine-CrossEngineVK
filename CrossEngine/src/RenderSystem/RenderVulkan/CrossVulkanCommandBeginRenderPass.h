@@ -53,7 +53,7 @@ namespace CrossEngine {
 				return;
 			}
 
-			std::vector<VkClearValue> clearValues;
+			eastl::vector<VkClearValue> clearValues;
 			for (uint32_t indexAttachment = 0; indexAttachment < m_ptrRenderPass->GetAttachmentCount(); indexAttachment++) {
 				clearValues.emplace_back(*m_ptrRenderPass->GetAttachmentClearValue(indexAttachment));
 			}
