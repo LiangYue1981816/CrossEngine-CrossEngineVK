@@ -61,9 +61,9 @@ THE SOFTWARE.
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 
-#include <unordered_map>
-#include <vector>
-#include <string>
+#include <eastl/string.h>
+#include <eastl/vector.h>
+#include <eastl/unordered_map.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
