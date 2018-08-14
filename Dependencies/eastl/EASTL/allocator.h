@@ -239,6 +239,7 @@ namespace eastl
 
 		inline void* allocator::allocate(size_t n, int flags)
 		{
+			/*
 			#if EASTL_NAME_ENABLED
 				#define pName mpName
 			#else
@@ -254,11 +255,14 @@ namespace eastl
 			#else
 				return ::new(   pName, flags, 0, __FILE__, __LINE__) char[n];
 			#endif
+			*/
+			return malloc(n);
 		}
 
 
 		inline void* allocator::allocate(size_t n, size_t alignment, size_t offset, int flags)
 		{
+			/*
 			#if EASTL_DLL
 				// We currently have no support for implementing flags when 
 				// using the C runtime library operator new function. The user 
@@ -287,11 +291,14 @@ namespace eastl
 			#endif
 
 			#undef pName  // See above for the definition of this.
+			*/
+			return _aligned_offset_malloc(n, alignment, offset);
 		}
 
 
 		inline void allocator::deallocate(void* p, size_t)
 		{
+			/*
 			#if EASTL_DLL
 				if (p != nullptr)
 				{
@@ -301,6 +308,8 @@ namespace eastl
 			#else
 				delete[](char*)p;
 			#endif
+			*/
+			free(p);
 		}
 
 
