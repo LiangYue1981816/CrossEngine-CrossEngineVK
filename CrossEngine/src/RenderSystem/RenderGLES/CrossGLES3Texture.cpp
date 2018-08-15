@@ -141,10 +141,10 @@ namespace CrossEngine {
 			for (int layer = 0; layer < texture.layers(); layer++) {
 				for (int level = 0; level < texture.levels(); level++) {
 					if (gli::is_compressed(texture.format())) {
-						glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.Internal, texture.size(level), texture.data(layer, 0, level));
+						glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, layer, texture.extent(level).x, texture.extent(level).y, 1, format.Internal, texture.size(level), texture.data(layer, 0, level));
 					}
 					else {
-						glTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, 0, texture.extent(level).x, texture.extent(level).y, layer, format.External, format.Type, texture.data(layer, 0, level));
+						glTexSubImage3D(GL_TEXTURE_2D_ARRAY, level, 0, 0, layer, texture.extent(level).x, texture.extent(level).y, 1, format.External, format.Type, texture.data(layer, 0, level));
 					}
 				}
 			}
