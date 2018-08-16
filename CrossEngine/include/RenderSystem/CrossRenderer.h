@@ -52,14 +52,14 @@ namespace CrossEngine {
 			eastl::vector<PipelineParam> pipelines;
 		} ThreadParam;
 
-		typedef struct ThreadCluster {
+		typedef struct ThreadPool {
 			event_t eventExit;
 			event_t eventReady;
 			event_t eventFinish;
 			event_t eventDispatch;
 			pthread_t threads[THREAD_COUNT];
 			ThreadParam params[THREAD_COUNT];
-		} ThreadCluster;
+		} ThreadPool;
 
 	protected:
 		// [Camera][FrameBuffer][RenderPass][Frame] = MainCommandBuffer
@@ -92,10 +92,10 @@ namespace CrossEngine {
 		void DestroyThread(void);
 
 	protected:
-		void BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void Render(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 
 	protected:
+		void BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void ResetMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void BuildMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass);
 		void BuildSecondaryCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass, const eastl::vector<PipelineParam> &pipelines);
@@ -113,7 +113,7 @@ namespace CrossEngine {
 		SecondaryCommandBufferMap m_ptrSecondaryCommandBuffers;
 
 	protected:
-		ThreadCluster m_threadCluster;
+		ThreadPool m_threadPool;
 	};
 
 }

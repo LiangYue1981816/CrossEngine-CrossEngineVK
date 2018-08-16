@@ -71,18 +71,18 @@ namespace CrossEngine {
 		CALL_BOOL_FUNCTION_RETURN(CreateGfx(api, hInstance, hWnd, hDC, width, height, transform));
 		CALL_BOOL_FUNCTION_RETURN(CreateDescriptorSet());
 		CALL_BOOL_FUNCTION_RETURN(CreateRenderer());
+		CALL_BOOL_FUNCTION_RETURN(CreateBatchBuffer());
 		CALL_BOOL_FUNCTION_RETURN(CreateCameraManager());
 		CALL_BOOL_FUNCTION_RETURN(CreateDrawableManager());
-		CALL_BOOL_FUNCTION_RETURN(CreateBatchBuffer());
 
 		return TRUE;
 	}
 
 	void CRenderSystem::Destroy(void)
 	{
-		DestroyBatchBuffer();
 		DestroyDrawableManager();
 		DestroyCameraManager();
+		DestroyBatchBuffer();
 		DestroyRenderer();
 		DestroyDescriptorSet();
 		DestroyGfx();
@@ -128,6 +128,14 @@ namespace CrossEngine {
 		return TRUE;
 	}
 
+	BOOL CRenderSystem::CreateBatchBuffer(void)
+	{
+		CBatchPartical::CreateBatchBuffer();
+		CBatchSkinMesh::CreateBatchBuffer();
+		CBatchStaticMesh::CreateBatchBuffer();
+		return TRUE;
+	}
+
 	BOOL CRenderSystem::CreateCameraManager(void)
 	{
 		m_pCameraManager = SAFE_NEW CCameraManager;
@@ -137,14 +145,6 @@ namespace CrossEngine {
 	BOOL CRenderSystem::CreateDrawableManager(void)
 	{
 		m_pDrawableManager = SAFE_NEW CDrawableManager;
-		return TRUE;
-	}
-
-	BOOL CRenderSystem::CreateBatchBuffer(void)
-	{
-		CBatchPartical::CreateBatchBuffer();
-		CBatchSkinMesh::CreateBatchBuffer();
-		CBatchStaticMesh::CreateBatchBuffer();
 		return TRUE;
 	}
 
@@ -173,6 +173,13 @@ namespace CrossEngine {
 		SAFE_DELETE(m_pRenderer);
 	}
 
+	void CRenderSystem::DestroyBatchBuffer(void)
+	{
+		CBatchPartical::DestroyBatchBuffer();
+		CBatchSkinMesh::DestroyBatchBuffer();
+		CBatchStaticMesh::DestroyBatchBuffer();
+	}
+
 	void CRenderSystem::DestroyCameraManager(void)
 	{
 		SAFE_DELETE(m_pCameraManager);
@@ -181,13 +188,6 @@ namespace CrossEngine {
 	void CRenderSystem::DestroyDrawableManager(void)
 	{
 		SAFE_DELETE(m_pDrawableManager);
-	}
-
-	void CRenderSystem::DestroyBatchBuffer(void)
-	{
-		CBatchPartical::DestroyBatchBuffer();
-		CBatchSkinMesh::DestroyBatchBuffer();
-		CBatchStaticMesh::DestroyBatchBuffer();
 	}
 
 	CCamera* CRenderSystem::GetCamera(uint32_t dwName)

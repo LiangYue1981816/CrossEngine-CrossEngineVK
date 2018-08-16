@@ -81,17 +81,17 @@ namespace CrossEngine {
 		BOOL CreateGfx(GFX_API api, HINSTANCE hInstance, HWND hWnd, HDC hDC, uint32_t width, uint32_t height, VkSurfaceTransformFlagBitsKHR transform);
 		BOOL CreateDescriptorSet(void);
 		BOOL CreateRenderer(void);
+		BOOL CreateBatchBuffer(void);
 		BOOL CreateCameraManager(void);
 		BOOL CreateDrawableManager(void);
-		BOOL CreateBatchBuffer(void);
 
 		void Destroy(void);
 		void DestroyGfx(void);
 		void DestroyDescriptorSet(void);
 		void DestroyRenderer(void);
+		void DestroyBatchBuffer(void);
 		void DestroyCameraManager(void);
 		void DestroyDrawableManager(void);
-		void DestroyBatchBuffer(void);
 
 	public:
 		GFX_API GetAPI(void) const;

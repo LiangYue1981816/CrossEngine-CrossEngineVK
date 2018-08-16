@@ -37,31 +37,36 @@ namespace CrossEngine {
 
 	void CRenderer::CreateThread(void)
 	{
-		event_init(&m_threadCluster.eventExit, 0);
-		event_init(&m_threadCluster.eventReady, 1);
-		event_init(&m_threadCluster.eventFinish, 1);
-		event_init(&m_threadCluster.eventDispatch, 0);
+		event_init(&m_threadPool.eventExit, 0);
+		event_init(&m_threadPool.eventReady, 1);
+		event_init(&m_threadPool.eventFinish, 1);
+		event_init(&m_threadPool.eventDispatch, 0);
 
 		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
-			m_threadCluster.params[indexThread].pCamera = NULL;
-			m_threadCluster.params[indexThread].pRenderer = this;
-			pthread_create(&m_threadCluster.threads[indexThread], NULL, WorkThread, &m_threadCluster.params[indexThread]);
+			m_threadPool.params[indexThread].pCamera = NULL;
+			m_threadPool.params[indexThread].pRenderer = this;
+			pthread_create(&m_threadPool.threads[indexThread], NULL, WorkThread, &m_threadPool.params[indexThread]);
 		}
 	}
 
 	void CRenderer::DestroyThread(void)
 	{
-		event_signal(&m_threadCluster.eventExit);
-		event_signal(&m_threadCluster.eventDispatch);
+		event_signal(&m_threadPool.eventExit);
+		event_signal(&m_threadPool.eventDispatch);
 
 		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
-			pthread_join(m_threadCluster.threads[indexThread], NULL);
+			pthread_join(m_threadPool.threads[indexThread], NULL);
 		}
 
-		event_destroy(&m_threadCluster.eventExit);
-		event_destroy(&m_threadCluster.eventReady);
-		event_destroy(&m_threadCluster.eventFinish);
-		event_destroy(&m_threadCluster.eventDispatch);
+		event_destroy(&m_threadPool.eventExit);
+		event_destroy(&m_threadPool.eventReady);
+		event_destroy(&m_threadPool.eventFinish);
+		event_destroy(&m_threadPool.eventDispatch);
+	}
+
+	void CRenderer::Render(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
+	{
+		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
 
 	void CRenderer::BuildCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
@@ -69,11 +74,6 @@ namespace CrossEngine {
 		ResetMainCommandBuffer(pCamera, ptrFrameBuffer, ptrRenderPass);
 		DispatchThread(pCamera, ptrFrameBuffer, ptrRenderPass, TRUE);
 		BuildMainCommandBuffer(pCamera, ptrFrameBuffer, ptrRenderPass);
-	}
-
-	void CRenderer::Render(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
-	{
-		GfxDevice()->GetGraphicsQueue()->Submit(m_ptrMainCommandBuffers[pCamera][ptrFrameBuffer][ptrRenderPass][GfxSwapChain()->GetImageIndex()], GfxSwapChain()->GetAcquireSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, GfxSwapChain()->GetRenderDoneSemaphore());
 	}
 
 	void CRenderer::ResetMainCommandBuffer(CCamera *pCamera, const CGfxFrameBufferPtr &ptrFrameBuffer, const CGfxRenderPassPtr &ptrRenderPass)
@@ -140,7 +140,7 @@ namespace CrossEngine {
 		GfxDevice()->ResetCommandBufferPool(pool);
 
 		const CGfxDescriptorSetPtr &ptrDescriptorSetCamera = pCamera->GetDescriptorSet();
-		const CGfxDescriptorSetPtr &ptrDescriptorSetRenderSystem = RenderSystem()->GetDescriptorSet();
+		const CGfxDescriptorSetPtr &ptrDescriptorSetEngine = RenderSystem()->GetDescriptorSet();
 
 		for (int indexPipeline = 0; indexPipeline < pipelines.size(); indexPipeline++) {
 			const int indexPass = pipelines[indexPipeline].indexPass;
@@ -177,8 +177,8 @@ namespace CrossEngine {
 					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetCamera);
 				}
 
-				if (ptrMaterialPipeline->IsCompatible(ptrDescriptorSetRenderSystem)) {
-					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetRenderSystem);
+				if (ptrMaterialPipeline->IsCompatible(ptrDescriptorSetEngine)) {
+					ptrCommandBuffer->CmdBindDescriptorSetGraphics(ptrDescriptorSetEngine);
 				}
 
 				for (const auto &itMeshQueue : itMaterialDescriptorSetQueue->second) {
@@ -217,19 +217,19 @@ namespace CrossEngine {
 		}
 
 		for (int indexPipeline = 0; indexPipeline < pipelines.size(); indexPipeline++) {
-			m_threadCluster.params[indexPipeline % THREAD_COUNT].pipelines.emplace_back(pipelines[indexPipeline]);
+			m_threadPool.params[indexPipeline % THREAD_COUNT].pipelines.emplace_back(pipelines[indexPipeline]);
 		}
 
 		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
-			m_threadCluster.params[indexThread].pCamera = pCamera;
-			m_threadCluster.params[indexThread].ptrRenderPass = ptrRenderPass;
-			m_threadCluster.params[indexThread].ptrFrameBuffer = ptrFrameBuffer;
+			m_threadPool.params[indexThread].pCamera = pCamera;
+			m_threadPool.params[indexThread].ptrRenderPass = ptrRenderPass;
+			m_threadPool.params[indexThread].ptrFrameBuffer = ptrFrameBuffer;
 
-			event_unsignal(&m_threadCluster.eventReady);
-			event_unsignal(&m_threadCluster.eventFinish);
+			event_unsignal(&m_threadPool.eventReady);
+			event_unsignal(&m_threadPool.eventFinish);
 		}
 
-		event_signal(&m_threadCluster.eventDispatch);
+		event_signal(&m_threadPool.eventDispatch);
 
 		if (bWait) {
 			WaitThread();
@@ -238,35 +238,35 @@ namespace CrossEngine {
 
 	void CRenderer::WaitThread(void)
 	{
-		event_wait(&m_threadCluster.eventFinish);
+		event_wait(&m_threadPool.eventFinish);
 
 		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
-			m_threadCluster.params[indexThread].pCamera = NULL;
-			m_threadCluster.params[indexThread].ptrRenderPass.Release();
-			m_threadCluster.params[indexThread].ptrFrameBuffer.Release();
-			m_threadCluster.params[indexThread].pipelines.clear();
+			m_threadPool.params[indexThread].pCamera = NULL;
+			m_threadPool.params[indexThread].ptrRenderPass.Release();
+			m_threadPool.params[indexThread].ptrFrameBuffer.Release();
+			m_threadPool.params[indexThread].pipelines.clear();
 		}
 	}
 
 	void* CRenderer::WorkThread(void *pParams)
 	{
 		CRenderer::ThreadParam *pThreadParam = (CRenderer::ThreadParam *)pParams;
-		CRenderer::ThreadCluster *pThreadCluster = &pThreadParam->pRenderer->m_threadCluster;
+		CRenderer::ThreadPool *pThreadPool = &pThreadParam->pRenderer->m_threadPool;
 
 		while (TRUE) {
-			event_wait(&pThreadCluster->eventDispatch);
+			event_wait(&pThreadPool->eventDispatch);
 			{
-				if (event_wait_timeout(&pThreadCluster->eventExit, 0) == NO_ERROR) {
+				if (event_wait_timeout(&pThreadPool->eventExit, 0) == NO_ERROR) {
 					break;
 				}
 
-				event_signal(&pThreadCluster->eventReady);
-				event_wait(&pThreadCluster->eventReady);
+				event_signal(&pThreadPool->eventReady);
+				event_wait(&pThreadPool->eventReady);
 
 				pThreadParam->pRenderer->BuildSecondaryCommandBuffer(pThreadParam->pCamera, pThreadParam->ptrFrameBuffer, pThreadParam->ptrRenderPass, pThreadParam->pipelines);
 			}
-			event_reset(&pThreadCluster->eventDispatch);
-			event_signal(&pThreadCluster->eventFinish);
+			event_reset(&pThreadPool->eventDispatch);
+			event_signal(&pThreadPool->eventFinish);
 		}
 
 		return NULL;
