@@ -59,6 +59,7 @@ void Render(void)
 		return;
 	}
 
+	Camera(dwMainCamera)->SetScissor(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
 	Camera(dwMainCamera)->SetViewport(0, 0, GfxSwapChain()->GetWidth(), GfxSwapChain()->GetHeight());
 	Camera(dwMainCamera)->SetPerspective(60.0f, 1.0f * GfxSwapChain()->GetWidth() / GfxSwapChain()->GetHeight(), 0.1f, 100.0f);
 	Camera(dwMainCamera)->SetLookat(0.0f, 3.5f, 10.0f, 0.0f, -0.25f, -1.0f, 0.0f, 1.0f, 0.0f);
