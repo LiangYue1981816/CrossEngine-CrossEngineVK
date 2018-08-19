@@ -74,6 +74,7 @@ void Render(void)
 
 	GfxSwapChain()->AcquireNextImage(VK_NULL_HANDLE);
 	{
+		RenderSystem()->SetLightFactor(4.0f, 1.0f, 1.0f, 1.0f);
 		RenderSystem()->Update();
 		RenderSystem()->Render(dwMainCamera, ptrFrameBuffer[GfxSwapChain()->GetImageIndex()]->GetFrameBuffer(), ptrRenderPass->GetRenderPass());
 	}
