@@ -38,6 +38,7 @@ namespace CrossEngine {
 			glm::vec4 projection;
 
 			glm::mat4 projectionMatrix;
+			glm::mat4 projectionViewMatrix;
 			glm::mat4 viewMatrix;
 			glm::mat4 viewInverseMatrix;
 			glm::mat4 viewInverseTransposeMatrix;

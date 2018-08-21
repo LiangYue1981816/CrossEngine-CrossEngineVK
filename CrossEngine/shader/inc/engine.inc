@@ -77,6 +77,7 @@
 		vec4 projection;                                                           \
 		                                                                           \
 		mat4 projectionMatrix;                                                     \
+		mat4 projectionViewMatrix;                                                 \
 		mat4 viewMatrix;                                                           \
 		mat4 viewInverseMatrix;                                                    \
 		mat4 viewInverseTransposeMatrix;                                           \
@@ -111,6 +112,7 @@ USE_CAMERA_UNIFORM;
 #define cameraZBuffer camera.zbuffer
 #define cameraProjection camera.projection
 #define cameraProjectionMatrix camera.projectionMatrix
+#define cameraProjectionViewMatrix camera.projectionViewMatrix
 #define cameraViewMatrix camera.viewMatrix
 #define cameraViewInverseMatrix camera.viewInverseMatrix
 #define cameraViewInverseTransposeMatrix camera.viewInverseTransposeMatrix

@@ -60,7 +60,10 @@ namespace CrossEngine {
 		float y = zFar / zNear;
 
 		m_bDirty = TRUE;
+
 		m_params.projectionMatrix = RenderSystem()->GetAPI() == GFX_API_VULKAN ? LH2RH * glm::perspective(glm::radians(fovy), aspect, zNear, zFar) : glm::perspective(glm::radians(fovy), aspect, zNear, zFar);
+		m_params.projectionViewMatrix = m_params.projectionMatrix * m_params.viewMatrix;
+
 		m_params.projection = glm::vec4(1.0f, zNear, zFar, 1.0f / zFar);
 		m_params.zbuffer = glm::vec4(x, y, x / zFar, y / zFar);
 	}
@@ -78,7 +81,10 @@ namespace CrossEngine {
 		float y = zFar / zNear;
 
 		m_bDirty = TRUE;
+
 		m_params.projectionMatrix = RenderSystem()->GetAPI() == GFX_API_VULKAN ? LH2RH * glm::ortho(left, right, bottom, top, zNear, zFar) : glm::ortho(left, right, bottom, top, zNear, zFar);
+		m_params.projectionViewMatrix = m_params.projectionMatrix * m_params.viewMatrix;
+
 		m_params.projection = glm::vec4(1.0f, zNear, zFar, 1.0f / zFar);
 		m_params.zbuffer = glm::vec4(x, y, x / zFar, y / zFar);
 	}
@@ -86,7 +92,10 @@ namespace CrossEngine {
 	void CUniformCamera::SetLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
 	{
 		m_bDirty = TRUE;
+
 		m_params.viewMatrix = glm::lookAt(glm::vec3(eyex, eyey, eyez), glm::vec3(centerx, centery, centerz), glm::vec3(upx, upy, upz));
+		m_params.projectionViewMatrix = m_params.projectionMatrix * m_params.viewMatrix;
+
 		m_params.viewInverseMatrix = glm::inverse(m_params.viewMatrix);
 		m_params.viewInverseTransposeMatrix = glm::transpose(m_params.viewInverseMatrix);
 	}
