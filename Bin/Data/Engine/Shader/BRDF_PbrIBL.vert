@@ -47,5 +47,5 @@ void main()
 	outViewDirection = worldViewDirection;
 	outTBN = tbn;
 
-	gl_Position = cameraProjectionMatrix * cameraViewMatrix * worldMatrix * vec4(inPosition.xyz, 1.0);
+	gl_Position = cameraProjectionViewMatrix * worldMatrix * vec4(inPosition.xyz, 1.0);
 }

@@ -41,6 +41,7 @@
 		vec4 deltaTime;                                                            \
 		                                                                           \
 		mat4 shadowProjectionMatrix;                                               \
+		mat4 shadowProjectionViewMatrix;                                           \
 		mat4 shadowViewMatrix;                                                     \
 		vec4 shadowParams;                                                         \
 		                                                                           \
@@ -77,6 +78,7 @@
 		vec4 projection;                                                           \
 		                                                                           \
 		mat4 projectionMatrix;                                                     \
+		mat4 projectionViewMatrix;                                                 \
 		mat4 viewMatrix;                                                           \
 		mat4 viewInverseMatrix;                                                    \
 		mat4 viewInverseTransposeMatrix;                                           \
@@ -84,6 +86,7 @@
 
 USE_ENGINE_UNIFORM;
 #define shadowProjectionMatrix engine.shadowProjectionMatrix
+#define shadowProjectionViewMatrix engine.shadowProjectionViewMatrix
 #define shadowViewMatrix engine.shadowViewMatrix
 #define shadowClipPlane engine.shadowParams
 #define shadowDistance engine.shadowParams.z
@@ -111,6 +114,7 @@ USE_CAMERA_UNIFORM;
 #define cameraZBuffer camera.zbuffer
 #define cameraProjection camera.projection
 #define cameraProjectionMatrix camera.projectionMatrix
+#define cameraProjectionViewMatrix camera.projectionViewMatrix
 #define cameraViewMatrix camera.viewMatrix
 #define cameraViewInverseMatrix camera.viewInverseMatrix
 #define cameraViewInverseTransposeMatrix camera.viewInverseTransposeMatrix
