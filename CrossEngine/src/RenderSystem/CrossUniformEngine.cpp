@@ -184,6 +184,7 @@ namespace CrossEngine {
 	{
 		m_bDirty = TRUE;
 		m_params.shadowProjectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
+		m_params.shadowProjectionViewMatrix = m_params.shadowProjectionMatrix * m_params.shadowViewMatrix;
 		m_params.shadowParams.x = zFar - zNear;
 		m_params.shadowParams.y = 1.0f / (zFar - zNear);
 	}
@@ -192,6 +193,7 @@ namespace CrossEngine {
 	{
 		m_bDirty = TRUE;
 		m_params.shadowViewMatrix = glm::lookAt(glm::vec3(eyex, eyey, eyez), glm::vec3(centerx, centery, centerz), glm::vec3(upx, upy, upz));
+		m_params.shadowProjectionViewMatrix = m_params.shadowProjectionMatrix * m_params.shadowViewMatrix;
 	}
 
 	void CUniformEngine::SetShadowDistance(float distance)

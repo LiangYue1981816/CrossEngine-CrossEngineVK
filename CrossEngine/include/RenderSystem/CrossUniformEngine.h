@@ -39,6 +39,7 @@ namespace CrossEngine {
 			glm::vec4 deltaTime;
 
 			glm::mat4 shadowProjectionMatrix;
+			glm::mat4 shadowProjectionViewMatrix;
 			glm::mat4 shadowViewMatrix;
 			glm::vec4 shadowParams;
 

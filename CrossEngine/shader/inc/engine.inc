@@ -41,6 +41,7 @@
 		vec4 deltaTime;                                                            \
 		                                                                           \
 		mat4 shadowProjectionMatrix;                                               \
+		mat4 shadowProjectionViewMatrix;                                           \
 		mat4 shadowViewMatrix;                                                     \
 		vec4 shadowParams;                                                         \
 		                                                                           \
@@ -85,6 +86,7 @@
 
 USE_ENGINE_UNIFORM;
 #define shadowProjectionMatrix engine.shadowProjectionMatrix
+#define shadowProjectionViewMatrix engine.shadowProjectionViewMatrix
 #define shadowViewMatrix engine.shadowViewMatrix
 #define shadowClipPlane engine.shadowParams
 #define shadowDistance engine.shadowParams.z
