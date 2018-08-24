@@ -238,4 +238,9 @@ vec3 EnvSpecular(vec3 V, vec3 N, vec3 albedoColor, float metallic, float roughne
 	return BRDF_EnvSpecular(V, N, albedoColor, metallic, roughness, specularColor);
 }
 
+vec3 FinalLighting(vec3 ao, vec3 ambientLightingColor, vec3 pointLightingColor, vec3 directLightingColor, vec3 envLightingColor, float shadow)
+{
+	return ao * (ambientLightingColor + pointLightingColor + shadow * directLightingColor + envLightingColor);
+}
+
 #endif

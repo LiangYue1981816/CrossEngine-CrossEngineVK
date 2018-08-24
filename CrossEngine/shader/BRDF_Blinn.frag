@@ -35,7 +35,7 @@ void main()
 	vec3 ambientLightingColor = AmbientLightingSH9(albedoColor, 0.0, pixelNormal) * ambientLightFactor;
 	vec3 pointLightingColor = SimpleLighting(pointLightColor, pointLightDirection, pixelNormal, albedoColor) * pointLightFactor;
 	vec3 directLightingColor = BlinnLighting(mainDirectLightColor, mainDirectLightDirection, inHalfDirection, inViewDirection, pixelNormal, albedoColor, specularColor, metallic, roughness) * directLightFactor;
-	vec3 finalLighting = ambientLightingColor + pointLightingColor + directLightingColor;
+	vec3 finalLighting = FinalLighting(vec3(1.0), ambientLightingColor, pointLightingColor, directLightingColor, vec3(0.0), 1.0);
 
 	finalLighting = ToneMapping(finalLighting);
 	finalLighting = Linear2Gamma(finalLighting);
