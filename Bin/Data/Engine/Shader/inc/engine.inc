@@ -77,6 +77,9 @@
 		vec4 zbuffer;                                                              \
 		vec4 projection;                                                           \
 		                                                                           \
+		vec4 position;                                                             \
+		vec4 direction;                                                            \
+		                                                                           \
 		mat4 projectionMatrix;                                                     \
 		mat4 projectionViewMatrix;                                                 \
 		mat4 viewMatrix;                                                           \
@@ -113,6 +116,10 @@ USE_CAMERA_UNIFORM;
 #define cameraScreen camera.screen
 #define cameraZBuffer camera.zbuffer
 #define cameraProjection camera.projection
+
+#define cameraPosition camera.position.xyz
+#define cameraDirection camera.direction.xyz
+
 #define cameraProjectionMatrix camera.projectionMatrix
 #define cameraProjectionViewMatrix camera.projectionViewMatrix
 #define cameraViewMatrix camera.viewMatrix

@@ -37,6 +37,9 @@ namespace CrossEngine {
 			glm::vec4 zbuffer;
 			glm::vec4 projection;
 
+			glm::vec4 position;
+			glm::vec4 direction;
+
 			glm::mat4 projectionMatrix;
 			glm::mat4 projectionViewMatrix;
 			glm::mat4 viewMatrix;

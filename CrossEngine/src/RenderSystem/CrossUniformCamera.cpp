@@ -93,6 +93,9 @@ namespace CrossEngine {
 	{
 		m_bDirty = TRUE;
 
+		m_params.position = glm::vec4(eyex, eyey, eyez, 0.0f);
+		m_params.direction = glm::normalize(glm::vec4(centerx - eyex, centery - eyey, centerz - eyez, 0.0f));
+
 		m_params.viewMatrix = glm::lookAt(glm::vec3(eyex, eyey, eyez), glm::vec3(centerx, centery, centerz), glm::vec3(upx, upy, upz));
 		m_params.projectionViewMatrix = m_params.projectionMatrix * m_params.viewMatrix;
 
