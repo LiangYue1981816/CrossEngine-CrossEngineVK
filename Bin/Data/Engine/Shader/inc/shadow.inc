@@ -48,16 +48,38 @@ float LinearShadowDepth(sampler2D shadowmap, vec2 texCoord)
 	return v;
 }
 
-float ShadowValue(vec3 position, sampler2D shadowmap)
+float SimpleShadowValue(vec3 position, sampler2D shadowmap)
 {
 	vec3 shadowViewPosition = (shadowViewMatrix * vec4(position.xyz, 1.0)).xyz;
 	float curDepth = length(shadowViewPosition) - 0.001;
 
-	vec4 projectCoord = shadowProjectionMatrix * shadowViewMatrix * vec4(position.xyz, 1.0);
+	vec4 projectCoord = shadowProjectionViewMatrix * vec4(position.xyz, 1.0);
 	projectCoord.xy /= projectCoord.w;
  	projectCoord.xy = projectCoord.xy * 0.5 + vec2(0.5, 0.5);
 
-//	float shadowDepth = SimpleShadowDepth(shadowmap, projectCoord.xy) * shadowClipPlane.x;
+	float shadowDepth = SimpleShadowDepth(shadowmap, projectCoord.xy) * shadowClipPlane.x;
+
+	vec3 cameraPosition = (cameraViewInverseMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	float shadowAtten = (shadowDistance - length(position - cameraPosition)) / shadowDistance;
+	shadowAtten = pow2(shadowAtten);
+	shadowAtten = clamp(shadowAtten, 0.0, 1.0);
+
+	float shadowValue = exp(shadowDepth - curDepth);
+	shadowValue = 1.0 - (1.0 - shadowValue) * shadowAtten;
+	shadowValue = clamp(shadowValue, 0.0, 1.0);
+
+	return shadowValue;
+}
+
+float LinearShadowValue(vec3 position, sampler2D shadowmap)
+{
+	vec3 shadowViewPosition = (shadowViewMatrix * vec4(position.xyz, 1.0)).xyz;
+	float curDepth = length(shadowViewPosition) - 0.001;
+
+	vec4 projectCoord = shadowProjectionViewMatrix * vec4(position.xyz, 1.0);
+	projectCoord.xy /= projectCoord.w;
+ 	projectCoord.xy = projectCoord.xy * 0.5 + vec2(0.5, 0.5);
+
 	float shadowDepth = LinearShadowDepth(shadowmap, projectCoord.xy) * shadowClipPlane.x;
 
 	vec3 cameraPosition = (cameraViewInverseMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
@@ -67,7 +89,7 @@ float ShadowValue(vec3 position, sampler2D shadowmap)
 
 	float shadowValue = exp(shadowDepth - curDepth);
 	shadowValue = 1.0 - (1.0 - shadowValue) * shadowAtten;
-	shadowValue = clamp(shadowValue, 0.35, 1.0);
+	shadowValue = clamp(shadowValue, 0.0, 1.0);
 
 	return shadowValue;
 }
