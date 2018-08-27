@@ -183,10 +183,10 @@ namespace CrossEngine {
 	void CUniformEngine::SetShadowOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
 		m_bDirty = TRUE;
-		m_params.shadowProjectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
-		m_params.shadowProjectionViewMatrix = m_params.shadowProjectionMatrix * m_params.shadowViewMatrix;
 		m_params.shadowParams.x = zFar - zNear;
 		m_params.shadowParams.y = 1.0f / (zFar - zNear);
+		m_params.shadowProjectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
+		m_params.shadowProjectionViewMatrix = m_params.shadowProjectionMatrix * m_params.shadowViewMatrix;
 	}
 
 	void CUniformEngine::SetShadowLookat(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz)
