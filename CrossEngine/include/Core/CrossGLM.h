@@ -62,16 +62,15 @@ namespace glm {
 			return *this;
 		}
 
-		plane& operator * (const mat4 &_mat4)
+		plane& operator *= (const mat4 &_mat4)
 		{
 			set(vec3(_mat4 * vec4(vertex, 1.0f)), vec3(_mat4 * vec4(normal, 0.0f)));
 			return *this;
 		}
 
-		plane& operator *= (const mat4 &_mat4)
+		plane operator * (const mat4 &_mat4) const
 		{
-			set(vec3(_mat4 * vec4(vertex, 1.0f)), vec3(_mat4 * vec4(normal, 0.0f)));
-			return *this;
+			return plane(vec3(_mat4 * vec4(vertex, 1.0f)), vec3(_mat4 * vec4(normal, 0.0f)));
 		}
 
 		bool operator == (const plane &_plane) const
@@ -122,7 +121,7 @@ namespace glm {
 	public:
 		static aabb create(const vec3 *vertices, size_t count)
 		{
-			vec3 minVertex(FLT_MAX, FLT_MAX, FLT_MAX);
+			vec3 minVertex( FLT_MAX,  FLT_MAX,  FLT_MAX);
 			vec3 maxVertex(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
 			for (size_t indexVertex = 0; indexVertex < count; indexVertex++) {
@@ -178,18 +177,16 @@ namespace glm {
 			return *this;
 		}
 
-		aabb& operator * (const mat4 &_mat4)
+		aabb& operator *= (const mat4 &_mat4)
 		{
 			set(vec3(_mat4 * vec4(minVertex, 1.0f)), vec3(_mat4 * vec4(maxVertex, 1.0f)));
 			normalize();
 			return *this;
 		}
 
-		aabb& operator *= (const mat4 &_mat4)
+		aabb operator * (const mat4 &_mat4) const
 		{
-			set(vec3(_mat4 * vec4(minVertex, 1.0f)), vec3(_mat4 * vec4(maxVertex, 1.0f)));
-			normalize();
-			return *this;
+			return aabb(vec3(_mat4 * vec4(minVertex, 1.0f)), vec3(_mat4 * vec4(maxVertex, 1.0f)));
 		}
 
 		bool operator == (const aabb &_aabb) const
@@ -262,7 +259,7 @@ namespace glm {
 	public:
 		static sphere create(const vec3 *vertices, size_t count)
 		{
-			vec3 minVertex(FLT_MAX, FLT_MAX, FLT_MAX);
+			vec3 minVertex( FLT_MAX,  FLT_MAX,  FLT_MAX);
 			vec3 maxVertex(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
 			for (size_t indexVertex = 0; indexVertex < count; indexVertex++) {
@@ -327,16 +324,15 @@ namespace glm {
 			return *this;
 		}
 
-		sphere& operator * (const mat4 &_mat4)
+		sphere& operator *= (const mat4 &_mat4)
 		{
 			center = vec3(_mat4 * vec4(center, 1.0));
 			return *this;
 		}
 
-		sphere& operator *= (const mat4 &_mat4)
+		sphere operator * (const mat4 &_mat4) const
 		{
-			center = vec3(_mat4 * vec4(center, 1.0));
-			return *this;
+			return sphere(vec3(_mat4 * vec4(center, 1.0)), radius);
 		}
 
 		bool operator == (const sphere &_sphere) const
