@@ -106,7 +106,7 @@ namespace CrossEngine {
 		}
 		virtual ~CResourcePtr(void)
 		{
-			Release();
+
 		}
 
 

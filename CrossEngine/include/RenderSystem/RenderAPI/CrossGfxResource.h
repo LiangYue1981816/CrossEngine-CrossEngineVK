@@ -82,7 +82,7 @@ namespace CrossEngine {
 		}
 		virtual ~CGfxResourcePtr(void)
 		{
-			Release();
+
 		}
 
 

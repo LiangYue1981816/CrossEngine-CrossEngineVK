@@ -103,7 +103,7 @@ namespace CrossEngine {
 		}
 		virtual ~CGfxCommandBufferPtr(void)
 		{
-			Release();
+
 		}
 
 

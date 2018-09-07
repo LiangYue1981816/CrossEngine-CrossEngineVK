@@ -50,7 +50,7 @@ namespace CrossEngine {
 		}
 		virtual ~CSharedPtr(void)
 		{
-
+			Release();
 		}
 
 

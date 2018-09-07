@@ -82,7 +82,7 @@ namespace CrossEngine {
 		}
 		virtual ~CGfxDescriptorSetLayoutPtr(void)
 		{
-			Release();
+
 		}
 
 
