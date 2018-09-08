@@ -63,14 +63,16 @@ namespace CrossEngine {
 
 			Release();
 
-			m_pPointer = (T *)pPointer;
-			m_pRefCount = (uint32_t *)pRefCount;
+			if (pPointer) {
+				m_pPointer = (T *)pPointer;
+				m_pRefCount = (uint32_t *)pRefCount;
 
-			if (m_pRefCount == NULL) {
-				m_pRefCount = (uint32_t *)SAFE_ALLOC(sizeof(*m_pRefCount), MEMTYPE_HEAP); (*m_pRefCount) = 0;
+				if (m_pRefCount == NULL) {
+					m_pRefCount = (uint32_t *)SAFE_ALLOC(sizeof(*m_pRefCount), MEMTYPE_HEAP); (*m_pRefCount) = 0;
+				}
+
+				++(*m_pRefCount);
 			}
-
-			++(*m_pRefCount);
 		}
 
 		virtual void FreePointer(void) = 0;
