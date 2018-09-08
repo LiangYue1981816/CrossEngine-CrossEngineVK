@@ -46,15 +46,24 @@ typedef unsigned long long             uint64_t; // 8BYTE
 #define NULL                           ((void *)0)
 #endif
 
-#ifndef BOOL
+#undef BOOL
+#if defined(__cplusplus)
+#define BOOL                           bool
+#else
 #define BOOL                           int
 #endif
 
-#ifndef TRUE
+#undef TRUE
+#if defined(__cplusplus)
+#define TRUE                           true
+#else
 #define TRUE                           1
 #endif
 
-#ifndef FALSE
+#undef FALSE
+#if defined(__cplusplus)
+#define FALSE                          false
+#else
 #define FALSE                          0
 #endif
 
