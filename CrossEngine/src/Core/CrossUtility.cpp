@@ -33,8 +33,7 @@ namespace CrossEngine {
 		uint32_t dwHashValue = 0x00000000;
 
 		while (*c) {
-			dwHashValue = (dwHashValue << 5) - dwHashValue + (*c == '/' ? '\\' : *c);
-			c++;
+			dwHashValue = (dwHashValue << 4) - dwHashValue + (*c == '/' ? '\\' : *c); c++;
 		}
 
 		return dwHashValue ? dwHashValue : INVALID_HASHNAME;
