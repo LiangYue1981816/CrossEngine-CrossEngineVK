@@ -66,6 +66,8 @@ THE SOFTWARE.
 #include <eastl/vector.h>
 #include <eastl/string.h>
 #include <eastl/unique_ptr.h>
+#include <eastl/unordered_set.h>
+#include <eastl/unordered_map.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>

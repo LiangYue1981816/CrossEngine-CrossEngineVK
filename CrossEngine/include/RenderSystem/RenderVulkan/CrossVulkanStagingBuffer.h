@@ -88,7 +88,7 @@ namespace CrossEngine {
 		}
 		virtual ~CVulkanStagingBufferPtr(void)
 		{
-
+			Release();
 		}
 
 
