@@ -38,6 +38,7 @@ namespace CrossEngine {
 				indexPass = _indexPass;
 				ptrMaterialPipeline = _ptrMaterialPipeline;
 			}
+
 			uint32_t indexPass;
 			CGfxPipelineGraphicsPtr ptrMaterialPipeline;
 		} PipelineParam;
@@ -45,8 +46,10 @@ namespace CrossEngine {
 		typedef struct ThreadParam {
 			CCamera *pCamera;
 			CRenderer *pRenderer;
+
 			CGfxRenderPassPtr ptrRenderPass;
 			CGfxFrameBufferPtr ptrFrameBuffer;
+
 			eastl::vector<PipelineParam> pipelines;
 		} ThreadParam;
 
