@@ -222,7 +222,7 @@ namespace CrossEngine {
 				VkBool32 surfaceSupported;
 				CALL_VK_FUNCTION_RETURN(vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, index, m_pInstance->GetSurface(), &surfaceSupported));
 
-				if (surfaceSupported == TRUE) {
+				if (surfaceSupported == VK_TRUE) {
 					queueFamilyIndex = index;
 					return VK_SUCCESS;
 				}

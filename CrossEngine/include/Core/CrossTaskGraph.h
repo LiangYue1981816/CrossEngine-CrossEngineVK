@@ -59,7 +59,7 @@ namespace CrossEngine {
 	class CROSS_EXPORT CTaskGraph
 	{
 	public:
-		CTaskGraph(int numThreads);
+		CTaskGraph(void);
 		virtual ~CTaskGraph(void);
 
 
@@ -73,13 +73,11 @@ namespace CrossEngine {
 
 
 	private:
-		int m_numThreads;
-		pthread_t *m_threads;
-
 		event_t m_eventExit;
 		event_t m_eventReady;
 		event_t m_eventFinish;
 		event_t m_eventDispatch;
+		pthread_t m_threads[THREAD_COUNT];
 
 	private:
 		pthread_mutex_t m_mutexTaskList;

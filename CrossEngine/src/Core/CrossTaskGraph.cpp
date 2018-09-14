@@ -67,9 +67,7 @@ namespace CrossEngine {
 
 
 
-	CTaskGraph::CTaskGraph(int numThreads)
-		: m_threads(NULL)
-		, m_numThreads(numThreads)
+	CTaskGraph::CTaskGraph(void)
 	{
 		event_init(&m_eventExit, 0);
 		event_init(&m_eventReady, 1);
@@ -77,9 +75,7 @@ namespace CrossEngine {
 		event_init(&m_eventDispatch, 0);
 		pthread_mutex_init(&m_mutexTaskList, NULL);
 
-		m_threads = (pthread_t *)malloc(sizeof(pthread_t) * m_numThreads);
-
-		for (int indexThread = 0; indexThread < m_numThreads; indexThread++) {
+		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
 			pthread_create(&m_threads[indexThread], NULL, TaskThread, this);
 		}
 	}
@@ -89,10 +85,9 @@ namespace CrossEngine {
 		event_signal(&m_eventExit);
 		event_signal(&m_eventDispatch);
 
-		for (int indexThread = 0; indexThread < m_numThreads; indexThread++) {
+		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
 			pthread_join(m_threads[indexThread], NULL);
 		}
-		free(m_threads);
 
 		event_destroy(&m_eventExit);
 		event_destroy(&m_eventReady);
@@ -117,7 +112,7 @@ namespace CrossEngine {
 
 	void CTaskGraph::Dispatch(void)
 	{
-		for (int indexThread = 0; indexThread < m_numThreads; indexThread++) {
+		for (int indexThread = 0; indexThread < THREAD_COUNT; indexThread++) {
 			event_unsignal(&m_eventReady);
 			event_unsignal(&m_eventFinish);
 		}
