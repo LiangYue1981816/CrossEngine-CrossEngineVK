@@ -79,6 +79,39 @@ namespace CrossEngine {
 
 
 	public:
+		inline void Release(void)
+		{
+			if (m_pRefCount) {
+				if (--(*m_pRefCount) == 0) {
+					SAFE_FREE(m_pRefCount);
+					FreePointer();
+				}
+			}
+
+			m_pPointer = NULL;
+			m_pRefCount = NULL;
+		}
+
+		inline BOOL IsNull(void) const
+		{
+			return m_pPointer && m_pRefCount ? FALSE : TRUE;
+		}
+
+		inline T* GetPointer(void) const
+		{
+			return m_pPointer;
+		}
+
+		inline uint32_t GetRefCount(void) const
+		{
+			return *m_pRefCount;
+		}
+
+		inline uint32_t* GetRefCountPointer(void) const
+		{
+			return m_pRefCount;
+		}
+
 		inline CSharedPtr<T>& operator = (const CSharedPtr<T> &ptr)
 		{
 			Set(ptr.m_pPointer, ptr.m_pRefCount);
@@ -98,39 +131,6 @@ namespace CrossEngine {
 		inline operator const T* (void) const
 		{
 			return m_pPointer;
-		}
-
-		inline BOOL IsNull(void) const
-		{
-			return m_pPointer && m_pRefCount ? FALSE : TRUE;
-		}
-
-		inline void Release(void)
-		{
-			if (m_pRefCount) {
-				if (--(*m_pRefCount) == 0) {
-					SAFE_FREE(m_pRefCount);
-					FreePointer();
-				}
-			}
-
-			m_pPointer = NULL;
-			m_pRefCount = NULL;
-		}
-
-		inline T* GetPointer(void) const
-		{
-			return m_pPointer;
-		}
-
-		inline uint32_t* GetRefCountPointer(void) const
-		{
-			return m_pRefCount;
-		}
-
-		inline uint32_t GetRefCount(void) const
-		{
-			return *m_pRefCount;
 		}
 
 
