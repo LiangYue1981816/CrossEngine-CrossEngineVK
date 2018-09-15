@@ -21,16 +21,8 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #pragma once
+#include <stdint.h>
 
-
-typedef signed char                    int8_t;   // 1BYTE
-typedef short                          int16_t;  // 2BYTE
-typedef int                            int32_t;  // 4BYTE
-typedef long long                      int64_t;  // 8BYTE
-typedef unsigned char                  uint8_t;  // 1BYTE
-typedef unsigned short                 uint16_t; // 2BYTE
-typedef unsigned int                   uint32_t; // 4BYTE
-typedef unsigned long long             uint64_t; // 8BYTE
 
 #ifdef __LP64__
 #define POINTER_SIZE                   8         // 8BYTE
