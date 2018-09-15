@@ -920,9 +920,6 @@
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossStream.cpp">
       <Filter>Engine\Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CrossEngine\src\Core\CrossUtility.cpp">
-      <Filter>Engine\Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -1342,6 +1339,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Dependencies\eastl\source\thread_support.cpp">
       <Filter>Dependencies\eastl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossUtils.cpp">
+      <Filter>Engine\Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

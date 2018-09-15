@@ -22,13 +22,13 @@ THE SOFTWARE.
 
 #pragma once
 #include "CrossEngine.h"
-#include "CrossType.h"
+#include "CrossDefine.h"
 #include "CrossC.h"
 #include "CrossMutex.h"
 #include "CrossMemory.h"
 #include "CrossDelegate.h"
 #include "CrossGLM.h"
-#include "CrossUtility.h"
+#include "CrossUtils.h"
 #include "CrossLog.h"
 #include "CrossStream.h"
 #include "CrossSharedPtr.h"

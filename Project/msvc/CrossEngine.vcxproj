@@ -415,7 +415,7 @@
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossMemorySystem.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossStream.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\CrossTaskGraph.cpp" />
-    <ClCompile Include="..\..\CrossEngine\src\Core\CrossUtility.cpp" />
+    <ClCompile Include="..\..\CrossEngine\src\Core\CrossUtils.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\debug_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\Core\nvwa\operator_new.cpp" />
     <ClCompile Include="..\..\CrossEngine\src\CrossEngine.cpp" />
