@@ -178,6 +178,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossC.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossCore.h" />
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossDefine.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossDelegate.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossGLM.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossLog.h" />
@@ -186,8 +187,7 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossSharedPtr.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossStream.h" />
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossTaskGraph.h" />
-    <ClInclude Include="..\..\CrossEngine\include\Core\CrossType.h" />
-    <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtility.h" />
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtils.h" />
     <ClInclude Include="..\..\CrossEngine\include\CrossEngine.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityBase.h" />
     <ClInclude Include="..\..\CrossEngine\include\EntitySystem\CrossEntityMesh.h" />

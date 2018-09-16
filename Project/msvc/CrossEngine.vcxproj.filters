@@ -159,12 +159,6 @@
     <ClInclude Include="..\..\CrossEngine\include\Core\CrossStream.h">
       <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\Core\CrossType.h">
-      <Filter>Engine\Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtility.h">
-      <Filter>Engine\Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CrossEngine\src\Core\nvwa\c++11.h">
       <Filter>Engine\Source Files\Core\nvwa</Filter>
     </ClInclude>
@@ -815,6 +809,12 @@
     </ClInclude>
     <ClInclude Include="..\..\CrossEngine\include\RenderSystem\CrossUniformCamera.h">
       <Filter>Engine\Header Files\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossDefine.h">
+      <Filter>Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CrossEngine\include\Core\CrossUtils.h">
+      <Filter>Engine\Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
