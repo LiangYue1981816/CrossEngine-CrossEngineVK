@@ -48,7 +48,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanRenderPass::GetHandle(void) const
 	{
-		return m_vkRenderPass;
+		return (HANDLE)m_vkRenderPass;
 	}
 
 	BOOL CVulkanRenderPass::Create(void)

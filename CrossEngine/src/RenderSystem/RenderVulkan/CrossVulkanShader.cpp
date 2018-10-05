@@ -46,7 +46,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanShader::GetHandle(void) const
 	{
-		return m_vkShaderModule;
+		return (HANDLE)m_vkShaderModule;
 	}
 
 	const spirv_cross::Compiler* CVulkanShader::GetShaderCompiler(void) const

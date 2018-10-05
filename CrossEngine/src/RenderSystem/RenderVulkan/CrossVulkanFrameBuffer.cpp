@@ -48,7 +48,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanFrameBuffer::GetHandle(void) const
 	{
-		return m_vkFrameBuffer;
+		return (HANDLE)m_vkFrameBuffer;
 	}
 
 	BOOL CVulkanFrameBuffer::Create(HANDLE hRenderPass)

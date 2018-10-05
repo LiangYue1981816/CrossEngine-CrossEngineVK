@@ -45,7 +45,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanUniformBuffer::GetHandle(void) const
 	{
-		return m_vkBuffer;
+		return (HANDLE)m_vkBuffer;
 	}
 
 	BOOL CVulkanUniformBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic)

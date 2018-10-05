@@ -53,7 +53,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanDescriptorSetLayout::GetHandle(void) const
 	{
-		return m_vkDescriptorSetLayout;
+		return (HANDLE)m_vkDescriptorSetLayout;
 	}
 
 	BOOL CVulkanDescriptorSetLayout::Create(void)

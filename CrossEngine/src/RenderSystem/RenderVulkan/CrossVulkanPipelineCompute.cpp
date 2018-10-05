@@ -44,7 +44,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanPipelineCompute::GetHandle(void) const
 	{
-		return m_vkPipeline;
+		return (HANDLE)m_vkPipeline;
 	}
 
 	BOOL CVulkanPipelineCompute::Create(const CGfxShaderPtr &ptrShader)

@@ -45,7 +45,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanVertexBuffer::GetHandle(void) const
 	{
-		return m_vkBuffer;
+		return (HANDLE)m_vkBuffer;
 	}
 
 	BOOL CVulkanVertexBuffer::Create(size_t size, const void *pBuffer, BOOL bDynamic, uint32_t format, uint32_t binding)

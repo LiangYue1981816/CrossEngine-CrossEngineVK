@@ -289,12 +289,12 @@ namespace CrossEngine {
 
 	CGfxSemaphore CVulkanSwapchain::GetAcquireSemaphore(void) const
 	{
-		return m_vkAcquireSemaphore;
+		return (CGfxSemaphore)m_vkAcquireSemaphore;
 	}
 
 	CGfxSemaphore CVulkanSwapchain::GetRenderDoneSemaphore(void) const
 	{
-		return m_vkRenderDoneSemaphores[m_indexImage];
+		return (CGfxSemaphore)m_vkRenderDoneSemaphores[m_indexImage];
 	}
 
 	uint32_t CVulkanSwapchain::GetImageCount(void) const
@@ -309,7 +309,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanSwapchain::GetImageHandle(uint32_t indexImage) const
 	{
-		return indexImage < SWAPCHAIN_IMAGE_COUNT ? m_vkImageViews[indexImage] : NULL;
+		return indexImage < SWAPCHAIN_IMAGE_COUNT ? (HANDLE)m_vkImageViews[indexImage] : NULL;
 	}
 
 	uint32_t CVulkanSwapchain::GetWidth(void) const

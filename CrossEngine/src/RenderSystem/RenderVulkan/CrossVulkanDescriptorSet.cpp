@@ -61,7 +61,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanDescriptorSet::GetHandle(void) const
 	{
-		return m_vkDescriptorSet;
+		return (HANDLE)m_vkDescriptorSet;
 	}
 
 	const CGfxDescriptorSetLayoutPtr& CVulkanDescriptorSet::GetDescriptorSetLayoutPtr(void) const

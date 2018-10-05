@@ -44,7 +44,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanTexture::GetHandle(void) const
 	{
-		return m_vkImageView;
+		return (HANDLE)m_vkImageView;
 	}
 
 	BOOL CVulkanTexture::CreateTexture2D(const gli::texture2d &texture, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)

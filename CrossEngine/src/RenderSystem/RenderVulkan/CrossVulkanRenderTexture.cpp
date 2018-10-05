@@ -44,7 +44,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanRenderTexture::GetHandle(void) const
 	{
-		return m_vkImageView;
+		return (HANDLE)m_vkImageView;
 	}
 
 	BOOL CVulkanRenderTexture::CreateColorTarget(VkFormat format, uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFilter minFilter, VkFilter magFilter, VkSamplerMipmapMode mipmapMode, VkSamplerAddressMode addressMode)

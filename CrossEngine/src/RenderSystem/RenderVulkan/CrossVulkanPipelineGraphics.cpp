@@ -107,7 +107,7 @@ namespace CrossEngine {
 
 	HANDLE CVulkanPipelineGraphics::GetHandle(void) const
 	{
-		return m_vkPipeline;
+		return (HANDLE)m_vkPipeline;
 	}
 
 	BOOL CVulkanPipelineGraphics::Create(HANDLE hRenderPass, uint32_t indexSubPass)
