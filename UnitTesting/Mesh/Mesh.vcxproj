@@ -97,13 +97,13 @@
       <PreprocessorDefinitions>THREAD_COUNT=4;VK_USE_PLATFORM_WIN32_KHR;PLATFORM_WINDOWS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/include;$(VULKAN_SDK)/shaderc/libshaderc/include;$(VULKAN_SDK)/shaderc/libshaderc_util/include;$(VULKAN_SDK)/spirv-tools/include;../../Dependencies;../../Dependencies/eastl;../../Dependencies/gli;../../Dependencies/glm;../../Dependencies/zlib;../../Dependencies/tinyxml;../../Dependencies/rbtree;../../Dependencies/event;../../Dependencies/pthread-win32;../../Dependencies/spirv-cross;../../CrossEngine/include;../../CrossEngine/include/Core;../../CrossEngine/include/EntitySystem;../../CrossEngine/include/RenderSystem;../../CrossEngine/include/RenderSystem/RenderAPI;../../CrossEngine/include/RenderSystem/RenderGLES;../../CrossEngine/include/RenderSystem/RenderGLES/GLES3;../../CrossEngine/include/RenderSystem/RenderVulkan;../../CrossEngine/include/ResourceSystem;../Base;../Base/nvwa</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4503</DisableSpecificWarnings>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib32;$(VULKAN_SDK)/Lib32/Debug;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;CrossEngine.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib32;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined_d.lib;CrossEngine.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -119,8 +119,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib;$(VULKAN_SDK)/Lib/Debug;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;CrossEngine.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib;$(OutDir);$(VULKAN_SDK)/Lib/Debug;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined_d.lib;CrossEngine.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,7 +140,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib32;$(VULKAN_SDK)/Lib32/Release;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib32;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;CrossEngine.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -161,7 +161,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib;$(VULKAN_SDK)/Lib/Release;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib;$(OutDir);$(VULKAN_SDK)/Lib/Release;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;CrossEngine.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

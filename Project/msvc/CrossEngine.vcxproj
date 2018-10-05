@@ -100,12 +100,12 @@
       <DisableSpecificWarnings>4996;4267;4244;4311;4028;4251;4005;4273;4312;4302;4503</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib32;$(VULKAN_SDK)/Lib32/Debug;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib32;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -125,7 +125,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib;$(OutDir);$(VULKAN_SDK)/Lib/Debug;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;pthreadVC2.lib;opengl32.lib;glu32.lib;vulkan-1.lib;shaderc_combined_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -148,7 +148,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib32;$(VULKAN_SDK)/Lib32/Release;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib32;../../Dependencies/pthread-win32/x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>pthreadVC2.lib;vulkan-1.lib;shaderc_combined.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -171,7 +171,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Lib;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(VULKAN_SDK)/Lib;$(OutDir);$(VULKAN_SDK)/Lib/Release;../../Dependencies/pthread-win32/x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;pthreadVC2.lib;opengl32.lib;glu32.lib;vulkan-1.lib;shaderc_combined.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
